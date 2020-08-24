@@ -153,24 +153,6 @@ const Landing = () => {
     }
   }, [highlighted, mapSettings]);
 
-  const highlightedFeatures: React.ReactElement<any>[] = [];
-  if (highlighted) {
-    highlightedFeatures.push(
-      <Feature
-        coordinates={highlighted.coordinates[0]}
-        key={'highlighted-' + highlighted.id}
-      />,
-    );
-  }
-  if (hovered) {
-    highlightedFeatures.push(
-      <Feature
-        coordinates={hovered.coordinates[0]}
-        key={'hovered-' + hovered.id}
-      />,
-    );
-  }
-
   return (
     <Root>
       <ClusterMap
@@ -267,25 +249,17 @@ const Landing = () => {
           </Layer>
 
           <Layer
-            type='line'
-            id='directions-layer-extension'
+            type='fill'
+            id={'highlighted-geojson-layer'}
             paint={{
-              'line-color': '#Fcd1c1',
-              'line-width': {
-                base: 2,
-                stops: [
-                  [1, 1],
-                  [5, 1.5],
-                  [6, 2],
-                  [7, 4],
-                  [8, 6],
-                  [10, 12],
-                ],
-              },
+              'fill-color': '#3b848d',
             }}
             minZoom={4}
           >
-            {highlightedFeatures}
+            {mapData.features.filter(({key}) =>
+              (highlighted && key === 'geojson-' + highlighted.id) ||
+              (hovered && key === 'geojson-' + hovered.id),
+            )}
           </Layer>
         </>
       </ClusterMap>
