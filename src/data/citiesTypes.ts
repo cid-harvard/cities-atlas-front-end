@@ -1,9 +1,10 @@
 export type Latitude = number;
 export type Longitude = number;
+export type Coordinate = [Longitude, Latitude];
 
 export interface CitiesGeoJsonDatum {
   geometry: {
-    coordinates: [[Longitude, Latitude][]],
+    coordinates: [Coordinate[]],
     type: 'MultiPolygon',
   };
   properties: {
@@ -14,8 +15,8 @@ export interface CitiesGeoJsonDatum {
     BBX_LONMN: number,
     BBX_LATMX: number,
     BBX_LONMX: number,
-    GCPNT_LAT: number,
-    GCPNT_LON: number,
+    GCPNT_LAT: Latitude,
+    GCPNT_LON: Longitude,
     CTR_MN_NM: string,
     CTR_MN_ISO: string,
     XBRDR: number,
