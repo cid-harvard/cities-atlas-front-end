@@ -2,7 +2,7 @@ import ReactMapboxGl, {
   MapContext,
 } from 'react-mapbox-gl';
 import React from 'react';
-import SettingsComponent, {Settings} from './MapSettingsComponent';
+import SettingsComponent, {Settings} from './ClusterMapSettingsComponent';
 
 const accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? process.env.REACT_APP_MAPBOX_ACCESS_TOKEN : '';
 

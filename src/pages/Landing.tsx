@@ -72,6 +72,13 @@ const Landing = () => {
   const [hovered, setHovered] = useState<ExtendedSearchDatum | null>(null);
   const [mapSettings, setMapSettings] = useState<MapSettings>(defaultMapSettings);
 
+  const unclusteredPointCallback = (id: string) => {
+    const match = mapData.searchData.find(d => d.id === id);
+    if (match) {
+      setHighlighted(match);
+    }
+  };
+
   useEffect(() => {
     const searchData: ExtendedSearchDatum[] = [];
     const features: React.ReactElement<any>[] = [];
@@ -169,6 +176,7 @@ const Landing = () => {
       <ClusterMap
         zoom={mapSettings.zoom}
         center={mapSettings.center}
+        unclusteredPointCallback={unclusteredPointCallback}
       >
         <>
           <GeoJSONLayer
@@ -285,9 +293,12 @@ const Landing = () => {
         <PanelSearch
           data={mapData.searchData}
           topLevelTitle={'Countries'}
-          disallowSelectionLevels={['0']}
           onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
+          selectedValue={highlighted}
         />
+        <button onClick={() => setHighlighted(null)}>
+          Clear
+        </button>
       </SearchContainer>
     </Root>
   );

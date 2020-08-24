@@ -5,6 +5,7 @@ export interface Settings {
   allowZoom?: boolean;
   allowPan?: boolean;
   mapCallback?: (map: any) => void;
+  unclusteredPointCallback?: (id: string) => void;
 }
 
 interface Props extends Settings{
@@ -14,7 +15,7 @@ interface Props extends Settings{
 
 const MapSettingsComponent = (props: Props) => {
   const {
-    map, mapCallback,
+    map, mapCallback, unclusteredPointCallback,
   } = props;
 
   const [haveSettingsBeenSet, setSettings] = useState<boolean>(false);
@@ -79,6 +80,9 @@ const MapSettingsComponent = (props: Props) => {
             zoom: 7,
             duration: animationDuration,
           });
+          if (unclusteredPointCallback) {
+            unclusteredPointCallback(match.properties.id);
+          }
         }
       }
     };
