@@ -9,6 +9,7 @@ import {
 } from 'react-router-dom';
 import Landing from './pages/Landing';
 import {Routes} from './routing/routes';
+import './styling/fonts/fonts.css';
 
 function App() {
   return (

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import ClusterMap from '../components/map/ClusterLandingMap';
-import styled from 'styled-components/macro';
+import styled, {keyframes} from 'styled-components/macro';
 import raw from 'raw.macro';
 import {CitiesGeoJsonData} from '../data/citiesTypes';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
@@ -11,10 +11,20 @@ import {
   Coordinate,
   getBounds,
 } from '../components/map/Utils';
+import {
+  secondaryColor,
+  primaryColor,
+  primaryColorRange,
+  mapLabelColor,
+  secondaryFont,
+} from '../styling/styleUtils';
+import {numberWithCommas} from '../Utils';
 
 interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;
   coordinates: Coordinate[];
+  population: number;
+  gdp: number;
 }
 
 interface ClusterFeatures {
@@ -38,6 +48,26 @@ interface MapData {
 
 const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../data/cities.json'));
 
+const bounceRight = keyframes`
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    left: 0;
+  }
+
+  40% {
+    left: 0.7rem;
+  }
+
+  60% {
+    left: 0.3rem;
+  }
+`;
+
+const bounceDuration = '1'; // in seconds
+
 const Root = styled.div`
   width: 100vw;
   height: 100vh;
@@ -48,6 +78,81 @@ const SearchContainer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+`;
+
+const StyledPopup = styled(Popup)`
+  .mapboxgl-popup-content {
+    border-radius: 0;
+    padding: 1rem 1.1rem;
+    position: relative;
+    background-color: ${secondaryColor};
+    color: #fff;
+    font-family: ${secondaryFont};
+  }
+
+  .mapboxgl-popup-tip {
+    visibility: hidden;
+  }
+`;
+
+const TootltipTitle = styled.h2`
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  font-weight: 400;
+  margin: 0;
+  text-align: center;
+`;
+
+const TootlipContent = styled.p`
+  color: #fff;
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 1rem 0;
+  line-height: 1.7;
+`;
+
+const ReviewCityButton = styled.button`
+  font-family: ${secondaryFont};
+  text-transform: uppercase;
+  font-size: 1.1rem;
+  display: block;
+  width: 100%;
+  padding: 0.7rem;
+  background-color: #fff;
+  text-align: center;
+  color: ${secondaryColor};
+  border: none;
+  box-shadow: none;
+  transition: all 0.2s ease;
+  transform-origin: top;
+
+  &:hover {
+    transform: scale(1.1);
+
+    span {
+      animation: ${bounceRight} ${bounceDuration}s ease-in-out infinite;
+    }
+  }
+`;
+
+const Arrow = styled.span`
+  font-family: Verdana, sans-serif;
+  font-size: 1.5rem;
+  line-height: 0;
+  position: relative;
+  top: 0.2rem;
+`;
+
+const CloseTooltipButton = styled.button`
+  position: absolute;
+  font-size: 1rem;
+  top: 0;
+  right: 0;
+  padding: 0.2rem;
+  color: #fff;
+  background-color: transparent;
+  border: none;
+  box-shadow: none;
 `;
 
 const Landing = () => {
@@ -84,9 +189,10 @@ const Landing = () => {
     geoJsonData.features.forEach(({properties, geometry: {coordinates}}, i) => {
       const {
         CTR_MN_NM: countryName, CTR_MN_ISO: parent_id, UC_NM_MN: title,
-        UC_NM_LST, AREA, GCPNT_LAT, GCPNT_LON,
+        UC_NM_LST, AREA, GCPNT_LON, P15, GDP15_SM,
       } = properties;
-      const center: Coordinate = [GCPNT_LON, GCPNT_LAT];
+      const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
+      const center: Coordinate = [GCPNT_LON, northernTerminus];
       const parentIndex = searchData.findIndex(d => d.id === parent_id);
       if (parentIndex === -1) {
         searchData.push({
@@ -95,19 +201,25 @@ const Landing = () => {
           parent_id: null,
           level: '0',
           center,
+          population: Math.round(P15),
+          gdp: GDP15_SM,
           coordinates: [center],
         });
       } else {
         searchData[parentIndex].coordinates.push(center);
+        searchData[parentIndex].gdp += GDP15_SM;
+        searchData[parentIndex].population += P15;
       }
       const id = parent_id + '-' + title + '-' + UC_NM_LST + '-' + AREA + '-' + i;
-      const searchDatum = {
+      const searchDatum: ExtendedSearchDatum = {
         id,
-        title,
+        title: title + ', ' + countryName,
         parent_id,
         level: '1',
         center,
         coordinates: coordinates[0][0],
+        population: Math.round(P15),
+        gdp: GDP15_SM,
       };
       searchData.push(searchDatum);
       const onMouseEnter = (event: any) => {
@@ -141,13 +253,33 @@ const Landing = () => {
     setMapData({searchData, features, geoJsonClusterData});
   }, []);
 
-  const tooltipPopup = highlighted && highlighted.parent_id !== null ? (
-    <Popup
+  const hoveredTooltipPopup = hovered && (!highlighted || highlighted.id !== hovered.id) ? (
+    <StyledPopup
+      coordinates={hovered.center}
+    >
+      <TootltipTitle>
+        {hovered.title}
+      </TootltipTitle>
+    </StyledPopup>
+  ) : null;
+
+  const highlightedTooltipPopup = highlighted && highlighted.parent_id !== null ? (
+    <StyledPopup
       coordinates={highlighted.center}
     >
-      {highlighted.title}
-      <button onClick={() => setHighlighted(null)}>×</button>
-    </Popup>
+      <TootltipTitle>
+        {highlighted.title}
+      </TootltipTitle>
+      <TootlipContent>
+        Population: {numberWithCommas(highlighted.population)}
+        <br />
+        GDP per Capita: ${numberWithCommas(highlighted.gdp)}
+      </TootlipContent>
+      <ReviewCityButton>
+        Review the City <Arrow>→</Arrow>
+      </ReviewCityButton>
+      <CloseTooltipButton onClick={() => setHighlighted(null)}>×</CloseTooltipButton>
+    </StyledPopup>
   ) : null;
 
   return (
@@ -181,12 +313,12 @@ const Landing = () => {
                 property: 'point_count',
                 type: 'interval',
                 stops: [
-                  [0, '#Fcd1c1'],
-                  [30, '#Fbc5b1'],
-                  [60, '#Faad90'],
-                  [90, '#F9a180'],
-                  [120, '#F89570'],
-                  [1000, '#F89570'],
+                  [0, primaryColorRange[4]],
+                  [30, primaryColorRange[3]],
+                  [60, primaryColorRange[2]],
+                  [90, primaryColorRange[1]],
+                  [120, primaryColorRange[0]],
+                  [1000, primaryColorRange[0]],
                 ],
               },
               'circle-radius': {
@@ -210,7 +342,7 @@ const Landing = () => {
             maxZoom={4}
             sourceId={clusterSourceLayerId}
             paint={{
-              'circle-color': '#Fcd1c1',
+              'circle-color': primaryColorRange[4],
               'circle-radius': 5,
             }}
             filter={['!', ['has', 'point_count']]}
@@ -229,7 +361,7 @@ const Landing = () => {
               'text-size': 12,
             }}
             paint={{
-              'text-color': '#04151b',
+              'text-color': mapLabelColor,
             }}
             filter={['has', 'point_count']}
           />
@@ -238,7 +370,7 @@ const Landing = () => {
             type='fill'
             id={'primary-map-geojson-layer'}
             paint={{
-              'fill-color': '#F89570',
+              'fill-color': primaryColor,
             }}
             minZoom={4}
           >
@@ -249,7 +381,7 @@ const Landing = () => {
             type='fill'
             id={'highlighted-geojson-layer'}
             paint={{
-              'fill-color': '#3b848d',
+              'fill-color': secondaryColor,
             }}
             minZoom={4}
           >
@@ -258,7 +390,8 @@ const Landing = () => {
               (hovered && key === 'geojson-' + hovered.id),
             )}
           </Layer>
-          {tooltipPopup}
+          {highlightedTooltipPopup}
+          {hoveredTooltipPopup}
         </>
       </ClusterMap>
       <SearchContainer>

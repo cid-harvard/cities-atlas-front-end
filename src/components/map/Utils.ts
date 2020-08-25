@@ -22,7 +22,7 @@ export const getBounds = (coordinates: Coordinate[]): [Coordinate, Coordinate] =
   const [minLng, maxLng] = extent(allLongitudes);
 
   if (minLat === undefined || maxLat === undefined || minLng === undefined || maxLng === undefined) {
-    return [[180, -90], [-180, 90]];
+    return [[180, 0], [0, 0]];
   }
 
   return [[maxLng, minLat], [minLng, maxLat]];
