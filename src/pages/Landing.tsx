@@ -87,15 +87,18 @@ const Landing = () => {
         UC_NM_LST, AREA, GCPNT_LAT, GCPNT_LON,
       } = properties;
       const center: Coordinate = [GCPNT_LON, GCPNT_LAT];
-      if (!searchData.find(d => d.id === parent_id)) {
+      const parentIndex = searchData.findIndex(d => d.id === parent_id);
+      if (parentIndex === -1) {
         searchData.push({
           id: parent_id,
           title: countryName,
           parent_id: null,
           level: '0',
           center,
-          coordinates: coordinates[0][0],
+          coordinates: [center],
         });
+      } else {
+        searchData[parentIndex].coordinates.push(center);
       }
       const id = parent_id + '-' + title + '-' + UC_NM_LST + '-' + AREA + '-' + i;
       const searchDatum = {
@@ -138,7 +141,7 @@ const Landing = () => {
     setMapData({searchData, features, geoJsonClusterData});
   }, []);
 
-  const tooltipPopup = highlighted ? (
+  const tooltipPopup = highlighted && highlighted.parent_id !== null ? (
     <Popup
       coordinates={highlighted.center}
     >
