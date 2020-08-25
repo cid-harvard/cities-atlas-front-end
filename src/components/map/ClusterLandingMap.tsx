@@ -3,6 +3,7 @@ import ReactMapboxGl, {
 } from 'react-mapbox-gl';
 import React from 'react';
 import SettingsComponent, {Settings} from './ClusterMapSettingsComponent';
+import {Coordinate} from './Utils';
 
 const accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? process.env.REACT_APP_MAPBOX_ACCESS_TOKEN : '';
 
@@ -12,22 +13,33 @@ const Mapbox = ReactMapboxGl({
   attributionControl: false,
 });
 
-type Latitude = number;
-type Longitude = number;
-export type Coordinate = [Longitude, Latitude];
+let padding: number;
+let zoom: [number] | undefined;
+const dimensions = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+if (dimensions.width < 600 || dimensions.height < 600) {
+  padding = 0;
+  zoom = [1.4];
+} else if (dimensions.width < 800 || dimensions.height < 800) {
+  padding = 80;
+} else {
+  padding = 400;
+}
 
 interface Props extends Settings {
+  clearPopup: () => void;
   children?: React.ReactElement<any>;
   center?: Coordinate;
-  zoom?: [number];
   maxBounds?: [Coordinate, Coordinate];
   fitBounds?: [Coordinate, Coordinate];
 }
 
 const DefaultMap = (props: Props) => {
   const {
-    children, center, zoom,
-    maxBounds, fitBounds,
+    children, center,
+    maxBounds, fitBounds, clearPopup,
     ...settings
   } = props;
 
@@ -39,6 +51,9 @@ const DefaultMap = (props: Props) => {
       />
     );
   };
+
+  const onClick = () => clearPopup();
+
 
   return (
     <Mapbox
@@ -52,6 +67,8 @@ const DefaultMap = (props: Props) => {
       zoom={zoom}
       maxBounds={maxBounds}
       fitBounds={fitBounds}
+      fitBoundsOptions={{padding, linear: true}}
+      onClick={onClick}
     >
       {children}
       <MapContext.Consumer children={mapRenderProps} />

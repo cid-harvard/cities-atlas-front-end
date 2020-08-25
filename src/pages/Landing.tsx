@@ -2,10 +2,15 @@ import React, {useState, useEffect} from 'react';
 import ClusterMap from '../components/map/ClusterLandingMap';
 import styled from 'styled-components/macro';
 import raw from 'raw.macro';
-import {CitiesGeoJsonData, Coordinate} from '../data/citiesTypes';
+import {CitiesGeoJsonData} from '../data/citiesTypes';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
-import { Layer, Feature, GeoJSONLayer } from 'react-mapbox-gl';
-import {clusterSourceLayerId, togglePointer} from '../components/map/Utils';
+import { Layer, Feature, GeoJSONLayer, Popup } from 'react-mapbox-gl';
+import {
+  clusterSourceLayerId,
+  togglePointer,
+  Coordinate,
+  getBounds,
+} from '../components/map/Utils';
 
 interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;
@@ -31,20 +36,7 @@ interface MapData {
   };
 }
 
-interface MapSettings {
-  default: boolean;
-  zoom: [number] | undefined;
-  center: Coordinate | undefined;
-}
-
-const defaultMapSettings: MapSettings = {
-  default: true,
-  zoom: [1.4],
-  center: undefined,
-};
-
 const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../data/cities.json'));
-
 
 const Root = styled.div`
   width: 100vw;
@@ -70,12 +62,18 @@ const Landing = () => {
   });
   const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(null);
   const [hovered, setHovered] = useState<ExtendedSearchDatum | null>(null);
-  const [mapSettings, setMapSettings] = useState<MapSettings>(defaultMapSettings);
+  const [fitBounds, setFitBounds] = useState<[Coordinate, Coordinate] | undefined>(getBounds([]));
+
+  useEffect(() => {
+    if (highlighted) {
+      setFitBounds(getBounds(highlighted.coordinates));
+    }
+  }, [highlighted]);
 
   const unclusteredPointCallback = (id: string) => {
     const match = mapData.searchData.find(d => d.id === id);
     if (match) {
-      setHighlighted(match);
+      setTimeout(() => setHighlighted(match), 0);
     }
   };
 
@@ -96,7 +94,7 @@ const Landing = () => {
           parent_id: null,
           level: '0',
           center,
-          coordinates: coordinates[0],
+          coordinates: coordinates[0][0],
         });
       }
       const id = parent_id + '-' + title + '-' + UC_NM_LST + '-' + AREA + '-' + i;
@@ -106,7 +104,7 @@ const Landing = () => {
         parent_id,
         level: '1',
         center,
-        coordinates: coordinates[0],
+        coordinates: coordinates[0][0],
       };
       searchData.push(searchDatum);
       const onMouseEnter = (event: any) => {
@@ -117,12 +115,13 @@ const Landing = () => {
         setHovered(null);
         togglePointer(event.map, '');
       };
+      const onClick = () => setTimeout(() => setHighlighted(searchDatum), 0);
       features.push(
         <Feature
           coordinates={coordinates[0]}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          onClick={() => setHighlighted(searchDatum)}
+          onClick={onClick}
           key={'geojson-' + id}
         />,
       );
@@ -139,26 +138,21 @@ const Landing = () => {
     setMapData({searchData, features, geoJsonClusterData});
   }, []);
 
-  useEffect(() => {
-    if (highlighted && highlighted.center && (!mapSettings.center || (
-        mapSettings.center[0] !== highlighted.center[0] && mapSettings.center[1] !== highlighted.center[1] ))
-    ) {
-      setMapSettings({
-        default: false,
-        zoom: [7],
-        center: highlighted.center,
-      });
-    } else if (highlighted === null && !mapSettings.default) {
-      setMapSettings(defaultMapSettings);
-    }
-  }, [highlighted, mapSettings]);
+  const tooltipPopup = highlighted ? (
+    <Popup
+      coordinates={highlighted.center}
+    >
+      {highlighted.title}
+      <button onClick={() => setHighlighted(null)}>×</button>
+    </Popup>
+  ) : null;
 
   return (
     <Root>
       <ClusterMap
-        zoom={mapSettings.zoom}
-        center={mapSettings.center}
         unclusteredPointCallback={unclusteredPointCallback}
+        clearPopup={() => setHighlighted(null)}
+        fitBounds={fitBounds}
       >
         <>
           <GeoJSONLayer
@@ -261,6 +255,7 @@ const Landing = () => {
               (hovered && key === 'geojson-' + hovered.id),
             )}
           </Layer>
+          {tooltipPopup}
         </>
       </ClusterMap>
       <SearchContainer>

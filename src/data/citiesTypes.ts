@@ -1,10 +1,8 @@
-export type Latitude = number;
-export type Longitude = number;
-export type Coordinate = [Longitude, Latitude];
+import {Latitude, Longitude, Coordinate} from '../components/map/Utils';
 
 export interface CitiesGeoJsonDatum {
   geometry: {
-    coordinates: [Coordinate[]],
+    coordinates: [[Coordinate[]]],
     type: 'MultiPolygon',
   };
   properties: {
