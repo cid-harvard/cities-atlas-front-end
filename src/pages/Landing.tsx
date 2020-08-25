@@ -215,7 +215,14 @@ const Landing = () => {
     }
   }, [highlighted]);
 
-  const onTraverseLevel = (val: ExtendedSearchDatum) => {
+  const onTraverseLevel = (val: ExtendedSearchDatum, direction: 'asc' | 'desc') => {
+    if (direction === 'asc' && val.parent_id === null) {
+
+      setFitBounds({
+        bounds: getBounds([]),
+        padding: {top: 0, bottom: 0, left: 0, right: 0},
+      });
+    }
     setHighlightedCountry(val as ExtendedSearchDatum);
   };
   useEffect(() => {
@@ -339,6 +346,14 @@ const Landing = () => {
     </StyledPopup>
   ) : null;
 
+  const onPanelHover = (val: ExtendedSearchDatum | null) => {
+    if (val && val.parent_id !== null) {
+      setHovered(val);
+    } else {
+      setHovered(null);
+    }
+  };
+
   return (
     <Root>
       <ClusterMap
@@ -452,11 +467,14 @@ const Landing = () => {
           {hoveredTooltipPopup}
         </>
       </ClusterMap>
-      <SearchContainer>
+      <SearchContainer
+        onMouseDown={() => setHovered(null)}
+      >
         <PanelSearch
           data={mapData.searchData}
           topLevelTitle={'Countries'}
           onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
+          onHover={onPanelHover}
           onTraverseLevel={onTraverseLevel}
           selectedValue={highlighted}
           disallowSelectionLevels={['0']}
