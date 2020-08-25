@@ -48,6 +48,39 @@ interface MapData {
 
 const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../data/cities.json'));
 
+interface BoundsConfig {
+  bounds: [Coordinate, Coordinate];
+  padding: {top: number, left: number, right: number, bottom: number};
+}
+
+let padding: BoundsConfig['padding'];
+const dimensions = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+if (dimensions.width < 600 || dimensions.height < 600) {
+  padding = {
+    top: dimensions.height * 0.5,
+    bottom: 10,
+    right: dimensions.width * 0.1,
+    left: dimensions.width * 0.1,
+  };
+} else if (dimensions.width < 800 || dimensions.height < 800) {
+  padding = {
+    top: dimensions.height * 0.25,
+    bottom: dimensions.height * 0.1,
+    right: dimensions.width * 0.1,
+    left: dimensions.width * 0.4,
+  };
+} else {
+  padding = {
+    top: dimensions.height * 0.25,
+    bottom: dimensions.height * 0.1,
+    right: dimensions.width * 0.1,
+    left: dimensions.width / 2,
+  };
+}
+
 const bounceRight = keyframes`
   0%,
   20%,
@@ -88,6 +121,7 @@ const StyledPopup = styled(Popup)`
     background-color: ${secondaryColor};
     color: #fff;
     font-family: ${secondaryFont};
+    pointer-events: none;
   }
 
   .mapboxgl-popup-tip {
@@ -125,6 +159,7 @@ const ReviewCityButton = styled.button`
   box-shadow: none;
   transition: all 0.2s ease;
   transform-origin: top;
+  pointer-events: all;
 
   &:hover {
     transform: scale(1.1);
@@ -153,6 +188,7 @@ const CloseTooltipButton = styled.button`
   background-color: transparent;
   border: none;
   box-shadow: none;
+  pointer-events: all;
 `;
 
 const Landing = () => {
@@ -166,14 +202,35 @@ const Landing = () => {
     },
   });
   const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(null);
+  const [highlightedCountry, setHighlightedCountry] = useState<ExtendedSearchDatum | null>(null);
   const [hovered, setHovered] = useState<ExtendedSearchDatum | null>(null);
-  const [fitBounds, setFitBounds] = useState<[Coordinate, Coordinate] | undefined>(getBounds([]));
+  const [fitBounds, setFitBounds] = useState<BoundsConfig>({bounds: getBounds([]), padding: {top: 0, bottom: 0, left: 0, right: 0}});
 
   useEffect(() => {
     if (highlighted) {
-      setFitBounds(getBounds(highlighted.coordinates));
+      setFitBounds({
+        bounds: getBounds(highlighted.coordinates),
+        padding,
+      });
     }
   }, [highlighted]);
+
+  const onTraverseLevel = (val: ExtendedSearchDatum) => {
+    setHighlightedCountry(val as ExtendedSearchDatum);
+  };
+  useEffect(() => {
+    if (highlightedCountry) {
+      let countryPadding: BoundsConfig['padding'] = {top: 50, bottom: 50, left: 50, right: 50};
+      const childCities = mapData.searchData.filter(d => d.parent_id === highlightedCountry.id);
+      if (childCities.length === 1) {
+        countryPadding = padding;
+      }
+      setFitBounds({
+        bounds: getBounds(highlightedCountry.coordinates),
+        padding: countryPadding,
+      });
+    }
+  }, [highlightedCountry, mapData]);
 
   const unclusteredPointCallback = (id: string) => {
     const match = mapData.searchData.find(d => d.id === id);
@@ -203,10 +260,10 @@ const Landing = () => {
           center,
           population: Math.round(P15),
           gdp: GDP15_SM,
-          coordinates: [center],
+          coordinates: coordinates[0][0],
         });
       } else {
-        searchData[parentIndex].coordinates.push(center);
+        searchData[parentIndex].coordinates = [...searchData[parentIndex].coordinates, ...coordinates[0][0]];
         searchData[parentIndex].gdp += GDP15_SM;
         searchData[parentIndex].population += P15;
       }
@@ -287,7 +344,8 @@ const Landing = () => {
       <ClusterMap
         unclusteredPointCallback={unclusteredPointCallback}
         clearPopup={() => setHighlighted(null)}
-        fitBounds={fitBounds}
+        fitBounds={fitBounds.bounds}
+        padding={fitBounds.padding}
       >
         <>
           <GeoJSONLayer
@@ -399,7 +457,9 @@ const Landing = () => {
           data={mapData.searchData}
           topLevelTitle={'Countries'}
           onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
+          onTraverseLevel={onTraverseLevel}
           selectedValue={highlighted}
+          disallowSelectionLevels={['0']}
         />
         <button onClick={() => setHighlighted(null)}>
           Clear

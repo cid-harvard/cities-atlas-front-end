@@ -13,34 +13,14 @@ const Mapbox = ReactMapboxGl({
   attributionControl: false,
 });
 
-let padding: {top: number, left: number, right: number, bottom: number};
+// let padding: {top: number, left: number, right: number, bottom: number};
 let zoom: [number] | undefined;
 const dimensions = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
 if (dimensions.width < 600 || dimensions.height < 600) {
-  padding = {
-    top: dimensions.height * 0.5,
-    bottom: 10,
-    right: dimensions.width * 0.1,
-    left: dimensions.width * 0.1,
-  };
   zoom = [1.4];
-} else if (dimensions.width < 800 || dimensions.height < 800) {
-  padding = {
-    top: dimensions.height * 0.25,
-    bottom: dimensions.height * 0.1,
-    right: dimensions.width * 0.1,
-    left: dimensions.width * 0.4,
-  };
-} else {
-  padding = {
-    top: dimensions.height * 0.25,
-    bottom: dimensions.height * 0.1,
-    right: dimensions.width * 0.1,
-    left: dimensions.width / 2,
-  };
 }
 
 interface Props extends Settings {
@@ -49,11 +29,12 @@ interface Props extends Settings {
   center?: Coordinate;
   maxBounds?: [Coordinate, Coordinate];
   fitBounds?: [Coordinate, Coordinate];
+  padding:{top: number, left: number, right: number, bottom: number};
 }
 
 const DefaultMap = (props: Props) => {
   const {
-    children, center,
+    children, center, padding,
     maxBounds, fitBounds, clearPopup,
     ...settings
   } = props;
