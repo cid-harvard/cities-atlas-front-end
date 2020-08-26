@@ -19,6 +19,7 @@ import {
   secondaryFont,
 } from '../../styling/styleUtils';
 import {numberWithCommas} from '../../Utils';
+import Heading from './Heading';
 
 interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;
@@ -111,16 +112,18 @@ const SidePanel = styled.div`
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 200;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.25);
+  background-color: rgba(0, 0, 0, 0.45);
   pointer-events: none;
   padding: 1rem;
+  box-sizing: border-box;
 
   @media (min-width: 750px) {
     width: 40vw;
     max-width: 600px;
+    min-width: 400px;
     bottom: 0;
+    z-index: 200;
   }
 `;
 
@@ -130,7 +133,7 @@ const SearchContainer = styled.div`
   margin: auto;
 
   @media (min-width: 990px) {
-    width: 75%;
+    width: 85%;
   }
 
   font-family: ${secondaryFont};
@@ -143,7 +146,7 @@ const SearchContainer = styled.div`
   .react-panel-search-search-bar-input {
     text-transform: uppercase;
     font-size: 0.85rem;
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.35);
     color: #fff;
     border: solid 1px #fff;
     padding-top: 1rem;
@@ -161,7 +164,7 @@ const SearchContainer = styled.div`
     background-color: transparent;
 
   }
-  .react-panel-search-current-tier-breadcrumb,
+  .react-panel-search-current-tier-breadcrumb-outer,
   .react-panel-search-next-button,
   .react-panel-search-search-bar-dropdown-arrow {
     svg polyline {
@@ -181,17 +184,17 @@ const SearchContainer = styled.div`
   }
 
   .react-panel-search-search-results {
-    background-color: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.35);
     border: solid 1px #fff;
   }
 
   .react-panel-search-current-tier-title,
-  .react-panel-search-current-tier-breadcrumb {
+  .react-panel-search-current-tier-breadcrumb-outer {
     color: #fff;
     border-color: ${primaryColor};
   }
 
-  .react-panel-search-current-tier-breadcrumb:hover {
+  .react-panel-search-current-tier-breadcrumb-outer:hover {
     background-color: rgba(255, 255, 255, 0.25);
   }
 
@@ -207,7 +210,7 @@ const SearchContainer = styled.div`
     background-color: rgba(255, 255, 255, 0.25);
   }
 
-  ul:hover {
+  .react-panel-search-search-results:hover {
     .react-panel-search-highlighted-item:not(:hover) {
       background-color: transparent;
     }
@@ -569,6 +572,7 @@ const Landing = () => {
         </>
       </ClusterMap>
       <SidePanel>
+        <Heading />
         <SearchContainer
           onMouseDown={() => setHovered(null)}
         >
@@ -582,6 +586,7 @@ const Landing = () => {
             disallowSelectionLevels={['0']}
             defaultPlaceholderText={'Type a city name'}
             showCount={true}
+            resultsIdentation={1.75}
           />
         </SearchContainer>
       </SidePanel>
