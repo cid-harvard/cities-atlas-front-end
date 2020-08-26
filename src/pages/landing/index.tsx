@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from 'react';
-import ClusterMap from '../components/map/ClusterLandingMap';
+import ClusterMap from '../../components/map/ClusterLandingMap';
 import styled, {keyframes} from 'styled-components/macro';
 import raw from 'raw.macro';
-import {CitiesGeoJsonData} from '../data/citiesTypes';
+import {CitiesGeoJsonData} from '../../data/citiesTypes';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import { Layer, Feature, GeoJSONLayer, Popup } from 'react-mapbox-gl';
 import {
@@ -10,15 +10,15 @@ import {
   togglePointer,
   Coordinate,
   getBounds,
-} from '../components/map/Utils';
+} from '../../components/map/Utils';
 import {
   secondaryColor,
   primaryColor,
   primaryColorRange,
   mapLabelColor,
   secondaryFont,
-} from '../styling/styleUtils';
-import {numberWithCommas} from '../Utils';
+} from '../../styling/styleUtils';
+import {numberWithCommas} from '../../Utils';
 
 interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;
@@ -46,7 +46,7 @@ interface MapData {
   };
 }
 
-const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../data/cities.json'));
+const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../../data/cities.json'));
 
 interface BoundsConfig {
   bounds: [Coordinate, Coordinate];
@@ -107,10 +107,111 @@ const Root = styled.div`
   position: relative;
 `;
 
-const SearchContainer = styled.div`
+const SidePanel = styled.div`
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 200;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  pointer-events: none;
+  padding: 1rem;
+
+  @media (min-width: 750px) {
+    width: 40vw;
+    max-width: 600px;
+    bottom: 0;
+  }
+`;
+
+const SearchContainer = styled.div`
+  pointer-events: all;
+  width: 100%;
+  margin: auto;
+
+  @media (min-width: 990px) {
+    width: 75%;
+  }
+
+  font-family: ${secondaryFont};
+
+  .react-panel-search-search-bar-input,
+  button {
+    font-family: ${secondaryFont};
+  }
+
+  .react-panel-search-search-bar-input {
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #fff;
+    border: solid 1px #fff;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-right: 3rem;
+    box-shadow: none;
+    outline: none;
+
+    &::placeholder {
+      color: #fff;
+    }
+  }
+
+  .react-panel-search-search-bar-dropdown-arrow {
+    background-color: transparent;
+
+  }
+  .react-panel-search-current-tier-breadcrumb,
+  .react-panel-search-next-button,
+  .react-panel-search-search-bar-dropdown-arrow {
+    svg polyline {
+      stroke: #fff;
+    }
+  }
+
+  .react-panel-search-search-bar-clear-button {
+    background-color: transparent;
+    color: #fff;
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    svg path {
+      fill: #fff;
+    }
+  }
+
+  .react-panel-search-search-results {
+    background-color: rgba(0, 0, 0, 0.25);
+    border: solid 1px #fff;
+  }
+
+  .react-panel-search-current-tier-title,
+  .react-panel-search-current-tier-breadcrumb {
+    color: #fff;
+    border-color: ${primaryColor};
+  }
+
+  .react-panel-search-current-tier-breadcrumb:hover {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  .react-panel-search-list-item {
+    background-color: transparent;
+    color: #fff;
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.25);
+    }
+  }
+
+  .react-panel-search-highlighted-item {
+    background-color: rgba(255, 255, 255, 0.25);
+  }
+
+  ul:hover {
+    .react-panel-search-highlighted-item:not(:hover) {
+      background-color: transparent;
+    }
+  }
 `;
 
 const StyledPopup = styled(Popup)`
@@ -467,22 +568,23 @@ const Landing = () => {
           {hoveredTooltipPopup}
         </>
       </ClusterMap>
-      <SearchContainer
-        onMouseDown={() => setHovered(null)}
-      >
-        <PanelSearch
-          data={mapData.searchData}
-          topLevelTitle={'Countries'}
-          onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
-          onHover={onPanelHover}
-          onTraverseLevel={onTraverseLevel}
-          selectedValue={highlighted}
-          disallowSelectionLevels={['0']}
-        />
-        <button onClick={() => setHighlighted(null)}>
-          Clear
-        </button>
-      </SearchContainer>
+      <SidePanel>
+        <SearchContainer
+          onMouseDown={() => setHovered(null)}
+        >
+          <PanelSearch
+            data={mapData.searchData}
+            topLevelTitle={'Countries'}
+            onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
+            onHover={onPanelHover}
+            onTraverseLevel={onTraverseLevel}
+            selectedValue={highlighted}
+            disallowSelectionLevels={['0']}
+            defaultPlaceholderText={'Type a city name'}
+            showCount={true}
+          />
+        </SearchContainer>
+      </SidePanel>
     </Root>
   );
 };
