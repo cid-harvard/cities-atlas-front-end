@@ -28,4 +28,4 @@ export const secondaryFont = "'OfficeCodeProWeb', monospace";
 export const semiBoldFontBoldWeight = 600;
 export const boldFontWeight = 700;
 
-export const defaultPadding = 1; // in rems
+export const defaultPadding = 2; // in rems

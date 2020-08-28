@@ -158,6 +158,10 @@ const SearchContainer = styled.div`
     &::placeholder {
       color: #fff;
     }
+
+    &:focus::placeholder {
+      color: rgba(0, 0, 0, 0);
+    }
   }
 
   .react-panel-search-search-bar-dropdown-arrow {

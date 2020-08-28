@@ -23,7 +23,7 @@ const Root = styled(PrimaryHeaderContainer)`
   flex-direction: row-reverse;
   justify-content: space-between;
   border-bottom: solid 2px ${tertiaryColor};
-  padding-top: ${defaultPadding}rem;
+  padding-top: 1rem;
   padding-right: ${defaultPadding}rem;
 `;
 
@@ -48,7 +48,7 @@ const StyledLink = styled(Link)`
 
 const H2 = styled.h2`
   font-weight: 400;
-  padding: 0 ${defaultPadding * 2}rem 0.85rem ${defaultPadding * 2}rem;
+  padding: 0 ${defaultPadding * 1.5}rem 0.85rem ${defaultPadding * 1.5}rem;
   display: flex;
   align-items: flex-end;
   margin: 0;
