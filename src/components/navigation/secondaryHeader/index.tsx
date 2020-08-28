@@ -114,6 +114,7 @@ const SecondaryHeader = () => {
           defaultPlaceholderText={'Type a city name'}
           showCount={true}
           resultsIdentation={1.75}
+          neverEmpty={true}
         />
       </SearchContainer>
     </Root>
