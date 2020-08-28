@@ -7,6 +7,12 @@ export const hoverBackgroundColor = '#f3f3f3'; // really light gray color for us
 
 export const primaryColor = '#f89570'; // blue/teal
 export const secondaryColor = '#3b848d'; // orange
+export const tertiaryColor = '#cfbc3c'; // yellow
+
+export const backgroundMedium = '#e6e7e8'; // dark blue gray
+export const backgroundDark = '#2e353f'; // dark blue gray
+
+export const linkColor = '#6accc2';
 
 export const primaryColorRange = [
   primaryColor,
@@ -21,3 +27,5 @@ export const secondaryFont = "'OfficeCodeProWeb', monospace";
 
 export const semiBoldFontBoldWeight = 600;
 export const boldFontWeight = 700;
+
+export const defaultPadding = 1; // in rems

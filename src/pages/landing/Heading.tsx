@@ -5,9 +5,11 @@ import {
   primaryColor,
 } from '../../styling/styleUtils';
 import raw from 'raw.macro';
+import {
+  citiesLogoSVG,
+  cityIconSVG,
+} from '../../components/navigation/header';
 
-const citiesLogoSVG = raw('../../assets/icons/cities-logo.svg');
-const cityIconSVG = raw('../../assets/icons/city-icon.svg');
 const mapPanSVG = raw('../../assets/icons/map-pan.svg');
 
 const Root = styled.div`
@@ -38,29 +40,14 @@ const Logo = styled.h1`
 
 const H2 = styled.h2`
   font-weight: 400;
-  padding-bottom: 0.35rem;
+  margin: 1rem 0;
+  padding: 0 0 0.35rem 0;
   border-bottom: solid 0.3rem ${primaryColor};
   display: flex;
   align-items: flex-end;
 
   @media (max-width: 850px) {
     font-size: 1.2rem;
-  }
-`;
-
-const Description = styled.h3`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  margin: 4rem 0;
-  color: #fff;
-  font-weight: 400;
-  font-size: 1.2rem;
-
-  @media (max-width: 850px) {
-    font-size: 0.95rem;
-    margin: 1.85rem 0;
   }
 `;
 
@@ -82,6 +69,22 @@ const CityIcon = styled.div`
     rect {
       fill: #fff;
     }
+  }
+`;
+
+const Description = styled.h3`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 4rem 0;
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.2rem;
+
+  @media (max-width: 850px) {
+    font-size: 0.95rem;
+    margin: 1.85rem 0;
   }
 `;
 
