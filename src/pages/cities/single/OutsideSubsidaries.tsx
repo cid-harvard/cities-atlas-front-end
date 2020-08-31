@@ -2,9 +2,9 @@ import React from 'react';
 
 const OutsideSubsidaries = () => {
   return (
-    <div>
+    <h1>
       What cities own/host subsidaries in and from my city?
-    </div>
+    </h1>
   );
 };
 

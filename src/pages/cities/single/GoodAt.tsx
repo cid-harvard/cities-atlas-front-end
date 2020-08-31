@@ -2,9 +2,9 @@ import React from 'react';
 
 const GoodAt = () => {
   return (
-    <div>
+    <h1>
       What is my city good at?
-    </div>
+    </h1>
   );
 };
 

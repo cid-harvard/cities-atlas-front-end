@@ -2,9 +2,9 @@ import React from 'react';
 
 const IndustryMove = () => {
   return (
-    <div>
+    <h1>
       What industries can my city move to?
-    </div>
+    </h1>
   );
 };
 

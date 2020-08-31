@@ -2,8 +2,6 @@ import React, {useRef, useEffect, useState} from 'react';
 import {NavigationContainer} from '../../../styling/GlobalGrid';
 import {secondaryFont, baseColor, linkColor} from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
-import {CityRoutes} from '../../../routing/routes';
-import {createRoute} from '../../../routing/Utils';
 import {
   Link,
   useHistory,
@@ -78,33 +76,6 @@ const NavLink = styled(Link)`
   }
 `;
 
-const baseLinkData = [
-  {
-    label: "What is my city's\neconomic position?",
-    url: createRoute.city(CityRoutes.CityEconomicComposition, '1'),
-  },
-  {
-    label: 'What cities own/host\nsubsidaries in and from\nmy city?',
-    url: createRoute.city(CityRoutes.CityOutsideSubsidaries, '1'),
-  },
-  {
-    label: 'What is my city\ngood at?',
-    url: createRoute.city(CityRoutes.CityGoodAt, '1'),
-  },
-  {
-    label: 'What cities should I\ncompare myself to?',
-    url: createRoute.city(CityRoutes.CityCompareSelf, '1'),
-  },
-  {
-    label: 'What industry can\nmy city move to?',
-    url: createRoute.city(CityRoutes.CityIndustryMove, '1'),
-  },
-  {
-    label: 'Quick facts &\nsummary',
-    url: createRoute.city(CityRoutes.CitySummary, '1'),
-  },
-];
-
 interface LinkDatum {
   label: string;
   url: string;
@@ -114,7 +85,11 @@ interface LinkDatum {
 
 const radius = 4.37;
 
-const SideNavigation = () => {
+export interface Props {
+  baseLinkData: {label: string, url: string}[];
+}
+
+const SideNavigation = ({baseLinkData}: Props) => {
   const history = useHistory();
 
   const [linkData, setLinkData] = useState<LinkDatum[]>([]);
@@ -142,7 +117,7 @@ const SideNavigation = () => {
       }
     });
     setLinkData([...newLinkDatum]);
-  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, circle_5]);
+  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, circle_5, baseLinkData]);
 
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);

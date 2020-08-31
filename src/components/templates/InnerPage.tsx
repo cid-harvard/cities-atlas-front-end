@@ -1,28 +1,32 @@
 import React from 'react';
 import Header from '../navigation/header';
 import SecondaryHeader from '../navigation/secondaryHeader';
-import SideNavigation from '../navigation/sideNav';
+import SideNavigation, {
+  Props as NavProps,
+} from '../navigation/sideNav';
 import PageChangeArrows from '../navigation/pageChangeArrows';
 import {
   Root,
   ContentContainer,
 } from '../../styling/GlobalGrid';
 
-interface Props {
+type Props = NavProps & {
   children: React.ReactNode;
-}
+};
 
 const InnerPage = (props: Props) => {
-  const {children} = props;
+  const {
+    children, baseLinkData,
+  } = props;
   return (
     <Root>
       <Header />
       <SecondaryHeader />
-      <SideNavigation />
+      <SideNavigation baseLinkData={baseLinkData} />
       <ContentContainer>
         {children}
       </ContentContainer>
-      <PageChangeArrows />
+      <PageChangeArrows baseLinkData={baseLinkData} />
     </Root>
   );
 };

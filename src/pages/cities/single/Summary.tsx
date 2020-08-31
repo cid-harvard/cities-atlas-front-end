@@ -2,9 +2,9 @@ import React from 'react';
 
 const Summary = () => {
   return (
-    <div>
+    <h1>
       Quick facts and Summary
-    </div>
+    </h1>
   );
 };
 

@@ -2,9 +2,9 @@ import React from 'react';
 
 const CompareSelf = () => {
   return (
-    <div>
+    <h1>
       What cities should i compare myself to?
-    </div>
+    </h1>
   );
 };
 

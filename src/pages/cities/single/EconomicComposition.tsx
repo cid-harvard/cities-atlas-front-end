@@ -2,9 +2,9 @@ import React from 'react';
 
 const EconomicComposition = () => {
   return (
-    <div>
+    <h1>
       What is my city's economic composition
-    </div>
+    </h1>
   );
 };
 
