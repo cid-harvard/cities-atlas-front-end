@@ -20,6 +20,9 @@ import {
 } from '../../styling/styleUtils';
 import {numberWithCommas} from '../../Utils';
 import Heading from './Heading';
+import {Link} from 'react-router-dom';
+import {CityRoutes} from '../../routing/routes';
+import {createRoute} from '../../routing/Utils';
 
 interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;
@@ -253,13 +256,15 @@ const TootlipContent = styled.p`
   line-height: 1.7;
 `;
 
-const ReviewCityButton = styled.button`
+const ReviewCityButton = styled(Link)`
   font-family: ${secondaryFont};
   text-transform: uppercase;
   font-size: 1.1rem;
   display: block;
   width: 100%;
   padding: 0.7rem;
+  display: block;
+  box-sizing: border-box;
   background-color: #fff;
   text-align: center;
   color: ${secondaryColor};
@@ -268,6 +273,7 @@ const ReviewCityButton = styled.button`
   transition: all 0.2s ease;
   transform-origin: top;
   pointer-events: all;
+  text-decoration: none;
 
   &:hover {
     transform: scale(1.1);
@@ -447,7 +453,7 @@ const Landing = () => {
         <br />
         GDP per Capita: ${numberWithCommas(highlighted.gdp)}
       </TootlipContent>
-      <ReviewCityButton>
+      <ReviewCityButton to={createRoute.city(CityRoutes.CityBase, '1')}>
         Review the City <Arrow>→</Arrow>
       </ReviewCityButton>
       <CloseTooltipButton onClick={() => setHighlighted(null)}>×</CloseTooltipButton>

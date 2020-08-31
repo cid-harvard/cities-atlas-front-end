@@ -67,6 +67,7 @@ export const SecondaryHeaderContainer = styled.div`
 export const NavigationContainer = styled.div`
   grid-row: ${lines.rows.contentTop} / ${lines.rows.contentBottom};
   grid-column: ${lines.columns.navLeft} / ${lines.columns.navRight};
+  display: flex;
 `;
 export const ContentContainer = styled.div`
   grid-row: ${lines.rows.contentTop} / ${lines.rows.contentBottom};

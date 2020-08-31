@@ -11,8 +11,6 @@ export const CityRoutes = {
   CitySummary: '/city/:cityId/summary',
 } as const;
 
-export type ValueOfCityRoutes = typeof CityRoutes[keyof typeof CityRoutes];
-
 export const Routes = {
   Landing: '/',
   ...CityRoutes,
