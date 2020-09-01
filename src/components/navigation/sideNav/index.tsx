@@ -9,9 +9,9 @@ import {
 } from 'react-router-dom';
 
 const Root = styled.div`
-  width: 300px;
+  width: 280px;
   height: 100%;
-  max-height: 450px;
+  max-height: 380px;
   overflow: hidden;
   position: relative;
   margin: auto;
@@ -41,7 +41,7 @@ const NavLink = styled(Link)`
   position: absolute;
   font-family: ${secondaryFont};
   text-transform: uppercase;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   text-decoration: none;
   white-space: pre-line;
   padding-left: 1.25rem;
@@ -66,13 +66,12 @@ const NavLink = styled(Link)`
     padding-left: 100%;
     height: 100%;
     background-color: ${linkColor};
-    left: -95%;
-    transform: translate(-100%, 0);
-    transition: transform 0.2s ease;
+    left: -250%;
+    transition: left 0.2s ease;
   }
 
   &:hover:before, &.${acitveLinkClass}:before {
-    transform: translate(0, 0);
+    left: -95%;
   }
 `;
 

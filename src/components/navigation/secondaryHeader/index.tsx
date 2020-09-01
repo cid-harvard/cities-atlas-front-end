@@ -20,7 +20,7 @@ const Root = styled(SecondaryHeaderContainer)`
 `;
 
 const SearchContainer = styled.div`
-  max-width: 350px;
+  max-width: 280px;
   width: 100%;
   font-family: ${secondaryFont};
 
@@ -29,12 +29,19 @@ const SearchContainer = styled.div`
     font-family: ${secondaryFont};
   }
 
+  .react-panel-search-search-bar-search-icon {
+    display: none;
+  }
+
   .react-panel-search-search-bar-input {
     text-transform: uppercase;
+    font-weight: 400;
+    font-size: 1rem;
     background-color: ${backgroundMedium};
     border: solid 1px ${lightBaseColor};
     box-shadow: none;
     outline: none;
+    padding: 0.4rem 0.5rem;
 
     &:focus::placeholder {
       color: ${backgroundMedium};
@@ -47,6 +54,9 @@ const SearchContainer = styled.div`
     svg polyline {
       stroke: ${lightBaseColor};
     }
+  }
+  .react-panel-search-search-bar-dropdown-arrow {
+    width: 1rem;
   }
   .react-panel-search-search-bar-dropdown-arrow,
   .react-panel-search-search-bar-clear-button {

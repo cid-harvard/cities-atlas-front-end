@@ -22,7 +22,7 @@ const Root = styled(PrimaryHeaderContainer)`
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  border-bottom: solid 2px ${tertiaryColor};
+  border-bottom: solid 3px ${tertiaryColor};
   padding-top: 1rem;
   padding-right: ${defaultPadding}rem;
 `;
@@ -47,14 +47,15 @@ const StyledLink = styled(Link)`
 `;
 
 const H2 = styled.h2`
-  font-weight: 400;
-  padding: 0 ${defaultPadding * 1.5}rem 0.85rem ${defaultPadding * 1.5}rem;
+  font-weight: 300;
+  padding: 0 ${defaultPadding * 1.3}rem 0.65rem ${defaultPadding * 1.3}rem;
   display: flex;
   align-items: flex-end;
   margin: 0;
-  border-bottom: solid 0.3rem ${tertiaryColor};
+  border-bottom: solid 0.4rem ${tertiaryColor};
   font-size: 1.35rem;
   color: #fff;
+  line-height: 1;
 
   @media (max-width: 850px) {
     font-size: 1rem;
@@ -62,13 +63,13 @@ const H2 = styled.h2`
 `;
 
 const CityIcon = styled.div`
-  width: 1.75rem;
-  height: 1.75rem;
+  width: 1.5rem;
+  height: 1.5rem;
   margin-right: 0.45rem;
 
   @media (max-width: 850px) {
-    width: 1.5rem;
-    height: 1.5rem;
+    width: 1.2rem;
+    height: 1.2rem;
   }
 
   svg {

@@ -46,8 +46,8 @@ const DisabledArrow = styled.div`
 
 const SvgBase = styled.div`
   width: 2.75rem;
-  height: 1.75rem;
-  padding: 0.2rem 0.5rem;
+  height: 1.85rem;
+  padding: 0.35rem 0.5rem;
   box-sizing: border-box;
 
   svg {
