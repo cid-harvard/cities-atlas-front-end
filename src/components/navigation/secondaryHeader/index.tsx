@@ -17,6 +17,7 @@ const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../../../data/cities.json
 const Root = styled(SecondaryHeaderContainer)`
   background-color: ${backgroundMedium};
   padding: ${defaultPadding * 0.5}rem ${defaultPadding}rem;
+  box-sizing: border-box;
 `;
 
 const SearchContainer = styled.div`

@@ -5,7 +5,10 @@ import {
   useHistory,
   matchPath,
 } from 'react-router-dom';
-import {PageArrowsContainer} from '../../../styling/GlobalGrid';
+import {
+  PageArrowsContainer,
+  breakPoints,
+} from '../../../styling/GlobalGrid';
 import styled from 'styled-components/macro';
 import {
   baseColor,
@@ -17,6 +20,10 @@ const ChevronSVG = raw('../../../assets/icons/chevron.svg');
 const Root = styled(PageArrowsContainer)`
   display: flex;
   justify-content: center;
+
+  @media ${breakPoints.small} {
+    display: none;
+  }
 `;
 
 const arrowStyles = `
@@ -65,8 +72,6 @@ const PrevSvg = styled(SvgBase)`
     transform: rotate(180deg);
   }
 `;
-
-
 
 const PageChangeArrows = ({baseLinkData}: Props) => {
   const history = useHistory();

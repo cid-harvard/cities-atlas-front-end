@@ -1,12 +1,23 @@
-import React, {useRef, useEffect, useState} from 'react';
-import {NavigationContainer} from '../../../styling/GlobalGrid';
-import {secondaryFont, baseColor, linkColor} from '../../../styling/styleUtils';
+import React, {useRef, useEffect, useState, useContext} from 'react';
+import {
+  NavigationContainer,
+  breakPoints,
+  breakPointValues,
+} from '../../../styling/GlobalGrid';
+import {
+  secondaryFont,
+  baseColor,
+  linkColor,
+  lightBorderColor,
+} from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import {
   Link,
   useHistory,
   matchPath,
 } from 'react-router-dom';
+import AppContext from '../../../contextProviders/appContext';
+import MobileMenu from './MobileMenu';
 
 const Root = styled.div`
   width: 280px;
@@ -15,6 +26,7 @@ const Root = styled.div`
   overflow: hidden;
   position: relative;
   margin: auto;
+  box-sizing: border-box;
 
   svg {
     height: 100%;
@@ -33,6 +45,29 @@ const Root = styled.div`
       fill: #151f26;
     }
   }
+
+  @media ${breakPoints.medium} {
+    width: 200px;
+    max-height: 280px;
+  }
+
+  @media ${breakPoints.small} {
+    display: none;
+    height: auto;
+    width: 100%;
+    max-width: 300px;
+    position: absolute;
+    z-index: 100;
+    background-color: #fff;
+    border: solid 1px ${lightBorderColor};
+    margin: 0 auto;
+    right: 0;
+    left: 0;
+
+    svg {
+      display: none;
+    }
+  }
 `;
 
 const acitveLinkClass = 'main-circle-side-nav-active-nav-link-page';
@@ -47,6 +82,8 @@ const NavLink = styled(Link)`
   padding-left: 1.25rem;
   transform: translate(0, -40%);
   color: ${baseColor};
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 
   &:after {
     content: '';
@@ -67,11 +104,34 @@ const NavLink = styled(Link)`
     height: 100%;
     background-color: ${linkColor};
     left: -250%;
-    transition: left 0.2s ease;
+    transition: all 0.2s ease;
   }
 
   &:hover:before, &.${acitveLinkClass}:before {
     left: -95%;
+  }
+
+  @media ${breakPoints.medium} {
+    font-size: 0.65rem;
+  }
+
+  @media ${breakPoints.small} {
+    position: static;
+    display: block;
+    transform: translate(0);
+    font-size: 0.85rem;
+    margin: 0.5rem 0.5rem;
+    padding: 0.5rem 0.5rem 0.85rem;
+    border-bottom: solid 1px ${lightBorderColor};
+    white-space: normal;
+
+    &:before, &:after {
+      display: none;
+    }
+
+    &:last-of-type {
+      border-bottom: none;
+    }
   }
 `;
 
@@ -90,8 +150,10 @@ export interface Props {
 
 const SideNavigation = ({baseLinkData}: Props) => {
   const history = useHistory();
+  const {windowDimensions} = useContext(AppContext);
 
   const [linkData, setLinkData] = useState<LinkDatum[]>([]);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -116,21 +178,41 @@ const SideNavigation = ({baseLinkData}: Props) => {
       }
     });
     setLinkData([...newLinkDatum]);
-  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, circle_5, baseLinkData]);
+  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, circle_5, baseLinkData, windowDimensions]);
 
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
     const className = match && match.isExact ? acitveLinkClass : undefined;
     return (
-      <NavLink to={d.url} key={d.label + d.url} style={{top: d.top, left: d.left}} className={className}>
+      <NavLink
+        to={d.url}
+        key={d.label + d.url}
+        style={{top: d.top, left: d.left}}
+        className={className}
+        onClick={() => mobileMenu ? setMobileMenuOpen(false) : null}
+      >
         {d.label}
       </NavLink>
     );
   });
 
+  const mobileMenu = windowDimensions.width <= breakPointValues.width.small ||
+                     windowDimensions.height <= breakPointValues.height.small ? (
+     <MobileMenu
+       baseLinkData={baseLinkData}
+       mobileMenuOpen={mobileMenuOpen}
+       toggleMenu={() => setMobileMenuOpen(current => !current)}
+       closeMenu={() => setMobileMenuOpen(false)}
+     />
+   ) : null;
+
   return (
     <NavigationContainer>
-      <Root ref={rootRef}>
+      {mobileMenu}
+      <Root
+        ref={rootRef}
+        style={{display: mobileMenuOpen ? 'block' : undefined}}
+      >
         {links}
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 69.02 377.85'>
           <path

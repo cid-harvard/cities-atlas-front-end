@@ -25,6 +25,7 @@ const Root = styled(PrimaryHeaderContainer)`
   border-bottom: solid 3px ${tertiaryColor};
   padding-top: 1rem;
   padding-right: ${defaultPadding}rem;
+  box-sizing: border-box;
 `;
 
 const Logo = styled.h1`

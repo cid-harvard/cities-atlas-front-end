@@ -1,5 +1,23 @@
 import styled from 'styled-components/macro';
 
+export const breakPointValues = {
+  width: {
+    medium: 1100,
+    small: 800,
+  },
+  height: {
+    medium: 600,
+    small: 500,
+  },
+};
+
+export const breakPoints = {
+  medium: `screen and (max-width: ${breakPointValues.width.medium}px),
+           screen and (max-height: ${breakPointValues.height.medium}px)`,
+  small: `screen and (max-width: ${breakPointValues.width.small}px),
+          screen and (max-height: ${breakPointValues.height.small}px)`,
+};
+
 const lines = {
   rows: {
     // Horizontal Grid Lines
@@ -34,7 +52,7 @@ const lines = {
 
 export const Root = styled.div`
   height: 100vh;
-  width: 100vw;
+  width: 100%;
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -54,6 +72,12 @@ export const Root = styled.div`
     [${lines.columns.pageLeft} ${lines.columns.navLeft}] auto
     [${lines.columns.navRight} ${lines.columns.contentLeft}] 1fr
     [${lines.columns.contentRight} ${lines.columns.pageRight}];
+
+  @media ${breakPoints.small} {
+    height: auto;
+    min-height: 100vh;
+    max-width: 100%;
+  }
 `;
 
 export const PrimaryHeaderContainer = styled.div`
@@ -68,6 +92,12 @@ export const NavigationContainer = styled.div`
   grid-row: ${lines.rows.contentTop} / ${lines.rows.contentBottom};
   grid-column: ${lines.columns.navLeft} / ${lines.columns.navRight};
   display: flex;
+
+  @media ${breakPoints.small} {
+    grid-row: ${lines.rows.preContentTop} / ${lines.rows.preContentBottom};
+    grid-column: ${lines.columns.pageLeft} / ${lines.columns.pageRight};
+    display: block;
+  }
 `;
 export const ContentContainer = styled.div`
   grid-row: ${lines.rows.contentTop} / ${lines.rows.contentBottom};

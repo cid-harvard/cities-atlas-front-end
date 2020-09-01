@@ -11,8 +11,10 @@ import Landing from './pages/landing';
 import City from './pages/cities/single';
 import {Routes} from './routing/routes';
 import './styling/fonts/fonts.css';
+import AppContext, {useWindowWidth} from './contextProviders/appContext';
 
 function App() {
+  const windowDimensions = useWindowWidth();
   return (
     <>
       <Helmet>
@@ -21,13 +23,15 @@ function App() {
         <meta property='og:title' content={defaultMetaTitle} />
       </Helmet>
       <GlobalStyles />
-      <Router>
-        <Switch>
-          <Route exact path={Routes.Landing} component={Landing} />
-          <Route path={Routes.CityBase} component={City} />
-          <Route component={Landing} />
-        </Switch>
-      </Router>
+      <AppContext.Provider value={{windowDimensions}}>
+        <Router>
+          <Switch>
+            <Route exact path={Routes.Landing} component={Landing} />
+            <Route path={Routes.CityBase} component={City} />
+            <Route component={Landing} />
+          </Switch>
+        </Router>
+      </AppContext.Provider>
     </>
   );
 }
