@@ -21,15 +21,13 @@ import MobileMenu from './MobileMenu';
 
 const Root = styled.div`
   width: 280px;
-  height: 100%;
-  max-height: 380px;
   overflow: hidden;
   position: relative;
   margin: auto;
   box-sizing: border-box;
 
   svg {
-    height: 100%;
+    height: 380px;
     position: relative;
     pointer-events: none;
     left: -2px;
@@ -48,12 +46,16 @@ const Root = styled.div`
 
   @media ${breakPoints.medium} {
     width: 200px;
-    max-height: 280px;
+
+    svg {
+      height: 280px;
+    }
   }
 
   @media ${breakPoints.small} {
     display: none;
     height: auto;
+    max-height: initial;
     width: 100%;
     max-width: 300px;
     position: absolute;
@@ -99,8 +101,7 @@ const NavLink = styled(Link)`
     content: '';
     z-index: -1;
     position: absolute;
-    width: 100%;
-    padding-left: 100%;
+    width: 200%;
     height: 100%;
     background-color: ${linkColor};
     left: -250%;

@@ -58,6 +58,9 @@ const SearchContainer = styled.div`
   }
   .react-panel-search-search-bar-dropdown-arrow {
     width: 1rem;
+    top: 4px;
+    bottom: 4px;
+    padding: 0 0.4rem;
   }
   .react-panel-search-search-bar-dropdown-arrow,
   .react-panel-search-search-bar-clear-button {
