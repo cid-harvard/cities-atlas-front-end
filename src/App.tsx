@@ -12,6 +12,7 @@ import City from './pages/cities/single';
 import {Routes} from './routing/routes';
 import './styling/fonts/fonts.css';
 import AppContext, {useWindowWidth} from './contextProviders/appContext';
+import {OverlayPortal} from './components/standardModal';
 
 function App() {
   const windowDimensions = useWindowWidth();
@@ -30,6 +31,7 @@ function App() {
             <Route path={Routes.CityBase} component={City} />
             <Route component={Landing} />
           </Switch>
+          <OverlayPortal />
         </Router>
       </AppContext.Provider>
     </>

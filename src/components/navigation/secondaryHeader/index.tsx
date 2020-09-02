@@ -11,6 +11,7 @@ import {
 import {CitiesGeoJsonData} from '../../../data/citiesTypes';
 import raw from 'raw.macro';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
+import {UtilityBarPortal} from './UtilityBar';
 
 const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../../../data/cities.json'));
 
@@ -18,6 +19,13 @@ const Root = styled(SecondaryHeaderContainer)`
   background-color: ${backgroundMedium};
   padding: ${defaultPadding * 0.5}rem ${defaultPadding}rem;
   box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  grid-gap: 0.7rem;
+
+  @media (max-width: 900px) {
+    padding: ${defaultPadding * 0.5}rem;
+  }
 `;
 
 const SearchContainer = styled.div`
@@ -58,9 +66,6 @@ const SearchContainer = styled.div`
   }
   .react-panel-search-search-bar-dropdown-arrow {
     width: 1rem;
-    top: 4px;
-    bottom: 4px;
-    padding: 0 0.4rem;
   }
   .react-panel-search-search-bar-dropdown-arrow,
   .react-panel-search-search-bar-clear-button {
@@ -83,12 +88,10 @@ const SearchContainer = styled.div`
   .react-panel-search-current-tier-breadcrumb-outer {
     border-color: ${tertiaryColor};
   }
-
 `;
 
 const SecondaryHeader = () => {
   const [data, setData] = useState<SearchDatum[]>([]);
-
 
   useEffect(() => {
     const searchData: SearchDatum[] = [];
@@ -131,6 +134,7 @@ const SecondaryHeader = () => {
           neverEmpty={true}
         />
       </SearchContainer>
+      <UtilityBarPortal />
     </Root>
   );
 };

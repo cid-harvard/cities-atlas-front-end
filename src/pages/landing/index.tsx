@@ -193,6 +193,13 @@ const SearchContainer = styled.div`
   .react-panel-search-search-results {
     background-color: rgba(0, 0, 0, 0.35);
     border: solid 1px #fff;
+
+    ::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 255, 255, .3);
+    }
+    ::-webkit-scrollbar-track {
+      background-color: rgba(255, 255, 255, .1);
+    }
   }
 
   .react-panel-search-current-tier-title,

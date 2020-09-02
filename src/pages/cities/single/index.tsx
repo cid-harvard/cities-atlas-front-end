@@ -1,10 +1,10 @@
 import React, {useEffect} from 'react';
-import EconomicComposition from './EconomicComposition';
-import OutsideSubsidaries from './OutsideSubsidaries';
-import GoodAt from './GoodAt';
-import CompareSelf from './CompareSelf';
-import IndustryMove from './IndustryMove';
-import Summary from './Summary';
+import EconomicComposition from './economicComposition';
+import OutsideSubsidaries from './outsideSubsidaries';
+import GoodAt from './goodAt';
+import CompareSelf from './compareSelf';
+import IndustryMove from './industryMove';
+import Summary from './summary';
 import {
   Route,
   Switch,
