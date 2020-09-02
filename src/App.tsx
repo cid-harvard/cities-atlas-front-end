@@ -1,9 +1,7 @@
 import React from 'react';
 import GlobalStyles from './styling/GlobalStyles';
-import {defaultMetaTitle} from './metadata';
 import Helmet from 'react-helmet';
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
@@ -13,9 +11,12 @@ import {Routes} from './routing/routes';
 import './styling/fonts/fonts.css';
 import AppContext, {useWindowWidth} from './contextProviders/appContext';
 import {OverlayPortal} from './components/standardModal';
+import useFluent from './hooks/useFluent';
 
 function App() {
   const windowDimensions = useWindowWidth();
+  const getString = useFluent();
+  const defaultMetaTitle = getString('meta-data-title-default');
   return (
     <>
       <Helmet>
@@ -25,14 +26,12 @@ function App() {
       </Helmet>
       <GlobalStyles />
       <AppContext.Provider value={{windowDimensions}}>
-        <Router>
-          <Switch>
-            <Route exact path={Routes.Landing} component={Landing} />
-            <Route path={Routes.CityBase} component={City} />
-            <Route component={Landing} />
-          </Switch>
-          <OverlayPortal />
-        </Router>
+        <Switch>
+          <Route exact path={Routes.Landing} component={Landing} />
+          <Route path={Routes.CityBase} component={City} />
+          <Route component={Landing} />
+        </Switch>
+        <OverlayPortal />
       </AppContext.Provider>
     </>
   );

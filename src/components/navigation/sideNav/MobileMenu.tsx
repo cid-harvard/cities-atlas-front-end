@@ -124,13 +124,18 @@ interface Props extends BaseProps {
 const MobileMenu = ({baseLinkData, toggleMenu, mobileMenuOpen, closeMenu}: Props) => {
   const history = useHistory();
 
+  if (baseLinkData.length === 0) {
+    console.warn('MobileMenu component are recieving baseLinkData of length 0');
+    return null;
+  }
+
   const linkIndex = baseLinkData.findIndex(d => {
     const match = matchPath(history.location.pathname, d.url);
     return match && match.isExact ? true : false;
   });
 
   if (linkIndex === -1) {
-    console.error('Invalid url');
+    console.warn('URL did not match any links provided to MobileMenu component');
     return null;
   } else {
     const pageTitle = baseLinkData[linkIndex].label;

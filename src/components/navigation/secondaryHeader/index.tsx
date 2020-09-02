@@ -12,6 +12,7 @@ import {CitiesGeoJsonData} from '../../../data/citiesTypes';
 import raw from 'raw.macro';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {UtilityBarPortal} from './UtilityBar';
+import useFluent from '../../../hooks/useFluent';
 
 const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../../../data/cities.json'));
 
@@ -92,6 +93,7 @@ const SearchContainer = styled.div`
 
 const SecondaryHeader = () => {
   const [data, setData] = useState<SearchDatum[]>([]);
+  const getString = useFluent();
 
   useEffect(() => {
     const searchData: SearchDatum[] = [];
@@ -126,9 +128,9 @@ const SecondaryHeader = () => {
       <SearchContainer>
         <PanelSearch
           data={data}
-          topLevelTitle={'Countries'}
+          topLevelTitle={getString('global-text-countries')}
           disallowSelectionLevels={['0']}
-          defaultPlaceholderText={'Type a city name'}
+          defaultPlaceholderText={getString('global-ui-type-a-city-name')}
           showCount={true}
           resultsIdentation={1.75}
           neverEmpty={true}

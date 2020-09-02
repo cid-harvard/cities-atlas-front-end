@@ -14,8 +14,11 @@ import {
 import {CityRoutes, cityIdParam} from '../../../routing/routes';
 import {createRoute} from '../../../routing/Utils';
 import InnerPage from '../../../components/templates/InnerPage';
+import useFluent from '../../../hooks/useFluent';
 
 const City = () => {
+  const getString = useFluent();
+  const getStringWithNewLines = (value: string) => getString(value).replace(/\\n/g, '\n');
   const history = useHistory();
   const match = matchPath<{[cityIdParam]: string}>(history.location.pathname, CityRoutes.CityBase);
   const cityId = match && match.params[cityIdParam] ? match.params[cityIdParam] : null;
@@ -28,27 +31,27 @@ const City = () => {
 
   const baseLinkData = cityId !== null ? [
     {
-      label: "What is my city's\neconomic position?",
+      label: getStringWithNewLines('cities-single-page-titles-economic-position'),
       url: createRoute.city(CityRoutes.CityEconomicComposition, cityId),
     },
     {
-      label: 'What cities own/host\nsubsidaries in and from\nmy city?',
+      label: getStringWithNewLines('cities-single-page-titles-own-host-subsidiaries'),
       url: createRoute.city(CityRoutes.CityOutsideSubsidaries, cityId),
     },
     {
-      label: 'What is my city\ngood at?',
+      label: getStringWithNewLines('cities-single-page-titles-good-at'),
       url: createRoute.city(CityRoutes.CityGoodAt, cityId),
     },
     {
-      label: 'What cities should I\ncompare myself to?',
+      label: getStringWithNewLines('cities-single-page-titles-compare--to'),
       url: createRoute.city(CityRoutes.CityCompareSelf, cityId),
     },
     {
-      label: 'What industry can\nmy city move to?',
+      label: getStringWithNewLines('cities-single-page-titles-industry-city-move-to'),
       url: createRoute.city(CityRoutes.CityIndustryMove, cityId),
     },
     {
-      label: 'Quick facts &\nsummary',
+      label: getStringWithNewLines('cities-single-page-titles-summary'),
       url: createRoute.city(CityRoutes.CitySummary, cityId),
     },
   ] : [];

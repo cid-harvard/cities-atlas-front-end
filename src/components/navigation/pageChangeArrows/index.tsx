@@ -76,13 +76,18 @@ const PrevSvg = styled(SvgBase)`
 const PageChangeArrows = ({baseLinkData}: Props) => {
   const history = useHistory();
 
+  if (baseLinkData.length === 0) {
+    console.warn('PageChangeArrows component are recieving baseLinkData of length 0');
+    return null;
+  }
+
   const linkIndex = baseLinkData.findIndex(d => {
     const match = matchPath(history.location.pathname, d.url);
     return match && match.isExact ? true : false;
   });
 
   if (linkIndex === -1) {
-    console.error('Invalid url');
+    console.warn('URL did not match any links provided to PageChangeArrows component');
     return null;
   } else {
     const prevLink = linkIndex > 0 ? (

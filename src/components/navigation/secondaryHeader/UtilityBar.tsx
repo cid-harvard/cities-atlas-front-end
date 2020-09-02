@@ -3,11 +3,11 @@ import { createPortal } from 'react-dom';
 import {
   secondaryFont,
   baseColor,
-  // hoverBackgroundColor,
 } from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import raw from 'raw.macro';
 import AppContext from '../../../contextProviders/appContext';
+import useFluent from '../../../hooks/useFluent';
 
 const mediumBreakpoint = 1180; // in px
 const mediumSmallBreakpoint = 1050; // in px
@@ -132,6 +132,7 @@ const UtilityBar = (props: Props) => {
     onDownloadButtonClick, onDataButtonClick, onSettingsButtonClick,
   } = props;
   const {windowDimensions} = useContext(AppContext);
+  const getString = useFluent();
 
   const secondaryHeaderUtilityBarContainerNodeRef = useRef<HTMLElement | null>(null);
 
@@ -151,12 +152,14 @@ const UtilityBar = (props: Props) => {
         dangerouslySetInnerHTML={{__html: downloadIconSvg}}
       />
       <Text>
-        Download
+        {getString('global-ui-download')}
       </Text>
     </ButtonBase>
   ) : null;
 
-  const dataText = windowDimensions.width > textBreakpoint ? 'Data Disclaimer' : 'Data';
+  const dataText = windowDimensions.width > textBreakpoint
+    ? getString('global-ui-data-disclaimer')
+    : getString('global-ui-data-notes');
 
   const dataButton = onDataButtonClick ? (
     <ButtonBase onClick={onDataButtonClick}>
@@ -169,7 +172,9 @@ const UtilityBar = (props: Props) => {
     </ButtonBase>
   ) : null;
 
-  const settingsText = windowDimensions.width > textBreakpoint ? 'Visualization Settings' : 'Settings';
+  const settingsText = windowDimensions.width > textBreakpoint
+    ? getString('global-ui-visualization-settings')
+    : getString('global-ui-settings');
 
   const settingsButton = onSettingsButtonClick ? (
     <SettingsButton onClick={onSettingsButtonClick}>

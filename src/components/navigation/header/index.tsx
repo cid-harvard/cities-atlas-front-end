@@ -10,6 +10,7 @@ import {
 import raw from 'raw.macro';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../../routing/routes';
+import useFluent from '../../../hooks/useFluent';
 
 export const citiesLogoSVG = raw('../../../assets/icons/cities-logo.svg');
 export const cityIconSVG = raw('../../../assets/icons/city-icon.svg');
@@ -85,6 +86,7 @@ const CityIcon = styled.div`
 `;
 
 const Header = () => {
+  const getString = useFluent();
   return (
     <Root>
       <StyledLink to={Routes.Landing}>
@@ -97,7 +99,7 @@ const Header = () => {
           <CityIcon
             dangerouslySetInnerHTML={{__html: cityIconSVG}}
           />
-          Pick a city
+          {getString('navigation-pick-a-city')}
         </H2>
       </StyledLink>
     </Root>

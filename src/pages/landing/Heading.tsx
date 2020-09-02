@@ -9,6 +9,7 @@ import {
   citiesLogoSVG,
   cityIconSVG,
 } from '../../components/navigation/header';
+import useFluent from '../../hooks/useFluent';
 
 const mapPanSVG = raw('../../assets/icons/map-pan.svg');
 
@@ -131,6 +132,7 @@ const MapPanIcon = styled.span`
 `;
 
 const Heading = () => {
+  const getString = useFluent();
   return (
     <Root>
       <Logo
@@ -140,16 +142,16 @@ const Heading = () => {
         <CityIcon
           dangerouslySetInnerHTML={{__html: cityIconSVG}}
         />
-        Pick a city
+        {getString('navigation-pick-a-city')}
       </H2>
       <Description>
-        <span>Type a city name</span>
-        <Or>or</Or>
+        <span>{getString('global-ui-type-a-city-name')}</span>
+        <Or>{getString('landing-page-text-or')}</Or>
         <UseMapText>
           <MapPanIcon
             dangerouslySetInnerHTML={{__html: mapPanSVG}}
           />
-          use the map
+          {getString('landing-page-text-use-the-map')}
         </UseMapText>
       </Description>
     </Root>

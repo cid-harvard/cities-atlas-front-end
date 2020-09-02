@@ -23,6 +23,7 @@ import Heading from './Heading';
 import {Link} from 'react-router-dom';
 import {CityRoutes} from '../../routing/routes';
 import {createRoute} from '../../routing/Utils';
+import useFluent from '../../hooks/useFluent';
 
 interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;
@@ -313,7 +314,7 @@ const CloseTooltipButton = styled.button`
 `;
 
 const Landing = () => {
-
+  const getString = useFluent();
   const [mapData, setMapData] = useState<MapData>({
     searchData: [],
     features: [],
@@ -456,12 +457,12 @@ const Landing = () => {
         {highlighted.title}
       </TootltipTitle>
       <TootlipContent>
-        Population: {numberWithCommas(highlighted.population)}
+        {getString('global-text-population')}: {numberWithCommas(highlighted.population)}
         <br />
-        GDP per Capita: ${numberWithCommas(highlighted.gdp)}
+        {getString('global-text-gdp-per-capita')}: ${numberWithCommas(highlighted.gdp)}
       </TootlipContent>
       <ReviewCityButton to={createRoute.city(CityRoutes.CityBase, '1')}>
-        Review the City <Arrow>→</Arrow>
+        {getString('landing-page-text-review-the-city')} <Arrow>→</Arrow>
       </ReviewCityButton>
       <CloseTooltipButton onClick={() => setHighlighted(null)}>×</CloseTooltipButton>
     </StyledPopup>
@@ -595,13 +596,13 @@ const Landing = () => {
         >
           <PanelSearch
             data={mapData.searchData}
-            topLevelTitle={'Countries'}
+            topLevelTitle={getString('global-text-countries')}
             onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
             onHover={onPanelHover}
             onTraverseLevel={onTraverseLevel}
             selectedValue={highlighted}
             disallowSelectionLevels={['0']}
-            defaultPlaceholderText={'Type a city name'}
+            defaultPlaceholderText={getString('global-ui-type-a-city-name')}
             showCount={true}
             resultsIdentation={1.75}
           />
