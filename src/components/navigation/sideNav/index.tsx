@@ -33,7 +33,7 @@ const Root = styled.div`
     left: -2px;
 
     path {
-      fill: #fff;
+      fill: none;
       stroke: #1f262b;
       stroke-miterlimit: 10;
       stroke-width: 2px;
@@ -45,7 +45,7 @@ const Root = styled.div`
   }
 
   @media ${breakPoints.medium} {
-    width: 200px;
+    width: 205px;
 
     svg {
       height: 280px;
@@ -69,6 +69,21 @@ const Root = styled.div`
     svg {
       display: none;
     }
+  }
+`;
+
+const clipPathIdDesktop = 'side-navigation-circle-menu-clip-path-desktop';
+const clipPathIdTablet = 'side-navigation-circle-menu-clip-path-tablet';
+
+const LinkContainer = styled.div`
+  clip-path: url(#${clipPathIdDesktop});
+
+  @media ${breakPoints.medium} {
+    clip-path: url(#${clipPathIdTablet});
+  }
+
+  @media ${breakPoints.small} {
+    clip-path: none;
   }
 `;
 
@@ -215,8 +230,20 @@ const SideNavigation = ({baseLinkData}: Props) => {
         ref={rootRef}
         style={{display: mobileMenuOpen ? 'block' : undefined}}
       >
+        <LinkContainer>
         {links}
+        </LinkContainer>
         <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 69.02 377.85'>
+          <clipPath id={clipPathIdDesktop}>
+            <path
+              d='M0,0v0.8C41.6,35.5,68.3,112,64.4,199.4C61,274.8,35.6,340.1,0,376.4l0,4.4h366.4V0H0z'
+            />
+          </clipPath>
+          <clipPath id={clipPathIdTablet}>
+            <path
+              d='M0,0v0.6c30.7,25.5,50.4,81.9,47.5,146.3C44.9,202.5,26.2,250.6,0,277.3l0,3.2h270V0H0z'
+            />
+          </clipPath>
           <path
             d='M569.33,197.85c42.17,34.26,69.37,111.25,65.4,199.38-3.4,75.47-28.83,140.75-64.37,177'
             transform='translate(-568.7 -197.07)'

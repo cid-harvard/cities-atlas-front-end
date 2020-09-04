@@ -45,6 +45,7 @@ const MobileButton = styled.button`
   max-width: 300px;
   display: flex;
   align-items: center;
+  pointer-events: all;
 `;
 
 const ChevronSVG = raw('../../../assets/icons/chevron.svg');
@@ -53,6 +54,7 @@ const arrowStyles = `
   margin: 1rem 0.5rem;
   color: ${baseColor};
   text-decoration: none;
+  pointer-events: all;
 `;
 
 const ArrowBase = styled(Link)`
