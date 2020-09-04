@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
 
 const IndustryMove = () => {
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
@@ -30,7 +31,7 @@ const IndustryMove = () => {
   }
 
   return (
-    <>
+    <DefaultContentWrapper>
       <h1>
         What industries can my city move to?
       </h1>
@@ -40,7 +41,7 @@ const IndustryMove = () => {
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />
       {modal}
-    </>
+    </DefaultContentWrapper>
   );
 };
 

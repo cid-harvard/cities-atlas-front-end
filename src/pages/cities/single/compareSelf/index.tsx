@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
 
 const CompareSelf = () => {
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
@@ -30,7 +31,7 @@ const CompareSelf = () => {
   }
 
   return (
-    <>
+    <DefaultContentWrapper>
       <h1>
         What cities should I compare myself to?
       </h1>
@@ -40,7 +41,7 @@ const CompareSelf = () => {
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />
       {modal}
-    </>
+    </DefaultContentWrapper>
   );
 };
 

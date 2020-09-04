@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
 
 const Summary = () => {
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
@@ -30,7 +31,7 @@ const Summary = () => {
   }
 
   return (
-    <>
+    <DefaultContentWrapper>
       <h1>
         Quick facts and Summary
       </h1>
@@ -40,7 +41,7 @@ const Summary = () => {
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />
       {modal}
-    </>
+    </DefaultContentWrapper>
   );
 };
 

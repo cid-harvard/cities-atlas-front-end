@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
 
 const GoodAt = () => {
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
@@ -30,7 +31,7 @@ const GoodAt = () => {
   }
 
   return (
-    <>
+    <DefaultContentWrapper>
       <h1>
         What is my city good at?
       </h1>
@@ -40,7 +41,7 @@ const GoodAt = () => {
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />
       {modal}
-    </>
+    </DefaultContentWrapper>
   );
 };
 

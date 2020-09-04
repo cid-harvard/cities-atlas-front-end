@@ -61,12 +61,12 @@ const City = () => {
       baseLinkData={baseLinkData}
     >
       <Switch>
-        <Route exact path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
-        <Route exact path={CityRoutes.CityOutsideSubsidaries} component={OutsideSubsidaries} />
-        <Route exact path={CityRoutes.CityGoodAt} component={GoodAt} />
-        <Route exact path={CityRoutes.CityCompareSelf} component={CompareSelf} />
-        <Route exact path={CityRoutes.CityIndustryMove} component={IndustryMove} />
-        <Route exact path={CityRoutes.CitySummary} component={Summary} />
+        <Route path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
+        <Route path={CityRoutes.CityOutsideSubsidaries} component={OutsideSubsidaries} />
+        <Route path={CityRoutes.CityGoodAt} component={GoodAt} />
+        <Route path={CityRoutes.CityCompareSelf} component={CompareSelf} />
+        <Route path={CityRoutes.CityIndustryMove} component={IndustryMove} />
+        <Route path={CityRoutes.CitySummary} component={Summary} />
       </Switch>
     </InnerPage>
   );

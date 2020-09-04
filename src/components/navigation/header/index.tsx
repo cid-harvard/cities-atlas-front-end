@@ -27,6 +27,7 @@ const Root = styled(PrimaryHeaderContainer)`
   padding-top: 1rem;
   padding-right: ${defaultPadding}rem;
   box-sizing: border-box;
+  pointer-events: auto;
 `;
 
 const Logo = styled.h1`

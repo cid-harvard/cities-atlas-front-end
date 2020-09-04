@@ -2,7 +2,7 @@ import ReactMapboxGl, {
   MapContext,
 } from 'react-mapbox-gl';
 import React from 'react';
-import SettingsComponent, {Settings} from './ClusterMapSettingsComponent';
+import SettingsComponent, {Settings} from './SubsidiaryMapSettingsComponent';
 import {Coordinate} from './Utils';
 
 const accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? process.env.REACT_APP_MAPBOX_ACCESS_TOKEN : '';
@@ -21,20 +21,24 @@ const dimensions = {
 if (dimensions.width < 600 || dimensions.height < 600) {
   zoom = [1.4];
 }
+const padding = {
+  top: 180,
+  bottom: dimensions.height * 0.1,
+  right: dimensions.width * 0.1,
+  left: dimensions.width * 0.1,
+};
 
 interface Props extends Settings {
-  clearPopup: () => void;
   children?: React.ReactElement<any>;
   center?: Coordinate;
   maxBounds?: [Coordinate, Coordinate];
   fitBounds?: [Coordinate, Coordinate];
-  padding:{top: number, left: number, right: number, bottom: number};
 }
 
 const DefaultMap = (props: Props) => {
   const {
-    children, center, padding,
-    maxBounds, fitBounds, clearPopup,
+    children, center,
+    maxBounds, fitBounds,
     ...settings
   } = props;
 
@@ -47,13 +51,10 @@ const DefaultMap = (props: Props) => {
     );
   };
 
-  const onClick = () => clearPopup();
-
-
   return (
     <Mapbox
       // eslint-disable-next-line
-      style={'mapbox://styles/harvardgrowthlab/cke4hmgga05p418pd0vat4viq'}
+      style={'mapbox://styles/harvardgrowthlab/ckelvcgh70cg019qgiu39035a'}
       containerStyle={{
         height: '100%',
         width: '100%',
@@ -63,7 +64,6 @@ const DefaultMap = (props: Props) => {
       maxBounds={maxBounds}
       fitBounds={fitBounds}
       fitBoundsOptions={{padding, linear: true}}
-      onClick={onClick}
     >
       {children}
       <MapContext.Consumer children={mapRenderProps} />

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import FullPageMap from './FullPageMap';
 
 const OutsideSubsidaries = () => {
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
@@ -40,6 +41,7 @@ const OutsideSubsidaries = () => {
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />
       {modal}
+      <FullPageMap />
     </>
   );
 };

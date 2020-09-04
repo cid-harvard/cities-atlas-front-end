@@ -2,8 +2,6 @@ import React, {useState} from 'react';
 import {clusterSourceLayerId, togglePointer} from './Utils';
 
 export interface Settings {
-  allowZoom?: boolean;
-  allowPan?: boolean;
   mapCallback?: (map: any) => void;
   unclusteredPointCallback?: (id: string) => void;
 }

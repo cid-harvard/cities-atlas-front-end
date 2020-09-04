@@ -56,6 +56,8 @@ export const Root = styled.div`
   overflow: hidden;
   margin: 0;
   padding: 0;
+  position: relative;
+  z-index: 10;
   display: grid;
   grid-template-rows:
     [${lines.rows.pageTop} ${lines.rows.preHeaderTop}] auto
@@ -103,6 +105,12 @@ export const ContentContainer = styled.div`
   grid-row: ${lines.rows.contentTop} / ${lines.rows.contentBottom};
   grid-column: ${lines.columns.contentLeft} / ${lines.columns.contentRight};
 `;
+
+export const DefaultContentWrapper = styled.div`
+  pointer-events: all;
+  display: contents;
+`;
+
 export const PageArrowsContainer = styled.div`
   grid-row: ${lines.rows.postContentTop} / ${lines.rows.postContentBottom};
   grid-column: ${lines.columns.pageLeft} / ${lines.columns.pageRight};

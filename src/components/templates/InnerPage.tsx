@@ -6,9 +6,14 @@ import SideNavigation, {
 } from '../navigation/sideNav';
 import PageChangeArrows from '../navigation/pageChangeArrows';
 import {
-  Root,
+  Root as RootBase,
   ContentContainer,
 } from '../../styling/GlobalGrid';
+import styled from 'styled-components/macro';
+
+const Root = styled(RootBase)`
+  pointer-events: none;
+`;
 
 type Props = NavProps & {
   children: React.ReactNode;

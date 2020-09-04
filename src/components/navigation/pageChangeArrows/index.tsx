@@ -31,6 +31,7 @@ const arrowStyles = `
   color: ${baseColor};
   text-decoration: none;
   border: solid 1px ${baseColor};
+  pointer-events: auto;
 `;
 
 const ArrowBase = styled(Link)`

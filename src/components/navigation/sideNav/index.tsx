@@ -86,6 +86,7 @@ const NavLink = styled(Link)`
   color: ${baseColor};
   transition: all 0.2s ease;
   box-sizing: border-box;
+  pointer-events: auto;
 
   &:after {
     content: '';
