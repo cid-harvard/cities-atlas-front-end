@@ -33,6 +33,8 @@ const ButtonBase = styled.button`
   text-transform: uppercase;
   display: flex;
   align-items: center;
+  outline: 0 solid rgba(255, 255, 255, 0);
+  transition: outline 0.1s ease;
 
   &:hover {
     background-color: #fff;
