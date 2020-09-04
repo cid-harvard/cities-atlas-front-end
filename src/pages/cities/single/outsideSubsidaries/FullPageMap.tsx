@@ -4,6 +4,7 @@ import styled from 'styled-components/macro';
 import {
   getBounds,
 } from '../../../../components/map/Utils';
+import { breakPoints } from '../../../../styling/GlobalGrid';
 
 const Root = styled.div`
   width: 100vw;
@@ -13,6 +14,14 @@ const Root = styled.div`
   left: 0;
   z-index: -1;
   pointer-events: auto;
+
+  @media ${breakPoints.small} {
+    position: relative;
+    box-sizing: border-box;
+    padding: 1rem;
+    width: 100%;
+    height: 60vh;
+  }
 `;
 
 const FullPageMap = () => {
