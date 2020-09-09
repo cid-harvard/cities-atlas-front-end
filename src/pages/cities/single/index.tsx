@@ -15,13 +15,14 @@ import {CityRoutes, cityIdParam} from '../../../routing/routes';
 import {createRoute} from '../../../routing/Utils';
 import InnerPage from '../../../components/templates/InnerPage';
 import useFluent from '../../../hooks/useFluent';
+import useCurrentCityId from '../../../hooks/useCurrentCityId';
 
 const City = () => {
   const getString = useFluent();
   const getStringWithNewLines = (value: string) => getString(value).replace(/\\n/g, '\n');
   const history = useHistory();
   const match = matchPath<{[cityIdParam]: string}>(history.location.pathname, CityRoutes.CityBase);
-  const cityId = match && match.params[cityIdParam] ? match.params[cityIdParam] : null;
+  const cityId = useCurrentCityId();
 
   useEffect(() => {
     if (match && match.isExact && match.params[cityIdParam]) {

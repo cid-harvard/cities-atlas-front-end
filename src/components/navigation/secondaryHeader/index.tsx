@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {SecondaryHeaderContainer} from '../../../styling/GlobalGrid';
 import styled from 'styled-components/macro';
 import {
@@ -8,13 +8,13 @@ import {
   tertiaryColor,
   lightBaseColor,
 } from '../../../styling/styleUtils';
-import {CitiesGeoJsonData} from '../../../data/citiesTypes';
-import raw from 'raw.macro';
-import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {UtilityBarPortal} from './UtilityBar';
-import useFluent from '../../../hooks/useFluent';
-
-const geoJsonData: CitiesGeoJsonData = JSON.parse(raw('../../../data/cities.json'));
+import CitySearch from './CitySearch';
+import {
+  Route,
+  Switch,
+} from 'react-router-dom';
+import {CityRoutes} from '../../../routing/routes';
 
 const Root = styled(SecondaryHeaderContainer)`
   background-color: ${backgroundMedium};
@@ -93,49 +93,12 @@ const SearchContainer = styled.div`
 `;
 
 const SecondaryHeader = () => {
-  const [data, setData] = useState<SearchDatum[]>([]);
-  const getString = useFluent();
-
-  useEffect(() => {
-    const searchData: SearchDatum[] = [];
-    geoJsonData.features.forEach(({properties}, i) => {
-      const {
-        CTR_MN_NM: countryName, CTR_MN_ISO: parent_id, UC_NM_MN: title,
-        UC_NM_LST, AREA,
-      } = properties;
-      const parentIndex = searchData.findIndex(d => d.id === parent_id);
-      if (parentIndex === -1) {
-        searchData.push({
-          id: parent_id,
-          title: countryName,
-          parent_id: null,
-          level: '0',
-        });
-      }
-      const id = parent_id + '-' + title + '-' + UC_NM_LST + '-' + AREA + '-' + i;
-      const searchDatum: SearchDatum = {
-        id,
-        title: title + ', ' + countryName,
-        parent_id,
-        level: '1',
-      };
-      searchData.push(searchDatum);
-    });
-    setData(searchData);
-  }, []);
-
   return (
     <Root>
       <SearchContainer>
-        <PanelSearch
-          data={data}
-          topLevelTitle={getString('global-text-countries')}
-          disallowSelectionLevels={['0']}
-          defaultPlaceholderText={getString('global-ui-type-a-city-name')}
-          showCount={true}
-          resultsIdentation={1.75}
-          neverEmpty={true}
-        />
+        <Switch>
+          <Route path={CityRoutes.CityBase} component={CitySearch} />
+        </Switch>
       </SearchContainer>
       <UtilityBarPortal />
     </Root>

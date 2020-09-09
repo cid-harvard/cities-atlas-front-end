@@ -9,6 +9,8 @@ global-ui-data-notes = Data Notes
 global-ui-visualization-settings = Visualization Settings
 global-ui-settings = Settings
 
+global-ui-basic-data-error = There was an error retrieving the data
+
 global-text-countries = Countries
 global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
