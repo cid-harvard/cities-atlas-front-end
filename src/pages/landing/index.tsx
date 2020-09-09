@@ -372,10 +372,10 @@ const Landing = () => {
     const searchData: ExtendedSearchDatum[] = [];
     const features: React.ReactElement<any>[] = [];
     const clusterFeatures: ClusterFeatures[] = [];
-    geoJsonData.features.forEach(({properties, geometry: {coordinates}}, i) => {
+    geoJsonData.features.forEach(({properties, geometry: {coordinates}}) => {
       const {
         CTR_MN_NM: countryName, CTR_MN_ISO: parent_id, UC_NM_MN: title,
-        UC_NM_LST, AREA, GCPNT_LON, P15, GDP15_SM,
+        GCPNT_LON, P15, GDP15_SM, ID_HDC_G0,
       } = properties;
       const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
       const center: Coordinate = [GCPNT_LON, northernTerminus];
@@ -396,7 +396,7 @@ const Landing = () => {
         searchData[parentIndex].gdp += GDP15_SM;
         searchData[parentIndex].population += P15;
       }
-      const id = parent_id + '-' + title + '-' + UC_NM_LST + '-' + AREA + '-' + i;
+      const id = ID_HDC_G0.toString();
       const searchDatum: ExtendedSearchDatum = {
         id,
         title: title + ', ' + countryName,
@@ -461,7 +461,7 @@ const Landing = () => {
         <br />
         {getString('global-text-gdp-per-capita')}: ${numberWithCommas(highlighted.gdp)}
       </TootlipContent>
-      <ReviewCityButton to={createRoute.city(CityRoutes.CityBase, '1')}>
+      <ReviewCityButton to={createRoute.city(CityRoutes.CityBase, highlighted.id.toString())}>
         {getString('landing-page-text-review-the-city')} <Arrow>→</Arrow>
       </ReviewCityButton>
       <CloseTooltipButton onClick={() => setHighlighted(null)}>×</CloseTooltipButton>

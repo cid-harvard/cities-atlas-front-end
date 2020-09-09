@@ -68,6 +68,7 @@ const SecondaryHeader = () => {
         neverEmpty={true}
         selectedValue={initialSelected ? initialSelected : undefined}
         onSelect={onSelect}
+        maxResults={500}
       />
     );
   } else {

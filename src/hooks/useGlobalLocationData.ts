@@ -57,12 +57,16 @@ export const useGlobalLocationHierarchicalTreeData = () => {
         parent_id: null,
         level: '0',
       })),
-      ...cities.map(({cityId: id, name, countryId}) => ({
-        id,
-        title: name !== null ? name : 'Unrecognized City ' + id,
-        parent_id: getCountryStringId(countryId),
-        level: '1',
-      })),
+      ...cities.map(({cityId: id, name, countryId}) => {
+        const parentCountry = countries.find(c => countryId && c.countryId.toString() === countryId.toString());
+        const countryName = parentCountry && parentCountry.nameShortEn ? ', ' + parentCountry.nameShortEn : '';
+        return {
+          id,
+          title: name !== null ? name + countryName : 'Unrecognized City ' + id + countryName,
+          parent_id: getCountryStringId(countryId),
+          level: '1',
+        };
+      }),
     );
   }
   return {loading, error, data};
