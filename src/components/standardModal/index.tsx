@@ -13,6 +13,7 @@ export const OverlayPortal = () => (
       position: 'relative',
       zIndex: overlayPortalZIndex,
     }}
+    tabIndex={-1}
   />
 );
 
@@ -102,9 +103,16 @@ const Modal = (props: Props) => {
     const node = document.querySelector<HTMLElement>(`#${overlayPortalContainerId}`);
     if (node !== null) {
       overlayPortalContainerNodeRef.current = node;
+      overlayPortalContainerNodeRef.current.focus();
       setIsModalRendered(true);
     }
   }, []);
+
+  useEffect(() => {
+    const closeOnEsc = (e: KeyboardEvent) => e.key === 'Escape' ? onClose() : null;
+    document.addEventListener('keydown', closeOnEsc);
+    return () => document.removeEventListener('keydown', closeOnEsc);
+  }, [onClose]);
 
   let modal: React.ReactElement<any> | null;
   if (isModalRendered === true && overlayPortalContainerNodeRef.current !== null) {

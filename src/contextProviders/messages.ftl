@@ -2,6 +2,8 @@ meta-data-title-default = Cities Atlas | Harvard Growth Lab
 
 navigation-pick-a-city = Pick a city
 
+global-app-name = Cities Atlas
+
 global-ui-type-a-city-name = Type a city name
 global-ui-download = Download
 global-ui-data-disclaimer = Data Disclaimer

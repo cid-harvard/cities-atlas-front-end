@@ -1,5 +1,5 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
   secondaryFont,
   primaryColor,
@@ -137,6 +137,7 @@ const Heading = () => {
     <Root>
       <Logo
         dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
+        aria-label={getString('global-app-name')}
       />
       <H2>
         <CityIcon

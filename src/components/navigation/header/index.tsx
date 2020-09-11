@@ -92,6 +92,7 @@ const Header = () => {
     <Root>
       <StyledLink to={Routes.Landing}>
         <Logo
+          aria-label={getString('global-app-name')}
           dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
         />
       </StyledLink>

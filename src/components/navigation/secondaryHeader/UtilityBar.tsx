@@ -36,7 +36,7 @@ const ButtonBase = styled.button`
   outline: 0 solid rgba(255, 255, 255, 0);
   transition: outline 0.1s ease;
 
-  &:hover {
+  &:hover, &:focus {
     background-color: #fff;
     outline: 0.25rem solid #fff;
   }

@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import ClusterMap from '../../components/map/ClusterLandingMap';
-import styled, {keyframes} from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import raw from 'raw.macro';
 import {CitiesGeoJsonData} from '../../data/citiesTypes';
-import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
-import { Layer, Feature, GeoJSONLayer, Popup } from 'react-mapbox-gl';
+import PanelSearch from 'react-panel-search';
+import { Layer, Feature, GeoJSONLayer } from 'react-mapbox-gl';
 import {
   clusterSourceLayerId,
   togglePointer,
@@ -18,19 +18,14 @@ import {
   mapLabelColor,
   secondaryFont,
 } from '../../styling/styleUtils';
-import {numberWithCommas} from '../../Utils';
 import Heading from './Heading';
-import {Link} from 'react-router-dom';
-import {CityRoutes} from '../../routing/routes';
-import {createRoute} from '../../routing/Utils';
 import useFluent from '../../hooks/useFluent';
-
-interface ExtendedSearchDatum extends SearchDatum {
-  center: Coordinate;
-  coordinates: Coordinate[];
-  population: number;
-  gdp: number;
-}
+import {
+  ExtendedSearchDatum,
+  StyledPopup,
+  TootltipTitle,
+} from './Utils';
+import HighlightedTooltip from './HighlightedTooltip';
 
 interface ClusterFeatures {
   type: 'Feature';
@@ -85,27 +80,6 @@ if (dimensions.width < 600 || dimensions.height < 600) {
     left: dimensions.width / 2,
   };
 }
-
-const bounceRight = keyframes`
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    left: 0;
-  }
-
-  40% {
-    left: 0.7rem;
-  }
-
-  60% {
-    left: 0.3rem;
-  }
-`;
-
-const bounceDuration = '1'; // in seconds
-
 const Root = styled.div`
   width: 100vw;
   height: 100vh;
@@ -230,87 +204,6 @@ const SearchContainer = styled.div`
       background-color: transparent;
     }
   }
-`;
-
-const StyledPopup = styled(Popup)`
-  .mapboxgl-popup-content {
-    border-radius: 0;
-    padding: 1rem 1.1rem;
-    position: relative;
-    background-color: ${secondaryColor};
-    color: #fff;
-    font-family: ${secondaryFont};
-    pointer-events: none;
-  }
-
-  .mapboxgl-popup-tip {
-    visibility: hidden;
-  }
-`;
-
-const TootltipTitle = styled.h2`
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  font-weight: 400;
-  margin: 0;
-  text-align: center;
-`;
-
-const TootlipContent = styled.p`
-  color: #fff;
-  font-size: 0.85rem;
-  text-align: center;
-  margin: 1rem 0;
-  line-height: 1.7;
-`;
-
-const ReviewCityButton = styled(Link)`
-  font-family: ${secondaryFont};
-  text-transform: uppercase;
-  font-size: 1.1rem;
-  display: block;
-  width: 100%;
-  padding: 0.7rem;
-  display: block;
-  box-sizing: border-box;
-  background-color: #fff;
-  text-align: center;
-  color: ${secondaryColor};
-  border: none;
-  box-shadow: none;
-  transition: all 0.2s ease;
-  transform-origin: top;
-  pointer-events: all;
-  text-decoration: none;
-
-  &:hover {
-    transform: scale(1.1);
-
-    span {
-      animation: ${bounceRight} ${bounceDuration}s ease-in-out infinite;
-    }
-  }
-`;
-
-const Arrow = styled.span`
-  font-family: Verdana, sans-serif;
-  font-size: 1.5rem;
-  line-height: 0;
-  position: relative;
-  top: 0.2rem;
-`;
-
-const CloseTooltipButton = styled.button`
-  position: absolute;
-  font-size: 1rem;
-  top: 0;
-  right: 0;
-  padding: 0.2rem;
-  color: #fff;
-  background-color: transparent;
-  border: none;
-  box-shadow: none;
-  pointer-events: all;
 `;
 
 const Landing = () => {
@@ -450,22 +343,10 @@ const Landing = () => {
   ) : null;
 
   const highlightedTooltipPopup = highlighted && highlighted.parent_id !== null ? (
-    <StyledPopup
-      coordinates={highlighted.center}
-    >
-      <TootltipTitle>
-        {highlighted.title}
-      </TootltipTitle>
-      <TootlipContent>
-        {getString('global-text-population')}: {numberWithCommas(highlighted.population)}
-        <br />
-        {getString('global-text-gdp-per-capita')}: ${numberWithCommas(highlighted.gdp)}
-      </TootlipContent>
-      <ReviewCityButton to={createRoute.city(CityRoutes.CityBase, highlighted.id.toString())}>
-        {getString('landing-page-text-review-the-city')} <Arrow>→</Arrow>
-      </ReviewCityButton>
-      <CloseTooltipButton onClick={() => setHighlighted(null)}>×</CloseTooltipButton>
-    </StyledPopup>
+    <HighlightedTooltip
+      highlighted={highlighted}
+      closePopup={() => setHighlighted(null)}
+    />
   ) : null;
 
   const onPanelHover = (val: ExtendedSearchDatum | null) => {
