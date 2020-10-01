@@ -10,9 +10,28 @@ export interface ClassificationNaicsIndustry {
   id: string;
 }
 
+export enum IncomeClassType {
+  HIC = 'HIC',
+  UMIC = 'UMIC',
+  LMIC = 'LMIC',
+  LIC = 'LIC',
+  OTHER = 'OTHER',
+}
+
+export enum DevGroupType {
+  MDR = 'MDR',
+  LDC = 'LDC',
+  LDCL = 'LDCL',
+}
+
+export type GeoJSONString = string;
+
 export interface ClassificationCity {
   cityId: string;
   name: string | null;
+  included: boolean | null;
+  regionId: number | null;
+  countryId: number | null;
   nameList: string | null;
   centroidLat: number | null;
   centroidLon: number | null;
@@ -20,9 +39,31 @@ export interface ClassificationCity {
   crossBorder: boolean | null;
   numCountries: number | null;
   countryList: string | null;
-  included: boolean | null;
-  regionId: number | null;
-  countryId: number | null;
+  avgElevation: number | null;
+  climateClass: string | null;
+  avgPrecip14: number | null;
+  avgTemp14: number | null;
+  builtArea15: number | null;
+  population15: number | null;
+  builtAreaPc15: number | null;
+  gdpPpp15: number | null;
+  incomeClass: IncomeClassType | null;
+  devGroup: DevGroupType | null;
+  travelTimeToCapital: number | null;
+  avgGreenness14: number | null;
+  concentrationPm2514: number | null;
+  potentialFloodArea: number | null;
+  potentialFloodBuiltArea15: number | null;
+  potentialFloodPop15: number | null;
+  potentialStormSurgeArea: number | null;
+  potentialStormSurgeBuiltArea15: number | null;
+  potentialStormSurgePop15: number | null;
+  earthquakeMmiClass: number | null;
+  heatwaveMaxIndex: number | null;
+  landUseEfficiency15: number | null;
+  popGreenArea15: number | null;
+  openSpace15: number | null;
+  geometry: GeoJSONString | null;
   id: string;
 }
 

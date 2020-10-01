@@ -15,9 +15,6 @@ const GLOBAL_LOCATION_QUERY = gql`
     cities: classificationCityList {
       cityId
       name
-      nameList
-      centroidLat
-      centroidLon
       countryId
       id
     }
@@ -33,10 +30,10 @@ interface SuccessResponse {
   cities: {
     cityId: ClassificationCity['cityId'],
     name: ClassificationCity['name'],
-    nameList: ClassificationCity['nameList'],
     centroidLat: ClassificationCity['centroidLat'],
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
+    geometry: ClassificationCity['geometry'],
     id: ClassificationCity['id'],
   }[];
 }
@@ -45,12 +42,11 @@ const useGlobalLocationData = () => useQuery<SuccessResponse, never>(GLOBAL_LOCA
 
 const getCountryStringId = (id: number | string | null) => `country-${id}`;
 
-export const useGlobalLocationHierarchicalTreeData = () => {
-  const {loading, error, data: responseData} = useGlobalLocationData();
-  const data: SearchDatum[] = [];
-  if (responseData !== undefined) {
-    const {cities, countries} = responseData;
-    data.push(
+export const locationDataToHierarchicalTreeData = (data: SuccessResponse | undefined) => {
+  const response: SearchDatum[] = [];
+  if (data !== undefined) {
+    const {cities, countries} = data;
+    response.push(
       ...countries.map(({nameShortEn, countryId}) => ({
         id: getCountryStringId(countryId),
         title: nameShortEn !== null ?nameShortEn : 'Unrecognized Country ' + countryId,
@@ -69,6 +65,12 @@ export const useGlobalLocationHierarchicalTreeData = () => {
       }),
     );
   }
+  return response;
+}
+
+export const useGlobalLocationHierarchicalTreeData = () => {
+  const {loading, error, data: responseData} = useGlobalLocationData();
+  const data = locationDataToHierarchicalTreeData(responseData);
   return {loading, error, data};
 };
 
