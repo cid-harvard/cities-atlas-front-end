@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useCallback} from 'react';
 import ClusterMap from '../../components/map/ClusterLandingMap';
-import styled, {keyframes} from 'styled-components/macro';
+import styled from 'styled-components/macro';
 import { Layer, Feature, GeoJSONLayer } from 'react-mapbox-gl';
 import {
   clusterSourceLayerId,
@@ -30,6 +30,7 @@ import {
 import SimpleLoader from '../../components/transitionStateComponents/SimpleLoader';
 import SimpleError from '../../components/transitionStateComponents/SimpleError';
 import SearchBar from './SearchBar';
+import useFluent from '../../hooks/useFluent';
 
 const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
   query GetGlobalLocationData {
@@ -123,42 +124,11 @@ if (dimensions.width < 600 || dimensions.height < 600) {
   };
 }
 
-const styleId = 'cke4hmgga05p418pd0vat4viq';
-
-const getImageDimension = () => {
-  const maxSize = 1280;
-  const windowWidth = window.innerWidth;
-  const windowHeight = window.innerHeight;
-  const largerSide = windowWidth > windowHeight ? windowWidth : windowHeight;
-  const multiplier = maxSize / largerSide;
-  return `${Math.round(windowWidth * multiplier)}x${Math.round(windowHeight * multiplier)}`;
-};
-
 const Root = styled.div`
   width: 100vw;
   height: 100vh;
   position: relative;
   background-color: #08111e;
-  background-image: url("https://api.mapbox.com/styles/v1/harvardgrowthlab/${
-    styleId
-  }/static/0,0,0/${
-    getImageDimension()
-  }?access_token=${
-    process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
-  }");
-  background-size: cover;
-`;
-const fadein = keyframes`
-    from { opacity: 0; }
-    to   { opacity: 1; }
-`;
-
-const FadeInContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  animation: ${fadein} 0.1s forwards;
-  animation-delay: 0.6s;
 `;
 
 const SidePanel = styled.div`
@@ -292,7 +262,7 @@ const LoadingContainer = styled.div`
   background-color: rgba(0, 0, 0, 0.35);
   color: rgba(255, 255, 255, 0.75);
   border: solid 1px #fff;
-  padding-left: 3rem;
+  padding-left: 0.5rem;
 `;
 
 const MapLoader = styled.div`
@@ -310,6 +280,7 @@ const MapLoader = styled.div`
 
 const Landing = () => {
   const {loading, error, data} = useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
+  const getString = useFluent();
 
   const [mapData, setMapData] = useState<MapData>({
     searchData: [],
@@ -478,7 +449,8 @@ const Landing = () => {
     );
     searchBar = (
       <LoadingContainer>
-        Loading...
+        <SimpleLoader />
+        {getString('global-ui-loading-cities')}...
       </LoadingContainer>
     );
   } else if (error !== undefined) {
@@ -491,119 +463,117 @@ const Landing = () => {
     );
   } else if (data !== undefined) {
     mapContent = (
-      <FadeInContainer>
-        <ClusterMap
-          unclusteredPointCallback={unclusteredPointCallback}
-          clearPopup={() => setHighlighted(null)}
-          fitBounds={fitBounds.bounds}
-          padding={fitBounds.padding}
-        >
-          <>
-            <GeoJSONLayer
-              id={clusterSourceLayerId}
-              data={mapData.geoJsonClusterData}
-              sourceOptions={{
-                cluster: true,
-                clusterRadius: 30,
-              }}
-              filter={['has', 'point_count']}
-            />
-            <Layer
-              id='cluster_count'
-              sourceId={clusterSourceLayerId}
-              maxZoom={4}
-              layerOptions={{
-                filter: [
-                  'has', 'point_count',
+      <ClusterMap
+        unclusteredPointCallback={unclusteredPointCallback}
+        clearPopup={() => setHighlighted(null)}
+        fitBounds={fitBounds.bounds}
+        padding={fitBounds.padding}
+      >
+        <>
+          <GeoJSONLayer
+            id={clusterSourceLayerId}
+            data={mapData.geoJsonClusterData}
+            sourceOptions={{
+              cluster: true,
+              clusterRadius: 30,
+            }}
+            filter={['has', 'point_count']}
+          />
+          <Layer
+            id='cluster_count'
+            sourceId={clusterSourceLayerId}
+            maxZoom={4}
+            layerOptions={{
+              filter: [
+                'has', 'point_count',
+              ],
+            }}
+            paint={{
+              'circle-color': {
+                property: 'point_count',
+                type: 'interval',
+                stops: [
+                  [0, primaryColorRange[4]],
+                  [30, primaryColorRange[3]],
+                  [60, primaryColorRange[2]],
+                  [90, primaryColorRange[1]],
+                  [120, primaryColorRange[0]],
+                  [1000, primaryColorRange[0]],
                 ],
-              }}
-              paint={{
-                'circle-color': {
-                  property: 'point_count',
-                  type: 'interval',
-                  stops: [
-                    [0, primaryColorRange[4]],
-                    [30, primaryColorRange[3]],
-                    [60, primaryColorRange[2]],
-                    [90, primaryColorRange[1]],
-                    [120, primaryColorRange[0]],
-                    [1000, primaryColorRange[0]],
-                  ],
-                },
-                'circle-radius': {
-                  property: 'point_count',
-                  type: 'interval',
-                  stops: [
-                    [0, 15],
-                    [30, 20],
-                    [60, 25],
-                    [90, 35],
-                    [120, 45],
-                    [1000, 45],
-                  ],
-                },
-              }}
-              type='circle'
-            />
-            <Layer
-              type='circle'
-              id={'unclustered_point'}
-              maxZoom={4}
-              sourceId={clusterSourceLayerId}
-              paint={{
-                'circle-color': primaryColorRange[4],
-                'circle-radius': 5,
-              }}
-              filter={['!', ['has', 'point_count']]}
-            />
-            <Layer
-              type='symbol'
-              id={'clustered_text'}
-              maxZoom={4}
-              sourceId={clusterSourceLayerId}
-              layout={{
-                'text-field': '{point_count}',
-                'text-font': [
-                  'DIN Offc Pro Medium',
-                  'Arial Unicode MS Bold',
+              },
+              'circle-radius': {
+                property: 'point_count',
+                type: 'interval',
+                stops: [
+                  [0, 15],
+                  [30, 20],
+                  [60, 25],
+                  [90, 35],
+                  [120, 45],
+                  [1000, 45],
                 ],
-                'text-size': 12,
-              }}
-              paint={{
-                'text-color': mapLabelColor,
-              }}
-              filter={['has', 'point_count']}
-            />
+              },
+            }}
+            type='circle'
+          />
+          <Layer
+            type='circle'
+            id={'unclustered_point'}
+            maxZoom={4}
+            sourceId={clusterSourceLayerId}
+            paint={{
+              'circle-color': primaryColorRange[4],
+              'circle-radius': 5,
+            }}
+            filter={['!', ['has', 'point_count']]}
+          />
+          <Layer
+            type='symbol'
+            id={'clustered_text'}
+            maxZoom={4}
+            sourceId={clusterSourceLayerId}
+            layout={{
+              'text-field': '{point_count}',
+              'text-font': [
+                'DIN Offc Pro Medium',
+                'Arial Unicode MS Bold',
+              ],
+              'text-size': 12,
+            }}
+            paint={{
+              'text-color': mapLabelColor,
+            }}
+            filter={['has', 'point_count']}
+          />
 
-            <Layer
-              type='fill'
-              id={'primary-map-geojson-layer'}
-              paint={{
-                'fill-color': primaryColor,
-              }}
-              minZoom={4}
-            >
-              {mapData.features}
-            </Layer>
+          <Layer
+            type='fill'
+            id={'primary-map-geojson-layer'}
+            paint={{
+              'fill-color': primaryColor,
+            }}
+            minZoom={4}
+          >
+            {mapData.features}
+          </Layer>
 
-            <Layer
-              type='fill'
-              id={'highlighted-geojson-layer'}
-              paint={{
-                'fill-color': secondaryColor,
-              }}
-              minZoom={4}
-            >
-              {mapData.features.filter(({key}) =>
-                (highlighted && key === 'geojson-' + highlighted.id) ||
-                (hovered && key === 'geojson-' + hovered.id),
-              )}
-            </Layer>
-            {highlightedTooltipPopup}
-            {hoveredTooltipPopup}
-          </>
-        </ClusterMap>
-      </FadeInContainer>
+          <Layer
+            type='fill'
+            id={'highlighted-geojson-layer'}
+            paint={{
+              'fill-color': secondaryColor,
+            }}
+            minZoom={4}
+          >
+            {mapData.features.filter(({key}) =>
+              (highlighted && key === 'geojson-' + highlighted.id) ||
+              (hovered && key === 'geojson-' + hovered.id),
+            )}
+          </Layer>
+          {highlightedTooltipPopup}
+          {hoveredTooltipPopup}
+        </>
+      </ClusterMap>
     );
     searchBar = (
       <SearchBar

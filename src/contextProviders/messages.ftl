@@ -4,6 +4,7 @@ navigation-pick-a-city = Pick a city
 
 global-app-name = Cities Atlas
 
+global-ui-loading-cities = Loading cities
 global-ui-type-a-city-name = Type a city name
 global-ui-download = Download
 global-ui-data-disclaimer = Data Disclaimer
