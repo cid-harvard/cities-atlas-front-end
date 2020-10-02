@@ -9,8 +9,8 @@ const Root = styled.div`
   padding: 0.5rem;
 `;
 
-export default ({fluentMessageId}: {fluentMessageId?: string}) => {
+export default ({fluentMessageId, color}: {fluentMessageId?: string, color?: string}) => {
   const getString = useFluent();
   const message = fluentMessageId ? getString(fluentMessageId) : getString('global-ui-basic-data-error');
-  return <Root>{message}</Root>;
+  return <Root style={{color}}>{message}</Root>;
 };
