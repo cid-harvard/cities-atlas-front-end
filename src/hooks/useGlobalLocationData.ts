@@ -66,7 +66,7 @@ export const locationDataToHierarchicalTreeData = (data: SuccessResponse | undef
     );
   }
   return response;
-}
+};
 
 export const useGlobalLocationHierarchicalTreeData = () => {
   const {loading, error, data: responseData} = useGlobalLocationData();

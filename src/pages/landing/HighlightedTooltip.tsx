@@ -116,9 +116,9 @@ const HighlightedTooltip = (props: Props) => {
         {highlighted.title}
       </TootltipTitle>
       <TootlipContent>
-        {getString('global-text-population')}: {numberWithCommas(highlighted.population)}
+        {getString('global-text-population')} (2015): {numberWithCommas(highlighted.population)}
         <br />
-        {getString('global-text-gdp-per-capita')}: ${numberWithCommas(highlighted.gdp)}
+        {getString('global-text-gdp-per-capita')} (2015): ${numberWithCommas(highlighted.gdp.toFixed(2))}
       </TootlipContent>
       <ReviewCityButton
         ref={anchorRef}
