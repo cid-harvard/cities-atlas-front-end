@@ -132,7 +132,7 @@ const getImageDimension = () => {
   const largerSide = windowWidth > windowHeight ? windowWidth : windowHeight;
   const multiplier = maxSize / largerSide;
   return `${Math.round(windowWidth * multiplier)}x${Math.round(windowHeight * multiplier)}`;
-}
+};
 
 const Root = styled.div`
   width: 100vw;
