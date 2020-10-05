@@ -47,9 +47,11 @@ export const locationDataToHierarchicalTreeData = (data: SuccessResponse | undef
   if (data !== undefined) {
     const {cities, countries} = data;
     response.push(
-      ...countries.map(({nameShortEn, countryId}) => ({
+      ...countries
+        .filter(({countryId}) => cities.find(c => c.countryId && c.countryId.toString() === countryId))
+        .map(({nameShortEn, countryId}) => ({
         id: getCountryStringId(countryId),
-        title: nameShortEn !== null ?nameShortEn : 'Unrecognized Country ' + countryId,
+        title: nameShortEn !== null ? nameShortEn : 'Unrecognized Country ' + countryId,
         parent_id: null,
         level: '0',
       })),

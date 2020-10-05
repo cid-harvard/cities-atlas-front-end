@@ -11,6 +11,8 @@ import {sectorColorMap} from '../../../../styling/styleUtils';
 import {useWindowWidth} from '../../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
+import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
+import LoadingBlock, {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
 
 const Root = styled.div`
   width: 100%;
@@ -88,12 +90,20 @@ const CompositionTreeMap = (props: Props) => {
 
   let output: React.ReactElement<any> | null;
   if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
-    output = <h2>loading</h2>;
+    output = <LoadingBlock />;
   } else if (error !== undefined) {
-    output = <h2>{error.message}</h2>;
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
     console.error(error);
   }  else if (industryMap.error !== undefined) {
-    output = <h2>{industryMap.error.message}</h2>;
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
     console.error(error);
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
@@ -116,6 +126,7 @@ const CompositionTreeMap = (props: Props) => {
       height: dimensions.height,
       colorMap: sectorColorMap,
     });
+    const loadingOverlay = loading ? <LoadingBlock /> : null;
     output = (
       <TreeMapContainer>
         <TreeMap
@@ -128,6 +139,7 @@ const CompositionTreeMap = (props: Props) => {
           onMouseOverCell={noop}
           onMouseLeaveChart={noop}
         />
+        {loadingOverlay}
       </TreeMapContainer>
     );
   } else {
