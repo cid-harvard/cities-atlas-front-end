@@ -7,12 +7,13 @@ import {
 } from '../../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
-import {sectorColorMap} from '../../../../styling/styleUtils';
+import {sectorColorMap, secondaryFont} from '../../../../styling/styleUtils';
 import {useWindowWidth} from '../../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
+import Tooltip from '../../../../components/general/Tooltip';
 
 const Root = styled.div`
   width: 100%;
@@ -26,6 +27,10 @@ const TreeMapContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+`;
+
+const TooltipContent = styled.div`
+  font-family: ${secondaryFont};
 `;
 
 const ECONOMIC_COMPOSITION_QUERY = gql`
@@ -70,6 +75,7 @@ const CompositionTreeMap = (props: Props) => {
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const tooltipContentRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useQuery<SuccessResponse, Variables>(ECONOMIC_COMPOSITION_QUERY, {
     variables: { cityId, year },
@@ -135,18 +141,51 @@ const CompositionTreeMap = (props: Props) => {
       colorMap: sectorColorMap,
     });
     const loadingOverlay = loading ? <LoadingBlock /> : null;
+    const onHover = (id: string) => {
+      const node = tooltipContentRef.current;
+      const industry = industryMap.data[id];
+      const industryWithData = industries.find(({naicsId}) => naicsId === id);
+      if (industry && industryWithData && node) {
+        const color = sectorColorMap.find(c => c.id === industry.topLevelParentId);
+        node.innerHTML = `
+          <div style="border-left: solid 3px ${color ? color.color : '#fff'}; padding-left: 0.5rem;">
+            <div style="width: 150px;">
+              <strong>${industry.name}</strong>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between;"
+            >
+              <small>Number of Companies:</small>
+              <small>${industryWithData.numCompany}</small>
+            </div>
+            <div
+              style="display: flex; justify-content: space-between;"
+            >
+              <small>Number of Employees:</small>
+              <small>${industryWithData.numEmploy}</small>
+            </div>
+          </div>
+        `;
+      }
+    };
+
     output = (
       <TreeMapContainer>
-        <TreeMap
-          highlighted={undefined}
-          cells={transformed.treeMapCells}
-          numCellsTier={0}
-          chartContainerWidth={dimensions.width}
-          chartContainerHeight={dimensions.height}
-          onCellClick={noop}
-          onMouseOverCell={noop}
-          onMouseLeaveChart={noop}
-        />
+        <Tooltip
+          explanation={<TooltipContent ref={tooltipContentRef} />}
+          cursor={'default'}
+        >
+          <TreeMap
+            highlighted={undefined}
+            cells={transformed.treeMapCells}
+            numCellsTier={0}
+            chartContainerWidth={dimensions.width}
+            chartContainerHeight={dimensions.height}
+            onCellClick={noop}
+            onMouseOverCell={onHover}
+            onMouseLeaveChart={noop}
+          />
+        </Tooltip>
         {loadingOverlay}
       </TreeMapContainer>
     );
