@@ -53,14 +53,20 @@ interface Variables {
   year: number;
 }
 
+export enum CompositionType {
+  Companies = 'Companies',
+  Employees = 'Employees',
+}
+
 interface Props {
   cityId: number;
   year: number;
   digitLevel: DigitLevel;
+  compositionType: CompositionType;
 }
 
 const CompositionTreeMap = (props: Props) => {
-  const {cityId, year, digitLevel} = props;
+  const {cityId, year, digitLevel, compositionType} = props;
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -108,13 +114,15 @@ const CompositionTreeMap = (props: Props) => {
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
     const treeMapData: Inputs['data'] = [];
-    industries.forEach(({naicsId, numCompany}) => {
+    industries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
       if (industry && industry.level === digitLevel) {
         const {name, topLevelParentId} = industry;
+        const companies = numCompany ? numCompany : 0;
+        const employees = numEmploy ? numEmploy : 0;
         treeMapData.push({
           id: naicsId,
-          value: numCompany ? numCompany : 0,
+          value: compositionType === CompositionType.Companies ? companies : employees,
           title: name ? name : '',
           topLevelParentId,
         });

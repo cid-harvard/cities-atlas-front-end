@@ -4,6 +4,7 @@ import {
   lightBaseColor,
   semiBoldFontBoldWeight,
   primaryFont,
+  backgroundDark,
 } from './styleUtils';
 
 const GlobalStyles = createGlobalStyle`
@@ -28,6 +29,13 @@ const GlobalStyles = createGlobalStyle`
   h1 {
     font-weight: ${semiBoldFontBoldWeight};
     font-size: 1.7rem;
+  }
+
+  h2 {
+    font-weight: 400;
+    color: ${backgroundDark};
+    font-size: 1.4rem;
+    text-transform: uppercase;
   }
 
   h3 {
