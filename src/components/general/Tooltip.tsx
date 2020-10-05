@@ -96,7 +96,7 @@ const Tooltip = (props: Props) => {
   const overlayPortalContainerNode = overlayPortalContainerNodeRef.current;
 
   let tooltip: React.ReactPortal | null;
-  if (isTooltipShown !== false && overlayPortalContainerNode !== null) {
+  if (isTooltipShown !== false && overlayPortalContainerNode !== null && explanation) {
     tooltip = ReactDOM.createPortal((
       <TooltipBase ref={tooltipEl}>
         {explanation}

@@ -52,7 +52,7 @@ export const ContentGrid = styled.div`
   width: 100%;
   min-height: 100%;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 25rem;
+  grid-template-columns: 1fr 23rem;
   grid-column-gap: 3vw;
 
   @media ${breakPoints.medium} {
