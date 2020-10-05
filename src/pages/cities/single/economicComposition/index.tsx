@@ -7,6 +7,8 @@ import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import {defaultYear} from '../../../../Utils';
 import {ContentGrid} from '../../../../styling/styleUtils';
 import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
+import SectorLabels from '../../../../components/dataViz/SectorLabels';
+import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 
 const EconomicComposition = () => {
   const [digitLevel] = useState<DigitLevel>(DigitLevel.Three);
@@ -43,12 +45,13 @@ const EconomicComposition = () => {
       year={defaultYear}
       digitLevel={digitLevel}
     />
-  ) : <h1>No defined city</h1>;
+  ) : <SimpleError />;
 
   return (
     <DefaultContentWrapper>
       <ContentGrid>
         {treeMap}
+        <SectorLabels />
       </ContentGrid>
       <UtiltyBar
         onDownloadButtonClick={() => setModalOpen(ModalType.Download)}

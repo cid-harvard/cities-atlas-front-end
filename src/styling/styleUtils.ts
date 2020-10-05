@@ -52,13 +52,14 @@ export const ContentGrid = styled.div`
   width: 100%;
   min-height: 100%;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 19rem;
+  grid-template-columns: 1fr 25rem;
 
   @media ${breakPoints.medium} {
-    grid-template-columns: 1fr 15rem;
+    grid-template-columns: 1fr 20rem;
   }
 
   @media ${breakPoints.small} {
+    grid-template-rows: auto 80vh auto;
     grid-template-columns: 1fr;
   }
 `;

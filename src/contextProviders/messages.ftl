@@ -18,6 +18,16 @@ global-text-countries = Countries
 global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
 
+global-naics-sector-name-0 = Construction and utilities
+global-naics-sector-name-1 = Education and health services
+global-naics-sector-name-2 = Financial activities
+global-naics-sector-name-3 = Leisure and hospitality
+global-naics-sector-name-4 = Manufacturing
+global-naics-sector-name-5 = Natural resources and mining
+global-naics-sector-name-6 = Other
+global-naics-sector-name-7 = Professional and business services
+global-naics-sector-name-8 = Trade and transportation
+
 landing-page-text-or = or
 landing-page-text-use-the-map = use the map
 landing-page-text-review-the-city = Review the City
