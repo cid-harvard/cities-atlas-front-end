@@ -1,8 +1,17 @@
+export enum DigitLevel {
+  Sector = 1,
+  Two = 2,
+  Three = 3,
+  Four = 4,
+  Five = 5,
+  Six = 6,
+}
+
 export interface ClassificationNaicsIndustry {
   naicsId: string;
   code: string | null;
   name: string | null;
-  level: number | null;
+  level: DigitLevel | null;
   parentId: number | null;
   parentCode: string | null;
   codeHierarchy: string | null;
@@ -83,6 +92,16 @@ export interface ClassificationRegion {
   id: string;
 }
 
+export interface CityIndustryYear {
+  cityId: string;
+  naicsId: string;
+  year: string;
+  numEmploy: number | null;
+  numCompany: number | null;
+  level: DigitLevel | null;
+  id: string;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;
@@ -92,4 +111,5 @@ export interface RootQuery {
   classificationCountry: ClassificationCountry;
   classificationRegionList: ClassificationRegion[];
   classificationRegion: ClassificationRegion;
+  cityIndustryYearList: CityIndustryYear[];
 }
