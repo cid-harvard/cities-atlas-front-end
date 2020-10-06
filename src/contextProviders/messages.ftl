@@ -6,6 +6,7 @@ global-app-name = Cities Atlas
 
 global-ui-loading-cities = Loading cities
 global-ui-type-a-city-name = Type a city name
+global-ui-type-an-industry = Type an industry name
 global-ui-download = Download
 global-ui-data-disclaimer = Data Disclaimer
 global-ui-data-notes = Data Notes
@@ -17,6 +18,7 @@ global-ui-basic-data-error = There was an error retrieving the data
 global-text-countries = Countries
 global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
+global-text-industries = Industries
 
 global-naics-sector-name-0 = Construction and utilities
 global-naics-sector-name-1 = Education and health services

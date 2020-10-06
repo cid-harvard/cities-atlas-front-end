@@ -1,5 +1,7 @@
 import React, {useRef, useEffect, useState} from 'react';
-import {useGlobalIndustryMap} from '../../../../hooks/useGlobalIndustriesData';
+import {
+  useGlobalIndustryMap,
+} from '../../../../hooks/useGlobalIndustriesData';
 import { useQuery, gql } from '@apollo/client';
 import {
   CityIndustryYear,
@@ -66,12 +68,13 @@ export enum CompositionType {
 interface Props {
   cityId: number;
   year: number;
+  highlighted: string | undefined;
   digitLevel: DigitLevel;
   compositionType: CompositionType;
 }
 
 const CompositionTreeMap = (props: Props) => {
-  const {cityId, year, digitLevel, compositionType} = props;
+  const {cityId, year, digitLevel, compositionType, highlighted} = props;
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -176,7 +179,7 @@ const CompositionTreeMap = (props: Props) => {
           cursor={'default'}
         >
           <TreeMap
-            highlighted={undefined}
+            highlighted={highlighted}
             cells={transformed.treeMapCells}
             numCellsTier={0}
             chartContainerWidth={dimensions.width}

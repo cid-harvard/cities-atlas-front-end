@@ -40,7 +40,7 @@ const industryDataToHierarchicalTreeData = (data: SuccessResponse | undefined) =
           id: naicsId,
           title: name,
           level,
-          parent_id: parentId,
+          parent_id: parentId === null ? null : parentId.toString(),
         });
       }
     });

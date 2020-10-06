@@ -8,13 +8,28 @@ import {defaultYear} from '../../../../Utils';
 import {
   ContentGrid,
   secondaryFont,
+  lightBaseColor,
+  backgroundMedium,
+  tertiaryColor,
 } from '../../../../styling/styleUtils';
 import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
 import SectorLabels from '../../../../components/dataViz/SectorLabels';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
-
 import styled from 'styled-components/macro';
+import SimpleLoader from '../../../../components/transitionStateComponents/SimpleLoader';
+import PanelSearch from 'react-panel-search';
+import {
+  useGlobalIndustryHierarchicalTreeData,
+} from '../../../../hooks/useGlobalIndustriesData';
+import useFluent from '../../../../hooks/useFluent';
+
+const LoadingContainer = styled.div`
+  border: solid 1px ${lightBaseColor};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
 
 const Label = styled.label`
   font-size: 0.8rem;
@@ -30,14 +45,77 @@ const Select = styled.select`
   cursor: pointer;
   text-align: center;
   margin-bottom: 2rem;
+  border: solid 1px ${lightBaseColor};
+  border-radius: 0;
+`;
+
+const SearchContainer = styled.div`
+  max-width: 280px;
+  width: 100%;
+  font-family: ${secondaryFont};
+  margin-bottom: 2rem;
+
+  .react-panel-search-search-bar-input,
+  button {
+    font-family: ${secondaryFont};
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    display: none;
+  }
+
+  .react-panel-search-search-bar-input {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 1rem;
+    border: solid 1px ${lightBaseColor};
+    box-shadow: none;
+    outline: none;
+    padding: 0.4rem 0.5rem;
+
+    &:focus::placeholder {
+      color: ${backgroundMedium};
+    }
+  }
+
+  .react-panel-search-current-tier-breadcrumb-outer,
+  .react-panel-search-next-button,
+  .react-panel-search-search-bar-dropdown-arrow {
+    svg polyline {
+      stroke: ${lightBaseColor};
+    }
+  }
+  .react-panel-search-search-bar-dropdown-arrow {
+    width: 1rem;
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    svg path {
+      fill: ${lightBaseColor};
+    }
+  }
+
+  .react-panel-search-search-results {
+    border-left: solid 1px ${lightBaseColor};
+    border-right: solid 1px ${lightBaseColor};
+    border-bottom: solid 1px ${lightBaseColor};
+  }
+
+  .react-panel-search-current-tier-title,
+  .react-panel-search-current-tier-breadcrumb-outer {
+    border-color: ${tertiaryColor};
+  }
 `;
 
 const EconomicComposition = () => {
   const [digitLevel, setDigitLevel] = useState<DigitLevel>(DigitLevel.Three);
   const [compositionType, setCompositionType] = useState<CompositionType>(CompositionType.Companies);
+  const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
   const closeModal = () => setModalOpen(null);
   const cityId = useCurrentCityId();
+  const industrySearchData = useGlobalIndustryHierarchicalTreeData();
+  const getString = useFluent();
 
   let modal: React.ReactElement<any> | null;
   if (modalOpen === ModalType.Download) {
@@ -62,12 +140,55 @@ const EconomicComposition = () => {
     modal = null;
   }
 
+  let searchPanel: React.ReactElement<any> | null;
+  if (industrySearchData.loading) {
+    searchPanel = (
+      <LoadingContainer>
+        <SimpleLoader />
+      </LoadingContainer>
+    );
+  } else if (industrySearchData.error !== undefined) {
+    console.error(industrySearchData.error);
+    searchPanel = (
+      <LoadingContainer>
+        <SimpleError />
+      </LoadingContainer>
+    );
+  } else if (industrySearchData.data !== undefined) {
+    const onSelect = (d: {id: string | number} | null) => {
+      if (d) {
+        setHighlighted(d.id as string);
+      } else {
+        setHighlighted(undefined);
+      }
+    };
+    const searchData = industrySearchData.data.filter(({level}) => level <= digitLevel);
+    const disallowSelectionLevels = digitLevel
+      ? Array.from(Array(digitLevel).keys()) : [];
+    searchPanel = (
+      <PanelSearch
+        data={searchData}
+        topLevelTitle={getString('global-text-industries')}
+        disallowSelectionLevels={disallowSelectionLevels}
+        defaultPlaceholderText={getString('global-ui-type-an-industry')}
+        showCount={true}
+        resultsIdentation={1.75}
+        onSelect={onSelect}
+        maxResults={500}
+      />
+    );
+  } else {
+    searchPanel = null;
+  }
+
+
   const treeMap = cityId !== null ? (
     <TreeMap
       cityId={parseInt(cityId, 10)}
       year={defaultYear}
       digitLevel={digitLevel}
       compositionType={compositionType}
+      highlighted={highlighted}
     />
   ) : <SimpleError />;
 
@@ -76,6 +197,12 @@ const EconomicComposition = () => {
       <ContentGrid>
         <StandardSideTextBlock>
           <h2>Employment &amp; Industry Composition</h2>
+
+          <Label>Find in graph</Label>
+          <SearchContainer>
+            {searchPanel}
+          </SearchContainer>
+
           <Label>Digit Level</Label>
           <Select value={digitLevel} onChange={(e) => setDigitLevel(parseInt(e.target.value, 10))}>
             <option value='1'>1 (Sector)</option>
@@ -91,6 +218,7 @@ const EconomicComposition = () => {
             <option value={CompositionType.Companies}>{CompositionType.Companies}</option>
             <option value={CompositionType.Employees}>{CompositionType.Employees}</option>
           </Select>
+
         </StandardSideTextBlock>
         {treeMap}
         <SectorLabels />
