@@ -1,21 +1,21 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {
   useGlobalIndustryMap,
-} from '../../../../hooks/useGlobalIndustriesData';
+} from '../../../hooks/useGlobalIndustriesData';
 import { useQuery, gql } from '@apollo/client';
 import {
   CityIndustryYear,
   DigitLevel,
-} from '../../../../types/graphQL/graphQLTypes';
+} from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
-import {sectorColorMap, secondaryFont} from '../../../../styling/styleUtils';
-import {useWindowWidth} from '../../../../contextProviders/appContext';
+import {sectorColorMap, secondaryFont} from '../../../styling/styleUtils';
+import {useWindowWidth} from '../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
-import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
-import LoadingBlock, {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
-import Tooltip from '../../../../components/general/Tooltip';
+import SimpleError from '../../../components/transitionStateComponents/SimpleError';
+import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
+import Tooltip from '../../general/Tooltip';
 
 const Root = styled.div`
   width: 100%;

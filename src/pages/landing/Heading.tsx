@@ -46,6 +46,7 @@ const H2 = styled.h2`
   border-bottom: solid 0.3rem ${primaryColor};
   display: flex;
   align-items: flex-end;
+  pointer-events: all;
 
   @media (max-width: 850px) {
     font-size: 1.2rem;

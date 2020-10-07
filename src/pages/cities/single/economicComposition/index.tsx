@@ -2,7 +2,9 @@ import React, {useState} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
-import TreeMap, {CompositionType} from './TreeMap';
+import CompositionTreeMap, {
+  CompositionType,
+} from '../../../../components/dataViz/treeMap/CompositionTreeMap';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import {defaultYear} from '../../../../Utils';
 import {
@@ -183,7 +185,7 @@ const EconomicComposition = () => {
 
 
   const treeMap = cityId !== null ? (
-    <TreeMap
+    <CompositionTreeMap
       cityId={parseInt(cityId, 10)}
       year={defaultYear}
       digitLevel={digitLevel}
