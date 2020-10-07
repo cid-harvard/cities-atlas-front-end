@@ -14,7 +14,7 @@ import {
   backgroundMedium,
   tertiaryColor,
 } from '../../../../styling/styleUtils';
-import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
+import {DigitLevel, ClassificationNaicsIndustry} from '../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../components/dataViz/legend/CategoryLabels';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
@@ -114,6 +114,16 @@ const EconomicComposition = () => {
   const [digitLevel, setDigitLevel] = useState<DigitLevel>(DigitLevel.Three);
   const [compositionType, setCompositionType] = useState<CompositionType>(CompositionType.Companies);
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
+  const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
+  const sectorMap = useSectorMap();
+  const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
+    hiddenSectors.includes(sectorId)
+      ? setHiddenSectors(hiddenSectors.filter(sId => sId !== sectorId))
+      : setHiddenSectors([...hiddenSectors, sectorId]);
+  const isolateSector = (sectorId: ClassificationNaicsIndustry['id']) =>
+    hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
+      ? setHiddenSectors([])
+      : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
   const closeModal = () => setModalOpen(null);
   const cityId = useCurrentCityId();
@@ -225,7 +235,10 @@ const EconomicComposition = () => {
         </StandardSideTextBlock>
         {treeMap}
         <CategoryLabels
-          categories={useSectorMap()}
+          categories={sectorMap}
+          toggleCategory={toggleSector}
+          isolateCategory={isolateSector}
+          hiddenCategories={hiddenSectors}
         />
       </ContentGrid>
       <UtiltyBar

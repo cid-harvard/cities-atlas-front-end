@@ -25,10 +25,26 @@ const Button = styled.button`
   transition: all 0.2s ease;
 `;
 
-const Block = styled.div`
+const Block = styled.div<{$checked: boolean}>`
   width: 0.7rem;
   height: 0.7rem;
   margin-right: 0.2rem;
+  position: relative;
+
+  &:after {
+    ${({$checked}) => $checked ? "content: '';" : ''}
+    width: 0.1rem;
+    border-radius: 80px;
+    height: 180%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    transform: rotate(45deg);
+    background-color: #333;
+  }
 `;
 
 const HideIsolateRoot = styled.div`
@@ -149,9 +165,13 @@ export interface CategoryDatum {
 
 interface Props {
   category: CategoryDatum;
+  toggleCategory: () => void;
+  isolateCategory: () => void;
+  isHidden: boolean;
+  isIsolated: boolean;
 }
 
-const Label = ({category: {color, name}}: Props) => {
+const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidden, isIsolated}: Props) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
@@ -160,12 +180,14 @@ const Label = ({category: {color, name}}: Props) => {
           <Title>{name}</Title>
           <ButtonWrapper>
             <HideIsolateButton
-              $checked={false}
+              $checked={isHidden}
+              onClick={toggleCategory}
             >
               Hide
             </HideIsolateButton>
             <HideIsolateButton
-              $checked={false}
+              $checked={isIsolated}
+              onClick={isolateCategory}
             >
               Isolate
             </HideIsolateButton>
@@ -188,9 +210,14 @@ const Label = ({category: {color, name}}: Props) => {
       <Button
         style={{
           backgroundColor: isHovered ? rgba(color, 0.3) : undefined,
+          opacity: isHidden ? 0.5 : undefined,
         }}
+        onClick={toggleCategory}
       >
-        <Block style={{backgroundColor: color}} />
+        <Block
+          style={{backgroundColor: color}}
+          $checked={isHidden}
+        />
         {name}
       </Button>
       {hideIsolate}

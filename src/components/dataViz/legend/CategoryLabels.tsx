@@ -15,14 +15,23 @@ const Root = styled.div`
 
 interface Props {
   categories: CategoryDatum[];
+  toggleCategory: (id: string) => void;
+  isolateCategory: (id: string) => void;
+  hiddenCategories: string[];
 }
 
-const CategoryLabels = ({categories}: Props) => {
+const CategoryLabels = ({categories, toggleCategory, isolateCategory, hiddenCategories}: Props) => {
   const labels = categories.map(category => {
+    const isHidden = !!hiddenCategories.find(id => id === category.id);
+    const isIsolated = hiddenCategories.length === categories.length - 1 && !isHidden;
     return (
       <Label
         key={'sector-label-' + category.id}
         category={category}
+        toggleCategory={() => toggleCategory(category.id)}
+        isolateCategory={() => isolateCategory(category.id)}
+        isHidden={isHidden}
+        isIsolated={isIsolated}
       />
     );
   });
