@@ -14,6 +14,8 @@ global-ui-visualization-settings = Visualization Settings
 global-ui-settings = Settings
 
 global-ui-basic-data-error = There was an error retrieving the data
+global-ui-error-no-sectors-selected = At least one sector must be selected to view this visualization
+global-ui-error-invalid-city = The selected city is missing data
 
 global-text-countries = Countries
 global-text-population = Population

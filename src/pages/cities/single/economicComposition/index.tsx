@@ -26,6 +26,7 @@ import {
 } from '../../../../hooks/useGlobalIndustriesData';
 import useFluent from '../../../../hooks/useFluent';
 import useSectorMap from '../../../../hooks/useSectorMap';
+import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -194,16 +195,25 @@ const EconomicComposition = () => {
     searchPanel = null;
   }
 
-
-  const treeMap = cityId !== null ? (
-    <CompositionTreeMap
-      cityId={parseInt(cityId, 10)}
-      year={defaultYear}
-      digitLevel={digitLevel}
-      compositionType={compositionType}
-      highlighted={highlighted}
-    />
-  ) : <SimpleError />;
+  let treeMap: React.ReactElement<any>;
+  if (cityId !== null) {
+    treeMap = (
+      <CompositionTreeMap
+        cityId={parseInt(cityId, 10)}
+        year={defaultYear}
+        digitLevel={digitLevel}
+        compositionType={compositionType}
+        highlighted={highlighted}
+        hiddenSectors={hiddenSectors}
+      />
+    );
+  } else {
+    treeMap = (
+      <LoadingOverlay>
+        <SimpleError fluentMessageId={'global-ui-error-invalid-city'} />
+      </LoadingOverlay>
+    );
+  }
 
   return (
     <DefaultContentWrapper>

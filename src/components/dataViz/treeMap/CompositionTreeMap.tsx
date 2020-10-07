@@ -6,6 +6,7 @@ import { useQuery, gql } from '@apollo/client';
 import {
   CityIndustryYear,
   DigitLevel,
+  ClassificationNaicsIndustry,
 } from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
@@ -71,10 +72,11 @@ interface Props {
   highlighted: string | undefined;
   digitLevel: DigitLevel;
   compositionType: CompositionType;
+  hiddenSectors: ClassificationNaicsIndustry['id'][];
 }
 
 const CompositionTreeMap = (props: Props) => {
-  const {cityId, year, digitLevel, compositionType, highlighted} = props;
+  const {cityId, year, digitLevel, compositionType, highlighted, hiddenSectors} = props;
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -127,71 +129,82 @@ const CompositionTreeMap = (props: Props) => {
       const industry = industryMap.data[naicsId];
       if (industry && industry.level === digitLevel) {
         const {name, topLevelParentId} = industry;
-        const companies = numCompany ? numCompany : 0;
-        const employees = numEmploy ? numEmploy : 0;
-        treeMapData.push({
-          id: naicsId,
-          value: compositionType === CompositionType.Companies ? companies : employees,
-          title: name ? name : '',
-          topLevelParentId,
-        });
+        if (!hiddenSectors.includes(topLevelParentId)) {
+          const companies = numCompany ? numCompany : 0;
+          const employees = numEmploy ? numEmploy : 0;
+          treeMapData.push({
+            id: naicsId,
+            value: compositionType === CompositionType.Companies ? companies : employees,
+            title: name ? name : '',
+            topLevelParentId,
+          });
+        }
       }
     });
-    const transformed = transformData({
-      data: treeMapData,
-      width: dimensions.width,
-      height: dimensions.height,
-      colorMap: sectorColorMap,
-    });
-    const loadingOverlay = loading ? <LoadingBlock /> : null;
-    const onHover = (id: string) => {
-      const node = tooltipContentRef.current;
-      const industry = industryMap.data[id];
-      const industryWithData = industries.find(({naicsId}) => naicsId === id);
-      if (industry && industryWithData && node) {
-        const color = sectorColorMap.find(c => c.id === industry.topLevelParentId);
-        node.innerHTML = `
-          <div style="border-left: solid 3px ${color ? color.color : '#fff'}; padding-left: 0.5rem;">
-            <div style="width: 150px;">
-              <strong>${industry.name}</strong>
-            </div>
-            <div
-              style="display: flex; justify-content: space-between;"
-            >
-              <small>Number of Companies:</small>
-              <small>${industryWithData.numCompany}</small>
-            </div>
-            <div
-              style="display: flex; justify-content: space-between;"
-            >
-              <small>Number of Employees:</small>
-              <small>${industryWithData.numEmploy}</small>
-            </div>
-          </div>
-        `;
-      }
-    };
+    if (!treeMapData.length) {
+      output = (
+        <LoadingOverlay>
+          <SimpleError fluentMessageId={'global-ui-error-no-sectors-selected'} />
+        </LoadingOverlay>
+      );
+    } else {
 
-    output = (
-      <TreeMapContainer>
-        <Tooltip
-          explanation={<TooltipContent ref={tooltipContentRef} />}
-          cursor={'default'}
-        >
-          <TreeMap
-            highlighted={highlighted}
-            cells={transformed.treeMapCells}
-            numCellsTier={0}
-            chartContainerWidth={dimensions.width}
-            chartContainerHeight={dimensions.height}
-            onCellClick={noop}
-            onMouseOverCell={onHover}
-            onMouseLeaveChart={noop}
-          />
-        </Tooltip>
-        {loadingOverlay}
-      </TreeMapContainer>
-    );
+      const transformed = transformData({
+        data: treeMapData,
+        width: dimensions.width,
+        height: dimensions.height,
+        colorMap: sectorColorMap,
+      });
+      const loadingOverlay = loading ? <LoadingBlock /> : null;
+      const onHover = (id: string) => {
+        const node = tooltipContentRef.current;
+        const industry = industryMap.data[id];
+        const industryWithData = industries.find(({naicsId}) => naicsId === id);
+        if (industry && industryWithData && node) {
+          const color = sectorColorMap.find(c => c.id === industry.topLevelParentId);
+          node.innerHTML = `
+            <div style="border-left: solid 3px ${color ? color.color : '#fff'}; padding-left: 0.5rem;">
+              <div style="width: 150px;">
+                <strong>${industry.name}</strong>
+              </div>
+              <div
+                style="display: flex; justify-content: space-between;"
+              >
+                <small>Number of Companies:</small>
+                <small>${industryWithData.numCompany}</small>
+              </div>
+              <div
+                style="display: flex; justify-content: space-between;"
+              >
+                <small>Number of Employees:</small>
+                <small>${industryWithData.numEmploy}</small>
+              </div>
+            </div>
+          `;
+        }
+      };
+
+      output = (
+        <TreeMapContainer>
+          <Tooltip
+            explanation={<TooltipContent ref={tooltipContentRef} />}
+            cursor={'default'}
+          >
+            <TreeMap
+              highlighted={highlighted}
+              cells={transformed.treeMapCells}
+              numCellsTier={0}
+              chartContainerWidth={dimensions.width}
+              chartContainerHeight={dimensions.height}
+              onCellClick={noop}
+              onMouseOverCell={onHover}
+              onMouseLeaveChart={noop}
+            />
+          </Tooltip>
+          {loadingOverlay}
+        </TreeMapContainer>
+      );
+    }
   } else {
     output = null;
   }
