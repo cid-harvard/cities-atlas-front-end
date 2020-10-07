@@ -176,7 +176,9 @@ const EconomicComposition = () => {
         setHighlighted(undefined);
       }
     };
-    const searchData = industrySearchData.data.filter(({level}) => level <= digitLevel);
+    const searchData = industrySearchData.data.filter(
+      ({level, id}) => level <= digitLevel && !hiddenSectors.includes(id as string),
+    );
     const disallowSelectionLevels = digitLevel
       ? Array.from(Array(digitLevel).keys()) : [];
     searchPanel = (
