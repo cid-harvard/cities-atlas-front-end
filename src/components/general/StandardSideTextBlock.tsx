@@ -40,6 +40,7 @@ const ScrollContainer = styled.div`
 
   @media ${breakPoints.small} {
     position: static;
+    overflow: visible;
   }
 `;
 

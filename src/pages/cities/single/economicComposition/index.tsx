@@ -15,7 +15,7 @@ import {
   tertiaryColor,
 } from '../../../../styling/styleUtils';
 import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
-import SectorLabels from '../../../../components/dataViz/SectorLabels';
+import CategoryLabels from '../../../../components/dataViz/legend/CategoryLabels';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import styled from 'styled-components/macro';
@@ -25,6 +25,7 @@ import {
   useGlobalIndustryHierarchicalTreeData,
 } from '../../../../hooks/useGlobalIndustriesData';
 import useFluent from '../../../../hooks/useFluent';
+import useSectorMap from '../../../../hooks/useSectorMap';
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -223,7 +224,9 @@ const EconomicComposition = () => {
 
         </StandardSideTextBlock>
         {treeMap}
-        <SectorLabels />
+        <CategoryLabels
+          categories={useSectorMap()}
+        />
       </ContentGrid>
       <UtiltyBar
         onDownloadButtonClick={() => setModalOpen(ModalType.Download)}

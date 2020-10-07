@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled, {keyframes, css} from 'styled-components/macro';
 import {breakPoints} from './GlobalGrid';
 
 export const baseColor = '#333333'; // dark gray/black color for text
@@ -63,4 +63,19 @@ export const ContentGrid = styled.div`
     grid-template-rows: auto 80vh auto;
     grid-template-columns: 1fr;
   }
+`;
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+export const fadeInAnimation = css`
+  opacity: 0;
+  animation: ${fadeIn} 0.2s linear 1 forwards;
 `;
