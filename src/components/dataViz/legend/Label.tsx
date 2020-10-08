@@ -126,8 +126,8 @@ const HideIsolateButton = styled.button<{$checked: boolean}>`
 
   &:before {
     content: '';
-    width: 0.75rem;
-    height: 0.75rem;
+    width: 12px;
+    height: 12px;
     border-radius: 200px;
     border: solid 1px #fff;
     margin-right: 0.25rem;
@@ -139,7 +139,7 @@ const HideIsolateButton = styled.button<{$checked: boolean}>`
     height: 6px;
     border-radius: 200px;
     background-color: #fff;
-    left: 0.625rem;
+    left: 10px;
     position: absolute;
   }
 
