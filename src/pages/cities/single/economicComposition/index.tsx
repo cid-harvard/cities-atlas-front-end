@@ -20,7 +20,7 @@ import SimpleError from '../../../../components/transitionStateComponents/Simple
 import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import styled from 'styled-components/macro';
 import SimpleLoader from '../../../../components/transitionStateComponents/SimpleLoader';
-import PanelSearch from 'react-panel-search';
+import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {
   useGlobalIndustryHierarchicalTreeData,
 } from '../../../../hooks/useGlobalIndustriesData';
@@ -168,6 +168,12 @@ const EconomicComposition = () => {
         <SimpleError />
       </LoadingContainer>
     );
+  } else if (hiddenSectors.length === sectorMap.length) {
+    searchPanel = (
+      <LoadingContainer>
+        <SimpleError fluentMessageId={'No industries available'} />
+      </LoadingContainer>
+    );
   } else if (industrySearchData.data !== undefined) {
     const onSelect = (d: {id: string | number} | null) => {
       if (d) {
@@ -176,11 +182,11 @@ const EconomicComposition = () => {
         setHighlighted(undefined);
       }
     };
-    const searchData = industrySearchData.data.filter(
+    const searchData: SearchDatum[] = industrySearchData.data.filter(
       ({level, id}) => level <= digitLevel && !hiddenSectors.includes(id as string),
     );
     const disallowSelectionLevels = digitLevel
-      ? Array.from(Array(digitLevel).keys()) : [];
+      ? Array.from(Array(digitLevel).keys()) : undefined;
     searchPanel = (
       <PanelSearch
         data={searchData}
