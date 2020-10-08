@@ -32,6 +32,9 @@ global-naics-sector-name-6 = Other
 global-naics-sector-name-7 = Professional and business services
 global-naics-sector-name-8 = Trade and transportation
 
+error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
+error-message-no-industries = No industries available
+
 landing-page-text-or = or
 landing-page-text-use-the-map = use the map
 landing-page-text-review-the-city = Review the City
@@ -42,3 +45,6 @@ cities-single-page-titles-good-at = What is my city\ngood at?
 cities-single-page-titles-compare--to = What cities should I\ncompare myself to?
 cities-single-page-titles-industry-city-move-to = What industry can\nmy city move to?
 cities-single-page-titles-summary = Quick facts &\nsummary
+
+tooltip-number-employees = Number of Employees
+tooltip-number-companies = Number of Companies

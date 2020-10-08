@@ -17,6 +17,9 @@ import noop from 'lodash/noop';
 import SimpleError from '../../../components/transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Tooltip from '../../general/Tooltip';
+import ErrorBoundary from './ErrorBoundary';
+import useFluent from '../../../hooks/useFluent';
+import {numberWithCommas} from '../../../Utils';
 
 const Root = styled.div`
   width: 100%;
@@ -78,6 +81,7 @@ interface Props {
 const CompositionTreeMap = (props: Props) => {
   const {cityId, year, digitLevel, compositionType, highlighted, hiddenSectors} = props;
   const industryMap = useGlobalIndustryMap();
+  const getString = useFluent();
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
@@ -162,6 +166,8 @@ const CompositionTreeMap = (props: Props) => {
         const industryWithData = industries.find(({naicsId}) => naicsId === id);
         if (industry && industryWithData && node) {
           const color = sectorColorMap.find(c => c.id === industry.topLevelParentId);
+          const numCompany = industryWithData.numCompany ? numberWithCommas(industryWithData.numCompany) : 0;
+          const numEmploy = industryWithData.numEmploy ? numberWithCommas(industryWithData.numEmploy) : 0;
           node.innerHTML = `
             <div style="border-left: solid 3px ${color ? color.color : '#fff'}; padding-left: 0.5rem;">
               <div style="width: 150px;">
@@ -170,14 +176,14 @@ const CompositionTreeMap = (props: Props) => {
               <div
                 style="display: flex; justify-content: space-between;"
               >
-                <small>Number of Companies:</small>
-                <small>${industryWithData.numCompany}</small>
+                <small>${getString('tooltip-number-companies')}:</small>
+                <small style="margin-left: 0.5rem">${numCompany}</small>
               </div>
               <div
                 style="display: flex; justify-content: space-between;"
               >
-                <small>Number of Employees:</small>
-                <small>${industryWithData.numEmploy}</small>
+                <small>${getString('tooltip-number-employees')}:</small>
+                <small style="margin-left: 0.5rem">${numEmploy}</small>
               </div>
             </div>
           `;
@@ -190,16 +196,18 @@ const CompositionTreeMap = (props: Props) => {
             explanation={<TooltipContent ref={tooltipContentRef} />}
             cursor={'default'}
           >
-            <TreeMap
-              highlighted={highlighted}
-              cells={transformed.treeMapCells}
-              numCellsTier={0}
-              chartContainerWidth={dimensions.width}
-              chartContainerHeight={dimensions.height}
-              onCellClick={noop}
-              onMouseOverCell={onHover}
-              onMouseLeaveChart={noop}
-            />
+            <ErrorBoundary>
+              <TreeMap
+                highlighted={highlighted}
+                cells={transformed.treeMapCells}
+                numCellsTier={0}
+                chartContainerWidth={dimensions.width}
+                chartContainerHeight={dimensions.height}
+                onCellClick={noop}
+                onMouseOverCell={onHover}
+                onMouseLeaveChart={noop}
+              />
+            </ErrorBoundary>
           </Tooltip>
           {loadingOverlay}
         </TreeMapContainer>

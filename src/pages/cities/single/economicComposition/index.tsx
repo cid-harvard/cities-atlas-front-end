@@ -171,7 +171,7 @@ const EconomicComposition = () => {
   } else if (hiddenSectors.length === sectorMap.length) {
     searchPanel = (
       <LoadingContainer>
-        <SimpleError fluentMessageId={'No industries available'} />
+        <SimpleError fluentMessageId={'error-message-no-industries'} />
       </LoadingContainer>
     );
   } else if (industrySearchData.data !== undefined) {
