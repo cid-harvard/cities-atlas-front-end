@@ -36,7 +36,7 @@ const OutsideSubsidaries = () => {
         What cities own/host subsidaries in and from my city?
       </h1>
       <UtiltyBar
-        onDownloadButtonClick={() => setModalOpen(ModalType.Download)}
+        onDownloadImageButtonClick={() => setModalOpen(ModalType.Download)}
         onDataButtonClick={() => setModalOpen(ModalType.Data)}
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />

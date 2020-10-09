@@ -64,6 +64,9 @@ interface Variables {
   year: number;
 }
 
+export const useEconomicCompositionQuery = (variables: Variables) =>
+  useQuery<SuccessResponse, Variables>(ECONOMIC_COMPOSITION_QUERY, { variables });
+
 export enum CompositionType {
   Companies = 'Companies',
   Employees = 'Employees',
@@ -86,9 +89,7 @@ const CompositionTreeMap = (props: Props) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
-  const {loading, error, data} = useQuery<SuccessResponse, Variables>(ECONOMIC_COMPOSITION_QUERY, {
-    variables: { cityId, year },
-  });
+  const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
 
   useEffect(() => {
     const node = rootRef.current;

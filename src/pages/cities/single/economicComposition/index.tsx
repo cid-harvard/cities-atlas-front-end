@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import BasicModal from '../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
@@ -27,6 +27,8 @@ import {
 import useFluent from '../../../../hooks/useFluent';
 import useSectorMap from '../../../../hooks/useSectorMap';
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
+import DownloadImageOverlay from './DownloadImageOverlay';
+import noop from 'lodash/noop';
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -111,6 +113,10 @@ const SearchContainer = styled.div`
   }
 `;
 
+const TreeMapRoot = styled.div`
+  display: contents;
+`;
+
 const EconomicComposition = () => {
   const [digitLevel, setDigitLevel] = useState<DigitLevel>(DigitLevel.Three);
   const [compositionType, setCompositionType] = useState<CompositionType>(CompositionType.Companies);
@@ -130,15 +136,28 @@ const EconomicComposition = () => {
   const cityId = useCurrentCityId();
   const industrySearchData = useGlobalIndustryHierarchicalTreeData();
   const getString = useFluent();
+  const treeMapRef = useRef<HTMLDivElement | null>(null);
 
   let modal: React.ReactElement<any> | null;
-  if (modalOpen === ModalType.Download) {
-    modal = (
-      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
-        <h1>Download image or data</h1>
-      </BasicModal>
-    );
-  }else if (modalOpen === ModalType.Data) {
+  if (modalOpen === ModalType.Download && cityId !== null && treeMapRef.current) {
+    const cellsNode = treeMapRef.current.querySelector('div.react-canvas-tree-map-masterContainer');
+    if (cellsNode) {
+      modal = (
+        <DownloadImageOverlay
+          onClose={closeModal}
+          cityId={parseInt(cityId, 10)}
+          year={defaultYear}
+          digitLevel={digitLevel}
+          compositionType={compositionType}
+          hiddenSectors={hiddenSectors}
+          treeMapCellsNode={cellsNode as HTMLDivElement}
+        />
+      );
+    } else {
+      modal = null;
+      setModalOpen(null);
+    }
+  } else if (modalOpen === ModalType.Data) {
     modal = (
       <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
         <h1>Display data disclaimer</h1>
@@ -206,14 +225,16 @@ const EconomicComposition = () => {
   let treeMap: React.ReactElement<any>;
   if (cityId !== null) {
     treeMap = (
-      <CompositionTreeMap
-        cityId={parseInt(cityId, 10)}
-        year={defaultYear}
-        digitLevel={digitLevel}
-        compositionType={compositionType}
-        highlighted={highlighted}
-        hiddenSectors={hiddenSectors}
-      />
+      <TreeMapRoot ref={treeMapRef}>
+        <CompositionTreeMap
+          cityId={parseInt(cityId, 10)}
+          year={defaultYear}
+          digitLevel={digitLevel}
+          compositionType={compositionType}
+          highlighted={highlighted}
+          hiddenSectors={hiddenSectors}
+        />
+      </TreeMapRoot>
     );
   } else {
     treeMap = (
@@ -269,7 +290,9 @@ const EconomicComposition = () => {
         />
       </ContentGrid>
       <UtiltyBar
-        onDownloadButtonClick={() => setModalOpen(ModalType.Download)}
+        onDownloadImageButtonClick={
+          cityId !== null && treeMapRef.current ? () => setModalOpen(ModalType.Download) : noop
+        }
         onDataButtonClick={() => setModalOpen(ModalType.Data)}
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />

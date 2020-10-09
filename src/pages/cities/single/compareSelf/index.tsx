@@ -36,7 +36,7 @@ const CompareSelf = () => {
         What cities should I compare myself to?
       </h1>
       <UtiltyBar
-        onDownloadButtonClick={() => setModalOpen(ModalType.Download)}
+        onDownloadImageButtonClick={() => setModalOpen(ModalType.Download)}
         onDataButtonClick={() => setModalOpen(ModalType.Data)}
         onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />

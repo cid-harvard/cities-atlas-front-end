@@ -124,14 +124,14 @@ export enum ModalType {
 }
 
 interface Props {
-  onDownloadButtonClick?: () => void;
+  onDownloadImageButtonClick?: () => void;
   onDataButtonClick?: () => void;
   onSettingsButtonClick?: () => void;
 }
 
 const UtilityBar = (props: Props) => {
   const {
-    onDownloadButtonClick, onDataButtonClick, onSettingsButtonClick,
+    onDownloadImageButtonClick, onDataButtonClick, onSettingsButtonClick,
   } = props;
   const {windowDimensions} = useContext(AppContext);
   const getString = useFluent();
@@ -148,13 +148,13 @@ const UtilityBar = (props: Props) => {
     }
   }, []);
 
-  const downloadButton = onDownloadButtonClick ? (
-    <ButtonBase onClick={onDownloadButtonClick}>
+  const downloadImageButton = onDownloadImageButtonClick ? (
+    <ButtonBase onClick={onDownloadImageButtonClick}>
       <SvgBase
         dangerouslySetInnerHTML={{__html: downloadIconSvg}}
       />
       <Text>
-        {getString('global-ui-download')}
+        {getString('global-ui-download-image')}
       </Text>
     </ButtonBase>
   ) : null;
@@ -189,11 +189,11 @@ const UtilityBar = (props: Props) => {
     </SettingsButton>
   ) : null;
 
-  const downloadAndDataSegment = downloadButton || dataButton ? (
+  const downloadAndDataSegment = downloadImageButton || dataButton ? (
     <SegmentContainer
       $hasSettings={settingsButton ? true : false}
     >
-      {downloadButton}
+      {downloadImageButton}
       {dataButton}
     </SegmentContainer>
   ) : null;
