@@ -27,6 +27,7 @@ const Root = styled.div`
 
 interface Props {
   cityId: number;
+  cityName: string | undefined;
   year: number;
   onClose: () => void;
   compositionType: CompositionType;
@@ -36,7 +37,10 @@ interface Props {
 }
 
 export default (props: Props) => {
-  const {cityId, year, onClose, compositionType, hiddenSectors, digitLevel, treeMapCellsNode} = props;
+  const {
+    cityId, year, onClose, compositionType, hiddenSectors, digitLevel, treeMapCellsNode,
+    cityName,
+  } = props;
 
   const {error, data} = useEconomicCompositionQuery({cityId, year});
   const industryMap = useGlobalIndustryMap();
@@ -87,7 +91,9 @@ export default (props: Props) => {
           .then(cellLabels => {
             context.drawImage(cellLabels, 0, 0, width, height);
             const link = document.createElement('a');
-            link.download = 'chart.png';
+            link.download = cityName
+              ? `${cityName} - Economic Composition of Number of ${compositionType} in ${year}.png`
+              : 'treemap-visualization.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
             link.remove();
@@ -98,7 +104,10 @@ export default (props: Props) => {
         onClose();
       }
     }
-  }, [data, industryMap, onClose, compositionType, digitLevel, hiddenSectors, treeMapCellsNode]);
+  }, [
+    data, industryMap, onClose, compositionType, digitLevel, hiddenSectors, treeMapCellsNode, cityName,
+    year,
+  ]);
 
   if (error) {
     onClose();

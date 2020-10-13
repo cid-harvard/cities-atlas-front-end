@@ -24,6 +24,7 @@ import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {
   useGlobalIndustryHierarchicalTreeData,
 } from '../../../../hooks/useGlobalIndustriesData';
+import useGlobalLocationData from '../../../../hooks/useGlobalLocationData';
 import useFluent from '../../../../hooks/useFluent';
 import useSectorMap from '../../../../hooks/useSectorMap';
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
@@ -137,15 +138,18 @@ const EconomicComposition = () => {
   const industrySearchData = useGlobalIndustryHierarchicalTreeData();
   const getString = useFluent();
   const treeMapRef = useRef<HTMLDivElement | null>(null);
+  const globalLocationData = useGlobalLocationData();
 
   let modal: React.ReactElement<any> | null;
   if (modalOpen === ModalType.Download && cityId !== null && treeMapRef.current) {
     const cellsNode = treeMapRef.current.querySelector('div.react-canvas-tree-map-masterContainer');
     if (cellsNode) {
+      const targetCity = globalLocationData.data && globalLocationData.data.cities.find(c => c.cityId === cityId);
       modal = (
         <DownloadImageOverlay
           onClose={closeModal}
           cityId={parseInt(cityId, 10)}
+          cityName={targetCity && targetCity.name ? targetCity.name : undefined}
           year={defaultYear}
           digitLevel={digitLevel}
           compositionType={compositionType}
