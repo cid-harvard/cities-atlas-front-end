@@ -214,11 +214,11 @@ const UtilityBar = (props: Props) => {
         setIsFullscreen(true);
     } else {
       if (document.exitFullscreen) {
-        document.exitFullscreen(); 
+        document.exitFullscreen();
         setIsFullscreen(false);
       }
     }
-  }
+  };
 
   let content: React.ReactElement<any> | null;
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
