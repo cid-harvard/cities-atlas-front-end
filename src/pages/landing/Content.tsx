@@ -13,7 +13,7 @@ import {
   primaryColor,
   primaryColorRange,
   mapLabelColor,
-  secondaryFont,
+  SearchContainerDark,
 } from '../../styling/styleUtils';
 import Heading from './Heading';
 import useFluent from '../../hooks/useFluent';
@@ -90,108 +90,6 @@ const SidePanel = styled.div`
     z-index: 200;
   }
 `;
-
-const SearchContainer = styled.div`
-  pointer-events: all;
-  width: 100%;
-  margin: auto;
-
-  @media (min-width: 990px) {
-    width: 85%;
-  }
-
-  font-family: ${secondaryFont};
-
-  .react-panel-search-search-bar-input,
-  button {
-    font-family: ${secondaryFont};
-  }
-
-  .react-panel-search-search-bar-input {
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    background-color: rgba(0, 0, 0, 0.35);
-    color: #fff;
-    border: solid 1px #fff;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    padding-right: 3rem;
-    box-shadow: none;
-    outline: none;
-
-    &::placeholder {
-      color: #fff;
-    }
-
-    &:focus::placeholder {
-      color: rgba(0, 0, 0, 0);
-    }
-  }
-
-  .react-panel-search-search-bar-dropdown-arrow {
-    background-color: transparent;
-
-  }
-  .react-panel-search-current-tier-breadcrumb-outer,
-  .react-panel-search-next-button,
-  .react-panel-search-search-bar-dropdown-arrow {
-    svg polyline {
-      stroke: #fff;
-    }
-  }
-
-  .react-panel-search-search-bar-clear-button {
-    background-color: transparent;
-    color: #fff;
-  }
-
-  .react-panel-search-search-bar-search-icon {
-    svg path {
-      fill: #fff;
-    }
-  }
-
-  .react-panel-search-search-results {
-    background-color: rgba(0, 0, 0, 0.35);
-    border: solid 1px #fff;
-
-    ::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, .3);
-    }
-    ::-webkit-scrollbar-track {
-      background-color: rgba(255, 255, 255, .1);
-    }
-  }
-
-  .react-panel-search-current-tier-title,
-  .react-panel-search-current-tier-breadcrumb-outer {
-    color: #fff;
-    border-color: ${primaryColor};
-  }
-
-  .react-panel-search-current-tier-breadcrumb-outer:hover {
-    background-color: rgba(255, 255, 255, 0.25);
-  }
-
-  .react-panel-search-list-item {
-    background-color: transparent;
-    color: #fff;
-    &:hover {
-      background-color: rgba(255, 255, 255, 0.25);
-    }
-  }
-
-  .react-panel-search-highlighted-item {
-    background-color: rgba(255, 255, 255, 0.25);
-  }
-
-  .react-panel-search-search-results:hover {
-    .react-panel-search-highlighted-item:not(:hover) {
-      background-color: transparent;
-    }
-  }
-`;
-
 
 interface Props {
   searchData: ExtendedSearchDatum[];
@@ -390,7 +288,7 @@ const Content = (props: Props) => {
       </ClusterMap>
       <SidePanel>
         <Heading />
-        <SearchContainer
+        <SearchContainerDark
           onMouseDown={() => setHovered(null)}
         >
           <PanelSearch
@@ -405,7 +303,7 @@ const Content = (props: Props) => {
             showCount={true}
             resultsIdentation={1.75}
           />
-        </SearchContainer>
+        </SearchContainerDark>
       </SidePanel>
     </Root>
   );

@@ -202,7 +202,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
     const className = match && match.isExact ? acitveLinkClass : undefined;
     return (
       <NavLink
-        to={d.url}
+        to={d.url + history.location.search}
         key={d.label + d.url}
         style={{top: d.top, left: d.left}}
         className={className}

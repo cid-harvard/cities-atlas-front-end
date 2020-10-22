@@ -5,6 +5,8 @@ navigation-pick-a-city = Pick a city
 global-app-name = Cities Atlas
 
 global-ui-loading-cities = Loading cities
+global-ui-select-a-city-name = Select a city
+global-ui-select-a-group = Select an existing group
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
 global-ui-download = Download
@@ -14,6 +16,14 @@ global-ui-data-disclaimer = Data Disclaimer
 global-ui-data-notes = Data Notes
 global-ui-visualization-settings = Visualization Settings
 global-ui-settings = Settings
+global-ui-close = Close
+global-ui-continue = Continue
+
+global-ui-or = Or
+
+global-ui-add-comparison = Add Comparison
+global-ui-remove-comparison = Remove Comparison
+global-ui-compare-title = Compare { $name } with
 
 global-ui-basic-data-error = There was an error retrieving the data
 global-ui-error-no-sectors-selected = At least one sector must be selected to view this visualization

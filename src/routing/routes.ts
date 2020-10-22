@@ -15,3 +15,14 @@ export const Routes = {
   Landing: '/',
   ...CityRoutes,
 } as const;
+
+export enum ValuesBasedOn {
+  NumberOfEmployees = 'employees',
+  NumberOfCompanies = 'companies',
+}
+
+export interface GlobalQueryParams {
+  compare_city: string | undefined;
+  digit_level: string | undefined;
+  values_based_on: ValuesBasedOn | undefined;
+}

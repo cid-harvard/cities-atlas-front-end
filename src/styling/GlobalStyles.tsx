@@ -79,6 +79,10 @@ const GlobalStyles = createGlobalStyle`
       font-size: 0.9rem;
     }
   }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 `;
 
 export default GlobalStyles;

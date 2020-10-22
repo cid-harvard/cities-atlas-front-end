@@ -143,7 +143,7 @@ const MobileMenu = ({baseLinkData, toggleMenu, mobileMenuOpen, closeMenu}: Props
     const pageTitle = baseLinkData[linkIndex].label;
     const prevLink = linkIndex > 0 ? (
       <ArrowBase
-        to={baseLinkData[linkIndex - 1].url}
+        to={baseLinkData[linkIndex - 1].url + history.location.search}
         onClick={() => closeMenu()}
       >
         <PrevSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
@@ -155,7 +155,7 @@ const MobileMenu = ({baseLinkData, toggleMenu, mobileMenuOpen, closeMenu}: Props
     );
     const nextLink = linkIndex < baseLinkData.length - 1 ? (
       <ArrowBase
-        to={baseLinkData[linkIndex + 1].url}
+        to={baseLinkData[linkIndex + 1].url + history.location.search}
         onClick={() => closeMenu()}
       >
         <NextSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />

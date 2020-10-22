@@ -92,7 +92,7 @@ const PageChangeArrows = ({baseLinkData}: Props) => {
     return null;
   } else {
     const prevLink = linkIndex > 0 ? (
-      <ArrowBase to={baseLinkData[linkIndex - 1].url}>
+      <ArrowBase to={baseLinkData[linkIndex - 1].url + history.location.search}>
         <PrevSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
       </ArrowBase>
     ) : (
@@ -101,7 +101,7 @@ const PageChangeArrows = ({baseLinkData}: Props) => {
       </DisabledArrow>
     );
     const nextLink = linkIndex < baseLinkData.length - 1 ? (
-      <ArrowBase to={baseLinkData[linkIndex + 1].url}>
+      <ArrowBase to={baseLinkData[linkIndex + 1].url + history.location.search}>
         <SvgBase dangerouslySetInnerHTML={{__html: ChevronSVG}} />
       </ArrowBase>
     ) : (

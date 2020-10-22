@@ -1,7 +1,11 @@
 import React from 'react';
 import Modal, {Props} from './';
 import styled, {keyframes} from 'styled-components/macro';
-import {lightBaseColor} from '../../styling/styleUtils';
+import {
+  backgroundDark,
+  secondaryFont,
+} from '../../styling/styleUtils';
+import useFluent from '../../hooks/useFluent';
 
 const growIn = keyframes`
   0% {
@@ -14,32 +18,35 @@ const growIn = keyframes`
 `;
 
 const Root = styled.div`
-  padding: 1rem;
-  background-color: #fff;
-  border-radius: 4px;
+  padding: 1.5rem;
+  background-color: ${backgroundDark};
   position: relative;
   animation: ${growIn} 0.1s normal forwards ease-in-out;
   animation-iteration-count: 1;
+  color: #fff;
 `;
 
 const CloseButton = styled.button`
   background-color: transparent;
   border-none;
   padding: 0.5rem;
-  color: ${lightBaseColor};
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 1.25rem;
+  font-family: ${secondaryFont};
   position: absolute;
   right: 0;
   top: 0;
-  font-size: 0.85rem;
 `;
 
 export default (props: Props) => {
   const {children, ...rest} = props;
+  const getString = useFluent();
   return (
     <Modal {...rest}>
       <Root>
         {children}
-        <CloseButton onClick={props.onClose}>✕</CloseButton>
+        <CloseButton onClick={props.onClose}>✕ {getString('global-ui-close')}</CloseButton>
       </Root>
     </Modal>
   );

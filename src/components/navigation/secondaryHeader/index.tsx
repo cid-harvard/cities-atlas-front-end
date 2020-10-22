@@ -31,7 +31,7 @@ const Root = styled(SecondaryHeaderContainer)`
 `;
 
 const SearchContainer = styled.div`
-  max-width: 280px;
+  max-width: 650px;
   width: 100%;
   font-family: ${secondaryFont};
 
