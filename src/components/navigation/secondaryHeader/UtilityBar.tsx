@@ -164,6 +164,7 @@ const UtilityBar = (props: Props) => {
   const secondaryHeaderUtilityBarContainerNodeRef = useRef<HTMLElement | null>(null);
 
   const [isUtilityBarRendered, setIsUtilityBarRendered] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   useEffect(() => {
     const node = document.querySelector<HTMLElement>(`#${secondaryHeaderUtilityBarId}`);
@@ -207,6 +208,18 @@ const UtilityBar = (props: Props) => {
     </ButtonBase>
   ) : null;
 
+  const onFullScreenClick = () => {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+        setIsFullscreen(true);
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen(); 
+        setIsFullscreen(false);
+      }
+    }
+  }
+
   let content: React.ReactElement<any> | null;
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
     content = createPortal((
@@ -219,12 +232,14 @@ const UtilityBar = (props: Props) => {
             {getString('global-ui-share')}
           </Text>
         </ButtonBase>
-        <ButtonBase>
+        <ButtonBase
+          onClick={onFullScreenClick}
+        >
           <SvgBase
             dangerouslySetInnerHTML={{__html: expandIconSvg}}
           />
           <Text>
-            {getString('global-ui-expand')}
+            {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
           </Text>
         </ButtonBase>
         <ButtonBase>
