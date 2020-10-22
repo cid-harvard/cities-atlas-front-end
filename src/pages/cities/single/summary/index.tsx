@@ -8,7 +8,7 @@ const Summary = () => {
   const closeModal = () => setModalOpen(null);
 
   let modal: React.ReactElement<any> | null;
-  if (modalOpen === ModalType.Download) {
+  if (modalOpen === ModalType.DownloadImage) {
     modal = (
       <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
         <h1>Download image or data</h1>
@@ -18,12 +18,6 @@ const Summary = () => {
     modal = (
       <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
         <h1>Display data disclaimer</h1>
-      </BasicModal>
-    );
-  } else if (modalOpen === ModalType.Settings) {
-    modal = (
-      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
-        <h1>Adjust Visualization Settings</h1>
       </BasicModal>
     );
   } else {
@@ -36,9 +30,8 @@ const Summary = () => {
         Quick facts and Summary
       </h1>
       <UtiltyBar
-        onDownloadImageButtonClick={() => setModalOpen(ModalType.Download)}
+        onDownloadImageButtonClick={() => setModalOpen(ModalType.DownloadImage)}
         onDataButtonClick={() => setModalOpen(ModalType.Data)}
-        onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
       />
       {modal}
     </DefaultContentWrapper>

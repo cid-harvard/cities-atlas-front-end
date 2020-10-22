@@ -141,7 +141,7 @@ const EconomicComposition = () => {
   const globalLocationData = useGlobalLocationData();
 
   let modal: React.ReactElement<any> | null;
-  if (modalOpen === ModalType.Download && cityId !== null && treeMapRef.current) {
+  if (modalOpen === ModalType.DownloadImage && cityId !== null && treeMapRef.current) {
     const cellsNode = treeMapRef.current.querySelector('div.react-canvas-tree-map-masterContainer');
     if (cellsNode) {
       const targetCity = globalLocationData.data && globalLocationData.data.cities.find(c => c.cityId === cityId);
@@ -167,10 +167,10 @@ const EconomicComposition = () => {
         <h1>Display data disclaimer</h1>
       </BasicModal>
     );
-  } else if (modalOpen === ModalType.Settings) {
+  } else if (modalOpen === ModalType.DownloadData) {
     modal = (
       <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
-        <h1>Adjust Visualization Settings</h1>
+        <h1>DownloadData</h1>
       </BasicModal>
     );
   } else {
@@ -295,10 +295,10 @@ const EconomicComposition = () => {
       </ContentGrid>
       <UtiltyBar
         onDownloadImageButtonClick={
-          cityId !== null && treeMapRef.current ? () => setModalOpen(ModalType.Download) : noop
+          cityId !== null && treeMapRef.current ? () => setModalOpen(ModalType.DownloadImage) : noop
         }
         onDataButtonClick={() => setModalOpen(ModalType.Data)}
-        onSettingsButtonClick={() => setModalOpen(ModalType.Settings)}
+        onDownloadDataButtonClick={() => setModalOpen(ModalType.DownloadData)}
       />
       {modal}
     </DefaultContentWrapper>

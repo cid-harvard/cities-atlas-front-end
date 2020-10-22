@@ -27,6 +27,8 @@ const Root = styled.div`
   display: grid;
   grid-template-columns: 1fr 1fr auto;
   grid-gap: 1rem;
+  height: 100%;
+  align-items: center;
 `;
 
 const LoadingContainer = styled.div`
@@ -74,9 +76,9 @@ const AddComparisonButton = styled(ButtonBase)`
 `;
 
 const RemoveComparisonButton = styled(ButtonBase)`
-  font-size: 1rem;
   color: ${errorColor};
   outline: 0 solid rgba(255, 255, 255, 0);
+  font-size: clamp(0.65rem, 1vw, 1rem);
 
   &:before {
     font-size: 1.5rem;
@@ -86,6 +88,10 @@ const RemoveComparisonButton = styled(ButtonBase)`
   &:hover, &:focus {
     background-color: #fff;
     outline: 0.25rem solid #fff;
+  }
+
+  @media (max-width: 1280px) {
+    max-width: 90px;
   }
 `;
 

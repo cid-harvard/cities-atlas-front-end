@@ -8,7 +8,7 @@ import {
   tertiaryColor,
   lightBaseColor,
 } from '../../../styling/styleUtils';
-import {UtilityBarPortal} from './UtilityBar';
+import {UtilityBarPortal, columnsToRowsBreakpoint} from './UtilityBar';
 import CitySearch from './CitySearch';
 import {
   Route,
@@ -25,13 +25,19 @@ const Root = styled(SecondaryHeaderContainer)`
   grid-gap: 0.7rem;
   pointer-events: auto;
 
-  @media (max-width: 900px) {
+  @media (max-width: 1100px) {
     padding: ${defaultPadding * 0.5}rem;
+  }
+
+  @media (max-width: ${columnsToRowsBreakpoint}px) {
+    grid-template-columns: auto;
+    grid-rows-columns: auto auto;
+    padding-bottom: 0.45rem;
   }
 `;
 
 const SearchContainer = styled.div`
-  max-width: 650px;
+  max-width: 800px;
   width: 100%;
   font-family: ${secondaryFont};
 

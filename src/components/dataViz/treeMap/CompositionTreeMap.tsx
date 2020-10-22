@@ -94,8 +94,10 @@ const CompositionTreeMap = (props: Props) => {
   useEffect(() => {
     const node = rootRef.current;
     if (node) {
-      const {width, height} = node.getBoundingClientRect();
-      setDimensions({width, height});
+      setTimeout(() => {
+        const {width, height} = node.getBoundingClientRect();
+        setDimensions({width, height});
+      }, 0);
     }
   }, [rootRef, windowDimensions]);
 

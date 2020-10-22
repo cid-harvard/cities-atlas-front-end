@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState, useContext} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import { createPortal } from 'react-dom';
 import {
   secondaryFont,
@@ -6,21 +6,27 @@ import {
 } from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import raw from 'raw.macro';
-import AppContext from '../../../contextProviders/appContext';
 import useFluent from '../../../hooks/useFluent';
 
 const mediumBreakpoint = 1180; // in px
 const mediumSmallBreakpoint = 1050; // in px
-const textBreakpoint = 840; // in px
+export const columnsToRowsBreakpoint = 950; // in px
 const smallBreakpoint = 550; // in px
 
-const downloadIconSvg = raw('../../../assets/icons/download.svg');
-const dataIconSvg = raw('../../../assets/icons/warning.svg');
-const settingsIconSvg = raw('../../../assets/icons/settings.svg');
+const shareIconSvg = raw('../../../assets/icons/share.svg');
+const expandIconSvg = raw('../../../assets/icons/expand.svg');
+const guideIconSvg = raw('../../../assets/icons/guide.svg');
+const downloadImageIconSvg = raw('../../../assets/icons/image-download.svg');
+const downloadDataIconSvg = raw('../../../assets/icons/download.svg');
+const dataIconSvg = raw('../../../assets/icons/disclaimer.svg');
 
 const UtilityBarRoot = styled.div`
   display: flex;
   align-items: center;
+
+  @media (max-width: ${columnsToRowsBreakpoint}px) {
+    justify-content: center;
+  }
 `;
 
 const ButtonBase = styled.button`
@@ -28,13 +34,14 @@ const ButtonBase = styled.button`
   margin: 0 0.25rem;
   padding: 0.35rem;
   background-color: transparent;
-  font-size: 0.85rem;
+  font-size: clamp(0.65rem, 1vw, 0.85rem);
   font-family: ${secondaryFont};
   text-transform: uppercase;
   display: flex;
   align-items: center;
   outline: 0 solid rgba(255, 255, 255, 0);
   transition: outline 0.1s ease;
+  flex-shrink: 1;
 
   &:hover, &:focus {
     background-color: #fff;
@@ -42,43 +49,19 @@ const ButtonBase = styled.button`
   }
 
   @media (max-width: ${mediumBreakpoint}px) {
-    font-size: 0.75rem;
     padding: 0.25rem;
   }
 
   @media (max-width: ${mediumSmallBreakpoint}px) {
     flex-direction: column;
   }
-`;
 
-const SettingsButton = styled(ButtonBase)`
-  font-size: 1rem;
-
-  @media (max-width: ${mediumBreakpoint}px) {
-    font-size: 0.75rem;
-  }
-`;
-
-const segmentBorder = `solid 1px ${baseColor}`;
-
-const SegmentContainer = styled.div<{$hasSettings: boolean}>`
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding: 0 1rem;
-  border-left: ${segmentBorder};
-  ${({$hasSettings}) => $hasSettings ? 'border-right:' + segmentBorder + ';' : ''}
-  ${({$hasSettings}) => $hasSettings ? 'margin-right: 1rem;' : ''}
-
-  @media (max-width: ${mediumBreakpoint}px) {
-    padding: 0 0.5rem;
-    ${({$hasSettings}) => $hasSettings ? 'margin-right: 0.5rem;' : ''}
+  @media (max-width: ${columnsToRowsBreakpoint}px) {
+    flex-direction: row;
   }
 
   @media (max-width: ${smallBreakpoint}px) {
-    border-right: none;
-    margin-right: 0;
-    padding-right: 0;
+    flex-direction: column;
   }
 `;
 
@@ -101,11 +84,54 @@ const SvgBase = styled.span`
     margin-right: 0;
     margin-bottom: 0.2rem;
   }
+
+  @media (max-width: ${columnsToRowsBreakpoint}px) {
+    margin-right: 0.3rem;
+    margin-bottom: 0;
+  }
+
+  @media (max-width: ${smallBreakpoint}px) {
+    margin-right: 0;
+    margin-bottom: 0.2rem;
+  }
+`;
+
+const DisclaimerSvg = styled(SvgBase)`
+  width: 1.2rem;
+  height: 1.2rem;
+
+  svg {
+    .cls-1 {
+      fill: none;
+      stroke: ${baseColor};
+    }
+  }
+
+  @media (max-width: ${mediumSmallBreakpoint}px) {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+
+const LargeSvg = styled(SvgBase)`
+  width: 1.4rem;
+  height: 1.4rem;
+
+  @media (max-width: ${mediumSmallBreakpoint}px) {
+    width: 1rem;
+    height: 1rem;
+  }
 `;
 
 const Text = styled.span`
-  @media (max-width: ${smallBreakpoint}px) {
-    display: none;
+  max-width: 80px;
+
+  @media (max-width: 1100px) {
+    max-width: 65px;
+  }
+
+  @media (max-width: ${mediumSmallBreakpoint}px) {
+    text-align: center;
   }
 `;
 
@@ -118,22 +144,21 @@ export const UtilityBarPortal = () => (
 );
 
 export enum ModalType {
-  Download = 'download',
+  DownloadImage = 'downloadimage',
+  DownloadData = 'downloaddata',
   Data = 'data',
-  Settings = 'settings',
 }
 
 interface Props {
   onDownloadImageButtonClick?: () => void;
+  onDownloadDataButtonClick?: () => void;
   onDataButtonClick?: () => void;
-  onSettingsButtonClick?: () => void;
 }
 
 const UtilityBar = (props: Props) => {
   const {
-    onDownloadImageButtonClick, onDataButtonClick, onSettingsButtonClick,
+    onDownloadImageButtonClick, onDownloadDataButtonClick, onDataButtonClick,
   } = props;
-  const {windowDimensions} = useContext(AppContext);
   const getString = useFluent();
 
   const secondaryHeaderUtilityBarContainerNodeRef = useRef<HTMLElement | null>(null);
@@ -148,10 +173,21 @@ const UtilityBar = (props: Props) => {
     }
   }, []);
 
+  const downloadDataButton = onDownloadDataButtonClick ? (
+    <ButtonBase onClick={onDownloadDataButtonClick}>
+      <SvgBase
+        dangerouslySetInnerHTML={{__html: downloadDataIconSvg}}
+      />
+      <Text>
+        {getString('global-ui-download-data')}
+      </Text>
+    </ButtonBase>
+  ) : null;
+
   const downloadImageButton = onDownloadImageButtonClick ? (
     <ButtonBase onClick={onDownloadImageButtonClick}>
-      <SvgBase
-        dangerouslySetInnerHTML={{__html: downloadIconSvg}}
+      <LargeSvg
+        dangerouslySetInnerHTML={{__html: downloadImageIconSvg}}
       />
       <Text>
         {getString('global-ui-download-image')}
@@ -159,53 +195,49 @@ const UtilityBar = (props: Props) => {
     </ButtonBase>
   ) : null;
 
-  const dataText = windowDimensions.width > textBreakpoint
-    ? getString('global-ui-data-disclaimer')
-    : getString('global-ui-data-notes');
 
-  const dataButton = onDataButtonClick ? (
+  const dataDisclaimerButton = onDataButtonClick ? (
     <ButtonBase onClick={onDataButtonClick}>
-      <SvgBase
+      <DisclaimerSvg
         dangerouslySetInnerHTML={{__html: dataIconSvg}}
       />
       <Text>
-        {dataText}
+        {getString('global-ui-data-disclaimer')}
       </Text>
     </ButtonBase>
   ) : null;
-
-  const settingsText = windowDimensions.width > textBreakpoint
-    ? getString('global-ui-visualization-settings')
-    : getString('global-ui-settings');
-
-  const settingsButton = onSettingsButtonClick ? (
-    <SettingsButton onClick={onSettingsButtonClick}>
-      <SvgBase
-        dangerouslySetInnerHTML={{__html: settingsIconSvg}}
-      />
-      <Text>
-        {settingsText}
-      </Text>
-    </SettingsButton>
-  ) : null;
-
-  const downloadAndDataSegment = downloadImageButton || dataButton ? (
-    <SegmentContainer
-      $hasSettings={settingsButton ? true : false}
-    >
-      {downloadImageButton}
-      {dataButton}
-    </SegmentContainer>
-  ) : null;
-
-
 
   let content: React.ReactElement<any> | null;
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
     content = createPortal((
       <>
-        {downloadAndDataSegment}
-        {settingsButton}
+        <ButtonBase>
+          <SvgBase
+            dangerouslySetInnerHTML={{__html: shareIconSvg}}
+          />
+          <Text>
+            {getString('global-ui-share')}
+          </Text>
+        </ButtonBase>
+        <ButtonBase>
+          <SvgBase
+            dangerouslySetInnerHTML={{__html: expandIconSvg}}
+          />
+          <Text>
+            {getString('global-ui-expand')}
+          </Text>
+        </ButtonBase>
+        <ButtonBase>
+          <LargeSvg
+            dangerouslySetInnerHTML={{__html: guideIconSvg}}
+          />
+          <Text>
+            {getString('global-ui-guide')}
+          </Text>
+        </ButtonBase>
+        {downloadImageButton}
+        {downloadDataButton}
+        {dataDisclaimerButton}
       </>
     ), secondaryHeaderUtilityBarContainerNodeRef.current);
   } else {
