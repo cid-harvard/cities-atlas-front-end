@@ -9,6 +9,7 @@ global-ui-select-a-city-name = Select a city
 global-ui-select-a-group = Select an existing group
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
+global-ui-search-an-industry-in-graph = Find industry in graph
 global-ui-download = Download
 global-ui-download-image = Image Download
 global-ui-download-data = Data Download
@@ -24,6 +25,8 @@ global-ui-close = Close
 global-ui-continue = Continue
 
 global-ui-or = Or
+global-ui-total = Total
+global-ui-read-chart = Read this chart
 
 global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison

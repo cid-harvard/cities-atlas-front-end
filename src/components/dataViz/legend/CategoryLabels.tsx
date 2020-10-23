@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import Label, {CategoryDatum} from './Label';
+import {breakPoints} from '../../../styling/GlobalGrid';
 
 const Root = styled.div`
   grid-row: 3;
@@ -11,6 +12,11 @@ const Root = styled.div`
   justify-content: center;
   box-sizing: border-box;
   padding: 1rem 0 0;
+
+  @media ${breakPoints.small} {
+    grid-row: 4;
+    grid-column: 1;
+  }
 `;
 
 interface Props {

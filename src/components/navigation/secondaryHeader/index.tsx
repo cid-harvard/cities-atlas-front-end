@@ -42,10 +42,15 @@ const SearchContainer = styled(SearchContainerLight)`
 
   .react-panel-search-search-bar-input {
     background-color: ${backgroundMedium};
+    padding: 0.4rem 0.5rem;
 
     &:focus::placeholder {
       color: ${backgroundMedium};
     }
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    display: none;
   }
 
   .react-panel-search-search-bar-dropdown-arrow,

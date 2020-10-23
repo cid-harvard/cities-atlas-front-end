@@ -20,6 +20,9 @@ import Tooltip from '../../general/Tooltip';
 import ErrorBoundary from './ErrorBoundary';
 import useFluent from '../../../hooks/useFluent';
 import {numberWithCommas} from '../../../Utils';
+import {breakPoints} from '../../../styling/GlobalGrid';
+import PreChartRow, {Indicator} from '../../../components/general/PreChartRow';
+import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
 
 const Root = styled.div`
   width: 100%;
@@ -27,6 +30,11 @@ const Root = styled.div`
   grid-column: 1;
   grid-row: 2;
   position: relative;
+
+  @media ${breakPoints.small} {
+    grid-row: 3;
+    grid-column: 1;
+  }
 `;
 
 const TreeMapContainer = styled.div`
@@ -79,10 +87,16 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
+  openVizSettingsModal?: () => void;
+  openHowToReadModal?: () => void;
+  setHighlighted: (value: string | undefined) => void;
 }
 
 const CompositionTreeMap = (props: Props) => {
-  const {cityId, year, digitLevel, compositionType, highlighted, hiddenSectors} = props;
+  const {
+    cityId, year, digitLevel, compositionType, highlighted, hiddenSectors,
+    openHowToReadModal, setHighlighted, openVizSettingsModal,
+  } = props;
   const industryMap = useGlobalIndustryMap();
   const getString = useFluent();
   const windowDimensions = useWindowWidth();
@@ -112,10 +126,20 @@ const CompositionTreeMap = (props: Props) => {
     dataToUse = undefined;
   }
 
+  const indicator: Indicator = {
+    text: undefined,
+    tooltipContent: undefined,
+  };
   let output: React.ReactElement<any> | null;
   if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
+    indicator.text = (
+      <>
+        {getString('global-ui-total') + ': '}<SimpleTextLoading />
+      </>
+    );
     output = <LoadingBlock />;
   } else if (error !== undefined) {
+    indicator.text = getString('global-ui-total') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -123,6 +147,7 @@ const CompositionTreeMap = (props: Props) => {
     );
     console.error(error);
   }  else if (industryMap.error !== undefined) {
+    indicator.text = getString('global-ui-total') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -132,6 +157,7 @@ const CompositionTreeMap = (props: Props) => {
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
     const treeMapData: Inputs['data'] = [];
+    let total = 0;
     industries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
       if (industry && industry.level === digitLevel) {
@@ -139,6 +165,7 @@ const CompositionTreeMap = (props: Props) => {
         if (!hiddenSectors.includes(topLevelParentId)) {
           const companies = numCompany ? numCompany : 0;
           const employees = numEmploy ? numEmploy : 0;
+          total = compositionType === CompositionType.Companies ? total + companies : total + employees;
           treeMapData.push({
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
@@ -149,13 +176,13 @@ const CompositionTreeMap = (props: Props) => {
       }
     });
     if (!treeMapData.length) {
+      indicator.text = getString('global-ui-total') + ': ―';
       output = (
         <LoadingOverlay>
           <SimpleError fluentMessageId={'global-ui-error-no-sectors-selected'} />
         </LoadingOverlay>
       );
     } else {
-
       const transformed = transformData({
         data: treeMapData,
         width: dimensions.width,
@@ -193,6 +220,12 @@ const CompositionTreeMap = (props: Props) => {
         }
       };
 
+      indicator.text = loading ? (
+        <>
+          {getString('global-ui-total') + ': '}<SimpleTextLoading />
+        </>
+      ) : `${getString('global-ui-total')}: ${numberWithCommas(total)} ${compositionType.toLowerCase()}`;
+      indicator.tooltipContent = 'About the Total';
       output = (
         <TreeMapContainer>
           <Tooltip
@@ -221,7 +254,17 @@ const CompositionTreeMap = (props: Props) => {
   }
 
   return (
-    <Root ref={rootRef}>{output}</Root>
+    <>
+      <PreChartRow
+        onReadThisChart={openHowToReadModal}
+        indicator={indicator}
+        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
+        onOpenSettings={openVizSettingsModal}
+      />
+      <Root ref={rootRef}>
+        {output}
+      </Root>
+    </>
   );
 };
 

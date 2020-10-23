@@ -5,7 +5,7 @@ const CompositionComparison = () => {
     <>
       CompositionComparison
     </>
-  )
-}
+  );
+};
 
 export default CompositionComparison;

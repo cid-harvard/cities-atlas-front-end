@@ -64,7 +64,7 @@ export const ContentGrid = styled.div`
   }
 
   @media ${breakPoints.small} {
-    grid-template-rows: auto 80vh auto;
+    grid-template-rows: auto auto 80vh auto;
     grid-template-columns: 1fr;
   }
 `;
@@ -194,10 +194,6 @@ export const SearchContainerLight = styled.div`
     font-family: ${secondaryFont};
   }
 
-  .react-panel-search-search-bar-search-icon {
-    display: none;
-  }
-
   .react-panel-search-search-bar-input {
     text-transform: uppercase;
     font-weight: 400;
@@ -205,7 +201,6 @@ export const SearchContainerLight = styled.div`
     border: solid 1px ${lightBaseColor};
     box-shadow: none;
     outline: none;
-    padding: 0.4rem 0.5rem;
 
     &:focus::placeholder {
       color: ${backgroundMedium};

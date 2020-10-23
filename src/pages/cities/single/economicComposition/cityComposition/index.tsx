@@ -10,31 +10,18 @@ import {
   ContentGrid,
   secondaryFont,
   lightBaseColor,
-  SearchContainerLight,
 } from '../../../../../styling/styleUtils';
 import {DigitLevel, ClassificationNaicsIndustry} from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import SimpleError from '../../../../../components/transitionStateComponents/SimpleError';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import styled from 'styled-components/macro';
-import SimpleLoader from '../../../../../components/transitionStateComponents/SimpleLoader';
-import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
-import {
-  useGlobalIndustryHierarchicalTreeData,
-} from '../../../../../hooks/useGlobalIndustriesData';
 import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
-import useFluent from '../../../../../hooks/useFluent';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import {LoadingOverlay} from '../../../../../components/transitionStateComponents/VizLoadingBlock';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
 
-const LoadingContainer = styled.div`
-  border: solid 1px ${lightBaseColor};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
 
 const Label = styled.label`
   font-size: 0.8rem;
@@ -52,11 +39,6 @@ const Select = styled.select`
   margin-bottom: 2rem;
   border: solid 1px ${lightBaseColor};
   border-radius: 0;
-`;
-
-const SearchContainer = styled(SearchContainerLight)`
-  max-width: 280px;
-  margin-bottom: 2rem;
 `;
 
 const TreeMapRoot = styled.div`
@@ -80,8 +62,6 @@ const EconomicComposition = () => {
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
   const closeModal = () => setModalOpen(null);
   const cityId = useCurrentCityId();
-  const industrySearchData = useGlobalIndustryHierarchicalTreeData();
-  const getString = useFluent();
   const treeMapRef = useRef<HTMLDivElement | null>(null);
   const globalLocationData = useGlobalLocationData();
 
@@ -118,57 +98,35 @@ const EconomicComposition = () => {
         <h1>DownloadData</h1>
       </BasicModal>
     );
+  } else if (modalOpen === ModalType.HowToRead) {
+    modal = (
+      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
+        <h1>Read this Chart</h1>
+      </BasicModal>
+    );
+  } else if (modalOpen === ModalType.Settings) {
+    modal = (
+      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
+        <h1>Viz Settings</h1>
+        <Label>Digit Level</Label>
+        <Select value={digitLevel} onChange={(e) => setDigitLevel(parseInt(e.target.value, 10))}>
+          <option value='1'>1 (Sector)</option>
+          <option value='2'>2</option>
+          <option value='3'>3</option>
+          <option value='4'>4</option>
+          <option value='5'>5</option>
+          <option value='6'>6</option>
+        </Select>
+
+        <Label>Values based on number of</Label>
+        <Select value={compositionType} onChange={(e) => setCompositionType(e.target.value as CompositionType)}>
+          <option value={CompositionType.Companies}>{CompositionType.Companies}</option>
+          <option value={CompositionType.Employees}>{CompositionType.Employees}</option>
+        </Select>
+      </BasicModal>
+    );
   } else {
     modal = null;
-  }
-
-  let searchPanel: React.ReactElement<any> | null;
-  if (industrySearchData.loading) {
-    searchPanel = (
-      <LoadingContainer>
-        <SimpleLoader />
-      </LoadingContainer>
-    );
-  } else if (industrySearchData.error !== undefined) {
-    console.error(industrySearchData.error);
-    searchPanel = (
-      <LoadingContainer>
-        <SimpleError />
-      </LoadingContainer>
-    );
-  } else if (hiddenSectors.length === sectorMap.length) {
-    searchPanel = (
-      <LoadingContainer>
-        <SimpleError fluentMessageId={'error-message-no-industries'} />
-      </LoadingContainer>
-    );
-  } else if (industrySearchData.data !== undefined) {
-    const onSelect = (d: {id: string | number} | null) => {
-      if (d) {
-        setHighlighted(d.id as string);
-      } else {
-        setHighlighted(undefined);
-      }
-    };
-    const searchData: SearchDatum[] = industrySearchData.data.filter(
-      ({level, id}) => level <= digitLevel && !hiddenSectors.includes(id as string),
-    );
-    const disallowSelectionLevels = digitLevel
-      ? Array.from(Array(digitLevel).keys()) : undefined;
-    searchPanel = (
-      <PanelSearch
-        data={searchData}
-        topLevelTitle={getString('global-text-industries')}
-        disallowSelectionLevels={disallowSelectionLevels}
-        defaultPlaceholderText={getString('global-ui-type-an-industry')}
-        showCount={true}
-        resultsIdentation={1.75}
-        onSelect={onSelect}
-        maxResults={500}
-      />
-    );
-  } else {
-    searchPanel = null;
   }
 
   let treeMap: React.ReactElement<any>;
@@ -182,6 +140,9 @@ const EconomicComposition = () => {
           compositionType={compositionType}
           highlighted={highlighted}
           hiddenSectors={hiddenSectors}
+          openVizSettingsModal={() => setModalOpen(ModalType.Settings)}
+          openHowToReadModal={() => setModalOpen(ModalType.HowToRead)}
+          setHighlighted={setHighlighted}
         />
       </TreeMapRoot>
     );
@@ -199,35 +160,8 @@ const EconomicComposition = () => {
         <StandardSideTextBlock>
           <h2>Employment &amp; Industry Composition</h2>
 
-          <Label>Find in graph</Label>
-          <SearchContainer>
-            {searchPanel}
-          </SearchContainer>
-
-          <Label>Digit Level</Label>
-          <Select value={digitLevel} onChange={(e) => setDigitLevel(parseInt(e.target.value, 10))}>
-            <option value='1'>1 (Sector)</option>
-            <option value='2'>2</option>
-            <option value='3'>3</option>
-            <option value='4'>4</option>
-            <option value='5'>5</option>
-            <option value='6'>6</option>
-          </Select>
-
-          <Label>Values based on number of</Label>
-          <Select value={compositionType} onChange={(e) => setCompositionType(e.target.value as CompositionType)}>
-            <option value={CompositionType.Companies}>{CompositionType.Companies}</option>
-            <option value={CompositionType.Employees}>{CompositionType.Employees}</option>
-          </Select>
           {/* eslint-disable-next-line */}
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-          {/* eslint-disable-next-line */}
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
-          {/* eslint-disable-next-line */}
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-
 
         </StandardSideTextBlock>
         {treeMap}

@@ -147,6 +147,8 @@ export enum ModalType {
   DownloadImage = 'downloadimage',
   DownloadData = 'downloaddata',
   Data = 'data',
+  HowToRead = 'howtoread',
+  Settings = 'settings',
 }
 
 interface Props {
