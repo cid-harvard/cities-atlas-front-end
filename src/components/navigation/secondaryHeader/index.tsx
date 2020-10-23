@@ -5,8 +5,7 @@ import {
   backgroundMedium,
   defaultPadding,
   secondaryFont,
-  tertiaryColor,
-  lightBaseColor,
+  SearchContainerLight,
 } from '../../../styling/styleUtils';
 import {UtilityBarPortal, columnsToRowsBreakpoint} from './UtilityBar';
 import CitySearch from './CitySearch';
@@ -36,66 +35,24 @@ const Root = styled(SecondaryHeaderContainer)`
   }
 `;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled(SearchContainerLight)`
   max-width: 800px;
   width: 100%;
   font-family: ${secondaryFont};
 
-  .react-panel-search-search-bar-input,
-  button {
-    font-family: ${secondaryFont};
-  }
-
-  .react-panel-search-search-bar-search-icon {
-    display: none;
-  }
-
   .react-panel-search-search-bar-input {
-    text-transform: uppercase;
-    font-weight: 400;
-    font-size: 1rem;
     background-color: ${backgroundMedium};
-    border: solid 1px ${lightBaseColor};
-    box-shadow: none;
-    outline: none;
-    padding: 0.4rem 0.5rem;
 
     &:focus::placeholder {
       color: ${backgroundMedium};
     }
   }
 
-  .react-panel-search-current-tier-breadcrumb-outer,
-  .react-panel-search-next-button,
-  .react-panel-search-search-bar-dropdown-arrow {
-    svg polyline {
-      stroke: ${lightBaseColor};
-    }
-  }
-  .react-panel-search-search-bar-dropdown-arrow {
-    width: 1rem;
-  }
   .react-panel-search-search-bar-dropdown-arrow,
   .react-panel-search-search-bar-clear-button {
     background-color: ${backgroundMedium};
   }
 
-  .react-panel-search-search-bar-search-icon {
-    svg path {
-      fill: ${lightBaseColor};
-    }
-  }
-
-  .react-panel-search-search-results {
-    border-left: solid 1px ${lightBaseColor};
-    border-right: solid 1px ${lightBaseColor};
-    border-bottom: solid 1px ${lightBaseColor};
-  }
-
-  .react-panel-search-current-tier-title,
-  .react-panel-search-current-tier-breadcrumb-outer {
-    border-color: ${tertiaryColor};
-  }
 `;
 
 const SecondaryHeader = () => {

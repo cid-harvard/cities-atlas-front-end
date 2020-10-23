@@ -17,11 +17,11 @@ import {
 import {
   CityRoutes,
   cityIdParam,
-  GlobalQueryParams,
 } from '../../../routing/routes';
 import {ValueOfCityRoutes, createRoute} from '../../../routing/Utils';
 import queryString from 'query-string';
 import AddComparisonModal from './AddComparisonModal';
+import useQueryParams from '../../../hooks/useQueryParams';
 
 const Root = styled.div`
   display: grid;
@@ -99,7 +99,7 @@ const SecondaryHeader = () => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const history = useHistory();
-  const { compare_city, ...otherParams } = queryString.parse(history.location.search) as unknown as GlobalQueryParams;
+  const { compare_city, ...otherParams } = useQueryParams();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const {loading, error, data} = useGlobalLocationHierarchicalTreeData();

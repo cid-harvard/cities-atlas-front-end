@@ -14,9 +14,7 @@ import {
   useHistory,
 } from 'react-router-dom';
 import queryString from 'query-string';
-import {
-  GlobalQueryParams,
-} from '../../../routing/routes';
+import useQueryParams from '../../../hooks/useQueryParams';
 
 const mobileWidth = 750; // in px
 
@@ -162,7 +160,7 @@ const AddComparisonModal = (props: Props) => {
   const [selectedCountry, setSelectedCountry] = useState<Datum | null>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
-  const { compare_city, ...otherParams } = queryString.parse(history.location.search) as unknown as GlobalQueryParams;
+  const { compare_city, ...otherParams } = useQueryParams();
 
   const currentCity = globalData ? globalData.cities.find(c => c.cityId === cityId) : undefined;
   const name = currentCity ? currentCity.name : '';

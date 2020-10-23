@@ -3,7 +3,7 @@ import {PrimaryHeaderContainer} from '../../../styling/GlobalGrid';
 import styled from 'styled-components';
 import {
   secondaryFont,
-  tertiaryColor,
+  primaryColor,
   backgroundDark,
   defaultPadding,
 } from '../../../styling/styleUtils';
@@ -23,7 +23,7 @@ const Root = styled(PrimaryHeaderContainer)`
   display: flex;
   flex-direction: row-reverse;
   justify-content: space-between;
-  border-bottom: solid 3px ${tertiaryColor};
+  border-bottom: solid 3px ${primaryColor};
   padding-top: 1rem;
   padding-right: ${defaultPadding}rem;
   box-sizing: border-box;
@@ -55,7 +55,7 @@ const H2 = styled.h2`
   display: flex;
   align-items: flex-end;
   margin: 0;
-  border-bottom: solid 0.4rem ${tertiaryColor};
+  border-bottom: solid 0.4rem ${primaryColor};
   font-size: 1.35rem;
   color: #fff;
   line-height: 1;

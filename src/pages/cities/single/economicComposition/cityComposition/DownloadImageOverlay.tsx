@@ -3,14 +3,14 @@ import styled from 'styled-components/macro';
 import {
   useEconomicCompositionQuery,
   CompositionType,
-} from '../../../../components/dataViz/treeMap/CompositionTreeMap';
-import LoadingBlock from '../../../../components/transitionStateComponents/VizLoadingBlock';
+} from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
+import LoadingBlock from '../../../../../components/transitionStateComponents/VizLoadingBlock';
 import {transformData, Inputs} from 'react-canvas-treemap';
 import {
   useGlobalIndustryMap,
-} from '../../../../hooks/useGlobalIndustriesData';
-import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
-import {sectorColorMap} from '../../../../styling/styleUtils';
+} from '../../../../../hooks/useGlobalIndustriesData';
+import {DigitLevel} from '../../../../../types/graphQL/graphQLTypes';
+import {sectorColorMap} from '../../../../../styling/styleUtils';
 import html2canvas from 'html2canvas';
 
 const Root = styled.div`

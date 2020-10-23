@@ -7,7 +7,7 @@ import {
 import {
   secondaryFont,
   baseColor,
-  linkColor,
+  primaryColorLight,
   lightBorderColor,
 } from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
@@ -119,7 +119,7 @@ const NavLink = styled(Link)`
     position: absolute;
     width: 200%;
     height: 100%;
-    background-color: ${linkColor};
+    background-color: ${primaryColorLight};
     left: -250%;
     transition: all 0.2s ease;
   }

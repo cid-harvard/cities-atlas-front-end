@@ -1,4 +1,5 @@
 import styled, {keyframes, css} from 'styled-components/macro';
+import {rgba} from 'polished';
 import {breakPoints} from './GlobalGrid';
 
 export const baseColor = '#333333'; // dark gray/black color for text
@@ -8,8 +9,9 @@ export const mapLabelColor = '#04151b'; // dark blue/black
 
 export const hoverBackgroundColor = '#f3f3f3'; // really light gray color for use as a hover background color on cards
 
-export const primaryColor = '#f89570'; // blue/teal
-export const secondaryColor = '#3b848d'; // orange
+export const primaryColor = '#f89570'; // orange
+export const primaryColorLight = rgba('#f89570', 0.4); // light orange
+export const secondaryColor = '#3b848d'; // blue/teal
 export const tertiaryColor = '#cfbc3c'; // yellow
 
 export const backgroundMedium = '#e6e7e8'; // dark blue gray
@@ -180,5 +182,61 @@ export const SearchContainerDark = styled.div`
     .react-panel-search-highlighted-item:not(:hover) {
       background-color: transparent;
     }
+  }
+`;
+
+export const SearchContainerLight = styled.div`
+  width: 100%;
+  font-family: ${secondaryFont};
+
+  .react-panel-search-search-bar-input,
+  button {
+    font-family: ${secondaryFont};
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    display: none;
+  }
+
+  .react-panel-search-search-bar-input {
+    text-transform: uppercase;
+    font-weight: 400;
+    font-size: 1rem;
+    border: solid 1px ${lightBaseColor};
+    box-shadow: none;
+    outline: none;
+    padding: 0.4rem 0.5rem;
+
+    &:focus::placeholder {
+      color: ${backgroundMedium};
+    }
+  }
+
+  .react-panel-search-current-tier-breadcrumb-outer,
+  .react-panel-search-next-button,
+  .react-panel-search-search-bar-dropdown-arrow {
+    svg polyline {
+      stroke: ${lightBaseColor};
+    }
+  }
+  .react-panel-search-search-bar-dropdown-arrow {
+    width: 1rem;
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    svg path {
+      fill: ${lightBaseColor};
+    }
+  }
+
+  .react-panel-search-search-results {
+    border-left: solid 1px ${lightBaseColor};
+    border-right: solid 1px ${lightBaseColor};
+    border-bottom: solid 1px ${lightBaseColor};
+  }
+
+  .react-panel-search-current-tier-title,
+  .react-panel-search-current-tier-breadcrumb-outer {
+    border-color: ${primaryColor};
   }
 `;

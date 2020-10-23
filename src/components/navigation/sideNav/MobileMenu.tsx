@@ -11,7 +11,7 @@ import {
 import {Props as BaseProps} from './';
 import {
   baseColor,
-  linkColor,
+  primaryColorLight,
   secondaryFont,
 } from '../../../styling/styleUtils';
 import raw from 'raw.macro';
@@ -35,7 +35,7 @@ const MobileButtonContainer = styled.div`
 `;
 
 const MobileButton = styled.button`
-  background-color: ${linkColor};
+  background-color: ${primaryColorLight};
   border: none;
   padding: 0.75rem 1.25rem;
   font-family: ${secondaryFont};
