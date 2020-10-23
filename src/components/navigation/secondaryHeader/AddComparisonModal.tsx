@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useRef} from 'react';
 import BasicModal from '../../standardModal/BasicModal';
 import styled from 'styled-components/macro';
 import {
@@ -157,7 +157,8 @@ const AddComparisonModal = (props: Props) => {
   const {closeModal, data} = props;
   const getString = useFluent();
   const cityId = useCurrentCityId();
-  const [selectedCountry, setSelectedCountry] = useState<Datum | null>(null);
+  const continueButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [selectedCity, setSelectedCity] = useState<Datum | null>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
   const { compare_city, ...otherParams } = useQueryParams();
@@ -165,9 +166,19 @@ const AddComparisonModal = (props: Props) => {
   const currentCity = globalData ? globalData.cities.find(c => c.cityId === cityId) : undefined;
   const name = currentCity ? currentCity.name : '';
 
+  const selectCity = (city: Datum | null) => {
+    setSelectedCity(city);
+    if (continueButtonRef && continueButtonRef.current) {
+      const node = continueButtonRef.current;
+      setTimeout(() => {
+        node.focus();
+      }, 0);
+    }
+  };
+
   const onContinue = () => {
-    if (selectedCountry) {
-      const query = queryString.stringify({...otherParams, compare_city: selectedCountry.id});
+    if (selectedCity) {
+      const query = queryString.stringify({...otherParams, compare_city: selectedCity.id});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal();
@@ -191,8 +202,8 @@ const AddComparisonModal = (props: Props) => {
                 resultsIdentation={1.75}
                 neverEmpty={false}
                 maxResults={500}
-                selectedValue={selectedCountry}
-                onSelect={setSelectedCountry}
+                selectedValue={selectedCity}
+                onSelect={selectCity}
               />
             </div>
             <Or>{getString('global-ui-or')}</Or>
@@ -203,8 +214,9 @@ const AddComparisonModal = (props: Props) => {
         </SearchContainerDark>
         <ContinueButtonContainer>
           <ContinueButton
-            disabled={!selectedCountry}
+
             onClick={onContinue}
+            ref={continueButtonRef}
           >
             {getString('global-ui-continue')}
           </ContinueButton>

@@ -7,6 +7,11 @@ export enum DigitLevel {
   Six = 6,
 }
 
+export enum CompositionType {
+  Companies = 'Companies',
+  Employees = 'Employees',
+}
+
 export interface ClassificationNaicsIndustry {
   naicsId: string;
   code: string | null;

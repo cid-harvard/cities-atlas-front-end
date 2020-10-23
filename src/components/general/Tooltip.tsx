@@ -54,6 +54,7 @@ const TooltipBase = styled.div`
   border: 1px solid ${lightBorderColor};
   border-radius: 4px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+  pointer-events: none;
 `;
 
 const ArrowContainer = styled.div`
@@ -100,7 +101,7 @@ const GenericSpan = styled.span`
 //#endregion
 
 interface Props {
-  explanation: React.ReactNode;
+  explanation: React.ReactNode | null;
   children?: React.ReactNode;
   cursor?: string;
 }

@@ -1,24 +1,19 @@
 import React, {useState, useRef} from 'react';
 import BasicModal from '../../../../../components/standardModal/BasicModal';
 import UtiltyBar, {ModalType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
-import CompositionTreeMap, {
-  CompositionType,
-} from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
-import useCurrentCityId from '../../../../../hooks/useCurrentCityId';
+import CompositionTreeMap from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
   secondaryFont,
   lightBaseColor,
 } from '../../../../../styling/styleUtils';
-import {DigitLevel, ClassificationNaicsIndustry} from '../../../../../types/graphQL/graphQLTypes';
+import {DigitLevel, ClassificationNaicsIndustry, CompositionType} from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
-import SimpleError from '../../../../../components/transitionStateComponents/SimpleError';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import styled from 'styled-components/macro';
 import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
 import useSectorMap from '../../../../../hooks/useSectorMap';
-import {LoadingOverlay} from '../../../../../components/transitionStateComponents/VizLoadingBlock';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
 
@@ -45,7 +40,12 @@ const TreeMapRoot = styled.div`
   display: contents;
 `;
 
-const EconomicComposition = () => {
+interface Props {
+  cityId: string;
+}
+
+const EconomicComposition = (props: Props) => {
+  const { cityId } = props;
   const [digitLevel, setDigitLevel] = useState<DigitLevel>(DigitLevel.Three);
   const [compositionType, setCompositionType] = useState<CompositionType>(CompositionType.Companies);
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
@@ -61,12 +61,11 @@ const EconomicComposition = () => {
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
   const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
   const closeModal = () => setModalOpen(null);
-  const cityId = useCurrentCityId();
   const treeMapRef = useRef<HTMLDivElement | null>(null);
   const globalLocationData = useGlobalLocationData();
 
   let modal: React.ReactElement<any> | null;
-  if (modalOpen === ModalType.DownloadImage && cityId !== null && treeMapRef.current) {
+  if (modalOpen === ModalType.DownloadImage && treeMapRef.current) {
     const cellsNode = treeMapRef.current.querySelector('div.react-canvas-tree-map-masterContainer');
     if (cellsNode) {
       const targetCity = globalLocationData.data && globalLocationData.data.cities.find(c => c.cityId === cityId);
@@ -129,31 +128,6 @@ const EconomicComposition = () => {
     modal = null;
   }
 
-  let treeMap: React.ReactElement<any>;
-  if (cityId !== null) {
-    treeMap = (
-      <TreeMapRoot ref={treeMapRef}>
-        <CompositionTreeMap
-          cityId={parseInt(cityId, 10)}
-          year={defaultYear}
-          digitLevel={digitLevel}
-          compositionType={compositionType}
-          highlighted={highlighted}
-          hiddenSectors={hiddenSectors}
-          openVizSettingsModal={() => setModalOpen(ModalType.Settings)}
-          openHowToReadModal={() => setModalOpen(ModalType.HowToRead)}
-          setHighlighted={setHighlighted}
-        />
-      </TreeMapRoot>
-    );
-  } else {
-    treeMap = (
-      <LoadingOverlay>
-        <SimpleError fluentMessageId={'global-ui-error-invalid-city'} />
-      </LoadingOverlay>
-    );
-  }
-
   return (
     <>
       <ContentGrid>
@@ -164,7 +138,19 @@ const EconomicComposition = () => {
           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
         </StandardSideTextBlock>
-        {treeMap}
+        <TreeMapRoot ref={treeMapRef}>
+          <CompositionTreeMap
+            cityId={parseInt(cityId, 10)}
+            year={defaultYear}
+            digitLevel={digitLevel}
+            compositionType={compositionType}
+            highlighted={highlighted}
+            hiddenSectors={hiddenSectors}
+            openVizSettingsModal={() => setModalOpen(ModalType.Settings)}
+            openHowToReadModal={() => setModalOpen(ModalType.HowToRead)}
+            setHighlighted={setHighlighted}
+          />
+        </TreeMapRoot>
         <CategoryLabels
           categories={sectorMap}
           toggleCategory={toggleSector}
@@ -184,4 +170,4 @@ const EconomicComposition = () => {
   );
 };
 
-export default EconomicComposition;
+export default React.memo(EconomicComposition);

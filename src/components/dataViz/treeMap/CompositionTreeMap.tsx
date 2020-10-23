@@ -7,6 +7,7 @@ import {
   CityIndustryYear,
   DigitLevel,
   ClassificationNaicsIndustry,
+  CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
@@ -17,7 +18,7 @@ import noop from 'lodash/noop';
 import SimpleError from '../../../components/transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Tooltip from '../../general/Tooltip';
-import ErrorBoundary from './ErrorBoundary';
+import ErrorBoundary from '../ErrorBoundary';
 import useFluent from '../../../hooks/useFluent';
 import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
@@ -74,11 +75,6 @@ interface Variables {
 
 export const useEconomicCompositionQuery = (variables: Variables) =>
   useQuery<SuccessResponse, Variables>(ECONOMIC_COMPOSITION_QUERY, { variables });
-
-export enum CompositionType {
-  Companies = 'Companies',
-  Employees = 'Employees',
-}
 
 interface Props {
   cityId: number;

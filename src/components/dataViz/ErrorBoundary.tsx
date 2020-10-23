@@ -1,6 +1,6 @@
 import React, { Component, ErrorInfo } from 'react';
-import SimpleError from '../../../components/transitionStateComponents/SimpleError';
-import {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
+import SimpleError from '../../components/transitionStateComponents/SimpleError';
+import {LoadingOverlay} from '../transitionStateComponents/VizLoadingBlock';
 
 interface State {
   hasError: boolean;
