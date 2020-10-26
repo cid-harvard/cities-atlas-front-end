@@ -7,7 +7,8 @@ import {
   secondaryFont,
   SearchContainerLight,
 } from '../../../styling/styleUtils';
-import {UtilityBarPortal, columnsToRowsBreakpoint} from './UtilityBar';
+import {UtilityBarPortal} from './UtilityBar';
+import {columnsToRowsBreakpoint} from '../Utils';
 import CitySearch from './CitySearch';
 import {
   Route,

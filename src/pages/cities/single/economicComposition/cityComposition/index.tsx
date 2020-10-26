@@ -1,6 +1,6 @@
 import React, {useState, useRef} from 'react';
 import BasicModal from '../../../../../components/standardModal/BasicModal';
-import UtiltyBar, {ModalType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import CompositionTreeMap from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
 import {defaultYear} from '../../../../../Utils';
 import {
@@ -43,19 +43,19 @@ const EconomicComposition = (props: Props) => {
     hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
-  const [modalOpen, setModalOpen] = useState<ModalType | null>(null);
-  const closeModal = () => setModalOpen(null);
+  const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
+  const closeDownload = () => setActiveDownload(null);
   const treeMapRef = useRef<HTMLDivElement | null>(null);
   const globalLocationData = useGlobalLocationData();
 
-  let modal: React.ReactElement<any> | null;
-  if (modalOpen === ModalType.DownloadImage && treeMapRef.current) {
+  let download: React.ReactElement<any> | null;
+  if (activeDownload === DownloadType.Image && treeMapRef.current) {
     const cellsNode = treeMapRef.current.querySelector('div.react-canvas-tree-map-masterContainer');
     if (cellsNode) {
       const targetCity = globalLocationData.data && globalLocationData.data.cities.find(c => c.cityId === cityId);
-      modal = (
+      download = (
         <DownloadImageOverlay
-          onClose={closeModal}
+          onClose={closeDownload}
           cityId={parseInt(cityId, 10)}
           cityName={targetCity && targetCity.name ? targetCity.name : undefined}
           year={defaultYear}
@@ -66,29 +66,17 @@ const EconomicComposition = (props: Props) => {
         />
       );
     } else {
-      modal = null;
-      setModalOpen(null);
+      download = null;
+      setActiveDownload(null);
     }
-  } else if (modalOpen === ModalType.Data) {
-    modal = (
-      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
-        <h1>Display data disclaimer</h1>
-      </BasicModal>
-    );
-  } else if (modalOpen === ModalType.DownloadData) {
-    modal = (
-      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
+  } else if (activeDownload === DownloadType.Data) {
+    download = (
+      <BasicModal onClose={closeDownload} width={'auto'} height={'auto'}>
         <h1>DownloadData</h1>
       </BasicModal>
     );
-  } else if (modalOpen === ModalType.HowToRead) {
-    modal = (
-      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
-        <h1>Read this Chart</h1>
-      </BasicModal>
-    );
   } else {
-    modal = null;
+    download = null;
   }
 
   return (
@@ -109,7 +97,6 @@ const EconomicComposition = (props: Props) => {
             compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
             highlighted={highlighted}
             hiddenSectors={hiddenSectors}
-            openHowToReadModal={() => setModalOpen(ModalType.HowToRead)}
             setHighlighted={setHighlighted}
           />
         </TreeMapRoot>
@@ -119,14 +106,13 @@ const EconomicComposition = (props: Props) => {
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
         />
-        {modal}
+        {download}
       </ContentGrid>
       <UtiltyBar
         onDownloadImageButtonClick={
-          cityId !== null && treeMapRef.current ? () => setModalOpen(ModalType.DownloadImage) : noop
+          cityId !== null && treeMapRef.current ? () => setActiveDownload(DownloadType.Image) : noop
         }
-        onDataButtonClick={() => setModalOpen(ModalType.Data)}
-        onDownloadDataButtonClick={() => setModalOpen(ModalType.DownloadData)}
+        onDownloadDataButtonClick={() => setActiveDownload(DownloadType.Data)}
       />
     </>
   );

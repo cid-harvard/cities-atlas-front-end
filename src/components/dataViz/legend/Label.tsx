@@ -12,7 +12,6 @@ import useFluent from '../../../hooks/useFluent';
 const Root = styled.div`
   position: relative;
   font-family: ${primaryFont};
-  z-index: 50;
 `;
 const Button = styled.button`
   display: flex;

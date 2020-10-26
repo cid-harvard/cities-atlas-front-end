@@ -1,24 +1,22 @@
 import React, {useEffect, useRef, useState} from 'react';
 import { createPortal } from 'react-dom';
-import {
-  secondaryFont,
-  baseColor,
-} from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import raw from 'raw.macro';
 import useFluent from '../../../hooks/useFluent';
-
-const mediumBreakpoint = 1180; // in px
-const mediumSmallBreakpoint = 1050; // in px
-export const columnsToRowsBreakpoint = 950; // in px
-const smallBreakpoint = 550; // in px
+import DataDisclaimer from '../../general/dataDisclaimer';
+import {
+  UtilityBarButtonBase,
+  columnsToRowsBreakpoint,
+  mediumSmallBreakpoint,
+  SvgBase,
+  Text,
+} from '../Utils';
 
 const shareIconSvg = raw('../../../assets/icons/share.svg');
 const expandIconSvg = raw('../../../assets/icons/expand.svg');
 const guideIconSvg = raw('../../../assets/icons/guide.svg');
 const downloadImageIconSvg = raw('../../../assets/icons/image-download.svg');
 const downloadDataIconSvg = raw('../../../assets/icons/download.svg');
-const dataIconSvg = raw('../../../assets/icons/disclaimer.svg');
 
 const UtilityBarRoot = styled.div`
   display: flex;
@@ -26,90 +24,6 @@ const UtilityBarRoot = styled.div`
 
   @media (max-width: ${columnsToRowsBreakpoint}px) {
     justify-content: space-around;
-  }
-`;
-
-const ButtonBase = styled.button`
-  border: none;
-  margin: 0 0.25rem;
-  padding: 0.35rem;
-  background-color: transparent;
-  font-size: clamp(0.65rem, 1vw, 0.85rem);
-  font-family: ${secondaryFont};
-  text-transform: uppercase;
-  display: flex;
-  align-items: center;
-  outline: 0 solid rgba(255, 255, 255, 0);
-  transition: outline 0.1s ease;
-  flex-shrink: 1;
-
-  &:hover, &:focus {
-    background-color: #fff;
-    outline: 0.25rem solid #fff;
-  }
-
-  @media (max-width: ${mediumBreakpoint}px) {
-    padding: 0.25rem;
-  }
-
-  @media (max-width: ${mediumSmallBreakpoint}px) {
-    flex-direction: column;
-  }
-
-  @media (max-width: ${columnsToRowsBreakpoint}px) {
-    flex-direction: row;
-  }
-
-  @media (max-width: ${smallBreakpoint}px) {
-    flex-direction: column;
-  }
-`;
-
-const SvgBase = styled.span`
-  display: inline-block;
-  width: 1rem;
-  height: 1rem;
-  margin-right: 0.3rem;
-
-  svg {
-    width: 100%;
-    height: 100%;
-
-    path {
-      fill: ${baseColor};
-    }
-  }
-
-  @media (max-width: ${mediumSmallBreakpoint}px) {
-    margin-right: 0;
-    margin-bottom: 0.2rem;
-  }
-
-  @media (max-width: ${columnsToRowsBreakpoint}px) {
-    margin-right: 0.3rem;
-    margin-bottom: 0;
-  }
-
-  @media (max-width: ${smallBreakpoint}px) {
-    margin-right: 0;
-    margin-bottom: 0.2rem;
-  }
-`;
-
-const DisclaimerSvg = styled(SvgBase)`
-  width: 1.2rem;
-  height: 1.2rem;
-
-  svg {
-    .cls-1 {
-      fill: none;
-      stroke: ${baseColor};
-    }
-  }
-
-  @media (max-width: ${mediumSmallBreakpoint}px) {
-    width: 1rem;
-    height: 1rem;
   }
 `;
 
@@ -123,18 +37,6 @@ const LargeSvg = styled(SvgBase)`
   }
 `;
 
-const Text = styled.span`
-  max-width: 80px;
-
-  @media (max-width: 1100px) {
-    max-width: 65px;
-  }
-
-  @media (max-width: ${mediumSmallBreakpoint}px) {
-    text-align: center;
-  }
-`;
-
 const secondaryHeaderUtilityBarId = 'secondaryHeaderUtilityBarId';
 
 export const UtilityBarPortal = () => (
@@ -143,23 +45,19 @@ export const UtilityBarPortal = () => (
   />
 );
 
-export enum ModalType {
-  DownloadImage = 'downloadimage',
-  DownloadData = 'downloaddata',
+export enum DownloadType {
+  Image = 'image',
   Data = 'data',
-  HowToRead = 'howtoread',
-  Settings = 'settings',
 }
 
 interface Props {
   onDownloadImageButtonClick?: () => void;
   onDownloadDataButtonClick?: () => void;
-  onDataButtonClick?: () => void;
 }
 
 const UtilityBar = (props: Props) => {
   const {
-    onDownloadImageButtonClick, onDownloadDataButtonClick, onDataButtonClick,
+    onDownloadImageButtonClick, onDownloadDataButtonClick,
   } = props;
   const getString = useFluent();
 
@@ -177,37 +75,25 @@ const UtilityBar = (props: Props) => {
   }, []);
 
   const downloadDataButton = onDownloadDataButtonClick ? (
-    <ButtonBase onClick={onDownloadDataButtonClick}>
+    <UtilityBarButtonBase onClick={onDownloadDataButtonClick}>
       <SvgBase
         dangerouslySetInnerHTML={{__html: downloadDataIconSvg}}
       />
       <Text>
         {getString('global-ui-download-data')}
       </Text>
-    </ButtonBase>
+    </UtilityBarButtonBase>
   ) : null;
 
   const downloadImageButton = onDownloadImageButtonClick ? (
-    <ButtonBase onClick={onDownloadImageButtonClick}>
+    <UtilityBarButtonBase onClick={onDownloadImageButtonClick}>
       <LargeSvg
         dangerouslySetInnerHTML={{__html: downloadImageIconSvg}}
       />
       <Text>
         {getString('global-ui-download-image')}
       </Text>
-    </ButtonBase>
-  ) : null;
-
-
-  const dataDisclaimerButton = onDataButtonClick ? (
-    <ButtonBase onClick={onDataButtonClick}>
-      <DisclaimerSvg
-        dangerouslySetInnerHTML={{__html: dataIconSvg}}
-      />
-      <Text>
-        {getString('global-ui-data-disclaimer')}
-      </Text>
-    </ButtonBase>
+    </UtilityBarButtonBase>
   ) : null;
 
   const onFullScreenClick = () => {
@@ -226,15 +112,15 @@ const UtilityBar = (props: Props) => {
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
     content = createPortal((
       <>
-        <ButtonBase>
+        <UtilityBarButtonBase>
           <SvgBase
             dangerouslySetInnerHTML={{__html: shareIconSvg}}
           />
           <Text>
             {getString('global-ui-share')}
           </Text>
-        </ButtonBase>
-        <ButtonBase
+        </UtilityBarButtonBase>
+        <UtilityBarButtonBase
           onClick={onFullScreenClick}
         >
           <SvgBase
@@ -243,18 +129,18 @@ const UtilityBar = (props: Props) => {
           <Text>
             {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
           </Text>
-        </ButtonBase>
-        <ButtonBase>
+        </UtilityBarButtonBase>
+        <UtilityBarButtonBase>
           <LargeSvg
             dangerouslySetInnerHTML={{__html: guideIconSvg}}
           />
           <Text>
             {getString('global-ui-guide')}
           </Text>
-        </ButtonBase>
+        </UtilityBarButtonBase>
         {downloadImageButton}
         {downloadDataButton}
-        {dataDisclaimerButton}
+        <DataDisclaimer />
       </>
     ), secondaryHeaderUtilityBarContainerNodeRef.current);
   } else {

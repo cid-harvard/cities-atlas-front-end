@@ -95,14 +95,13 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  openHowToReadModal?: () => void;
   setHighlighted: (value: string | undefined) => void;
 }
 
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, secondaryCity, year, digitLevel, compositionType, hiddenSectors,
-    openHowToReadModal, setHighlighted,
+    setHighlighted,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
@@ -222,7 +221,6 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   return (
     <>
       <PreChartRow
-        onReadThisChart={openHowToReadModal}
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         settingsOptions={{compositionType: true, digitLevel: true}}
       />

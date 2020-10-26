@@ -85,14 +85,13 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  openHowToReadModal?: () => void;
   setHighlighted: (value: string | undefined) => void;
 }
 
 const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, digitLevel, compositionType, highlighted, hiddenSectors,
-    openHowToReadModal, setHighlighted,
+    setHighlighted,
   } = props;
   const industryMap = useGlobalIndustryMap();
   const getString = useFluent();
@@ -248,7 +247,6 @@ const CompositionTreeMap = (props: Props) => {
   return (
     <>
       <PreChartRow
-        onReadThisChart={openHowToReadModal}
         indicator={indicator}
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         settingsOptions={{compositionType: true, digitLevel: true}}

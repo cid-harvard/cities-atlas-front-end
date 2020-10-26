@@ -50,7 +50,6 @@ const CompositionComparison = (props: Props) => {
           compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
           hiddenSectors={hiddenSectors}
           setHighlighted={noop}
-          openHowToReadModal={noop}
         />
         <CategoryLabels
           categories={sectorMap}
