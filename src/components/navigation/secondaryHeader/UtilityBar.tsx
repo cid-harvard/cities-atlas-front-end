@@ -25,7 +25,7 @@ const UtilityBarRoot = styled.div`
   align-items: center;
 
   @media (max-width: ${columnsToRowsBreakpoint}px) {
-    justify-content: center;
+    justify-content: space-around;
   }
 `;
 

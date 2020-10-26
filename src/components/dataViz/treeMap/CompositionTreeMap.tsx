@@ -83,7 +83,6 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  openVizSettingsModal?: () => void;
   openHowToReadModal?: () => void;
   setHighlighted: (value: string | undefined) => void;
 }
@@ -91,7 +90,7 @@ interface Props {
 const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, digitLevel, compositionType, highlighted, hiddenSectors,
-    openHowToReadModal, setHighlighted, openVizSettingsModal,
+    openHowToReadModal, setHighlighted,
   } = props;
   const industryMap = useGlobalIndustryMap();
   const getString = useFluent();
@@ -221,7 +220,7 @@ const CompositionTreeMap = (props: Props) => {
           {getString('global-ui-total') + ': '}<SimpleTextLoading />
         </>
       ) : `${getString('global-ui-total')}: ${numberWithCommas(total)} ${compositionType.toLowerCase()}`;
-      indicator.tooltipContent = 'About the Total';
+      indicator.tooltipContent = getString('glossary-total-shown');
       output = (
         <TreeMapContainer>
           <Tooltip
@@ -255,7 +254,7 @@ const CompositionTreeMap = (props: Props) => {
         onReadThisChart={openHowToReadModal}
         indicator={indicator}
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
-        onOpenSettings={openVizSettingsModal}
+        settingsOptions={{compositionType: true, digitLevel: true}}
       />
       <Root ref={rootRef}>
         {output}

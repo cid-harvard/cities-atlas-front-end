@@ -142,13 +142,13 @@ const SecondaryHeader = () => {
       const onSelectComparison = (d: Datum | null) => {
         if (d) {
           const query = queryString.stringify({...otherParams, compare_city: d.id});
-          const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
+          const newUrl = query ? history.location.pathname + '?' + query : history.location.pathname;
           history.push(newUrl);
         }
       };
       const removeComparison = () => {
         const query = queryString.stringify({...otherParams});
-        const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
+        const newUrl = query ? history.location.pathname + '?' + query : history.location.pathname;
         history.push(newUrl);
       };
       compareDropdown = (

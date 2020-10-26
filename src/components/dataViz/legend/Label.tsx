@@ -7,6 +7,7 @@ import {
   secondaryFont,
 } from '../../../styling/styleUtils';
 import {rgba} from 'polished';
+import useFluent from '../../../hooks/useFluent';
 
 const Root = styled.div`
   position: relative;
@@ -123,6 +124,7 @@ const HideIsolateButton = styled.button<{$checked: boolean}>`
   display: flex;
   align-items: center;
   position: relative;
+  white-space: nowrap;
 
   &:before {
     content: '';
@@ -173,6 +175,7 @@ interface Props {
 
 const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidden, isIsolated}: Props) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
+  const getString = useFluent();
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
       <HideIsolateContent>
@@ -183,13 +186,13 @@ const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidd
               $checked={isHidden}
               onClick={toggleCategory}
             >
-              Hide
+              {getString('global-ui-hide')}
             </HideIsolateButton>
             <HideIsolateButton
               $checked={isIsolated}
               onClick={isolateCategory}
             >
-              Isolate
+              {getString('global-ui-keep-only')}
             </HideIsolateButton>
           </ButtonWrapper>
         </HideIsolateText>

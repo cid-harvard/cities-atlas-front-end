@@ -1,11 +1,21 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { lightBorderColor, baseColor } from '../../styling/styleUtils';
+import { lightBorderColor, baseColor, backgroundDark } from '../../styling/styleUtils';
 import { overlayPortalContainerId } from '../standardModal';
 import raw from 'raw.macro';
 
 const infoCircleSVG =  raw('../../assets/icons/info-circle.svg');
+
+export enum TooltipPosition {
+  Automatic = 'automatic',
+  Bottom = 'bottom',
+}
+
+export enum TooltipTheme {
+  Light = 'light',
+  Dark = 'dark',
+}
 
 //#region Styling
 const Root = styled.span`
@@ -39,7 +49,7 @@ const MoreInformationI = styled.span`
   }
 `;
 
-const TooltipBase = styled.div`
+const TooltipBase = styled.div<{$theme: TooltipTheme | undefined}>`
   position: fixed;
   z-index: 3000;
   max-width: 16rem;
@@ -50,23 +60,29 @@ const TooltipBase = styled.div`
   opacity: 0;
   transition: opacity 0.15s ease;
   color: ${baseColor};
-  background-color: #fff;
-  border: 1px solid ${lightBorderColor};
+  background-color: ${({$theme}) => $theme === TooltipTheme.Dark ? backgroundDark : '#fff'};
+  color: ${({$theme}) => $theme === TooltipTheme.Dark ? '#fff' : baseColor};
+  border: 1px solid ${({$theme}) => $theme === TooltipTheme.Dark ? backgroundDark : lightBorderColor};
   border-radius: 4px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
   pointer-events: none;
 `;
 
-const ArrowContainer = styled.div`
+const ArrowContainer = styled.div<{$position: TooltipPosition | undefined}>`
   width: 100%;
   height: 0.5rem;
   display: flex;
   justify-content: center;
   position: absolute;
-  transform: translate(0, 100%);
+  transform: ${({$position}) => $position === TooltipPosition.Bottom
+    ? 'translate(0, -100%)'
+    : 'translate(0, 100%)'};
+  ${({$position}) => $position === TooltipPosition.Bottom
+    ? 'top: 0;'
+    : ''}
 `;
 
-const Arrow = styled.div`
+const Arrow = styled.div<{$theme: TooltipTheme | undefined, $position: TooltipPosition | undefined}>`
   width: 0.5rem;
   height: 0.5rem;
   position: relative;
@@ -81,7 +97,10 @@ const Arrow = styled.div`
     left: 0;
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
-    border-top: 9px solid #dfdfdf;
+    border-top: 9px solid ${({$theme}) => $theme === TooltipTheme.Dark ? backgroundDark : lightBorderColor};
+    ${({$position}) => $position === TooltipPosition.Bottom
+      ? 'transform: rotate(180deg);'
+      : ''}
   }
 
   &:after {
@@ -91,7 +110,10 @@ const Arrow = styled.div`
     left: 1px;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
-    border-top: 8px solid #fff;
+    border-top: 8px solid ${({$theme}) => $theme === TooltipTheme.Dark ? backgroundDark : '#fff'};
+    ${({$position}) => $position === TooltipPosition.Bottom
+      ? 'transform: rotate(180deg);'
+      : ''}
   }
 `;
 
@@ -104,10 +126,12 @@ interface Props {
   explanation: React.ReactNode | null;
   children?: React.ReactNode;
   cursor?: string;
+  theme?: TooltipTheme;
+  tooltipPosition?: TooltipPosition;
 }
 
 const Tooltip = (props: Props) => {
-  const {explanation, children, cursor} = props;
+  const {explanation, children, cursor, theme, tooltipPosition} = props;
   const rootEl = useRef<HTMLDivElement | null>(null);
   const tooltipEl = useRef<HTMLDivElement | null>(null);
   const overlayPortalContainerNodeRef = useRef<HTMLElement | null>(null);
@@ -127,9 +151,9 @@ const Tooltip = (props: Props) => {
       const tooltipWidth = tooltipElm.offsetWidth;
       let tooltipTopValue = top - tooltipSpacing - tooltipHeight;
       let tooltipLeftValue = left - (tooltipWidth / 2);
-      if (tooltipTopValue < 0) {
+      if (tooltipTopValue < 0 || tooltipPosition === TooltipPosition.Bottom) {
         // tooltip will be above the window
-        tooltipTopValue = top + tooltipSpacing;
+        tooltipTopValue = top + (tooltipSpacing * 2);
       }
       if (tooltipLeftValue < tooltipSpacing) {
         tooltipLeftValue = tooltipSpacing;
@@ -144,16 +168,19 @@ const Tooltip = (props: Props) => {
         opacity: 1;
       `;
     }
-  }, [isTooltipShown, coords]);
+  }, [isTooltipShown, coords, tooltipPosition]);
   const overlayPortalContainerNode = overlayPortalContainerNodeRef.current;
 
   let tooltip: React.ReactPortal | null;
   if (isTooltipShown !== false && overlayPortalContainerNode !== null && explanation) {
     tooltip = ReactDOM.createPortal((
-      <TooltipBase ref={tooltipEl}>
+      <TooltipBase
+        ref={tooltipEl}
+        $theme={theme}
+      >
         {explanation}
-        <ArrowContainer>
-          <Arrow />
+        <ArrowContainer $position={tooltipPosition}>
+          <Arrow $theme={theme} $position={tooltipPosition} />
         </ArrowContainer>
       </TooltipBase>
     ), overlayPortalContainerNode);

@@ -5,10 +5,13 @@ import CompositionTreeMap from '../../../../../components/dataViz/treeMap/Compos
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
-  secondaryFont,
-  lightBaseColor,
 } from '../../../../../styling/styleUtils';
-import {DigitLevel, ClassificationNaicsIndustry, CompositionType} from '../../../../../types/graphQL/graphQLTypes';
+import {
+  ClassificationNaicsIndustry,
+  CompositionType,
+  defaultDigitLevel,
+  defaultCompositionType,
+} from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import styled from 'styled-components/macro';
@@ -16,25 +19,7 @@ import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
-
-
-const Label = styled.label`
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  font-family: ${secondaryFont};
-  display: block;
-`;
-
-const Select = styled.select`
-  padding: 0.4rem;
-  font-family: ${secondaryFont};
-  font-size: 1.1rem;
-  cursor: pointer;
-  text-align: center;
-  margin-bottom: 2rem;
-  border: solid 1px ${lightBaseColor};
-  border-radius: 0;
-`;
+import useQueryParams from '../../../../../hooks/useQueryParams';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -46,10 +31,9 @@ interface Props {
 
 const EconomicComposition = (props: Props) => {
   const { cityId } = props;
-  const [digitLevel, setDigitLevel] = useState<DigitLevel>(DigitLevel.Three);
-  const [compositionType, setCompositionType] = useState<CompositionType>(CompositionType.Companies);
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
+  const {digit_level, composition_type} = useQueryParams();
   const sectorMap = useSectorMap();
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
     hiddenSectors.includes(sectorId)
@@ -75,8 +59,8 @@ const EconomicComposition = (props: Props) => {
           cityId={parseInt(cityId, 10)}
           cityName={targetCity && targetCity.name ? targetCity.name : undefined}
           year={defaultYear}
-          digitLevel={digitLevel}
-          compositionType={compositionType}
+          digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
           hiddenSectors={hiddenSectors}
           treeMapCellsNode={cellsNode as HTMLDivElement}
         />
@@ -103,27 +87,6 @@ const EconomicComposition = (props: Props) => {
         <h1>Read this Chart</h1>
       </BasicModal>
     );
-  } else if (modalOpen === ModalType.Settings) {
-    modal = (
-      <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
-        <h1>Viz Settings</h1>
-        <Label>Digit Level</Label>
-        <Select value={digitLevel} onChange={(e) => setDigitLevel(parseInt(e.target.value, 10))}>
-          <option value='1'>1 (Sector)</option>
-          <option value='2'>2</option>
-          <option value='3'>3</option>
-          <option value='4'>4</option>
-          <option value='5'>5</option>
-          <option value='6'>6</option>
-        </Select>
-
-        <Label>Values based on number of</Label>
-        <Select value={compositionType} onChange={(e) => setCompositionType(e.target.value as CompositionType)}>
-          <option value={CompositionType.Companies}>{CompositionType.Companies}</option>
-          <option value={CompositionType.Employees}>{CompositionType.Employees}</option>
-        </Select>
-      </BasicModal>
-    );
   } else {
     modal = null;
   }
@@ -142,11 +105,10 @@ const EconomicComposition = (props: Props) => {
           <CompositionTreeMap
             cityId={parseInt(cityId, 10)}
             year={defaultYear}
-            digitLevel={digitLevel}
-            compositionType={compositionType}
+            digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+            compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
             highlighted={highlighted}
             hiddenSectors={hiddenSectors}
-            openVizSettingsModal={() => setModalOpen(ModalType.Settings)}
             openHowToReadModal={() => setModalOpen(ModalType.HowToRead)}
             setHighlighted={setHighlighted}
           />
@@ -157,6 +119,7 @@ const EconomicComposition = (props: Props) => {
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
         />
+        {modal}
       </ContentGrid>
       <UtiltyBar
         onDownloadImageButtonClick={
@@ -165,9 +128,8 @@ const EconomicComposition = (props: Props) => {
         onDataButtonClick={() => setModalOpen(ModalType.Data)}
         onDownloadDataButtonClick={() => setModalOpen(ModalType.DownloadData)}
       />
-      {modal}
     </>
   );
 };
 
-export default React.memo(EconomicComposition);
+export default EconomicComposition;

@@ -1,5 +1,4 @@
 import styled, {keyframes, css} from 'styled-components/macro';
-import {rgba} from 'polished';
 import {breakPoints} from './GlobalGrid';
 
 export const baseColor = '#333333'; // dark gray/black color for text
@@ -10,7 +9,7 @@ export const mapLabelColor = '#04151b'; // dark blue/black
 export const hoverBackgroundColor = '#f3f3f3'; // really light gray color for use as a hover background color on cards
 
 export const primaryColor = '#f89570'; // orange
-export const primaryColorLight = rgba('#f89570', 0.4); // light orange
+export const primaryColorLight = '#fdd4c7'; // light orange
 export const secondaryColor = '#3b848d'; // blue/teal
 export const tertiaryColor = '#cfbc3c'; // yellow
 
@@ -233,5 +232,32 @@ export const SearchContainerLight = styled.div`
   .react-panel-search-current-tier-title,
   .react-panel-search-current-tier-breadcrumb-outer {
     border-color: ${primaryColor};
+  }
+`;
+
+export const BlockButton = styled.button`
+  padding: 0.4rem;
+  font-family: ${secondaryFont};
+  font-size: 1.1rem;
+  cursor: pointer;
+  text-align: center;
+  margin-bottom: 2rem;
+  border: solid 1px ${baseColor};
+  background-color: #fff;
+  border-radius: 0;
+  transition: all 0.1s ease-in-out;
+
+  &:hover {
+    color: #fff;
+    background-color: ${baseColor};
+  }
+`;
+
+export const BlockButtonHighlighted = styled(BlockButton)`
+  background-color: ${baseColor};
+  color: #fff;
+
+  &:hover {
+    background-color: ${baseColor};
   }
 `;

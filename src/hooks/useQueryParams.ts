@@ -8,5 +8,6 @@ import {
 
 export default () => {
   const history = useHistory();
-  return queryString.parse(history.location.search) as unknown as GlobalQueryParams;
+  const params = queryString.parse(history.location.search) as unknown as GlobalQueryParams;
+  return params;
 };

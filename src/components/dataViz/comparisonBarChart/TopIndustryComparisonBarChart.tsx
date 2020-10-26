@@ -42,6 +42,12 @@ const VizContainer = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
+
+  .react-comparison-bar-chart-title {
+    h2 {
+      text-transform: none;
+    }
+  }
 `;
 
 const ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
@@ -98,7 +104,6 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  openVizSettingsModal?: () => void;
   openHowToReadModal?: () => void;
   setHighlighted: (value: string | undefined) => void;
 }
@@ -106,7 +111,7 @@ interface Props {
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, secondaryCity, year, digitLevel, compositionType, hiddenSectors,
-    openHowToReadModal, setHighlighted, openVizSettingsModal,
+    openHowToReadModal, setHighlighted,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
@@ -248,7 +253,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       <PreChartRow
         onReadThisChart={openHowToReadModal}
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
-        onOpenSettings={openVizSettingsModal}
+        settingsOptions={{compositionType: true, digitLevel: true}}
       />
       <Root ref={rootRef}>
         {output}

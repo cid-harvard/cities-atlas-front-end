@@ -1,3 +1,5 @@
+import {CompositionType} from '../types/graphQL/graphQLTypes';
+
 // param must be specified in each route in order to enforce typechecking
 export const cityIdParam = 'cityId';
 
@@ -16,13 +18,8 @@ export const Routes = {
   ...CityRoutes,
 } as const;
 
-export enum ValuesBasedOn {
-  NumberOfEmployees = 'employees',
-  NumberOfCompanies = 'companies',
-}
-
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
-  values_based_on: ValuesBasedOn | undefined;
+  composition_type: CompositionType | undefined;
 }

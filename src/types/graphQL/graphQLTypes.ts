@@ -7,10 +7,15 @@ export enum DigitLevel {
   Six = 6,
 }
 
+export const defaultDigitLevel: DigitLevel = DigitLevel.Three;
+
 export enum CompositionType {
-  Companies = 'Companies',
-  Employees = 'Employees',
+  Companies = 'companies',
+  Employees = 'employees',
 }
+
+export const defaultCompositionType: CompositionType = CompositionType.Companies;
+
 
 export interface ClassificationNaicsIndustry {
   naicsId: string;

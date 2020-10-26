@@ -32,6 +32,18 @@ global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison
 global-ui-compare-title = Compare { $name } with
 
+global-ui-settings-reset = Default Settings
+global-ui-current-settings = Current settings
+global-ui-change-settings = Click to change settings
+
+global-ui-numbers-based-on = Numbers are based on
+global-ui-detail-level = Detail Level
+global-ui-digit-level = digit level
+global-ui-sector-level = Sector level
+
+global-ui-hide = Hide
+global-ui-keep-only = Keep Only
+
 global-ui-basic-data-error = There was an error retrieving the data
 global-ui-error-no-sectors-selected = At least one sector must be selected to view this visualization
 global-ui-error-invalid-city = The selected city is missing data
@@ -73,3 +85,6 @@ cities-top-10-comparison-chart-expand = Click to see all industries
 cities-top-10-comparison-chart-collapse = Show only top industries
 cities-top-10-comparison-chart-axis-title = Difference in Share
 
+glossary-total-shown = About the total
+glossary-composition = About the composition type
+glossary-digit-level = About digit levels

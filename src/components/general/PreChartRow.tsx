@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../styling/GlobalGrid';
 import {
@@ -7,8 +7,10 @@ import {
 } from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
 import raw from 'raw.macro';
-import Tooltip from '../general/Tooltip';
 import SearchIndustryInGraph, {SearchInGraphOptions} from './SearchIndustryInGraph';
+import CurrentSettingsTooltip from '../dataViz/settings/CurrentSettingsTooltip';
+import Settings, {SettingsOptions} from '../dataViz/settings';
+import Tooltip, {TooltipTheme, TooltipPosition} from './Tooltip';
 
 const readThisChartIconSVG = raw('../../assets/icons/read-this-chart.svg');
 const gearIcon = raw('../../assets/icons/settings.svg');
@@ -101,13 +103,15 @@ interface Props {
   onReadThisChart?: () => void;
   indicator?: Indicator;
   searchInGraphOptions?: SearchInGraphOptions;
-  onOpenSettings?: () => void;
+  settingsOptions?: SettingsOptions;
 }
 
 const PreChartRow = (props: Props) => {
   const {
-    onReadThisChart, indicator, searchInGraphOptions, onOpenSettings,
+    onReadThisChart, indicator, searchInGraphOptions, settingsOptions,
   } = props;
+
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
 
   const getString = useFluent();
 
@@ -136,26 +140,44 @@ const PreChartRow = (props: Props) => {
     <SearchIndustryInGraph {...searchInGraphOptions} />
   ) : null;
 
-  const settingsButton = onOpenSettings ? (
-    <SettingsButton
-      onClick={onOpenSettings}
+  const settingsButton = settingsOptions ? (
+    <Tooltip
+      explanation={!settingsOpen
+        ? <CurrentSettingsTooltip settingsOptions={settingsOptions} />
+        : null
+      }
+      theme={TooltipTheme.Dark}
+      tooltipPosition={TooltipPosition.Bottom}
     >
-      <span dangerouslySetInnerHTML={{__html: gearIcon}} />
-      {getString('global-ui-settings')}
-    </SettingsButton>
+      <SettingsButton
+        onClick={() => setSettingsOpen(current => !current)}
+      >
+        <span dangerouslySetInnerHTML={{__html: gearIcon}} />
+        {getString('global-ui-settings')}
+      </SettingsButton>
+    </Tooltip>
+  ) : null;
+
+  const settingsPanel = settingsOpen ? (
+    <Settings
+      onClose={() => setSettingsOpen(false)}
+    />
   ) : null;
 
   return (
-    <Root>
-      <RightColumn>
-        {searchInGraph}
-        {settingsButton}
-      </RightColumn>
-      <LeftColumn>
-        {readChartButton}
-        {indicatorElm}
-      </LeftColumn>
-    </Root>
+    <>
+      <Root>
+        <RightColumn>
+          {searchInGraph}
+          {settingsButton}
+        </RightColumn>
+        <LeftColumn>
+          {readChartButton}
+          {indicatorElm}
+        </LeftColumn>
+      </Root>
+      {settingsPanel}
+    </>
   );
 };
 
