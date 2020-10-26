@@ -14,6 +14,7 @@ import {
 
 const shareIconSvg = raw('../../../assets/icons/share.svg');
 const expandIconSvg = raw('../../../assets/icons/expand.svg');
+const collapseIconSvg = raw('../../../assets/icons/collapse.svg');
 const guideIconSvg = raw('../../../assets/icons/guide.svg');
 const downloadImageIconSvg = raw('../../../assets/icons/image-download.svg');
 const downloadDataIconSvg = raw('../../../assets/icons/download.svg');
@@ -97,12 +98,18 @@ const UtilityBar = (props: Props) => {
   ) : null;
 
   const onFullScreenClick = () => {
+    const onFullscreenClose = () => setIsFullscreen(false);
     if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-        setIsFullscreen(true);
+        document.documentElement.requestFullscreen().then(() => {
+          setTimeout(() => {
+            setIsFullscreen(true);
+            document.addEventListener('fullscreenchange', onFullscreenClose);
+          }, 200);
+        });
     } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
+        document.removeEventListener('fullscreenchange', onFullscreenClose);
         setIsFullscreen(false);
       }
     }
@@ -124,7 +131,7 @@ const UtilityBar = (props: Props) => {
           onClick={onFullScreenClick}
         >
           <SvgBase
-            dangerouslySetInnerHTML={{__html: expandIconSvg}}
+            dangerouslySetInnerHTML={{__html: !isFullscreen ? expandIconSvg : collapseIconSvg}}
           />
           <Text>
             {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
