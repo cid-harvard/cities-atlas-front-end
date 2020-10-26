@@ -15,6 +15,7 @@ import useQueryParams from '../../../../../hooks/useQueryParams';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import noop from 'lodash/noop';
+import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 
 interface Props {
   primaryCity: string;
@@ -57,6 +58,10 @@ const CompositionComparison = (props: Props) => {
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
           fullWidth={true}
+        />
+        <UtiltyBar
+          onDownloadImageButtonClick={noop}
+          onDownloadDataButtonClick={noop}
         />
       </ContentGrid>
     </>

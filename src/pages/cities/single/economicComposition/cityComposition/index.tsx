@@ -1,5 +1,4 @@
 import React, {useState, useRef} from 'react';
-import BasicModal from '../../../../../components/standardModal/BasicModal';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import CompositionTreeMap from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
 import {defaultYear} from '../../../../../Utils';
@@ -69,12 +68,6 @@ const EconomicComposition = (props: Props) => {
       download = null;
       setActiveDownload(null);
     }
-  } else if (activeDownload === DownloadType.Data) {
-    download = (
-      <BasicModal onClose={closeDownload} width={'auto'} height={'auto'}>
-        <h1>DownloadData</h1>
-      </BasicModal>
-    );
   } else {
     download = null;
   }
@@ -112,7 +105,7 @@ const EconomicComposition = (props: Props) => {
         onDownloadImageButtonClick={
           cityId !== null && treeMapRef.current ? () => setActiveDownload(DownloadType.Image) : noop
         }
-        onDownloadDataButtonClick={() => setActiveDownload(DownloadType.Data)}
+        onDownloadDataButtonClick={noop}
       />
     </>
   );

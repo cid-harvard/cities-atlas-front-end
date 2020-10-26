@@ -112,10 +112,8 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   useEffect(() => {
     const node = rootRef.current;
     if (node) {
-      setTimeout(() => {
-        const {width, height} = node.getBoundingClientRect();
-        setDimensions({width, height});
-      }, 0);
+      const {width, height} = node.getBoundingClientRect();
+      setDimensions({width, height});
     }
   }, [rootRef, windowDimensions]);
 
