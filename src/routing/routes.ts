@@ -18,8 +18,14 @@ export const Routes = {
   ...CityRoutes,
 } as const;
 
+export enum CompositionComparisonViz {
+  Top10Industries = 'top',
+  CompareSectors = 'sectors',
+}
+
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
+  composition_comparison_viz: CompositionComparisonViz | undefined;
 }

@@ -26,7 +26,7 @@ global-ui-continue = Continue
 
 global-ui-or = Or
 global-ui-total = Total
-global-ui-read-chart = Read this chart
+global-ui-read-chart = How to read this
 
 global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison

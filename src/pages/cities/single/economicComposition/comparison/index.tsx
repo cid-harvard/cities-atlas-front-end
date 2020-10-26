@@ -16,6 +16,7 @@ import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLab
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import noop from 'lodash/noop';
 import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
+import {CompositionComparisonViz} from '../../../../../routing/routes';
 
 interface Props {
   primaryCity: string;
@@ -27,7 +28,7 @@ const CompositionComparison = (props: Props) => {
     primaryCity, secondaryCity,
   } = props;
 
-  const {digit_level, composition_type} = useQueryParams();
+  const {digit_level, composition_type, composition_comparison_viz} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -39,19 +40,24 @@ const CompositionComparison = (props: Props) => {
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
 
+  const currentViz = composition_comparison_viz === CompositionComparisonViz.CompareSectors ? (
+    <div>Compare Sectors</div>
+  ) : (
+    <TopIndustryComparisonBarChart
+      primaryCity={parseInt(primaryCity, 10)}
+      secondaryCity={parseInt(secondaryCity, 10)}
+      year={defaultYear}
+      highlighted={undefined}
+      digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+      compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+      hiddenSectors={hiddenSectors}
+    />
+  );
+
   return (
     <>
       <ContentGrid>
-        <TopIndustryComparisonBarChart
-          primaryCity={parseInt(primaryCity, 10)}
-          secondaryCity={parseInt(secondaryCity, 10)}
-          year={defaultYear}
-          highlighted={undefined}
-          digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-          hiddenSectors={hiddenSectors}
-          setHighlighted={noop}
-        />
+        {currentViz}
         <CategoryLabels
           categories={sectorMap}
           toggleCategory={toggleSector}

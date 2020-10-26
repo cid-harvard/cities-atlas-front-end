@@ -24,6 +24,7 @@ const Root = styled(SecondaryHeaderContainer)`
   grid-template-columns: 1fr auto;
   grid-gap: 0.7rem;
   pointer-events: auto;
+  min-height: 78px;
 
   @media (max-width: 1100px) {
     padding: ${defaultPadding * 0.5}rem;

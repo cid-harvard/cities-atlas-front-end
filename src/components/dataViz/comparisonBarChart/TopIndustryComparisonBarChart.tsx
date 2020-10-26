@@ -23,6 +23,7 @@ import {
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart, {FilteredDatum} from './Chart';
+import noop from 'lodash/noop';
 
 const Root = styled.div`
   width: 100%;
@@ -95,13 +96,11 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  setHighlighted: (value: string | undefined) => void;
 }
 
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, secondaryCity, year, digitLevel, compositionType, hiddenSectors,
-    setHighlighted,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
@@ -219,8 +218,12 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   return (
     <>
       <PreChartRow
-        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
+        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted: noop}}
         settingsOptions={{compositionType: true, digitLevel: true}}
+        vizNavigation={[
+          {label: 'Top 10 Share Differences', active: true, onClick: noop},
+          {label: 'Compare Industries', active: false, onClick: noop},
+        ]}
       />
       <Root ref={rootRef}>
         {output}

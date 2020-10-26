@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../styling/GlobalGrid';
+import {baseColor} from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
 import raw from 'raw.macro';
 import SearchIndustryInGraph, {SearchInGraphOptions} from './SearchIndustryInGraph';
@@ -51,20 +52,53 @@ const SettingsButton = styled(ButtonBase)`
   height: 100%;
 `;
 
+const NavButton = styled(ButtonBase)`
+  border: solid 1px ${baseColor};
+  flex-shrink: 1;
+  text-align: center;
+  margin-left: clamp(0.5rem, 1.5vw, 2rem);
+  margin-top: 0.5rem;
+`;
+
+const HighlightedNavButton = styled(NavButton)`
+  background-color: ${baseColor};
+  color: #fff;
+`;
+
+const ButtonNavContainer = styled.div`
+  margin: auto;
+  max-width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  @media ${breakPoints.small} {
+    margin-right: 0;
+    justify-content: flex-end;
+  }
+`;
+
 export interface Indicator {
   text: React.ReactNode;
   tooltipContent?: React.ReactNode;
+}
+
+interface VizNavItem {
+  label: string;
+  active: boolean;
+  onClick: () => void;
 }
 
 interface Props {
   indicator?: Indicator;
   searchInGraphOptions?: SearchInGraphOptions;
   settingsOptions?: SettingsOptions;
+  vizNavigation?: VizNavItem[];
 }
 
 const PreChartRow = (props: Props) => {
   const {
-    indicator, searchInGraphOptions, settingsOptions,
+    indicator, searchInGraphOptions, settingsOptions, vizNavigation,
   } = props;
 
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
@@ -76,11 +110,27 @@ const PreChartRow = (props: Props) => {
       explanation={indicator.tooltipContent}
     />
   ) : null;
+
   const indicatorElm = indicator ? (
     <IndicatorRoot>
       {indicatorTooltip}
       {indicator.text}
     </IndicatorRoot>
+  ) : null;
+
+  const vizNavigationButtonElms = vizNavigation && vizNavigation.length ? vizNavigation.map(link => {
+    const Button = link.active ? HighlightedNavButton : NavButton;
+    return (
+      <Button
+        key={link.label}
+        onClick={link.onClick}
+      >
+        {link.label}
+      </Button>
+    );
+  }) : null;
+  const vizNavigationButtons = vizNavigation && vizNavigation.length ? (
+    <ButtonNavContainer>{vizNavigationButtonElms}</ButtonNavContainer>
   ) : null;
 
   const searchInGraph = searchInGraphOptions ? (
@@ -121,6 +171,7 @@ const PreChartRow = (props: Props) => {
         <LeftColumn>
           <HowToRead />
           {indicatorElm}
+          {vizNavigationButtons}
         </LeftColumn>
       </Root>
       {settingsPanel}
