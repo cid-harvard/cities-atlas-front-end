@@ -24,6 +24,8 @@ import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow, {Indicator} from '../../../components/general/PreChartRow';
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
+import {getStandardTooltip} from '../../../utilities/rapidTooltip';
+import {rgba} from 'polished';
 
 const Root = styled.div`
   width: 100%;
@@ -191,27 +193,21 @@ const CompositionTreeMap = (props: Props) => {
         const industryWithData = industries.find(({naicsId}) => naicsId === id);
         if (industry && industryWithData && node) {
           const color = sectorColorMap.find(c => c.id === industry.topLevelParentId);
-          const numCompany = industryWithData.numCompany ? numberWithCommas(industryWithData.numCompany) : 0;
-          const numEmploy = industryWithData.numEmploy ? numberWithCommas(industryWithData.numEmploy) : 0;
-          node.innerHTML = `
-            <div style="border-left: solid 3px ${color ? color.color : '#fff'}; padding-left: 0.5rem;">
-              <div style="width: 150px;">
-                <strong>${industry.name}</strong>
-              </div>
-              <div
-                style="display: flex; justify-content: space-between;"
-              >
-                <small>${getString('tooltip-number-companies')}:</small>
-                <small style="margin-left: 0.5rem">${numCompany}</small>
-              </div>
-              <div
-                style="display: flex; justify-content: space-between;"
-              >
-                <small>${getString('tooltip-number-employees')}:</small>
-                <small style="margin-left: 0.5rem">${numEmploy}</small>
-              </div>
-            </div>
-          `;
+          const numCompany = industryWithData.numCompany ? industryWithData.numCompany : 0;
+          const numEmploy = industryWithData.numEmploy ? industryWithData.numEmploy : 0;
+          const value = compositionType === CompositionType.Companies ? numCompany : numEmploy;
+          const share = (value / total * 100).toFixed(2) + '%';
+          node.innerHTML = getStandardTooltip({
+            title: industry.name ? industry.name : '',
+            color: color ? rgba(color.color, 0.3) : '#fff',
+            rows: [
+              [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
+              [getString('tooltip-share-generic', {value: compositionType}) + ':', share],
+              [getString('global-ui-naics-code') + ':', industry.naicsId],
+              [getString('global-ui-year') + ':', year.toString()],
+            ],
+            boldColumns: [1, 2],
+          });
         }
       };
 
@@ -226,6 +222,7 @@ const CompositionTreeMap = (props: Props) => {
           <Tooltip
             explanation={<TooltipContent ref={tooltipContentRef} />}
             cursor={'default'}
+            overrideStyles={true}
           >
             <ErrorBoundary>
               <TreeMap

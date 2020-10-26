@@ -40,6 +40,8 @@ global-ui-numbers-based-on = Numbers are based on
 global-ui-detail-level = Detail Level
 global-ui-digit-level = digit level
 global-ui-sector-level = Sector level
+global-ui-year = Year
+global-ui-naics-code = NAICS Code
 
 global-ui-hide = Hide
 global-ui-keep-only = Keep Only
@@ -79,6 +81,8 @@ cities-single-page-titles-summary = Quick facts &\nsummary
 
 tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Companies
+tooltip-number-generic = Number of { $value }
+tooltip-share-generic = Share of { $value }
 
 cities-top-10-comparison-chart-title = Positive { $name } Share (%) (Top 10)
 cities-top-10-comparison-chart-expand = Click to see all industries

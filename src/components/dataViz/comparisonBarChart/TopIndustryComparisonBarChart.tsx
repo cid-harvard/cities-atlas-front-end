@@ -1,5 +1,4 @@
 import React, {useEffect, useState, useRef} from 'react';
-import { BarDatum } from 'react-comparison-bar-chart';
 import { useQuery, gql } from '@apollo/client';
 import {
   CityIndustryYear,
@@ -23,7 +22,7 @@ import {
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
-import Chart from './Chart';
+import Chart, {FilteredDatum} from './Chart';
 
 const Root = styled.div`
   width: 100%;
@@ -72,14 +71,6 @@ interface IndustriesList {
   naicsId: CityIndustryYear['naicsId'];
   numCompany: CityIndustryYear['numCompany'];
   numEmploy: CityIndustryYear['numEmploy'];
-}
-
-interface FilteredDatum {
-  id: CityIndustryYear['naicsId'];
-  title: string;
-  value: number;
-  color: string;
-  topLevelParentId: CityIndustryYear['naicsId'];
 }
 
 interface SuccessResponse {
@@ -200,27 +191,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         }
       }
     });
-    const primaryData: BarDatum[] = [];
-    const secondaryData: BarDatum[] = [];
-      filteredPrimaryData.forEach(d => {
-        const secondaryDatum = filteredSecondaryData.find(d2 => d2.id === d.id);
-        const primaryShare = d.value / primaryTotal;
-        const secondaryShare = secondaryDatum ? secondaryDatum.value / secondaryTotal : 0;
-        const difference = primaryShare - secondaryShare;
-        if (difference > 0) {
-          primaryData.push({...d, value: difference * 100});
-        }
-      });
-      filteredSecondaryData.forEach(d => {
-        const primaryDatum = filteredPrimaryData.find(d2 => d2.id === d.id);
-        const secondaryShare = d.value / secondaryTotal;
-        const primaryShare = primaryDatum ? primaryDatum.value / primaryTotal : 0;
-        const difference = secondaryShare - primaryShare;
-        if (difference > 0) {
-          secondaryData.push({...d, value: difference * 100});
-        }
-      });
-    if (!primaryData.length && !secondaryData.length) {
+    if (!filteredPrimaryData.length && !filteredSecondaryData.length) {
       output = (
         <LoadingOverlay>
           <SimpleError fluentMessageId={'global-ui-error-no-sectors-selected'} />
@@ -232,8 +203,8 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         <VizContainer style={{height: dimensions.height}}>
             <ErrorBoundary>
               <Chart
-                primaryData={primaryData}
-                secondaryData={secondaryData}
+                filteredPrimaryData={filteredPrimaryData}
+                filteredSecondaryData={filteredSecondaryData}
                 primaryTotal={primaryTotal}
                 secondaryTotal={secondaryTotal}
                 primaryCityId={primaryCity}

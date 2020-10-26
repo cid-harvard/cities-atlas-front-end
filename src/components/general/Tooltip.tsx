@@ -49,14 +49,14 @@ const MoreInformationI = styled.span`
   }
 `;
 
-const TooltipBase = styled.div<{$theme: TooltipTheme | undefined}>`
+const TooltipBase = styled.div<{$theme: TooltipTheme | undefined, $overrideStyles: boolean | undefined}>`
   position: fixed;
   z-index: 3000;
   max-width: 16rem;
   font-size: 0.7rem;
   line-height: 1.4;
   text-transform: none;
-  padding: 0.5rem;
+  ${({$overrideStyles}) => $overrideStyles ? 'padding-bottom: 0.5rem;' : 'padding: 0.5rem;'}
   opacity: 0;
   transition: opacity 0.15s ease;
   color: ${baseColor};
@@ -128,10 +128,11 @@ interface Props {
   cursor?: string;
   theme?: TooltipTheme;
   tooltipPosition?: TooltipPosition;
+  overrideStyles?: boolean;
 }
 
 const Tooltip = (props: Props) => {
-  const {explanation, children, cursor, theme, tooltipPosition} = props;
+  const {explanation, children, cursor, theme, tooltipPosition, overrideStyles} = props;
   const rootEl = useRef<HTMLDivElement | null>(null);
   const tooltipEl = useRef<HTMLDivElement | null>(null);
   const overlayPortalContainerNodeRef = useRef<HTMLElement | null>(null);
@@ -171,17 +172,22 @@ const Tooltip = (props: Props) => {
   }, [isTooltipShown, coords, tooltipPosition]);
   const overlayPortalContainerNode = overlayPortalContainerNodeRef.current;
 
+  const arrow = overrideStyles ? null : (
+    <ArrowContainer $position={tooltipPosition}>
+      <Arrow $theme={theme} $position={tooltipPosition} />
+    </ArrowContainer>
+  );
+
   let tooltip: React.ReactPortal | null;
   if (isTooltipShown !== false && overlayPortalContainerNode !== null && explanation) {
     tooltip = ReactDOM.createPortal((
       <TooltipBase
         ref={tooltipEl}
         $theme={theme}
+        $overrideStyles={overrideStyles}
       >
         {explanation}
-        <ArrowContainer $position={tooltipPosition}>
-          <Arrow $theme={theme} $position={tooltipPosition} />
-        </ArrowContainer>
+        {arrow}
       </TooltipBase>
     ), overlayPortalContainerNode);
   } else {
