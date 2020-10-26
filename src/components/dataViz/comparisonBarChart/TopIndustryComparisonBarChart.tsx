@@ -11,7 +11,10 @@ import {
   useGlobalIndustryMap,
 } from '../../../hooks/useGlobalIndustriesData';
 import useFluent from '../../../hooks/useFluent';
-import {usePrevious} from 'react-use';
+import {
+  usePrevious,
+  useWindowSize,
+} from 'react-use';
 import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow, {Indicator} from '../../../components/general/PreChartRow';
@@ -24,7 +27,7 @@ import {
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart from './Chart';
-import {useWindowWidth} from '../../../contextProviders/appContext';
+// import {useWindowWidth} from '../../../contextProviders/appContext';
 
 const Root = styled.div`
   width: 100%;
@@ -42,6 +45,7 @@ const Root = styled.div`
 const VizContainer = styled.div`
   width: 100%;
   height: 100%;
+  position: absolute;
 `;
 
 const ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
@@ -110,7 +114,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   } = props;
 
   const industryMap = useGlobalIndustryMap();
-  const windowDimensions = useWindowWidth();
+  const windowDimensions = useWindowSize();
   const getString = useFluent();
   const {loading, error, data} = useEconomicCompositionComparisonQuery({primaryCity, secondaryCity, year});
   const rootRef = useRef<HTMLDivElement | null>(null);
