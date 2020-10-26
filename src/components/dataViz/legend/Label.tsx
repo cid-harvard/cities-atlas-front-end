@@ -12,6 +12,7 @@ import useFluent from '../../../hooks/useFluent';
 const Root = styled.div`
   position: relative;
   font-family: ${primaryFont};
+  z-index: 50;
 `;
 const Button = styled.button`
   display: flex;
@@ -63,12 +64,10 @@ const HideIsolateRoot = styled.div`
 const HideIsolateContent = styled.div`
   pointer-events: all;
   margin: auto;
-  min-width: 180px;
   position: relative;
 `;
 
 const HideIsolateText = styled.div`
-  border-top: solid 4px #fff;
   border-radius: 4px;
   padding: 0.6rem 0.85rem;
   background-color: ${backgroundDark};
@@ -95,9 +94,14 @@ const Arrow = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 0.75rem;
+  font-size: 0.9rem;
   text-transform: uppercase;
   text-align: center;
+`;
+
+const Hr = styled.hr`
+  max-width: 5rem;
+  border-top: solid 2px;
 `;
 
 const CloseButton = styled.button`
@@ -179,8 +183,9 @@ const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidd
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
       <HideIsolateContent>
-        <HideIsolateText style={{borderTopColor: color}}>
+        <HideIsolateText>
           <Title>{name}</Title>
+          <Hr style={{borderColor: color}}/>
           <ButtonWrapper>
             <HideIsolateButton
               $checked={isHidden}

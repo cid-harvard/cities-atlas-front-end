@@ -25,6 +25,7 @@ export const RapidTooltipRoot = styled.div`
   pointer-events: none;
   transform: translate(-50%, calc(-100% - 1.5rem));
   font-family: ${secondaryFont};
+  display: none;
 `;
 
 export const getStandardTooltip = (input: Input) => {

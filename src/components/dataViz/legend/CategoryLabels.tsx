@@ -3,9 +3,8 @@ import styled from 'styled-components/macro';
 import Label, {CategoryDatum} from './Label';
 import {breakPoints} from '../../../styling/GlobalGrid';
 
-const Root = styled.div`
+const RootBase = styled.div`
   grid-row: 3;
-  grid-column: 1;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -15,7 +14,19 @@ const Root = styled.div`
 
   @media ${breakPoints.small} {
     grid-row: 4;
-    grid-column: 1;
+  }
+`;
+
+const StandardRoot = styled(RootBase)`
+  grid-column: 1;
+`;
+
+const FullWidthRoot = styled(RootBase)`
+  grid-column: 1 / -1;
+  padding: 1rem;
+
+  @media ${breakPoints.small} {
+    padding-right: 0;
   }
 `;
 
@@ -24,9 +35,10 @@ interface Props {
   toggleCategory: (id: string) => void;
   isolateCategory: (id: string) => void;
   hiddenCategories: string[];
+  fullWidth?: boolean;
 }
 
-const CategoryLabels = ({categories, toggleCategory, isolateCategory, hiddenCategories}: Props) => {
+const CategoryLabels = ({categories, toggleCategory, isolateCategory, hiddenCategories, fullWidth}: Props) => {
   const labels = categories.map(category => {
     const isHidden = !!hiddenCategories.find(id => id === category.id);
     const isIsolated = hiddenCategories.length === categories.length - 1 && !isHidden;
@@ -41,6 +53,8 @@ const CategoryLabels = ({categories, toggleCategory, isolateCategory, hiddenCate
       />
     );
   });
+
+  const Root = fullWidth ? FullWidthRoot : StandardRoot;
 
   return (
     <Root>
