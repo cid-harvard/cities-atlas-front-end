@@ -8,6 +8,8 @@ import {
 } from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import {rgba} from 'polished';
+import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
+import useFluent from '../../../hooks/useFluent';
 
 const Tooltip = styled.div`
   position: fixed;
@@ -98,14 +100,27 @@ interface Props {
   secondaryData: BarDatum[];
   primaryTotal: number;
   secondaryTotal: number;
+  primaryCityId: number;
+  secondaryCityId: number;
 }
 
 const Chart = (props: Props) => {
   const {
     primaryData, secondaryData, primaryTotal, secondaryTotal,
+    primaryCityId, secondaryCityId,
   } = props;
 
   const [hovered, setHovered] = useState<RowHoverEvent | undefined>(undefined);
+  const {data: globalData} = useGlobalLocationData();
+  const getString = useFluent();
+
+  const primaryCityDatum = globalData
+    ? globalData.cities.find(c => parseInt(c.cityId, 10) === primaryCityId) : undefined;
+  const primaryCityName = primaryCityDatum ? primaryCityDatum.name : '';
+
+  const secondaryCityDatum = globalData
+    ? globalData.cities.find(c => parseInt(c.cityId, 10) === secondaryCityId) : undefined;
+  const secondaryCityName = secondaryCityDatum ? secondaryCityDatum.name : '';
 
   let tooltip: React.ReactElement<any> | null;
   if (hovered && hovered.datum) {
@@ -125,8 +140,8 @@ const Chart = (props: Props) => {
         </TooltipTitle>
         <TooltipSubsectionGrid>
           <div />
-          <SemiBold>New York</SemiBold>
-          <SemiBold>primary</SemiBold>
+          <SemiBold>{secondaryCityName}</SemiBold>
+          <SemiBold>{primaryCityName}</SemiBold>
           <Cell>Share of Employees</Cell>
           <SemiBold>{secondaryValue.toFixed(2) + '%'}</SemiBold>
           <SemiBold>{primaryValue.toFixed(2) + '%'}</SemiBold>
@@ -151,19 +166,19 @@ const Chart = (props: Props) => {
         formatValue={formatAxisValue}
         titles={{
           primary: {
-            h1: 'Positive primary Share (%) (Top 10)',
-            h2: 'primary > New York',
+            h1: getString('cities-top-10-comparison-chart-title', {name: primaryCityName}),
+            h2: `${primaryCityName} > ${secondaryCityName}`,
           },
           secondary: {
-            h1: 'Positive New York Share (%) (Top 10)',
-            h2: 'New York > primary',
+            h1: getString('cities-top-10-comparison-chart-title', {name: secondaryCityName}),
+            h2: `${secondaryCityName} > ${primaryCityName}`,
           },
         }}
         expandCollapseText={{
-          toExpand: 'Click to see all industries',
-          toCollapse: 'Show only top industries',
+          toExpand: getString('cities-top-10-comparison-chart-expand'),
+          toCollapse: getString('cities-top-10-comparison-chart-collapse'),
         }}
-        axisLabel={'Difference in Share'}
+        axisLabel={getString('cities-top-10-comparison-chart-axis-title')}
         onRowHover={setHovered}
       />
       {tooltip}

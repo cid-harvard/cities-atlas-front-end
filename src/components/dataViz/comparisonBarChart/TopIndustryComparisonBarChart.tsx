@@ -10,15 +10,12 @@ import {
 import {
   useGlobalIndustryMap,
 } from '../../../hooks/useGlobalIndustriesData';
-import useFluent from '../../../hooks/useFluent';
 import {
   usePrevious,
   useWindowSize,
 } from 'react-use';
-import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import PreChartRow, {Indicator} from '../../../components/general/PreChartRow';
-import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
+import PreChartRow from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import {
@@ -27,7 +24,6 @@ import {
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart from './Chart';
-// import {useWindowWidth} from '../../../contextProviders/appContext';
 
 const Root = styled.div`
   width: 100%;
@@ -115,7 +111,6 @@ const TopIndustryComparisonBarChart = (props: Props) => {
 
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowSize();
-  const getString = useFluent();
   const {loading, error, data} = useEconomicCompositionComparisonQuery({primaryCity, secondaryCity, year});
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -139,20 +134,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     dataToUse = undefined;
   }
 
-  const indicator: Indicator = {
-    text: undefined,
-    tooltipContent: undefined,
-  };
   let output: React.ReactElement<any> | null;
   if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
-    indicator.text = (
-      <>
-        {getString('global-ui-total') + ': '}<SimpleTextLoading />
-      </>
-    );
     output = <LoadingBlock />;
   } else if (error !== undefined) {
-    indicator.text = getString('global-ui-total') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -160,7 +145,6 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     );
     console.error(error);
   }  else if (industryMap.error !== undefined) {
-    indicator.text = getString('global-ui-total') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -232,7 +216,6 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         }
       });
     if (!primaryData.length && !secondaryData.length) {
-      indicator.text = getString('global-ui-total') + ': ―';
       output = (
         <LoadingOverlay>
           <SimpleError fluentMessageId={'global-ui-error-no-sectors-selected'} />
@@ -240,13 +223,6 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       );
     } else {
       const loadingOverlay = loading ? <LoadingBlock /> : null;
-
-      indicator.text = loading ? (
-        <>
-          {getString('global-ui-total') + ': '}<SimpleTextLoading />
-        </>
-      ) : `${getString('global-ui-total')}: ${numberWithCommas(primaryTotal)} ${compositionType.toLowerCase()}`;
-      indicator.tooltipContent = 'About the Total';
       output = (
         <VizContainer style={{height: dimensions.height}}>
             <ErrorBoundary>
@@ -255,6 +231,8 @@ const TopIndustryComparisonBarChart = (props: Props) => {
                 secondaryData={secondaryData}
                 primaryTotal={primaryTotal}
                 secondaryTotal={secondaryTotal}
+                primaryCityId={primaryCity}
+                secondaryCityId={secondaryCity}
               />
             </ErrorBoundary>
           {loadingOverlay}
@@ -269,7 +247,6 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     <>
       <PreChartRow
         onReadThisChart={openHowToReadModal}
-        indicator={indicator}
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         onOpenSettings={openVizSettingsModal}
       />

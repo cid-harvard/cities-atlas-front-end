@@ -32,6 +32,7 @@ const CompositionComparison = (props: Props) => {
           compositionType={CompositionType.Companies}
           hiddenSectors={[]}
           setHighlighted={() => {}}
+          openHowToReadModal={() => {}}
         />
       </ContentGrid>
     </>

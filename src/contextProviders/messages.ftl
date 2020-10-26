@@ -67,3 +67,9 @@ cities-single-page-titles-summary = Quick facts &\nsummary
 
 tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Companies
+
+cities-top-10-comparison-chart-title = Positive { $name } Share (%) (Top 10)
+cities-top-10-comparison-chart-expand = Click to see all industries
+cities-top-10-comparison-chart-collapse = Show only top industries
+cities-top-10-comparison-chart-axis-title = Difference in Share
+

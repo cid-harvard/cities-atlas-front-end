@@ -22,7 +22,7 @@ const LoadingContainer = styled.div`
 `;
 
 const SearchContainer = styled(SearchContainerLight)`
-  max-width: 280px;
+  max-width: 100%;
   font-size: 0.75rem;
   margin-right: 0.75rem;
 
