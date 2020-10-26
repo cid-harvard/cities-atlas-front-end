@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import TopIndustryComparisonBarChart from
   '../../../../../components/dataViz/comparisonBarChart/TopIndustryComparisonBarChart';
 import {defaultYear} from '../../../../../Utils';
@@ -6,11 +6,15 @@ import {
   defaultCompositionType,
   CompositionType,
   defaultDigitLevel,
+  ClassificationNaicsIndustry,
 } from '../../../../../types/graphQL/graphQLTypes';
 import {
   ContentGrid,
 } from '../../../../../styling/styleUtils';
 import useQueryParams from '../../../../../hooks/useQueryParams';
+import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
+import useSectorMap from '../../../../../hooks/useSectorMap';
+import noop from 'lodash/noop';
 
 interface Props {
   primaryCity: string;
@@ -23,6 +27,16 @@ const CompositionComparison = (props: Props) => {
   } = props;
 
   const {digit_level, composition_type} = useQueryParams();
+  const sectorMap = useSectorMap();
+  const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
+  const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
+    hiddenSectors.includes(sectorId)
+      ? setHiddenSectors(hiddenSectors.filter(sId => sId !== sectorId))
+      : setHiddenSectors([...hiddenSectors, sectorId]);
+  const isolateSector = (sectorId: ClassificationNaicsIndustry['id']) =>
+    hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
+      ? setHiddenSectors([])
+      : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
 
   return (
     <>
@@ -34,9 +48,16 @@ const CompositionComparison = (props: Props) => {
           highlighted={undefined}
           digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
           compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-          hiddenSectors={[]}
-          setHighlighted={() => {}}
-          openHowToReadModal={() => {}}
+          hiddenSectors={hiddenSectors}
+          setHighlighted={noop}
+          openHowToReadModal={noop}
+        />
+        <CategoryLabels
+          categories={sectorMap}
+          toggleCategory={toggleSector}
+          isolateCategory={isolateSector}
+          hiddenCategories={hiddenSectors}
+          fullWidth={true}
         />
       </ContentGrid>
     </>

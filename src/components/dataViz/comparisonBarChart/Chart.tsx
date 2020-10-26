@@ -80,7 +80,6 @@ const Chart = (props: Props) => {
         const {datum, mouseCoords} = e;
         const primaryDatum = filteredPrimaryData.find(d => d.id === datum.id);
         const secondaryDatum = filteredSecondaryData.find(d => d.id === datum.id);
-        console.log({primaryDatum, secondaryDatum});
         const secondaryValue = secondaryDatum ? secondaryDatum.value / secondaryTotal * 100 : 0;
         const primaryValue = primaryDatum ? primaryDatum.value / primaryTotal * 100 : 0;
         const primaryDiff = primaryValue > secondaryValue ? '+' + datum.value.toFixed(2) + '%' : '';
