@@ -32,7 +32,7 @@
     "raw.macro": "^0.4.2",
     "react": "^16.13.1",
     "react-canvas-treemap": "^1.0.2",
-    "react-comparison-bar-chart": "^1.0.0",
+    "react-comparison-bar-chart": "^1.1.1",
     "react-dom": "^16.13.1",
     "react-helmet": "^6.1.0",
     "react-mapbox-gl": "^4.8.6",

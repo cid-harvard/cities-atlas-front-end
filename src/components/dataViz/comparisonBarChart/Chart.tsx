@@ -102,6 +102,12 @@ const Chart = (props: Props) => {
       }
     }
   };
+
+  const titleFormatter = (label: string, count: number, max: number) => {
+    const countText = count === max ? '' : getString('cities-top-10-comparison-chart-title-count-text', {count});
+    return getString('cities-top-10-comparison-chart-title', {name: label}) + ' ' + countText;
+  };
+
   return (
     <>
       <ComparisonBarChart
@@ -110,14 +116,9 @@ const Chart = (props: Props) => {
         nValuesToShow={10}
         formatValue={formatAxisValue}
         titles={{
-          primary: {
-            h1: getString('cities-top-10-comparison-chart-title', {name: primaryCityName}),
-            h2: `${primaryCityName} > ${secondaryCityName}`,
-          },
-          secondary: {
-            h1: getString('cities-top-10-comparison-chart-title', {name: secondaryCityName}),
-            h2: `${secondaryCityName} > ${primaryCityName}`,
-          },
+          primary: primaryCityName,
+          secondary: secondaryCityName,
+          format: titleFormatter,
         }}
         expandCollapseText={{
           toExpand: getString('cities-top-10-comparison-chart-expand'),

@@ -11,8 +11,9 @@ import {
 } from '../../../hooks/useGlobalIndustriesData';
 import {
   usePrevious,
-  useWindowSize,
+  // useWindowSize,
 } from 'react-use';
+import {useWindowWidth} from '../../../contextProviders/appContext';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
@@ -104,7 +105,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   } = props;
 
   const industryMap = useGlobalIndustryMap();
-  const windowDimensions = useWindowSize();
+  const windowDimensions = useWindowWidth();
   const {loading, error, data} = useEconomicCompositionComparisonQuery({primaryCity, secondaryCity, year});
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -153,10 +154,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       if (industry && industry.level === digitLevel) {
         const {name, topLevelParentId} = industry;
         const colorDatum = sectorColorMap.find(s => s.id === topLevelParentId);
+        const companies = numCompany ? numCompany : 0;
+        const employees = numEmploy ? numEmploy : 0;
+        primaryTotal = compositionType === CompositionType.Companies ? primaryTotal + companies : primaryTotal + employees;
         if (!hiddenSectors.includes(topLevelParentId) && colorDatum) {
-          const companies = numCompany ? numCompany : 0;
-          const employees = numEmploy ? numEmploy : 0;
-          primaryTotal = compositionType === CompositionType.Companies ? primaryTotal + companies : primaryTotal + employees;
           filteredPrimaryData.push({
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
@@ -173,10 +174,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       if (industry && industry.level === digitLevel) {
         const {name, topLevelParentId} = industry;
         const colorDatum = sectorColorMap.find(s => s.id === topLevelParentId);
+        const companies = numCompany ? numCompany : 0;
+        const employees = numEmploy ? numEmploy : 0;
+        secondaryTotal = compositionType === CompositionType.Companies ? secondaryTotal + companies : secondaryTotal + employees;
         if (!hiddenSectors.includes(topLevelParentId) && colorDatum) {
-          const companies = numCompany ? numCompany : 0;
-          const employees = numEmploy ? numEmploy : 0;
-          secondaryTotal = compositionType === CompositionType.Companies ? secondaryTotal + companies : secondaryTotal + employees;
           filteredSecondaryData.push({
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
@@ -199,6 +200,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         <VizContainer style={{height: dimensions.height}}>
             <ErrorBoundary>
               <Chart
+                key={dimensions.height.toString() + dimensions.width.toString()}
                 filteredPrimaryData={filteredPrimaryData}
                 filteredSecondaryData={filteredSecondaryData}
                 primaryTotal={primaryTotal}

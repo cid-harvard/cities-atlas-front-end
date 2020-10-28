@@ -84,7 +84,8 @@ tooltip-number-companies = Number of Companies
 tooltip-number-generic = Number of { $value }
 tooltip-share-generic = Share of { $value }
 
-cities-top-10-comparison-chart-title = Positive { $name } Share (%) (Top 10)
+cities-top-10-comparison-chart-title = Positive { $name } Share (%)
+cities-top-10-comparison-chart-title-count-text = (Top { $count })
 cities-top-10-comparison-chart-expand = Click to see all industries
 cities-top-10-comparison-chart-collapse = Show only top industries
 cities-top-10-comparison-chart-axis-title = Difference in Share
