@@ -1,5 +1,4 @@
 import React, {useEffect} from 'react';
-import styled from 'styled-components/macro';
 import {
   useEconomicCompositionQuery,
 } from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
@@ -9,20 +8,8 @@ import {
   useGlobalIndustryMap,
 } from '../../../../../hooks/useGlobalIndustriesData';
 import {DigitLevel, CompositionType} from '../../../../../types/graphQL/graphQLTypes';
-import {sectorColorMap} from '../../../../../styling/styleUtils';
+import {sectorColorMap, FullPageOverlay} from '../../../../../styling/styleUtils';
 import html2canvas from 'html2canvas';
-
-const Root = styled.div`
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.5);
-`;
 
 interface Props {
   cityId: number;
@@ -113,8 +100,8 @@ export default (props: Props) => {
   }
 
   return (
-    <Root>
+    <FullPageOverlay>
       <LoadingBlock />
-    </Root>
+    </FullPageOverlay>
   );
 };

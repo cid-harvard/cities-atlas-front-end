@@ -15,8 +15,9 @@ import useQueryParams from '../../../../../hooks/useQueryParams';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import noop from 'lodash/noop';
-import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import {CompositionComparisonViz} from '../../../../../routing/routes';
+import DownloadImageOverlay from './DownloadImageOverlay';
 
 interface Props {
   primaryCity: string;
@@ -40,6 +41,8 @@ const CompositionComparison = (props: Props) => {
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
+  const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
+  const closeDownload = () => setActiveDownload(null);
 
   const currentViz = composition_comparison_viz === CompositionComparisonViz.CompareSectors ? (
     <div>Compare Sectors</div>
@@ -56,6 +59,20 @@ const CompositionComparison = (props: Props) => {
     />
   );
 
+  let download: React.ReactElement<any> | null;
+  if (activeDownload === DownloadType.Image) {
+    download = (
+      <DownloadImageOverlay
+        primaryCityId={primaryCity}
+        secondaryCityId={secondaryCity}
+        year={defaultYear}
+        onClose={closeDownload}
+      />
+    );
+  } else {
+    download = null;
+  }
+
   return (
     <>
       <ContentGrid>
@@ -68,10 +85,11 @@ const CompositionComparison = (props: Props) => {
           fullWidth={true}
         />
         <UtiltyBar
-          onDownloadImageButtonClick={noop}
+          onDownloadImageButtonClick={() => setActiveDownload(DownloadType.Image)}
           onDownloadDataButtonClick={noop}
         />
       </ContentGrid>
+      {download}
     </>
   );
 };
