@@ -30,6 +30,7 @@ interface Props {
   secondaryTotal: number;
   primaryCityId: number;
   secondaryCityId: number;
+  highlighted: string | undefined;
 }
 
 const Chart = (props: Props) => {
@@ -37,6 +38,7 @@ const Chart = (props: Props) => {
     filteredPrimaryData, filteredSecondaryData,
     primaryTotal, secondaryTotal,
     primaryCityId, secondaryCityId,
+    highlighted,
   } = props;
 
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -126,6 +128,7 @@ const Chart = (props: Props) => {
         }}
         axisLabel={getString('cities-top-10-comparison-chart-axis-title')}
         onRowHover={setHovered}
+        highlighted={highlighted}
       />
       <RapidTooltipRoot ref={tooltipRef} />
     </>

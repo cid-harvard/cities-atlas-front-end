@@ -39,6 +39,7 @@ const CompositionComparison = (props: Props) => {
     hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
+  const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
 
   const currentViz = composition_comparison_viz === CompositionComparisonViz.CompareSectors ? (
     <div>Compare Sectors</div>
@@ -47,7 +48,8 @@ const CompositionComparison = (props: Props) => {
       primaryCity={parseInt(primaryCity, 10)}
       secondaryCity={parseInt(secondaryCity, 10)}
       year={defaultYear}
-      highlighted={undefined}
+      setHighlighted={setHighlighted}
+      highlighted={highlighted}
       digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
       compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
       hiddenSectors={hiddenSectors}

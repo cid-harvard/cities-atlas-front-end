@@ -94,6 +94,7 @@ interface Props {
   secondaryCity: number;
   year: number;
   highlighted: string | undefined;
+  setHighlighted: (value: string | undefined) => void;
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
@@ -102,6 +103,7 @@ interface Props {
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, secondaryCity, year, digitLevel, compositionType, hiddenSectors,
+    highlighted, setHighlighted,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
@@ -207,6 +209,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
                 secondaryTotal={secondaryTotal}
                 primaryCityId={primaryCity}
                 secondaryCityId={secondaryCity}
+                highlighted={highlighted}
               />
             </ErrorBoundary>
           {loadingOverlay}
@@ -220,7 +223,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   return (
     <>
       <PreChartRow
-        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted: noop}}
+        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         settingsOptions={{compositionType: true, digitLevel: true}}
         vizNavigation={[
           {label: 'Top 10 Share Differences', active: true, onClick: noop},
