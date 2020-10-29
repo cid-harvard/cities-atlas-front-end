@@ -204,6 +204,7 @@ const AddComparisonModal = (props: Props) => {
                 maxResults={500}
                 selectedValue={selectedCity}
                 onSelect={selectCity}
+                focusOnRender={true}
               />
             </div>
             <Or>{getString('global-ui-or')}</Or>

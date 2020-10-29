@@ -31,6 +31,7 @@ const SearchBar = (props: Props) => {
       defaultPlaceholderText={getString('global-ui-type-a-city-name')}
       showCount={true}
       resultsIdentation={1.75}
+      focusOnRender={true}
     />
   );
 };

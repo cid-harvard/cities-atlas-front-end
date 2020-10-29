@@ -42,6 +42,7 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
     cities: classificationCityList {
       cityId
       name
+      nameList
       centroidLat
       centroidLon
       countryId
@@ -62,6 +63,7 @@ interface SuccessResponse {
   cities: {
     cityId: ClassificationCity['cityId'],
     name: ClassificationCity['name'],
+    nameList: ClassificationCity['nameList'],
     centroidLat: ClassificationCity['centroidLat'],
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
@@ -327,7 +329,7 @@ const Landing = () => {
       cities.forEach(city => {
         const {
           cityId, name, centroidLon, countryId, geometry,
-          population15, gdpPpp15,
+          population15, gdpPpp15, nameList,
         } = city;
         const coordinates: Coordinate[][][] = geometry ? JSON.parse(geometry).coordinates : [];
         const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
@@ -354,6 +356,9 @@ const Landing = () => {
           searchData[parentIndex].population += population;
         }
         const id = cityId;
+        // if (nameList) {
+        //   console.log(nameList.filter(n => n.toLowerCase() === 'san diego'))
+        // }
         const searchDatum: ExtendedSearchDatum = {
           id,
           title: name + ', ' + countryName,
@@ -363,6 +368,7 @@ const Landing = () => {
           coordinates: coordinates[0][0],
           population: Math.round(population),
           gdp,
+          keywords: nameList ? nameList : undefined,
         };
         searchData.push(searchDatum);
         const onMouseEnter = (event: any) => {

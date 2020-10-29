@@ -17,6 +17,7 @@ const GLOBAL_LOCATION_QUERY = gql`
       name
       countryId
       id
+      nameList
     }
   }
 `;
@@ -30,6 +31,7 @@ interface SuccessResponse {
   cities: {
     cityId: ClassificationCity['cityId'],
     name: ClassificationCity['name'],
+    nameList: ClassificationCity['nameList'],
     centroidLat: ClassificationCity['centroidLat'],
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
@@ -55,7 +57,7 @@ export const locationDataToHierarchicalTreeData = (data: SuccessResponse | undef
         parent_id: null,
         level: '0',
       })),
-      ...cities.map(({cityId: id, name, countryId}) => {
+      ...cities.map(({cityId: id, name, countryId, nameList}) => {
         const parentCountry = countries.find(c => countryId && c.countryId.toString() === countryId.toString());
         const countryName = parentCountry && parentCountry.nameShortEn ? ', ' + parentCountry.nameShortEn : '';
         return {
@@ -63,6 +65,7 @@ export const locationDataToHierarchicalTreeData = (data: SuccessResponse | undef
           title: name !== null ? name + countryName : 'Unrecognized City ' + id + countryName,
           parent_id: getCountryStringId(countryId),
           level: '1',
+          keywords: nameList ? nameList : undefined,
         };
       }),
     );

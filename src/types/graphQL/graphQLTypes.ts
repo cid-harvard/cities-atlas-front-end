@@ -51,7 +51,7 @@ export interface ClassificationCity {
   included: boolean | null;
   regionId: number | null;
   countryId: number | null;
-  nameList: string | null;
+  nameList: string[] | null;
   centroidLat: number | null;
   centroidLon: number | null;
   area: number | null;

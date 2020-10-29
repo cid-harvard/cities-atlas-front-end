@@ -182,6 +182,10 @@ export const SearchContainerDark = styled.div`
       background-color: transparent;
     }
   }
+
+  .react-panel-search-list-no-results {
+    color: #fff;
+  }
 `;
 
 export const SearchContainerLight = styled.div`
