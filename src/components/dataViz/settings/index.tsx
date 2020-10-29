@@ -71,6 +71,22 @@ const ContentRoot = styled.div`
   left: 0;
   right: 0;
   overflow: auto;
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, .3);
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, .1);
+  }
+
+  @media ${breakPoints.small} {
+    position: static;
+    overflow: visible;
+  }
 
   @media ${breakPoints.small} {
     position: relative;
