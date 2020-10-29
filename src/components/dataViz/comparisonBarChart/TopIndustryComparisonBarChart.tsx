@@ -11,7 +11,6 @@ import {
 } from '../../../hooks/useGlobalIndustriesData';
 import {
   usePrevious,
-  // useWindowSize,
 } from 'react-use';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import {breakPoints} from '../../../styling/GlobalGrid';
