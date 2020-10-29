@@ -49,6 +49,7 @@ global-ui-keep-only = Keep Only
 global-ui-basic-data-error = There was an error retrieving the data
 global-ui-error-no-sectors-selected = At least one sector must be selected to view this visualization
 global-ui-error-invalid-city = The selected city is missing data
+global-ui-error-industry-not-in-data-set = The selected industry is not in the current data set
 
 global-text-countries = Countries
 global-text-population = Population

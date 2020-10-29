@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import ComparisonBarChart, {
   BarDatum,
   RowHoverEvent,
@@ -10,6 +10,7 @@ import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTool
 import {
   CityIndustryYear,
 } from '../../../types/graphQL/graphQLTypes';
+import QuickError from '../../transitionStateComponents/QuickError';
 
 export interface FilteredDatum {
   id: CityIndustryYear['naicsId'];
@@ -45,6 +46,8 @@ const Chart = (props: Props) => {
 
   const {data: globalData} = useGlobalLocationData();
   const getString = useFluent();
+
+  const [highlightError, setHighlightError] = useState<boolean>(false);
 
   const primaryData: BarDatum[] = [];
   const secondaryData: BarDatum[] = [];
@@ -110,6 +113,14 @@ const Chart = (props: Props) => {
     return getString('cities-top-10-comparison-chart-title', {name: label}) + ' ' + countText;
   };
 
+  const highlightErrorPopup = highlightError ? (
+    <QuickError
+      closeError={() => setHighlightError(false)}
+    >
+      The selected industry is not in the current data set
+    </QuickError>
+  ) : null;
+
   return (
     <>
       <ComparisonBarChart
@@ -129,8 +140,10 @@ const Chart = (props: Props) => {
         axisLabel={getString('cities-top-10-comparison-chart-axis-title')}
         onRowHover={setHovered}
         highlighted={highlighted}
+        onHighlightError={() => setHighlightError(true)}
       />
       <RapidTooltipRoot ref={tooltipRef} />
+      {highlightErrorPopup}
     </>
   );
 };

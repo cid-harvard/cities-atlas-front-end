@@ -86,6 +86,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
       ? Array.from(Array(digitLevel).keys()) : undefined;
     searchPanel = (
       <PanelSearch
+        key={'PreChartPanelSearchKeyFor' + digitLevel}
         data={searchData}
         topLevelTitle={getString('global-text-industries')}
         disallowSelectionLevels={disallowSelectionLevels}
