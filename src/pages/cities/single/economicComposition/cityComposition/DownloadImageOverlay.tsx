@@ -85,8 +85,12 @@ export default (props: Props) => {
             link.remove();
             onClose();
           })
-          .catch(onClose);
+          .catch(e => {
+            console.error(e);
+            onClose();
+          });
       } else {
+        console.error('Failed to get context for ' + canvas);
         onClose();
       }
     }
@@ -96,6 +100,7 @@ export default (props: Props) => {
   ]);
 
   if (error) {
+    console.error(error);
     onClose();
   }
 

@@ -102,9 +102,7 @@ const EconomicComposition = (props: Props) => {
         {download}
       </ContentGrid>
       <UtiltyBar
-        onDownloadImageButtonClick={
-          cityId !== null && treeMapRef.current ? () => setActiveDownload(DownloadType.Image) : noop
-        }
+        onDownloadImageButtonClick={() => setActiveDownload(DownloadType.Image)}
         onDownloadDataButtonClick={noop}
       />
     </>
