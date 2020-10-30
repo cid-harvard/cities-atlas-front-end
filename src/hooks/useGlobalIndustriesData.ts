@@ -11,6 +11,7 @@ const GLOBAL_INDUSTRIES_QUERY = gql`
       name
       level
       parentId
+      naicsIdTopParent
       id
     }
   }
@@ -22,6 +23,7 @@ interface IndustryDatum {
   name: ClassificationNaicsIndustry['name'];
   level: ClassificationNaicsIndustry['level'];
   parentId: ClassificationNaicsIndustry['parentId'];
+  naicsIdTopParent: ClassificationNaicsIndustry['naicsIdTopParent'];
 }
 
 interface SuccessResponse {
@@ -54,41 +56,22 @@ export const useGlobalIndustryHierarchicalTreeData = () => {
   return {loading, error, data};
 };
 
-interface IndustryDatumWithSector extends IndustryDatum {
-  topLevelParentId: string;
-}
-
 interface IndustryMap {
-  [id: string]: IndustryDatumWithSector;
+  [id: string]: IndustryDatum;
 }
-
-const getTopLevelParentId = (id: string, industries: SuccessResponse['industries']) => {
-  let topLevelParentId: string = id;
-  let current: IndustryDatum | undefined = industries.find(datum => datum.naicsId === id);
-  while(current && current.parentId !== null) {
-    // eslint-disable-next-line
-    current = industries.find(datum => parseInt(datum.naicsId, 10) === (current as IndustryDatum).parentId);
-    if (current && current.parentId !== null) {
-      topLevelParentId = current.parentId.toString();
-    } else if (current && current.naicsId !== null) {
-      topLevelParentId = current.naicsId.toString();
-    }
-  }
-  return topLevelParentId;
-};
 
 const industryDataToMap = (data: SuccessResponse | undefined) => {
   const response: IndustryMap = {};
   if (data !== undefined) {
     const {industries} = data;
-    industries.forEach(({id, naicsId, name, level, parentId}) => {
+    industries.forEach(({id, naicsId, name, level, parentId, naicsIdTopParent}) => {
       response[naicsId] = {
         id,
         naicsId,
         name,
         level,
         parentId,
-        topLevelParentId: getTopLevelParentId(naicsId, industries),
+        naicsIdTopParent,
       };
     });
   }

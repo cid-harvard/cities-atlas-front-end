@@ -153,17 +153,17 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     primaryCityIndustries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
       if (industry && industry.level === digitLevel) {
-        const {name, topLevelParentId} = industry;
-        const colorDatum = sectorColorMap.find(s => s.id === topLevelParentId);
+        const {name, naicsIdTopParent} = industry;
+        const colorDatum = sectorColorMap.find(s => s.id === naicsIdTopParent.toString());
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         primaryTotal = compositionType === CompositionType.Companies ? primaryTotal + companies : primaryTotal + employees;
-        if (!hiddenSectors.includes(topLevelParentId) && colorDatum) {
+        if (!hiddenSectors.includes(naicsIdTopParent.toString()) && colorDatum) {
           filteredPrimaryData.push({
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
-            topLevelParentId,
+            naicsIdTopParent: naicsIdTopParent.toString(),
             color: colorDatum.color,
           });
         }
@@ -173,17 +173,17 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     secondaryCityIndustries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
       if (industry && industry.level === digitLevel) {
-        const {name, topLevelParentId} = industry;
-        const colorDatum = sectorColorMap.find(s => s.id === topLevelParentId);
+        const {name, naicsIdTopParent} = industry;
+        const colorDatum = sectorColorMap.find(s => s.id === naicsIdTopParent.toString());
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         secondaryTotal = compositionType === CompositionType.Companies ? secondaryTotal + companies : secondaryTotal + employees;
-        if (!hiddenSectors.includes(topLevelParentId) && colorDatum) {
+        if (!hiddenSectors.includes(naicsIdTopParent.toString()) && colorDatum) {
           filteredSecondaryData.push({
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
-            topLevelParentId,
+            naicsIdTopParent: naicsIdTopParent.toString(),
             color: colorDatum.color,
           });
         }

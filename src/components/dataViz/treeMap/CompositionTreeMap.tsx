@@ -157,8 +157,8 @@ const CompositionTreeMap = (props: Props) => {
     industries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
       if (industry && industry.level === digitLevel) {
-        const {name, topLevelParentId} = industry;
-        if (!hiddenSectors.includes(topLevelParentId)) {
+        const {name, naicsIdTopParent} = industry;
+        if (!hiddenSectors.includes(naicsIdTopParent.toString())) {
           const companies = numCompany ? numCompany : 0;
           const employees = numEmploy ? numEmploy : 0;
           total = compositionType === CompositionType.Companies ? total + companies : total + employees;
@@ -166,7 +166,7 @@ const CompositionTreeMap = (props: Props) => {
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
-            topLevelParentId,
+            topLevelParentId: naicsIdTopParent.toString(),
           });
         }
       }
@@ -191,7 +191,7 @@ const CompositionTreeMap = (props: Props) => {
         const industry = industryMap.data[id];
         const industryWithData = industries.find(({naicsId}) => naicsId === id);
         if (industry && industryWithData && node) {
-          const color = sectorColorMap.find(c => c.id === industry.topLevelParentId);
+          const color = sectorColorMap.find(c => c.id === industry.naicsIdTopParent.toString());
           const numCompany = industryWithData.numCompany ? industryWithData.numCompany : 0;
           const numEmploy = industryWithData.numEmploy ? industryWithData.numEmploy : 0;
           const value = compositionType === CompositionType.Companies ? numCompany : numEmploy;

@@ -41,15 +41,15 @@ export default (props: Props) => {
       industries.forEach(({naicsId, numCompany, numEmploy}) => {
         const industry = industryMap.data[naicsId];
         if (industry && industry.level === digitLevel) {
-          const {name, topLevelParentId} = industry;
-          if (!hiddenSectors.includes(topLevelParentId)) {
+          const {name, naicsIdTopParent} = industry;
+          if (!hiddenSectors.includes(naicsIdTopParent.toString())) {
             const companies = numCompany ? numCompany : 0;
             const employees = numEmploy ? numEmploy : 0;
             treeMapData.push({
               id: naicsId,
               value: compositionType === CompositionType.Companies ? companies : employees,
               title: name ? name : '',
-              topLevelParentId,
+              topLevelParentId: naicsIdTopParent.toString(),
             });
           }
         }
