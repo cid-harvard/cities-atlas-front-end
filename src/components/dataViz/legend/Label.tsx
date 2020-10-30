@@ -19,19 +19,26 @@ const Button = styled.button`
   align-items: center;
   margin: 0.1rem;
   text-transform: uppercase;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
   font-family: ${primaryFont};
   background-color: #fff;
   border: none;
   border-radius: 4px;
   transition: all 0.2s ease;
+  flex-shrink: 1;
+  flex-grow: 0;
+  flex-basis: 1;
+  max-width: 120px;
+  height: 28px;
+  white-space: pre-wrap;
 `;
 
 const Block = styled.div<{$checked: boolean}>`
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 1.2rem;
+  height: 1.2rem;
   margin-right: 0.2rem;
   position: relative;
+  flex-shrink: 0;
 
   &:after {
     ${({$checked}) => $checked ? "content: '';" : ''}

@@ -62,15 +62,15 @@ global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
 global-text-industries = Industries
 
-global-naics-sector-name-0 = Construction and utilities
-global-naics-sector-name-1 = Education and health services
+global-naics-sector-name-0 = Construction
+global-naics-sector-name-1 = Education & health
 global-naics-sector-name-2 = Financial activities
-global-naics-sector-name-3 = Leisure and hospitality
+global-naics-sector-name-3 = Leisure & hospitality
 global-naics-sector-name-4 = Manufacturing
-global-naics-sector-name-5 = Natural resources and mining
+global-naics-sector-name-5 = Natural resources
 global-naics-sector-name-6 = Other
-global-naics-sector-name-7 = Professional and business services
-global-naics-sector-name-8 = Trade and transportation
+global-naics-sector-name-7 = Professional & business
+global-naics-sector-name-8 = Trade & transportation
 
 error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
 error-message-no-industries = No industries available
