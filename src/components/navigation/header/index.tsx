@@ -103,7 +103,7 @@ const H2 = styled.h2<{$active: boolean}>`
     width: 100%;
     height: ${({$active}) => $active ? '0.4rem' : 0};
     background-color: ${primaryColor};
-    transition: height 0.2s ease-in-out;
+    transition: height 0.075s ease-in-out;
   }
 
 
