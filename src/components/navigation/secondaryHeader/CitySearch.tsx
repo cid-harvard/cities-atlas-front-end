@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import {
   lightBaseColor,
   errorColor,
+  baseColor,
 } from '../../../styling/styleUtils';
 import PanelSearch, {Datum} from 'react-panel-search';
 import useFluent from '../../../hooks/useFluent';
@@ -50,13 +51,15 @@ const ButtonBase = styled.button`
   justify-content: center;
   background-color: transparent;
   text-transform: uppercase;
-  padding: 0 0.25rem;
+  padding: 0 0.25rem 0 1.65rem;
   transition: outline 0.1s ease;
+  position: relative;
+  color: ${baseColor};
 
   &:before {
     content: '+';
-    margin-right: 0.15rem;
-    line-height: 0;
+    left: 0.15rem;
+    position: absolute;
   }
 `;
 
@@ -73,6 +76,10 @@ const AddComparisonButton = styled(ButtonBase)`
     background-color: #fff;
     outline: 0.25rem solid #fff;
   }
+
+  &:active {
+    color: ${baseColor};
+  }
 `;
 
 const RemoveComparisonButton = styled(ButtonBase)`
@@ -88,6 +95,10 @@ const RemoveComparisonButton = styled(ButtonBase)`
   &:hover, &:focus {
     background-color: #fff;
     outline: 0.25rem solid #fff;
+  }
+
+  &:active {
+    color: ${errorColor};
   }
 
   @media (max-width: 1280px) {

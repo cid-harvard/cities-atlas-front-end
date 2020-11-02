@@ -174,11 +174,16 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   padding: 0.6rem 0;
   display: flex;
   position: relative;
+  margin: 0;
 
   &:hover {
     &:before {
       background-color: ${baseColor};
     }
+  }
+
+  &:focus, &:active {
+    color: ${baseColor};
   }
 
   &:before {

@@ -5,6 +5,7 @@ import {
   fadeInAnimation,
   backgroundDark,
   secondaryFont,
+  noOutlineOnFocus,
 } from '../../../styling/styleUtils';
 import {rgba} from 'polished';
 import useFluent from '../../../hooks/useFluent';
@@ -31,6 +32,7 @@ const Button = styled.button`
   max-width: 120px;
   height: 28px;
   white-space: pre-wrap;
+  ${noOutlineOnFocus}
 `;
 
 const Block = styled.div<{$checked: boolean}>`
@@ -76,7 +78,7 @@ const HideIsolateContent = styled.div`
 
 const HideIsolateText = styled.div`
   border-radius: 4px;
-  padding: 0.6rem 0.85rem;
+  padding: 9px 14px;
   background-color: ${backgroundDark};
   color: #fff;
   border-radius: 4px;
@@ -126,7 +128,7 @@ const ButtonWrapper = styled.div`
   justify-content: center;
 `;
 const HideIsolateButton = styled.button<{$checked: boolean}>`
-  margin: 0.5rem;
+  margin: 8px;
   text-transform: uppercase;
   font-family: ${secondaryFont};
   color: #fff;
@@ -136,6 +138,7 @@ const HideIsolateButton = styled.button<{$checked: boolean}>`
   align-items: center;
   position: relative;
   white-space: nowrap;
+  ${noOutlineOnFocus}
 
   &:before {
     content: '';
@@ -143,7 +146,7 @@ const HideIsolateButton = styled.button<{$checked: boolean}>`
     height: 12px;
     border-radius: 200px;
     border: solid 1px #fff;
-    margin-right: 0.25rem;
+    margin-right: 4px;
   }
 
   &:after {
@@ -152,7 +155,8 @@ const HideIsolateButton = styled.button<{$checked: boolean}>`
     height: 6px;
     border-radius: 200px;
     background-color: #fff;
-    left: 10px;
+    // left: 10px;
+    transform: translate(4px, 0);
     position: absolute;
   }
 

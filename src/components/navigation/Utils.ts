@@ -13,6 +13,7 @@ export const UtilityBarButtonBase = styled.button`
   border: none;
   margin: 0 0.25rem;
   padding: 0.35rem;
+  color: ${baseColor};
   background-color: transparent;
   font-size: clamp(0.65rem, 1vw, 0.85rem);
   font-family: ${secondaryFont};
@@ -23,9 +24,10 @@ export const UtilityBarButtonBase = styled.button`
   transition: outline 0.1s ease;
   flex-shrink: 1;
 
-  &:hover, &:focus, &:focus:not(:focus-visible) {
+  &:hover, &:focus {
     background-color: #fff;
     outline: 0.25rem solid #fff;
+    color: ${baseColor};
   }
 
   @media (max-width: ${mediumBreakpoint}px) {

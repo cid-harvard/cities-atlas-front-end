@@ -80,10 +80,6 @@ const GlobalStyles = createGlobalStyle`
     }
   }
 
-  :focus:not(:focus-visible) {
-    outline: none;
-  }
-
   .rapid-tooltip-title {
     padding: 0.5rem;
   }

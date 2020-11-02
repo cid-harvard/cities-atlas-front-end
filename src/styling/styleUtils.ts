@@ -48,6 +48,12 @@ export const boldFontWeight = 700;
 
 export const defaultPadding = 2; // in rems
 
+export const noOutlineOnFocus = css`
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+`;
+
 export const ContentGrid = styled.div`
   padding: 1rem;
   box-sizing: border-box;
