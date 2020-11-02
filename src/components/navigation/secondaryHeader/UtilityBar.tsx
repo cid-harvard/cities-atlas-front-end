@@ -11,6 +11,7 @@ import {
   SvgBase,
   Text,
 } from '../Utils';
+import screenfull from 'screenfull';
 
 const shareIconSvg = raw('../../../assets/icons/share.svg');
 const expandIconSvg = raw('../../../assets/icons/expand.svg');
@@ -99,18 +100,22 @@ const UtilityBar = (props: Props) => {
 
   const onFullScreenClick = () => {
     const onFullscreenClose = () => setIsFullscreen(false);
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().then(() => {
-          setTimeout(() => {
-            setIsFullscreen(true);
-            document.addEventListener('fullscreenchange', onFullscreenClose);
-          }, 200);
-        });
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-        document.removeEventListener('fullscreenchange', onFullscreenClose);
-        setIsFullscreen(false);
+    if (screenfull.isEnabled) {
+      if (!screenfull.isFullscreen) {
+          screenfull.request().then(() => {
+            setTimeout(() => {
+              setIsFullscreen(true);
+              if (screenfull.isEnabled) {
+                screenfull.on('change', onFullscreenClose);
+              }
+            }, 200);
+          });
+      } else {
+        // if (document.exitFullscreen && screenfull.isEnabled) {
+          screenfull.exit();
+          screenfull.off('change', onFullscreenClose);
+          setIsFullscreen(false);
+        // }
       }
     }
   };
