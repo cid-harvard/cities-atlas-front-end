@@ -29,7 +29,7 @@ const Button = styled.button`
   flex-shrink: 1;
   flex-grow: 0;
   flex-basis: 1;
-  max-width: 120px;
+  width: min-content;
   height: 28px;
   white-space: pre-wrap;
   ${noOutlineOnFocus}
@@ -191,6 +191,8 @@ interface Props {
 const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidden, isIsolated}: Props) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const getString = useFluent();
+  // const words = name.split(' ');
+  // const longestWord = words.reduce(function (a, b) { return a.length > b.length ? a : b; });
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
       <HideIsolateContent>
