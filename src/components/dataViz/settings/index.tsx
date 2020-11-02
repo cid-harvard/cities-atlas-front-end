@@ -106,6 +106,7 @@ const Title = styled.h1`
   align-items: center;
   position: sticky;
   top: 0;
+  z-index: 5;
 
   span {
     width: 1.3rem;
