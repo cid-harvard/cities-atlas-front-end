@@ -37,6 +37,10 @@ const Root = styled.div`
       stroke: #1f262b;
       stroke-miterlimit: 10;
       stroke-width: 2px;
+
+      @media not all and (min-resolution:.001dpcm) { @media {
+        fill: #fff;
+      }}
     }
 
     circle {
@@ -79,12 +83,17 @@ const LinkContainer = styled.div`
   clip-path: url(#${clipPathIdDesktop});
 
   @media ${breakPoints.medium} {
+    webkit-clip-path: none;
     clip-path: url(#${clipPathIdTablet});
   }
 
   @media ${breakPoints.small} {
     clip-path: none;
   }
+
+  @media not all and (min-resolution:.001dpcm) { @media {
+    clip-path: none;
+  }}
 `;
 
 const acitveLinkClass = 'main-circle-side-nav-active-nav-link-page';
@@ -93,7 +102,7 @@ const NavLink = styled(Link)`
   position: absolute;
   font-family: ${secondaryFont};
   text-transform: uppercase;
-  font-size: 0.85rem;
+  font-size: 0.84rem;
   text-decoration: none;
   white-space: pre-line;
   padding-left: 1.25rem;
