@@ -160,7 +160,7 @@ const SecondaryHeader = () => {
       const removeComparison = () => {
         let path: string = history.location.pathname;
         const isIndustryComparison = matchPath<{[cityIdParam]: string}>(
-          path, CityRoutes.CityEconomicCompositionIndustryCompare
+          path, CityRoutes.CityEconomicCompositionIndustryCompare,
         );
         if (isIndustryComparison && isIndustryComparison.isExact && cityId !== null) {
           path = createRoute.city(CityRoutes.CityEconomicComposition, cityId);

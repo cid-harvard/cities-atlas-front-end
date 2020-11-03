@@ -158,6 +158,7 @@ const PreChartRow = (props: Props) => {
   const settingsPanel = settingsOpen ? (
     <Settings
       onClose={() => setSettingsOpen(false)}
+      settingsOptions={settingsOptions ? settingsOptions : {}}
     />
   ) : null;
 

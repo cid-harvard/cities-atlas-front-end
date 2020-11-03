@@ -45,7 +45,7 @@ const City = () => {
       url: createRoute.city(CityRoutes.CityGoodAt, cityId),
     },
     {
-      label: getStringWithNewLines('cities-single-page-titles-compare--to'),
+      label: getStringWithNewLines('cities-single-page-titles-compare-to'),
       url: createRoute.city(CityRoutes.CityCompareSelf, cityId),
     },
     {

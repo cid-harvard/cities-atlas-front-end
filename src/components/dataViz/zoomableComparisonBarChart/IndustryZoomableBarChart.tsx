@@ -1,6 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {
-  // CityIndustryYear,
   DigitLevel,
   ClassificationNaicsIndustry,
   CompositionType,
@@ -31,6 +30,9 @@ import {
   SuccessResponse,
 } from '../comparisonBarChart/TopIndustryComparisonBarChart';
 import orderBy from 'lodash/orderBy';
+import {rgba} from 'polished';
+import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
+import useFluent from '../../../hooks/useFluent';
 
 const Root = styled.div`
   width: 100%;
@@ -39,7 +41,7 @@ const Root = styled.div`
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 2.5rem 1fr 1rem;
+  grid-template-rows: 4rem 1fr 2rem;
 
   @media ${breakPoints.small} {
     grid-row: 3;
@@ -64,25 +66,32 @@ const BreadCrumbList = styled.ul`
   margin: 0;
   display: flex;
   align-items: center;
+
+  @media ${breakPoints.small} {
+    flex-wrap: wrap;
+  }
 `;
 
+const breadCrumbFontSize = 'clamp(0.55rem, 0.9vw, 0.85rem)';
+
 const BreadCrumb = styled.li`
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: ${breadCrumbFontSize};
   max-width: 20%;
+  padding-right: 2rem;
+  box-sizing: border-box;
+  font-family: ${secondaryFont};
+  position: relative;
 `;
 
 const BreadCrumbLink = styled.button`
   border: none;
   background-color: transparent;
   padding: 0;
-  font-size: 0.85rem;
-  font-weight: 600;
+  font-size: ${breadCrumbFontSize};
   font-family: ${secondaryFont};
   color: rgb(78, 140, 141);
   cursor: pointer;
   text-align: left;
-  margin-right: 1rem;
   display: flex;
   align-items: center;
 
@@ -96,7 +105,32 @@ const BreadCrumbLink = styled.button`
     font-size: 1rem;
     text-decoration: none;
     display: inline-block;
+    position: absolute;
+    right: 0;
   }
+`;
+
+const PrimarySecondaryLegend = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const LegendItem = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LegendBlock = styled.div`
+  width: 2em;
+  height: 1rem;
+  margin: 0 0.1rem;
+`;
+
+const LegendText = styled.div`
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  margin: 0 0.5rem;
 `;
 
 interface Props {
@@ -123,6 +157,16 @@ const IndustryZoomableBarChart = (props: Props) => {
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
+  const getString = useFluent();
+  const {data: globalData} = useGlobalLocationData();
+
+  const primaryCityDatum = globalData
+    ? globalData.cities.find(c => parseInt(c.cityId, 10) === primaryCity) : undefined;
+  const primaryCityName = primaryCityDatum && primaryCityDatum.name? primaryCityDatum.name : '';
+
+  const secondaryCityDatum = globalData
+    ? globalData.cities.find(c => parseInt(c.cityId, 10) === secondaryCity) : undefined;
+  const secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
 
   useEffect(() => {
     const node = rootRef.current;
@@ -164,9 +208,31 @@ const IndustryZoomableBarChart = (props: Props) => {
   } else if (dataToUse !== undefined) {
     const {
       primaryCityIndustries, secondaryCityIndustries,
-    } =dataToUse;
+    } = dataToUse;
     const highlightedParent = highlightIndustry && highlightIndustry.level === DigitLevel.Six
       ? highlightIndustry.parentId : highlighted;
+    const primaryTotal = primaryCityIndustries.reduce((total, {naicsId, numCompany, numEmploy}) => {
+      const industry = industryMap.data[naicsId];
+      if (industry && industry.parentId === null) {
+        const companies = numCompany ? numCompany : 0;
+        const employees = numEmploy ? numEmploy : 0;
+        const increment = compositionType === CompositionType.Companies ? companies : employees;
+        return total + increment;
+      } else {
+        return total;
+      }
+    }, 0);
+    const secondaryTotal = secondaryCityIndustries.reduce((total, {naicsId, numCompany, numEmploy}) => {
+      const industry = industryMap.data[naicsId];
+      if (industry && industry.parentId === null) {
+        const companies = numCompany ? numCompany : 0;
+        const employees = numEmploy ? numEmploy : 0;
+        const increment = compositionType === CompositionType.Companies ? companies : employees;
+        return total + increment;
+      } else {
+        return total;
+      }
+    }, 0);
     const barChartData: ClusterBarChartDatum[] = [];
     [...primaryCityIndustries, ...secondaryCityIndustries].forEach(({naicsId, numCompany, numEmploy}, i) => {
       const industry = industryMap.data[naicsId];
@@ -175,16 +241,24 @@ const IndustryZoomableBarChart = (props: Props) => {
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         const colorDatum = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
+        let fill: string | undefined;
+        if (colorDatum) {
+          fill = i < primaryCityIndustries.length ? colorDatum.color : rgba(colorDatum.color, 0.4);
+        } else {
+          fill = undefined;
+        }
+        const value = compositionType === CompositionType.Companies ? companies : employees;
+        const total = i < primaryCityIndustries.length ? primaryTotal : secondaryTotal;
         barChartData.push({
           groupName,
           x: industry.name,
-          y: compositionType === CompositionType.Companies ? companies : employees,
-          fill: colorDatum ? colorDatum.color : undefined,
+          y: value / total * 100,
+          fill,
           onClick: industry.level !== DigitLevel.Six
             ? () => setHighlighted(naicsId) : undefined,
-        })
+        });
       }
-    })
+    });
     const sortedData = orderBy(barChartData, ['groupName', 'y'], ['asc', 'desc']);
     const loadingOverlay = loading ? <LoadingBlock /> : null;
 
@@ -195,8 +269,11 @@ const IndustryZoomableBarChart = (props: Props) => {
             id={'example-cluster-bar-chart'}
             vizType={VizType.ClusterBarChart}
             data={sortedData}
-            axisLabels={{left: '% of Total Firms'}}
+            axisLabels={{left: getString('axis-text-percent-total-value', {
+              value: compositionType,
+            })}}
             height={dimensions.height}
+            formatAxis={{y: v => v + '%'}}
             animateBars={loading ? undefined : 250}
           />
         </ErrorBoundary>
@@ -207,7 +284,6 @@ const IndustryZoomableBarChart = (props: Props) => {
     output = null;
   }
 
-
   const breadCrumbList = [];
   let current = highlightIndustry;
   while (current !== undefined) {
@@ -216,32 +292,33 @@ const IndustryZoomableBarChart = (props: Props) => {
     current = currentParentId ? industryMap.data[currentParentId] : undefined;
   }
   const breadCrumbs = breadCrumbList.reverse().map((industry, i) => {
+    const industryName = industry.name ? industry.name.replace(' and ', ' & ') : '';
     if (i === breadCrumbList.length - 1) {
       return (
         <BreadCrumb key={industry.naicsId}>
-          {industry.name}
+          {industryName}
         </BreadCrumb>
       );
     }
     return (
       <BreadCrumb key={industry.naicsId}>
         <BreadCrumbLink onClick={() => setHighlighted(industry.naicsId)}>
-          <span>{industry.name}</span>
+          <span>{industryName}</span>
         </BreadCrumbLink>
       </BreadCrumb>
     );
-  })
+  });
   const topLevelBreadCrumb = breadCrumbList.length ? (
     <BreadCrumb>
       <BreadCrumbLink onClick={() => setHighlighted(undefined)}>
-        <span>Sector Level</span>
+        <span>{getString('global-ui-sector-level')}</span>
       </BreadCrumbLink>
     </BreadCrumb>
   ) : (
     <BreadCrumb>
-        Sector Level
+        {getString('global-ui-sector-level')}
     </BreadCrumb>
-  )
+  );
 
   return (
     <>
@@ -262,6 +339,20 @@ const IndustryZoomableBarChart = (props: Props) => {
         <SizingContainer ref={rootRef}>
           {output}
         </SizingContainer>
+        <PrimarySecondaryLegend>
+          <LegendItem>
+            <LegendText>
+              {primaryCityName}
+            </LegendText>
+            <LegendBlock style={{backgroundColor: '#666'}} />
+          </LegendItem>
+          <LegendItem>
+            <LegendBlock style={{backgroundColor: rgba('#666', 0.4)}} />
+            <LegendText>
+              {secondaryCityName}
+            </LegendText>
+          </LegendItem>
+        </PrimarySecondaryLegend>
       </Root>
     </>
   );

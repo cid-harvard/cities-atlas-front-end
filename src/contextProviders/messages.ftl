@@ -82,7 +82,7 @@ landing-page-text-review-the-city = Review the City
 cities-single-page-titles-economic-position = What is my city's\neconomic position?
 cities-single-page-titles-own-host-subsidiaries = What cities own/host\nsubsidiaries in and from\nmy city?
 cities-single-page-titles-good-at = What is my city\ngood at?
-cities-single-page-titles-compare--to = What cities should I\ncompare myself to?
+cities-single-page-titles-compare-to = What cities should I\ncompare myself to?
 cities-single-page-titles-industry-city-move-to = What industry can\nmy city move to?
 cities-single-page-titles-summary = Quick facts &\nsummary
 
@@ -100,3 +100,5 @@ cities-top-10-comparison-chart-axis-title = Difference in Share
 glossary-total-shown = About the total
 glossary-composition = About the composition type
 glossary-digit-level = About digit levels
+
+axis-text-percent-total-value = % of Total { $value }

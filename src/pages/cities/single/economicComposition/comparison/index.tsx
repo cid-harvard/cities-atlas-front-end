@@ -54,7 +54,7 @@ const CompositionComparison = (props: Props) => {
   const closeDownload = () => setActiveDownload(null);
   const history = useHistory();
   const isIndustryComparison = matchPath<{[cityIdParam]: string}>(
-    history.location.pathname, CityRoutes.CityEconomicCompositionIndustryCompare
+    history.location.pathname, CityRoutes.CityEconomicCompositionIndustryCompare,
   );
   const vizNavigation= [
     {
@@ -63,8 +63,8 @@ const CompositionComparison = (props: Props) => {
       onClick: () => {
         history.push(
           createRoute.city(CityRoutes.CityEconomicComposition, primaryCity)
-          + history.location.search
-        )
+          + history.location.search,
+        );
       },
     },
     {
@@ -73,11 +73,11 @@ const CompositionComparison = (props: Props) => {
       onClick: () => {
         history.push(
           createRoute.city(CityRoutes.CityEconomicCompositionIndustryCompare, primaryCity)
-          + history.location.search
-        )
+          + history.location.search,
+        );
       },
     },
-  ]
+  ];
 
   let download: React.ReactElement<any> | null;
   if (activeDownload === DownloadType.Image) {

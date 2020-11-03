@@ -231,12 +231,12 @@ export interface SettingsOptions {
 
 interface Props {
   onClose: () => void;
-  // settingsOptions: SettingsOptions;
+  settingsOptions: SettingsOptions;
 }
 
 const Settings = (props: Props) => {
   const {
-    onClose,
+    onClose, settingsOptions,
   } = props;
   const history = useHistory();
   const params = useQueryParams();
@@ -267,6 +267,79 @@ const Settings = (props: Props) => {
                         (params.composition_type === CompositionType.Employees)
                         ? CompostionButtonHighlight : CompostionButtonBase;
 
+  const compositionOptions = settingsOptions.compositionType ? (
+    <SettingGrid>
+      <Tooltip
+        explanation={getString('glossary-composition')}
+      />
+      <Label>{getString('global-ui-numbers-based-on')}</Label>
+      <SettingsInputContainer>
+        <EmployeeButton
+          onClick={() => updateSetting('composition_type', CompositionType.Employees)}
+        >
+          {CompositionType.Employees}
+        </EmployeeButton>
+        <CompanyButton
+          onClick={() => updateSetting('composition_type', CompositionType.Companies)}
+        >
+          {CompositionType.Companies}
+        </CompanyButton>
+      </SettingsInputContainer>
+    </SettingGrid>
+  ) : null;
+
+  const digitLevelOptions = settingsOptions.digitLevel ? (
+    <SettingGrid>
+      <Tooltip
+        explanation={getString('glossary-digit-level')}
+      />
+      <Label>{getString('global-ui-detail-level')}</Label>
+      <SettingsInputContainer>
+        <DigitLevelButton
+          onClick={() => updateSetting('digit_level', DigitLevel.Sector)}
+          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Sector) ||
+                  (params.digit_level === DigitLevel.Sector.toString())}
+        >
+          {DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}
+        </DigitLevelButton>
+        <DigitLevelButton
+          onClick={() => updateSetting('digit_level', DigitLevel.Two)}
+          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Two) ||
+                  (params.digit_level === DigitLevel.Two.toString())}
+        >
+          {DigitLevel.Two}-{getString('global-ui-digit-level')}
+        </DigitLevelButton>
+        <DigitLevelButton
+          onClick={() => updateSetting('digit_level', DigitLevel.Three)}
+          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Three) ||
+                  (params.digit_level === DigitLevel.Three.toString())}
+        >
+          {DigitLevel.Three}-{getString('global-ui-digit-level')}
+        </DigitLevelButton>
+        <DigitLevelButton
+          onClick={() => updateSetting('digit_level', DigitLevel.Four)}
+          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Four) ||
+                  (params.digit_level === DigitLevel.Four.toString())}
+        >
+          {DigitLevel.Four}-{getString('global-ui-digit-level')}
+        </DigitLevelButton>
+        <DigitLevelButton
+          onClick={() => updateSetting('digit_level', DigitLevel.Five)}
+          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Five) ||
+                  (params.digit_level === DigitLevel.Five.toString())}
+        >
+          {DigitLevel.Five}-{getString('global-ui-digit-level')}
+        </DigitLevelButton>
+        <DigitLevelButton
+          onClick={() => updateSetting('digit_level', DigitLevel.Six)}
+          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Six) ||
+                  (params.digit_level === DigitLevel.Six.toString())}
+        >
+          {DigitLevel.Six}-{getString('global-ui-digit-level')}
+        </DigitLevelButton>
+      </SettingsInputContainer>
+    </SettingGrid>
+  ) : null;
   return (
     <Root>
       <ContentRoot>
@@ -276,75 +349,8 @@ const Settings = (props: Props) => {
           <CloseButton onClick={onClose}>×</CloseButton>
         </Title>
         <Content>
-          <SettingGrid>
-            <Tooltip
-              explanation={getString('glossary-composition')}
-            />
-            <Label>{getString('global-ui-numbers-based-on')}</Label>
-            <SettingsInputContainer>
-              <EmployeeButton
-                onClick={() => updateSetting('composition_type', CompositionType.Employees)}
-              >
-                {CompositionType.Employees}
-              </EmployeeButton>
-              <CompanyButton
-                onClick={() => updateSetting('composition_type', CompositionType.Companies)}
-              >
-                {CompositionType.Companies}
-              </CompanyButton>
-            </SettingsInputContainer>
-          </SettingGrid>
-
-          <SettingGrid>
-            <Tooltip
-              explanation={getString('glossary-digit-level')}
-            />
-            <Label>{getString('global-ui-detail-level')}</Label>
-            <SettingsInputContainer>
-              <DigitLevelButton
-                onClick={() => updateSetting('digit_level', DigitLevel.Sector)}
-                $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Sector) ||
-                        (params.digit_level === DigitLevel.Sector.toString())}
-              >
-                {DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}
-              </DigitLevelButton>
-              <DigitLevelButton
-                onClick={() => updateSetting('digit_level', DigitLevel.Two)}
-                $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Two) ||
-                        (params.digit_level === DigitLevel.Two.toString())}
-              >
-                {DigitLevel.Two}-{getString('global-ui-digit-level')}
-              </DigitLevelButton>
-              <DigitLevelButton
-                onClick={() => updateSetting('digit_level', DigitLevel.Three)}
-                $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Three) ||
-                        (params.digit_level === DigitLevel.Three.toString())}
-              >
-                {DigitLevel.Three}-{getString('global-ui-digit-level')}
-              </DigitLevelButton>
-              <DigitLevelButton
-                onClick={() => updateSetting('digit_level', DigitLevel.Four)}
-                $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Four) ||
-                        (params.digit_level === DigitLevel.Four.toString())}
-              >
-                {DigitLevel.Four}-{getString('global-ui-digit-level')}
-              </DigitLevelButton>
-              <DigitLevelButton
-                onClick={() => updateSetting('digit_level', DigitLevel.Five)}
-                $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Five) ||
-                        (params.digit_level === DigitLevel.Five.toString())}
-              >
-                {DigitLevel.Five}-{getString('global-ui-digit-level')}
-              </DigitLevelButton>
-              <DigitLevelButton
-                onClick={() => updateSetting('digit_level', DigitLevel.Six)}
-                $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Six) ||
-                        (params.digit_level === DigitLevel.Six.toString())}
-              >
-                {DigitLevel.Six}-{getString('global-ui-digit-level')}
-              </DigitLevelButton>
-            </SettingsInputContainer>
-          </SettingGrid>
+          {compositionOptions}
+          {digitLevelOptions}
           <ResetButton onClick={resetSettings}>
             {getString('global-ui-settings-reset')}
           </ResetButton>
