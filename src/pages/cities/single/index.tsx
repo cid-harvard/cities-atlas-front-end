@@ -25,6 +25,7 @@ const City = () => {
   const cityId = useCurrentCityId();
 
   useEffect(() => {
+    // If route is blank, default to first slide
     if (match && match.isExact && match.params[cityIdParam]) {
       history.replace(createRoute.city(CityRoutes.CityEconomicComposition, match.params[cityIdParam]));
     }

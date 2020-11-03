@@ -6,6 +6,7 @@ export const cityIdParam = 'cityId';
 export const CityRoutes = {
   CityBase: '/city/:cityId',
   CityEconomicComposition: '/city/:cityId/economic-composition',
+  CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
   CityOutsideSubsidaries: '/city/:cityId/outside-subsidaries',
   CityGoodAt: '/city/:cityId/good-at',
   CityCompareSelf: '/city/:cityId/compare-to',
@@ -18,14 +19,8 @@ export const Routes = {
   ...CityRoutes,
 } as const;
 
-export enum CompositionComparisonViz {
-  Top10Industries = 'top',
-  CompareSectors = 'sectors',
-}
-
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
-  composition_comparison_viz: CompositionComparisonViz | undefined;
 }

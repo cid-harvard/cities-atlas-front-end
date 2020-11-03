@@ -158,8 +158,15 @@ const SecondaryHeader = () => {
         }
       };
       const removeComparison = () => {
+        let path: string = history.location.pathname;
+        const isIndustryComparison = matchPath<{[cityIdParam]: string}>(
+          path, CityRoutes.CityEconomicCompositionIndustryCompare
+        );
+        if (isIndustryComparison && isIndustryComparison.isExact && cityId !== null) {
+          path = createRoute.city(CityRoutes.CityEconomicComposition, cityId);
+        }
         const query = queryString.stringify({...otherParams});
-        const newUrl = query ? history.location.pathname + '?' + query : history.location.pathname;
+        const newUrl = query ? path + '?' + query : path;
         history.push(newUrl);
       };
       compareDropdown = (

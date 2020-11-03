@@ -83,7 +83,7 @@ export interface Indicator {
   tooltipContent?: React.ReactNode;
 }
 
-interface VizNavItem {
+export interface VizNavItem {
   label: string;
   active: boolean;
   onClick: () => void;

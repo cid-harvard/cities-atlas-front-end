@@ -39,7 +39,7 @@ const SearchContainer = styled(SearchContainerLight)`
 export interface SearchInGraphOptions {
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   setHighlighted: (value: string | undefined) => void;
-  digitLevel: DigitLevel;
+  digitLevel: DigitLevel | null;
 }
 
 const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
@@ -80,7 +80,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
       }
     };
     const searchData: SearchDatum[] = industrySearchData.data.filter(
-      ({level, id}) => level <= digitLevel && !hiddenSectors.includes(id as string),
+      ({level, id}) => (digitLevel === null || level <= digitLevel) && !hiddenSectors.includes(id as string),
     );
     const disallowSelectionLevels = digitLevel
       ? Array.from(Array(digitLevel).keys()) : undefined;

@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import TopIndustryComparisonBarChart from
   '../../../../../components/dataViz/comparisonBarChart/TopIndustryComparisonBarChart';
+import IndustryZoomableBarChart from
+  '../../../../../components/dataViz/zoomableComparisonBarChart/IndustryZoomableBarChart';
 import {defaultYear} from '../../../../../Utils';
 import {
   defaultCompositionType,
@@ -16,8 +18,15 @@ import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLab
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import noop from 'lodash/noop';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
-import {CompositionComparisonViz} from '../../../../../routing/routes';
+import {createRoute} from '../../../../../routing/Utils';
+import {CityRoutes, cityIdParam} from '../../../../../routing/routes';
 import DownloadImageOverlay from './DownloadImageOverlay';
+import {
+  useHistory,
+  Switch,
+  Route,
+  matchPath,
+} from 'react-router-dom';
 
 interface Props {
   primaryCity: string;
@@ -29,7 +38,7 @@ const CompositionComparison = (props: Props) => {
     primaryCity, secondaryCity,
   } = props;
 
-  const {digit_level, composition_type, composition_comparison_viz} = useQueryParams();
+  const {digit_level, composition_type} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -43,21 +52,32 @@ const CompositionComparison = (props: Props) => {
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
   const closeDownload = () => setActiveDownload(null);
-
-  const currentViz = composition_comparison_viz === CompositionComparisonViz.CompareSectors ? (
-    <div>Compare Sectors</div>
-  ) : (
-    <TopIndustryComparisonBarChart
-      primaryCity={parseInt(primaryCity, 10)}
-      secondaryCity={parseInt(secondaryCity, 10)}
-      year={defaultYear}
-      setHighlighted={setHighlighted}
-      highlighted={highlighted}
-      digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-      compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-      hiddenSectors={hiddenSectors}
-    />
+  const history = useHistory();
+  const isIndustryComparison = matchPath<{[cityIdParam]: string}>(
+    history.location.pathname, CityRoutes.CityEconomicCompositionIndustryCompare
   );
+  const vizNavigation= [
+    {
+      label: 'Top 10 Share Differences',
+      active: !!(!isIndustryComparison || !isIndustryComparison.isExact),
+      onClick: () => {
+        history.push(
+          createRoute.city(CityRoutes.CityEconomicComposition, primaryCity)
+          + history.location.search
+        )
+      },
+    },
+    {
+      label: 'Compare Industries',
+      active: !!(isIndustryComparison && isIndustryComparison.isExact),
+      onClick: () => {
+        history.push(
+          createRoute.city(CityRoutes.CityEconomicCompositionIndustryCompare, primaryCity)
+          + history.location.search
+        )
+      },
+    },
+  ]
 
   let download: React.ReactElement<any> | null;
   if (activeDownload === DownloadType.Image) {
@@ -76,7 +96,37 @@ const CompositionComparison = (props: Props) => {
   return (
     <>
       <ContentGrid>
-        {currentViz}
+        <Switch>
+          <Route path={CityRoutes.CityEconomicCompositionIndustryCompare}
+            render={() => (
+              <IndustryZoomableBarChart
+                primaryCity={parseInt(primaryCity, 10)}
+                secondaryCity={parseInt(secondaryCity, 10)}
+                year={defaultYear}
+                setHighlighted={setHighlighted}
+                highlighted={highlighted ? parseInt(highlighted, 10) : null}
+                compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                hiddenSectors={hiddenSectors}
+                vizNavigation={vizNavigation}
+              />
+            )}
+          />
+          <Route path={CityRoutes.CityEconomicComposition}
+            render={() => (
+              <TopIndustryComparisonBarChart
+                primaryCity={parseInt(primaryCity, 10)}
+                secondaryCity={parseInt(secondaryCity, 10)}
+                year={defaultYear}
+                setHighlighted={setHighlighted}
+                highlighted={highlighted}
+                digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+                compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                hiddenSectors={hiddenSectors}
+                vizNavigation={vizNavigation}
+              />
+            )}
+          />
+        </Switch>
         <CategoryLabels
           categories={sectorMap}
           toggleCategory={toggleSector}

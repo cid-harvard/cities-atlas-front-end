@@ -14,7 +14,7 @@ import {
 } from 'react-use';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import PreChartRow from '../../../components/general/PreChartRow';
+import PreChartRow, {VizNavItem} from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import {
@@ -23,7 +23,6 @@ import {
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart, {FilteredDatum} from './Chart';
-import noop from 'lodash/noop';
 
 const Root = styled.div`
   width: 100%;
@@ -74,7 +73,7 @@ interface IndustriesList {
   numEmploy: CityIndustryYear['numEmploy'];
 }
 
-interface SuccessResponse {
+export interface SuccessResponse {
   primaryCityIndustries: IndustriesList[];
   secondaryCityIndustries: IndustriesList[];
 }
@@ -85,7 +84,7 @@ interface Variables {
   year: number;
 }
 
-const useEconomicCompositionComparisonQuery = (variables: Variables) =>
+export const useEconomicCompositionComparisonQuery = (variables: Variables) =>
   useQuery<SuccessResponse, Variables>(ECONOMIC_COMPOSITION_COMPARISON_QUERY, { variables });
 
 interface Props {
@@ -97,12 +96,13 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
+  vizNavigation: VizNavItem[];
 }
 
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, secondaryCity, year, digitLevel, compositionType, hiddenSectors,
-    highlighted, setHighlighted,
+    highlighted, setHighlighted, vizNavigation,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
@@ -224,10 +224,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       <PreChartRow
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         settingsOptions={{compositionType: true, digitLevel: true}}
-        vizNavigation={[
-          {label: 'Top 10 Share Differences', active: true, onClick: noop},
-          {label: 'Compare Industries', active: false, onClick: noop},
-        ]}
+        vizNavigation={vizNavigation}
       />
       <Root ref={rootRef}>
         {output}

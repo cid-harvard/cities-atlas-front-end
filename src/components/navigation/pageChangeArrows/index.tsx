@@ -84,7 +84,7 @@ const PageChangeArrows = ({baseLinkData}: Props) => {
 
   const linkIndex = baseLinkData.findIndex(d => {
     const match = matchPath(history.location.pathname, d.url);
-    return match && match.isExact ? true : false;
+    return match ? true : false;
   });
 
   if (linkIndex === -1) {

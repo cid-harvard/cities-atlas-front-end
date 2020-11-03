@@ -208,7 +208,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
 
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
-    const className = match && match.isExact ? acitveLinkClass : undefined;
+    const className = match ? acitveLinkClass : undefined;
     return (
       <NavLink
         to={d.url + history.location.search}
