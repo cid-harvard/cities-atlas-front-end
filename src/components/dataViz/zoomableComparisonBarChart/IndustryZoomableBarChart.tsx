@@ -21,8 +21,7 @@ import {
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
-import DataViz, {
-  VizType,
+import {
   ClusterBarChartDatum,
 } from 'react-fast-charts';
 import {
@@ -33,6 +32,7 @@ import orderBy from 'lodash/orderBy';
 import {rgba} from 'polished';
 import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
 import useFluent from '../../../hooks/useFluent';
+import Chart from './Chart';
 
 const Root = styled.div`
   width: 100%;
@@ -58,6 +58,11 @@ const VizContainer = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
+
+  .cluster-bar-chart-y-axis-label {
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
 `;
 
 const BreadCrumbList = styled.ul`
@@ -236,7 +241,10 @@ const IndustryZoomableBarChart = (props: Props) => {
     const barChartData: ClusterBarChartDatum[] = [];
     [...primaryCityIndustries, ...secondaryCityIndustries].forEach(({naicsId, numCompany, numEmploy}, i) => {
       const industry = industryMap.data[naicsId];
-      if (industry && industry.name && industry.parentId === highlightedParent) {
+      if (
+          industry && industry.name && industry.parentId === highlightedParent &&
+          !hiddenSectors.includes(industry.naicsIdTopParent.toString())
+        ) {
         const groupName = i < primaryCityIndustries.length ? 'A' : 'B';
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
@@ -265,16 +273,13 @@ const IndustryZoomableBarChart = (props: Props) => {
     output = (
       <VizContainer style={{height: dimensions.height}}>
         <ErrorBoundary>
-          <DataViz
-            id={'example-cluster-bar-chart'}
-            vizType={VizType.ClusterBarChart}
+          <Chart
             data={sortedData}
-            axisLabels={{left: getString('axis-text-percent-total-value', {
-              value: compositionType,
-            })}}
+            compositionType={compositionType}
             height={dimensions.height}
-            formatAxis={{y: v => v + '%'}}
-            animateBars={loading ? undefined : 250}
+            loading={loading}
+            primaryName={primaryCityName}
+            secondaryName={secondaryCityName}
           />
         </ErrorBoundary>
         {loadingOverlay}

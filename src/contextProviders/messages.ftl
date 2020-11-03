@@ -72,6 +72,8 @@ global-naics-sector-name-6 = Other
 global-naics-sector-name-7 = Professional & business
 global-naics-sector-name-8 = Trade & transportation
 
+global-click-to-expand-industry = Click to expand industry
+
 error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
 error-message-no-industries = No industries available
 
@@ -102,3 +104,5 @@ glossary-composition = About the composition type
 glossary-digit-level = About digit levels
 
 axis-text-percent-total-value = % of Total { $value }
+
+tooltip-text-share-of = Share of { $value }

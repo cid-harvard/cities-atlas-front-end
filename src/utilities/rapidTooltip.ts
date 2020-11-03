@@ -6,6 +6,7 @@ interface Input {
   color: string;
   rows: string[][];
   boldColumns?: number[];
+  additionalHTML?: string;
 }
 
 export const RapidTooltipRoot = styled.div`
@@ -45,6 +46,8 @@ export const getStandardTooltip = (input: Input) => {
     rows = rows + row;
   });
 
+  const additionalContent = input.additionalHTML ? `<div>${input.additionalHTML}</div>` : '';
+
   return `
     <div>
       <div class="rapid-tooltip-title" style="background-color: ${input.color};">
@@ -56,6 +59,7 @@ export const getStandardTooltip = (input: Input) => {
       >
         ${rows}
       </div>
+      ${additionalContent}
     </div>
     <div class="rapid-tooltip-arrow-container">
       <div class="rapid-tooltip-arrow"></div>

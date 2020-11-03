@@ -209,6 +209,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
                 primaryCityId={primaryCity}
                 secondaryCityId={secondaryCity}
                 highlighted={highlighted}
+                compositionType={compositionType}
               />
             </ErrorBoundary>
           {loadingOverlay}

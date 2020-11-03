@@ -35,7 +35,7 @@
     "react-comparison-bar-chart": "^1.1.6",
     "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",
-    "react-fast-charts": "^1.1.0",
+    "react-fast-charts": "^1.1.2",
     "react-helmet": "^6.1.0",
     "react-mapbox-gl": "^4.8.6",
     "react-panel-search": "^1.3.22",

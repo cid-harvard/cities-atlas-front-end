@@ -9,6 +9,7 @@ import useFluent from '../../../hooks/useFluent';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {
   CityIndustryYear,
+  CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import QuickError from '../../transitionStateComponents/QuickError';
 
@@ -32,6 +33,7 @@ interface Props {
   primaryCityId: number;
   secondaryCityId: number;
   highlighted: string | undefined;
+  compositionType: CompositionType;
 }
 
 const Chart = (props: Props) => {
@@ -39,7 +41,7 @@ const Chart = (props: Props) => {
     filteredPrimaryData, filteredSecondaryData,
     primaryTotal, secondaryTotal,
     primaryCityId, secondaryCityId,
-    highlighted,
+    highlighted, compositionType,
   } = props;
 
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -94,7 +96,11 @@ const Chart = (props: Props) => {
           color: rgba(datum.color, 0.3),
           rows: [
             ['', secondaryCityName, primaryCityName],
-            ['Share of Employees', secondaryValue.toFixed(2) + '%', primaryValue.toFixed(2) + '%'],
+            [
+              getString('tooltip-text-share-of', {value: compositionType}),
+              secondaryValue.toFixed(2) + '%',
+              primaryValue.toFixed(2) + '%',
+            ],
             ['Difference', secondaryDiff, primaryDiff],
           ],
           boldColumns: [1, 2],
