@@ -20,7 +20,7 @@ import noop from 'lodash/noop';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import {createRoute} from '../../../../../routing/Utils';
 import {CityRoutes, cityIdParam} from '../../../../../routing/routes';
-import DownloadImageOverlay from './DownloadImageOverlay';
+import DownloadTopShares from './DownloadTopShares';
 import {
   useHistory,
   Switch,
@@ -82,18 +82,30 @@ const CompositionComparison = (props: Props) => {
   ];
 
   let download: React.ReactElement<any> | null;
+  let triggerImageDownload: undefined | (() => void);
   if (activeDownload === DownloadType.Image) {
     download = (
-      <DownloadImageOverlay
-        primaryCityId={primaryCity}
-        secondaryCityId={secondaryCity}
-        year={defaultYear}
-        onClose={closeDownload}
-      />
+        <Switch>
+          <Route path={CityRoutes.CityEconomicComposition}
+            render={() => (
+              <DownloadTopShares
+                primaryCityId={primaryCity}
+                secondaryCityId={secondaryCity}
+                year={defaultYear}
+                onClose={closeDownload}
+              />
+            )}
+          />
+        </Switch>
     );
+    triggerImageDownload = () => {
+      setActiveDownload(null);
+    };
   } else {
     download = null;
+    triggerImageDownload = undefined;
   }
+
 
   return (
     <>
@@ -110,6 +122,7 @@ const CompositionComparison = (props: Props) => {
                 compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
                 hiddenSectors={hiddenSectors}
                 vizNavigation={vizNavigation}
+                triggerImageDownload={triggerImageDownload}
               />
             )}
           />

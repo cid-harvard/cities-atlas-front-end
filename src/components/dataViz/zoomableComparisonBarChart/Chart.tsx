@@ -19,6 +19,7 @@ interface Props {
   loading: boolean;
   primaryName: string;
   secondaryName: string;
+  triggerImageDownload: undefined | (() => void);
 }
 
 // A/B strings used to allow for sorting in order
@@ -30,7 +31,7 @@ export enum Group {
 const Chart = (props: Props) => {
   const {
     data, compositionType, height, loading,
-    primaryName, secondaryName,
+    primaryName, secondaryName, triggerImageDownload,
   } = props;
   const getString = useFluent();
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -57,7 +58,7 @@ const Chart = (props: Props) => {
             primaryValue.toFixed(2) + '%',
             secondaryValue.toFixed(2) + '%',
           ],
-          ['Difference', primaryDiff, secondaryDiff],  
+          ['Difference', primaryDiff, secondaryDiff],
         ],
         boldColumns: [1, 2],
         additionalHTML: datum.onClick
@@ -115,6 +116,8 @@ const Chart = (props: Props) => {
           startMaxY: prevMaxY ? prevMaxY : 0.1,
           startMinY: 0,
         }}
+        triggerSVGDownload={triggerImageDownload}
+        chartTitle={`${primaryName} - ${secondaryName} Industry Comparison`}
       />
       <RapidTooltipRoot ref={tooltipRef} />
     </>

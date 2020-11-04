@@ -32,7 +32,7 @@ import orderBy from 'lodash/orderBy';
 import {rgba} from 'polished';
 import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
 import useFluent from '../../../hooks/useFluent';
-import Chart from './Chart';
+import Chart, {Group} from './Chart';
 
 const Root = styled.div`
   width: 100%;
@@ -156,12 +156,13 @@ interface Props {
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   vizNavigation: VizNavItem[];
+  triggerImageDownload: undefined | (() => void);
 }
 
 const IndustryZoomableBarChart = (props: Props) => {
   const {
     primaryCity, secondaryCity, year, compositionType, highlighted,
-    hiddenSectors, setHighlighted, vizNavigation,
+    hiddenSectors, setHighlighted, vizNavigation, triggerImageDownload,
   } = props;
 
   const {loading, error, data} = useEconomicCompositionComparisonQuery({
@@ -254,7 +255,7 @@ const IndustryZoomableBarChart = (props: Props) => {
           industry && industry.name && industry.parentId === highlightedParent &&
           !hiddenSectors.includes(industry.naicsIdTopParent.toString())
         ) {
-        const groupName = i < primaryCityIndustries.length ? 'A' : 'B';
+        const groupName = i < primaryCityIndustries.length ? Group.Primary : Group.Secondary;
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         const colorDatum = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
@@ -289,6 +290,7 @@ const IndustryZoomableBarChart = (props: Props) => {
             loading={loading}
             primaryName={primaryCityName}
             secondaryName={secondaryCityName}
+            triggerImageDownload={triggerImageDownload}
           />
         </ErrorBoundary>
         {loadingOverlay}

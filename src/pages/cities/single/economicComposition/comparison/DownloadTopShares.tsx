@@ -44,14 +44,14 @@ export default (props: Props) => {
         link.click();
         link.remove();
         if (button) {
-          button.style.display = 'block';
+          button.style.display = 'flex';
         }
         onClose();
       })
       .catch(e => {
         console.error(e);
         if (button) {
-          button.style.display = 'block';
+          button.style.display = 'flex';
         }
         onClose();
       });
