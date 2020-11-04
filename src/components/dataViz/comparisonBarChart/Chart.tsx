@@ -87,10 +87,37 @@ const Chart = (props: Props) => {
         const {datum, mouseCoords} = e;
         const primaryDatum = filteredPrimaryData.find(d => d.id === datum.id);
         const secondaryDatum = filteredSecondaryData.find(d => d.id === datum.id);
+        // const secondaryValue = secondaryDatum ? secondaryDatum.value / secondaryTotal * 100 : 0;
+        // const primaryValue = primaryDatum ? primaryDatum.value / primaryTotal * 100 : 0;
+        // const primaryDiff = primaryValue > secondaryValue ? '+' + datum.value.toFixed(2) + '%' : '';
+        // const secondaryDiff = secondaryValue > primaryValue ? '+' + datum.value.toFixed(2) + '%' : '';
+
+        const primaryValue = primaryDatum ? primaryDatum.value / primaryTotal * 100: 0;
         const secondaryValue = secondaryDatum ? secondaryDatum.value / secondaryTotal * 100 : 0;
-        const primaryValue = primaryDatum ? primaryDatum.value / primaryTotal * 100 : 0;
-        const primaryDiff = primaryValue > secondaryValue ? '+' + datum.value.toFixed(2) + '%' : '';
-        const secondaryDiff = secondaryValue > primaryValue ? '+' + datum.value.toFixed(2) + '%' : '';
+        const primaryValueText = primaryValue === 0 || primaryValue >= 0.01
+          ? primaryValue.toFixed(2) + '%' : '<0.01%';
+        const secondaryValueText = secondaryValue === 0 || secondaryValue >= 0.01
+          ? secondaryValue.toFixed(2) + '%' : '<0.01%';
+        const primaryDiff = primaryValue - secondaryValue;
+        const secondaryDiff = secondaryValue - primaryValue;
+        let primaryDiffValue: string;
+        if (primaryDiff < 0) {
+          primaryDiffValue = '';
+        } else if (primaryDiff < 0.01) {
+          primaryDiffValue = '+<0.01%';
+        } else {
+          primaryDiffValue = '+' + primaryDiff.toFixed(2) + '%';
+        }
+        let secondaryDiffValue: string;
+        if (secondaryDiff < 0) {
+          secondaryDiffValue = '';
+        } else if (secondaryDiff < 0.01) {
+          secondaryDiffValue = '+<0.01%';
+        } else {
+          secondaryDiffValue = '+' + secondaryDiff.toFixed(2) + '%';
+        }
+
+
         node.innerHTML = getStandardTooltip({
           title: datum.title,
           color: rgba(datum.color, 0.3),
@@ -98,10 +125,10 @@ const Chart = (props: Props) => {
             ['', secondaryCityName, primaryCityName],
             [
               getString('tooltip-text-share-of', {value: compositionType}),
-              secondaryValue.toFixed(2) + '%',
-              primaryValue.toFixed(2) + '%',
+              secondaryValueText,
+              primaryValueText,
             ],
-            ['Difference', secondaryDiff, primaryDiff],
+            ['Difference', secondaryDiffValue, primaryDiffValue],
           ],
           boldColumns: [1, 2],
         });

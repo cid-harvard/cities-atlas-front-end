@@ -44,10 +44,28 @@ const Chart = (props: Props) => {
       const secondaryDatum = filteredData.find(d => d.groupName === Group.Secondary);
       const primaryValue = primaryDatum ? primaryDatum.y : 0;
       const secondaryValue = secondaryDatum ? secondaryDatum.y : 0;
-      const primaryDiff = primaryValue > secondaryValue
-        ? '+' + (primaryValue - secondaryValue).toFixed(2) + '%' : '';
-      const secondaryDiff = secondaryValue > primaryValue
-        ? '+' + (secondaryValue - primaryValue).toFixed(2) + '%' : '';
+      const primaryValueText = primaryValue === 0 || primaryValue >= 0.01
+        ? primaryValue.toFixed(2) + '%' : '<0.01%';
+      const secondaryValueText = secondaryValue === 0 || secondaryValue >= 0.01
+        ? secondaryValue.toFixed(2) + '%' : '<0.01%';
+      const primaryDiff = primaryValue - secondaryValue;
+      const secondaryDiff = secondaryValue - primaryValue;
+      let primaryDiffValue: string;
+      if (primaryDiff < 0) {
+        primaryDiffValue = '';
+      } else if (primaryDiff < 0.01) {
+        primaryDiffValue = '+<0.01%';
+      } else {
+        primaryDiffValue = '+' + primaryDiff.toFixed(2) + '%';
+      }
+      let secondaryDiffValue: string;
+      if (secondaryDiff < 0) {
+        secondaryDiffValue = '';
+      } else if (secondaryDiff < 0.01) {
+        secondaryDiffValue = '+<0.01%';
+      } else {
+        secondaryDiffValue = '+' + secondaryDiff.toFixed(2) + '%';
+      }
       node.innerHTML = getStandardTooltip({
         title: datum.x,
         color: rgba(datum.fill ? datum.fill : 'gray', 0.3),
@@ -55,10 +73,10 @@ const Chart = (props: Props) => {
           ['', primaryName, secondaryName ],
           [
             getString('tooltip-text-share-of', {value: compositionType}),
-            primaryValue.toFixed(2) + '%',
-            secondaryValue.toFixed(2) + '%',
+            primaryValueText,
+            secondaryValueText,
           ],
-          ['Difference', primaryDiff, secondaryDiff],
+          ['Difference', primaryDiffValue, secondaryDiffValue],
         ],
         boldColumns: [1, 2],
         additionalHTML: datum.onClick
