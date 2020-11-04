@@ -52,6 +52,10 @@ const Root = styled.div`
 const SizingContainer = styled.div`
   width: 100%;
   height: 100%;
+
+  @media ${breakPoints.small} {
+    overflow: auto;
+  }
 `;
 
 const VizContainer = styled.div`
@@ -62,6 +66,11 @@ const VizContainer = styled.div`
   .cluster-bar-chart-y-axis-label {
     text-transform: uppercase;
     font-size: 0.75rem;
+  }
+
+  @media ${breakPoints.small} {
+    position: relative;
+    width: 600px;
   }
 `;
 
@@ -259,7 +268,7 @@ const IndustryZoomableBarChart = (props: Props) => {
         const total = i < primaryCityIndustries.length ? primaryTotal : secondaryTotal;
         barChartData.push({
           groupName,
-          x: industry.name,
+          x: industry.name.replace(' and ', ' & '),
           y: value / total * 100,
           fill,
           onClick: industry.level !== DigitLevel.Six
