@@ -42,6 +42,8 @@ global-ui-settings-reset = Default Settings
 global-ui-current-settings = Current settings
 global-ui-change-settings = Click to change settings
 
+global-ui-reset-sectors = Show all sectors
+
 global-ui-numbers-based-on = Numbers are based on
 global-ui-detail-level = Detail Level
 global-ui-digit-level = digit level

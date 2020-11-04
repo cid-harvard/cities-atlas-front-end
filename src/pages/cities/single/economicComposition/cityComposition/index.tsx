@@ -19,6 +19,7 @@ import useSectorMap from '../../../../../hooks/useSectorMap';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
 import useQueryParams from '../../../../../hooks/useQueryParams';
+import useFluent from '../../../../../hooks/useFluent';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -42,10 +43,12 @@ const EconomicComposition = (props: Props) => {
     hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
+  const resetSectors = () => setHiddenSectors([]);
   const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
   const closeDownload = () => setActiveDownload(null);
   const treeMapRef = useRef<HTMLDivElement | null>(null);
   const globalLocationData = useGlobalLocationData();
+  const getString = useFluent();
 
   let download: React.ReactElement<any> | null;
   if (activeDownload === DownloadType.Image && treeMapRef.current) {
@@ -98,6 +101,8 @@ const EconomicComposition = (props: Props) => {
           toggleCategory={toggleSector}
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
+          resetCategories={resetSectors}
+          resetText={getString('global-ui-reset-sectors')}
         />
         {download}
       </ContentGrid>

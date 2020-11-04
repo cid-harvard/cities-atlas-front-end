@@ -14,6 +14,7 @@ import {
   ContentGrid,
 } from '../../../../../styling/styleUtils';
 import useQueryParams from '../../../../../hooks/useQueryParams';
+import useFluent from '../../../../../hooks/useFluent';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import noop from 'lodash/noop';
@@ -49,9 +50,11 @@ const CompositionComparison = (props: Props) => {
     hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
+  const resetSectors = () => setHiddenSectors([]);
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
   const closeDownload = () => setActiveDownload(null);
+  const getString = useFluent();
   const history = useHistory();
   const isIndustryComparison = matchPath<{[cityIdParam]: string}>(
     history.location.pathname, CityRoutes.CityEconomicCompositionIndustryCompare,
@@ -147,6 +150,8 @@ const CompositionComparison = (props: Props) => {
           toggleCategory={toggleSector}
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
+          resetCategories={resetSectors}
+          resetText={getString('global-ui-reset-sectors')}
           fullWidth={true}
         />
         <UtiltyBar
