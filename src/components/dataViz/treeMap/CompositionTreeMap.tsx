@@ -195,13 +195,14 @@ const CompositionTreeMap = (props: Props) => {
           const numCompany = industryWithData.numCompany ? industryWithData.numCompany : 0;
           const numEmploy = industryWithData.numEmploy ? industryWithData.numEmploy : 0;
           const value = compositionType === CompositionType.Companies ? numCompany : numEmploy;
-          const share = (value / total * 100).toFixed(2) + '%';
+          const share = (value / total * 100);
+          const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
             rows: [
               [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
-              [getString('tooltip-share-generic', {value: compositionType}) + ':', share],
+              [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
               [getString('global-ui-naics-code') + ':', industry.naicsId],
               [getString('global-ui-year') + ':', year.toString()],
             ],
