@@ -34,6 +34,7 @@ const Root = styled(SecondaryHeaderContainer)`
     grid-template-columns: auto;
     grid-rows-columns: auto auto;
     padding-bottom: 0.45rem;
+    min-height: 103px;
   }
 `;
 
