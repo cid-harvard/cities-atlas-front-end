@@ -61,6 +61,7 @@ const CompositionComparison = (props: Props) => {
       label: 'Top 10 Share Differences',
       active: !!(!isIndustryComparison || !isIndustryComparison.isExact),
       onClick: () => {
+        setHighlighted(undefined);
         history.push(
           createRoute.city(CityRoutes.CityEconomicComposition, primaryCity)
           + history.location.search,
@@ -71,6 +72,7 @@ const CompositionComparison = (props: Props) => {
       label: 'Compare Industries',
       active: !!(isIndustryComparison && isIndustryComparison.isExact),
       onClick: () => {
+        setHighlighted(undefined);
         history.push(
           createRoute.city(CityRoutes.CityEconomicCompositionIndustryCompare, primaryCity)
           + history.location.search,
