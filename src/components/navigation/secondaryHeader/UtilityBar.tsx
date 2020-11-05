@@ -66,7 +66,7 @@ const UtilityBar = (props: Props) => {
   const secondaryHeaderUtilityBarContainerNodeRef = useRef<HTMLElement | null>(null);
 
   const [isUtilityBarRendered, setIsUtilityBarRendered] = useState<boolean>(false);
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(screenfull.isEnabled && screenfull.isFullscreen);
 
   useEffect(() => {
     const node = document.querySelector<HTMLElement>(`#${secondaryHeaderUtilityBarId}`);
