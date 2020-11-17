@@ -5,6 +5,7 @@ import {
   secondaryFont,
   SearchContainerDark,
   backgroundDark,
+  // radioButtonCss,
 } from '../../../styling/styleUtils';
 import useFluent from '../../../hooks/useFluent';
 import PanelSearch, {Datum} from 'react-panel-search';
@@ -148,6 +149,61 @@ const ContinueButton = styled.button`
   }
 `;
 
+// const GroupsList = styled.ul`
+//   padding: 0;
+// `;
+
+// const GroupItem = styled.li`
+//   margin-bottom: 0.5rem;
+//   display: block;
+//   list-style: none;
+// `;
+
+// const GroupRadio = styled.div`
+//   ${radioButtonCss}
+//   cursor: pointer;
+//   padding: 0.5rem 0.25rem;
+
+//   &:hover {
+//     background-color: #fff;
+//   }
+
+//   &:before {
+//     margin-right: 16px;
+//   }
+// `;
+
+// const SimilarCitiesList = styled.ol`
+//   background-color: #454a4e;
+//   padding: 0.65rem;
+//   margin-top: 1rem;
+//   box-sizing: border-box;
+//   max-height: 130px;
+//   overflow: auto;
+
+//   ::-webkit-scrollbar {
+//     -webkit-appearance: none;
+//     width: 7px;
+//   }
+//   ::-webkit-scrollbar-thumb {
+//     border-radius: 4px;
+//     background-color: rgba(255, 255, 255, .3);
+//   }
+//   ::-webkit-scrollbar-track {
+//     background-color: rgba(255, 255, 255, .1);
+//   }
+// `;
+// const SimilarCity = styled.li`
+//   font-size: 0.75rem;
+//   color: #fff;
+//   margin-left: 2rem;
+// `;
+
+enum Group {
+  World = 'world',
+  SimilarCities = 'similarcities',
+}
+
 interface Props {
   closeModal: () => void;
   data: Datum[];
@@ -158,7 +214,7 @@ const AddComparisonModal = (props: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const continueButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [selectedCity, setSelectedCity] = useState<Datum | null>(null);
+  const [selected, setSelected] = useState<Datum | null | Group>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
   const { compare_city, ...otherParams } = useQueryParams();
@@ -167,7 +223,7 @@ const AddComparisonModal = (props: Props) => {
   const name = currentCity ? currentCity.name : '';
 
   const selectCity = (city: Datum | null) => {
-    setSelectedCity(city);
+    setSelected(city);
     if (continueButtonRef && continueButtonRef.current) {
       const node = continueButtonRef.current;
       setTimeout(() => {
@@ -177,8 +233,8 @@ const AddComparisonModal = (props: Props) => {
   };
 
   const onContinue = () => {
-    if (selectedCity) {
-      const query = queryString.stringify({...otherParams, compare_city: selectedCity.id});
+    if (selected && typeof selected === 'object') {
+      const query = queryString.stringify({...otherParams, compare_city: selected.id});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal();
@@ -202,7 +258,7 @@ const AddComparisonModal = (props: Props) => {
                 resultsIdentation={1.75}
                 neverEmpty={false}
                 maxResults={500}
-                selectedValue={selectedCity}
+                selectedValue={typeof selected === 'object' ? selected : null}
                 onSelect={selectCity}
                 focusOnRender={true}
               />
@@ -210,14 +266,44 @@ const AddComparisonModal = (props: Props) => {
             <Or>{getString('global-ui-or')}</Or>
             <div>
               <LabelUnderline>{getString('global-ui-select-a-group')}</LabelUnderline>
+              {/*<GroupsList>
+                <GroupItem>
+                  <GroupRadio
+                    onClick={() => setSelected(Group.World)}
+                    $checked={selected === Group.World}
+                  >
+                    {getString('global-text-world')}
+                  </GroupRadio>
+                </GroupItem>
+                <GroupItem>
+                  <GroupRadio
+                    onClick={() => setSelected(Group.SimilarCities)}
+                    $checked={selected === Group.SimilarCities}
+                  >
+                    {getString('global-text-similar-cities')} (10)
+                  </GroupRadio>
+                  <SimilarCitiesList>
+                    <SimilarCity>First City Name, Country</SimilarCity>
+                    <SimilarCity>Second City Name, Country</SimilarCity>
+                    <SimilarCity>Third City Name, Country</SimilarCity>
+                    <SimilarCity>Fourth City Name, Country</SimilarCity>
+                    <SimilarCity>Fifth City Name, Country</SimilarCity>
+                    <SimilarCity>Sixth City Name, Country</SimilarCity>
+                    <SimilarCity>Seventh City Name, Country</SimilarCity>
+                    <SimilarCity>Eight City Name, Country</SimilarCity>
+                    <SimilarCity>Ninth City Name, Country</SimilarCity>
+                    <SimilarCity>Tenth City Name , Country</SimilarCity>
+                  </SimilarCitiesList>
+                </GroupItem>
+              </GroupsList>*/}
             </div>
           </Grid>
         </SearchContainerDark>
         <ContinueButtonContainer>
           <ContinueButton
-
             onClick={onContinue}
             ref={continueButtonRef}
+            disabled={!selected}
           >
             {getString('global-ui-continue')}
           </ContinueButton>

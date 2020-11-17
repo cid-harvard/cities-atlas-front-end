@@ -6,6 +6,7 @@ import {
   backgroundDark,
   secondaryFont,
   noOutlineOnFocus,
+  radioButtonCss,
 } from '../../../styling/styleUtils';
 import {rgba} from 'polished';
 import useFluent from '../../../hooks/useFluent';
@@ -127,50 +128,20 @@ const ButtonWrapper = styled.div`
   display: flex;
   justify-content: center;
 `;
-const HideIsolateButton = styled.button<{$checked: boolean}>`
+const HideIsolateButton = styled.button`
   margin: 8px;
   text-transform: uppercase;
   font-family: ${secondaryFont};
   color: #fff;
   background-color: transparent;
   border: none;
-  display: flex;
-  align-items: center;
-  position: relative;
   white-space: nowrap;
   ${noOutlineOnFocus}
-
-  &:before {
-    content: '';
-    width: 12px;
-    height: 12px;
-    border-radius: 200px;
-    border: solid 1px #fff;
-    margin-right: 4px;
-  }
-
-  &:after {
-    ${({$checked}) => $checked ? "content: '';" : ''}
-    width: 6px;
-    height: 6px;
-    border-radius: 200px;
-    background-color: #fff;
-    // left: 10px;
-    transform: translate(4px, 0);
-    position: absolute;
-  }
+  ${radioButtonCss}
 
   &:hover {
     background-color: #fff;
     color: ${backgroundDark};
-
-    &:before {
-      border-color: ${backgroundDark};
-    }
-
-    &:after {
-      background-color: ${backgroundDark};
-    }
   }
 `;
 
@@ -191,8 +162,6 @@ interface Props {
 const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidden, isIsolated}: Props) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const getString = useFluent();
-  // const words = name.split(' ');
-  // const longestWord = words.reduce(function (a, b) { return a.length > b.length ? a : b; });
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
       <HideIsolateContent>

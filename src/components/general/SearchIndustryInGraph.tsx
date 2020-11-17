@@ -80,7 +80,8 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
       }
     };
     const searchData: SearchDatum[] = industrySearchData.data.filter(
-      ({level, id}) => (digitLevel === null || level <= digitLevel) && !hiddenSectors.includes(id as string),
+      ({level, id}) => (digitLevel === null || (level !== null && level <= digitLevel)) &&
+                        !hiddenSectors.includes(id as string),
     );
     const disallowSelectionLevels = digitLevel
       ? Array.from(Array(digitLevel).keys()) : undefined;

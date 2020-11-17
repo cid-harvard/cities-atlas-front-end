@@ -284,3 +284,42 @@ export const FullPageOverlay = styled.div`
   background-color: rgba(0, 0, 0, 0.5);
   z-index: 500;
 `;
+
+export const radioButtonCss = css<{$checked: boolean}>`
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &:before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 200px;
+    border: solid 1px #fff;
+    margin-right: 4px;
+  }
+
+  &:after {
+    ${({$checked}) => $checked ? "content: '';" : ''}
+    width: 6px;
+    height: 6px;
+    border-radius: 200px;
+    background-color: #fff;
+    transform: translate(4px, 0);
+    position: absolute;
+  }
+
+
+  &:hover {
+    background-color: #fff;
+    color: ${backgroundDark};
+
+    &:before {
+      border-color: ${backgroundDark};
+    }
+
+    &:after {
+      background-color: ${backgroundDark};
+    }
+  }
+`;

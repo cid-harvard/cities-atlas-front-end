@@ -64,6 +64,9 @@ global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
 global-text-industries = Industries
 
+global-text-world = World
+global-text-similar-cities = Similar Cites
+
 global-naics-sector-name-0 = Construction
 global-naics-sector-name-1 = Education & health
 global-naics-sector-name-2 = Financial activities
