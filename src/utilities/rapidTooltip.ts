@@ -1,5 +1,4 @@
 import styled from 'styled-components/macro';
-import {secondaryFont} from '../styling/styleUtils';
 
 interface Input {
   title: string;
@@ -25,7 +24,6 @@ export const RapidTooltipRoot = styled.div`
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
   pointer-events: none;
   transform: translate(-50%, calc(-100% - 1.5rem));
-  font-family: ${secondaryFont};
   display: none;
 `;
 

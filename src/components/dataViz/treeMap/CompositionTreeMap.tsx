@@ -11,7 +11,7 @@ import {
 } from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
-import {sectorColorMap, secondaryFont} from '../../../styling/styleUtils';
+import {sectorColorMap} from '../../../styling/styleUtils';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
@@ -44,10 +44,6 @@ const TreeMapContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-`;
-
-const TooltipContent = styled.div`
-  font-family: ${secondaryFont};
 `;
 
 const ECONOMIC_COMPOSITION_QUERY = gql`
@@ -220,7 +216,7 @@ const CompositionTreeMap = (props: Props) => {
       output = (
         <TreeMapContainer>
           <Tooltip
-            explanation={<TooltipContent ref={tooltipContentRef} />}
+            explanation={<div ref={tooltipContentRef} />}
             cursor={'default'}
             overrideStyles={true}
           >

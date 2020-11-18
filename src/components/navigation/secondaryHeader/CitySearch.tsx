@@ -51,30 +51,25 @@ const ButtonBase = styled.button`
   justify-content: center;
   background-color: transparent;
   text-transform: uppercase;
-  padding: 0 0.25rem 0 1.65rem;
-  transition: outline 0.1s ease;
   position: relative;
+`;
+
+const AddComparisonButton = styled(ButtonBase)`
+  font-size: 0.85rem;
+  border: dashed 1px ${lightBaseColor};
+  padding: 0.4rem 0.5rem 0.4rem 1.65rem;
   color: ${baseColor};
+  outline: none;
 
   &:before {
+    font-size: 1.85rem;
     content: '+';
     left: 0.15rem;
     position: absolute;
   }
-`;
-
-const AddComparisonButton = styled(ButtonBase)`
-  font-size: 1.1rem;
-  outline: 0 solid rgba(255, 255, 255, 0);
-
-  &:before {
-    font-size: 2rem;
-    content: '+';
-  }
 
   &:hover, &:focus {
     background-color: #fff;
-    outline: 0.25rem solid #fff;
   }
 
   &:active {
@@ -86,10 +81,14 @@ const RemoveComparisonButton = styled(ButtonBase)`
   color: ${errorColor};
   outline: 0 solid rgba(255, 255, 255, 0);
   font-size: clamp(0.65rem, 1vw, 1rem);
+  padding: 0 0.25rem;
+  transition: outline 0.1s ease;
 
   &:before {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    margin-right: 0.35rem;
     content: '✕';
+    transform: translate(1%, 0);
   }
 
   &:hover, &:focus {

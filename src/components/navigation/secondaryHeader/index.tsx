@@ -8,7 +8,7 @@ import {
   SearchContainerLight,
 } from '../../../styling/styleUtils';
 import {UtilityBarPortal} from './UtilityBar';
-import {columnsToRowsBreakpoint} from '../Utils';
+import {columnsToRowsBreakpoint, mediumSmallBreakpoint} from '../Utils';
 import CitySearch from './CitySearch';
 import {
   Route,
@@ -18,23 +18,27 @@ import {CityRoutes} from '../../../routing/routes';
 
 const Root = styled(SecondaryHeaderContainer)`
   background-color: ${backgroundMedium};
-  padding: ${defaultPadding * 0.5}rem ${defaultPadding}rem;
+  padding: 0.55rem ${defaultPadding}rem;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-gap: 0.7rem;
   pointer-events: auto;
-  min-height: 78px;
+  min-height: 50px;
 
   @media (max-width: 1100px) {
-    padding: ${defaultPadding * 0.5}rem;
+    padding: 0.55rem;
+  }
+
+  @media (max-width: ${mediumSmallBreakpoint}px) {
+    min-height: 63px;
   }
 
   @media (max-width: ${columnsToRowsBreakpoint}px) {
     grid-template-columns: auto;
     grid-rows-columns: auto auto;
     padding-bottom: 0.45rem;
-    min-height: 103px;
+    min-height: 83px;
   }
 `;
 

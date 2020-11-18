@@ -6,16 +6,15 @@ import styled from 'styled-components/macro';
 
 const smallBreakpoint = 550; // in px
 export const mediumSmallBreakpoint = 1050; // in px
-const mediumBreakpoint = 1180; // in px
 export const columnsToRowsBreakpoint = 950; // in px
 
 export const UtilityBarButtonBase = styled.button`
   border: none;
   margin: 0 0.25rem;
-  padding: 0.35rem;
+  padding: 0 0.35rem;
   color: ${baseColor};
   background-color: transparent;
-  font-size: clamp(0.65rem, 1vw, 0.85rem);
+  font-size: clamp(0.5rem, 1vw, 0.65rem);
   font-family: ${secondaryFont};
   text-transform: uppercase;
   display: flex;
@@ -28,10 +27,6 @@ export const UtilityBarButtonBase = styled.button`
     background-color: #fff;
     outline: 0.25rem solid #fff;
     color: ${baseColor};
-  }
-
-  @media (max-width: ${mediumBreakpoint}px) {
-    padding: 0.25rem;
   }
 
   @media (max-width: ${mediumSmallBreakpoint}px) {
@@ -79,10 +74,10 @@ export const SvgBase = styled.span`
 `;
 
 export const Text = styled.span`
-  max-width: 80px;
+  width: min-content;
 
   @media (max-width: 1100px) {
-    max-width: 65px;
+    max-width: 55px;
   }
 
   @media (max-width: ${mediumSmallBreakpoint}px) {

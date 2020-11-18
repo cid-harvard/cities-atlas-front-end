@@ -206,7 +206,7 @@ export const SearchContainerLight = styled.div`
   .react-panel-search-search-bar-input {
     text-transform: uppercase;
     font-weight: 400;
-    font-size: 1rem;
+    font-size: 0.85rem;
     border: solid 1px ${lightBaseColor};
     box-shadow: none;
     outline: none;
