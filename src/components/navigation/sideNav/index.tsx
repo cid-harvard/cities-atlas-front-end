@@ -20,7 +20,7 @@ import AppContext from '../../../contextProviders/appContext';
 import MobileMenu from './MobileMenu';
 
 const Root = styled.div`
-  width: 280px;
+  width: 230px;
   overflow: hidden;
   position: relative;
   margin: auto;
@@ -102,7 +102,9 @@ const NavLink = styled(Link)`
   position: absolute;
   font-family: ${secondaryFont};
   text-transform: uppercase;
-  font-size: 0.84rem;
+  font-size: 0.7rem;
+  letter-spacing: -0.3px;
+  font-weight: 600;
   text-decoration: none;
   white-space: pre-line;
   padding-left: 1.25rem;
