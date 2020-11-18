@@ -17,6 +17,7 @@ const RootBase = styled.div`
   box-sizing: border-box;
   padding: 1rem 0 0;
   position: relative;
+  margin-bottom: 1rem;
 
   @media ${breakPoints.small} {
     grid-row: 4;

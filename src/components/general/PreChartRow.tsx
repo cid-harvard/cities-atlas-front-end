@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../styling/GlobalGrid';
-import {baseColor} from '../../styling/styleUtils';
+import {backgroundDark} from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
 import raw from 'raw.macro';
 import SearchIndustryInGraph, {SearchInGraphOptions} from './SearchIndustryInGraph';
@@ -25,10 +25,10 @@ const Root = styled.div`
 
 const RowBase = styled.div`
   grid-column: 1;
-  padding: 0.75rem 0;
+  padding: 0.75rem 0 0.25rem;
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: center;
 `;
 
 const LeftColumn = styled(RowBase)`
@@ -53,15 +53,16 @@ const SettingsButton = styled(ButtonBase)`
 `;
 
 const NavButton = styled(ButtonBase)`
-  border: solid 1px ${baseColor};
+  border: solid 1px ${backgroundDark};
   flex-shrink: 1;
   text-align: center;
-  margin-left: clamp(0.5rem, 1.5vw, 2rem);
-  margin-top: 0.5rem;
+  margin-left: clamp(0.5rem, 1vw, 2rem);
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 `;
 
 const HighlightedNavButton = styled(NavButton)`
-  background-color: ${baseColor};
+  background-color: ${backgroundDark};
   color: #fff;
 `;
 

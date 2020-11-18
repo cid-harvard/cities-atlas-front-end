@@ -1,11 +1,11 @@
 import {
-  baseColor,
+  backgroundDark,
   secondaryFont,
 } from '../../styling/styleUtils';
 import styled from 'styled-components/macro';
 
 export const ButtonBase = styled.button`
-  color: ${baseColor};
+  color: ${backgroundDark};
   background-color: transparent;
   text-transform: uppercase;
   font-family: ${secondaryFont};
@@ -25,12 +25,12 @@ export const ButtonBase = styled.button`
     svg {
       width: 100%;
       height: 100%;
-      fill: ${baseColor};
+      fill: ${backgroundDark};
     }
   }
 
   &:hover {
-    background-color: ${baseColor};
+    background-color: ${backgroundDark};
     color: #fff;
 
     span svg {

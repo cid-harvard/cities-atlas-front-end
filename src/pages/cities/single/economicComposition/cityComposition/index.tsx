@@ -4,6 +4,8 @@ import CompositionTreeMap from '../../../../../components/dataViz/treeMap/Compos
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
+  ContentParagraph,
+  ContentTitle,
 } from '../../../../../styling/styleUtils';
 import {
   ClassificationNaicsIndustry,
@@ -79,10 +81,10 @@ const EconomicComposition = (props: Props) => {
     <>
       <ContentGrid>
         <StandardSideTextBlock>
-          <h2>Employment &amp; Industry Composition</h2>
+          <ContentTitle>Employment &amp; Industry Composition</ContentTitle>
 
           {/* eslint-disable-next-line */}
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
 
         </StandardSideTextBlock>
         <TreeMapRoot ref={treeMapRef}>
@@ -103,6 +105,7 @@ const EconomicComposition = (props: Props) => {
           hiddenCategories={hiddenSectors}
           resetCategories={resetSectors}
           resetText={getString('global-ui-reset-sectors')}
+          fullWidth={true}
         />
         {download}
       </ContentGrid>

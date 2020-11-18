@@ -4,7 +4,6 @@ import SecondaryHeader from '../navigation/secondaryHeader';
 import SideNavigation, {
   Props as NavProps,
 } from '../navigation/sideNav';
-import PageChangeArrows from '../navigation/pageChangeArrows';
 import {
   Root as RootBase,
   ContentContainer,
@@ -31,7 +30,6 @@ const InnerPage = (props: Props) => {
       <ContentContainer>
         {children}
       </ContentContainer>
-      <PageChangeArrows baseLinkData={baseLinkData} />
     </Root>
   );
 };

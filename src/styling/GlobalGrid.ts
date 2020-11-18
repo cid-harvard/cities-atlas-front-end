@@ -3,10 +3,12 @@ import styled from 'styled-components/macro';
 export const breakPointValues = {
   width: {
     medium: 1100,
+    mediumSmall: 900,
     small: 800,
   },
   height: {
     medium: 600,
+    mediumSmall: 550,
     small: 500,
   },
 };
@@ -14,6 +16,8 @@ export const breakPointValues = {
 export const breakPoints = {
   medium: `screen and (max-width: ${breakPointValues.width.medium}px),
            screen and (max-height: ${breakPointValues.height.medium}px)`,
+  mediumSmall: `screen and (max-width: ${breakPointValues.width.mediumSmall}px),
+           screen and (max-height: ${breakPointValues.height.mediumSmall}px)`,
   small: `screen and (max-width: ${breakPointValues.width.small}px),
           screen and (max-height: ${breakPointValues.height.small}px)`,
 };

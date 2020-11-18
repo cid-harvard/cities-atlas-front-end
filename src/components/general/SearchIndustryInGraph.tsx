@@ -23,16 +23,60 @@ const LoadingContainer = styled.div`
 
 const SearchContainer = styled(SearchContainerLight)`
   max-width: 100%;
-  font-size: 0.75rem;
+  font-size: 0.5rem;
   margin-right: 0.75rem;
 
+  .react-panel-search-search-results {
+    overflow-x: hidden;
+  }
+
   .react-panel-search-search-bar-input {
-    font-size: 0.75rem;
-    padding-left: 2rem;
+    font-size: 0.65rem;
+    padding-left: 1.15rem;
   }
 
   .react-panel-search-search-bar-search-icon {
-    width: 1.1rem;
+    width: 0.7rem;
+    margin: 0 0.3rem;
+  }
+
+  .react-panel-search-current-tier-static-title-outer,
+  .react-panel-search-current-tier-breadcrumb-outer {
+    padding: 0.55rem 1.25rem 0.55rem 0.5rem;
+  }
+
+  .react-panel-search-list-item,
+  .react-panel-search-current-tier-title {
+    font-size: 0.65rem;
+    padding: 0.55rem 1.25rem 0.55rem 0.5rem;
+  }
+
+  .react-panel-search-current-tier-title {
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 0.2rem;
+    grid-gap: 0;
+  }
+
+  .react-panel-search-current-tier-text {
+    padding: 0;
+  }
+
+  .react-panel-search-next-button,
+  .react-panel-search-previous-button {
+    width: 0.9rem;
+    margin-right: 1px;
+    padding-left: 0;
+  }
+
+  .react-panel-search-search-bar-dropdown-arrow {
+    width: 0.6rem;
+    padding: 0.18rem;
+  }
+
+  .react-panel-search-list-no-results div {
+    font-size: 0.65rem;
+    padding: 0.5rem;
   }
 `;
 
@@ -93,7 +137,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
         disallowSelectionLevels={disallowSelectionLevels}
         defaultPlaceholderText={getString('global-ui-search-an-industry-in-graph')}
         showCount={true}
-        resultsIdentation={1.75}
+        resultsIdentation={1}
         onSelect={onSelect}
         maxResults={500}
       />

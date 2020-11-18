@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom';
 import styled from 'styled-components';
-import { lightBorderColor, baseColor, backgroundDark } from '../../styling/styleUtils';
+import { lightBorderColor, backgroundDark } from '../../styling/styleUtils';
 import { overlayPortalContainerId } from '../standardModal';
 import raw from 'raw.macro';
 
@@ -40,7 +40,7 @@ const MoreInformationI = styled.span`
     height: 100%;
 
     circle {
-      fill: ${baseColor};
+      fill: ${backgroundDark};
     }
 
     path {
@@ -59,9 +59,9 @@ const TooltipBase = styled.div<{$theme: TooltipTheme | undefined, $overrideStyle
   ${({$overrideStyles}) => $overrideStyles ? 'padding-bottom: 0.5rem;' : 'padding: 0.5rem;'}
   opacity: 0;
   transition: opacity 0.15s ease;
-  color: ${baseColor};
+  color: ${backgroundDark};
   background-color: ${({$theme}) => $theme === TooltipTheme.Dark ? backgroundDark : '#fff'};
-  color: ${({$theme}) => $theme === TooltipTheme.Dark ? '#fff' : baseColor};
+  color: ${({$theme}) => $theme === TooltipTheme.Dark ? '#fff' : backgroundDark};
   border: 1px solid ${({$theme}) => $theme === TooltipTheme.Dark ? backgroundDark : lightBorderColor};
   border-radius: 4px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
