@@ -196,6 +196,7 @@ const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidd
     <Root
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
+      style={{zIndex: isHovered ? 150 : undefined}}
     >
       <Button
         style={{

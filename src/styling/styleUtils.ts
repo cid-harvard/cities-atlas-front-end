@@ -253,10 +253,10 @@ export const SearchContainerLight = styled.div`
 export const BlockButton = styled.button`
   padding: 0.4rem;
   font-family: ${secondaryFont};
-  font-size: 1.1rem;
+  font-size: 0.75rem;
   cursor: pointer;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.75rem;
   border: solid 1px ${baseColor};
   background-color: #fff;
   border-radius: 0;

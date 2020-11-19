@@ -96,10 +96,10 @@ const ContentRoot = styled.div`
 
 const Title = styled.h1`
   margin: 0;
-  padding: 1rem;
+  padding: 0.5rem 0.8rem;
   border-bottom: solid 1px ${baseColor};
   background-color: ${primaryColorLight};
-  font-size: 1.25rem;
+  font-size: 1rem;
   text-transform: uppercase;
   font-weight: 400;
   display: flex;
@@ -109,8 +109,8 @@ const Title = styled.h1`
   z-index: 5;
 
   span {
-    width: 1.3rem;
-    height: 1.3rem;
+    width: 1rem;
+    height: 1rem;
     display: inline-block;
     line-height: 0;
     margin-right: 0.25rem;
@@ -128,13 +128,14 @@ const CloseButton = styled.button`
   padding: 0 0 0 1rem;
   border: none;
   background-color: transparent;
-  font-size: 2rem;
+  font-size: 1.25rem;
   font-weight: 400;
   font-family: ${secondaryFont};
+  transform: translate(0, -1px);
 `;
 
 const Content = styled.div`
-  padding: 1rem;
+  padding: 1rem 0.4rem;
   display: flex;
   flex-direction: column;
 `;
@@ -145,6 +146,7 @@ const SettingGrid = styled.div`
   grid-template-rows: auto auto;
   grid-row-gap: 0.5rem;
   align-items: center;
+  margin-bottom: 1rem;
 `;
 
 const SettingsInputContainer = styled.div`
@@ -160,7 +162,7 @@ const CompostionButtonHighlight = styled(BlockButtonHighlighted)`
 `;
 
 const Label = styled.label`
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-family: ${secondaryFont};
   display: block;
   grid-column: 2;
@@ -168,11 +170,11 @@ const Label = styled.label`
 `;
 
 const DigitLevelButton = styled.button<{$selected: boolean}>`
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   text-transform: none;
   display: block;
   background-color: transparent;
-  padding: 0.6rem 0;
+  padding: 0.45rem 0;
   display: flex;
   position: relative;
   margin: 0;
@@ -190,8 +192,8 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   &:before {
     content: '';
     display: block;
-    width: 1rem;
-    height: 1rem;
+    width: 0.85rem;
+    height: 0.85rem;
     border: solid 1px ${baseColor};
     border-radius: 2000px;
     background-color: ${({$selected}) => $selected ? baseColor : '#fff'};
@@ -221,7 +223,7 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
 `;
 
 const ResetButton = styled(BlockButton)`
-  margin: 2rem auto 1rem;
+  margin: 1rem auto;
 `;
 
 export interface SettingsOptions {
