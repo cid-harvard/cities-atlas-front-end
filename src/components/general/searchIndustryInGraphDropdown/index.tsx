@@ -1,18 +1,21 @@
 import React from 'react';
-import SimpleLoader from '../transitionStateComponents/SimpleLoader';
+import SimpleLoader from '../../transitionStateComponents/SimpleLoader';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {
   useGlobalIndustryHierarchicalTreeData,
-} from '../../hooks/useGlobalIndustriesData';
-import SimpleError from '../transitionStateComponents/SimpleError';
-import useSectorMap from '../../hooks/useSectorMap';
-import {DigitLevel, ClassificationNaicsIndustry} from '../../types/graphQL/graphQLTypes';
+} from '../../../hooks/useGlobalIndustriesData';
+import SimpleError from '../../transitionStateComponents/SimpleError';
+import useSectorMap from '../../../hooks/useSectorMap';
+import {DigitLevel, ClassificationNaicsIndustry} from '../../../types/graphQL/graphQLTypes';
 import {
   SearchContainerLight,
   lightBaseColor,
-} from '../../styling/styleUtils';
-import useFluent from '../../hooks/useFluent';
+} from '../../../styling/styleUtils';
+import {collapsedSizeMediaQueryValues, collapsedSizeMediaQuery} from '../Utils';
+import useFluent from '../../../hooks/useFluent';
+import {useWindowSize} from 'react-use';
 import styled from 'styled-components/macro';
+import ToggleDropdown from './ToggleDropdown';
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -78,6 +81,13 @@ const SearchContainer = styled(SearchContainerLight)`
     font-size: 0.65rem;
     padding: 0.5rem;
   }
+
+  @media ${collapsedSizeMediaQuery} {
+    width: auto;
+    flex-shrink: 1;
+    height: 100%;
+    align-items: center;
+  }
 `;
 
 export interface SearchInGraphOptions {
@@ -94,6 +104,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const getString = useFluent();
   const sectorMap = useSectorMap();
   const industrySearchData = useGlobalIndustryHierarchicalTreeData();
+  const windowDimensions = useWindowSize();
 
   let searchPanel: React.ReactElement<any> | null;
   if (industrySearchData.loading) {
@@ -129,19 +140,32 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
     );
     const disallowSelectionLevels = digitLevel
       ? Array.from(Array(digitLevel).keys()) : undefined;
-    searchPanel = (
-      <PanelSearch
-        key={'PreChartPanelSearchKeyFor' + digitLevel}
-        data={searchData}
-        topLevelTitle={getString('global-text-industries')}
-        disallowSelectionLevels={disallowSelectionLevels}
-        defaultPlaceholderText={getString('global-ui-search-an-industry-in-graph')}
-        showCount={true}
-        resultsIdentation={1}
-        onSelect={onSelect}
-        maxResults={500}
-      />
-    );
+
+    if (windowDimensions.width > collapsedSizeMediaQueryValues.max ||
+        windowDimensions.width < collapsedSizeMediaQueryValues.min) {
+      searchPanel = (
+        <PanelSearch
+          key={'PreChartPanelSearchKeyFor' + digitLevel}
+          data={searchData}
+          topLevelTitle={getString('global-text-industries')}
+          disallowSelectionLevels={disallowSelectionLevels}
+          defaultPlaceholderText={getString('global-ui-search-an-industry-in-graph')}
+          showCount={true}
+          resultsIdentation={1}
+          onSelect={onSelect}
+          maxResults={500}
+        />
+      );
+    } else {
+      searchPanel = (
+        <ToggleDropdown
+          disallowSelectionLevels={disallowSelectionLevels}
+          setHighlighted={setHighlighted}
+          digitLevel={digitLevel}
+          searchData={searchData}
+        />
+      );
+    }
   } else {
     searchPanel = null;
   }

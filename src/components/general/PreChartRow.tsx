@@ -4,22 +4,31 @@ import {breakPoints} from '../../styling/GlobalGrid';
 import {backgroundDark} from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
 import raw from 'raw.macro';
-import SearchIndustryInGraph, {SearchInGraphOptions} from './SearchIndustryInGraph';
+import SearchIndustryInGraph, {SearchInGraphOptions} from './searchIndustryInGraphDropdown';
 import CurrentSettingsTooltip from '../dataViz/settings/CurrentSettingsTooltip';
 import Settings, {SettingsOptions} from '../dataViz/settings';
 import Tooltip, {TooltipTheme, TooltipPosition} from './Tooltip';
-import {ButtonBase} from './Utils';
+import {ButtonBase, collapsedSizeMediaQuery} from './Utils';
 import HowToRead from './howToRead';
 
 const gearIcon = raw('../../assets/icons/settings.svg');
 
-const Root = styled.div`
+const Root = styled.div<{$hasIndicator: boolean}>`
   display: contents;
 
+  @media ${collapsedSizeMediaQuery} {
+    grid-row: 1;
+    grid-column: 1 / 3;
+    display: ${({$hasIndicator}) => $hasIndicator ? 'contents' : 'flex'};
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    position: relative;
+  }
+
   @media ${breakPoints.small} {
-    display: block;
     grid-row: 2;
     grid-column: 1;
+    display: block;
   }
 `;
 
@@ -35,6 +44,12 @@ const LeftColumn = styled(RowBase)`
   grid-row: 1;
   font-size: clamp(0.75rem, 1.5vw, 1rem);
   text-align: right;
+
+  @media ${collapsedSizeMediaQuery} {
+    flex-grow: 1;
+    position: relative;
+    padding-left: 50px;
+  }
 `;
 
 const RightColumn = styled(RowBase)`
@@ -59,6 +74,10 @@ const NavButton = styled(ButtonBase)`
   margin-left: clamp(0.5rem, 1vw, 2rem);
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
+
+  @media ${collapsedSizeMediaQuery} {
+    margin-left: 0;
+  }
 `;
 
 const HighlightedNavButton = styled(NavButton)`
@@ -119,6 +138,11 @@ const PreChartRow = (props: Props) => {
     </IndicatorRoot>
   ) : null;
 
+  const rightColumnStyle: React.CSSProperties | undefined = indicatorElm ? {
+  display: 'flex',
+  justifyContent: 'flex-end',
+  } : undefined;
+
   const vizNavigationButtonElms = vizNavigation && vizNavigation.length ? vizNavigation.map(link => {
     const Button = link.active ? HighlightedNavButton : NavButton;
     return (
@@ -165,8 +189,8 @@ const PreChartRow = (props: Props) => {
 
   return (
     <>
-      <Root>
-        <RightColumn>
+      <Root $hasIndicator={indicatorElm !== null}>
+        <RightColumn style={rightColumnStyle}>
           {searchInGraph}
           {settingsButton}
         </RightColumn>

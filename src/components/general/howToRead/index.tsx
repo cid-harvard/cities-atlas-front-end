@@ -1,23 +1,18 @@
 import React from 'react';
-import styled from 'styled-components/macro';
-import {ButtonBase} from '../Utils';
+import {textClassName, ExpandingButton} from '../Utils';
 import raw from 'raw.macro';
 import useFluent from '../../../hooks/useFluent';
 
 const readThisChartIconSVG = raw('../../../assets/icons/read-this-chart.svg');
 
-const ReadChartButton = styled(ButtonBase)`
-  margin-right: 0.25rem;
-`;
-
 const HowToRead = () => {
   const getString = useFluent();
 
   return (
-    <ReadChartButton>
+    <ExpandingButton>
       <span dangerouslySetInnerHTML={{__html: readThisChartIconSVG}} />
-      {getString('global-ui-read-chart')}
-    </ReadChartButton>
+      <div className={textClassName}>{getString('global-ui-read-chart')}</div>
+    </ExpandingButton>
   );
 };
 

@@ -38,7 +38,7 @@
     "react-fast-charts": "^1.1.51",
     "react-helmet": "^6.1.0",
     "react-mapbox-gl": "^4.8.6",
-    "react-panel-search": "^1.4.0",
+    "react-panel-search": "^1.4.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-use": "^15.3.3",
