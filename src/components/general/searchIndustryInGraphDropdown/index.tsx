@@ -45,7 +45,7 @@ const SearchContainer = styled(SearchContainerLight)`
 
   .react-panel-search-current-tier-static-title-outer,
   .react-panel-search-current-tier-breadcrumb-outer {
-    padding: 0.55rem 1.25rem 0.55rem 0.5rem;
+    padding: 0.55rem 0.45rem 0.55rem 0.4rem;
   }
 
   .react-panel-search-list-item,
@@ -68,8 +68,15 @@ const SearchContainer = styled(SearchContainerLight)`
   .react-panel-search-next-button,
   .react-panel-search-previous-button {
     width: 0.9rem;
-    margin-right: 1px;
-    padding-left: 0;
+    height: 0.9rem;
+    padding: 0;
+
+    svg {
+      width: 0.6rem;
+    }
+  }
+  .react-panel-search-next-button {
+    margin: auto 6px;
   }
 
   .react-panel-search-search-bar-dropdown-arrow {
