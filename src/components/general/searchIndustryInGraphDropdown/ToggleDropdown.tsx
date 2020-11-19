@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {DigitLevel} from '../../../types/graphQL/graphQLTypes';
 import useFluent from '../../../hooks/useFluent';
-import styled from 'styled-components/macro';
+import styled, {keyframes} from 'styled-components/macro';
 import {
   textClassName,
   ExpandingButton,
@@ -19,11 +19,35 @@ const Root = styled.div`
   align-items: center;
 `;
 
+const jumpIn = keyframes`
+  0% {
+    transform: scale(0.92);
+  }
+
+  75% {
+    transform: scale(1.03);
+  }
+
+  90% {
+    transform: scale(0.95);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+`;
+
 const DropdownContainer = styled.div`
   position: absolute;
-  right: 0;
+  right: -0.7rem;
   width: 200px;
-  z-index: 20;
+  z-index: 200;
+  transform: scale(0.92);
+  animation: ${jumpIn} 0.2s ease-in-out 1 forwards;
+
+  button.react-panel-search-search-bar-clear-button {
+    padding: 0.4rem 0.1rem;
+  }
 `;
 
 const ToggleButton = styled(ExpandingButton)`

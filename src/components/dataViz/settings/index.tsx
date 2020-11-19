@@ -8,7 +8,7 @@ import useQueryParams from '../../../hooks/useQueryParams';
 import useFluent from '../../../hooks/useFluent';
 import {
   secondaryFont,
-  baseColor,
+  backgroundDark,
   primaryColorLight,
   BlockButton,
   BlockButtonHighlighted,
@@ -50,7 +50,6 @@ const Root = styled.div`
   height: 100%;
   position: relative;
   background-color: #fff;
-  font-family: ${secondaryFont};
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
   transform: translate(100%, 0);
   animation: ${slideIn} 0.4s ease-in-out 1 forwards;
@@ -97,8 +96,9 @@ const ContentRoot = styled.div`
 const Title = styled.h1`
   margin: 0;
   padding: 0.5rem 0.8rem;
-  border-bottom: solid 1px ${baseColor};
+  border-bottom: solid 1px ${backgroundDark};
   background-color: ${primaryColorLight};
+  font-family: ${secondaryFont};
   font-size: 1rem;
   text-transform: uppercase;
   font-weight: 400;
@@ -118,7 +118,7 @@ const Title = styled.h1`
     svg {
       width: 100%;
       height: 100%;
-      fill: ${baseColor};
+      fill: ${backgroundDark};
     }
   }
 `;
@@ -162,15 +162,18 @@ const CompostionButtonHighlight = styled(BlockButtonHighlighted)`
 `;
 
 const Label = styled.label`
-  font-size: 0.8rem;
-  font-family: ${secondaryFont};
+  font-size: 1rem;
   display: block;
   grid-column: 2;
   grid-row: 1;
+
+  @media ${breakPoints.medium} {
+    font-size: 0.75rem;
+  }
 `;
 
 const DigitLevelButton = styled.button<{$selected: boolean}>`
-  font-size: 0.75rem;
+  font-size: 0.85rem;
   text-transform: none;
   display: block;
   background-color: transparent;
@@ -181,12 +184,12 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
 
   &:hover {
     &:before {
-      background-color: ${baseColor};
+      background-color: ${backgroundDark};
     }
   }
 
   &:focus, &:active {
-    color: ${baseColor};
+    color: ${backgroundDark};
   }
 
   &:before {
@@ -194,9 +197,9 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
     display: block;
     width: 0.85rem;
     height: 0.85rem;
-    border: solid 1px ${baseColor};
+    border: solid 1px ${backgroundDark};
     border-radius: 2000px;
-    background-color: ${({$selected}) => $selected ? baseColor : '#fff'};
+    background-color: ${({$selected}) => $selected ? backgroundDark : '#fff'};
     margin-right: 0.75rem;
     transition: all 0.1s ease-in-out;
     position: relative;
@@ -206,7 +209,7 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   &:after {
     content: '';
     width: 0.5rem;
-    border-right: solid 1px ${baseColor};
+    border-right: solid 1px ${backgroundDark};
     position: absolute;
     left: 0;
     top: 0;
@@ -219,6 +222,10 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
 
   &:last-child:after {
     bottom: 0.7rem;
+  }
+
+  @media ${breakPoints.medium} {
+    font-size: 0.75rem;
   }
 `;
 

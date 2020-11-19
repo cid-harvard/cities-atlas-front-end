@@ -252,28 +252,32 @@ export const SearchContainerLight = styled.div`
 
 export const BlockButton = styled.button`
   padding: 0.4rem;
-  font-family: ${secondaryFont};
-  font-size: 0.75rem;
+  font-size: 1rem;
   cursor: pointer;
   text-align: center;
   margin-bottom: 0.75rem;
-  border: solid 1px ${baseColor};
+  border: solid 1px ${backgroundDark};
+  color: ${backgroundDark};
   background-color: #fff;
   border-radius: 0;
   transition: all 0.1s ease-in-out;
 
   &:hover {
     color: #fff;
-    background-color: ${baseColor};
+    background-color: ${backgroundDark};
+  }
+
+  @media ${breakPoints.medium} {
+    font-size: 0.75rem;
   }
 `;
 
 export const BlockButtonHighlighted = styled(BlockButton)`
-  background-color: ${baseColor};
+  background-color: ${backgroundDark};
   color: #fff;
 
   &:hover {
-    background-color: ${baseColor};
+    background-color: ${backgroundDark};
   }
 `;
 

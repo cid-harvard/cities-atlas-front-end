@@ -45,7 +45,7 @@ const fadeAndSlideIn = keyframes`
   }
 
   to {
-    transform: translate(0, calc(100% + 0.25rem));
+    transform: translate(0, calc(50% + 0.25rem));
     opacity: 1;
   }
 `;
