@@ -8,7 +8,7 @@ import {
   SearchContainerLight,
 } from '../../../styling/styleUtils';
 import {UtilityBarPortal} from './UtilityBar';
-import {columnsToRowsBreakpoint, mediumSmallBreakpoint} from '../Utils';
+import {columnsToRowsBreakpoint} from '../Utils';
 import CitySearch from './CitySearch';
 import {
   Route,
@@ -28,10 +28,6 @@ const Root = styled(SecondaryHeaderContainer)`
 
   @media (max-width: 1100px) {
     padding: 0.55rem;
-  }
-
-  @media (max-width: ${mediumSmallBreakpoint}px) {
-    min-height: 63px;
   }
 
   @media (max-width: ${columnsToRowsBreakpoint}px) {

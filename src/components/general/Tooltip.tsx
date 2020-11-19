@@ -17,6 +17,9 @@ export enum TooltipTheme {
   Dark = 'dark',
 }
 
+const farEndOfScreenToggleClass = 'tooltip-at-right-end-of-screen';
+const arrowContainerClassName = 'tooltip-arrow-container-class';
+
 //#region Styling
 const Root = styled.span`
   cursor: help;
@@ -66,6 +69,12 @@ const TooltipBase = styled.div<{$theme: TooltipTheme | undefined, $overrideStyle
   border-radius: 4px;
   box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
   pointer-events: none;
+
+  &.${farEndOfScreenToggleClass} .${arrowContainerClassName} {
+    justify-content: flex-end;
+    padding-right: 0.7rem;
+    box-sizing: border-box;
+  }
 `;
 
 const ArrowContainer = styled.div<{$position: TooltipPosition | undefined}>`
@@ -86,6 +95,7 @@ const Arrow = styled.div<{$theme: TooltipTheme | undefined, $position: TooltipPo
   width: 0.5rem;
   height: 0.5rem;
   position: relative;
+  z-index: -1;
   display: flex;
   justify-content: center;
   transform: translate(-150%, 0);
@@ -93,7 +103,9 @@ const Arrow = styled.div<{$theme: TooltipTheme | undefined, $position: TooltipPo
   &:before {
     content: '';
     position: absolute;
-    top: 0;
+    top: ${({$position}) => $position === TooltipPosition.Bottom
+      ? '-1px' : '0'
+    };
     left: 0;
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
@@ -163,6 +175,12 @@ const Tooltip = (props: Props) => {
         // tooltip will exceed the windows width
         tooltipLeftValue = window.innerWidth - tooltipWidth - tooltipSpacing;
       }
+      if (window.innerWidth - left < tooltipSpacing * 3) {
+        // tooltip is at the far end of the screen
+        tooltipElm.classList.add(farEndOfScreenToggleClass);
+      } else {
+        tooltipElm.classList.remove(farEndOfScreenToggleClass);
+      }
       tooltipElm.style.cssText = `
         left: ${tooltipLeftValue}px;
         top: ${tooltipTopValue}px;
@@ -173,7 +191,7 @@ const Tooltip = (props: Props) => {
   const overlayPortalContainerNode = overlayPortalContainerNodeRef.current;
 
   const arrow = overrideStyles ? null : (
-    <ArrowContainer $position={tooltipPosition}>
+    <ArrowContainer $position={tooltipPosition} className={arrowContainerClassName}>
       <Arrow $theme={theme} $position={tooltipPosition} />
     </ArrowContainer>
   );

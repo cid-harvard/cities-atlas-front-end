@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components/macro';
 import raw from 'raw.macro';
 import useFluent from '../../../hooks/useFluent';
+import {useWindowWidth} from '../../../contextProviders/appContext';
 import DataDisclaimer from '../../general/dataDisclaimer';
 import {
   UtilityBarButtonBase,
@@ -12,6 +13,8 @@ import {
   Text,
 } from '../Utils';
 import screenfull from 'screenfull';
+import Tooltip, {TooltipPosition} from '../../general/Tooltip';
+import {secondaryFont} from '../../../styling/styleUtils';
 
 const shareIconSvg = raw('../../../assets/icons/share.svg');
 const expandIconSvg = raw('../../../assets/icons/expand.svg');
@@ -37,6 +40,10 @@ const LargeSvg = styled(SvgBase)`
     width: 1rem;
     height: 1rem;
   }
+`;
+
+const TooltipContent = styled.div`
+  font-family: ${secondaryFont};
 `;
 
 const secondaryHeaderUtilityBarId = 'secondaryHeaderUtilityBarId';
@@ -68,6 +75,8 @@ const UtilityBar = (props: Props) => {
   const [isUtilityBarRendered, setIsUtilityBarRendered] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(screenfull.isEnabled && screenfull.isFullscreen);
 
+  const windowDimensions = useWindowWidth();
+
   useEffect(() => {
     const node = document.querySelector<HTMLElement>(`#${secondaryHeaderUtilityBarId}`);
     if (node !== null) {
@@ -77,25 +86,45 @@ const UtilityBar = (props: Props) => {
   }, []);
 
   const downloadDataButton = onDownloadDataButtonClick ? (
-    <UtilityBarButtonBase onClick={onDownloadDataButtonClick}>
-      <SvgBase
-        dangerouslySetInnerHTML={{__html: downloadDataIconSvg}}
-      />
-      <Text>
-        {getString('global-ui-download-data')}
-      </Text>
-    </UtilityBarButtonBase>
+    <Tooltip
+      explanation={windowDimensions.width < mediumSmallBreakpoint &&
+        windowDimensions.width > columnsToRowsBreakpoint
+        ? <TooltipContent>{getString('global-ui-download-data')}</TooltipContent>
+        : null
+      }
+      cursor='pointer'
+      tooltipPosition={TooltipPosition.Bottom}
+    >
+      <UtilityBarButtonBase onClick={onDownloadDataButtonClick}>
+        <SvgBase
+          dangerouslySetInnerHTML={{__html: downloadDataIconSvg}}
+        />
+        <Text>
+          {getString('global-ui-download-data')}
+        </Text>
+      </UtilityBarButtonBase>
+    </Tooltip>
   ) : null;
 
   const downloadImageButton = onDownloadImageButtonClick ? (
-    <UtilityBarButtonBase onClick={onDownloadImageButtonClick}>
-      <LargeSvg
-        dangerouslySetInnerHTML={{__html: downloadImageIconSvg}}
-      />
-      <Text>
-        {getString('global-ui-download-image')}
-      </Text>
-    </UtilityBarButtonBase>
+    <Tooltip
+      explanation={windowDimensions.width < mediumSmallBreakpoint &&
+        windowDimensions.width > columnsToRowsBreakpoint
+        ? <TooltipContent>{getString('global-ui-download-image')}</TooltipContent>
+        : null
+      }
+      cursor='pointer'
+      tooltipPosition={TooltipPosition.Bottom}
+    >
+      <UtilityBarButtonBase onClick={onDownloadImageButtonClick}>
+        <LargeSvg
+          dangerouslySetInnerHTML={{__html: downloadImageIconSvg}}
+        />
+        <Text>
+          {getString('global-ui-download-image')}
+        </Text>
+      </UtilityBarButtonBase>
+    </Tooltip>
   ) : null;
 
   const onFullScreenClick = () => {
@@ -111,11 +140,9 @@ const UtilityBar = (props: Props) => {
             }, 200);
           });
       } else {
-        // if (document.exitFullscreen && screenfull.isEnabled) {
-          screenfull.exit();
-          screenfull.off('change', onFullscreenClose);
-          setIsFullscreen(false);
-        // }
+        screenfull.exit();
+        screenfull.off('change', onFullscreenClose);
+        setIsFullscreen(false);
       }
     }
   };
@@ -124,35 +151,77 @@ const UtilityBar = (props: Props) => {
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
     content = createPortal((
       <>
-        <UtilityBarButtonBase>
-          <SvgBase
-            dangerouslySetInnerHTML={{__html: shareIconSvg}}
-          />
-          <Text>
-            {getString('global-ui-share')}
-          </Text>
-        </UtilityBarButtonBase>
-        <UtilityBarButtonBase
-          onClick={onFullScreenClick}
+        <Tooltip
+          explanation={windowDimensions.width < mediumSmallBreakpoint &&
+            windowDimensions.width > columnsToRowsBreakpoint
+            ? <TooltipContent>{getString('global-ui-share')}</TooltipContent>
+            : null
+          }
+          cursor='pointer'
+          tooltipPosition={TooltipPosition.Bottom}
         >
-          <SvgBase
-            dangerouslySetInnerHTML={{__html: !isFullscreen ? expandIconSvg : collapseIconSvg}}
-          />
-          <Text>
-            {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
-          </Text>
-        </UtilityBarButtonBase>
-        <UtilityBarButtonBase>
-          <LargeSvg
-            dangerouslySetInnerHTML={{__html: guideIconSvg}}
-          />
-          <Text>
-            {getString('global-ui-guide')}
-          </Text>
-        </UtilityBarButtonBase>
+          <UtilityBarButtonBase>
+            <SvgBase
+              dangerouslySetInnerHTML={{__html: shareIconSvg}}
+            />
+            <Text>
+              {getString('global-ui-share')}
+            </Text>
+          </UtilityBarButtonBase>
+        </Tooltip>
+        <Tooltip
+          explanation={windowDimensions.width < mediumSmallBreakpoint &&
+            windowDimensions.width > columnsToRowsBreakpoint
+            ? (<TooltipContent>
+                {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
+               </TooltipContent>)
+            : null
+          }
+          cursor='pointer'
+          tooltipPosition={TooltipPosition.Bottom}
+        >
+          <UtilityBarButtonBase
+            onClick={onFullScreenClick}
+          >
+            <SvgBase
+              dangerouslySetInnerHTML={{__html: !isFullscreen ? expandIconSvg : collapseIconSvg}}
+            />
+            <Text>
+              {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
+            </Text>
+          </UtilityBarButtonBase>
+        </Tooltip>
+        <Tooltip
+          explanation={windowDimensions.width < mediumSmallBreakpoint &&
+            windowDimensions.width > columnsToRowsBreakpoint
+            ? <TooltipContent>{getString('global-ui-guide')}</TooltipContent>
+            : null
+          }
+          cursor='pointer'
+          tooltipPosition={TooltipPosition.Bottom}
+        >
+          <UtilityBarButtonBase>
+            <LargeSvg
+              dangerouslySetInnerHTML={{__html: guideIconSvg}}
+            />
+            <Text>
+              {getString('global-ui-guide')}
+            </Text>
+          </UtilityBarButtonBase>
+        </Tooltip>
         {downloadImageButton}
         {downloadDataButton}
-        <DataDisclaimer />
+        <Tooltip
+          explanation={windowDimensions.width < mediumSmallBreakpoint &&
+            windowDimensions.width > columnsToRowsBreakpoint
+            ? <TooltipContent>{getString('global-ui-data-disclaimer')}</TooltipContent>
+            : null
+          }
+          cursor='pointer'
+          tooltipPosition={TooltipPosition.Bottom}
+        >
+          <DataDisclaimer />
+        </Tooltip>
       </>
     ), secondaryHeaderUtilityBarContainerNodeRef.current);
   } else {

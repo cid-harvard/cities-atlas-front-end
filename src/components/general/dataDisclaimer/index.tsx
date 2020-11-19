@@ -31,7 +31,7 @@ const DisclaimerSvg = styled(SvgBase)`
   }
 `;
 
-const HowToRead = () => {
+const DataDisclaimer = () => {
   const getString = useFluent();
 
   return (
@@ -46,4 +46,4 @@ const HowToRead = () => {
   );
 };
 
-export default HowToRead;
+export default DataDisclaimer;

@@ -3,10 +3,11 @@ import {
   baseColor,
 } from '../../styling/styleUtils';
 import styled from 'styled-components/macro';
+import {breakPointValues} from '../../styling/GlobalGrid';
 
 const smallBreakpoint = 550; // in px
 export const mediumSmallBreakpoint = 1050; // in px
-export const columnsToRowsBreakpoint = 950; // in px
+export const columnsToRowsBreakpoint = breakPointValues.width.small; // in px
 
 export const UtilityBarButtonBase = styled.button`
   border: none;
@@ -80,7 +81,11 @@ export const Text = styled.span`
     max-width: 55px;
   }
 
-  @media (max-width: ${mediumSmallBreakpoint}px) {
+  @media (max-width: ${mediumSmallBreakpoint}px) and (min-width: ${columnsToRowsBreakpoint + 1}px) {
+    display: none;
+  }
+
+  @media (max-width: ${columnsToRowsBreakpoint }px) {
     text-align: center;
   }
 `;
