@@ -53,7 +53,7 @@ const Logo = styled.h1`
     }
   }
 
-  @media (max-width: 800px) {
+  @media (max-width: 850px) {
     width: 7.5rem;
     margin: 0 1.75rem 0 1rem;
   }
@@ -89,7 +89,7 @@ const H2 = styled.h2<{$active: boolean}>`
   display: flex;
   align-items: flex-end;
   margin: 0;
-  font-size: clamp(0.8rem, 2vw, 1.2rem);
+  font-size: clamp(0.8rem, 1.75vw, 1.15rem);
   color: #fff;
   line-height: 1;
   position: relative;
@@ -113,8 +113,8 @@ const H2 = styled.h2<{$active: boolean}>`
     }
   }
 
-  @media (max-width: 850px) {
-    font-size: 1rem;
+  @media (max-width: 950px) {
+    font-size: 0.85rem;
   }
 
   @media (max-width: 800px) {
@@ -128,14 +128,15 @@ const MobileH2 = styled(H2)`
 `;
 
 const NavIcon = styled.div`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: clamp(0.95rem, 1.9vw, 1.45rem);
+  height: clamp(0.95rem, 1.9vw, 1.45rem);
   margin-right: 0.45rem;
   line-height: 0;
 
-  @media (max-width: 850px) {
-    width: 1.2rem;
-    height: 1.2rem;
+  @media (max-width: 950px) {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.2rem;
   }
 
   svg {
