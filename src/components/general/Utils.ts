@@ -21,6 +21,7 @@ export const ButtonBase = styled.button`
   background-color: transparent;
   text-transform: uppercase;
   font-family: ${secondaryFont};
+  letter-spacing: -0.3px;
   display: flex;
   align-items: center;
   font-size: clamp(0.75rem, 1.1vw, 0.9rem);

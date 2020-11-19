@@ -202,10 +202,12 @@ export const SearchContainerDark = styled.div`
 export const SearchContainerLight = styled.div`
   width: 100%;
   font-family: ${secondaryFont};
+  letter-spacing: -0.3px;
 
   .react-panel-search-search-bar-input,
   button {
     font-family: ${secondaryFont};
+    letter-spacing: -0.3px;
   }
 
   .react-panel-search-search-bar-input {

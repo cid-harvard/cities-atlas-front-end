@@ -18,6 +18,7 @@ export const cityIconSVG = raw('../../../assets/icons/city-icon.svg');
 
 const Root = styled(PrimaryHeaderContainer)`
   font-family: ${secondaryFont};
+  letter-spacing: -0.3px;
   background-color: ${backgroundDark};
   text-transform: uppercase;
   display: flex;

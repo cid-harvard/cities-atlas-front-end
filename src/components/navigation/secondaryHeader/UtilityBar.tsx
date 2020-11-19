@@ -44,6 +44,9 @@ const LargeSvg = styled(SvgBase)`
 
 const TooltipContent = styled.div`
   font-family: ${secondaryFont};
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+  font-size: 0.6rem;
 `;
 
 const secondaryHeaderUtilityBarId = 'secondaryHeaderUtilityBarId';
