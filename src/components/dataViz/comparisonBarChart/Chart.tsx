@@ -2,6 +2,7 @@ import React, {useRef, useState} from 'react';
 import ComparisonBarChart, {
   BarDatum,
   RowHoverEvent,
+  Layout,
 } from 'react-comparison-bar-chart';
 import {rgba} from 'polished';
 import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
@@ -117,13 +118,13 @@ const Chart = (props: Props) => {
           title: datum.title,
           color: rgba(datum.color, 0.3),
           rows: [
-            ['', secondaryCityName, primaryCityName],
+            ['', primaryCityName, secondaryCityName],
             [
               getString('tooltip-text-share-of', {value: compositionType}),
-              secondaryValueText,
               primaryValueText,
+              secondaryValueText,
             ],
-            ['Difference', secondaryDiffValue, primaryDiffValue],
+            ['Difference', primaryDiffValue, secondaryDiffValue],
           ],
           boldColumns: [1, 2],
         });
@@ -169,6 +170,7 @@ const Chart = (props: Props) => {
         onRowHover={setHovered}
         highlighted={highlighted}
         onHighlightError={() => setHighlightError(true)}
+        layout={Layout.Right}
       />
       <RapidTooltipRoot ref={tooltipRef} />
       {highlightErrorPopup}
