@@ -492,7 +492,6 @@ const Landing = () => {
               ],
             }}
             paint={{
-              'circle-opacity': 0.8,
               'circle-color': {
                 property: 'point_count',
                 type: 'interval',
@@ -526,7 +525,6 @@ const Landing = () => {
             maxZoom={4}
             sourceId={clusterSourceLayerId}
             paint={{
-              'circle-opacity': 0.8,
               'circle-color': primaryColorRange[4],
               'circle-radius': 5,
             }}
@@ -556,9 +554,9 @@ const Landing = () => {
             id={'primary-map-geojson-layer'}
             paint={{
               'fill-color': primaryColor,
-              'fill-opacity': 0.7,
             }}
             minZoom={4}
+            before={'road-simple'}
           >
             {mapData.features}
           </Layer>
@@ -570,6 +568,7 @@ const Landing = () => {
               'fill-color': secondaryColor,
             }}
             minZoom={4}
+            before={'road-simple'}
           >
             {mapData.features.filter(({key}) =>
               (highlighted && key === 'geojson-' + highlighted.id) ||
