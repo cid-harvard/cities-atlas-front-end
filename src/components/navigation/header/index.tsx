@@ -30,6 +30,7 @@ const Root = styled(PrimaryHeaderContainer)`
 
   @media (max-width: 500px) {
     min-height: 4rem;
+    padding-right: 1rem;
   }
 `;
 
