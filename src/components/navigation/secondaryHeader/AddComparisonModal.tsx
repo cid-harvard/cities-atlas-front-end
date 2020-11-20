@@ -5,7 +5,7 @@ import {
   secondaryFont,
   SearchContainerDark,
   backgroundDark,
-  // radioButtonCss,
+  radioButtonCss,
 } from '../../../styling/styleUtils';
 import useFluent from '../../../hooks/useFluent';
 import PanelSearch, {Datum} from 'react-panel-search';
@@ -149,55 +149,55 @@ const ContinueButton = styled.button`
   }
 `;
 
-// const GroupsList = styled.ul`
-//   padding: 0;
-// `;
+const GroupsList = styled.ul`
+  padding: 0;
+`;
 
-// const GroupItem = styled.li`
-//   margin-bottom: 0.5rem;
-//   display: block;
-//   list-style: none;
-// `;
+const GroupItem = styled.li`
+  margin-bottom: 0.5rem;
+  display: block;
+  list-style: none;
+`;
 
-// const GroupRadio = styled.div`
-//   ${radioButtonCss}
-//   cursor: pointer;
-//   padding: 0.5rem 0.25rem;
+const GroupRadio = styled.div`
+  ${radioButtonCss}
+  cursor: pointer;
+  padding: 0.5rem 0.25rem;
 
-//   &:hover {
-//     background-color: #fff;
-//   }
+  &:hover {
+    background-color: #fff;
+  }
 
-//   &:before {
-//     margin-right: 16px;
-//   }
-// `;
+  &:before {
+    margin-right: 16px;
+  }
+`;
 
-// const SimilarCitiesList = styled.ol`
-//   background-color: #454a4e;
-//   padding: 0.65rem;
-//   margin-top: 1rem;
-//   box-sizing: border-box;
-//   max-height: 130px;
-//   overflow: auto;
+const SimilarCitiesList = styled.ol`
+  background-color: #454a4e;
+  padding: 0.65rem;
+  margin-top: 1rem;
+  box-sizing: border-box;
+  max-height: 130px;
+  overflow: auto;
 
-//   ::-webkit-scrollbar {
-//     -webkit-appearance: none;
-//     width: 7px;
-//   }
-//   ::-webkit-scrollbar-thumb {
-//     border-radius: 4px;
-//     background-color: rgba(255, 255, 255, .3);
-//   }
-//   ::-webkit-scrollbar-track {
-//     background-color: rgba(255, 255, 255, .1);
-//   }
-// `;
-// const SimilarCity = styled.li`
-//   font-size: 0.75rem;
-//   color: #fff;
-//   margin-left: 2rem;
-// `;
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .3);
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, .1);
+  }
+`;
+const SimilarCity = styled.li`
+  font-size: 0.75rem;
+  color: #fff;
+  margin-left: 2rem;
+`;
 
 enum Group {
   World = 'world',
@@ -266,7 +266,7 @@ const AddComparisonModal = (props: Props) => {
             <Or>{getString('global-ui-or')}</Or>
             <div>
               <LabelUnderline>{getString('global-ui-select-a-group')}</LabelUnderline>
-              {/*<GroupsList>
+              <GroupsList>
                 <GroupItem>
                   <GroupRadio
                     onClick={() => setSelected(Group.World)}
@@ -295,7 +295,7 @@ const AddComparisonModal = (props: Props) => {
                     <SimilarCity>Tenth City Name , Country</SimilarCity>
                   </SimilarCitiesList>
                 </GroupItem>
-              </GroupsList>*/}
+              </GroupsList>
             </div>
           </Grid>
         </SearchContainerDark>
