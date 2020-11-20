@@ -7,6 +7,7 @@ import {
 import {
   secondaryFont,
   baseColor,
+  primaryColor,
   primaryColorLight,
   lightBorderColor,
 } from '../../../styling/styleUtils';
@@ -102,7 +103,7 @@ const NavLink = styled(Link)`
   position: absolute;
   font-family: ${secondaryFont};
   text-transform: uppercase;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   letter-spacing: -0.3px;
   font-weight: 600;
   text-decoration: none;
@@ -129,8 +130,9 @@ const NavLink = styled(Link)`
     z-index: -1;
     position: absolute;
     width: 200%;
-    height: 100%;
+    height: 120%;
     background-color: ${primaryColorLight};
+    top: -10%;
     left: -250%;
     transition: all 0.2s ease;
   }
@@ -140,7 +142,7 @@ const NavLink = styled(Link)`
   }
 
   @media ${breakPoints.medium} {
-    font-size: 0.65rem;
+    font-size: 0.6rem;
   }
 
   @media ${breakPoints.small} {
@@ -163,17 +165,39 @@ const NavLink = styled(Link)`
   }
 `;
 
+const BetaIcon = styled.div`
+  position: absolute;
+  font-family: ${secondaryFont};
+  text-transform: uppercase;
+  letter-spacing: -0.3px;
+  font-style: italic;
+  font-weight: 600;
+  color: #fff;
+  background-color: ${primaryColor};
+  font-size: 8px;
+  padding: 1px 3px 1px 2px;
+  top: 0;
+  right: -1.6rem;
+  text-align: center;
+
+  @media ${breakPoints.small} {
+    top: -0.3rem;
+    right: 0;
+  }
+`;
+
 interface LinkDatum {
   label: string;
   url: string;
   top: number;
   left: number;
+  beta?: boolean;
 }
 
 const radius = 4.37;
 
 export interface Props {
-  baseLinkData: {label: string, url: string}[];
+  baseLinkData: {label: string, url: string, beta?: boolean}[];
 }
 
 const SideNavigation = ({baseLinkData}: Props) => {
@@ -211,6 +235,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
     const className = match ? acitveLinkClass : undefined;
+    const beta = d.beta ? <BetaIcon>Beta</BetaIcon> : null;
     return (
       <NavLink
         to={d.url + history.location.search}
@@ -220,6 +245,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
         onClick={() => mobileMenu ? setMobileMenuOpen(false) : null}
       >
         {d.label}
+        {beta}
       </NavLink>
     );
   });

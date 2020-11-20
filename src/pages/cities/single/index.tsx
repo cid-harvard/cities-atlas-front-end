@@ -33,28 +33,30 @@ const City = () => {
 
   const baseLinkData = cityId !== null ? [
     {
-      label: getStringWithNewLines('cities-single-page-titles-economic-position'),
+      label: getStringWithNewLines('cities-single-page-titles-question-1'),
       url: createRoute.city(CityRoutes.CityEconomicComposition, cityId),
     },
     {
-      label: getStringWithNewLines('cities-single-page-titles-own-host-subsidiaries'),
-      url: createRoute.city(CityRoutes.CityOutsideSubsidaries, cityId),
-    },
-    {
-      label: getStringWithNewLines('cities-single-page-titles-good-at'),
-      url: createRoute.city(CityRoutes.CityGoodAt, cityId),
-    },
-    {
-      label: getStringWithNewLines('cities-single-page-titles-compare-to'),
-      url: createRoute.city(CityRoutes.CityCompareSelf, cityId),
-    },
-    {
-      label: getStringWithNewLines('cities-single-page-titles-industry-city-move-to'),
+      label: getStringWithNewLines('cities-single-page-titles-question-2'),
       url: createRoute.city(CityRoutes.CityIndustryMove, cityId),
     },
     {
-      label: getStringWithNewLines('cities-single-page-titles-summary'),
+      label: getStringWithNewLines('cities-single-page-titles-question-3'),
+      url: createRoute.city(CityRoutes.CityGoodAt, cityId),
+    },
+    {
+      label: getStringWithNewLines('cities-single-page-titles-question-4'),
+      url: createRoute.city(CityRoutes.CityCompareSelf, cityId),
+    },
+    {
+      label: getStringWithNewLines('cities-single-page-titles-question-5'),
+      url: createRoute.city(CityRoutes.CityOutsideSubsidaries, cityId),
+      beta: true,
+    },
+    {
+      label: getStringWithNewLines('cities-single-page-titles-question-6'),
       url: createRoute.city(CityRoutes.CitySummary, cityId),
+      beta: true,
     },
   ] : [];
 

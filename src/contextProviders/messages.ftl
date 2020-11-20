@@ -59,6 +59,8 @@ global-ui-error-no-sectors-selected = At least one sector must be selected to vi
 global-ui-error-invalid-city = The selected city is missing data
 global-ui-error-industry-not-in-data-set = The selected industry is not in the current data set
 
+global-text-beta = Beta
+
 global-text-countries = Countries
 global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
@@ -86,12 +88,12 @@ landing-page-text-or = or
 landing-page-text-use-the-map = use the map
 landing-page-text-review-the-city = Review the City
 
-cities-single-page-titles-economic-position = What is my city's\neconomic position?
-cities-single-page-titles-own-host-subsidiaries = What cities own/host\nsubsidiaries in and from\nmy city?
-cities-single-page-titles-good-at = What is my city\ngood at?
-cities-single-page-titles-compare-to = What cities should I\ncompare myself to?
-cities-single-page-titles-industry-city-move-to = What industry can\nmy city move to?
-cities-single-page-titles-summary = Quick facts &\nsummary
+cities-single-page-titles-question-1 = What is my city's\neconomic composition?
+cities-single-page-titles-question-2 = What industries are\nunique in my city?
+cities-single-page-titles-question-3 = What are the adjacent\npossible industries?
+cities-single-page-titles-question-4 = What are the growth\nopportunities in my city?
+cities-single-page-titles-question-5 = What is the location of\nmy city's subsidiaries?
+cities-single-page-titles-question-6 = What is the location of\nsubsidiaries in my city? 
 
 tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Companies
