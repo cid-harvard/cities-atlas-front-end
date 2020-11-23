@@ -16,6 +16,7 @@ import {
 } from 'react-router-dom';
 import queryString from 'query-string';
 import useQueryParams from '../../../hooks/useQueryParams';
+import {RegionGroup} from '../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 
 const mobileWidth = 750; // in px
 
@@ -199,11 +200,6 @@ const SimilarCity = styled.li`
   margin-left: 2rem;
 `;
 
-export enum Group {
-  World = 'world',
-  SimilarCities = 'similarcities',
-}
-
 interface Props {
   closeModal: () => void;
   data: Datum[];
@@ -214,7 +210,7 @@ const AddComparisonModal = (props: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const continueButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [selected, setSelected] = useState<Datum | null | Group>(null);
+  const [selected, setSelected] = useState<Datum | null | RegionGroup>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
   const { compare_city, ...otherParams } = useQueryParams();
@@ -238,8 +234,8 @@ const AddComparisonModal = (props: Props) => {
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal();
-    } else if (selected === Group.World) {
-      const query = queryString.stringify({...otherParams, compare_city: Group.World});
+    } else if (selected === RegionGroup.World) {
+      const query = queryString.stringify({...otherParams, compare_city: RegionGroup.World});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal();
@@ -274,16 +270,16 @@ const AddComparisonModal = (props: Props) => {
               <GroupsList>
                 <GroupItem>
                   <GroupRadio
-                    onClick={() => setSelected(Group.World)}
-                    $checked={selected === Group.World}
+                    onClick={() => setSelected(RegionGroup.World)}
+                    $checked={selected === RegionGroup.World}
                   >
                     {getString('global-text-world')}
                   </GroupRadio>
                 </GroupItem>
                 <GroupItem>
                   <GroupRadio
-                    onClick={() => setSelected(Group.SimilarCities)}
-                    $checked={selected === Group.SimilarCities}
+                    onClick={() => setSelected(RegionGroup.SimilarCities)}
+                    $checked={selected === RegionGroup.SimilarCities}
                   >
                     {getString('global-text-similar-cities')} (10)
                   </GroupRadio>

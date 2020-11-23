@@ -113,6 +113,17 @@ export interface CityIndustryYear {
   id: string;
 }
 
+export interface GlobalIndustryYear {
+  naicsId: number;
+  naicsIdTopParent: number;
+  year: number;
+  level: number;
+  sumNumCompany: number;
+  sumNumEmploy: number;
+  avgNumCompany: number;
+  avgNumEmploy: number;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;

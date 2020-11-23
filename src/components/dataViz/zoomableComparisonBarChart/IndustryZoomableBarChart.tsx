@@ -27,7 +27,7 @@ import {
 import {
   useEconomicCompositionComparisonQuery,
   SuccessResponse,
-} from '../comparisonBarChart/TopIndustryComparisonBarChart';
+} from '../comparisonBarChart/cityIndustryComparisonQuery';
 import orderBy from 'lodash/orderBy';
 import {rgba} from 'polished';
 import useGlobalLocationData from '../../../hooks/useGlobalLocationData';

@@ -21,7 +21,8 @@ import {
 } from '../../../routing/routes';
 import {ValueOfCityRoutes, createRoute} from '../../../routing/Utils';
 import queryString from 'query-string';
-import AddComparisonModal, {Group} from './AddComparisonModal';
+import AddComparisonModal from './AddComparisonModal';
+import {RegionGroup} from '../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import useQueryParams from '../../../hooks/useQueryParams';
 
 const Root = styled.div`
@@ -169,7 +170,7 @@ const SecondaryHeader = () => {
         history.push(newUrl);
       };
       const comparisonData: Datum[] = [
-        {id: Group.World, title: getString('global-text-world'), level: null, parent_id: null},
+        {id: RegionGroup.World, title: getString('global-text-world'), level: null, parent_id: null},
         ...data.filter(({id}) => id !== cityId),
       ];
       compareDropdown = (

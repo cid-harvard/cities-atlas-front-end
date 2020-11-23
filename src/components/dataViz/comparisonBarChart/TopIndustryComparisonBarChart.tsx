@@ -1,7 +1,5 @@
 import React, {useEffect, useState, useRef} from 'react';
-import { useQuery, gql } from '@apollo/client';
 import {
-  CityIndustryYear,
   DigitLevel,
   ClassificationNaicsIndustry,
   CompositionType,
@@ -23,6 +21,7 @@ import {
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart, {FilteredDatum} from './Chart';
+import {useEconomicCompositionComparisonQuery, SuccessResponse} from './cityIndustryComparisonQuery';
 
 const Root = styled.div`
   width: 100%;
@@ -48,44 +47,6 @@ const VizContainer = styled.div`
     }
   }
 `;
-
-const ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
-  query GetCityIndustryTreeData($primaryCity: Int!, $secondaryCity: Int!, $year: Int!) {
-    primaryCityIndustries: cityIndustryYearList(cityId: $primaryCity, year: $year) {
-      id
-      naicsId
-      numCompany
-      numEmploy
-    }
-    secondaryCityIndustries: cityIndustryYearList(cityId: $secondaryCity, year: $year) {
-      id
-      naicsId
-      numCompany
-      numEmploy
-    }
-  }
-`;
-
-interface IndustriesList {
-  id: CityIndustryYear['id'];
-  naicsId: CityIndustryYear['naicsId'];
-  numCompany: CityIndustryYear['numCompany'];
-  numEmploy: CityIndustryYear['numEmploy'];
-}
-
-export interface SuccessResponse {
-  primaryCityIndustries: IndustriesList[];
-  secondaryCityIndustries: IndustriesList[];
-}
-
-interface Variables {
-  primaryCity: number;
-  secondaryCity: number;
-  year: number;
-}
-
-export const useEconomicCompositionComparisonQuery = (variables: Variables) =>
-  useQuery<SuccessResponse, Variables>(ECONOMIC_COMPOSITION_COMPARISON_QUERY, { variables });
 
 interface Props {
   primaryCity: number;
