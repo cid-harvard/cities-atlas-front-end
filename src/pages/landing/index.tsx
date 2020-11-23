@@ -251,6 +251,10 @@ const SearchContainer = styled.div`
       background-color: transparent;
     }
   }
+
+  .react-panel-search-list-item-container.react-panel-search-list-no-results {
+    color: #fff;
+  }
 `;
 
 const LoadingContainer = styled.div`
