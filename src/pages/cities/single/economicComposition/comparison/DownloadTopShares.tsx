@@ -3,6 +3,8 @@ import LoadingBlock from '../../../../../components/transitionStateComponents/Vi
 import html2canvas from 'html2canvas';
 import {FullPageOverlay} from '../../../../../styling/styleUtils';
 import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
+import useFluent from '../../../../../hooks/useFluent';
+import {RegionGroup} from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 
 interface Props {
   primaryCityId: string;
@@ -17,6 +19,7 @@ export default (props: Props) => {
   } = props;
 
   const {loading, data: globalData} = useGlobalLocationData();
+  const getString = useFluent();
 
   useEffect(() => {
     const node: HTMLElement | null = document.querySelector('.react-comparison-bar-chart-root-container');
@@ -32,9 +35,17 @@ export default (props: Props) => {
         ? globalData.cities.find(c => c.cityId === primaryCityId) : undefined;
       const primaryCityName = primaryCityDatum && primaryCityDatum.name? primaryCityDatum.name : '';
 
-      const secondaryCityDatum = globalData
-        ? globalData.cities.find(c => c.cityId === secondaryCityId) : undefined;
-      const secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+
+      let secondaryCityName: string;
+      if (secondaryCityId === RegionGroup.World) {
+        secondaryCityName = getString('global-text-world');
+      } else if (secondaryCityId === RegionGroup.SimilarCities) {
+        secondaryCityName = getString('global-text-similar-cities');
+      } else {
+        const secondaryCityDatum = globalData
+          ? globalData.cities.find(c => parseInt(c.cityId, 10) === parseInt(secondaryCityId, 10)) : undefined;
+        secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+      }
 
       html2canvas(node).then(canvas => {
         const link = document.createElement('a');
@@ -58,7 +69,7 @@ export default (props: Props) => {
     } else if (!loading) {
       onClose();
     }
-  }, [onClose, globalData, loading, primaryCityId, secondaryCityId, year]);
+  }, [onClose, globalData, loading, primaryCityId, secondaryCityId, year, getString]);
 
   return (
     <FullPageOverlay>
