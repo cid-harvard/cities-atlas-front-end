@@ -16,6 +16,7 @@ import {
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
+import {RegionGroup} from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import noop from 'lodash/noop';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
@@ -84,6 +85,16 @@ const CompositionComparison = (props: Props) => {
     },
   ];
 
+  let comparison: number | RegionGroup;
+  if (secondaryCity === RegionGroup.World) {
+    comparison = RegionGroup.World;
+  } else if (secondaryCity === RegionGroup.SimilarCities) {
+    comparison = RegionGroup.World;
+  } else {
+    comparison = parseInt(secondaryCity, 10);
+  }
+
+
   let download: React.ReactElement<any> | null;
   let triggerImageDownload: undefined | (() => void);
   if (activeDownload === DownloadType.Image) {
@@ -109,7 +120,6 @@ const CompositionComparison = (props: Props) => {
     triggerImageDownload = undefined;
   }
 
-
   return (
     <>
       <ContentGrid>
@@ -118,7 +128,7 @@ const CompositionComparison = (props: Props) => {
             render={() => (
               <IndustryZoomableBarChart
                 primaryCity={parseInt(primaryCity, 10)}
-                secondaryCity={parseInt(secondaryCity, 10)}
+                comparison={comparison}
                 year={defaultYear}
                 setHighlighted={setHighlighted}
                 highlighted={highlighted ? parseInt(highlighted, 10) : null}
@@ -133,7 +143,7 @@ const CompositionComparison = (props: Props) => {
             render={() => (
               <TopIndustryComparisonBarChart
                 primaryCity={parseInt(primaryCity, 10)}
-                secondaryCity={parseInt(secondaryCity, 10)}
+                comparison={comparison}
                 year={defaultYear}
                 setHighlighted={setHighlighted}
                 highlighted={highlighted}

@@ -25,8 +25,9 @@ import {
   ClusterBarChartDatum,
 } from 'react-fast-charts';
 import {
-  useEconomicCompositionComparisonQuery,
+  useComparisonQuery,
   SuccessResponse,
+  RegionGroup,
 } from '../comparisonBarChart/cityIndustryComparisonQuery';
 import orderBy from 'lodash/orderBy';
 import {rgba} from 'polished';
@@ -140,7 +141,7 @@ const LegendText = styled.div`
 
 interface Props {
   primaryCity: number;
-  secondaryCity: number;
+  comparison: number | RegionGroup;
   year: number;
   highlighted: number | null;
   setHighlighted: (value: string | undefined) => void;
@@ -152,12 +153,12 @@ interface Props {
 
 const IndustryZoomableBarChart = (props: Props) => {
   const {
-    primaryCity, secondaryCity, year, compositionType, highlighted,
+    primaryCity, comparison, year, compositionType, highlighted,
     hiddenSectors, setHighlighted, vizNavigation, triggerImageDownload,
   } = props;
 
-  const {loading, error, data} = useEconomicCompositionComparisonQuery({
-    primaryCity, secondaryCity, year,
+  const {loading, error, data} = useComparisonQuery({
+    primaryCity, comparison, year,
   });
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
@@ -170,9 +171,16 @@ const IndustryZoomableBarChart = (props: Props) => {
     ? globalData.cities.find(c => parseInt(c.cityId, 10) === primaryCity) : undefined;
   const primaryCityName = primaryCityDatum && primaryCityDatum.name? primaryCityDatum.name : '';
 
-  const secondaryCityDatum = globalData
-    ? globalData.cities.find(c => parseInt(c.cityId, 10) === secondaryCity) : undefined;
-  const secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+  let secondaryCityName: string;
+  if (comparison === RegionGroup.World) {
+    secondaryCityName = getString('global-text-world');
+  } else if (comparison === RegionGroup.SimilarCities) {
+    secondaryCityName = getString('global-text-similar-cities');
+  } else {
+    const secondaryCityDatum = globalData
+      ? globalData.cities.find(c => parseInt(c.cityId, 10) === comparison) : undefined;
+    secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+  }
 
   useEffect(() => {
     const node = rootRef.current;

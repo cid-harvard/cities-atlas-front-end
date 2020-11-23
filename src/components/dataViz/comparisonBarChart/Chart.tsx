@@ -13,6 +13,7 @@ import {
   CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import QuickError from '../../transitionStateComponents/QuickError';
+import {RegionGroup} from './cityIndustryComparisonQuery';
 
 export interface FilteredDatum {
   id: CityIndustryYear['naicsId'];
@@ -32,7 +33,7 @@ interface Props {
   primaryTotal: number;
   secondaryTotal: number;
   primaryCityId: number;
-  secondaryCityId: number;
+  secondaryCityId: number | RegionGroup;
   highlighted: string | undefined;
   compositionType: CompositionType;
 }
@@ -77,9 +78,16 @@ const Chart = (props: Props) => {
     ? globalData.cities.find(c => parseInt(c.cityId, 10) === primaryCityId) : undefined;
   const primaryCityName = primaryCityDatum && primaryCityDatum.name? primaryCityDatum.name : '';
 
-  const secondaryCityDatum = globalData
-    ? globalData.cities.find(c => parseInt(c.cityId, 10) === secondaryCityId) : undefined;
-  const secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+  let secondaryCityName: string;
+  if (secondaryCityId === RegionGroup.World) {
+    secondaryCityName = getString('global-text-world');
+  } else if (secondaryCityId === RegionGroup.SimilarCities) {
+    secondaryCityName = getString('global-text-similar-cities');
+  } else {
+    const secondaryCityDatum = globalData
+      ? globalData.cities.find(c => parseInt(c.cityId, 10) === secondaryCityId) : undefined;
+    secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+  }
 
   const setHovered = (e: RowHoverEvent | undefined) => {
     const node = tooltipRef.current;

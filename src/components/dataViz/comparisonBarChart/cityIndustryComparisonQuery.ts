@@ -1,4 +1,4 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql, DocumentNode } from '@apollo/client';
 import {
   CityIndustryYear,
   GlobalIndustryYear,
@@ -34,37 +34,37 @@ const WORLD_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
       numCompany
       numEmploy
     }
-    worldIndustries_1: globalIndustryYear(cityId: $secondaryCity, year: $year, level: 1) {
+    worldIndustries_1: globalIndustryYear(year: $year, level: 1) {
       id: naicsId
       naicsId
       numCompany: avgNumCompany
       numEmploy: avgNumEmploy
     }
-    worldIndustries_2: globalIndustryYear(cityId: $secondaryCity, year: $year, level: 2) {
+    worldIndustries_2: globalIndustryYear(year: $year, level: 2) {
       id: naicsId
       naicsId
       numCompany: avgNumCompany
       numEmploy: avgNumEmploy
     }
-    worldIndustries_3: globalIndustryYear(cityId: $secondaryCity, year: $year, level: 3) {
+    worldIndustries_3: globalIndustryYear(year: $year, level: 3) {
       id: naicsId
       naicsId
       numCompany: avgNumCompany
       numEmploy: avgNumEmploy
     }
-    worldIndustries_4: globalIndustryYear(cityId: $secondaryCity, year: $year, level: 4) {
+    worldIndustries_4: globalIndustryYear(year: $year, level: 4) {
       id: naicsId
       naicsId
       numCompany: avgNumCompany
       numEmploy: avgNumEmploy
     }
-    worldIndustries_5: globalIndustryYear(cityId: $secondaryCity, year: $year, level: 5) {
+    worldIndustries_5: globalIndustryYear(year: $year, level: 5) {
       id: naicsId
       naicsId
       numCompany: avgNumCompany
       numEmploy: avgNumEmploy
     }
-    worldIndustries_6: globalIndustryYear(cityId: $secondaryCity, year: $year, level: 6) {
+    worldIndustries_6: globalIndustryYear(year: $year, level: 6) {
       id: naicsId
       naicsId
       numCompany: avgNumCompany
@@ -91,11 +91,6 @@ interface CityVariables {
   year: number;
 }
 
-interface WorldVariables {
-  primaryCity: number;
-  year: number;
-}
-
 interface WorldIndustryList {
   id: GlobalIndustryYear['naicsId'];
   naicsId: GlobalIndustryYear['naicsId'];
@@ -117,32 +112,62 @@ interface WorldSuccessResponse {
 export const useEconomicCompositionComparisonQuery = (variables: CityVariables) =>
   useQuery<SuccessResponse, CityVariables>(ECONOMIC_COMPOSITION_COMPARISON_QUERY, { variables });
 
-export const useCityToWorldEconomicCompositionComparisonQuery = (variables: WorldVariables) => {
-  const {loading, error, data: response} =
-    useQuery<WorldSuccessResponse, WorldVariables>(WORLD_ECONOMIC_COMPOSITION_COMPARISON_QUERY, { variables });
-  const data: SuccessResponse | undefined = response === undefined ? response : {
-    primaryCityIndustries: response.primaryCityIndustries,
-    secondaryCityIndustries: [],
-  };
-  if (data !== undefined && response !== undefined) {
-    data.secondaryCityIndustries.push(
-      ...response.worldIndustries_1.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}`, }))
-    );
-    data.secondaryCityIndustries.push(
-      ...response.worldIndustries_2.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}`, }))
-    );
-    data.secondaryCityIndustries.push(
-      ...response.worldIndustries_3.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}`, }))
-    );
-    data.secondaryCityIndustries.push(
-      ...response.worldIndustries_4.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}`, }))
-    );
-    data.secondaryCityIndustries.push(
-      ...response.worldIndustries_5.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}`, }))
-    );
-    data.secondaryCityIndustries.push(
-      ...response.worldIndustries_6.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}`, }))
-    );
-  }
-  return {loading, error, data}
+interface InputVariables {
+  primaryCity: number;
+  comparison: number | RegionGroup;
+  year: number;
 }
+
+interface QueryVariables {
+  primaryCity: number;
+  secondaryCity?: number;
+  year: number;
+}
+
+export const useComparisonQuery = (input: InputVariables) => {
+  let QUERY: DocumentNode;
+  const variables: QueryVariables = {primaryCity: input.primaryCity, year: input.year};
+  if (input.comparison === RegionGroup.World || input.comparison === RegionGroup.SimilarCities) {
+    QUERY = WORLD_ECONOMIC_COMPOSITION_COMPARISON_QUERY;
+  } else {
+    variables.secondaryCity = input.comparison;
+    QUERY = ECONOMIC_COMPOSITION_COMPARISON_QUERY;
+  }
+  const {loading, error, data: response} = useQuery<SuccessResponse>(QUERY, { variables });
+  let data: SuccessResponse | undefined;
+  if (input.comparison === RegionGroup.World || input.comparison === RegionGroup.SimilarCities) {
+    data = response === undefined ? response : {
+      primaryCityIndustries: response.primaryCityIndustries,
+      secondaryCityIndustries: [],
+    };
+    if (data !== undefined && response !== undefined) {
+      const {
+        worldIndustries_1, worldIndustries_2, worldIndustries_3,
+        worldIndustries_4, worldIndustries_5, worldIndustries_6,
+      } = response as any as WorldSuccessResponse;
+      data.secondaryCityIndustries.push(
+        ...worldIndustries_1.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}` })),
+      );
+      data.secondaryCityIndustries.push(
+        ...worldIndustries_2.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}` })),
+      );
+      data.secondaryCityIndustries.push(
+        ...worldIndustries_3.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}` })),
+      );
+      data.secondaryCityIndustries.push(
+        ...worldIndustries_4.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}` })),
+      );
+      data.secondaryCityIndustries.push(
+        ...worldIndustries_5.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}` })),
+      );
+      data.secondaryCityIndustries.push(
+        ...worldIndustries_6.map(d => ({...d, id: `${d.id}`, naicsId: `${d.naicsId}` })),
+      );
+    }
+  } else {
+    data = response;
+  }
+
+  return {loading, error, data};
+};
+

@@ -21,7 +21,7 @@ import {
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart, {FilteredDatum} from './Chart';
-import {useEconomicCompositionComparisonQuery, SuccessResponse} from './cityIndustryComparisonQuery';
+import {useComparisonQuery, SuccessResponse, RegionGroup} from './cityIndustryComparisonQuery';
 
 const Root = styled.div`
   width: 100%;
@@ -50,7 +50,7 @@ const VizContainer = styled.div`
 
 interface Props {
   primaryCity: number;
-  secondaryCity: number;
+  comparison: number | RegionGroup;
   year: number;
   highlighted: string | undefined;
   setHighlighted: (value: string | undefined) => void;
@@ -60,15 +60,17 @@ interface Props {
   vizNavigation: VizNavItem[];
 }
 
+
+
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
-    primaryCity, secondaryCity, year, digitLevel, compositionType, hiddenSectors,
+    primaryCity, comparison, year, digitLevel, compositionType, hiddenSectors,
     highlighted, setHighlighted, vizNavigation,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
-  const {loading, error, data} = useEconomicCompositionComparisonQuery({primaryCity, secondaryCity, year});
+  const {loading, error, data} = useComparisonQuery({primaryCity, comparison, year});
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   useEffect(() => {
@@ -168,7 +170,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
                 primaryTotal={primaryTotal}
                 secondaryTotal={secondaryTotal}
                 primaryCityId={primaryCity}
-                secondaryCityId={secondaryCity}
+                secondaryCityId={comparison}
                 highlighted={highlighted}
                 compositionType={compositionType}
               />
