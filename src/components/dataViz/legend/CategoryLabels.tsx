@@ -3,10 +3,12 @@ import styled, {keyframes} from 'styled-components/macro';
 import Label, {CategoryDatum} from './Label';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {
-  secondaryFont,
   backgroundMedium,
   baseColor,
 } from '../../../styling/styleUtils';
+import raw from 'raw.macro';
+
+const ReloadImgSrc = raw('../../../assets/icons/reload.svg');
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -62,16 +64,34 @@ const ResetLabelsButtonContainer = styled.div`
 const ResetLabelsButton = styled.button`
   pointer-events: all;
   animation: ${fadeAndSlideIn} 0.2s linear 1 forwards;
-  font-family: ${secondaryFont};
   text-transform: uppercase;
   color: ${baseColor};
   background-color: ${backgroundMedium};
-  font-size: 0.7rem;
+  font-size: 0.65rem;
+  font-weight: 600;
   outline-color: ${backgroundMedium};
   transition: outline 0.1s linear;
+  padding: 0.3rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
 
   &:hover, &:focus {
     outline: solid 2px ${backgroundMedium};
+  }
+`;
+
+const ReloadIcon = styled.div`
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-right: 0.5rem;
+
+  svg {
+    width: 100%;
+    height: 100%;
+
+    path {
+      fill: ${baseColor};
+    }
   }
 `;
 
@@ -110,7 +130,7 @@ const CategoryLabels = (props: Props) => {
   const resetButton = hiddenCategories.length ? (
     <ResetLabelsButtonContainer>
       <ResetLabelsButton onClick={resetCategories}>
-        ⟳ {resetText}
+        <ReloadIcon dangerouslySetInnerHTML={{__html: ReloadImgSrc}} /> {resetText}
       </ResetLabelsButton>
     </ResetLabelsButtonContainer>
   ) : null;
