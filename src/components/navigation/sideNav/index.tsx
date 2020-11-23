@@ -177,7 +177,7 @@ const BetaIcon = styled.div`
   font-size: 8px;
   padding: 1px 3px 1px 2px;
   top: 0;
-  right: -1.6rem;
+  transform: translate(0, calc(-100% - 0.1rem));
   text-align: center;
 
   @media ${breakPoints.small} {
