@@ -283,16 +283,16 @@ const AddComparisonModal = (props: Props) => {
                     {getString('global-text-similar-cities')} (10)
                   </GroupRadio>
                   <SimilarCitiesList>
-                    <SimilarCity>First City Name, Country</SimilarCity>
-                    <SimilarCity>Second City Name, Country</SimilarCity>
-                    <SimilarCity>Third City Name, Country</SimilarCity>
-                    <SimilarCity>Fourth City Name, Country</SimilarCity>
-                    <SimilarCity>Fifth City Name, Country</SimilarCity>
-                    <SimilarCity>Sixth City Name, Country</SimilarCity>
-                    <SimilarCity>Seventh City Name, Country</SimilarCity>
-                    <SimilarCity>Eight City Name, Country</SimilarCity>
-                    <SimilarCity>Ninth City Name, Country</SimilarCity>
-                    <SimilarCity>Tenth City Name , Country</SimilarCity>
+                    <SimilarCity>First Group Name</SimilarCity>
+                    <SimilarCity>Second Group Name</SimilarCity>
+                    <SimilarCity>Third Group Name</SimilarCity>
+                    <SimilarCity>Fourth Group Name</SimilarCity>
+                    <SimilarCity>Fifth Group Name</SimilarCity>
+                    <SimilarCity>Sixth Group Name</SimilarCity>
+                    <SimilarCity>Seventh Group Name</SimilarCity>
+                    <SimilarCity>Eight Group Name</SimilarCity>
+                    <SimilarCity>Ninth Group Name</SimilarCity>
+                    <SimilarCity>Tenth Group Name</SimilarCity>
                   </SimilarCitiesList>
                 </GroupItem>
               </GroupsList>
