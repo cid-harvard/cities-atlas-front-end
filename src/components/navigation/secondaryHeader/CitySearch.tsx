@@ -21,7 +21,7 @@ import {
 } from '../../../routing/routes';
 import {ValueOfCityRoutes, createRoute} from '../../../routing/Utils';
 import queryString from 'query-string';
-import AddComparisonModal from './AddComparisonModal';
+import AddComparisonModal, {Group} from './AddComparisonModal';
 import useQueryParams from '../../../hooks/useQueryParams';
 
 const Root = styled.div`
@@ -168,18 +168,22 @@ const SecondaryHeader = () => {
         const newUrl = query ? path + '?' + query : path;
         history.push(newUrl);
       };
+      const comparisonData: Datum[] = [
+        {id: Group.World, title: getString('global-text-world'), level: null, parent_id: null},
+        ...data.filter(({id}) => id !== cityId),
+      ];
       compareDropdown = (
         <>
           <CompareDropdownRoot>
             <PanelSearch
-              data={data.filter(({id}) => id !== cityId)}
+              data={comparisonData}
               topLevelTitle={getString('global-text-countries')}
               disallowSelectionLevels={['0']}
               defaultPlaceholderText={getString('global-ui-type-a-city-name')}
               showCount={true}
               resultsIdentation={1.75}
               neverEmpty={true}
-              selectedValue={data.find(({id}) => id === compare_city)}
+              selectedValue={comparisonData.find(({id}) => id === compare_city)}
               onSelect={onSelectComparison}
               maxResults={500}
             />

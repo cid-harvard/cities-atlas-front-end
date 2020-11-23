@@ -199,7 +199,7 @@ const SimilarCity = styled.li`
   margin-left: 2rem;
 `;
 
-enum Group {
+export enum Group {
   World = 'world',
   SimilarCities = 'similarcities',
 }
@@ -235,6 +235,11 @@ const AddComparisonModal = (props: Props) => {
   const onContinue = () => {
     if (selected && typeof selected === 'object') {
       const query = queryString.stringify({...otherParams, compare_city: selected.id});
+      const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
+      history.push(newUrl);
+      closeModal();
+    } else if (selected === Group.World) {
+      const query = queryString.stringify({...otherParams, compare_city: Group.World});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal();
