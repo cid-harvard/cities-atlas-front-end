@@ -15,7 +15,6 @@ const RootBase = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
   box-sizing: border-box;
   padding: 1rem 0 0;
   position: relative;
@@ -33,7 +32,7 @@ const StandardRoot = styled(RootBase)`
 
 const FullWidthRoot = styled(RootBase)`
   grid-column: 1 / -1;
-  padding: 1rem;
+  padding: 1rem 1rem 1rem 0;
 
   @media ${breakPoints.small} {
     padding-right: 0;
