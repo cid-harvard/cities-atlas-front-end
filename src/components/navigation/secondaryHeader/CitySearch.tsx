@@ -5,6 +5,7 @@ import {
   errorColor,
   baseColor,
 } from '../../../styling/styleUtils';
+import matchingKeywordFormatter from '../../../styling/utils/panelSearchKeywordFormatter';
 import PanelSearch, {Datum} from 'react-panel-search';
 import useFluent from '../../../hooks/useFluent';
 import {useGlobalLocationHierarchicalTreeData} from '../../../hooks/useGlobalLocationData';
@@ -24,6 +25,7 @@ import queryString from 'query-string';
 import AddComparisonModal from './AddComparisonModal';
 import {RegionGroup} from '../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import useQueryParams from '../../../hooks/useQueryParams';
+import {TooltipTheme} from '../../general/Tooltip';
 
 const Root = styled.div`
   display: grid;
@@ -219,6 +221,7 @@ const SecondaryHeader = () => {
           selectedValue={initialSelected ? initialSelected : undefined}
           onSelect={onSelect}
           maxResults={500}
+          matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
         />
         {compareDropdown}
         {compareModal}

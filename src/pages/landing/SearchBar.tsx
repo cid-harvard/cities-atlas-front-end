@@ -4,6 +4,8 @@ import {
 } from './Utils';
 import PanelSearch from 'react-panel-search';
 import useFluent from '../../hooks/useFluent';
+import matchingKeywordFormatter from '../../styling/utils/panelSearchKeywordFormatter';
+import {TooltipTheme} from '../../components/general/Tooltip';
 
 interface Props {
   data: ExtendedSearchDatum[];
@@ -32,6 +34,7 @@ const SearchBar = (props: Props) => {
       showCount={true}
       resultsIdentation={1.75}
       focusOnRender={true}
+      matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
     />
   );
 };

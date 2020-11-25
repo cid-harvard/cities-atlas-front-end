@@ -133,6 +133,7 @@ const GenericSpan = styled.span`
   cursor: help;
 `;
 //#endregion
+let timeout: number;
 
 interface Props {
   explanation: React.ReactNode | null;
@@ -141,10 +142,11 @@ interface Props {
   theme?: TooltipTheme;
   tooltipPosition?: TooltipPosition;
   overrideStyles?: boolean;
+  delay?: number;
 }
 
 const Tooltip = (props: Props) => {
-  const {explanation, children, cursor, theme, tooltipPosition, overrideStyles} = props;
+  const {explanation, children, cursor, theme, tooltipPosition, overrideStyles, delay} = props;
   const rootEl = useRef<HTMLDivElement | null>(null);
   const tooltipEl = useRef<HTMLDivElement | null>(null);
   const overlayPortalContainerNodeRef = useRef<HTMLElement | null>(null);
@@ -214,10 +216,15 @@ const Tooltip = (props: Props) => {
 
   const onMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     setCoords({top: e.clientY, left: e.clientX});
-    setIsTooltipShown(true);
+    if (delay) {
+      timeout = setTimeout(() => setIsTooltipShown(true), delay);
+    } else {
+      setIsTooltipShown(true);
+    }
   };
   const onMouseLeave = (e: React.MouseEvent<HTMLSpanElement>) => {
     setCoords({top: e.clientY, left: e.clientX});
+    clearTimeout(timeout);
     setIsTooltipShown(false);
   };
   const onMouseMove = (e: React.MouseEvent<HTMLSpanElement>) => {
