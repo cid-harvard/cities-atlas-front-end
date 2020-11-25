@@ -21,7 +21,7 @@ import AppContext from '../../../contextProviders/appContext';
 import MobileMenu from './MobileMenu';
 
 const Root = styled.div`
-  width: 230px;
+  width: 240px;
   overflow: hidden;
   position: relative;
   margin: auto;
@@ -103,7 +103,7 @@ const NavLink = styled(Link)`
   position: absolute;
   font-family: ${secondaryFont};
   text-transform: uppercase;
-  font-size: 0.65rem;
+  font-size: 0.7rem;
   letter-spacing: -0.3px;
   font-weight: 600;
   text-decoration: none;
@@ -179,6 +179,7 @@ const BetaIcon = styled.div`
   top: 0;
   transform: translate(0, calc(-100% - 0.1rem));
   text-align: center;
+  font-family: 0.6rem;
 
   @media ${breakPoints.small} {
     top: -0.3rem;

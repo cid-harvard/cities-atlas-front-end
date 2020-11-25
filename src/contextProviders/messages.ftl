@@ -90,7 +90,7 @@ landing-page-text-use-the-map = use the map
 landing-page-text-review-the-city = Review the City
 
 cities-single-page-titles-question-1 = What is my city's\neconomic composition?
-cities-single-page-titles-question-2 = What Industries have high\nintensity in my city ?
+cities-single-page-titles-question-2 = What Industries have high\nintensity in my city?
 cities-single-page-titles-question-3 = What are the adjacent\npossible industries?
 cities-single-page-titles-question-4 = What are the growth\nopportunities in my city?
 cities-single-page-titles-question-5 = Where does my city\nown subsidiaries?
