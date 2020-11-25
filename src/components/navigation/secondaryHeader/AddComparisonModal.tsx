@@ -17,6 +17,8 @@ import {
 import queryString from 'query-string';
 import useQueryParams from '../../../hooks/useQueryParams';
 import {RegionGroup} from '../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
+import matchingKeywordFormatter from '../../../styling/utils/panelSearchKeywordFormatter';
+import {TooltipTheme} from '../../general/Tooltip';
 
 const mobileWidth = 750; // in px
 
@@ -262,6 +264,7 @@ const AddComparisonModal = (props: Props) => {
                 selectedValue={typeof selected === 'object' ? selected : null}
                 onSelect={selectCity}
                 focusOnRender={true}
+                matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
               />
             </div>
             <Or>{getString('global-ui-or')}</Or>
