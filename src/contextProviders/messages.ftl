@@ -14,6 +14,7 @@ global-ui-select-a-city-name = Select a city
 global-ui-select-a-group = Select an existing group
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
+global-ui-includes-keywords = Includes { $keywords }
 global-ui-search-an-industry-in-graph = Find industry in graph
 global-ui-download = Download
 global-ui-download-image = Image Download

@@ -13,16 +13,11 @@ const ReloadImgSrc = raw('../../../assets/icons/reload.svg');
 const RootBase = styled.div`
   grid-row: 3;
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   box-sizing: border-box;
-  padding: 1rem 0 0;
-  position: relative;
-  margin-bottom: 1rem;
 
   @media ${breakPoints.small} {
     grid-row: 4;
-    margin-bottom: 3rem;
   }
 `;
 
@@ -32,6 +27,23 @@ const StandardRoot = styled(RootBase)`
 
 const FullWidthRoot = styled(RootBase)`
   grid-column: 1 / -1;
+`;
+
+const StandardContent = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 1rem 0 0;
+  margin-bottom: 1rem;
+
+  @media ${breakPoints.small} {
+    margin-bottom: 3rem;
+  }
+`;
+
+const FullWidthContent = styled(StandardContent)`
   padding: 1rem 1rem 1rem 0;
 
   @media ${breakPoints.small} {
@@ -125,6 +137,7 @@ const CategoryLabels = (props: Props) => {
   });
 
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
+  const Content = fullWidth ? FullWidthContent : StandardContent;
 
   const resetButton = hiddenCategories.length ? (
     <ResetLabelsButtonContainer>
@@ -136,8 +149,10 @@ const CategoryLabels = (props: Props) => {
 
   return (
     <Root>
-      {labels}
-      {resetButton}
+      <Content>
+        {labels}
+        {resetButton}
+      </Content>
     </Root>
   );
 };

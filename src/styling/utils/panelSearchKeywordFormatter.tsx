@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components/macro';
 import Tooltip, {TooltipTheme} from '../../components/general/Tooltip';
 import {secondaryFont} from '../styleUtils';
+import useFluent from '../../hooks/useFluent';
 
 const Root = styled.small`
   opacity: 0.5;
@@ -17,7 +18,9 @@ const KeywordText = styled.div`
 `;
 
 
-const KeywordElement = ({text, theme}: {text: string, theme: TooltipTheme}) => {
+const KeywordElement = ({keywords, theme}: {keywords: string, theme: TooltipTheme}) => {
+  const getString = useFluent();
+  const text = getString('global-ui-includes-keywords', {keywords});
   return (
     <Tooltip
       explanation={<KeywordText>{text}</KeywordText>}
@@ -33,8 +36,8 @@ const KeywordElement = ({text, theme}: {text: string, theme: TooltipTheme}) => {
 
 export default (theme: TooltipTheme) => (match: string[], rest: string[]) => {
   if (match.length > 1 || rest.length > 1) {
-    const text = `Includes ${[...match, ...rest].join(', ')}`;
-    return <KeywordElement text={text} theme={theme} />;
+    const keywords = [...match, ...rest].join(', ');
+    return <KeywordElement keywords={keywords} theme={theme} />;
   } else {
     return null;
   }
