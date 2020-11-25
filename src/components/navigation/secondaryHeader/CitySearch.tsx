@@ -189,6 +189,7 @@ const SecondaryHeader = () => {
               selectedValue={comparisonData.find(({id}) => id === compare_city)}
               onSelect={onSelectComparison}
               maxResults={500}
+              matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
             />
           </CompareDropdownRoot>
           <div>
