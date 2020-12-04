@@ -51,12 +51,6 @@ const City = () => {
     {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
       url: createRoute.city(CityRoutes.CityOutsideSubsidaries, cityId),
-      beta: true,
-    },
-    {
-      label: getStringWithNewLines('cities-single-page-titles-question-6'),
-      url: createRoute.city(CityRoutes.CitySummary, cityId),
-      beta: true,
     },
   ] : [];
 

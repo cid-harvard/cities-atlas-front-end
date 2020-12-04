@@ -215,10 +215,9 @@ const SideNavigation = ({baseLinkData}: Props) => {
   const circle_2 = useRef<SVGCircleElement | null>(null);
   const circle_3 = useRef<SVGCircleElement | null>(null);
   const circle_4 = useRef<SVGCircleElement | null>(null);
-  const circle_5 = useRef<SVGCircleElement | null>(null);
 
   useEffect(() => {
-    const refArray = [circle_0, circle_1, circle_2, circle_3, circle_4, circle_5];
+    const refArray = [circle_0, circle_1, circle_2, circle_3, circle_4];
     const pageScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     const containerPosition = rootRef && rootRef.current ? rootRef.current.offsetTop : 0;
     const offset = pageScrollTop - containerPosition;
@@ -231,7 +230,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
       }
     });
     setLinkData([...newLinkDatum]);
-  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, circle_5, baseLinkData, windowDimensions]);
+  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, baseLinkData, windowDimensions]);
 
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
@@ -271,7 +270,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
         <LinkContainer>
         {links}
         </LinkContainer>
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 69.02 377.85'>
+        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 377.85'>
           <clipPath id={clipPathIdDesktop}>
             <path
               d='M0,0v0.8C41.6,35.5,68.3,112,64.4,199.4C61,274.8,35.6,340.1,0,376.4l0,4.4h366.4V0H0z'
@@ -286,12 +285,11 @@ const SideNavigation = ({baseLinkData}: Props) => {
             d='M569.33,197.85c42.17,34.26,69.37,111.25,65.4,199.38-3.4,75.47-28.83,140.75-64.37,177'
             transform='translate(-568.7 -197.07)'
           />
-          <circle ref={circle_0} cx='20.13' cy='20.42' r={radius}/>
-          <circle ref={circle_1} cx='51.28' cy='81.38' r={radius}/>
-          <circle ref={circle_2} cx='64.66' cy='152.37' r={radius}/>
-          <circle ref={circle_3} cx='64.66' cy='223.37' r={radius}/>
-          <circle ref={circle_4} cx='51.58' cy='286.89' r={radius}/>
-          <circle ref={circle_5} cx='25.3' cy='346.99' r={radius}/>
+          <circle ref={circle_0} cx='20.1' cy='20.4' r={radius}/>
+          <circle ref={circle_1} cx='53.4' cy='90.1' r={radius}/>
+          <circle ref={circle_2} cx='65.7' cy='184.6' r={radius}/>
+          <circle ref={circle_3} cx='55.8' cy='269.3' r={radius}/>
+          <circle ref={circle_4} cx='25.3' cy='347' r={radius}/>
         </svg>
       </Root>
     </NavigationContainer>
