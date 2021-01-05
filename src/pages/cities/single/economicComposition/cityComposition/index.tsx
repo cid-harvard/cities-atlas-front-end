@@ -100,6 +100,7 @@ const EconomicComposition = (props: Props) => {
         </TreeMapRoot>
         <CategoryLabels
           categories={sectorMap}
+          allowToggle={true}
           toggleCategory={toggleSector}
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}

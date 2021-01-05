@@ -107,6 +107,7 @@ const Title = styled.div`
   font-size: 0.9rem;
   text-transform: uppercase;
   text-align: center;
+  white-space: nowrap;
 `;
 
 const Hr = styled.hr`
@@ -153,8 +154,8 @@ export interface CategoryDatum {
 
 interface Props {
   category: CategoryDatum;
-  toggleCategory: () => void;
-  isolateCategory: () => void;
+  toggleCategory?: () => void;
+  isolateCategory?: () => void;
   isHidden: boolean;
   isIsolated: boolean;
 }
@@ -162,26 +163,35 @@ interface Props {
 const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidden, isIsolated}: Props) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const getString = useFluent();
+  const toggleButton = toggleCategory ? (
+    <HideIsolateButton
+      $checked={isHidden}
+      onClick={toggleCategory}
+    >
+      {getString('global-ui-hide')}
+    </HideIsolateButton>
+  ) : null;
+  const isolateButton = isolateCategory ? (
+    <HideIsolateButton
+      $checked={isIsolated}
+      onClick={isolateCategory}
+    >
+      {getString('global-ui-keep-only')}
+    </HideIsolateButton>
+  ) : null;
+  const hideIsolateButtons = isolateButton || toggleButton ? (
+    <ButtonWrapper>
+      {toggleButton}
+      {isolateButton}
+    </ButtonWrapper>
+  ) : null;
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
       <HideIsolateContent>
         <HideIsolateText>
           <Title>{name}</Title>
           <Hr style={{borderColor: color}}/>
-          <ButtonWrapper>
-            <HideIsolateButton
-              $checked={isHidden}
-              onClick={toggleCategory}
-            >
-              {getString('global-ui-hide')}
-            </HideIsolateButton>
-            <HideIsolateButton
-              $checked={isIsolated}
-              onClick={isolateCategory}
-            >
-              {getString('global-ui-keep-only')}
-            </HideIsolateButton>
-          </ButtonWrapper>
+          {hideIsolateButtons}
         </HideIsolateText>
         <ArrowContainer>
           <Arrow />

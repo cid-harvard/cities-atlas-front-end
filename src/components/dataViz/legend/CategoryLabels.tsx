@@ -106,52 +106,86 @@ const ReloadIcon = styled.div`
   }
 `;
 
-interface Props {
+interface BaseProps {
   categories: CategoryDatum[];
-  toggleCategory: (id: string) => void;
-  isolateCategory: (id: string) => void;
-  hiddenCategories: string[];
-  resetCategories: () => void;
-  resetText: string;
   fullWidth?: boolean;
 }
 
+type Props = BaseProps & (
+  {
+    allowToggle: true;
+    toggleCategory: (id: string) => void;
+    isolateCategory: (id: string) => void;
+    hiddenCategories: string[];
+    resetCategories: () => void;
+    resetText: string;
+  } | {
+    allowToggle: false;
+  }
+);
+
 const CategoryLabels = (props: Props) => {
-  const {
-    categories, toggleCategory, isolateCategory, hiddenCategories, fullWidth,
-    resetCategories, resetText,
-  } = props;
-  const labels = categories.map(category => {
-    const isHidden = !!hiddenCategories.find(id => id === category.id);
-    const isIsolated = hiddenCategories.length === categories.length - 1 && !isHidden;
-    return (
+  const {categories, fullWidth} = props;
+  let output: React.ReactElement<any>;
+  if (props.allowToggle) {
+    const {
+      toggleCategory, isolateCategory, hiddenCategories,
+      resetCategories, resetText,
+    } = props;
+
+    const labels = categories.map(category => {
+      const isHidden = !!hiddenCategories.find(id => id === category.id);
+      const isIsolated = hiddenCategories.length === categories.length - 1 && !isHidden;
+      return (
+        <Label
+          key={'sector-label-' + category.id}
+          category={category}
+          toggleCategory={() => toggleCategory(category.id)}
+          isolateCategory={() => isolateCategory(category.id)}
+          isHidden={isHidden}
+          isIsolated={isIsolated}
+        />
+      );
+    });
+
+    const resetButton = hiddenCategories.length ? (
+      <ResetLabelsButtonContainer>
+        <ResetLabelsButton onClick={resetCategories}>
+          <ReloadIcon dangerouslySetInnerHTML={{__html: ReloadImgSrc}} /> {resetText}
+        </ResetLabelsButton>
+      </ResetLabelsButtonContainer>
+    ) : null;
+
+    output = (
+      <>
+        {labels}
+        {resetButton}
+      </>
+    );
+  } else {
+    const labels = categories.map(category => (
       <Label
         key={'sector-label-' + category.id}
         category={category}
-        toggleCategory={() => toggleCategory(category.id)}
-        isolateCategory={() => isolateCategory(category.id)}
-        isHidden={isHidden}
-        isIsolated={isIsolated}
+        isHidden={false}
+        isIsolated={false}
       />
+    ));
+
+    output = (
+      <>
+        {labels}
+      </>
     );
-  });
+  }
 
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
   const Content = fullWidth ? FullWidthContent : StandardContent;
 
-  const resetButton = hiddenCategories.length ? (
-    <ResetLabelsButtonContainer>
-      <ResetLabelsButton onClick={resetCategories}>
-        <ReloadIcon dangerouslySetInnerHTML={{__html: ReloadImgSrc}} /> {resetText}
-      </ResetLabelsButton>
-    </ResetLabelsButtonContainer>
-  ) : null;
-
   return (
     <Root>
       <Content>
-        {labels}
-        {resetButton}
+        {output}
       </Content>
     </Root>
   );

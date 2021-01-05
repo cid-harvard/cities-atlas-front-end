@@ -5,7 +5,6 @@ import {
 import useFakeData from '../../../hooks/useFakeData';
 import {
   DigitLevel,
-  ClassificationNaicsIndustry,
   CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
@@ -48,13 +47,12 @@ interface Props {
   year: number;
   highlighted: string | undefined;
   compositionType: CompositionType;
-  hiddenSectors: ClassificationNaicsIndustry['id'][];
   setHighlighted: (value: string | undefined) => void;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
-    cityId, year, hiddenSectors, setHighlighted,
+    cityId, year, setHighlighted,
   } = props;
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
@@ -117,7 +115,7 @@ const ClusteredIndustrySpace = (props: Props) => {
   return (
     <>
       <PreChartRow
-        searchInGraphOptions={{hiddenSectors, digitLevel: DigitLevel.Six, setHighlighted}}
+        searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
         settingsOptions={{compositionType: true}}
       />
       <Root ref={rootRef}>

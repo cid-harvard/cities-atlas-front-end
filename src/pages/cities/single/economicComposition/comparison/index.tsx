@@ -157,6 +157,7 @@ const CompositionComparison = (props: Props) => {
         </Switch>
         <CategoryLabels
           categories={sectorMap}
+          allowToggle={true}
           toggleCategory={toggleSector}
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
