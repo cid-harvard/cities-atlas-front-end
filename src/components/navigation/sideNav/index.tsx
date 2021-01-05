@@ -19,6 +19,9 @@ import {
 } from 'react-router-dom';
 import AppContext from '../../../contextProviders/appContext';
 import MobileMenu from './MobileMenu';
+import {GlobalQueryParams} from '../../../routing/routes';
+import useQueryParams from '../../../hooks/useQueryParams';
+import queryString from 'query-string';
 
 const Root = styled.div`
   width: 240px;
@@ -193,16 +196,23 @@ interface LinkDatum {
   top: number;
   left: number;
   beta?: boolean;
+  removeParams?: (keyof GlobalQueryParams)[];
 }
 
 const radius = 4.37;
 
 export interface Props {
-  baseLinkData: {label: string, url: string, beta?: boolean}[];
+  baseLinkData: {
+    label: string,
+    url: string,
+    beta?: boolean,
+    removeParams?: (keyof GlobalQueryParams)[],
+  }[];
 }
 
 const SideNavigation = ({baseLinkData}: Props) => {
   const history = useHistory();
+  const params = useQueryParams();
   const {windowDimensions} = useContext(AppContext);
 
   const [linkData, setLinkData] = useState<LinkDatum[]>([]);
@@ -236,9 +246,22 @@ const SideNavigation = ({baseLinkData}: Props) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
     const className = match ? acitveLinkClass : undefined;
     const beta = d.beta ? <BetaIcon>Beta</BetaIcon> : null;
+    let url = d.url;
+    if (d.removeParams) {
+      const newParams: any = {};
+      for (const key in params) {
+        if (!d.removeParams.includes(key as any)) {
+          newParams[key] = params[key as keyof GlobalQueryParams];
+        }
+      }
+      const query = queryString.stringify(newParams);
+      url = query ? url + '?' + query : url;
+    } else {
+      url = url + history.location.search;
+    }
     return (
       <NavLink
-        to={d.url + history.location.search}
+        to={url}
         key={d.label + d.url}
         style={{top: d.top, left: d.left}}
         className={className}

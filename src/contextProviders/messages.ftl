@@ -47,6 +47,7 @@ global-ui-reset-sectors = Show all sectors
 
 global-ui-numbers-based-on = Numbers are based on
 global-ui-detail-level = Detail Level
+global-ui-show-clusters = Show cluster overlay
 global-ui-digit-level = digit level
 global-ui-sector-level = Sector level
 global-ui-year = Year
@@ -109,7 +110,11 @@ cities-top-10-comparison-chart-axis-title = Difference in Share
 
 glossary-total-shown = About the total
 glossary-composition = About the composition type
+glossary-composition-disabled = The composition type is disabled for this visualization
 glossary-digit-level = About digit levels
+glossary-digit-level-disabled = Digit levels are disabled for this visualization
+glossary-cluster-overlay = About cluster overlay
+glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for this visualization
 
 axis-text-percent-total-value = % of Total { $value }
 

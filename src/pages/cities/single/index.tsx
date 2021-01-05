@@ -11,7 +11,7 @@ import {
   useHistory,
   matchPath,
 } from 'react-router-dom';
-import {CityRoutes, cityIdParam} from '../../../routing/routes';
+import {CityRoutes, cityIdParam, GlobalQueryParams} from '../../../routing/routes';
 import {createRoute} from '../../../routing/Utils';
 import InnerPage from '../../../components/templates/InnerPage';
 import useFluent from '../../../hooks/useFluent';
@@ -35,22 +35,31 @@ const City = () => {
     {
       label: getStringWithNewLines('cities-single-page-titles-question-1'),
       url: createRoute.city(CityRoutes.CityEconomicComposition, cityId),
+      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
       url: createRoute.city(CityRoutes.CityIndustryMove, cityId),
+      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-3'),
       url: createRoute.city(CityRoutes.CityGoodAt, cityId),
+      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-4'),
       url: createRoute.city(CityRoutes.CityIndustrySpacePosition, cityId),
+      removeParams: [
+        'compare_city' as keyof GlobalQueryParams,
+        'digit_level' as keyof GlobalQueryParams,
+        'composition_type' as keyof GlobalQueryParams,
+      ],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
       url: createRoute.city(CityRoutes.CityOutsideSubsidaries, cityId),
+      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
     },
   ] : [];
 

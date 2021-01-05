@@ -19,8 +19,14 @@ export const Routes = {
   ...CityRoutes,
 } as const;
 
+export enum Toggle {
+  On = 'on',
+  Off = 'off',
+}
+
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
+  hide_clusters: Toggle | undefined;
 }

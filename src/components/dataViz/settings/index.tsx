@@ -20,6 +20,7 @@ import {
   DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
 import {breakPoints} from '../../../styling/GlobalGrid';
+import {Toggle} from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip from '../../general/Tooltip';
 
@@ -154,6 +155,11 @@ const SettingsInputContainer = styled.div`
   grid-row: 2;
 `;
 
+const DisabledSettingsInputContainer = styled(SettingsInputContainer)`
+  opacity: 0.5;
+  pointer-events: none;
+`;
+
 const CompostionButtonBase = styled(BlockButton)`
   text-transform: capitalize;
 `;
@@ -170,6 +176,10 @@ const Label = styled.label`
   @media ${breakPoints.medium} {
     font-size: 0.75rem;
   }
+`;
+
+const DisabledLabel = styled(Label)`
+  opacity: 0.5;
 `;
 
 const DigitLevelButton = styled.button<{$selected: boolean}>`
@@ -236,6 +246,7 @@ const ResetButton = styled(BlockButton)`
 export interface SettingsOptions {
   digitLevel?: boolean;
   compositionType?: boolean;
+  hideClusterOverlay?: boolean;
 }
 
 interface Props {
@@ -261,6 +272,7 @@ const Settings = (props: Props) => {
     const {
       digit_level: _unusedDigitLevel,
       composition_type: _unusedCompositionType,
+      hide_clusters: _hideClusters,
       ...rest
     } = params;
     const query = queryString.stringify({...rest});
@@ -268,87 +280,142 @@ const Settings = (props: Props) => {
     history.push(newUrl);
   };
 
-  const CompanyButton = (!params.composition_type && defaultCompositionType === CompositionType.Companies) ||
-                        (params.composition_type === CompositionType.Companies)
-                        ? CompostionButtonHighlight : CompostionButtonBase;
+  let compositionOptions: React.ReactElement<any> | null;
+  if (settingsOptions.compositionType !== undefined) {
+    const CompanyButton = (!params.composition_type && defaultCompositionType === CompositionType.Companies) ||
+                          (params.composition_type === CompositionType.Companies)
+                          ? CompostionButtonHighlight : CompostionButtonBase;
 
-  const EmployeeButton = (!params.composition_type && defaultCompositionType === CompositionType.Employees) ||
-                        (params.composition_type === CompositionType.Employees)
-                        ? CompostionButtonHighlight : CompostionButtonBase;
+    const EmployeeButton = (!params.composition_type && defaultCompositionType === CompositionType.Employees) ||
+                          (params.composition_type === CompositionType.Employees)
+                          ? CompostionButtonHighlight : CompostionButtonBase;
+    const InputContainer = settingsOptions.compositionType === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.compositionType === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.compositionType === true
+      ? getString('glossary-composition') : getString('glossary-composition-disabled');
+    compositionOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-numbers-based-on')}</LabelContainer>
+        <InputContainer>
+          <EmployeeButton
+            onClick={() => updateSetting('composition_type', CompositionType.Employees)}
+          >
+            {CompositionType.Employees}
+          </EmployeeButton>
+          <CompanyButton
+            onClick={() => updateSetting('composition_type', CompositionType.Companies)}
+          >
+            {CompositionType.Companies}
+          </CompanyButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    compositionOptions = null;
+  }
 
-  const compositionOptions = settingsOptions.compositionType ? (
-    <SettingGrid>
-      <Tooltip
-        explanation={getString('glossary-composition')}
-      />
-      <Label>{getString('global-ui-numbers-based-on')}</Label>
-      <SettingsInputContainer>
-        <EmployeeButton
-          onClick={() => updateSetting('composition_type', CompositionType.Employees)}
-        >
-          {CompositionType.Employees}
-        </EmployeeButton>
-        <CompanyButton
-          onClick={() => updateSetting('composition_type', CompositionType.Companies)}
-        >
-          {CompositionType.Companies}
-        </CompanyButton>
-      </SettingsInputContainer>
-    </SettingGrid>
-  ) : null;
+  let digitLevelOptions: React.ReactElement<any> | null;
+  if (settingsOptions.digitLevel !== undefined) {
+    const InputContainer = settingsOptions.compositionType === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.compositionType === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.compositionType === true
+      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    digitLevelOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-detail-level')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelButton
+            onClick={() => updateSetting('digit_level', DigitLevel.Sector)}
+            $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Sector) ||
+                    (params.digit_level === DigitLevel.Sector.toString())}
+          >
+            {DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('digit_level', DigitLevel.Two)}
+            $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Two) ||
+                    (params.digit_level === DigitLevel.Two.toString())}
+          >
+            {DigitLevel.Two}-{getString('global-ui-digit-level')}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('digit_level', DigitLevel.Three)}
+            $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Three) ||
+                    (params.digit_level === DigitLevel.Three.toString())}
+          >
+            {DigitLevel.Three}-{getString('global-ui-digit-level')}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('digit_level', DigitLevel.Four)}
+            $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Four) ||
+                    (params.digit_level === DigitLevel.Four.toString())}
+          >
+            {DigitLevel.Four}-{getString('global-ui-digit-level')}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('digit_level', DigitLevel.Five)}
+            $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Five) ||
+                    (params.digit_level === DigitLevel.Five.toString())}
+          >
+            {DigitLevel.Five}-{getString('global-ui-digit-level')}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('digit_level', DigitLevel.Six)}
+            $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Six) ||
+                    (params.digit_level === DigitLevel.Six.toString())}
+          >
+            {DigitLevel.Six}-{getString('global-ui-digit-level')}
+          </DigitLevelButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    digitLevelOptions = null;
+  }
 
-  const digitLevelOptions = settingsOptions.digitLevel ? (
-    <SettingGrid>
-      <Tooltip
-        explanation={getString('glossary-digit-level')}
-      />
-      <Label>{getString('global-ui-detail-level')}</Label>
-      <SettingsInputContainer>
-        <DigitLevelButton
-          onClick={() => updateSetting('digit_level', DigitLevel.Sector)}
-          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Sector) ||
-                  (params.digit_level === DigitLevel.Sector.toString())}
-        >
-          {DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}
-        </DigitLevelButton>
-        <DigitLevelButton
-          onClick={() => updateSetting('digit_level', DigitLevel.Two)}
-          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Two) ||
-                  (params.digit_level === DigitLevel.Two.toString())}
-        >
-          {DigitLevel.Two}-{getString('global-ui-digit-level')}
-        </DigitLevelButton>
-        <DigitLevelButton
-          onClick={() => updateSetting('digit_level', DigitLevel.Three)}
-          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Three) ||
-                  (params.digit_level === DigitLevel.Three.toString())}
-        >
-          {DigitLevel.Three}-{getString('global-ui-digit-level')}
-        </DigitLevelButton>
-        <DigitLevelButton
-          onClick={() => updateSetting('digit_level', DigitLevel.Four)}
-          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Four) ||
-                  (params.digit_level === DigitLevel.Four.toString())}
-        >
-          {DigitLevel.Four}-{getString('global-ui-digit-level')}
-        </DigitLevelButton>
-        <DigitLevelButton
-          onClick={() => updateSetting('digit_level', DigitLevel.Five)}
-          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Five) ||
-                  (params.digit_level === DigitLevel.Five.toString())}
-        >
-          {DigitLevel.Five}-{getString('global-ui-digit-level')}
-        </DigitLevelButton>
-        <DigitLevelButton
-          onClick={() => updateSetting('digit_level', DigitLevel.Six)}
-          $selected={(!params.digit_level && defaultDigitLevel === DigitLevel.Six) ||
-                  (params.digit_level === DigitLevel.Six.toString())}
-        >
-          {DigitLevel.Six}-{getString('global-ui-digit-level')}
-        </DigitLevelButton>
-      </SettingsInputContainer>
-    </SettingGrid>
-  ) : null;
+  let clusterOverlayToggle: React.ReactElement<any> | null;
+  if (settingsOptions.hideClusterOverlay !== undefined) {
+    const OffButton = params.hide_clusters && params.hide_clusters === Toggle.Off
+      ? CompostionButtonHighlight : CompostionButtonBase;
+    const OnButton = !params.hide_clusters || params.hide_clusters === Toggle.On
+      ? CompostionButtonHighlight : CompostionButtonBase;
+    const InputContainer = settingsOptions.hideClusterOverlay === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.hideClusterOverlay === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.hideClusterOverlay === true
+      ? getString('glossary-cluster-overlay') : getString('glossary-cluster-overlay-disabled');
+    clusterOverlayToggle = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-show-clusters')}</LabelContainer>
+        <InputContainer>
+          <OnButton
+            onClick={() => updateSetting('hide_clusters', Toggle.On)}
+          >
+            {Toggle.On}
+          </OnButton>
+          <OffButton
+            onClick={() => updateSetting('hide_clusters', Toggle.Off)}
+          >
+            {Toggle.Off}
+          </OffButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    clusterOverlayToggle = null;
+  }
+
   return (
     <Root>
       <ContentRoot>
@@ -360,6 +427,7 @@ const Settings = (props: Props) => {
         <Content>
           {compositionOptions}
           {digitLevelOptions}
+          {clusterOverlayToggle}
           <ResetButton onClick={resetSettings}>
             {getString('global-ui-settings-reset')}
           </ResetButton>
