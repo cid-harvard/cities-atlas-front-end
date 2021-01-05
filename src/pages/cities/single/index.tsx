@@ -2,7 +2,7 @@ import React, {useEffect} from 'react';
 import EconomicComposition from './economicComposition';
 import OutsideSubsidaries from './outsideSubsidaries';
 import GoodAt from './goodAt';
-import CompareSelf from './compareSelf';
+import IndustrySpacePosition from './industrySpacePosition';
 import IndustryMove from './industryMove';
 import Summary from './summary';
 import {
@@ -46,7 +46,7 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-4'),
-      url: createRoute.city(CityRoutes.CityCompareSelf, cityId),
+      url: createRoute.city(CityRoutes.CityIndustrySpacePosition, cityId),
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
@@ -62,7 +62,7 @@ const City = () => {
         <Route path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
         <Route path={CityRoutes.CityOutsideSubsidaries} component={OutsideSubsidaries} />
         <Route path={CityRoutes.CityGoodAt} component={GoodAt} />
-        <Route path={CityRoutes.CityCompareSelf} component={CompareSelf} />
+        <Route path={CityRoutes.CityIndustrySpacePosition} component={IndustrySpacePosition} />
         <Route path={CityRoutes.CityIndustryMove} component={IndustryMove} />
         <Route path={CityRoutes.CitySummary} component={Summary} />
       </Switch>
