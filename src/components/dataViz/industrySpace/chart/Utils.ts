@@ -9,7 +9,7 @@ interface Ratio {
   h: number;
 }
 
-export const getAspectRation = (aspect: Ratio, actual: Ratio, buffer: number) => {
+export const getAspectRatio = (aspect: Ratio, actual: Ratio, buffer: number) => {
   const longerAspectSide = aspect.w > aspect.h ? 'width' : 'height';
   const smallerActualValue = (actual.w > actual.h ? actual.h : actual.w) - (buffer * 2);
   const ratio = longerAspectSide === 'width' ? aspect.h / aspect.w : aspect.w / aspect.h;

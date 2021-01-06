@@ -1,6 +1,6 @@
 import * as d3 from 'd3';
 import {
-  getAspectRation,
+  getAspectRatio,
   drawPoint,
   getBounds,
   wrap,
@@ -73,7 +73,7 @@ const createChart = (input: Input) => {
 
   const {
     width, height, outerWidth, outerHeight, margin,
-  } = getAspectRation({w: 4, h: 3}, {w: rootWidth, h: rootHeight}, 20);
+  } = getAspectRatio({w: 4, h: 3}, {w: rootWidth, h: rootHeight}, 20);
 
   const smallerSize = width < height ? width : height;
   const radiusAdjuster = smallerSize / minExpectedScreenSize;
@@ -188,6 +188,7 @@ const createChart = (input: Input) => {
       .on('mouseenter', d => setHoveredShape(d))
       .on('mouseleave', () => setHoveredShape(null));
 
+
   const countries = g.selectAll('.industry-countries')
     .data(data.clusters.countries)
     .enter().append('polygon')
@@ -202,6 +203,7 @@ const createChart = (input: Input) => {
       .on('click', d => zoomToShape(d, 5))
       .on('mouseenter', d => setHoveredShape(d))
       .on('mouseleave', () => setHoveredShape(null));
+
 
   const hoveredShape = g.append('polygon')
     .attr('class', 'industry-cluster-hovered')
@@ -235,6 +237,7 @@ const createChart = (input: Input) => {
         // tooltipEl.style.display = 'none';
         setHoveredNode(null);
       });
+
 
   const hoveredNode = g.append('circle')
     .attr('class', 'industry-node-hovered')
@@ -272,8 +275,7 @@ const createChart = (input: Input) => {
       .attr('x', d => xScale(d.x) + margin.left)
       .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
       .style('font-size', radius * 0.5 + 'px')
-      .text(d => d.name)
-      .call(wrap, radius * 8, radius * 7);
+      .text(d => ellipsisText(d.name as string, 20));
 
   nodeLabels
     .style('display', 'none');
