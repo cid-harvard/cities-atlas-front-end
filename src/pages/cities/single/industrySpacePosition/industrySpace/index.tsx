@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
-import ClusteredIndustrySpace from '../../../../../components/dataViz/industrySpace/ClusteredIndustrySpace';
+import ClusteredIndustrySpace from '../../../../../components/dataViz/industrySpace';
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
@@ -8,13 +8,11 @@ import {
   ContentTitle,
 } from '../../../../../styling/styleUtils';
 import {
-  CompositionType,
   defaultCompositionType,
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import useSectorMap from '../../../../../hooks/useSectorMap';
-import useQueryParams from '../../../../../hooks/useQueryParams';
 
 interface Props {
   cityId: string;
@@ -23,7 +21,6 @@ interface Props {
 const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
-  const {composition_type} = useQueryParams();
   const sectorMap = useSectorMap();
 
   return (
@@ -38,7 +35,7 @@ const EconomicComposition = (props: Props) => {
         <ClusteredIndustrySpace
           cityId={parseInt(cityId, 10)}
           year={defaultYear}
-          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+          compositionType={defaultCompositionType}
           highlighted={highlighted}
           setHighlighted={setHighlighted}
         />
