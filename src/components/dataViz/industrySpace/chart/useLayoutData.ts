@@ -43,7 +43,7 @@ interface Node {
   y: number;
 }
 
-interface LayoutData {
+export interface LayoutData {
   clusters: Clusters;
   nodes: Node[];
 }
@@ -79,16 +79,16 @@ const useLayoutData = ():Output => {
               name: industry.name,
               industryColor: parentIndustry ? parentIndustry.color : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
-            }
-          })
-        }
-        setOutput({loading: false, error: false, data})
+            };
+          }),
+        };
+        setOutput({loading: false, error: false, data});
       }
     }
-  }, [output, loading, error, industryData])
+  }, [output, loading, error, industryData]);
 
   return output;
-}
+};
 
 export default useLayoutData;
 
