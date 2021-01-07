@@ -10,6 +10,7 @@ import {
   primaryFont,
   ButtonBase,
   lightBorderColor,
+  primaryColorLight,
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
@@ -54,6 +55,14 @@ const Root = styled.div`
       stroke: #bfbfbf;
       stroke-width: 0.5;
       opacity: 0;
+    }
+
+    textPath.ring-label {
+      font-size: 5.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      fill: ${primaryColorLight};
+      pointer-events: none;
     }
 
     /* Remove pointer events from multiple layers */

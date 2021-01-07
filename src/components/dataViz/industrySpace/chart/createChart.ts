@@ -11,6 +11,7 @@ import {
 import {rgba, lighten} from 'polished';
 import {LayoutData} from './useLayoutData';
 import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
+import svgPathReverse from 'svg-path-reverse';
 
 const minExpectedScreenSize = 1020;
 
@@ -18,6 +19,12 @@ const minZoom = 0.75;
 const maxZoom = 50;
 export const innerRingRadius = 24;
 export const outerRingRadius = 48;
+
+function circlePath(cx: number, cy: number, r: number){
+    return svgPathReverse.reverse(
+      'M '+cx+' '+cy+' m -'+r+', 0 a '+r+','+r+' 0 1,0 '+(r*2)+',0 a '+r+','+r+' 0 1,0 -'+(r*2)+',0',
+    );
+}
 
 const zoomScales = {
   continent: {
@@ -198,6 +205,36 @@ const createChart = (input: Input) => {
 
   const innerRing = g.append('circle')
     .attr('class', 'inner-ring');
+
+  //Create an SVG path (based on bl.ocks.org/mbostock/2565344)
+  const outerRingLabelPath = g.append('path')
+    .attr('id', 'outerRingLabelPath') //Unique id of the path
+    .style('fill', 'none')
+    .style('stroke', 'none');
+
+  //Create an SVG text element and append a textPath element
+  g.append('text')
+   .append('textPath') //append a textPath to the text element
+    .attr('class', 'ring-label')
+    .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
+    .style('text-anchor','middle')
+    .attr('startOffset', '38%')
+    .text('Low Proximity');
+
+  //Create an SVG path (based on bl.ocks.org/mbostock/2565344)
+  const innerRingLabelPath = g.append('path')
+    .attr('id', 'innerRingLabelPath') //Unique id of the path
+    .style('fill', 'none')
+    .style('stroke', 'none');
+
+  //Create an SVG text element and append a textPath element
+  g.append('text')
+   .append('textPath') //append a textPath to the text element
+    .attr('class', 'ring-label')
+    .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
+    .style('text-anchor','middle')
+    .attr('startOffset', '38%')
+    .text('High Proximity');
 
   const continents = g.selectAll('.industry-continents')
     .data(data.clusters.continents)
@@ -394,6 +431,12 @@ const createChart = (input: Input) => {
         .duration(300)
         .style('opacity', 1);
 
+      outerRingLabelPath
+        .attr('d', circlePath(centerX, centerY, outerRingRadius + 3.5));
+
+      innerRingLabelPath
+        .attr('d', circlePath(centerX, centerY, innerRingRadius + 3.5));
+
       nodes
         .each(d => {
           const i = edgeData.findIndex((e: {id: string}) => e.id === d.id);
@@ -563,6 +606,10 @@ const createChart = (input: Input) => {
         .style('opacity', 0);
       innerRing
         .style('opacity', 0);
+      outerRingLabelPath
+        .attr('d', '');
+      innerRingLabelPath
+        .attr('d', '');
 
       if (state.hoveredShape) {
         hoveredShape
