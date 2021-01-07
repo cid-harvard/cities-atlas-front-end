@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import ClusteredIndustrySpace from '../../../../../components/dataViz/industrySpace';
+import {ZoomLevel} from '../../../../../components/dataViz/industrySpace/chart/createChart';
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
@@ -11,6 +12,7 @@ import {
   defaultCompositionType,
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
+import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 
@@ -21,7 +23,16 @@ interface Props {
 const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
+  const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
   const sectorMap = useSectorMap();
+
+  const legend = zoomLevel === ZoomLevel.Node ? (
+    <CategoryLabels
+      categories={sectorMap}
+      allowToggle={false}
+      fullWidth={true}
+    />
+  ) : <IntensityLegend />;
 
   return (
     <>
@@ -38,12 +49,9 @@ const EconomicComposition = (props: Props) => {
           compositionType={defaultCompositionType}
           highlighted={highlighted}
           setHighlighted={setHighlighted}
+          setZoomLevel={setZoomLevel}
         />
-        <CategoryLabels
-          categories={sectorMap}
-          allowToggle={false}
-          fullWidth={true}
-        />
+        {legend}
       </ContentGrid>
       <UtiltyBar
       />

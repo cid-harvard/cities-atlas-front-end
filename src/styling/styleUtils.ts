@@ -40,6 +40,11 @@ export const sectorColorMap = [
   { id: '8', color: '#F28188' },
 ];
 
+export const intensityColorRange =[
+  '#c2e5fc',
+  '#003e59',
+];
+
 export const primaryFont = "'Source Sans Pro', sans-serif";
 export const secondaryFont = "'OfficeCodeProWeb', monospace";
 

@@ -1,5 +1,7 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
-import createChart from './createChart';
+import createChart, {
+  ZoomLevel,
+} from './createChart';
 import useLayoutData from './useLayoutData';
 import styled from 'styled-components/macro';
 import {
@@ -169,11 +171,12 @@ interface Props {
   height: number;
   highlighted: string | undefined;
   onNodeSelect: (naicsId: string | undefined) => void;
+  onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
 }
 
 const Chart = (props: Props) => {
   const {
-    width, height, onNodeSelect, highlighted,
+    width, height, onNodeSelect, highlighted, onZoomLevelChange,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -199,11 +202,11 @@ const Chart = (props: Props) => {
           rootHeight: height,
           backButton: backButtonNode,
           tooltipEl: tooltipNode,
-          onNodeSelect,
+          onNodeSelect, onZoomLevelChange,
         }), initialized: true });
       }
     }
-  }, [chartRef, chart, width, height, layout, onNodeSelect]);
+  }, [chartRef, chart, width, height, layout, onNodeSelect, onZoomLevelChange]);
 
   useEffect(() => {
     if (chart.initialized) {

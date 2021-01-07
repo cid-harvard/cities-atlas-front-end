@@ -8,6 +8,7 @@ import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow from '../../../components/general/PreChartRow';
 import Chart from './chart';
+import {ZoomLevel} from './chart/createChart';
 
 const Root = styled.div`
   width: 100%;
@@ -34,11 +35,12 @@ interface Props {
   highlighted: string | undefined;
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
+  setZoomLevel: (zoomLevel: ZoomLevel) => void;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
-    setHighlighted, highlighted,
+    setHighlighted, highlighted, setZoomLevel,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -71,6 +73,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             height={dimensions ? dimensions.height : 0}
             onNodeSelect={setHighlighted}
             highlighted={highlighted}
+            onZoomLevelChange={setZoomLevel}
           />
       </IndustrySpaceContainer>
       </Root>

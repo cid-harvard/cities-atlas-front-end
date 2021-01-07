@@ -20,6 +20,11 @@ const maxZoom = 50;
 export const innerRingRadius = 24;
 export const outerRingRadius = 48;
 
+export enum ZoomLevel {
+  Cluster = 'cluster',
+  Node = 'node',
+}
+
 function circlePath(cx: number, cy: number, r: number){
     return svgPathReverse.reverse(
       'M '+cx+' '+cy+' m -'+r+', 0 a '+r+','+r+' 0 1,0 '+(r*2)+',0 a '+r+','+r+' 0 1,0 -'+(r*2)+',0',
@@ -67,17 +72,19 @@ interface Input {
   backButton: HTMLButtonElement;
   tooltipEl: HTMLDivElement;
   onNodeSelect: (naicsId: string | undefined) => void;
+  onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
 }
 
 interface State {
   zoom: number;
+  zoomLevel: ZoomLevel;
   active: any | null;
   hoveredShape: any | null;
   hoveredNode: any | null;
 }
 
 const createChart = (input: Input) => {
-  const {rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect} = input;
+  const {rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect, onZoomLevelChange} = input;
 
   const {
     width, height, outerWidth, outerHeight, margin,
@@ -93,6 +100,7 @@ const createChart = (input: Input) => {
 
   const state: State = {
     zoom: 1,
+    zoomLevel: ZoomLevel.Cluster,
     active: null,
     hoveredShape: null,
     hoveredNode: null,
@@ -528,6 +536,10 @@ const createChart = (input: Input) => {
       backButton.style.display = 'block';
       // sectorLegend.style.display = 'block';
       // intensityLegend.style.display = 'none';
+      if (state.zoomLevel === ZoomLevel.Cluster) {
+        state.zoomLevel = ZoomLevel.Node;
+        onZoomLevelChange(ZoomLevel.Node);
+      }
     } else {
       const zoomedNodeOpacity = zoomScales.nodes.fill(state.zoom);
       nodes
@@ -594,13 +606,21 @@ const createChart = (input: Input) => {
        backButton.style.display = 'none';
       }
 
-      // if (state.zoom > 3.5) {
+      if (state.zoom > 3.5) {
       //   sectorLegend.style.display = 'block';
       //   intensityLegend.style.display = 'none';
-      // } else {
+        if (state.zoomLevel === ZoomLevel.Cluster) {
+          state.zoomLevel = ZoomLevel.Node;
+          onZoomLevelChange(ZoomLevel.Node);
+        }
+      } else {
       //   sectorLegend.style.display = 'none';
       //   intensityLegend.style.display = 'block';
-      // }
+        if (state.zoomLevel === ZoomLevel.Node) {
+          state.zoomLevel = ZoomLevel.Cluster;
+          onZoomLevelChange(ZoomLevel.Cluster);
+        }
+      }
 
       outerRing
         .style('opacity', 0);
