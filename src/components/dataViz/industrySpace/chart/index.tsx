@@ -1,13 +1,12 @@
 import React, {useEffect, useState, useRef, useCallback} from 'react';
 import createChart, {
   ZoomLevel,
+  outerRingRadius,
+  innerRingRadius,
+  svgRingModeClassName,
 } from './createChart';
 import useLayoutData from './useLayoutData';
 import styled from 'styled-components/macro';
-import {
-  outerRingRadius,
-  innerRingRadius,
-} from './createChart';
 import {
   primaryFont,
   ButtonBase,
@@ -17,11 +16,15 @@ import {
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
 
+const hideClusterOverlayClassName = 'hide-industry-space-clusters-overlay-class';
+
 const Root = styled.div`
   will-change: all;
 
   svg {
-    cursor: grab;
+    &:not(.${svgRingModeClassName}) {
+      cursor: grab;
+    }
 
     /* Node hover and active styling */
     .industry-node,
@@ -117,6 +120,25 @@ const Root = styled.div`
       stroke-width: 0.6px;
     }
   }
+
+  &.${hideClusterOverlayClassName} {
+    svg {
+      .industry-continents,
+      .industry-countries,
+      .industry-continents-label,
+      .industry-countries-label {
+        display: none !important;
+      }
+    }
+    svg:not(.${svgRingModeClassName}) {
+      circle.industry-node {
+        display: block !important;
+        opacity: 1 !important;
+        pointer-events: all !important;
+        fill: var(--true-fill-color) !important;
+      }
+    }
+  }
 `;
 
 const BackButtonContainer = styled.div`
@@ -172,11 +194,12 @@ interface Props {
   highlighted: string | undefined;
   onNodeSelect: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
+  hideClusterOverlay: boolean;
 }
 
 const Chart = (props: Props) => {
   const {
-    width, height, onNodeSelect, highlighted, onZoomLevelChange,
+    width, height, onNodeSelect, highlighted, onZoomLevelChange, hideClusterOverlay,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -239,6 +262,7 @@ const Chart = (props: Props) => {
       <Root
         ref={chartRef}
         style={{width, height}}
+        className={hideClusterOverlay ? hideClusterOverlayClassName : undefined}
       />
       <BackButtonContainer>
         <BackButton ref={backButtonRef}>{'< Back to Industry Space'}</BackButton>

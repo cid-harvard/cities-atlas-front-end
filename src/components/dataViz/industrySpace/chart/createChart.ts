@@ -20,6 +20,8 @@ const maxZoom = 50;
 export const innerRingRadius = 24;
 export const outerRingRadius = 48;
 
+export const svgRingModeClassName = 'svg-ring-mode-class';
+
 export enum ZoomLevel {
   Cluster = 'cluster',
   Node = 'node',
@@ -136,6 +138,7 @@ const createChart = (input: Input) => {
     state.active = null;
     clearActiveLabels();
     onNodeSelect(undefined);
+    svg.attr('class', '');
   }
 
   function zoomIn() {
@@ -290,6 +293,7 @@ const createChart = (input: Input) => {
       .attr('r', radius)
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
+      .style('--true-fill-color', d => d.industryColor)
       .on('click', zoomToPoint as (d: any) => void)
       .on('mousemove', d => {
         tooltipEl.innerHTML = getStandardTooltip({
@@ -383,6 +387,8 @@ const createChart = (input: Input) => {
     svg.transition()
       .duration(300)
       .call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
+
+    svg.attr('class', svgRingModeClassName);
 
     if (!external) {
       onNodeSelect(state.active.datum.id);

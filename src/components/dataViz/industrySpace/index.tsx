@@ -36,11 +36,12 @@ interface Props {
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
+  hideClusterOverlay: boolean;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
-    setHighlighted, highlighted, setZoomLevel,
+    setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -74,6 +75,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             onNodeSelect={setHighlighted}
             highlighted={highlighted}
             onZoomLevelChange={setZoomLevel}
+            hideClusterOverlay={hideClusterOverlay}
           />
       </IndustrySpaceContainer>
       </Root>

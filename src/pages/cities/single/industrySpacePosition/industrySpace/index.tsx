@@ -15,6 +15,8 @@ import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLab
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import useSectorMap from '../../../../../hooks/useSectorMap';
+import useQueryParams from '../../../../../hooks/useQueryParams';
+import {Toggle} from '../../../../../routing/routes';
 
 interface Props {
   cityId: string;
@@ -25,8 +27,9 @@ const EconomicComposition = (props: Props) => {
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
   const sectorMap = useSectorMap();
-
-  const legend = zoomLevel === ZoomLevel.Node ? (
+  const {hide_clusters} = useQueryParams();
+  const hideClusterOverlay= hide_clusters === Toggle.Off;
+  const legend = zoomLevel === ZoomLevel.Node || hideClusterOverlay ? (
     <CategoryLabels
       categories={sectorMap}
       allowToggle={false}
@@ -50,6 +53,7 @@ const EconomicComposition = (props: Props) => {
           highlighted={highlighted}
           setHighlighted={setHighlighted}
           setZoomLevel={setZoomLevel}
+          hideClusterOverlay={hideClusterOverlay}
         />
         {legend}
       </ContentGrid>

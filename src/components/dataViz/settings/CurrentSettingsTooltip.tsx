@@ -6,6 +6,7 @@ import {
   defaultDigitLevel,
   defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
+import {Toggle} from '../../../routing/routes';
 import {SettingsOptions} from './index';
 
 const Root = styled.div`
@@ -40,17 +41,24 @@ const CurrentSettingsTooltip = (props: Props) => {
   const params = useQueryParams();
   const getString = useFluent();
 
-  const compositionText = settingsOptions.compositionType ? (
+  const compositionText = settingsOptions.compositionType !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-numbers-based-on')}</Subtitle>
       <em>{params.composition_type ? params.composition_type : defaultCompositionType}</em>
     </Segment>
   ) : null;
 
-  const detailLevel = settingsOptions.digitLevel ? (
+  const detailLevel = settingsOptions.digitLevel !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-detail-level')}</Subtitle>
       <em>{params.digit_level ? params.digit_level : defaultDigitLevel} {getString('global-ui-digit-level')}</em>
+    </Segment>
+  ) : null;
+
+  const hideClusters = settingsOptions.hideClusterOverlay !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-show-clusters')}</Subtitle>
+      <em>{params.hide_clusters ? params.hide_clusters : Toggle.On}</em>
     </Segment>
   ) : null;
 
@@ -62,6 +70,7 @@ const CurrentSettingsTooltip = (props: Props) => {
       </Segment>
       {compositionText}
       {detailLevel}
+      {hideClusters}
     </Root>
   );
 };
