@@ -35,6 +35,7 @@ interface Edge {
 interface Node {
   id: ClassificationNaicsIndustry['id'];
   name: ClassificationNaicsIndustry['name'];
+  code: ClassificationNaicsIndustry['code'];
   industryColor: string;
   continent: number;
   country: number;
@@ -77,6 +78,7 @@ const useLayoutData = ():Output => {
               ...n,
               id: industry.naicsId,
               name: industry.name,
+              code: industry.code,
               industryColor: parentIndustry ? parentIndustry.color : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
             };

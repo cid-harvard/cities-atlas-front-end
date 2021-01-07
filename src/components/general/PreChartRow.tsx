@@ -1,14 +1,14 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../styling/GlobalGrid';
-import {backgroundDark} from '../../styling/styleUtils';
+import {backgroundDark, ButtonBase} from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
 import raw from 'raw.macro';
 import SearchIndustryInGraph, {SearchInGraphOptions} from './searchIndustryInGraphDropdown';
 import CurrentSettingsTooltip from '../dataViz/settings/CurrentSettingsTooltip';
 import Settings, {SettingsOptions} from '../dataViz/settings';
 import Tooltip, {TooltipTheme, TooltipPosition} from './Tooltip';
-import {ButtonBase, collapsedSizeMediaQuery} from './Utils';
+import {collapsedSizeMediaQuery} from './Utils';
 import HowToRead from './howToRead';
 
 const gearIcon = raw('../../assets/icons/settings.svg');

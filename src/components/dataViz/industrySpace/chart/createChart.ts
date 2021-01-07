@@ -10,7 +10,7 @@ import {
 } from './Utils';
 import {rgba, lighten} from 'polished';
 import {LayoutData} from './useLayoutData';
-// import {getStandardTooltip} from './rapidTooltip';
+import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
 
 const minExpectedScreenSize = 1020;
 
@@ -57,8 +57,8 @@ interface Input {
   data: LayoutData;
   rootWidth: number;
   rootHeight: number;
-  // backButton: HTMLDivElement;
-  // tooltipEl: HTMLDivElement;
+  backButton: HTMLButtonElement;
+  tooltipEl: HTMLDivElement;
 }
 
 interface State {
@@ -69,7 +69,7 @@ interface State {
 }
 
 const createChart = (input: Input) => {
-  const {rootEl, data, rootWidth, rootHeight} = input;
+  const {rootEl, data, rootWidth, rootHeight, backButton, tooltipEl} = input;
 
   const {
     width, height, outerWidth, outerHeight, margin,
@@ -116,18 +116,18 @@ const createChart = (input: Input) => {
     update();
   }
 
-  // function reset() {
-  //   if (state.active !== null) {
-  //     state.active.element.classed("active", false);
-  //   }
-  //   state.active = null;
-  //   clearActiveLabels();
-  //   svg.transition()
-  //     .duration(300)
-  //     .call(zoom.transform, d3.zoomIdentity);
-  //   svg.call(zoom);
-  //   update();
-  // }
+  function reset() {
+    if (state.active !== null) {
+      state.active.element.classed('active', false);
+    }
+    state.active = null;
+    clearActiveLabels();
+    svg.transition()
+      .duration(300)
+      .call(zoom.transform, d3.zoomIdentity);
+    svg.call(zoom);
+    update();
+  }
 
   function softReset(d: any) {
     if (state.active !== null) {
@@ -148,8 +148,8 @@ const createChart = (input: Input) => {
     update();
   }
 
-  // backButton.removeEventListener('click', reset);
-  // backButton.addEventListener('click', reset);
+  backButton.removeEventListener('click', reset);
+  backButton.addEventListener('click', reset);
 
   function setHoveredShape(datum: any) {
     state.hoveredShape = datum;
@@ -220,21 +220,22 @@ const createChart = (input: Input) => {
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
       .on('click', zoomToPoint)
-      .on('mousemove', _d => {
-        // tooltipEl.innerHTML = getStandardTooltip({
-        //   title: d.label,
-        //   color: rgba(d.color, 0.3),
-        //   rows: [
-        //     ['NAICS', d.id],
-        //   ],
-        // });
-        // tooltipEl.style.display = 'block';
-        // tooltipEl.style.top = d3.event.pageY + 'px';
-        // tooltipEl.style.left = d3.event.pageX + 'px';
+      .on('mousemove', d => {
+        tooltipEl.innerHTML = getStandardTooltip({
+          title: d.name ? d.name : '',
+          color: rgba(d.industryColor, 0.3),
+          rows: [
+            ['NAICS Code:', d.code ? d.code : ''],
+          ],
+          boldColumns: [1],
+        });
+        tooltipEl.style.display = 'block';
+        tooltipEl.style.top = d3.event.pageY + 'px';
+        tooltipEl.style.left = d3.event.pageX + 'px';
       })
       .on('mouseenter', d => setHoveredNode(d))
       .on('mouseleave', () => {
-        // tooltipEl.style.display = 'none';
+        tooltipEl.style.display = 'none';
         setHoveredNode(null);
       });
 
@@ -439,7 +440,7 @@ const createChart = (input: Input) => {
       state.active.element
         .style('display', 'block');
 
-      // backButton.style.display = 'block';
+      backButton.style.display = 'block';
       // sectorLegend.style.display = 'block';
       // intensityLegend.style.display = 'none';
     } else {
@@ -502,11 +503,11 @@ const createChart = (input: Input) => {
           .style('display', 'none');
       }
 
-      // if (state.zoom > 2) {
-      //  backButton.style.display = 'block';
-      // } else {
-      //  backButton.style.display = 'none';
-      // }
+      if (state.zoom > 2) {
+       backButton.style.display = 'block';
+      } else {
+       backButton.style.display = 'none';
+      }
 
       // if (state.zoom > 3.5) {
       //   sectorLegend.style.display = 'block';

@@ -9,8 +9,10 @@ import {
 } from './createChart';
 import {
   primaryFont,
+  ButtonBase,
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
+import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
 
 const Root = styled.div`
   will-change: all;
@@ -106,6 +108,23 @@ const Root = styled.div`
   }
 `;
 
+const BackButtonContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+`;
+const BackButton = styled(ButtonBase)`
+  display: none;
+  pointer-events: all;
+  transform: translate(0, calc(-100% - 0.25rem));
+`;
+
 type Chart = {
   initialized: false;
 } | {
@@ -124,6 +143,8 @@ const Chart = (props: Props) => {
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
+  const backButtonRef = useRef<HTMLButtonElement | null>(null);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [chart, setChart] = useState<Chart>({initialized: false});
   const prevWidth = usePrevious(width);
   const prevHeight = usePrevious(height);
@@ -132,8 +153,10 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     const chartNode = chartRef.current;
+    const backButtonNode = backButtonRef.current;
+    const tooltipNode = tooltipRef.current;
     if (chartNode) {
-      if (chartNode && layout.data && (
+      if (chartNode && layout.data && backButtonNode && tooltipNode && (
           (chart.initialized === false && width && height) ||
           (chart.initialized === true && width !== prevWidth && height !== prevHeight)
       )) {
@@ -143,6 +166,8 @@ const Chart = (props: Props) => {
           data: layout.data,
           rootWidth: width,
           rootHeight: height,
+          backButton: backButtonNode,
+          tooltipEl: tooltipNode,
         });
         setChart({initialized: true, update});
       }
@@ -157,6 +182,10 @@ const Chart = (props: Props) => {
         ref={chartRef}
         style={{width, height}}
       />
+      <BackButtonContainer>
+        <BackButton ref={backButtonRef}>{'< Back to Industry Space'}</BackButton>
+      </BackButtonContainer>
+      <RapidTooltipRoot ref={tooltipRef} />
       {loadingOverlay}
     </>
   );

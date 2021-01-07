@@ -366,3 +366,39 @@ export const ContentParagraph = styled.p`
     font-size: 0.95rem;
   }
 `;
+
+export const ButtonBase = styled.button`
+  color: ${backgroundDark};
+  background-color: transparent;
+  text-transform: uppercase;
+  font-family: ${secondaryFont};
+  letter-spacing: -0.3px;
+  display: flex;
+  align-items: center;
+  font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+  padding: clamp(0.25rem, 0.4vw, 0.5rem);
+  flex-shrink: 0;
+
+  span {
+    width: clamp(0.65rem, 1.5vw, 0.85rem);
+    height: clamp(0.65rem, 1.5vw, 0.85rem);
+    display: inline-block;
+    line-height: 0;
+    margin-right: 0.25rem;
+
+    svg {
+      width: 100%;
+      height: 100%;
+      fill: ${backgroundDark};
+    }
+  }
+
+  &:hover {
+    background-color: ${backgroundDark};
+    color: #fff;
+
+    span svg {
+      fill: #fff;
+    }
+  }
+`;
