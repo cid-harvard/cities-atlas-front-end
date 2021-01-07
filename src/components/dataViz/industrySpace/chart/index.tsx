@@ -1,5 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
-import {usePrevious} from 'react-use';
+import React, {useEffect, useState, useRef, useCallback} from 'react';
 import createChart from './createChart';
 import useLayoutData from './useLayoutData';
 import styled from 'styled-components/macro';
@@ -10,6 +9,7 @@ import {
 import {
   primaryFont,
   ButtonBase,
+  lightBorderColor,
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
@@ -115,7 +115,6 @@ const BackButtonContainer = styled.div`
   top: 0;
   width: 100%;
   pointer-events: none;
-  text-align: center;
   display: flex;
   justify-content: center;
 `;
@@ -125,11 +124,34 @@ const BackButton = styled(ButtonBase)`
   transform: translate(0, calc(-100% - 0.25rem));
 `;
 
+const ZoomButtonsContainer = styled.div`
+  position: absolute;
+  right: 0;
+  top: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+`;
+
+const ZoomButton = styled(ButtonBase)`
+  pointer-events: all;
+  border: solid 1px ${lightBorderColor};
+  background-color: #fff;
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.1rem 0.4rem;
+  margin-bottom: 0.45rem;
+`;
+
 type Chart = {
   initialized: false;
 } | {
   initialized: true;
-  update: () => void;
+  render: () => void;
+  reset: () => void;
+  zoomIn: () => void;
+  zoomOut: () => void;
 };
 
 interface Props {
@@ -146,8 +168,6 @@ const Chart = (props: Props) => {
   const backButtonRef = useRef<HTMLButtonElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [chart, setChart] = useState<Chart>({initialized: false});
-  const prevWidth = usePrevious(width);
-  const prevHeight = usePrevious(height);
 
   const layout = useLayoutData();
 
@@ -157,22 +177,38 @@ const Chart = (props: Props) => {
     const tooltipNode = tooltipRef.current;
     if (chartNode) {
       if (chartNode && layout.data && backButtonNode && tooltipNode && (
-          (chart.initialized === false && width && height) ||
-          (chart.initialized === true && width !== prevWidth && height !== prevHeight)
+          (chart.initialized === false && width && height)
       )) {
         chartNode.innerHTML = '';
-        const {update} = createChart({
+        setChart({...createChart({
           rootEl: chartNode,
           data: layout.data,
           rootWidth: width,
           rootHeight: height,
           backButton: backButtonNode,
           tooltipEl: tooltipNode,
-        });
-        setChart({initialized: true, update});
+        }), initialized: true });
       }
     }
-  }, [chartRef, chart, width, height, prevWidth, prevHeight, layout]);
+  }, [chartRef, chart, width, height, layout]);
+
+  const resetZoom = useCallback(() => {
+    if (chart.initialized) {
+      chart.reset();
+    }
+  }, [chart]);
+
+  const zoomIn = useCallback(() => {
+    if (chart.initialized) {
+      chart.zoomIn();
+    }
+  }, [chart]);
+
+  const zoomOut = useCallback(() => {
+    if (chart.initialized) {
+      chart.zoomOut();
+    }
+  }, [chart]);
 
   const loadingOverlay = !chart.initialized && width && height ? <LoadingBlock /> : null;
 
@@ -186,6 +222,17 @@ const Chart = (props: Props) => {
         <BackButton ref={backButtonRef}>{'< Back to Industry Space'}</BackButton>
       </BackButtonContainer>
       <RapidTooltipRoot ref={tooltipRef} />
+      <ZoomButtonsContainer>
+        <ZoomButton onClick={zoomIn}>
+          + Zoom In
+        </ZoomButton>
+        <ZoomButton onClick={zoomOut}>
+          - Zoom Out
+        </ZoomButton>
+        <ZoomButton onClick={resetZoom}>
+          Reset Zoom
+        </ZoomButton>
+      </ZoomButtonsContainer>
       {loadingOverlay}
     </>
   );

@@ -113,7 +113,27 @@ const createChart = (input: Input) => {
   function zoomed() {
     state.zoom = d3.event.transform.k;
     g.attr('transform', d3.event.transform);
-    update();
+    render();
+  }
+
+  function zoomIn() {
+    if (state.active !== null) {
+      state.active.element.classed('active', false);
+    }
+    state.active = null;
+    clearActiveLabels();
+    zoom.scaleBy(svg.transition().duration(250), 1.4);
+    render();
+  }
+
+  function zoomOut() {
+    if (state.active !== null) {
+      state.active.element.classed('active', false);
+    }
+    state.active = null;
+    clearActiveLabels();
+    zoom.scaleBy(svg.transition().duration(250), 0.6);
+    render();
   }
 
   function reset() {
@@ -126,7 +146,7 @@ const createChart = (input: Input) => {
       .duration(300)
       .call(zoom.transform, d3.zoomIdentity);
     svg.call(zoom);
-    update();
+    render();
   }
 
   function softReset(d: any) {
@@ -145,7 +165,7 @@ const createChart = (input: Input) => {
     svg.call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
     svg.call(zoom);
     d.wasActive = true;
-    update();
+    render();
   }
 
   backButton.removeEventListener('click', reset);
@@ -153,13 +173,13 @@ const createChart = (input: Input) => {
 
   function setHoveredShape(datum: any) {
     state.hoveredShape = datum;
-    update();
+    render();
   }
 
   function setHoveredNode(datum: any) {
     state.hoveredNode = datum;
     if (!state.active) {
-      update();
+      render();
     }
   }
 
@@ -329,7 +349,7 @@ const createChart = (input: Input) => {
       .call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
   }
 
-  function update() {
+  function render() {
     if (state.active) {
       const edgeData = state.active.datum.edges.map(({trg}: {trg: string}) => data.nodes.find(({id}) => id === trg));
       const centerX = state.active.datum.adjustedCoords ?
@@ -550,7 +570,7 @@ const createChart = (input: Input) => {
     }
   }
 
-  return {update};
+  return {render, reset, zoomIn, zoomOut};
 
 };
 
