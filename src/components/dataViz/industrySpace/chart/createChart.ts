@@ -59,6 +59,7 @@ interface Input {
   rootHeight: number;
   backButton: HTMLButtonElement;
   tooltipEl: HTMLDivElement;
+  onNodeSelect: (naicsId: string | undefined) => void;
 }
 
 interface State {
@@ -69,7 +70,7 @@ interface State {
 }
 
 const createChart = (input: Input) => {
-  const {rootEl, data, rootWidth, rootHeight, backButton, tooltipEl} = input;
+  const {rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect} = input;
 
   const {
     width, height, outerWidth, outerHeight, margin,
@@ -116,13 +117,19 @@ const createChart = (input: Input) => {
     render();
   }
 
+  function clearActive() {
+    state.active = null;
+    clearActiveLabels();
+    onNodeSelect(undefined);
+  }
+
   function zoomIn() {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    state.active = null;
-    clearActiveLabels();
+    clearActive();
     zoom.scaleBy(svg.transition().duration(250), 1.4);
+    svg.call(zoom);
     render();
   }
 
@@ -130,9 +137,9 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    state.active = null;
-    clearActiveLabels();
+    clearActive();
     zoom.scaleBy(svg.transition().duration(250), 0.6);
+    svg.call(zoom);
     render();
   }
 
@@ -140,12 +147,12 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    state.active = null;
-    clearActiveLabels();
+    clearActive();
     svg.transition()
       .duration(300)
       .call(zoom.transform, d3.zoomIdentity);
     svg.call(zoom);
+    onNodeSelect(undefined);
     render();
   }
 
@@ -153,8 +160,7 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    state.active = null;
-    clearActiveLabels();
+    clearActive();
 
     const {translate, scale} = getBounds(
       [xScale(d.x) + margin.left],
@@ -239,7 +245,7 @@ const createChart = (input: Input) => {
       .attr('r', radius)
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
-      .on('click', zoomToPoint)
+      .on('click', zoomToPoint as (d: any) => void)
       .on('mousemove', d => {
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',
@@ -301,9 +307,10 @@ const createChart = (input: Input) => {
   nodeLabels
     .style('display', 'none');
 
-  function zoomToPoint(d: any) {
+  function zoomToPoint(d: any, external?: boolean) {
     // @ts-ignore
     if (state.active !== null && state.active.element.node() === this) {
+      onNodeSelect(undefined);
       return softReset(d);
     }
     svg.on('.zoom', null);
@@ -331,7 +338,22 @@ const createChart = (input: Input) => {
     svg.transition()
       .duration(300)
       .call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
+
+    if (!external) {
+      onNodeSelect(state.active.datum.id);
+    }
   }
+
+  const setHighlightedPoint = (id: string | undefined) => {
+    if (id === undefined) {
+      reset();
+    } else {
+      const target = data.nodes.findIndex(d => d.id === id);
+      if (target !== -1) {
+        zoomToPoint(data.nodes[target], true);
+      }
+    }
+  };
 
   function zoomToShape(d: any, maxZoomAllowed: number) {
 
@@ -425,7 +447,7 @@ const createChart = (input: Input) => {
             : yScale(d.y) + margin.top + Math.max(radius * 2, 4),
           )
           .style('pointer-events', 'none')
-          .style('font-size', Math.max(radius * 0.8, 1.85) + 'px')
+          .style('font-size', Math.max(radius * 0.8, 2.25) + 'px')
           .text(d => ellipsisText(d.name as string, 60))
           .call(wrap, Math.max(radius * 14, 20), radius * 9)
           .style('opacity', 0)
@@ -523,7 +545,7 @@ const createChart = (input: Input) => {
           .style('display', 'none');
       }
 
-      if (state.zoom > 2) {
+      if (state.zoom > 1.5) {
        backButton.style.display = 'block';
       } else {
        backButton.style.display = 'none';
@@ -570,7 +592,7 @@ const createChart = (input: Input) => {
     }
   }
 
-  return {render, reset, zoomIn, zoomOut};
+  return {render, reset, zoomIn, zoomOut, setHighlightedPoint};
 
 };
 

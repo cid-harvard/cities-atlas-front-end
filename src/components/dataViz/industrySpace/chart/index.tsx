@@ -152,16 +152,19 @@ type Chart = {
   reset: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
+  setHighlightedPoint: (naicsId: string | undefined) => void;
 };
 
 interface Props {
   width: number;
   height: number;
+  highlighted: string | undefined;
+  onNodeSelect: (naicsId: string | undefined) => void;
 }
 
 const Chart = (props: Props) => {
   const {
-    width, height,
+    width, height, onNodeSelect, highlighted,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -187,10 +190,17 @@ const Chart = (props: Props) => {
           rootHeight: height,
           backButton: backButtonNode,
           tooltipEl: tooltipNode,
+          onNodeSelect,
         }), initialized: true });
       }
     }
-  }, [chartRef, chart, width, height, layout]);
+  }, [chartRef, chart, width, height, layout, onNodeSelect]);
+
+  useEffect(() => {
+    if (chart.initialized) {
+      chart.setHighlightedPoint(highlighted);
+    }
+  }, [chart, highlighted]);
 
   const resetZoom = useCallback(() => {
     if (chart.initialized) {

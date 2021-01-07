@@ -38,11 +38,14 @@ interface Props {
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
-    setHighlighted,
+    setHighlighted, highlighted,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
+  const chartKey = dimensions
+    ? 'industry-space-sized-to-container-key' + dimensions.width.toString() + dimensions.height.toString()
+    : 'industry-space-sized-to-container-key-0-0';
 
   useEffect(() => {
     const node = rootRef.current;
@@ -63,8 +66,11 @@ const ClusteredIndustrySpace = (props: Props) => {
       <Root ref={rootRef}>
         <IndustrySpaceContainer>
           <Chart
+            key={chartKey}
             width={dimensions ? dimensions.width : 0}
             height={dimensions ? dimensions.height : 0}
+            onNodeSelect={setHighlighted}
+            highlighted={highlighted}
           />
       </IndustrySpaceContainer>
       </Root>
@@ -72,4 +78,4 @@ const ClusteredIndustrySpace = (props: Props) => {
   );
 };
 
-export default React.memo(ClusteredIndustrySpace);
+export default ClusteredIndustrySpace;
