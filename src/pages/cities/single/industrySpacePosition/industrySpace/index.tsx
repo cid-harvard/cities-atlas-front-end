@@ -17,6 +17,7 @@ import StandardSideTextBlock from '../../../../../components/general/StandardSid
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import {Toggle} from '../../../../../routing/routes';
+import IndustryDistanceTable from './IndustryDistanceTable';
 
 interface Props {
   cityId: string;
@@ -25,6 +26,7 @@ interface Props {
 const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
+  const [hovered, setHovered] = useState<string | undefined>(undefined);
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
   const sectorMap = useSectorMap();
   const {hide_clusters} = useQueryParams();
@@ -37,15 +39,26 @@ const EconomicComposition = (props: Props) => {
     />
   ) : <IntensityLegend />;
 
+  const sideContent = highlighted === undefined ? (
+    <StandardSideTextBlock>
+      <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
+      {/* eslint-disable-next-line */}
+      <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+    </StandardSideTextBlock>
+  ) : (
+    <StandardSideTextBlock clearStyles={true}>
+      <IndustryDistanceTable
+        id={highlighted}
+        hovered={hovered}
+        setHovered={setHovered}
+        setHighlighted={setHighlighted}
+      />
+    </StandardSideTextBlock>
+  );
   return (
     <>
       <ContentGrid>
-        <StandardSideTextBlock>
-          <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
-          {/* eslint-disable-next-line */}
-          <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
-
-        </StandardSideTextBlock>
+        {sideContent}
         <ClusteredIndustrySpace
           cityId={parseInt(cityId, 10)}
           year={defaultYear}
@@ -54,6 +67,8 @@ const EconomicComposition = (props: Props) => {
           setHighlighted={setHighlighted}
           setZoomLevel={setZoomLevel}
           hideClusterOverlay={hideClusterOverlay}
+          setHovered={setHovered}
+          hovered={hovered}
         />
         {legend}
       </ContentGrid>

@@ -56,13 +56,18 @@ const ContentContainer = styled.div`
   }
 `;
 
-const StandardSideTextBlock = ({children}: {children: React.ReactNode}) => {
+const BasicContent = styled.div`
+  width: 100%;
+`;
+
+const StandardSideTextBlock = ({children, clearStyles}: {children: React.ReactNode, clearStyles?: boolean}) => {
+  const Content = clearStyles ? BasicContent : ContentContainer;
   return (
     <Root>
-      <ScrollContainer>
-        <ContentContainer>
+      <ScrollContainer style={{alignItems: clearStyles ? 'flex-start' : undefined}}>
+        <Content>
           {children}
-        </ContentContainer>
+        </Content>
       </ScrollContainer>
     </Root>
   );

@@ -84,7 +84,7 @@ const useLayoutData = ():Output => {
             };
           }),
         };
-        setOutput({loading: false, error: false, data});
+        setOutput({loading: false, error: undefined, data});
       }
     }
   }, [output, loading, error, industryData]);

@@ -14,6 +14,7 @@ global-ui-select-a-city-name = Select a city
 global-ui-select-a-group = Select an existing group
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
+global-ui-selected-industry = Selected industry
 global-ui-includes-keywords = Includes { $keywords }
 global-ui-search-an-industry-in-graph = Find industry in graph
 global-ui-download = Download
@@ -52,6 +53,10 @@ global-ui-digit-level = digit level
 global-ui-sector-level = Sector level
 global-ui-year = Year
 global-ui-naics-code = NAICS Code
+
+global-ui-industry-name = Industry Name
+global-ui-sector = Sector
+global-ui-proximity = Proximity
 
 global-ui-hide = Hide
 global-ui-keep-only = Keep Only

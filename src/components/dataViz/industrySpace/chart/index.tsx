@@ -186,13 +186,16 @@ type Chart = {
   zoomIn: () => void;
   zoomOut: () => void;
   setHighlightedPoint: (naicsId: string | undefined) => void;
+  setExternalHoveredId: (naicsId: string | undefined) => void;
 };
 
 interface Props {
   width: number;
   height: number;
   highlighted: string | undefined;
+  hovered: string | undefined;
   onNodeSelect: (naicsId: string | undefined) => void;
+  onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
 }
@@ -200,6 +203,7 @@ interface Props {
 const Chart = (props: Props) => {
   const {
     width, height, onNodeSelect, highlighted, onZoomLevelChange, hideClusterOverlay,
+    onNodeHover, hovered,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -226,16 +230,23 @@ const Chart = (props: Props) => {
           backButton: backButtonNode,
           tooltipEl: tooltipNode,
           onNodeSelect, onZoomLevelChange,
+          onNodeHover,
         }), initialized: true });
       }
     }
-  }, [chartRef, chart, width, height, layout, onNodeSelect, onZoomLevelChange]);
+  }, [chartRef, chart, width, height, layout, onNodeSelect, onZoomLevelChange, onNodeHover]);
 
   useEffect(() => {
     if (chart.initialized) {
       chart.setHighlightedPoint(highlighted);
     }
   }, [chart, highlighted]);
+
+  useEffect(() => {
+    if (chart.initialized) {
+      chart.setExternalHoveredId(hovered);
+    }
+  }, [chart, hovered]);
 
   const resetZoom = useCallback(() => {
     if (chart.initialized) {

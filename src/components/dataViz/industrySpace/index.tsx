@@ -33,8 +33,10 @@ interface Props {
   cityId: number;
   year: number;
   highlighted: string | undefined;
+  hovered: string | undefined;
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
+  setHovered: (value: string | undefined) => void;
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
 }
@@ -42,6 +44,7 @@ interface Props {
 const ClusteredIndustrySpace = (props: Props) => {
   const {
     setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
+    setHovered, hovered,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -73,6 +76,8 @@ const ClusteredIndustrySpace = (props: Props) => {
             width={dimensions ? dimensions.width : 0}
             height={dimensions ? dimensions.height : 0}
             onNodeSelect={setHighlighted}
+            hovered={hovered}
+            onNodeHover={setHovered}
             highlighted={highlighted}
             onZoomLevelChange={setZoomLevel}
             hideClusterOverlay={hideClusterOverlay}

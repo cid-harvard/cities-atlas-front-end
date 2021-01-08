@@ -72,6 +72,7 @@ interface Input {
   backButton: HTMLButtonElement;
   tooltipEl: HTMLDivElement;
   onNodeSelect: (naicsId: string | undefined) => void;
+  onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
 }
 
@@ -81,10 +82,14 @@ interface State {
   active: any | null;
   hoveredShape: any | null;
   hoveredNode: any | null;
+  externalHoveredId: string | undefined;
 }
 
 const createChart = (input: Input) => {
-  const {rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect, onZoomLevelChange} = input;
+  const {
+    rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect, onZoomLevelChange,
+    onNodeHover,
+  } = input;
 
   const {
     width, height, outerWidth, outerHeight, margin,
@@ -102,6 +107,7 @@ const createChart = (input: Input) => {
     active: null,
     hoveredShape: null,
     hoveredNode: null,
+    externalHoveredId: undefined,
   };
 
   const svg = d3.select(rootEl).append('svg')
@@ -200,6 +206,11 @@ const createChart = (input: Input) => {
     state.hoveredNode = datum;
     if (!state.active) {
       render();
+    }
+    if (datum && datum.id) {
+      onNodeHover(datum.id);
+    } else {
+      onNodeHover(undefined);
     }
   }
 
@@ -352,7 +363,7 @@ const createChart = (input: Input) => {
   nodeLabels
     .style('display', 'none');
 
-  function zoomToPoint(d: any, external?: boolean) {
+  function zoomToPoint(d: any, _external?: boolean) {
     // @ts-ignore
     if (state.active !== null && (state.active.element.node() === this ||
         (state.active.datum && state.active.datum.id === d.id)) ) {
@@ -387,9 +398,7 @@ const createChart = (input: Input) => {
 
     svg.attr('class', svgRingModeClassName);
 
-    if (!external) {
-      onNodeSelect(state.active.datum.id);
-    }
+    onNodeSelect(state.active.datum.id);
   }
 
   const setHighlightedPoint = (id: string | undefined) => {
@@ -397,10 +406,16 @@ const createChart = (input: Input) => {
       reset();
     } else {
       const target = data.nodes.findIndex(d => d.id === id);
-      if (target !== -1) {
+      if (target !== -1 && (state.active === null || state.active.datum.id !== id)
+      ) {
         zoomToPoint(data.nodes[target], true);
       }
     }
+  };
+
+  const setExternalHoveredId = (id: string | undefined) => {
+    state.externalHoveredId = id;
+    render(true);
   };
 
   function zoomToShape(d: any, maxZoomAllowed: number) {
@@ -419,7 +434,7 @@ const createChart = (input: Input) => {
       .call( zoom.transform, d3.zoomIdentity.translate(translate[0],translate[1]).scale(scale));
   }
 
-  function render() {
+  function render(skipRingTransition?: boolean) {
     if (state.active) {
       const edgeData = state.active.datum.edges.map(({trg}: {trg: string}) => data.nodes.find(({id}) => id === trg));
       const centerX = state.active.datum.adjustedCoords ?
@@ -432,14 +447,14 @@ const createChart = (input: Input) => {
         .attr('cy', centerY)
         .style('opacity', 0)
         .transition()
-        .duration(300)
+        .duration(skipRingTransition ? 0 : 300)
         .style('opacity', 1);
       innerRing
         .attr('cx', centerX)
         .attr('cy', centerY)
         .style('opacity', 0)
         .transition()
-        .duration(300)
+        .duration(skipRingTransition ? 0 : 300)
         .style('opacity', 1);
 
       outerRingLabelPath
@@ -470,6 +485,8 @@ const createChart = (input: Input) => {
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
         .attr('fill', d => d.industryColor)
+        .attr('stroke', d => d.id === state.externalHoveredId ? '#333' : null)
+        .attr('stroke-width', d => d.id === state.externalHoveredId ? 0.5 : null)
         .transition()
         .ease(d3.easeCircleInOut)
         .duration(500)
@@ -656,7 +673,7 @@ const createChart = (input: Input) => {
     }
   }
 
-  return {render, reset, zoomIn, zoomOut, setHighlightedPoint};
+  return {render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId};
 
 };
 
