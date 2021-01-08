@@ -4,8 +4,6 @@ import {
   drawPoint,
   getBounds,
   wrap,
-  // intensityLegendClassName,
-  // sectorLegendClassName,
   ellipsisText,
 } from './Utils';
 import {rgba, lighten} from 'polished';
@@ -97,8 +95,6 @@ const createChart = (input: Input) => {
   let radius = 2.5;
   radius = radius < 2.5 ? 2.5 * radiusAdjuster : radius * radiusAdjuster;
 
-  // const sectorLegend = legendEl.querySelector('.' + sectorLegendClassName);
-  // const intensityLegend = legendEl.querySelector('.' + intensityLegendClassName);
 
   const state: State = {
     zoom: 1,
@@ -358,7 +354,8 @@ const createChart = (input: Input) => {
 
   function zoomToPoint(d: any, external?: boolean) {
     // @ts-ignore
-    if (state.active !== null && state.active.element.node() === this) {
+    if (state.active !== null && (state.active.element.node() === this ||
+        (state.active.datum && state.active.datum.id === d.id)) ) {
       onNodeSelect(undefined);
       return softReset(d);
     }
@@ -540,8 +537,6 @@ const createChart = (input: Input) => {
         .style('display', 'block');
 
       backButton.style.display = 'block';
-      // sectorLegend.style.display = 'block';
-      // intensityLegend.style.display = 'none';
       if (state.zoomLevel === ZoomLevel.Cluster) {
         state.zoomLevel = ZoomLevel.Node;
         onZoomLevelChange(ZoomLevel.Node);
@@ -613,15 +608,11 @@ const createChart = (input: Input) => {
       }
 
       if (state.zoom > 3.5) {
-      //   sectorLegend.style.display = 'block';
-      //   intensityLegend.style.display = 'none';
         if (state.zoomLevel === ZoomLevel.Cluster) {
           state.zoomLevel = ZoomLevel.Node;
           onZoomLevelChange(ZoomLevel.Node);
         }
       } else {
-      //   sectorLegend.style.display = 'none';
-      //   intensityLegend.style.display = 'block';
         if (state.zoomLevel === ZoomLevel.Node) {
           state.zoomLevel = ZoomLevel.Cluster;
           onZoomLevelChange(ZoomLevel.Cluster);

@@ -1,9 +1,6 @@
 import {extent} from 'd3-array';
 import {select} from 'd3-selection';
 
-export const intensityLegendClassName = 'intensity-legend-class-name';
-export const sectorLegendClassName = 'sector-legend-class-name';
-
 interface Ratio {
   w: number;
   h: number;
