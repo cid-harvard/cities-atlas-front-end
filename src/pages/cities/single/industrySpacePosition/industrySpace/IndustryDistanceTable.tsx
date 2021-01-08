@@ -179,7 +179,7 @@ const IndustryDistanceTable = (props: Props) => {
           </Title>
           <Table>
             <HeaderCell style={{top: titleHeight}}>
-              {getString('global-ui-industry-name')}
+              {getString('global-ui-related-industry')}
             </HeaderCell>
             <HeaderCell style={{top: titleHeight}}>
               {getString('global-ui-sector')}

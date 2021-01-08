@@ -37,6 +37,7 @@ interface Node {
   name: ClassificationNaicsIndustry['name'];
   code: ClassificationNaicsIndustry['code'];
   industryColor: string;
+  sectorName: string;
   continent: number;
   country: number;
   edges: Edge[];
@@ -73,13 +74,15 @@ const useLayoutData = ():Output => {
           clusters: LAYOUT_DATA.clusters,
           nodes: LAYOUT_DATA.nodes.map(n => {
             const industry = industryData[n.id.toString()];
+            const parent = industryData[industry.naicsIdTopParent.toString()];
             const parentIndustry = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
             return {
               ...n,
               id: industry.naicsId,
               name: industry.name,
               code: industry.code,
-              industryColor: parentIndustry ? parentIndustry.color : '',
+              industryColor: parentIndustry ? parentIndustry.color : '#fff',
+              sectorName: parent && parent.name ? parent.name : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
             };
           }),

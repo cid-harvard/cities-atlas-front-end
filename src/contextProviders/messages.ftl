@@ -54,7 +54,7 @@ global-ui-sector-level = Sector level
 global-ui-year = Year
 global-ui-naics-code = NAICS Code
 
-global-ui-industry-name = Industry Name
+global-ui-related-industry = Related Industry
 global-ui-sector = Sector
 global-ui-proximity = Proximity
 

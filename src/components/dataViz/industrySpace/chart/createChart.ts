@@ -303,11 +303,16 @@ const createChart = (input: Input) => {
       .style('--true-fill-color', d => d.industryColor)
       .on('click', zoomToPoint as (d: any) => void)
       .on('mousemove', d => {
+        const continent = data.clusters.continents.find(c => c.id === d.continent);
+        const country = data.clusters.countries.find(c => c.id === d.country);
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',
           color: rgba(d.industryColor, 0.3),
           rows: [
             ['NAICS Code:', d.code ? d.code : ''],
+            ['Community Level 1:', continent ? continent.name : ''],
+            ['Community Level 2:', country ? country.name : ''],
+            ['Sector:', d.sectorName],
           ],
           boldColumns: [1],
         });
@@ -415,7 +420,9 @@ const createChart = (input: Input) => {
 
   const setExternalHoveredId = (id: string | undefined) => {
     state.externalHoveredId = id;
-    render(true);
+    nodes
+      .attr('stroke', d => d.id === state.externalHoveredId ? '#333' : null)
+      .attr('stroke-width', d => d.id === state.externalHoveredId ? 0.5 : null);
   };
 
   function zoomToShape(d: any, maxZoomAllowed: number) {
@@ -485,8 +492,6 @@ const createChart = (input: Input) => {
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
         .attr('fill', d => d.industryColor)
-        .attr('stroke', d => d.id === state.externalHoveredId ? '#333' : null)
-        .attr('stroke-width', d => d.id === state.externalHoveredId ? 0.5 : null)
         .transition()
         .ease(d3.easeCircleInOut)
         .duration(500)
