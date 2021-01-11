@@ -14,9 +14,16 @@ import {
   sectorColorMap,
 } from '../../../../../styling/styleUtils';
 import {rgba} from 'polished';
+import MiniMap from '../../../../../components/dataViz/industrySpace/MiniMap';
+
+const Grid = styled.div`
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: 1fr auo;
+`;
 
 const Root = styled.div`
-  height: 100%;
 `;
 
 const Table = styled.div`
@@ -79,6 +86,16 @@ const HeaderCell = styled(Subtitle)`
   top: 0;
   background-color: #fff;
   padding: 0.35rem;
+`;
+
+const MiniMapContainer = styled.div`
+  width: 100%;
+  height: 170px;
+  box-sizing: border-box;
+  position: sticky;
+  bottom: 0;
+  margin-top: auto;
+  border: solid 1px ${lightBorderColor};
 `;
 
 interface Props {
@@ -169,27 +186,36 @@ const IndustryDistanceTable = (props: Props) => {
         }
       });
       output = (
-        <Root>
-          <Title ref={titleRef}>
-            <NodeCircle style={{backgroundColor: node.industryColor}} />
-            <div>
-              <Subtitle>{getString('global-ui-selected-industry')}</Subtitle>
-              <SelectedIndustryText>{node.name}</SelectedIndustryText>
-            </div>
-          </Title>
-          <Table>
-            <HeaderCell style={{top: titleHeight}}>
-              {getString('global-ui-related-industry')}
-            </HeaderCell>
-            <HeaderCell style={{top: titleHeight}}>
-              {getString('global-ui-sector')}
-            </HeaderCell>
-            <HeaderCell style={{top: titleHeight}}>
-              {getString('global-ui-proximity')}
-            </HeaderCell>
-            {edges}
-          </Table>
-        </Root>
+        <>
+          <Grid>
+            <Root>
+              <Title ref={titleRef}>
+                <NodeCircle style={{backgroundColor: node.industryColor}} />
+                <div>
+                  <Subtitle>{getString('global-ui-selected-industry')}</Subtitle>
+                  <SelectedIndustryText>{node.name}</SelectedIndustryText>
+                </div>
+              </Title>
+              <Table>
+                <HeaderCell style={{top: titleHeight}}>
+                  {getString('global-ui-related-industry')}
+                </HeaderCell>
+                <HeaderCell style={{top: titleHeight}}>
+                  {getString('global-ui-sector')}
+                </HeaderCell>
+                <HeaderCell style={{top: titleHeight}}>
+                  {getString('global-ui-proximity')}
+                </HeaderCell>
+                {edges}
+              </Table>
+            </Root>
+            <MiniMapContainer>
+              <MiniMap
+                highlighted={id}
+              />
+            </MiniMapContainer>
+          </Grid>
+        </>
       );
     } else {
       output = (

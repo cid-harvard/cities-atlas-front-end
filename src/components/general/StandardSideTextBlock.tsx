@@ -22,7 +22,8 @@ const ScrollContainer = styled.div`
   bottom: 0;
   left: 0;
   right: 0;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: hidden;
   display: flex;
   align-items: center;
 
@@ -56,12 +57,8 @@ const ContentContainer = styled.div`
   }
 `;
 
-const BasicContent = styled.div`
-  width: 100%;
-`;
-
 const StandardSideTextBlock = ({children, clearStyles}: {children: React.ReactNode, clearStyles?: boolean}) => {
-  const Content = clearStyles ? BasicContent : ContentContainer;
+  const Content = clearStyles ? React.Fragment : ContentContainer;
   return (
     <Root>
       <ScrollContainer style={{alignItems: clearStyles ? 'flex-start' : undefined}}>
