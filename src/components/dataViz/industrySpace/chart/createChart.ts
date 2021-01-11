@@ -15,8 +15,8 @@ const minExpectedScreenSize = 1020;
 
 const minZoom = 0.75;
 const maxZoom = 50;
-export const innerRingRadius = 24;
-export const outerRingRadius = 48;
+export const innerRingRadius = 35;
+export const outerRingRadius = 60;
 
 export const svgRingModeClassName = 'svg-ring-mode-class';
 
@@ -97,8 +97,7 @@ const createChart = (input: Input) => {
 
   const smallerSize = width < height ? width : height;
   const radiusAdjuster = smallerSize / minExpectedScreenSize;
-  let radius = 2.5;
-  radius = radius < 2.5 ? 2.5 * radiusAdjuster : radius * radiusAdjuster;
+  const radius = 3 * radiusAdjuster;
 
 
   const state: State = {
@@ -236,7 +235,7 @@ const createChart = (input: Input) => {
     .attr('class', 'ring-label')
     .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
-    .attr('startOffset', '38%')
+    .attr('startOffset', '25%')
     .text('Low Proximity');
 
   //Create an SVG path (based on bl.ocks.org/mbostock/2565344)
@@ -251,7 +250,7 @@ const createChart = (input: Input) => {
     .attr('class', 'ring-label')
     .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
-    .attr('startOffset', '38%')
+    .attr('startOffset', '25%')
     .text('High Proximity');
 
   const continents = g.selectAll('.industry-continents')
@@ -337,7 +336,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-continents-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', radius * 8 + 'px')
+      .style('font-size', radius * 7.5 + 'px')
       .text(d => d.name);
 
   const countryLabels = g.append('g')
@@ -350,7 +349,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-countries-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', radius * 5 + 'px')
+      .style('font-size', radius * 4 + 'px')
       .text(d => d.name);
 
   const nodeLabels = g.append('g')
@@ -362,7 +361,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-nodes-label')
       .attr('x', d => xScale(d.x) + margin.left)
       .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
-      .style('font-size', radius * 0.5 + 'px')
+      .style('font-size', radius * 0.55 + 'px')
       .text(d => ellipsisText(d.name as string, 20));
 
   nodeLabels
@@ -523,9 +522,9 @@ const createChart = (input: Input) => {
             : yScale(d.y) + margin.top + Math.max(radius * 2, 4),
           )
           .style('pointer-events', 'none')
-          .style('font-size', Math.max(radius * 0.8, 2.25) + 'px')
+          .style('font-size', Math.max(radius * 0.8, 3) + 'px')
           .text(d => ellipsisText(d.name as string, 60))
-          .call(wrap, Math.max(radius * 14, 20), radius * 9)
+          .call(wrap, Math.max(radius * 14, 30), radius * 9)
           .style('opacity', 0)
           .transition()
           .delay(500)
