@@ -56,6 +56,26 @@ interface Output {
   data: LayoutData | undefined;
 }
 
+const colors = [
+  '#004c6d',
+  '#2d6484',
+  '#4c7c9b',
+  '#6996b3',
+  '#86b0cc',
+  '#a3cbe5',
+  '#c1e7ff',
+];
+
+const testColorMap = {
+  '4': '#004c6d',
+  '5': '#2d6484',
+  '9': '#4c7c9b',
+  '10': '#6996b3',
+  '12': '#86b0cc',
+  '13': '#a3cbe5',
+  '14': '#c1e7ff',
+};
+
 const useLayoutData = ():Output => {
   const [output, setOutput] = useState<Output>({
     loading: true,
@@ -71,7 +91,20 @@ const useLayoutData = ():Output => {
         setOutput({loading: false, error, data: undefined});
       } else if (industryData && !loading) {
         const data: Output['data'] = {
-          clusters: LAYOUT_DATA.clusters,
+          clusters: {
+            continents: LAYOUT_DATA.clusters.continents.map(c => ({
+              ...c,
+              // @ts-ignore
+              color: testColorMap[c.id],
+            })),
+            countries: LAYOUT_DATA.clusters.countries.map(c => ({
+              ...c,
+              color: Math.round(Math.random())
+                // @ts-ignore
+                ? testColorMap[c.continent]
+                : colors[Math.floor(Math.random() * colors.length)],
+            })),
+          },
           nodes: LAYOUT_DATA.nodes.map(n => {
             const industry = industryData[n.id.toString()];
             const parent = industryData[industry.naicsIdTopParent.toString()];
@@ -81,7 +114,7 @@ const useLayoutData = ():Output => {
               id: industry.naicsId,
               name: industry.name,
               code: industry.code,
-              industryColor: parentIndustry ? parentIndustry.color : '#fff',
+              industryColor: parentIndustry && Math.round(Math.random()) ? parentIndustry.color : '#dddddd',
               sectorName: parent && parent.name ? parent.name : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
             };
