@@ -18,6 +18,29 @@ import useSectorMap from '../../../../../hooks/useSectorMap';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import {Toggle} from '../../../../../routing/routes';
 import IndustryDistanceTable from './IndustryDistanceTable';
+import styled from 'styled-components/macro';
+import NodeLegendSrc from './node-legend.svg';
+
+const NodeLegend = styled.div`
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.875rem;
+  position: absolute;
+  bottom: 0;
+  background-color: #fff;
+  z-index: 100;
+  border-top: none;
+
+  img {
+    width: 100%;
+    max-width: 200px;
+    max-height: 100%;
+  }
+
+  @media (max-height: 875px) {
+    position: sticky;
+  }
+`;
 
 interface Props {
   cityId: string;
@@ -39,11 +62,21 @@ const EconomicComposition = (props: Props) => {
     />
   ) : <IntensityLegend />;
 
+  const nodeLegend = zoomLevel === ZoomLevel.Node || hideClusterOverlay ? (
+    <NodeLegend>
+      <img
+        src={NodeLegendSrc}
+        alt={'Colored Nodes mean High Intensity Employment, Gray Nodes mean Low Intensity Employment'}
+      />
+    </NodeLegend>
+  ) : null;
+
   const sideContent = highlighted === undefined ? (
     <StandardSideTextBlock>
       <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
       {/* eslint-disable-next-line */}
       <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+        {nodeLegend}
     </StandardSideTextBlock>
   ) : (
     <StandardSideTextBlock clearStyles={true}>

@@ -16,14 +16,11 @@ import {
 import {rgba} from 'polished';
 import MiniMap from '../../../../../components/dataViz/industrySpace/MiniMap';
 
-const Grid = styled.div`
+const Root = styled.div`
   width: 100%;
   height: 100%;
   display: grid;
-  grid-template-columns: 1fr auo;
-`;
-
-const Root = styled.div`
+  grid-template-rows: 1fr auto auto;
 `;
 
 const Table = styled.div`
@@ -187,8 +184,8 @@ const IndustryDistanceTable = (props: Props) => {
       });
       output = (
         <>
-          <Grid>
-            <Root>
+          <Root>
+            <div>
               <Title ref={titleRef}>
                 <NodeCircle style={{backgroundColor: node.industryColor}} />
                 <div>
@@ -208,13 +205,13 @@ const IndustryDistanceTable = (props: Props) => {
                 </HeaderCell>
                 {edges}
               </Table>
-            </Root>
+            </div>
             <MiniMapContainer>
               <MiniMap
                 highlighted={id}
               />
             </MiniMapContainer>
-          </Grid>
+          </Root>
         </>
       );
     } else {
