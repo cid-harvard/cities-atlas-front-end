@@ -6,6 +6,7 @@ import createChart, {
   svgRingModeClassName,
 } from './createChart';
 import useLayoutData from './useLayoutData';
+import useRCAData, {SuccessResponse} from './useRCAData';
 import styled from 'styled-components/macro';
 import {
   primaryFont,
@@ -187,6 +188,7 @@ type Chart = {
   zoomOut: () => void;
   setHighlightedPoint: (naicsId: string | undefined) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
+  update: (data: SuccessResponse) => void;
 };
 
 interface Props {
@@ -212,6 +214,7 @@ const Chart = (props: Props) => {
   const [chart, setChart] = useState<Chart>({initialized: false});
 
   const layout = useLayoutData();
+  const {loading, data} = useRCAData();
 
   useEffect(() => {
     const chartNode = chartRef.current;
@@ -248,6 +251,12 @@ const Chart = (props: Props) => {
     }
   }, [chart, hovered]);
 
+  useEffect(() => {
+    if (chart.initialized && data !== undefined) {
+      chart.update(data);
+    }
+  }, [chart, data]);
+
   const resetZoom = useCallback(() => {
     if (chart.initialized) {
       chart.reset();
@@ -266,7 +275,7 @@ const Chart = (props: Props) => {
     }
   }, [chart]);
 
-  const loadingOverlay = !chart.initialized && width && height ? <LoadingBlock /> : null;
+  const loadingOverlay = loading || (!chart.initialized && width && height) ? <LoadingBlock /> : null;
 
   return (
     <>
@@ -295,4 +304,4 @@ const Chart = (props: Props) => {
   );
 };
 
-export default React.memo(Chart);
+export default Chart;

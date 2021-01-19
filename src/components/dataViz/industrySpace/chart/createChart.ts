@@ -7,9 +7,11 @@ import {
   ellipsisText,
 } from './Utils';
 import {rgba, lighten} from 'polished';
-import {LayoutData} from './useLayoutData';
+import {LayoutData, lowIntensityNodeColor} from './useLayoutData';
 import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
 import svgPathReverse from 'svg-path-reverse';
+import {SuccessResponse} from './useRCAData';
+import {intensityColorRange} from '../../../../styling/styleUtils';
 
 const minExpectedScreenSize = 1020;
 
@@ -299,14 +301,14 @@ const createChart = (input: Input) => {
       .attr('r', radius)
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
-      .style('--true-fill-color', d => d.industryColor)
+      .style('--true-fill-color', d => d.color)
       .on('click', zoomToPoint as (d: any) => void)
       .on('mousemove', d => {
-        const continent = data.clusters.continents.find(c => c.id === d.continent);
-        const country = data.clusters.countries.find(c => c.id === d.country);
+        const continent = data.clusters.continents.find(c => c.clusterId === d.continent);
+        const country = data.clusters.countries.find(c => c.clusterId === d.country);
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',
-          color: rgba(d.industryColor, 0.3),
+          color: rgba(d.color, 0.3),
           rows: [
             ['NAICS Code:', d.code ? d.code : ''],
             ['Community Level 1:', continent ? continent.name : ''],
@@ -490,7 +492,7 @@ const createChart = (input: Input) => {
         .style('opacity', 1)
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
-        .attr('fill', d => d.industryColor)
+        .attr('fill', d => d.color)
         .transition()
         .ease(d3.easeCircleInOut)
         .duration(500)
@@ -573,11 +575,11 @@ const createChart = (input: Input) => {
           if (state.zoom < 3) {
             return '#fff';
           } else if (state.zoom < 3.25) {
-            return lighten(zoomScales.countries.fill(state.zoom) - 0.1, d.industryColor);
+            return lighten(zoomScales.countries.fill(state.zoom) - 0.1, d.color);
           } else if (state.zoom < 3.85) {
-            return lighten(zoomScales.countries.fill(state.zoom) - 0.3, d.industryColor);
+            return lighten(zoomScales.countries.fill(state.zoom) - 0.3, d.color);
           } else {
-            return d.industryColor;
+            return d.color;
           }
         })
         .transition()
@@ -665,7 +667,7 @@ const createChart = (input: Input) => {
         hoveredNode
           .attr('cx', xScale(state.hoveredNode.x) + margin.left )
           .attr('cy', yScale(state.hoveredNode.y) + margin.top )
-          .attr('fill', state.hoveredNode.industryColor)
+          .attr('fill', state.hoveredNode.color)
           .attr('r', radius)
           .attr('stroke', state.zoom > 4 ? '#333' : '#efefef')
           .attr('stroke-width', radius < 2 ? 0.6 : 1)
@@ -677,7 +679,38 @@ const createChart = (input: Input) => {
     }
   }
 
-  return {render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId};
+  function update(newData: SuccessResponse) {
+    const intensityColorScale = d3.scaleLinear()
+      .domain(d3.extent(newData.clusterRca.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .range(intensityColorRange as any);
+
+    continents.each(d => {
+      const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
+      if (newDatum && newDatum.rcaNumCompany !== null) {
+        d.color = intensityColorScale(newDatum.rcaNumCompany) as unknown as string;
+      }
+    });
+
+    countries.each(d => {
+      const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
+      if (newDatum && newDatum.rcaNumCompany !== null) {
+        d.color = intensityColorScale(newDatum.rcaNumCompany) as unknown as string;
+      }
+    });
+
+    nodes.each(d => {
+      const newDatum = newData.nodeRca.find(({naicsId}) => d.id === naicsId);
+      if (newDatum && newDatum.rcaNumCompany !== null) {
+        d.color = newDatum.rcaNumCompany >= 1 ? d.industryColor : lowIntensityNodeColor;
+      }
+    })
+    .style('--true-fill-color', d => d.color);
+
+
+    render(true);
+  }
+
+  return {render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId, update};
 
 };
 

@@ -110,6 +110,10 @@ export interface CityIndustryYear {
   numEmploy: number | null;
   numCompany: number | null;
   level: DigitLevel | null;
+  rcaNumEmploy: number | null;
+  rcaNumCompany: number | null;
+  densityEmploy: number | null;
+  densityCompany: number | null;
   id: string;
 }
 
@@ -124,6 +128,27 @@ export interface GlobalIndustryYear {
   avgNumEmploy: number;
 }
 
+export interface CityClusterYear {
+  cityId: string;
+  clusterId: string;
+  level: number | null;
+  year: string;
+  numEmploy: number | null;
+  numCompany: number | null;
+  rcaNumEmploy: number | null;
+  rcaNumCompany: number | null;
+  id: string;
+}
+
+export interface ClassificationNaicsCluster {
+  clusterId: string;
+  parentId: number | null;
+  clusterIdTopParent: number | null;
+  level: number | null;
+  name: string | null;
+  id: string;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;
@@ -134,4 +159,6 @@ export interface RootQuery {
   classificationRegionList: ClassificationRegion[];
   classificationRegion: ClassificationRegion;
   cityIndustryYearList: CityIndustryYear[];
+  cityClusterYearList: CityClusterYear[];
+  classificationNaicsClusterList: ClassificationNaicsCluster[];
 }

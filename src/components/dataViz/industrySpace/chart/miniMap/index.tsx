@@ -1,12 +1,14 @@
 import React, {useEffect, useState, useRef} from 'react';
 import createChart from './createChart';
 import useLayoutData from '../useLayoutData';
+import useRCAData, {SuccessResponse} from '../useRCAData';
 
 type Chart = {
   initialized: false;
 } | {
   initialized: true;
   render: (nodeId: string | undefined) => void;
+  update: (nodeId: string | undefined, data: SuccessResponse) => void;
 };
 
 interface Props {
@@ -24,6 +26,7 @@ const Chart = (props: Props) => {
   const [chart, setChart] = useState<Chart>({initialized: false});
 
   const layout = useLayoutData();
+  const {data} = useRCAData();
 
   useEffect(() => {
     const chartNode = chartRef.current;
@@ -48,6 +51,12 @@ const Chart = (props: Props) => {
     }
   }, [chart, highlighted]);
 
+  useEffect(() => {
+    if (chart.initialized && data !== undefined) {
+      chart.update(highlighted, data);
+    }
+  }, [chart, highlighted, data]);
+
   return (
     <>
       <div
@@ -58,4 +67,4 @@ const Chart = (props: Props) => {
   );
 };
 
-export default React.memo(Chart);
+export default Chart;

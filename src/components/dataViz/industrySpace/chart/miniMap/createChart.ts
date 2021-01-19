@@ -3,7 +3,9 @@ import {
   getAspectRatio,
 } from '../Utils';
 import {rgba} from 'polished';
+import {SuccessResponse} from '../useRCAData';
 import {LayoutData} from '../useLayoutData';
+import {intensityColorRange} from '../../../../../styling/styleUtils';
 
 interface Input {
   rootEl: HTMLDivElement;
@@ -36,7 +38,7 @@ const createChart = (input: Input) => {
   const g = svg.append('g');
 
 
-  g.selectAll('.industry-continents')
+  const continents = g.selectAll('.industry-continents')
     .data(data.clusters.continents)
     .enter().append('polygon')
       .attr('class', 'industry-continents')
@@ -44,7 +46,7 @@ const createChart = (input: Input) => {
         d.polygon.map(([xCoord, yCoord]: [number, number]) =>
           [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
       )
-      .attr('fill', d => rgba(d.color, 1))
+      .attr('fill', d => d.color)
       .attr('stroke', rgba('#efefef', 1))
       .attr('stroke-width', 1.5);
 
@@ -56,7 +58,7 @@ const createChart = (input: Input) => {
         d.polygon.map(([xCoord, yCoord]) =>
           [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
       )
-      .attr('fill', d => rgba(d.color, 0))
+      .attr('fill', 'none')
       .attr('stroke', rgba('#efefef', 0.75))
       .attr('stroke-width', 0.75);
 
@@ -89,7 +91,23 @@ const createChart = (input: Input) => {
     }
   }
 
-  return {render};
+  function update(nodeId: string | undefined, newData: SuccessResponse) {
+    const intensityColorScale = d3.scaleLinear()
+      .domain(d3.extent(newData.clusterRca.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .range(intensityColorRange as any);
+
+    continents.each(d => {
+      const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
+        if (newDatum && newDatum.rcaNumCompany !== null) {
+          d.color = intensityColorScale(newDatum.rcaNumCompany) as unknown as string;
+        }
+      })
+    .attr('fill', d => d.color);
+
+    render(nodeId);
+  }
+
+  return {render, update};
 
 };
 
