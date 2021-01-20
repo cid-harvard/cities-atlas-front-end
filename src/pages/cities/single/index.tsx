@@ -3,7 +3,7 @@ import EconomicComposition from './economicComposition';
 import SimilarCities from './similarCities';
 import GoodAt from './goodAt';
 import IndustrySpacePosition from './industrySpacePosition';
-import GrowthOppurtunities from './growthOppurtunities';
+import GrowthOpportunities from './growthOpportunities';
 import {
   Route,
   Switch,
@@ -57,7 +57,7 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
-      url: createRoute.city(CityRoutes.CityGrowthOppurtunities, cityId),
+      url: createRoute.city(CityRoutes.CityGrowthOpportunities, cityId),
       removeParams: [
         'compare_city' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
@@ -75,7 +75,7 @@ const City = () => {
         <Route path={CityRoutes.CitySimilarCities} component={SimilarCities} />
         <Route path={CityRoutes.CityGoodAt} component={GoodAt} />
         <Route path={CityRoutes.CityIndustrySpacePosition} component={IndustrySpacePosition} />
-        <Route path={CityRoutes.CityGrowthOppurtunities} component={GrowthOppurtunities} />
+        <Route path={CityRoutes.CityGrowthOpportunities} component={GrowthOpportunities} />
       </Switch>
     </InnerPage>
   );

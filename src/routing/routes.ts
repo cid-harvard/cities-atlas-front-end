@@ -10,8 +10,8 @@ export const CityRoutes = {
   CitySimilarCities: '/city/:cityId/similar-cities',
   CityGoodAt: '/city/:cityId/good-at',
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
-  CityGrowthOppurtunities: '/city/:cityId/growth-oppurtunities',
-  CityGrowthOppurtunitiesTable: '/city/:cityId/growth-oppurtunities/table',
+  CityGrowthOpportunities: '/city/:cityId/growth-opportunities',
+  CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',
 } as const;
 
 export const Routes = {

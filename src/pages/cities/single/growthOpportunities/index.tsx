@@ -8,8 +8,11 @@ import {
   DigitLevel,
   ClassificationNaicsIndustry,
 } from '../../../../types/graphQL/graphQLTypes';
+import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import {
   ContentGrid,
+  ContentParagraph,
+  ContentTitle,
 } from '../../../../styling/styleUtils';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import useFluent from '../../../../hooks/useFluent';
@@ -48,7 +51,7 @@ const EconomicComposition = () => {
   const getString = useFluent();
   const history = useHistory();
   const isTableView = matchPath<{[cityIdParam]: string}>(
-    history.location.pathname, CityRoutes.CityGrowthOppurtunitiesTable,
+    history.location.pathname, CityRoutes.CityGrowthOpportunitiesTable,
   );
   const vizNavigation= [
     {
@@ -57,7 +60,7 @@ const EconomicComposition = () => {
       onClick: () => {
         setHighlighted(undefined);
         history.push(
-          createRoute.city(CityRoutes.CityGrowthOppurtunities, cityId ? cityId :'')
+          createRoute.city(CityRoutes.CityGrowthOpportunities, cityId ? cityId :'')
           + history.location.search,
         );
       },
@@ -66,11 +69,12 @@ const EconomicComposition = () => {
       label: 'Table of Industries',
       active: !!(isTableView && isTableView.isExact),
       onClick: () => {
-        setHighlighted(undefined);
-        history.push(
-          createRoute.city(CityRoutes.CityGrowthOppurtunitiesTable, cityId ? cityId :'')
-          + history.location.search,
-        );
+        window.open('https://citiestool.invisionapp.com/console/share/8D23T0CCJG/498711467', '_blank');
+        // setHighlighted(undefined);
+        // history.push(
+        //   createRoute.city(CityRoutes.CityGrowthOpportunitiesTable, cityId ? cityId :'')
+        //   + history.location.search,
+        // );
       },
     },
   ];
@@ -89,13 +93,18 @@ const EconomicComposition = () => {
     <DefaultContentWrapper>
 
       <ContentGrid>
+        <StandardSideTextBlock>
+          <ContentTitle>What are the Growth Opportunities in my City?<br />SWOT Analysis</ContentTitle>
+          {/* eslint-disable-next-line */}
+          <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+        </StandardSideTextBlock>
         <Switch>
-          <Route path={CityRoutes.CityGrowthOppurtunitiesTable}
+          <Route path={CityRoutes.CityGrowthOpportunitiesTable}
             render={() => (
               <div>Table</div>
             )}
           />
-          <Route path={CityRoutes.CityGrowthOppurtunities}
+          <Route path={CityRoutes.CityGrowthOpportunities}
             render={() => (
               <PSWOTChart
                 highlighted={highlighted ? highlighted : null}
@@ -118,8 +127,8 @@ const EconomicComposition = () => {
           resetText={getString('global-ui-reset-sectors')}
           fullWidth={true}
         />
-        <UtiltyBar />
       </ContentGrid>
+      <UtiltyBar />
     </DefaultContentWrapper>
   );
 };

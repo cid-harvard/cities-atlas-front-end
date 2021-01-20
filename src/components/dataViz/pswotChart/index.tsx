@@ -33,11 +33,9 @@ import {rgba} from 'polished';
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 2;
   position: relative;
-  display: grid;
-  grid-template-rows: 4rem 1fr 2rem;
 
   @media ${breakPoints.small} {
     grid-row: 3;
@@ -46,8 +44,11 @@ const Root = styled.div`
 `;
 
 const SizingContainer = styled.div`
-  width: 100%;
-  grid-row: 2;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 `;
 
 const VizContainer = styled.div`
@@ -73,6 +74,7 @@ interface Props {
 const IndustryZoomableBarChart = (props: Props) => {
   const {
     compositionType, hiddenSectors, setHighlighted, vizNavigation, digitLevel,
+    highlighted,
   } = props;
 
   const {loading, error, data} = useRCAData(digitLevel);
@@ -90,7 +92,7 @@ const IndustryZoomableBarChart = (props: Props) => {
     }
   }, [rootRef, windowDimensions]);
 
-  // const highlightIndustry = highlighted ? industryMap.data[highlighted] : undefined;
+  const highlightIndustry = highlighted ? industryMap.data[highlighted] : undefined;
 
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const industries = useGlobalIndustryMap();
@@ -173,27 +175,30 @@ const IndustryZoomableBarChart = (props: Props) => {
   } else if (dataToUse !== undefined) {
     const {nodeRca} = dataToUse;
 
-    const pswotChartData: Datum[] = nodeRca.map(n => {
+    const pswotChartData: Datum[] = [];
+    nodeRca.forEach(n => {
       const industry = industries && industries.data && n.naicsId ? industries.data[n.naicsId] : undefined;
       const naicsId = industry ? industry.naicsId : '';
-      const parentColor = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
-      const x = compositionType === CompositionType.Employees
-        ? (n.rcaNumEmploy !== null ? n.rcaNumEmploy : 0)
-        : (n.rcaNumCompany !== null ? n.rcaNumCompany : 0);
-      const y = compositionType === CompositionType.Employees
-        ? (n.densityEmploy !== null ? n.densityEmploy : 0)
-        : (n.densityCompany !== null ? n.densityCompany : 0);
-      return {
-        id: naicsId,
-        label: industry && industry.name ? industry.name : naicsId,
-        x,
-        y,
-        fill: parentColor ? parentColor.color : undefined,
-        // highlighted: !Math.round(Math.random()),
-        // faded: !Math.round(Math.random()),
-        onMouseMove: setHovered,
-        onMouseLeave: removeHovered,
-      };
+      const sector = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
+      if (sector && !hiddenSectors.includes(sector.id)) {
+        const x = compositionType === CompositionType.Employees
+          ? (n.rcaNumEmploy !== null ? n.rcaNumEmploy : 0)
+          : (n.rcaNumCompany !== null ? n.rcaNumCompany : 0);
+        const y = compositionType === CompositionType.Employees
+          ? (n.densityEmploy !== null ? n.densityEmploy : 0)
+          : (n.densityCompany !== null ? n.densityCompany : 0);
+        pswotChartData.push({
+          id: naicsId,
+          label: industry && industry.name ? industry.name : naicsId,
+          x,
+          y,
+          fill: sector ? sector.color : undefined,
+          highlighted: highlightIndustry && highlightIndustry.naicsId === naicsId,
+          faded: highlightIndustry && highlightIndustry.naicsId !== naicsId,
+          onMouseMove: setHovered,
+          onMouseLeave: removeHovered,
+        });
+      }
     });
     const loadingOverlay = loading ? <LoadingBlock /> : null;
     output = (
