@@ -11,6 +11,7 @@ export const CityRoutes = {
   CityGoodAt: '/city/:cityId/good-at',
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
   CityGrowthOppurtunities: '/city/:cityId/growth-oppurtunities',
+  CityGrowthOppurtunitiesTable: '/city/:cityId/growth-oppurtunities/table',
 } as const;
 
 export const Routes = {

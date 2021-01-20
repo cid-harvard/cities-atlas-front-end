@@ -58,7 +58,11 @@ const City = () => {
     {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
       url: createRoute.city(CityRoutes.CityGrowthOppurtunities, cityId),
-      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
+      removeParams: [
+        'compare_city' as keyof GlobalQueryParams,
+        'digit_level' as keyof GlobalQueryParams,
+        'hide_clusters' as keyof GlobalQueryParams,
+      ],
     },
   ] : [];
 
