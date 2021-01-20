@@ -211,8 +211,8 @@ const IndustryZoomableBarChart = (props: Props) => {
             quadrantLabels={{
               I: 'Strength',
               II: 'Opportunity',
-              III: 'Threat',
-              IV: 'Weakness',
+              III: 'Weakness',
+              IV: 'Threat',
               V: 'Potential',
             }}
             quadrantBackgroundColors={{
@@ -224,7 +224,7 @@ const IndustryZoomableBarChart = (props: Props) => {
             }}
             zeroAxisLabel={'Relative Advantage = 0'}
             axisLabels={{
-              left: 'Predicted Density Change',
+              left: 'Expected Change',
               leftUp: 'Growing',
               leftDown: 'Decreasing',
               bottomLeft: 'Low Relative Advantage',
