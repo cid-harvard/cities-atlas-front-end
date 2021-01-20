@@ -1,10 +1,9 @@
 import React, {useEffect} from 'react';
 import EconomicComposition from './economicComposition';
-import OutsideSubsidaries from './outsideSubsidaries';
+import SimilarCities from './similarCities';
 import GoodAt from './goodAt';
 import IndustrySpacePosition from './industrySpacePosition';
-import IndustryMove from './industryMove';
-import Summary from './summary';
+import GrowthOppurtunities from './growthOppurtunities';
 import {
   Route,
   Switch,
@@ -39,7 +38,7 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
-      url: createRoute.city(CityRoutes.CityIndustryMove, cityId),
+      url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
       removeParams: ['hide_clusters' as keyof GlobalQueryParams],
     },
     {
@@ -58,7 +57,7 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
-      url: createRoute.city(CityRoutes.CityOutsideSubsidaries, cityId),
+      url: createRoute.city(CityRoutes.CityGrowthOppurtunities, cityId),
       removeParams: ['hide_clusters' as keyof GlobalQueryParams],
     },
   ] : [];
@@ -69,11 +68,10 @@ const City = () => {
     >
       <Switch>
         <Route path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
-        <Route path={CityRoutes.CityOutsideSubsidaries} component={OutsideSubsidaries} />
+        <Route path={CityRoutes.CitySimilarCities} component={SimilarCities} />
         <Route path={CityRoutes.CityGoodAt} component={GoodAt} />
         <Route path={CityRoutes.CityIndustrySpacePosition} component={IndustrySpacePosition} />
-        <Route path={CityRoutes.CityIndustryMove} component={IndustryMove} />
-        <Route path={CityRoutes.CitySummary} component={Summary} />
+        <Route path={CityRoutes.CityGrowthOppurtunities} component={GrowthOppurtunities} />
       </Switch>
     </InnerPage>
   );

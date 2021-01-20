@@ -7,11 +7,10 @@ export const CityRoutes = {
   CityBase: '/city/:cityId',
   CityEconomicComposition: '/city/:cityId/economic-composition',
   CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
-  CityOutsideSubsidaries: '/city/:cityId/outside-subsidaries',
+  CitySimilarCities: '/city/:cityId/similar-cities',
   CityGoodAt: '/city/:cityId/good-at',
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
-  CityIndustryMove: '/city/:cityId/industry-move-to',
-  CitySummary: '/city/:cityId/summary',
+  CityGrowthOppurtunities: '/city/:cityId/growth-oppurtunities',
 } as const;
 
 export const Routes = {

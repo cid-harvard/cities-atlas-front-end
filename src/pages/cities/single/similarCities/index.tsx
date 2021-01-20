@@ -6,7 +6,7 @@ const OutsideSubsidaries = () => {
   return (
     <>
       <h1>
-        What cities own/host subsidaries in and from my city?
+        What cities are similar to my city?
       </h1>
       <UtiltyBar
       />
