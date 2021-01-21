@@ -26,7 +26,7 @@ import PSwotPlot, {
 import useRCAData, {
   SuccessResponse,
 } from './useRCAData';
-// import useFluent from '../../../hooks/useFluent';
+import useFluent from '../../../hooks/useFluent';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 
@@ -82,7 +82,7 @@ const IndustryZoomableBarChart = (props: Props) => {
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
-  // const getString = useFluent();
+  const getString = useFluent();
 
   useEffect(() => {
     const node = rootRef.current;
@@ -207,13 +207,13 @@ const IndustryZoomableBarChart = (props: Props) => {
           <PSwotPlot
             id={'react-pswot-plot-demo'}
             data={pswotChartData}
-            averageLineText={'Relative Advantage = 1'}
+            averageLineText={getString('pswot-average-line-text')}
             quadrantLabels={{
-              I: 'Strength',
-              II: 'Opportunity',
-              III: 'Weakness',
-              IV: 'Threat',
-              V: 'Potential',
+              I: getString('pswot-quadrant-labels-i'),
+              II: getString('pswot-quadrant-labels-ii'),
+              III: getString('pswot-quadrant-labels-iii'),
+              IV: getString('pswot-quadrant-labels-iv'),
+              V: getString('pswot-quadrant-labels-v'),
             }}
             quadrantBackgroundColors={{
               I: '#dadbdd',
@@ -222,13 +222,13 @@ const IndustryZoomableBarChart = (props: Props) => {
               IV: '#fafafb',
               V: '#edf6f4',
             }}
-            zeroAxisLabel={'Relative Advantage = 0'}
+            zeroAxisLabel={getString('pswot-zero-axis-label')}
             axisLabels={{
-              left: 'Expected Change',
-              leftUp: 'Growing',
-              leftDown: 'Decreasing',
-              bottomLeft: 'Low Relative Advantage',
-              bottomRight: 'High Relative Advantage',
+              left: getString('pswot-axis-labels-left'),
+              leftUp: getString('pswot-axis-labels-left-up'),
+              leftDown: getString('pswot-axis-labels-left-down'),
+              bottomLeft: getString('pswot-axis-labels-bottom-left'),
+              bottomRight: getString('pswot-axis-labels-bottom-right'),
             }}
             axisLabelColor={'#333'}
             quadrantLabelColor={'#f69c7c'}

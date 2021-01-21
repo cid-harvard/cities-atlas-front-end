@@ -127,3 +127,18 @@ glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for thi
 axis-text-percent-total-value = % of Total { $value }
 
 tooltip-text-share-of = Share of { $value }
+
+pswot-quadrant-labels-i = Strength
+pswot-quadrant-labels-ii = Opportunity
+pswot-quadrant-labels-iii = Weakness
+pswot-quadrant-labels-iv = Threat
+pswot-quadrant-labels-v = Potential
+
+pswot-axis-labels-left = Expected Change
+pswot-axis-labels-left-up = Growing
+pswot-axis-labels-left-down = Decreasing
+pswot-axis-labels-bottom-left = Low Relative Advantage
+pswot-axis-labels-bottom-right = High Relative Advantage
+
+pswot-average-line-text = Relative Advantage = 1
+pswot-zero-axis-label = Relative Advantage = 0
