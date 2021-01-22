@@ -20,9 +20,10 @@ import {
   DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import {Toggle} from '../../../routing/routes';
+import {Toggle, NodeSizing} from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip from '../../general/Tooltip';
+import upperFirst from 'lodash/upperFirst';
 
 const gearIcon = raw('../../../assets/icons/settings.svg');
 
@@ -247,6 +248,7 @@ export interface SettingsOptions {
   digitLevel?: boolean;
   compositionType?: boolean;
   hideClusterOverlay?: boolean;
+  nodeSizing?: boolean;
 }
 
 interface Props {
@@ -272,7 +274,8 @@ const Settings = (props: Props) => {
     const {
       digit_level: _unusedDigitLevel,
       composition_type: _unusedCompositionType,
-      hide_clusters: _hideClusters,
+      hide_clusters: _unusedHideClusters,
+      node_sizing: _unusedNodeSizing,
       ...rest
     } = params;
     const query = queryString.stringify({...rest});
@@ -416,6 +419,46 @@ const Settings = (props: Props) => {
     clusterOverlayToggle = null;
   }
 
+
+  let nodeSizingOptions: React.ReactElement<any> | null;
+  if (settingsOptions.nodeSizing !== undefined) {
+    const InputContainer = settingsOptions.nodeSizing === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.nodeSizing === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.nodeSizing === true
+      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    nodeSizingOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-node-sizing')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.none)}
+            $selected={!params.node_sizing || params.node_sizing === NodeSizing.none}
+          >
+            {upperFirst(NodeSizing.none)}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.linear)}
+            $selected={params.node_sizing === NodeSizing.linear}
+          >
+            {upperFirst(NodeSizing.linear)}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.log)}
+            $selected={params.node_sizing === NodeSizing.log}
+          >
+            {upperFirst(NodeSizing.log)}
+          </DigitLevelButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    nodeSizingOptions = null;
+  }
+
   return (
     <Root>
       <ContentRoot>
@@ -428,6 +471,7 @@ const Settings = (props: Props) => {
           {compositionOptions}
           {digitLevelOptions}
           {clusterOverlayToggle}
+          {nodeSizingOptions}
           <ResetButton onClick={resetSettings}>
             {getString('global-ui-settings-reset')}
           </ResetButton>

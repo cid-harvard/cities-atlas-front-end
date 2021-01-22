@@ -34,17 +34,26 @@ const City = () => {
     {
       label: getStringWithNewLines('cities-single-page-titles-question-1'),
       url: createRoute.city(CityRoutes.CityEconomicComposition, cityId),
-      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
+      removeParams: [
+        'hide_clusters' as keyof GlobalQueryParams,
+        'node_sizing' as keyof GlobalQueryParams,
+      ],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
       url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
-      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
+      removeParams: [
+        'hide_clusters' as keyof GlobalQueryParams,
+        'node_sizing' as keyof GlobalQueryParams,
+      ],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-3'),
       url: createRoute.city(CityRoutes.CityGoodAt, cityId),
-      removeParams: ['hide_clusters' as keyof GlobalQueryParams],
+      removeParams: [
+        'hide_clusters' as keyof GlobalQueryParams,
+        'node_sizing' as keyof GlobalQueryParams,
+      ],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-4'),
@@ -53,6 +62,7 @@ const City = () => {
         'compare_city' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
         'composition_type' as keyof GlobalQueryParams,
+        'node_sizing' as keyof GlobalQueryParams,
       ],
     },
     {

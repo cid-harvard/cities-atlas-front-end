@@ -48,6 +48,7 @@ global-ui-reset-sectors = Show all sectors
 
 global-ui-numbers-based-on = Numbers are based on
 global-ui-detail-level = Detail Level
+global-ui-node-sizing = Node Sizing
 global-ui-show-clusters = Show cluster overlay
 global-ui-digit-level = digit level
 global-ui-sector-level = Sector level

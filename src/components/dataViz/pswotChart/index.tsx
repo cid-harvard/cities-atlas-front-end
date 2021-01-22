@@ -30,10 +30,11 @@ import useRCAData, {
   SuccessResponse,
 } from './useRCAData';
 import useFluent from '../../../hooks/useFluent';
+import {NodeSizing} from '../../../routing/routes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {defaultYear} from '../../../Utils';
-import {scaleLinear} from 'd3-scale';
+import {scaleLinear, scaleLog} from 'd3-scale';
 import orderBy from 'lodash/orderBy';
 
 const Root = styled.div`
@@ -73,6 +74,7 @@ interface Props {
   setHighlighted: (value: string | undefined) => void;
   digitLevel: DigitLevel;
   compositionType: CompositionType;
+  nodeSizing: NodeSizing | undefined;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   vizNavigation: VizNavItem[];
 }
@@ -80,7 +82,7 @@ interface Props {
 const PSWOTChart = (props: Props) => {
   const {
     compositionType, hiddenSectors, setHighlighted, vizNavigation, digitLevel,
-    highlighted,
+    highlighted, nodeSizing,
   } = props;
 
   const {loading, error, data} = useRCAData(digitLevel);
@@ -204,9 +206,19 @@ const PSWOTChart = (props: Props) => {
           ? globalMinMax.maxSumNumEmploy : 1)
       : (globalMinMax && globalMinMax.maxSumNumCompany
           ? globalMinMax.maxSumNumCompany : 1);
-    const radiusScale = scaleLinear()
-      .domain([minSizeBy, maxSizeBy])
-      .range([ 3, 20 ])
+    let radiusScale: (value: number) => number | undefined;
+    if (nodeSizing === NodeSizing.linear) {
+      radiusScale = scaleLinear()
+        .domain([minSizeBy, maxSizeBy])
+        .range([ 3, 20 ]);
+    } else if (nodeSizing === NodeSizing.log) {
+      radiusScale = scaleLog()
+        .domain([minSizeBy, maxSizeBy])
+        .range([ 1, 6 ])
+        .base(10);
+    } else {
+      radiusScale = (_unused: number) => undefined;
+    }
 
     nodeRca.forEach(n => {
       const industry = n.naicsId ? industries.data[n.naicsId] : undefined;
@@ -228,7 +240,7 @@ const PSWOTChart = (props: Props) => {
         pswotChartData.push({
           id: naicsId,
           label: industry && industry.name ? industry.name : naicsId,
-          x,
+          x: x < 0.001 ? parseFloat(x.toFixed(3)) : x,
           y,
           radius: radiusScale(radius),
           fill: sector ? rgba(sector.color, 0.7) : undefined,
@@ -292,7 +304,7 @@ const PSWOTChart = (props: Props) => {
           digitLevel,
           setHighlighted,
         }}
-        settingsOptions={{compositionType: true}}
+        settingsOptions={{compositionType: true, nodeSizing: true}}
         vizNavigation={vizNavigation}
       />
       <Root>

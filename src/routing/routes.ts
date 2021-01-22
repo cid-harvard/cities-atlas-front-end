@@ -24,9 +24,16 @@ export enum Toggle {
   Off = 'off',
 }
 
+export enum NodeSizing {
+  none = 'none',
+  linear = 'linear',
+  log = 'log',
+}
+
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
   hide_clusters: Toggle | undefined;
+  node_sizing: NodeSizing | undefined;
 }

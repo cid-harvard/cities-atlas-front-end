@@ -35,7 +35,7 @@ import PSWOTChart from '../../../../components/dataViz/pswotChart/';
 const EconomicComposition = () => {
   const cityId = useCurrentCityId();
 
-  const {composition_type} = useQueryParams();
+  const {composition_type, node_sizing} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -113,6 +113,7 @@ const EconomicComposition = () => {
                 compositionType={composition_type ? composition_type : defaultCompositionType}
                 vizNavigation={vizNavigation}
                 hiddenSectors={hiddenSectors}
+                nodeSizing={node_sizing}
               />
             )}
           />

@@ -50,7 +50,7 @@ interface IndustryMap {
   };
   industries: {
     [id: string]: IndustryDatum;
-  }
+  };
 }
 
 const industryDataToMap = (data: SuccessResponse | undefined) => {
@@ -65,7 +65,7 @@ const industryDataToMap = (data: SuccessResponse | undefined) => {
       maxAvgNumCompany: 0,
       minAvgNumEmploy: 0,
       maxAvgNumEmploy: 0,
-    }
+    },
   };
   if (data !== undefined) {
     const {aggregateData} = data;
@@ -79,7 +79,7 @@ const industryDataToMap = (data: SuccessResponse | undefined) => {
       minSumNumEmploy, maxSumNumEmploy,
       minAvgNumCompany, maxAvgNumCompany,
       minAvgNumEmploy, maxAvgNumEmploy,
-    }
+    };
   }
   return response;
 };
