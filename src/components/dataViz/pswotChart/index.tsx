@@ -71,7 +71,7 @@ interface Props {
   vizNavigation: VizNavItem[];
 }
 
-const IndustryZoomableBarChart = (props: Props) => {
+const PSWOTChart = (props: Props) => {
   const {
     compositionType, hiddenSectors, setHighlighted, vizNavigation, digitLevel,
     highlighted,
@@ -192,7 +192,7 @@ const IndustryZoomableBarChart = (props: Props) => {
           label: industry && industry.name ? industry.name : naicsId,
           x,
           y,
-          fill: sector ? sector.color : undefined,
+          fill: sector ? rgba(sector.color, 0.7) : undefined,
           highlighted: highlightIndustry && highlightIndustry.naicsId === naicsId,
           faded: highlightIndustry && highlightIndustry.naicsId !== naicsId,
           onMouseMove: setHovered,
@@ -263,4 +263,4 @@ const IndustryZoomableBarChart = (props: Props) => {
   );
 };
 
-export default IndustryZoomableBarChart;
+export default PSWOTChart;

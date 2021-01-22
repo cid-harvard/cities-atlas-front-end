@@ -39,7 +39,7 @@
     "react-helmet": "^6.1.0",
     "react-mapbox-gl": "^4.8.6",
     "react-panel-search": "^1.4.3",
-    "react-pswot-plot": "^1.0.22",
+    "react-pswot-plot": "^1.0.24",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-use": "^15.3.3",
