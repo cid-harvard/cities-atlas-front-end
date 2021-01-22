@@ -8,6 +8,9 @@ import {
   useGlobalIndustryMap,
 } from '../../../hooks/useGlobalIndustriesData';
 import {
+  useAggregateIndustryMap,
+} from '../../../hooks/useAggregateIndustriesData';
+import {
   usePrevious,
 } from 'react-use';
 import {useWindowWidth} from '../../../contextProviders/appContext';
@@ -29,6 +32,9 @@ import useRCAData, {
 import useFluent from '../../../hooks/useFluent';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
+import {defaultYear} from '../../../Utils';
+import {scaleLinear} from 'd3-scale';
+import orderBy from 'lodash/orderBy';
 
 const Root = styled.div`
   width: 100%;
@@ -78,7 +84,7 @@ const PSWOTChart = (props: Props) => {
   } = props;
 
   const {loading, error, data} = useRCAData(digitLevel);
-  const industryMap = useGlobalIndustryMap();
+  const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -92,10 +98,10 @@ const PSWOTChart = (props: Props) => {
     }
   }, [rootRef, windowDimensions]);
 
-  const highlightIndustry = highlighted ? industryMap.data[highlighted] : undefined;
-
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const industries = useGlobalIndustryMap();
+
+  const highlightIndustry = highlighted ? industries.data[highlighted] : undefined;
 
   const setHovered = (datum: {label: string, fill?: string, id?: string, x?: number, y?: number}, coords: {x: number, y: number}) => {
     const node = tooltipRef.current;
@@ -156,7 +162,8 @@ const PSWOTChart = (props: Props) => {
   }
 
   let output: React.ReactElement<any> | null;
-  if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (industries.loading || aggregateIndustryDataMap.loading ||
+      !dimensions || (loading && prevData === undefined)) {
     output = <LoadingBlock />;
   } else if (error !== undefined) {
     output = (
@@ -165,19 +172,45 @@ const PSWOTChart = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(error);
-  }  else if (industryMap.error !== undefined) {
+  } else if (industries.error !== undefined) {
     output = (
       <LoadingOverlay>
         <SimpleError />
       </LoadingOverlay>
     );
     console.error(error);
-  } else if (dataToUse !== undefined) {
+  } else if (aggregateIndustryDataMap.error !== undefined) {
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
+    console.error(error);
+  } else if (dataToUse !== undefined &&
+      aggregateIndustryDataMap && aggregateIndustryDataMap.data &&
+      industries && industries.data
+    ) {
     const {nodeRca} = dataToUse;
 
     const pswotChartData: Datum[] = [];
+    const {globalMinMax} = aggregateIndustryDataMap.data;
+    const minSizeBy = compositionType === CompositionType.Employees
+      ? (globalMinMax && globalMinMax.minSumNumEmploy
+          ? globalMinMax.minSumNumEmploy : 0.001)
+      : (globalMinMax && globalMinMax.minSumNumCompany
+          ? globalMinMax.minSumNumCompany : 0.001);
+    const maxSizeBy = compositionType === CompositionType.Employees
+      ? (globalMinMax && globalMinMax.maxSumNumEmploy
+          ? globalMinMax.maxSumNumEmploy : 1)
+      : (globalMinMax && globalMinMax.maxSumNumCompany
+          ? globalMinMax.maxSumNumCompany : 1);
+    const radiusScale = scaleLinear()
+      .domain([minSizeBy, maxSizeBy])
+      .range([ 3, 20 ])
+
     nodeRca.forEach(n => {
-      const industry = industries && industries.data && n.naicsId ? industries.data[n.naicsId] : undefined;
+      const industry = n.naicsId ? industries.data[n.naicsId] : undefined;
+      const industryGlobalData = n.naicsId ? aggregateIndustryDataMap.data.industries[n.naicsId] : undefined;
       const naicsId = industry ? industry.naicsId : '';
       const sector = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
       if (sector && !hiddenSectors.includes(sector.id)) {
@@ -187,11 +220,17 @@ const PSWOTChart = (props: Props) => {
         const y = compositionType === CompositionType.Employees
           ? (n.densityEmploy !== null ? n.densityEmploy : 0)
           : (n.densityCompany !== null ? n.densityCompany : 0);
+        const radius = compositionType === CompositionType.Employees
+          ? (industryGlobalData && industryGlobalData.sumNumEmploy
+              ? industryGlobalData.sumNumEmploy : 0.001)
+          : (industryGlobalData && industryGlobalData.sumNumCompany
+              ? industryGlobalData.sumNumCompany : 0.001);
         pswotChartData.push({
           id: naicsId,
           label: industry && industry.name ? industry.name : naicsId,
           x,
           y,
+          radius: radiusScale(radius),
           fill: sector ? rgba(sector.color, 0.7) : undefined,
           highlighted: highlightIndustry && highlightIndustry.naicsId === naicsId,
           faded: highlightIndustry && highlightIndustry.naicsId !== naicsId,
@@ -200,13 +239,16 @@ const PSWOTChart = (props: Props) => {
         });
       }
     });
+
+    const sortedData = orderBy(pswotChartData, ['radius'], ['desc']);
+
     const loadingOverlay = loading ? <LoadingBlock /> : null;
     output = (
       <VizContainer style={{height: dimensions.height}}>
         <ErrorBoundary>
           <PSwotPlot
             id={'react-pswot-plot-demo'}
-            data={pswotChartData}
+            data={sortedData}
             averageLineText={getString('pswot-average-line-text')}
             quadrantLabels={{
               I: getString('pswot-quadrant-labels-i'),

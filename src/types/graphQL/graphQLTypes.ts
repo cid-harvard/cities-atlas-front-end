@@ -149,6 +149,17 @@ export interface ClassificationNaicsCluster {
   id: string;
 }
 
+export interface GlobalIndustryAgg {
+  naicsId: number;
+  naicsIdTopParent: number;
+  year: number;
+  level: number;
+  sumNumCompany: number;
+  sumNumEmploy: number;
+  avgNumCompany: number;
+  avgNumEmploy: number;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;
@@ -161,4 +172,5 @@ export interface RootQuery {
   cityIndustryYearList: CityIndustryYear[];
   cityClusterYearList: CityClusterYear[];
   classificationNaicsClusterList: ClassificationNaicsCluster[];
+  globalIndustryYear: GlobalIndustryAgg[];
 }
