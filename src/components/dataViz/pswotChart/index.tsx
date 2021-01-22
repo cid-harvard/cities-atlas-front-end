@@ -36,6 +36,7 @@ import {rgba} from 'polished';
 import {defaultYear} from '../../../Utils';
 import {scaleLinear, scaleLog} from 'd3-scale';
 import orderBy from 'lodash/orderBy';
+import QuickError from '../../transitionStateComponents/QuickError';
 
 const Root = styled.div`
   width: 100%;
@@ -220,6 +221,8 @@ const PSWOTChart = (props: Props) => {
       radiusScale = (_unused: number) => undefined;
     }
 
+    let highlightError: boolean = highlighted && !nodeRca.find(d => d.naicsId === highlighted) ? true : false;
+
     nodeRca.forEach(n => {
       const industry = n.naicsId ? industries.data[n.naicsId] : undefined;
       const industryGlobalData = n.naicsId ? aggregateIndustryDataMap.data.industries[n.naicsId] : undefined;
@@ -245,16 +248,28 @@ const PSWOTChart = (props: Props) => {
           radius: radiusScale(radius),
           fill: sector ? rgba(sector.color, 0.7) : undefined,
           highlighted: highlightIndustry && highlightIndustry.naicsId === naicsId,
-          faded: highlightIndustry && highlightIndustry.naicsId !== naicsId,
+          faded: !highlightError && highlightIndustry && highlightIndustry.naicsId !== naicsId,
           onMouseMove: setHovered,
           onMouseLeave: removeHovered,
         });
+        highlightError =
+          highlightError || (highlightIndustry && highlightIndustry.naicsId === naicsId && x === 0 && y < 1)
+          ? true : false;
       }
     });
 
     const sortedData = orderBy(pswotChartData, ['radius'], ['desc']);
 
     const loadingOverlay = loading ? <LoadingBlock /> : null;
+
+    const highlightErrorPopup = highlightError ? (
+      <QuickError
+        closeError={() => setHighlighted(undefined)}
+      >
+        {getString('global-ui-error-industry-not-in-data-set')}
+      </QuickError>
+    ) : null;
+
     output = (
       <VizContainer style={{height: dimensions.height}}>
         <ErrorBoundary>
@@ -291,6 +306,7 @@ const PSWOTChart = (props: Props) => {
           />
         </ErrorBoundary>
         {loadingOverlay}
+        {highlightErrorPopup}
       </VizContainer>
     );
   } else {

@@ -154,7 +154,7 @@ const Chart = (props: Props) => {
     <QuickError
       closeError={() => setHighlightError(false)}
     >
-      The selected industry is not in the current data set
+      {getString('global-ui-error-industry-not-in-data-set')}
     </QuickError>
   ) : null;
 
