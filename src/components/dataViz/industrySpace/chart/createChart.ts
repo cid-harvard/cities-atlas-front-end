@@ -306,15 +306,19 @@ const createChart = (input: Input) => {
       .on('mousemove', d => {
         const continent = data.clusters.continents.find(c => c.clusterId === d.continent);
         const country = data.clusters.countries.find(c => c.clusterId === d.country);
+        const rows = [
+          ['NAICS Code:', d.code ? d.code : ''],
+          ['Community Level 1:', continent ? continent.name : ''],
+          ['Community Level 2:', country ? country.name : ''],
+          ['Sector:', d.sectorName],
+        ];
+        if (d.rca !== undefined) {
+          rows.push(['RCA:', d.rca.toFixed(3)]);
+        }
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',
           color: rgba(d.industryColor, 0.3),
-          rows: [
-            ['NAICS Code:', d.code ? d.code : ''],
-            ['Community Level 1:', continent ? continent.name : ''],
-            ['Community Level 2:', country ? country.name : ''],
-            ['Sector:', d.sectorName],
-          ],
+          rows,
           boldColumns: [1],
         });
         tooltipEl.style.display = 'block';
@@ -688,21 +692,30 @@ const createChart = (input: Input) => {
   }
 
   function update(newData: SuccessResponse) {
-    const intensityColorScale = d3.scaleLinear()
-      .domain(d3.extent(newData.clusterRca.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
-      .range(intensityColorRange as any);
+    const continentsData = newData.clusterRca.filter(d => d.level === 1);
+    const countriesData = newData.clusterRca.filter(d => d.level === 2);
+
+    const intensityColorScaleContinents = d3.scaleLog()
+      .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0.0001)) as [number, number])
+      .range(intensityColorRange as any)
+      .base(2);
+
+    const intensityColorScaleCountries = d3.scaleLog()
+      .domain(d3.extent(countriesData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0.0001)) as [number, number])
+      .range(intensityColorRange as any)
+      .base(2);
 
     continents.each(d => {
       const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
       if (newDatum && newDatum.rcaNumCompany !== null) {
-        d.color = intensityColorScale(newDatum.rcaNumCompany) as unknown as string;
+        d.color = intensityColorScaleContinents(newDatum.rcaNumCompany) as unknown as string;
       }
     });
 
     countries.each(d => {
       const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
       if (newDatum && newDatum.rcaNumCompany !== null) {
-        d.color = intensityColorScale(newDatum.rcaNumCompany) as unknown as string;
+        d.color = intensityColorScaleCountries(newDatum.rcaNumCompany) as unknown as string;
       }
     });
 
@@ -710,6 +723,7 @@ const createChart = (input: Input) => {
       const newDatum = newData.nodeRca.find(({naicsId}) => d.id === naicsId);
       if (newDatum && newDatum.rcaNumCompany !== null) {
         d.color = newDatum.rcaNumCompany >= 1 ? d.industryColor : lowIntensityNodeColor;
+        d.rca = newDatum.rcaNumCompany;
       }
     })
     .style('--true-fill-color', d => d.color);

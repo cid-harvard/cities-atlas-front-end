@@ -45,6 +45,7 @@ interface Node {
   edges: Edge[];
   x: number;
   y: number;
+  rca?: number;
 }
 
 export interface LayoutData {
@@ -76,6 +77,15 @@ const useLayoutData = ():Output => {
       } else if (industryData && !loading) {
         const data: Output['data'] = {
           clusters: LAYOUT_DATA.clusters,
+          // clusters: {
+          //   continents: LAYOUT_DATA.clusters.continents,
+          //   countries: LAYOUT_DATA.clusters.countries.map(c => {
+          //     return {
+          //       ...c,
+          //       name: c.clusterId,
+          //     }
+          //   }),
+          // },
           nodes: LAYOUT_DATA.nodes.map(n => {
             const industry = industryData[n.id.toString()];
             const parent = industryData[industry.naicsIdTopParent.toString()];

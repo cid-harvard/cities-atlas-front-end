@@ -15,6 +15,7 @@ const CLUSTER_INTENSITY_QUERY = gql`
   query GetClusterIntesityData($cityId: Int!, $year: Int!) {
     clusterRca: cityClusterYearList(cityId: $cityId, year: $year) {
       clusterId
+      level
       rcaNumCompany
       id
     }
@@ -29,6 +30,7 @@ const CLUSTER_INTENSITY_QUERY = gql`
 
 interface ClusterRca {
   clusterId: CityClusterYear['clusterId'];
+  level: CityClusterYear['level'];
   rcaNumCompany: CityClusterYear['rcaNumCompany'];
 }
 
