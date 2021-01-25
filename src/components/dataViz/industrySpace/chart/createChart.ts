@@ -17,7 +17,7 @@ const minExpectedScreenSize = 1020;
 
 const minZoom = 0.75;
 const maxZoom = 50;
-export const innerRingRadius = 35;
+export const innerRingRadius = 32;
 export const outerRingRadius = 60;
 
 export const svgRingModeClassName = 'svg-ring-mode-class';
@@ -84,6 +84,8 @@ interface State {
   externalHoveredId: string | undefined;
 }
 
+const defaultNodeRadius = 4.5;
+
 const createChart = (input: Input) => {
   const {
     rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect, onZoomLevelChange,
@@ -96,7 +98,8 @@ const createChart = (input: Input) => {
 
   const smallerSize = width < height ? width : height;
   const radiusAdjuster = smallerSize / minExpectedScreenSize;
-  const radius = 3 * radiusAdjuster;
+  const textAndSpacingSize = 3 * radiusAdjuster;
+  const radius = defaultNodeRadius * radiusAdjuster;
 
 
   const state: State = {
@@ -235,7 +238,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('Low Proximity');
+    .text('High Proximity');
 
   //Create an SVG path (based on bl.ocks.org/mbostock/2565344)
   const innerRingLabelPath = g.append('path')
@@ -250,7 +253,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('High Proximity');
+    .text('Highest Proximity');
 
   const continents = g.selectAll('.industry-continents')
     .data(data.clusters.continents)
@@ -305,7 +308,7 @@ const createChart = (input: Input) => {
         const country = data.clusters.countries.find(c => c.clusterId === d.country);
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',
-          color: rgba(d.color, 0.3),
+          color: rgba(d.industryColor, 0.3),
           rows: [
             ['NAICS Code:', d.code ? d.code : ''],
             ['Community Level 1:', continent ? continent.name : ''],
@@ -335,7 +338,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-continents-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', radius * 7.5 + 'px')
+      .style('font-size', textAndSpacingSize * 7.5 + 'px')
       .text(d => d.name);
 
   const countryLabels = g.append('g')
@@ -348,7 +351,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-countries-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', radius * 4 + 'px')
+      .style('font-size', textAndSpacingSize * 4 + 'px')
       .text(d => d.name);
 
   const nodeLabels = g.append('g')
@@ -360,7 +363,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-nodes-label')
       .attr('x', d => xScale(d.x) + margin.left)
       .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
-      .style('font-size', radius * 0.55 + 'px')
+      .style('font-size', textAndSpacingSize * 0.55 + 'px')
       .text(d => ellipsisText(d.name as string, 20));
 
   nodeLabels
@@ -387,13 +390,21 @@ const createChart = (input: Input) => {
     const centerY = d.adjustedCoords ? d.adjustedCoords.y : yScale(d.y) + margin.top;
     const allXValues = [centerX];
     const allYValues = [centerY];
-    d.edges.forEach((_n: any, i: number) => {
-      const radiusCoords = drawPoint(outerRingRadius, i, d.edges.length, centerX, centerY);
+    for (let i = 0; i < 15; i++) {
+      const radiusCoords = drawPoint(outerRingRadius, i, 15, centerX, centerY);
       allXValues.push(radiusCoords.x);
       allYValues.push(radiusCoords.y);
-    });
+    }
 
-    const {translate, scale} = getBounds(allXValues, allYValues, width, height, outerWidth, outerHeight, 7);
+    const {translate, scale} = getBounds(
+      allXValues,
+      allYValues,
+      width * 1.25,
+      height * 1.25,
+      outerWidth,
+      outerHeight,
+      7,
+    );
 
     svg.transition()
       .duration(300)
@@ -487,6 +498,8 @@ const createChart = (input: Input) => {
         })
         .style('pointer-events', 'auto')
         .style('opacity', 1)
+        .attr('r', d => d.id === state.active.datum.id ||
+          edgeData.find((e: {id: string}) => e.id === d.id) ? radius * 1.5 : radius)
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
         .attr('fill', d => d.color)
@@ -517,13 +530,13 @@ const createChart = (input: Input) => {
           .attr('class', 'industry-ring-label')
           .attr('x', (d: any) => d.adjustedCoords ? d.adjustedCoords.x : xScale(d.x) + margin.left)
           .attr('y', (d: any) => d.adjustedCoords ?
-            d.adjustedCoords.y + Math.max(radius * 2, 4)
-            : yScale(d.y) + margin.top + Math.max(radius * 2, 4),
+            d.adjustedCoords.y + Math.max(radius * 2.5, 6.5)
+            : yScale(d.y) + margin.top + Math.max(radius * 2.5, 6.5),
           )
           .style('pointer-events', 'none')
-          .style('font-size', Math.max(radius * 0.8, 3) + 'px')
-          .text(d => ellipsisText(d.name as string, 60))
-          .call(wrap, Math.max(radius * 14, 30), radius * 9)
+          .style('font-size', Math.min(4, Math.max(radius * 1.1, 3.4)) + 'px')
+          .text(d => ellipsisText(d.name as string, 30))
+          .call(wrap, Math.max(radius * 14, 32), radius * 2)
           .style('opacity', 0)
           .transition()
           .delay(500)
@@ -565,7 +578,7 @@ const createChart = (input: Input) => {
       nodes
         .each((d: any) => d.adjustedCoords = undefined)
         .style('display', 'block')
-        .style('pointer-events', state.zoom > 2.75  ? 'auto' : 'none')
+        .style('pointer-events', state.zoom > 2.25  ? 'auto' : 'none')
         .style('opacity', () => {
           if (state.zoom < 2.5) {
             return 0.5;
@@ -576,6 +589,7 @@ const createChart = (input: Input) => {
           }
         })
         .attr('fill', d => state.zoom < 3.5 ? '#fff' : d.color)
+        .attr('r', radius)
         .transition()
         .ease(d3.easeCircleInOut)
         .duration((d: any) => {
