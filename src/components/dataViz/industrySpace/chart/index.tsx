@@ -29,6 +29,12 @@ const Root = styled.div`
 
     /* Node hover and active styling */
     .industry-node,
+    .industry-continents,
+    .industry-countries {
+      transition: fill 0.2s ease;
+    }
+
+    .industry-node,
     .industry-edge-node {
 
       &:hover,
@@ -83,6 +89,7 @@ const Root = styled.div`
     .industry-countries-label-group {
       pointer-events: none;
       will-change: transform, fill, opacity;
+      transition: fill 1s ease;
     }
 
     /* Label styling */

@@ -6,7 +6,7 @@ import {
   wrap,
   ellipsisText,
 } from './Utils';
-import {rgba, lighten} from 'polished';
+import {rgba} from 'polished';
 import {LayoutData, lowIntensityNodeColor} from './useLayoutData';
 import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
 import svgPathReverse from 'svg-path-reverse';
@@ -57,9 +57,6 @@ const zoomScales = {
       .range([0, 1, 1, 0]),
   },
   nodes: {
-    fill: d3.scaleLinear()
-      .domain([0, 2, 2.55, 3.5])
-      .range([0, 0.2, 0.75, 1]),
     label: d3.scaleLinear()
       .domain([8, 9])
       .range([0, 1]),
@@ -291,7 +288,7 @@ const createChart = (input: Input) => {
     .attr('class', 'industry-cluster-hovered')
     .style('display', 'none');
 
-  const nodeOpacity = zoomScales.nodes.fill(state.zoom);
+  const nodeOpacity = state.zoom < 5 ? 0.75 : 1;
   const nodes = g.selectAll('.industry-node')
     .data(data.nodes)
     .enter().append('circle')
@@ -565,23 +562,20 @@ const createChart = (input: Input) => {
         onZoomLevelChange(ZoomLevel.Node);
       }
     } else {
-      const zoomedNodeOpacity = zoomScales.nodes.fill(state.zoom);
       nodes
         .each((d: any) => d.adjustedCoords = undefined)
         .style('display', 'block')
-        .style('pointer-events', zoomScales.nodes.fill(state.zoom) > 0.275 ? 'auto' : 'none')
-        .style('opacity', zoomedNodeOpacity)
-        .attr('fill', d => {
-          if (state.zoom < 3) {
-            return '#fff';
-          } else if (state.zoom < 3.25) {
-            return lighten(zoomScales.countries.fill(state.zoom) - 0.1, d.color);
-          } else if (state.zoom < 3.85) {
-            return lighten(zoomScales.countries.fill(state.zoom) - 0.3, d.color);
+        .style('pointer-events', state.zoom > 2.75  ? 'auto' : 'none')
+        .style('opacity', () => {
+          if (state.zoom < 2.5) {
+            return 0.5;
+          } else if (state.zoom < 3.5) {
+            return 0.75;
           } else {
-            return d.color;
+            return 1;
           }
         })
+        .attr('fill', d => state.zoom < 3.5 ? '#fff' : d.color)
         .transition()
         .ease(d3.easeCircleInOut)
         .duration((d: any) => {
@@ -597,13 +591,13 @@ const createChart = (input: Input) => {
 
       continents
         .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 ? 'auto' : 'none')
-        .attr('fill', d => rgba(d.color, zoomScales.continent.fill(state.zoom)))
+        .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom)))
         .style('opacity', 1);
 
       countries
         .style('pointer-events', zoomScales.countries.fill(state.zoom) > 0.01 ? 'auto' : 'none')
-        .attr('fill', d => rgba(d.color, zoomScales.countries.fill(state.zoom)))
+        .attr('fill', d => state.zoom < 3.5 && state.zoom > 1.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.countries.stroke(state.zoom)))
         .style('opacity', 1);
 
