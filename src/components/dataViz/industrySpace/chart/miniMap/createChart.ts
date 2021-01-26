@@ -59,20 +59,8 @@ const createChart = (input: Input) => {
           [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
       )
       .attr('fill', 'none')
-      .attr('stroke', rgba('#efefef', 0.75))
+      .attr('stroke', rgba('#efefef', 0.5))
       .attr('stroke-width', 0.75);
-
-  g.selectAll('.industry-continents-label')
-    .data(data.clusters.continents)
-    .enter().append('text')
-      .attr('class', 'industry-continents-label')
-      .attr('x', d => xScale(d.center[0]) + margin.left)
-      .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', '6.5px')
-      .style('font-weight', '600')
-      .style('text-transform', 'uppercase')
-      .style('text-anchor', 'middle')
-      .text(d => d.name);
 
   const node = g.append('circle')
       .attr('class', 'industry-node')
@@ -92,14 +80,17 @@ const createChart = (input: Input) => {
   }
 
   function update(nodeId: string | undefined, newData: SuccessResponse) {
-    const intensityColorScale = d3.scaleLinear()
-      .domain(d3.extent(newData.clusterRca.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
-      .range(intensityColorRange as any);
+  const continentsData = newData.clusterRca.filter(d => d.level === 1);
+  const intensityColorScaleContinents = d3.scaleSymlog()
+    .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+    .range(intensityColorRange as any);
 
     continents.each(d => {
       const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
         if (newDatum && newDatum.rcaNumCompany !== null) {
-          d.color = intensityColorScale(newDatum.rcaNumCompany) as unknown as string;
+          d.color = intensityColorScaleContinents(newDatum.rcaNumCompany) as unknown as string;
+        } else {
+          d.color = intensityColorRange[0];
         }
       })
     .attr('fill', d => d.color);

@@ -238,7 +238,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('High Proximity');
+    .text('Medium Proximity');
 
   //Create an SVG path (based on bl.ocks.org/mbostock/2565344)
   const innerRingLabelPath = g.append('path')
@@ -253,7 +253,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('Highest Proximity');
+    .text('High Proximity');
 
   const continents = g.selectAll('.industry-continents')
     .data(data.clusters.continents)
@@ -263,7 +263,7 @@ const createChart = (input: Input) => {
         d.polygon.map(([xCoord, yCoord]: [number, number]) =>
           [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
       )
-      .attr('fill', d => rgba(d.color, 1))
+      .attr('fill', d => d.color)
       .attr('stroke', rgba('#efefef', 1))
       .style('opacity', 1)
       .on('click', d => zoomToShape(d, 3))
@@ -478,10 +478,10 @@ const createChart = (input: Input) => {
         .style('opacity', 1);
 
       outerRingLabelPath
-        .attr('d', circlePath(centerX, centerY, outerRingRadius + 3.5));
+        .attr('d', circlePath(centerX, centerY, outerRingRadius + 4));
 
       innerRingLabelPath
-        .attr('d', circlePath(centerX, centerY, innerRingRadius + 3.5));
+        .attr('d', circlePath(centerX, centerY, innerRingRadius + 4));
 
       nodes
         .each(d => {
@@ -610,6 +610,7 @@ const createChart = (input: Input) => {
       continents
         .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 ? 'auto' : 'none')
         .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
+        // .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom)))
         .style('opacity', 1);
 
@@ -695,20 +696,20 @@ const createChart = (input: Input) => {
     const continentsData = newData.clusterRca.filter(d => d.level === 1);
     const countriesData = newData.clusterRca.filter(d => d.level === 2);
 
-    const intensityColorScaleContinents = d3.scaleLog()
-      .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0.0001)) as [number, number])
-      .range(intensityColorRange as any)
-      .base(2);
+    const intensityColorScaleContinents = d3.scaleSymlog()
+      .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .range(intensityColorRange as any);
 
-    const intensityColorScaleCountries = d3.scaleLog()
-      .domain(d3.extent(countriesData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0.0001)) as [number, number])
-      .range(intensityColorRange as any)
-      .base(2);
+    const intensityColorScaleCountries = d3.scaleSymlog()
+      .domain(d3.extent(countriesData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .range(intensityColorRange as any);
 
     continents.each(d => {
       const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
       if (newDatum && newDatum.rcaNumCompany !== null) {
         d.color = intensityColorScaleContinents(newDatum.rcaNumCompany) as unknown as string;
+      } else {
+        d.color = intensityColorRange[0];
       }
     });
 
@@ -716,6 +717,8 @@ const createChart = (input: Input) => {
       const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
       if (newDatum && newDatum.rcaNumCompany !== null) {
         d.color = intensityColorScaleCountries(newDatum.rcaNumCompany) as unknown as string;
+      } else {
+        d.color = intensityColorRange[0];
       }
     });
 
@@ -724,6 +727,9 @@ const createChart = (input: Input) => {
       if (newDatum && newDatum.rcaNumCompany !== null) {
         d.color = newDatum.rcaNumCompany >= 1 ? d.industryColor : lowIntensityNodeColor;
         d.rca = newDatum.rcaNumCompany;
+      } else {
+        d.color = lowIntensityNodeColor;
+        d.rca = 0;
       }
     })
     .style('--true-fill-color', d => d.color);
