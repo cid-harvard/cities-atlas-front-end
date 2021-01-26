@@ -46,14 +46,14 @@ interface Props {
   cityId: string;
 }
 
-const EconomicComposition = (props: Props) => {
+const IndustrySpacePosition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hovered, setHovered] = useState<string | undefined>(undefined);
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
   const sectorMap = useSectorMap();
-  const {hide_clusters} = useQueryParams();
-  const hideClusterOverlay= hide_clusters === Toggle.Off;
+  const {cluster_overlay, node_sizing} = useQueryParams();
+  const hideClusterOverlay= cluster_overlay === Toggle.Off;
   const legend = zoomLevel === ZoomLevel.Node || hideClusterOverlay ? (
     <CategoryLabels
       categories={sectorMap}
@@ -102,6 +102,7 @@ const EconomicComposition = (props: Props) => {
           hideClusterOverlay={hideClusterOverlay}
           setHovered={setHovered}
           hovered={hovered}
+          nodeSizing={node_sizing}
         />
         {legend}
       </ContentGrid>
@@ -111,4 +112,4 @@ const EconomicComposition = (props: Props) => {
   );
 };
 
-export default EconomicComposition;
+export default IndustrySpacePosition;

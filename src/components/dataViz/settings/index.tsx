@@ -274,7 +274,7 @@ const Settings = (props: Props) => {
     const {
       digit_level: _unusedDigitLevel,
       composition_type: _unusedCompositionType,
-      hide_clusters: _unusedHideClusters,
+      cluster_overlay: _unusedHideClusters,
       node_sizing: _unusedNodeSizing,
       ...rest
     } = params;
@@ -386,9 +386,9 @@ const Settings = (props: Props) => {
 
   let clusterOverlayToggle: React.ReactElement<any> | null;
   if (settingsOptions.hideClusterOverlay !== undefined) {
-    const OffButton = params.hide_clusters && params.hide_clusters === Toggle.Off
+    const OffButton = params.cluster_overlay && params.cluster_overlay === Toggle.Off
       ? CompostionButtonHighlight : CompostionButtonBase;
-    const OnButton = !params.hide_clusters || params.hide_clusters === Toggle.On
+    const OnButton = !params.cluster_overlay || params.cluster_overlay === Toggle.On
       ? CompostionButtonHighlight : CompostionButtonBase;
     const InputContainer = settingsOptions.hideClusterOverlay === true
       ? SettingsInputContainer : DisabledSettingsInputContainer;
@@ -403,12 +403,12 @@ const Settings = (props: Props) => {
         <LabelContainer>{getString('global-ui-show-clusters')}</LabelContainer>
         <InputContainer>
           <OnButton
-            onClick={() => updateSetting('hide_clusters', Toggle.On)}
+            onClick={() => updateSetting('cluster_overlay', Toggle.On)}
           >
             {Toggle.On}
           </OnButton>
           <OffButton
-            onClick={() => updateSetting('hide_clusters', Toggle.Off)}
+            onClick={() => updateSetting('cluster_overlay', Toggle.Off)}
           >
             {Toggle.Off}
           </OffButton>

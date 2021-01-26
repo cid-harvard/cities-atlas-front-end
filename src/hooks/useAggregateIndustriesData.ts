@@ -37,7 +37,7 @@ interface Variables {
 const useAggregateIndustriesData = (variables: Variables) =>
   useQuery<SuccessResponse, Variables>(GLOBAL_INDUSTRIES_QUERY, {variables});
 
-interface IndustryMap {
+export interface IndustryMap {
   globalMinMax: {
     minSumNumCompany: GlobalIndustryAgg['sumNumCompany'];
     maxSumNumCompany: GlobalIndustryAgg['sumNumCompany'];

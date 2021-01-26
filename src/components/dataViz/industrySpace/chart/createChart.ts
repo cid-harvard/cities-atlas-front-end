@@ -12,6 +12,9 @@ import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
 import svgPathReverse from 'svg-path-reverse';
 import {SuccessResponse} from './useRCAData';
 import {intensityColorRange} from '../../../../styling/styleUtils';
+import {
+  NodeSizing,
+} from '../../../../routing/routes';
 
 const minExpectedScreenSize = 1020;
 
@@ -293,14 +296,14 @@ const createChart = (input: Input) => {
     .attr('class', 'industry-cluster-hovered')
     .style('display', 'none');
 
-  const nodeOpacity = state.zoom < 5 ? 0.75 : 1;
+  const nodeOpacity = state.zoom < 5 ? 0.5 : 0.75;
   const nodes = g.selectAll('.industry-node')
     .data(data.nodes)
     .enter().append('circle')
       .attr('class', 'industry-node')
       .attr('cx', d => xScale(d.x) + margin.left )
       .attr('cy', d => yScale(d.y) + margin.top )
-      .attr('r', radius)
+      .attr('r', d => d.radius ? d.radius : radius)
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
       .style('--true-fill-color', d => d.color)
@@ -503,9 +506,9 @@ const createChart = (input: Input) => {
           }
         })
         .style('pointer-events', 'auto')
-        .style('opacity', 1)
+        .style('opacity', 0.75)
         .attr('r', d => d.id === state.active.datum.id ||
-          edgeData.find((e: {id: string}) => e.id === d.id) ? radius * 1.5 : radius)
+          edgeData.find((e: {id: string}) => e.id === d.id) ? (d.radius ? d.radius * 1.5 : radius * 1.5) : radius)
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
         .attr('fill', d => d.color)
@@ -588,14 +591,12 @@ const createChart = (input: Input) => {
         .style('opacity', () => {
           if (state.zoom < 2.5) {
             return 0.5;
-          } else if (state.zoom < 3.5) {
-            return 0.75;
           } else {
-            return 1;
+            return 0.75;
           }
         })
         .attr('fill', d => state.zoom < 3.5 ? '#fff' : d.color)
-        .attr('r', radius)
+        .attr('r', d => d.radius ? d.radius : radius)
         .transition()
         .ease(d3.easeCircleInOut)
         .duration((d: any) => {
@@ -612,7 +613,6 @@ const createChart = (input: Input) => {
       continents
         .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 ? 'auto' : 'none')
         .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
-        // .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom)))
         .style('opacity', 1);
 
@@ -683,8 +683,8 @@ const createChart = (input: Input) => {
           .attr('cx', xScale(state.hoveredNode.x) + margin.left )
           .attr('cy', yScale(state.hoveredNode.y) + margin.top )
           .attr('fill', state.hoveredNode.color)
-          .attr('r', radius)
-          .attr('stroke', state.zoom > 4 ? '#333' : '#efefef')
+          .attr('r', state.hoveredNode.radius ? state.hoveredNode.radius : radius)
+          .attr('stroke', state.zoom < 3.5 ? '#efefef' : '#333')
           .attr('stroke-width', radius < 2 ? 0.6 : 1)
           .style('display', 'block');
       } else {
@@ -740,7 +740,20 @@ const createChart = (input: Input) => {
     render(true);
   }
 
-  return {render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId, update};
+  function updateNodeSize(nodeSizing: NodeSizing) {
+    nodes.each(d => {
+      if (nodeSizing === NodeSizing.linear) {
+        d.radius = data.global.linearRadiusScale(d.globalSumNumCompany) * radiusAdjuster;
+      } else if (nodeSizing === NodeSizing.log) {
+        d.radius = data.global.logRadiusScale(d.globalSumNumCompany) * radiusAdjuster;
+      } else {
+        d.radius = radius;
+      }
+    });
+    render(true);
+  }
+
+  return {render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId, update, updateNodeSize};
 
 };
 

@@ -9,6 +9,7 @@ import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow from '../../../components/general/PreChartRow';
 import Chart from './chart';
 import {ZoomLevel} from './chart/createChart';
+import {NodeSizing} from '../../../routing/routes';
 
 const Root = styled.div`
   width: 100%;
@@ -39,12 +40,13 @@ interface Props {
   setHovered: (value: string | undefined) => void;
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
+  nodeSizing: NodeSizing | undefined;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
     setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
-    setHovered, hovered,
+    setHovered, hovered, nodeSizing,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -67,7 +69,7 @@ const ClusteredIndustrySpace = (props: Props) => {
     <>
       <PreChartRow
         searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
-        settingsOptions={{compositionType: false, hideClusterOverlay: true}}
+        settingsOptions={{compositionType: false, hideClusterOverlay: true, nodeSizing: true}}
       />
       <Root ref={rootRef}>
         <IndustrySpaceContainer>
@@ -81,6 +83,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             highlighted={highlighted}
             onZoomLevelChange={setZoomLevel}
             hideClusterOverlay={hideClusterOverlay}
+            nodeSizing={nodeSizing}
           />
       </IndustrySpaceContainer>
       </Root>

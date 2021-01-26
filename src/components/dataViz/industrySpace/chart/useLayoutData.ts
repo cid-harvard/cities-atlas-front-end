@@ -9,6 +9,14 @@ import {
 import {
   sectorColorMap,
 } from '../../../../styling/styleUtils';
+import {
+  useAggregateIndustryMap,
+} from '../../../../hooks/useAggregateIndustriesData';
+import {
+  DigitLevel,
+} from '../../../../types/graphQL/graphQLTypes';
+import {defaultYear} from '../../../../Utils';
+import {scaleLinear, scaleSymlog} from 'd3-scale';
 
 interface ContinentCluster {
   center: number[];
@@ -46,11 +54,17 @@ interface Node {
   x: number;
   y: number;
   rca?: number;
+  radius?: number;
+  globalSumNumCompany: number;
 }
 
 export interface LayoutData {
   clusters: Clusters;
   nodes: Node[];
+  global: {
+    linearRadiusScale: (value: number) => number,
+    logRadiusScale: (value: number) => number,
+  };
 }
 
 interface Output {
@@ -70,26 +84,34 @@ const useLayoutData = ():Output => {
 
   const {loading, error, data: industryData} = useGlobalIndustryMap();
 
+  const {
+    loading: loadingIndustryMapData,
+    data: industryMapData,
+  } = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
+
   useEffect(() => {
     if (!output.data) {
       if (error) {
         setOutput({loading: false, error, data: undefined});
-      } else if (industryData && !loading) {
+      } else if (industryData && !loading && industryMapData && !loadingIndustryMapData) {
+
+        const {globalMinMax, industries} = industryMapData;
+        const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany ? globalMinMax.minSumNumCompany : 0.001;
+        const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany ? globalMinMax.maxSumNumCompany : 1;
+        const linearRadiusScale = scaleLinear()
+          .domain([minSizeBy, maxSizeBy])
+          .range([ 5, 15]);
+        const logRadiusScale = scaleSymlog()
+          .domain([minSizeBy, maxSizeBy])
+          .range([ 2, 8.5]);
+
         const data: Output['data'] = {
           clusters: LAYOUT_DATA.clusters,
-          // clusters: {
-          //   continents: LAYOUT_DATA.clusters.continents,
-          //   countries: LAYOUT_DATA.clusters.countries.map(c => {
-          //     return {
-          //       ...c,
-          //       name: c.clusterId,
-          //     }
-          //   }),
-          // },
           nodes: LAYOUT_DATA.nodes.map(n => {
             const industry = industryData[n.id.toString()];
             const parent = industryData[industry.naicsIdTopParent.toString()];
             const parentIndustry = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
+            const globalIndustry = industries[industry.naicsId];
             return {
               ...n,
               id: industry.naicsId,
@@ -99,13 +121,17 @@ const useLayoutData = ():Output => {
               color: parentIndustry ? parentIndustry.color : lowIntensityNodeColor,
               sectorName: parent && parent.name ? parent.name : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
+              globalSumNumCompany: globalIndustry ? globalIndustry.sumNumCompany : 0,
             };
           }),
+          global: {
+            linearRadiusScale, logRadiusScale,
+          },
         };
         setOutput({loading: false, error: undefined, data});
       }
     }
-  }, [output, loading, error, industryData]);
+  }, [output, loading, error, industryData, industryMapData, loadingIndustryMapData]);
 
   return output;
 };

@@ -58,7 +58,7 @@ const CurrentSettingsTooltip = (props: Props) => {
   const hideClusters = settingsOptions.hideClusterOverlay !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-show-clusters')}</Subtitle>
-      <em>{params.hide_clusters ? params.hide_clusters : Toggle.On}</em>
+      <em>{params.cluster_overlay ? params.cluster_overlay : Toggle.On}</em>
     </Segment>
   ) : null;
 

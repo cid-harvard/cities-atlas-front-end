@@ -34,6 +34,6 @@ export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
-  hide_clusters: Toggle | undefined;
+  cluster_overlay: Toggle | undefined;
   node_sizing: NodeSizing | undefined;
 }

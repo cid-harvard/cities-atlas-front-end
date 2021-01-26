@@ -16,6 +16,7 @@ import {
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
+import {NodeSizing} from '../../../../routing/routes';
 
 const hideClusterOverlayClassName = 'hide-industry-space-clusters-overlay-class';
 
@@ -36,7 +37,6 @@ const Root = styled.div`
 
     .industry-node,
     .industry-edge-node {
-
       &:hover,
       &.active {
         cursor: pointer;
@@ -196,6 +196,7 @@ type Chart = {
   setHighlightedPoint: (naicsId: string | undefined) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
   update: (data: SuccessResponse) => void;
+  updateNodeSize: (nodeSizing: NodeSizing) => void;
 };
 
 interface Props {
@@ -207,12 +208,13 @@ interface Props {
   onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
+  nodeSizing: NodeSizing | undefined;
 }
 
 const Chart = (props: Props) => {
   const {
     width, height, onNodeSelect, highlighted, onZoomLevelChange, hideClusterOverlay,
-    onNodeHover, hovered,
+    onNodeHover, hovered, nodeSizing,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -264,6 +266,12 @@ const Chart = (props: Props) => {
     }
   }, [chart, data]);
 
+  useEffect(() => {
+    if (chart.initialized) {
+      chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.none);
+    }
+  }, [chart, nodeSizing]);
+
   const resetZoom = useCallback(() => {
     if (chart.initialized) {
       chart.reset();
@@ -282,7 +290,8 @@ const Chart = (props: Props) => {
     }
   }, [chart]);
 
-  const loadingOverlay = loading || (!chart.initialized && width && height) ? <LoadingBlock /> : null;
+  const loadingOverlay = loading || (!chart.initialized && width && height)
+    ? <LoadingBlock /> : null;
 
   return (
     <>
