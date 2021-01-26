@@ -137,10 +137,12 @@ const createChart = (input: Input) => {
     render();
   }
 
-  function clearActive() {
+  function clearActive(clear: boolean) {
     state.active = null;
     clearActiveLabels();
-    onNodeSelect(undefined);
+    if (clear) {
+      onNodeSelect(undefined);
+    }
     svg.attr('class', '');
   }
 
@@ -148,7 +150,7 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    clearActive();
+    clearActive(false);
     zoom.scaleBy(svg.transition().duration(250), 1.4);
     svg.call(zoom);
     render();
@@ -158,7 +160,7 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    clearActive();
+    clearActive(false);
     zoom.scaleBy(svg.transition().duration(250), 0.6);
     svg.call(zoom);
     render();
@@ -168,7 +170,7 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    clearActive();
+    clearActive(true);
     svg.transition()
       .duration(300)
       .call(zoom.transform, d3.zoomIdentity);
@@ -181,7 +183,7 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    clearActive();
+    clearActive(true);
 
     const {translate, scale} = getBounds(
       [xScale(d.x) + margin.left],
