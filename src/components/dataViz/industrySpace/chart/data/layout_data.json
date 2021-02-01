@@ -60,7 +60,7 @@
             413.9
           ]
         ],
-        "name": "Community 9",
+        "name": "Food",
         "color": "#dfdfdf",
         "clusterId": "3",
         "clusterCode": 9
@@ -144,7 +144,7 @@
             710.8
           ]
         ],
-        "name": "Community 4",
+        "name": "Basic Materials",
         "color": "#dfdfdf",
         "clusterId": "1",
         "clusterCode": 4
@@ -208,7 +208,7 @@
             520.8
           ]
         ],
-        "name": "Community 10",
+        "name": "Household Retail",
         "color": "#dfdfdf",
         "clusterId": "4",
         "clusterCode": 10
@@ -272,7 +272,7 @@
             451.8
           ]
         ],
-        "name": "Community 12",
+        "name": "Basic Services",
         "color": "#dfdfdf",
         "clusterId": "5",
         "clusterCode": 12
@@ -376,7 +376,7 @@
             389.6
           ]
         ],
-        "name": "Community 13",
+        "name": "Services",
         "color": "#dfdfdf",
         "clusterId": "6",
         "clusterCode": 13
@@ -448,7 +448,7 @@
             704.1
           ]
         ],
-        "name": "Community 5",
+        "name": "Manufacturing",
         "color": "#dfdfdf",
         "clusterId": "2",
         "clusterCode": 5
@@ -512,7 +512,7 @@
             236.7
           ]
         ],
-        "name": "Community 14",
+        "name": "Finance",
         "color": "#dfdfdf",
         "clusterId": "7",
         "clusterCode": 14
@@ -570,7 +570,7 @@
             522.1
           ]
         ],
-        "name": "Community 0",
+        "name": "Agriculture & Fishery",
         "color": "#cfcfcf",
         "continent": "3",
         "clusterId": "11",
@@ -607,7 +607,7 @@
             695.9
           ]
         ],
-        "name": "Community 15",
+        "name": "Furniture",
         "color": "#cfcfcf",
         "continent": "1",
         "clusterId": "21",
@@ -672,7 +672,7 @@
             710.8
           ]
         ],
-        "name": "Community 8",
+        "name": "Bulk Materials",
         "color": "#cfcfcf",
         "continent": "1",
         "clusterId": "16",
@@ -717,7 +717,7 @@
             894.8
           ]
         ],
-        "name": "Community 3",
+        "name": "Mining",
         "color": "#cfcfcf",
         "continent": "1",
         "clusterId": "12",
@@ -758,7 +758,7 @@
             583.3
           ]
         ],
-        "name": "Community 5",
+        "name": "Construction",
         "color": "#cfcfcf",
         "continent": "4",
         "clusterId": "13",
@@ -807,7 +807,7 @@
             451.8
           ]
         ],
-        "name": "Community 32",
+        "name": "Utilities",
         "color": "#cfcfcf",
         "continent": "5",
         "clusterId": "35",
@@ -844,7 +844,7 @@
             623.2
           ]
         ],
-        "name": "Community 14",
+        "name": "Machinery (infra)",
         "color": "#cfcfcf",
         "continent": "5",
         "clusterId": "20",
@@ -913,7 +913,7 @@
             517.8
           ]
         ],
-        "name": "Community 24",
+        "name": "Transportation",
         "color": "#cfcfcf",
         "continent": "5",
         "clusterId": "29",
@@ -946,7 +946,7 @@
             256.1
           ]
         ],
-        "name": "Community 36",
+        "name": "Miscellaneous",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "38",
@@ -1031,7 +1031,7 @@
             704.1
           ]
         ],
-        "name": "Community 13",
+        "name": "Machinery",
         "color": "#cfcfcf",
         "continent": "2",
         "clusterId": "19",
@@ -1104,7 +1104,7 @@
             341.5
           ]
         ],
-        "name": "Community 26",
+        "name": "Media Services",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "30",
@@ -1153,7 +1153,7 @@
             695.9
           ]
         ],
-        "name": "Community 6",
+        "name": "Textiles",
         "color": "#cfcfcf",
         "continent": "4",
         "clusterId": "14",
@@ -1190,7 +1190,7 @@
             568.5
           ]
         ],
-        "name": "Community 19",
+        "name": "Auto Services",
         "color": "#cfcfcf",
         "continent": "5",
         "clusterId": "24",
@@ -1239,7 +1239,7 @@
             396.3
           ]
         ],
-        "name": "Community 29",
+        "name": "Real Estate (2)",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "33",
@@ -1288,7 +1288,7 @@
             442.6
           ]
         ],
-        "name": "Community 20",
+        "name": "Food",
         "color": "#cfcfcf",
         "continent": "3",
         "clusterId": "25",
@@ -1325,7 +1325,7 @@
             868.9
           ]
         ],
-        "name": "Community 10",
+        "name": "Construction Inputs",
         "color": "#cfcfcf",
         "continent": "1",
         "clusterId": "17",
@@ -1362,7 +1362,7 @@
             536.3
           ]
         ],
-        "name": "Community 7",
+        "name": "Pharma",
         "color": "#cfcfcf",
         "continent": "2",
         "clusterId": "15",
@@ -1395,7 +1395,7 @@
             680.3
           ]
         ],
-        "name": "Community 17",
+        "name": "Auto Industry",
         "color": "#cfcfcf",
         "continent": "5",
         "clusterId": "22",
@@ -1440,7 +1440,7 @@
             837.6
           ]
         ],
-        "name": "Community 12",
+        "name": "Aluminum & Steel",
         "color": "#cfcfcf",
         "continent": "2",
         "clusterId": "18",
@@ -1477,7 +1477,7 @@
             643.1
           ]
         ],
-        "name": "Community 18",
+        "name": "Optical Goods",
         "color": "#cfcfcf",
         "continent": "2",
         "clusterId": "23",
@@ -1518,7 +1518,7 @@
             389.6
           ]
         ],
-        "name": "Community 35",
+        "name": "Health Care",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "37",
@@ -1583,7 +1583,7 @@
             492.8
           ]
         ],
-        "name": "Community 21",
+        "name": "Wholesalers",
         "color": "#cfcfcf",
         "continent": "4",
         "clusterId": "26",
@@ -1656,7 +1656,7 @@
             415.7
           ]
         ],
-        "name": "Community 37",
+        "name": "Recreation",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "39",
@@ -1693,7 +1693,7 @@
             439.8
           ]
         ],
-        "name": "Community 30",
+        "name": "Cleaning (1)",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "34",
@@ -1730,7 +1730,7 @@
             448.7
           ]
         ],
-        "name": "Community 22",
+        "name": "Office & School",
         "color": "#cfcfcf",
         "continent": "4",
         "clusterId": "27",
@@ -1763,7 +1763,7 @@
             387.6
           ]
         ],
-        "name": "Community 23",
+        "name": "Residential (rtl)",
         "color": "#cfcfcf",
         "continent": "3",
         "clusterId": "28",
@@ -1848,7 +1848,7 @@
             304.2
           ]
         ],
-        "name": "Community 40",
+        "name": "Government",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "42",
@@ -1897,7 +1897,7 @@
             166.1
           ]
         ],
-        "name": "Community 27",
+        "name": "Finance",
         "color": "#cfcfcf",
         "continent": "7",
         "clusterId": "31",
@@ -1946,7 +1946,7 @@
             236.7
           ]
         ],
-        "name": "Community 28",
+        "name": "Business",
         "color": "#cfcfcf",
         "continent": "7",
         "clusterId": "32",
@@ -1987,7 +1987,7 @@
             384.2
           ]
         ],
-        "name": "Community 38",
+        "name": "Real Estate (1)",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "40",
@@ -2024,7 +2024,7 @@
             256.5
           ]
         ],
-        "name": "Community 33",
+        "name": "Business Systems",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "36",
@@ -2061,7 +2061,7 @@
             476.7
           ]
         ],
-        "name": "Community 39",
+        "name": "Cleaning (2)",
         "color": "#cfcfcf",
         "continent": "6",
         "clusterId": "41",

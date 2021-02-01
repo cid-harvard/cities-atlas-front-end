@@ -372,7 +372,8 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-nodes-label')
       .attr('x', d => xScale(d.x) + margin.left)
       .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
-      .style('font-size', textAndSpacingSize * 0.55 + 'px')
+      .style('font-size', textAndSpacingSize * 1 + 'px')
+      // .style('font-size', textAndSpacingSize * 0.55 + 'px')
       .text(d => ellipsisText(d.name as string, 20));
 
   nodeLabels
@@ -630,9 +631,11 @@ const createChart = (input: Input) => {
         .style('opacity', zoomScales.countries.label(state.zoom))
         .style('display', 'block');
 
-      if (state.zoom > 8) {
+      if (state.zoom > 3.5) {
+      // if (state.zoom > 8) {
         nodeLabels
-          .style('opacity', zoomScales.nodes.label(state.zoom))
+          .style('opacity', 1)
+          // .style('opacity', zoomScales.nodes.label(state.zoom))
           .style('display', 'block');
       } else {
         nodeLabels

@@ -1,0 +1,520 @@
+{
+  "C1": [
+    {
+      "code": 4,
+      "name": "Basic Materials"
+    },
+    {
+      "code": 5,
+      "name": "Manufacturing"
+    },
+    {
+      "code": 9,
+      "name": "Food"
+    },
+    {
+      "code": 10,
+      "name": "Household Retail"
+    },
+    {
+      "code": 12,
+      "name": "Basic Services"
+    },
+    {
+      "code": 13,
+      "name": "Services"
+    },
+    {
+      "code": 14,
+      "name": "Finance"
+    }
+  ],
+  "C2": [
+    {
+      "code": 3,
+      "name": "Mining"
+    },
+    {
+      "code": 8,
+      "name": "Bulk Materials"
+    },
+    {
+      "code": 10,
+      "name": "Construction Inputs"
+    },
+    {
+      "code": 15,
+      "name": "Furniture"
+    },
+    {
+      "code": 7,
+      "name": "Pharma"
+    },
+    {
+      "code": 12,
+      "name": "Aluminum & Steel"
+    },
+    {
+      "code": 13,
+      "name": "Machinery"
+    },
+    {
+      "code": 18,
+      "name": "Optical Goods"
+    },
+    {
+      "code": 0,
+      "name": "Agriculture & Fishery"
+    },
+    {
+      "code": 20,
+      "name": "Food"
+    },
+    {
+      "code": 23,
+      "name": "Residential (rtl)"
+    },
+    {
+      "code": 5,
+      "name": "Construction"
+    },
+    {
+      "code": 6,
+      "name": "Textiles"
+    },
+    {
+      "code": 21,
+      "name": "Wholesalers"
+    },
+    {
+      "code": 22,
+      "name": "Office & School"
+    },
+    {
+      "code": 14,
+      "name": "Machinery (infra)"
+    },
+    {
+      "code": 17,
+      "name": "Auto Industry"
+    },
+    {
+      "code": 19,
+      "name": "Auto Services"
+    },
+    {
+      "code": 24,
+      "name": "Transportation"
+    },
+    {
+      "code": 32,
+      "name": "Utilities"
+    },
+    {
+      "code": 26,
+      "name": "Media Services"
+    },
+    {
+      "code": 29,
+      "name": "Real Estate (2)"
+    },
+    {
+      "code": 30,
+      "name": "Cleaning (1)"
+    },
+    {
+      "code": 33,
+      "name": "Business Systems"
+    },
+    {
+      "code": 35,
+      "name": "Health Care"
+    },
+    {
+      "code": 36,
+      "name": "Miscellaneous"
+    },
+    {
+      "code": 37,
+      "name": "Recreation"
+    },
+    {
+      "code": 38,
+      "name": "Real Estate (1)"
+    },
+    {
+      "code": 39,
+      "name": "Cleaning (2)"
+    },
+    {
+      "code": 40,
+      "name": "Government"
+    },
+    {
+      "code": 27,
+      "name": "Finance"
+    },
+    {
+      "code": 28,
+      "name": "Business"
+    }
+  ],
+  "C3": [
+    {
+      "code": 6,
+      "name": "Mining"
+    },
+    {
+      "code": 5,
+      "name": "Oil & Gas"
+    },
+    {
+      "code": 16,
+      "name": "Paper & Printing"
+    },
+    {
+      "code": 18,
+      "name": "Chemicals"
+    },
+    {
+      "code": 19,
+      "name": "Plastics"
+    },
+    {
+      "code": 20,
+      "name": "Rubber"
+    },
+    {
+      "code": 21,
+      "name": "Glass"
+    },
+    {
+      "code": 22,
+      "name": "Sand & Concrete"
+    },
+    {
+      "code": 15,
+      "name": "Woodworking"
+    },
+    {
+      "code": 38,
+      "name": "Furniture (mfg)"
+    },
+    {
+      "code": 17,
+      "name": "Pharma"
+    },
+    {
+      "code": 23,
+      "name": "Basic Metals"
+    },
+    {
+      "code": 7,
+      "name": "Parts"
+    },
+    {
+      "code": 9,
+      "name": "Metal (mfg) (1)"
+    },
+    {
+      "code": 24,
+      "name": "Basic Steel"
+    },
+    {
+      "code": 25,
+      "name": "Metal (mfg) (2)"
+    },
+    {
+      "code": 26,
+      "name": "Heating & Cooling"
+    },
+    {
+      "code": 27,
+      "name": "Metal (mfg) (3)"
+    },
+    {
+      "code": 28,
+      "name": "Pumps & Engines"
+    },
+    {
+      "code": 29,
+      "name": "Welding Machinery"
+    },
+    {
+      "code": 30,
+      "name": "Other machinery (1)"
+    },
+    {
+      "code": 31,
+      "name": "Other machinery (2)"
+    },
+    {
+      "code": 32,
+      "name": "Parts (2)"
+    },
+    {
+      "code": 33,
+      "name": "Electronics (mfg)"
+    },
+    {
+      "code": 34,
+      "name": "Eletric Motors (mfg)"
+    },
+    {
+      "code": 35,
+      "name": "Heavy Machinery"
+    },
+    {
+      "code": 36,
+      "name": "Aeronautics/Weapons"
+    },
+    {
+      "code": 42,
+      "name": "Optical Goods"
+    },
+    {
+      "code": 0,
+      "name": "Farm (crops)"
+    },
+    {
+      "code": 1,
+      "name": "Fishing (any)"
+    },
+    {
+      "code": 2,
+      "name": "Farm (animal)"
+    },
+    {
+      "code": 3,
+      "name": "Forestry"
+    },
+    {
+      "code": 4,
+      "name": "Fishing (shellfish)"
+    },
+    {
+      "code": 10,
+      "name": "Food (mfg)"
+    },
+    {
+      "code": 11,
+      "name": "Food (other)"
+    },
+    {
+      "code": 12,
+      "name": "Food (whsle)"
+    },
+    {
+      "code": 45,
+      "name": "Food (refrigerated)"
+    },
+    {
+      "code": 48,
+      "name": "Groceries (rtl)"
+    },
+    {
+      "code": 52,
+      "name": "Department Stores"
+    },
+    {
+      "code": 8,
+      "name": "Construction"
+    },
+    {
+      "code": 13,
+      "name": "Fabric"
+    },
+    {
+      "code": 14,
+      "name": "Apparel"
+    },
+    {
+      "code": 39,
+      "name": "Jewerly (mfg & repair)"
+    },
+    {
+      "code": 41,
+      "name": "Furniture (sale)"
+    },
+    {
+      "code": 44,
+      "name": "Clothing & Footwear"
+    },
+    {
+      "code": 47,
+      "name": "Household Appliances"
+    },
+    {
+      "code": 50,
+      "name": "Stores"
+    },
+    {
+      "code": 73,
+      "name": "Electronics (supplies)"
+    },
+    {
+      "code": 51,
+      "name": "Bookstores"
+    },
+    {
+      "code": 37,
+      "name": "Power (generation)"
+    },
+    {
+      "code": 40,
+      "name": "Automotive Parts"
+    },
+    {
+      "code": 46,
+      "name": "Car Sales & Services"
+    },
+    {
+      "code": 53,
+      "name": "Air Transportation (servs)"
+    },
+    {
+      "code": 54,
+      "name": "Transportation (rail & water)"
+    },
+    {
+      "code": 55,
+      "name": "Transportation (mixed)"
+    },
+    {
+      "code": 56,
+      "name": "Transportation (chartered)"
+    },
+    {
+      "code": 57,
+      "name": "Air Traffic Control"
+    },
+    {
+      "code": 58,
+      "name": "Freight & Rental"
+    },
+    {
+      "code": 68,
+      "name": "Logistics"
+    },
+    {
+      "code": 77,
+      "name": "Power (distr)"
+    },
+    {
+      "code": 59,
+      "name": "Streaming"
+    },
+    {
+      "code": 61,
+      "name": "TV & Movies (production)"
+    },
+    {
+      "code": 62,
+      "name": "TV & Movies (postproduction)"
+    },
+    {
+      "code": 63,
+      "name": "Communication"
+    },
+    {
+      "code": 64,
+      "name": "Publishing (servs)"
+    },
+    {
+      "code": 75,
+      "name": "Professional Services"
+    },
+    {
+      "code": 78,
+      "name": "Technical Services"
+    },
+    {
+      "code": 83,
+      "name": "Events (facilities)"
+    },
+    {
+      "code": 43,
+      "name": "Property Services"
+    },
+    {
+      "code": 69,
+      "name": "Real Estate"
+    },
+    {
+      "code": 71,
+      "name": "Commercial Equipment"
+    },
+    {
+      "code": 74,
+      "name": "Janitorial Services"
+    },
+    {
+      "code": 76,
+      "name": "Business Systems"
+    },
+    {
+      "code": 80,
+      "name": "Health Care"
+    },
+    {
+      "code": 81,
+      "name": "Miscellaneous"
+    },
+    {
+      "code": 49,
+      "name": "Gas Stations"
+    },
+    {
+      "code": 60,
+      "name": "Leisure (events)"
+    },
+    {
+      "code": 72,
+      "name": "Leisure (servs)"
+    },
+    {
+      "code": 82,
+      "name": "Leisure (rental)"
+    },
+    {
+      "code": 84,
+      "name": "Travel & Outdoors"
+    },
+    {
+      "code": 85,
+      "name": "Hospitality"
+    },
+    {
+      "code": 86,
+      "name": "Small Shops"
+    },
+    {
+      "code": 87,
+      "name": "Cleaning Services (rtl)"
+    },
+    {
+      "code": 79,
+      "name": "Education & Research"
+    },
+    {
+      "code": 88,
+      "name": "Government"
+    },
+    {
+      "code": 65,
+      "name": "Finance"
+    },
+    {
+      "code": 66,
+      "name": "Insurance"
+    },
+    {
+      "code": 67,
+      "name": "Accounting"
+    },
+    {
+      "code": 70,
+      "name": "Pension & Insurance"
+    }
+  ]
+}

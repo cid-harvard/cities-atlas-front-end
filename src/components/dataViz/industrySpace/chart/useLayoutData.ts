@@ -3,6 +3,7 @@ import {
   useGlobalIndustryMap,
 } from '../../../../hooks/useGlobalIndustriesData';
 import LAYOUT_DATA from './data/layout_data.json';
+// import CLUSTER_NAMES from './data/cluster-names.json';
 import {
   ClassificationNaicsIndustry,
 } from '../../../../types/graphQL/graphQLTypes';
@@ -17,6 +18,34 @@ import {
 } from '../../../../types/graphQL/graphQLTypes';
 import {defaultYear} from '../../../../Utils';
 import {scaleLinear, scaleSymlog} from 'd3-scale';
+
+// const mergedLayoutData = {
+//   ...LAYOUT_DATA,
+//   clusters: {
+//     continents: LAYOUT_DATA.clusters.continents.map(c => {
+//       const nameNode = CLUSTER_NAMES.C1.find(d => d.code === c.clusterCode);
+//       if (!nameNode) {
+//         throw new Error('Missing Cluster name for ' + c);
+//       }
+//       return {
+//         ...c,
+//         name: nameNode.name,
+//       }
+//     }),
+//     countries: LAYOUT_DATA.clusters.countries.map(c => {
+//       const nameNode = CLUSTER_NAMES.C2.find(d => d.code === c.clusterCode);
+//       if (!nameNode) {
+//         throw new Error('Missing Cluster name for ' + c);
+//       }
+//       return {
+//         ...c,
+//         name: nameNode.name,
+//       }
+//     }),
+//   }
+// }
+
+// console.log(mergedLayoutData);
 
 interface ContinentCluster {
   center: number[];
