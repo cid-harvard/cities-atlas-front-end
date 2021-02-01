@@ -26,6 +26,8 @@ import PreChartRow, {Indicator} from '../../../components/general/PreChartRow';
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
+import {ColorBy} from '../../../routing/routes';
+import useColorByIntensity from './useColorByIntensity';
 
 const Root = styled.div`
   width: 100%;
@@ -79,6 +81,7 @@ interface Props {
   year: number;
   highlighted: string | undefined;
   digitLevel: DigitLevel;
+  colorBy: ColorBy;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   setHighlighted: (value: string | undefined) => void;
@@ -87,7 +90,7 @@ interface Props {
 const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, digitLevel, compositionType, highlighted, hiddenSectors,
-    setHighlighted,
+    setHighlighted, colorBy,
   } = props;
   const industryMap = useGlobalIndustryMap();
   const getString = useFluent();
@@ -96,6 +99,7 @@ const CompositionTreeMap = (props: Props) => {
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
+  const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
 
   useEffect(() => {
     const node = rootRef.current;
@@ -123,7 +127,9 @@ const CompositionTreeMap = (props: Props) => {
     tooltipContent: undefined,
   };
   let output: React.ReactElement<any> | null;
-  if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (industryMap.loading || !dimensions || (loading && prevData === undefined) ||
+      (colorBy === ColorBy.intensity && intensity.loading)
+    ) {
     indicator.text = (
       <>
         {getString('global-ui-total') + ': '}<SimpleTextLoading />
@@ -138,14 +144,22 @@ const CompositionTreeMap = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(error);
-  }  else if (industryMap.error !== undefined) {
+  } else if (industryMap.error !== undefined) {
     indicator.text = getString('global-ui-total') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
       </LoadingOverlay>
     );
-    console.error(error);
+    console.error(industryMap.error);
+  } else if (intensity.error !== undefined && colorBy === ColorBy.intensity) {
+    indicator.text = getString('global-ui-total') + ': ―';
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
+    console.error(intensity.error);
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
     const treeMapData: Inputs['data'] = [];
@@ -158,11 +172,19 @@ const CompositionTreeMap = (props: Props) => {
           const companies = numCompany ? numCompany : 0;
           const employees = numEmploy ? numEmploy : 0;
           total = compositionType === CompositionType.Companies ? total + companies : total + employees;
+          let fill: string | undefined;
+          if (intensity && intensity.industries) {
+            const industryIntesity = intensity.industries.find(d => d.naicsId === naicsId);
+            if (industryIntesity) {
+              fill = industryIntesity.fill;
+            }
+          }
           treeMapData.push({
             id: naicsId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
             topLevelParentId: naicsIdTopParent.toString(),
+            fill,
           });
         }
       }
@@ -190,18 +212,29 @@ const CompositionTreeMap = (props: Props) => {
           const color = sectorColorMap.find(c => c.id === industry.naicsIdTopParent.toString());
           const numCompany = industryWithData.numCompany ? industryWithData.numCompany : 0;
           const numEmploy = industryWithData.numEmploy ? industryWithData.numEmploy : 0;
-          const value = compositionType === CompositionType.Companies ? numCompany : numEmploy;
+          const value = compositionType === CompositionType.Employees ? numEmploy : numCompany;
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
+          const rows = [
+            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
+            [getString('global-ui-naics-code') + ':', industry.naicsId],
+            [getString('global-ui-year') + ':', year.toString()],
+          ];
+          if (intensity && intensity.industries) {
+            const industryIntesity = intensity.industries.find(d => d.naicsId === id);
+            if (industryIntesity) {
+
+              const rcaNumCompany = industryIntesity.rcaNumCompany ? industryIntesity.rcaNumCompany : 0;
+              const rcaNumEmploy = industryIntesity.rcaNumEmploy ? industryIntesity.rcaNumEmploy : 0;
+              const rca = compositionType === CompositionType.Employees ? rcaNumEmploy : rcaNumCompany;
+              rows.push([getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)]);
+            }
+          }
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
-            rows: [
-              [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
-              [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
-              [getString('global-ui-naics-code') + ':', industry.naicsId],
-              [getString('global-ui-year') + ':', year.toString()],
-            ],
+            rows,
             boldColumns: [1, 2],
           });
         }
@@ -246,7 +279,7 @@ const CompositionTreeMap = (props: Props) => {
       <PreChartRow
         indicator={indicator}
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
-        settingsOptions={{compositionType: true, digitLevel: true}}
+        settingsOptions={{compositionType: true, digitLevel: true, colorBy: true}}
       />
       <Root ref={rootRef}>
         {output}

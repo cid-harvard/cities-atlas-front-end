@@ -30,10 +30,16 @@ export enum NodeSizing {
   log = 'log',
 }
 
+export enum ColorBy {
+  sector = 'sector',
+  intensity = 'intensity',
+}
+
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
   cluster_overlay: Toggle | undefined;
   node_sizing: NodeSizing | undefined;
+  color_by: ColorBy | undefined;
 }

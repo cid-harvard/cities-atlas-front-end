@@ -2,9 +2,9 @@ import { useQuery, gql } from '@apollo/client';
 import {
   CityIndustryYear,
   DigitLevel,
-} from '../../../types/graphQL/graphQLTypes';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import {defaultYear} from '../../../Utils';
+} from '../types/graphQL/graphQLTypes';
+import useCurrentCityId from './useCurrentCityId';
+import {defaultYear} from '../Utils';
 
 export enum RegionGroup {
   World = 'world',

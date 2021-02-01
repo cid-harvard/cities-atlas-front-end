@@ -49,6 +49,7 @@ global-ui-reset-sectors = Show all sectors
 global-ui-numbers-based-on = Numbers are based on
 global-ui-detail-level = Detail Level
 global-ui-node-sizing = Node Sizing
+global-ui-color-by = Color By
 global-ui-show-clusters = Show cluster overlay
 global-ui-digit-level = digit level
 global-ui-sector-level = Sector level
@@ -89,6 +90,7 @@ global-naics-sector-name-8 = Trade & transportation
 
 global-click-to-expand-industry = Click to expand industry
 
+global-intensity = Intensity
 global-intensity-low = Low Intensity
 global-intensity-high = High Intensity
 
@@ -110,6 +112,7 @@ tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Companies
 tooltip-number-generic = Number of { $value }
 tooltip-share-generic = Share of { $value }
+tooltip-intensity-generic = Intensity of { $value }
 
 cities-top-10-comparison-chart-title = Positive { $name } Share (%)
 cities-top-10-comparison-chart-title-count-text = (Top { $count })

@@ -22,6 +22,8 @@ import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
+import {ColorBy} from '../../../../../routing/routes';
+import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -35,7 +37,7 @@ const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
-  const {digit_level, composition_type} = useQueryParams();
+  const {digit_level, composition_type, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
     hiddenSectors.includes(sectorId)
@@ -76,6 +78,20 @@ const EconomicComposition = (props: Props) => {
   } else {
     download = null;
   }
+  const legend = color_by === ColorBy.intensity ? (
+    <IntensityLegend />
+  ) : (
+    <CategoryLabels
+      categories={sectorMap}
+      allowToggle={true}
+      toggleCategory={toggleSector}
+      isolateCategory={isolateSector}
+      hiddenCategories={hiddenSectors}
+      resetCategories={resetSectors}
+      resetText={getString('global-ui-reset-sectors')}
+      fullWidth={true}
+    />
+  );
 
   return (
     <>
@@ -92,22 +108,14 @@ const EconomicComposition = (props: Props) => {
             cityId={parseInt(cityId, 10)}
             year={defaultYear}
             digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+            colorBy={color_by ? color_by : ColorBy.sector}
             compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
             highlighted={highlighted}
             hiddenSectors={hiddenSectors}
             setHighlighted={setHighlighted}
           />
         </TreeMapRoot>
-        <CategoryLabels
-          categories={sectorMap}
-          allowToggle={true}
-          toggleCategory={toggleSector}
-          isolateCategory={isolateSector}
-          hiddenCategories={hiddenSectors}
-          resetCategories={resetSectors}
-          resetText={getString('global-ui-reset-sectors')}
-          fullWidth={true}
-        />
+        {legend}
         {download}
       </ContentGrid>
       <UtiltyBar

@@ -6,7 +6,7 @@ import {
   defaultDigitLevel,
   defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
-import {Toggle} from '../../../routing/routes';
+import {Toggle, ColorBy, NodeSizing} from '../../../routing/routes';
 import {SettingsOptions} from './index';
 
 const Root = styled.div`
@@ -62,6 +62,20 @@ const CurrentSettingsTooltip = (props: Props) => {
     </Segment>
   ) : null;
 
+  const sizeBy = settingsOptions.nodeSizing !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-node-sizing')}</Subtitle>
+      <em>{params.node_sizing ? params.node_sizing : NodeSizing.none}</em>
+    </Segment>
+  ) : null;
+
+  const colorBy = settingsOptions.colorBy !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-color-by')}</Subtitle>
+      <em>{params.color_by ? params.color_by : ColorBy.sector}</em>
+    </Segment>
+  ) : null;
+
   return (
     <Root>
       <Title>{getString('global-ui-change-settings')}</Title>
@@ -71,6 +85,8 @@ const CurrentSettingsTooltip = (props: Props) => {
       {compositionText}
       {detailLevel}
       {hideClusters}
+      {sizeBy}
+      {colorBy}
     </Root>
   );
 };

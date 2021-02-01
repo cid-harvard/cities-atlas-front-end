@@ -28,7 +28,7 @@ import PSwotPlot, {
 } from 'react-pswot-plot';
 import useRCAData, {
   SuccessResponse,
-} from './useRCAData';
+} from '../../../hooks/useRCAData';
 import useFluent from '../../../hooks/useFluent';
 import {NodeSizing} from '../../../routing/routes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';

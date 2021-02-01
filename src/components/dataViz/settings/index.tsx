@@ -20,7 +20,7 @@ import {
   DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import {Toggle, NodeSizing} from '../../../routing/routes';
+import {Toggle, NodeSizing, ColorBy} from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip from '../../general/Tooltip';
 import upperFirst from 'lodash/upperFirst';
@@ -249,6 +249,7 @@ export interface SettingsOptions {
   compositionType?: boolean;
   hideClusterOverlay?: boolean;
   nodeSizing?: boolean;
+  colorBy?: boolean;
 }
 
 interface Props {
@@ -276,6 +277,7 @@ const Settings = (props: Props) => {
       composition_type: _unusedCompositionType,
       cluster_overlay: _unusedHideClusters,
       node_sizing: _unusedNodeSizing,
+      color_by: _unusedColorBy,
       ...rest
     } = params;
     const query = queryString.stringify({...rest});
@@ -459,6 +461,39 @@ const Settings = (props: Props) => {
     nodeSizingOptions = null;
   }
 
+  let colorByOptions: React.ReactElement<any> | null;
+  if (settingsOptions.colorBy !== undefined) {
+    const InputContainer = settingsOptions.colorBy === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.colorBy === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.colorBy === true
+      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    colorByOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-color-by')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelButton
+            onClick={() => updateSetting('color_by', ColorBy.sector)}
+            $selected={!params.color_by || params.color_by === ColorBy.sector}
+          >
+            {upperFirst(ColorBy.sector)}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('color_by', ColorBy.intensity)}
+            $selected={params.color_by === ColorBy.intensity}
+          >
+            {upperFirst(ColorBy.intensity)}
+          </DigitLevelButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    colorByOptions = null;
+  }
+
   return (
     <Root>
       <ContentRoot>
@@ -472,6 +507,7 @@ const Settings = (props: Props) => {
           {digitLevelOptions}
           {clusterOverlayToggle}
           {nodeSizingOptions}
+          {colorByOptions}
           <ResetButton onClick={resetSettings}>
             {getString('global-ui-settings-reset')}
           </ResetButton>
