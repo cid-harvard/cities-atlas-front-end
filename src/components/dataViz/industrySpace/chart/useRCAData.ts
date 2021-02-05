@@ -17,12 +17,15 @@ const CLUSTER_INTENSITY_QUERY = gql`
       clusterId
       level
       rcaNumCompany
+      rcaNumEmploy
       id
     }
     nodeRca: cityIndustryYearList(cityId: $cityId, year: $year, level: 6) {
       naicsId
       numCompany
+      numEmploy
       rcaNumCompany
+      rcaNumEmploy
       id
     }
   }
@@ -32,12 +35,15 @@ interface ClusterRca {
   clusterId: CityClusterYear['clusterId'];
   level: CityClusterYear['level'];
   rcaNumCompany: CityClusterYear['rcaNumCompany'];
+  rcaNumEmploy: CityClusterYear['rcaNumEmploy'];
 }
 
 interface NodeRca {
   naicsId: CityIndustryYear['naicsId'];
   numCompany: CityIndustryYear['numCompany'];
+  numEmploy: CityIndustryYear['numEmploy'];
   rcaNumCompany: CityIndustryYear['rcaNumCompany'];
+  rcaNumEmploy: CityClusterYear['rcaNumEmploy'];
 }
 
 export interface SuccessResponse {

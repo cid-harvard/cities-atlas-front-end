@@ -41,7 +41,7 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
-      url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
+      url: createRoute.city(CityRoutes.CityGoodAt, cityId),
       removeParams: [
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
@@ -50,7 +50,7 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-3'),
-      url: createRoute.city(CityRoutes.CityGoodAt, cityId),
+      url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
       removeParams: [
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
