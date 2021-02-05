@@ -25,6 +25,7 @@ import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizL
 import useRCAData, {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
   Link,
+  useHistory,
 } from 'react-router-dom';
 import Industries from './Industries';
 import Clusters from './Clusters';
@@ -33,6 +34,8 @@ import {
 } from '../../../routing/routes';
 import {createRoute} from '../../../routing/Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
+import useFluent from '../../../hooks/useFluent';
+import {ClusterLevel} from '../../../routing/routes';
 
 const Root = styled.div`
   width: 100%;
@@ -63,6 +66,7 @@ const LeftAxisRoot = styled.div`
   transform: rotate(-90deg);
   align-items: center;
   justify-content: center;
+  pointer-events: none;
 `;
 
 const AxisLabelBase = styled.div`
@@ -124,16 +128,18 @@ interface Props {
   setHighlighted: (value: string | undefined) => void;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
+  clusterLevel: ClusterLevel;
 }
 
-const TopIndustryComparisonBarChart = (props: Props) => {
+const RCABarChart = (props: Props) => {
   const {
     hiddenSectors, setHighlighted,
     highlighted, compositionType,
-    isClusterView,
+    isClusterView, clusterLevel,
   } = props;
   const cityId = useCurrentCityId();
-
+  const getString = useFluent();
+  const history = useHistory();
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const {loading, error, data} = useRCAData();
@@ -183,6 +189,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         key={'ClustersRCAChart' + dimensions.height.toString() + dimensions.width.toString()}
         data={clusterData}
         compositionType={compositionType}
+        clusterLevel={clusterLevel}
       />
     ) : (
       <Industries
@@ -207,24 +214,27 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   const IndustryLink = isClusterView ? NavLink : ActiveNavLink;
   const ClusterLink = isClusterView ? ActiveNavLink : NavLink;
 
+  const industriesUrl = cityId ? createRoute.city(CityRoutes.CityGoodAt, cityId) + history.location.search : '';
+  const clustersUrl = cityId ? createRoute.city(CityRoutes.CityGoodAtClusters, cityId) + history.location.search : '';
+
   return (
     <>
       <PreChartRow
         searchInGraphOptions={{hiddenSectors, digitLevel: DigitLevel.Six, setHighlighted}}
-        settingsOptions={{compositionType: true}}
+        settingsOptions={{compositionType: true, clusterLevel: isClusterView ? isClusterView : undefined}}
       />
       <Root>
         <VizNavRoot>
-          <IndustryLink to={cityId ? createRoute.city(CityRoutes.CityGoodAt, cityId) : ''}>
-            Industries
+          <IndustryLink to={industriesUrl}>
+            {getString('global-text-industries')}
           </IndustryLink>
-          <ClusterLink to={cityId ? createRoute.city(CityRoutes.CityGoodAtClusters, cityId) : ''}>
-            Skill Clusters
+          <ClusterLink to={clustersUrl}>
+            {getString('global-ui-skill-clusters')}
           </ClusterLink>
         </VizNavRoot>
         <LeftAxisRoot>
-          <AxisLabelBase>← Lower Specialization</AxisLabelBase>
-          <AxisLabelHigh>High Specialization →</AxisLabelHigh>
+          <AxisLabelBase>← {getString('global-intensity-lower')}</AxisLabelBase>
+          <AxisLabelHigh>{getString('global-intensity-higher')} →</AxisLabelHigh>
         </LeftAxisRoot>
         <VizRoot ref={rootRef}>
           {output}
@@ -234,4 +244,4 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   );
 };
 
-export default TopIndustryComparisonBarChart;
+export default RCABarChart;

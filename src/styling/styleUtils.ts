@@ -99,6 +99,15 @@ export const fadeInAnimation = css`
   animation: ${fadeIn} 0.2s linear 1 forwards;
 `;
 
+export const BasicLabel = styled.div`
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+`;
+
 export const SearchContainerDark = styled.div`
   pointer-events: all;
   width: 100%;

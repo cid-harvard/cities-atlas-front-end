@@ -36,6 +36,14 @@ export enum ColorBy {
   intensity = 'intensity',
 }
 
+export enum ClusterLevel {
+  C1 = '1',
+  C2 = '2',
+  C3 = '3',
+}
+
+export const defaultClusterLevel: ClusterLevel = ClusterLevel.C2;
+
 export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
@@ -43,4 +51,5 @@ export interface GlobalQueryParams {
   cluster_overlay: Toggle | undefined;
   node_sizing: NodeSizing | undefined;
   color_by: ColorBy | undefined;
+  cluster_level: ClusterLevel | undefined;
 }

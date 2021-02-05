@@ -60,6 +60,9 @@ global-ui-related-industry = Related Industry
 global-ui-sector = Sector
 global-ui-proximity = Proximity
 
+global-ui-skill-clusters = Skill Clusters
+global-ui-about skill-clusters = About Skill Clusters
+
 global-ui-hide = Hide
 global-ui-keep-only = Keep Only
 
@@ -90,9 +93,12 @@ global-naics-sector-name-8 = Trade & transportation
 
 global-click-to-expand-industry = Click to expand industry
 
-global-intensity = Intensity
-global-intensity-low = Low Intensity
-global-intensity-high = High Intensity
+global-intensity = Specialization
+global-intensity-about = About Specialization
+global-intensity-low = Low Specialization
+global-intensity-lower = Lower Specialization
+global-intensity-high = High Specialization
+global-intensity-higher = Higher Specialization
 
 error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
 error-message-no-industries = No industries available
@@ -112,7 +118,7 @@ tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Companies
 tooltip-number-generic = Number of { $value }
 tooltip-share-generic = Share of { $value }
-tooltip-intensity-generic = Intensity of { $value }
+tooltip-intensity-generic = Specialization of { $value }
 
 cities-top-10-comparison-chart-title = Positive { $name } Share (%)
 cities-top-10-comparison-chart-title-count-text = (Top { $count })

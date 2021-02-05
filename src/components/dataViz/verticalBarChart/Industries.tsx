@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useState, useRef} from 'react';
 import {scaleSymlog} from 'd3-scale';
 import {
+  BasicLabel,
   sectorColorMap,
 } from '../../../styling/styleUtils';
-import VerticalBarChart from 'react-vertical-bar-chart';
+import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
   useGlobalIndustryMap,
@@ -11,6 +12,12 @@ import {
 import {
   CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
+import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
+import useFluent from '../../../hooks/useFluent';
+import QuickError from '../../transitionStateComponents/QuickError';
+import {rgba} from 'polished';
+import Tooltip from './../../general/Tooltip';
+import {defaultYear} from '../../../Utils';
 
 interface Props {
   data: SuccessResponse['nodeRca'];
@@ -22,6 +29,10 @@ const Industries = (props: Props) => {
   const {data, highlighted, compositionType} = props;
 
   const industryMap = useGlobalIndustryMap();
+  const getString = useFluent();
+
+  const [highlightError, setHighlightError] = useState<boolean>(false);
+  const tooltipRef = useRef<HTMLDivElement | null>(null);
 
   const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
 
@@ -44,13 +55,62 @@ const Industries = (props: Props) => {
     return parseFloat(scale.invert(value).toFixed(2));
   };
 
+  const setHovered = (e: RowHoverEvent | undefined) => {
+    const node = tooltipRef.current;
+    if (node) {
+      if (e && e.datum) {
+        const {datum, mouseCoords} = e;
+        node.innerHTML = getStandardTooltip({
+          title: datum.title,
+          color: rgba(datum.color, 0.3),
+          rows: [
+            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
+            [getString('global-ui-naics-code') + ':', datum.id],
+            [getString('global-ui-year') + ':', defaultYear.toString()],
+          ],
+          boldColumns: [1, 2],
+        });
+        node.style.top = mouseCoords.y + 'px';
+        node.style.left = mouseCoords.x + 'px';
+        node.style.display = 'block';
+      } else {
+        node.style.display = 'none';
+      }
+    }
+  };
+
+  const highlightErrorPopup = highlightError ? (
+    <QuickError
+      closeError={() => setHighlightError(false)}
+    >
+      {getString('global-ui-error-industry-not-in-data-set')}
+    </QuickError>
+  ) : null;
+
+  const axisLabel = (
+    <BasicLabel>
+      {getString('global-intensity')}
+      <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
+        <Tooltip
+          explanation={getString('global-intensity-about')}
+        />
+      </span>
+    </BasicLabel>
+  );
+
   return (
-    <VerticalBarChart
-      data={industryData}
-      axisLabel={'Specialization'}
-      formatValue={formatValue}
-      highlighted={highlighted}
-    />
+    <>
+      <VerticalBarChart
+        data={industryData}
+        axisLabel={axisLabel}
+        formatValue={formatValue}
+        highlighted={highlighted}
+        onRowHover={setHovered}
+        onHighlightError={() => setHighlightError(true)}
+      />
+      <RapidTooltipRoot ref={tooltipRef} />
+      {highlightErrorPopup}
+    </>
   );
 };
 

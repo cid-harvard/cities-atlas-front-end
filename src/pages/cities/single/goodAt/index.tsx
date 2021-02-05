@@ -22,6 +22,7 @@ import UtiltyBar from '../../../../components/navigation/secondaryHeader/Utility
 import {
   CityRoutes,
   cityIdParam,
+  defaultClusterLevel,
 } from '../../../../routing/routes';
 import {
   useHistory,
@@ -32,7 +33,7 @@ import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarC
 const EconomicComposition = () => {
   const cityId = useCurrentCityId();
 
-  const {composition_type} = useQueryParams();
+  const {composition_type, cluster_level} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -89,6 +90,7 @@ const EconomicComposition = () => {
           setHighlighted={setHighlighted}
           compositionType={composition_type ? composition_type : defaultCompositionType}
           hiddenSectors={hiddenSectors}
+          clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
         />
         {legend}
       </ContentGrid>

@@ -20,7 +20,13 @@ import {
   DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import {Toggle, NodeSizing, ColorBy} from '../../../routing/routes';
+import {
+  Toggle,
+  NodeSizing,
+  ColorBy,
+  ClusterLevel,
+  defaultClusterLevel,
+} from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip from '../../general/Tooltip';
 import upperFirst from 'lodash/upperFirst';
@@ -250,6 +256,7 @@ export interface SettingsOptions {
   hideClusterOverlay?: boolean;
   nodeSizing?: boolean;
   colorBy?: boolean;
+  clusterLevel?: boolean;
 }
 
 interface Props {
@@ -274,6 +281,7 @@ const Settings = (props: Props) => {
   const resetSettings = () => {
     const {
       digit_level: _unusedDigitLevel,
+      cluster_level: _unusedClusterLevel,
       composition_type: _unusedCompositionType,
       cluster_overlay: _unusedHideClusters,
       node_sizing: _unusedNodeSizing,
@@ -325,10 +333,10 @@ const Settings = (props: Props) => {
 
   let digitLevelOptions: React.ReactElement<any> | null;
   if (settingsOptions.digitLevel !== undefined) {
-    const InputContainer = settingsOptions.compositionType === true
+    const InputContainer = settingsOptions.digitLevel === true
       ? SettingsInputContainer : DisabledSettingsInputContainer;
-    const LabelContainer = settingsOptions.compositionType === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.compositionType === true
+    const LabelContainer = settingsOptions.digitLevel === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.digitLevel === true
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     digitLevelOptions = (
       <SettingGrid>
@@ -384,6 +392,42 @@ const Settings = (props: Props) => {
     );
   } else {
     digitLevelOptions = null;
+  }
+  let clusterLevelOptions: React.ReactElement<any> | null;
+  if (settingsOptions.clusterLevel !== undefined) {
+    const InputContainer = settingsOptions.clusterLevel === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.clusterLevel === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.clusterLevel === true
+      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    clusterLevelOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-detail-level')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelButton
+            onClick={() => updateSetting('cluster_level', ClusterLevel.C1)}
+            $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C1) ||
+              params.cluster_level === ClusterLevel.C1
+            }
+          >
+            {ClusterLevel.C1}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('cluster_level', ClusterLevel.C2)}
+            $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C2) ||
+              params.cluster_level === ClusterLevel.C2
+            }
+          >
+            {ClusterLevel.C2}
+          </DigitLevelButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    clusterLevelOptions = null;
   }
 
   let clusterOverlayToggle: React.ReactElement<any> | null;
@@ -505,6 +549,7 @@ const Settings = (props: Props) => {
         <Content>
           {compositionOptions}
           {digitLevelOptions}
+          {clusterLevelOptions}
           {clusterOverlayToggle}
           {nodeSizingOptions}
           {colorByOptions}
