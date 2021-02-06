@@ -14,6 +14,10 @@ import {
   BasicLabel,
 } from '../../../styling/styleUtils';
 import {ClusterLevel} from '../../../routing/routes';
+// import {
+//   useGlobalClusterMap,
+// } from '../../../hooks/useGlobalClusterData';
+import useLayoutData from '../industrySpace/chart/useLayoutData';
 
 interface Props {
   data: SuccessResponse['clusterRca'];
@@ -25,6 +29,10 @@ const Industries = (props: Props) => {
   const {data, compositionType, clusterLevel} = props;
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
+  // const clusterMap = useGlobalClusterMap();
+
+  //  Temporary solution for getting cluster names until API has been updated
+  const {data: layoutData} = useLayoutData();
 
   const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
 
@@ -37,9 +45,26 @@ const Industries = (props: Props) => {
     .domain([1, max])
     .range(intensityColorRange as any);
   const clusterData = filteredClusterRCA.map(d => {
+    // const cluster = clusterMap.data[d.clusterId];
+    // const title = cluster && cluster.name !== null ? cluster.name : d.clusterId;
+    // temp mapping to name from local json
+    let title = '';
+    if (layoutData && layoutData.clusters) {
+      if (clusterLevel === ClusterLevel.C1) {
+        const namedCluster = layoutData.clusters.continents.find(c => c.clusterId === d.clusterId);
+        if (namedCluster) {
+          title = namedCluster.name;
+        }
+      } else if (clusterLevel === ClusterLevel.C2) {
+        const namedCluster = layoutData.clusters.countries.find(c => c.clusterId === d.clusterId);
+        if (namedCluster) {
+          title = namedCluster.name;
+        }
+      }
+    }
     return {
       id: d.clusterId,
-      title: d.clusterId,
+      title,
       value: d[field] ? scale(d[field] as number) as number : 0,
       color: d[field] ? colorScale(d[field] as number) as unknown as string : intensityColorRange[0],
     };

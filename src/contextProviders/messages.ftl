@@ -48,6 +48,7 @@ global-ui-reset-sectors = Show all sectors
 
 global-ui-numbers-based-on = Numbers are based on
 global-ui-detail-level = Detail Level
+global-ui-cluster-level = Cluster Level
 global-ui-node-sizing = Node Sizing
 global-ui-color-by = Color By
 global-ui-show-clusters = Show cluster overlay
@@ -61,7 +62,7 @@ global-ui-sector = Sector
 global-ui-proximity = Proximity
 
 global-ui-skill-clusters = Skill Clusters
-global-ui-about skill-clusters = About Skill Clusters
+global-ui-about-skill-clusters = About Skill Clusters
 
 global-ui-hide = Hide
 global-ui-keep-only = Keep Only

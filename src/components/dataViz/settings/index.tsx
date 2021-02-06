@@ -405,7 +405,7 @@ const Settings = (props: Props) => {
         <Tooltip
           explanation={tooltipText}
         />
-        <LabelContainer>{getString('global-ui-detail-level')}</LabelContainer>
+        <LabelContainer>{getString('global-ui-cluster-level')}</LabelContainer>
         <InputContainer>
           <DigitLevelButton
             onClick={() => updateSetting('cluster_level', ClusterLevel.C1)}

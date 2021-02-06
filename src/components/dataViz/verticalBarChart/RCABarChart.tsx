@@ -36,6 +36,7 @@ import {createRoute} from '../../../routing/Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
+import Tooltip from './../../general/Tooltip';
 
 const Root = styled.div`
   width: 100%;
@@ -100,12 +101,16 @@ const VizContainer = styled.div`
   }
 `;
 
+const ClusterLinkContainer = styled.span`
+  display: inline-flex;
+  margin-left: 1rem;
+`;
+
 const NavLink = styled(Link)`
   border-bottom: solid 4px rgba(0, 0, 0, 0);
   text-transform: uppercase;
   font-weight: 600;
   font-size: 0.875rem;
-  margin-right: 1rem;
   color: ${baseColor};
   text-decoration: none;
 
@@ -228,9 +233,14 @@ const RCABarChart = (props: Props) => {
           <IndustryLink to={industriesUrl}>
             {getString('global-text-industries')}
           </IndustryLink>
-          <ClusterLink to={clustersUrl}>
-            {getString('global-ui-skill-clusters')}
-          </ClusterLink>
+          <ClusterLinkContainer>
+            <ClusterLink to={clustersUrl}>
+              {getString('global-ui-skill-clusters')}
+            </ClusterLink>
+            <Tooltip
+              explanation={getString('global-ui-about-skill-clusters')}
+            />
+          </ClusterLinkContainer>
         </VizNavRoot>
         <LeftAxisRoot>
           <AxisLabelBase>← {getString('global-intensity-lower')}</AxisLabelBase>
