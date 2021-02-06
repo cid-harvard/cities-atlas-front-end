@@ -202,6 +202,7 @@ const RCABarChart = (props: Props) => {
         data={industryData}
         highlighted={highlighted}
         compositionType={compositionType}
+        hiddenSectors={hiddenSectors}
       />
     );
     output = (

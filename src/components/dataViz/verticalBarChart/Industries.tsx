@@ -11,6 +11,7 @@ import {
 } from '../../../hooks/useGlobalIndustriesData';
 import {
   CompositionType,
+  ClassificationNaicsIndustry,
 } from '../../../types/graphQL/graphQLTypes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import useFluent from '../../../hooks/useFluent';
@@ -23,10 +24,11 @@ interface Props {
   data: SuccessResponse['nodeRca'];
   highlighted: string | undefined;
   compositionType: CompositionType;
+  hiddenSectors: ClassificationNaicsIndustry['id'][];
 }
 
 const Industries = (props: Props) => {
-  const {data, highlighted, compositionType} = props;
+  const {data, highlighted, compositionType, hiddenSectors} = props;
 
   const industryMap = useGlobalIndustryMap();
   const getString = useFluent();
@@ -36,7 +38,14 @@ const Industries = (props: Props) => {
 
   const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
 
-  const filteredIndustryRCA = data.filter(d => d[field] && (d[field] as number) >= 1);
+  const filteredIndustryRCA = data.filter(d => {
+    const industry = industryMap.data[d.naicsId];
+    if (industry && industry.naicsIdTopParent && !hiddenSectors.includes(industry.naicsIdTopParent.toString())) {
+      return d[field] && (d[field] as number) >= 1;
+    } else {
+      return false;
+    }
+  });
   const max = Math.ceil((Math.max(...filteredIndustryRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
   const scale = scaleSymlog()
     .domain([1, max])
