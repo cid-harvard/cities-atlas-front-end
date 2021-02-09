@@ -32,7 +32,7 @@ import {
 } from 'react-router-dom';
 import PSWOTChart from '../../../../components/dataViz/pswotChart/';
 
-const EconomicComposition = () => {
+const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
   const {composition_type, node_sizing} = useQueryParams();
@@ -134,4 +134,4 @@ const EconomicComposition = () => {
   );
 };
 
-export default EconomicComposition;
+export default GrowthOppurtunities;

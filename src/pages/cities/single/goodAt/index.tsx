@@ -30,7 +30,7 @@ import {
 } from 'react-router-dom';
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
 
-const EconomicComposition = () => {
+const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
   const {composition_type, cluster_level} = useQueryParams();
@@ -99,4 +99,4 @@ const EconomicComposition = () => {
   );
 };
 
-export default EconomicComposition;
+export default CityGoodAt;

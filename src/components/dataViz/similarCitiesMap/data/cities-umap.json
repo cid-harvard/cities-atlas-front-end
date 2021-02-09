@@ -1,0 +1,3754 @@
+[
+  {
+    "x": 11.831594,
+    "y": 4.8418236,
+    "ID_HDC_G0": 1,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Honolulu"
+  },
+  {
+    "x": 9.1092205,
+    "y": 3.948694,
+    "ID_HDC_G0": 10,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "San Jose"
+  },
+  {
+    "x": 5.112048,
+    "y": 10.123098,
+    "ID_HDC_G0": 1006,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Manaus"
+  },
+  {
+    "x": 11.802613,
+    "y": 4.491231,
+    "ID_HDC_G0": 1009,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Providence"
+  },
+  {
+    "x": 10.935065,
+    "y": 11.27142,
+    "ID_HDC_G0": 10097,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Xining"
+  },
+  {
+    "x": 10.783621,
+    "y": 3.9388022,
+    "ID_HDC_G0": 101,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Portland"
+  },
+  {
+    "x": 11.094513,
+    "y": 9.299688,
+    "ID_HDC_G0": 1010,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Santiago del Estero"
+  },
+  {
+    "x": 10.456696,
+    "y": 7.0620885,
+    "ID_HDC_G0": 10122,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Lanzhou"
+  },
+  {
+    "x": 11.851214,
+    "y": 8.372522,
+    "ID_HDC_G0": 10137,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yinchuan"
+  },
+  {
+    "x": 9.935116,
+    "y": 3.7765028,
+    "ID_HDC_G0": 1017,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Montreal"
+  },
+  {
+    "x": 9.968503,
+    "y": 3.743342,
+    "ID_HDC_G0": 1022,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Boston"
+  },
+  {
+    "x": 7.175471,
+    "y": 4.975806,
+    "ID_HDC_G0": 10297,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Chengdu"
+  },
+  {
+    "x": 10.960997,
+    "y": 9.568571,
+    "ID_HDC_G0": 1035,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Cordoba"
+  },
+  {
+    "x": 15.710779,
+    "y": 10.458551,
+    "ID_HDC_G0": 10454,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Blagoveshchensk"
+  },
+  {
+    "x": 7.579405,
+    "y": 4.652589,
+    "ID_HDC_G0": 10476,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Kunming"
+  },
+  {
+    "x": 7.7543964,
+    "y": 4.956427,
+    "ID_HDC_G0": 10479,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Xi'an"
+  },
+  {
+    "x": 12.338816,
+    "y": 5.3053293,
+    "ID_HDC_G0": 1048,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Quebec"
+  },
+  {
+    "x": 7.5338373,
+    "y": 4.712598,
+    "ID_HDC_G0": 10532,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Taiyuan"
+  },
+  {
+    "x": 10.755038,
+    "y": 7.669326,
+    "ID_HDC_G0": 10556,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Qiqihar"
+  },
+  {
+    "x": 10.989301,
+    "y": 9.573204,
+    "ID_HDC_G0": 1060,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Santa Fe"
+  },
+  {
+    "x": 8.831077,
+    "y": 4.120682,
+    "ID_HDC_G0": 10607,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Chongqing"
+  },
+  {
+    "x": 4.9878435,
+    "y": 9.790223,
+    "ID_HDC_G0": 1063,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Cuiabá"
+  },
+  {
+    "x": 10.991211,
+    "y": 9.44508,
+    "ID_HDC_G0": 1065,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Resistencia"
+  },
+  {
+    "x": 11.108732,
+    "y": 8.237659,
+    "ID_HDC_G0": 10654,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yuncheng"
+  },
+  {
+    "x": 7.7270513,
+    "y": 5.375095,
+    "ID_HDC_G0": 10685,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Changping"
+  },
+  {
+    "x": 7.3141546,
+    "y": 4.949437,
+    "ID_HDC_G0": 10687,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Beijing"
+  },
+  {
+    "x": 10.987714,
+    "y": 9.630229,
+    "ID_HDC_G0": 1069,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Corrientes"
+  },
+  {
+    "x": 10.9298725,
+    "y": 9.637095,
+    "ID_HDC_G0": 1070,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Rosario"
+  },
+  {
+    "x": 8.308589,
+    "y": 5.445465,
+    "ID_HDC_G0": 10715,
+    "CTR_MN_NM": "Thailand",
+    "UC_NM_MN": "Bangkok"
+  },
+  {
+    "x": 9.921078,
+    "y": 8.5553055,
+    "ID_HDC_G0": 10738,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Shunyi"
+  },
+  {
+    "x": 5.014234,
+    "y": 8.702432,
+    "ID_HDC_G0": 10753,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Baoding"
+  },
+  {
+    "x": 11.487599,
+    "y": 7.259428,
+    "ID_HDC_G0": 10809,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zunyi"
+  },
+  {
+    "x": 6.9925704,
+    "y": 5.1456814,
+    "ID_HDC_G0": 10827,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Langfang"
+  },
+  {
+    "x": 4.9750805,
+    "y": 8.736925,
+    "ID_HDC_G0": 10854,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Guiyang"
+  },
+  {
+    "x": 9.83131,
+    "y": 8.853958,
+    "ID_HDC_G0": 10859,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Xingtai"
+  },
+  {
+    "x": 9.818424,
+    "y": 8.832806,
+    "ID_HDC_G0": 10861,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Shiyan"
+  },
+  {
+    "x": 5.082562,
+    "y": 9.906393,
+    "ID_HDC_G0": 1091,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Campo Grande"
+  },
+  {
+    "x": 9.9915695,
+    "y": 8.300216,
+    "ID_HDC_G0": 10912,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Handan"
+  },
+  {
+    "x": 7.5666866,
+    "y": 5.138931,
+    "ID_HDC_G0": 10922,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Tianjin"
+  },
+  {
+    "x": 10.201403,
+    "y": 8.26106,
+    "ID_HDC_G0": 10923,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Anyang"
+  },
+  {
+    "x": 10.119732,
+    "y": 8.0870075,
+    "ID_HDC_G0": 10991,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Tangshan"
+  },
+  {
+    "x": 10.174333,
+    "y": 7.9972105,
+    "ID_HDC_G0": 11007,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Cangzhou"
+  },
+  {
+    "x": 7.7381997,
+    "y": 5.1457872,
+    "ID_HDC_G0": 11009,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zhengzhou"
+  },
+  {
+    "x": 11.124236,
+    "y": 8.550977,
+    "ID_HDC_G0": 11011,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Binhai"
+  },
+  {
+    "x": 10.75289,
+    "y": 7.6847363,
+    "ID_HDC_G0": 11021,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Chaoyang"
+  },
+  {
+    "x": 9.71881,
+    "y": 4.11661,
+    "ID_HDC_G0": 1105,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Buenos Aires"
+  },
+  {
+    "x": 9.917039,
+    "y": 8.41385,
+    "ID_HDC_G0": 11051,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Dezhou"
+  },
+  {
+    "x": 11.192348,
+    "y": 9.310161,
+    "ID_HDC_G0": 1107,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Posadas"
+  },
+  {
+    "x": 10.65301,
+    "y": 7.730092,
+    "ID_HDC_G0": 11106,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Fuxin"
+  },
+  {
+    "x": 5.0034046,
+    "y": 8.675917,
+    "ID_HDC_G0": 11112,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Harbin"
+  },
+  {
+    "x": 10.739721,
+    "y": 8.333327,
+    "ID_HDC_G0": 11132,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Liaocheng"
+  },
+  {
+    "x": 14.71202,
+    "y": 9.45699,
+    "ID_HDC_G0": 11140,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yichang"
+  },
+  {
+    "x": 10.480243,
+    "y": 8.432044,
+    "ID_HDC_G0": 11144,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Qinhuangdao"
+  },
+  {
+    "x": 10.749501,
+    "y": 7.859671,
+    "ID_HDC_G0": 11161,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jinzhou"
+  },
+  {
+    "x": 12.105355,
+    "y": 4.8659997,
+    "ID_HDC_G0": 1117,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "La Plata"
+  },
+  {
+    "x": 9.969222,
+    "y": 8.23861,
+    "ID_HDC_G0": 11204,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Heze"
+  },
+  {
+    "x": 6.2129216,
+    "y": 10.82184,
+    "ID_HDC_G0": 1122,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Macapá"
+  },
+  {
+    "x": 7.14034,
+    "y": 4.966375,
+    "ID_HDC_G0": 11223,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jinan"
+  },
+  {
+    "x": 10.057557,
+    "y": 3.6916366,
+    "ID_HDC_G0": 11248,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Changchun"
+  },
+  {
+    "x": 10.185042,
+    "y": 8.442006,
+    "ID_HDC_G0": 11287,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Binzhou"
+  },
+  {
+    "x": 10.026378,
+    "y": 9.026161,
+    "ID_HDC_G0": 11300,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jingzhou"
+  },
+  {
+    "x": 10.124665,
+    "y": 8.467882,
+    "ID_HDC_G0": 11317,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Tai'an"
+  },
+  {
+    "x": 7.3646994,
+    "y": 4.858489,
+    "ID_HDC_G0": 11334,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Shenyang"
+  },
+  {
+    "x": 9.846765,
+    "y": 8.41617,
+    "ID_HDC_G0": 11341,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jining"
+  },
+  {
+    "x": 5.0224104,
+    "y": 8.700543,
+    "ID_HDC_G0": 11349,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Changde"
+  },
+  {
+    "x": 10.1413555,
+    "y": 11.832605,
+    "ID_HDC_G0": 11354,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zibo"
+  },
+  {
+    "x": 10.216149,
+    "y": 8.160946,
+    "ID_HDC_G0": 11373,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Xinyang"
+  },
+  {
+    "x": 10.589745,
+    "y": 8.5424795,
+    "ID_HDC_G0": 11381,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yingkou"
+  },
+  {
+    "x": 8.103852,
+    "y": 4.80575,
+    "ID_HDC_G0": 11382,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Nanning"
+  },
+  {
+    "x": 10.750027,
+    "y": 8.411825,
+    "ID_HDC_G0": 11398,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Fushun"
+  },
+  {
+    "x": 10.412346,
+    "y": 7.897567,
+    "ID_HDC_G0": 11401,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Anshan"
+  },
+  {
+    "x": 10.92418,
+    "y": 9.518301,
+    "ID_HDC_G0": 1141,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Mar del Plata"
+  },
+  {
+    "x": 10.696508,
+    "y": 6.6264462,
+    "ID_HDC_G0": 11415,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jilin"
+  },
+  {
+    "x": 5.291666,
+    "y": 10.64888,
+    "ID_HDC_G0": 1149,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Maringá"
+  },
+  {
+    "x": 8.46358,
+    "y": 5.241304,
+    "ID_HDC_G0": 11498,
+    "CTR_MN_NM": "Singapore",
+    "UC_NM_MN": "Singapore"
+  },
+  {
+    "x": 6.9751563,
+    "y": 5.127357,
+    "ID_HDC_G0": 11519,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Weifang"
+  },
+  {
+    "x": 10.002917,
+    "y": 8.490048,
+    "ID_HDC_G0": 11535,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Fuyang"
+  },
+  {
+    "x": 7.4208975,
+    "y": 4.9957676,
+    "ID_HDC_G0": 11540,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Dalian"
+  },
+  {
+    "x": 7.445976,
+    "y": 5.0048347,
+    "ID_HDC_G0": 11549,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Wuhan"
+  },
+  {
+    "x": 10.94834,
+    "y": 8.184437,
+    "ID_HDC_G0": 11561,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Xuzhou"
+  },
+  {
+    "x": 9.815462,
+    "y": 8.370651,
+    "ID_HDC_G0": 11599,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Linyi"
+  },
+  {
+    "x": 5.276379,
+    "y": 10.557678,
+    "ID_HDC_G0": 1162,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Londrina"
+  },
+  {
+    "x": 7.203582,
+    "y": 4.8416157,
+    "ID_HDC_G0": 11626,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Changsha"
+  },
+  {
+    "x": 15.959582,
+    "y": 9.986149,
+    "ID_HDC_G0": 11628,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Khabarovsk"
+  },
+  {
+    "x": 10.082847,
+    "y": 8.13347,
+    "ID_HDC_G0": 11632,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Suzhou"
+  },
+  {
+    "x": 4.9664226,
+    "y": 9.903154,
+    "ID_HDC_G0": 1165,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Belém"
+  },
+  {
+    "x": 6.9417996,
+    "y": 5.0333652,
+    "ID_HDC_G0": 11706,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yantai"
+  },
+  {
+    "x": 10.280848,
+    "y": 8.862182,
+    "ID_HDC_G0": 11716,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jiaozhou"
+  },
+  {
+    "x": 10.052282,
+    "y": 8.653168,
+    "ID_HDC_G0": 11764,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Rizhao"
+  },
+  {
+    "x": 10.639651,
+    "y": 7.2824597,
+    "ID_HDC_G0": 11767,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Dandong"
+  },
+  {
+    "x": 4.7686677,
+    "y": 9.84865,
+    "ID_HDC_G0": 1177,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Goiânia"
+  },
+  {
+    "x": 7.140884,
+    "y": 5.0254817,
+    "ID_HDC_G0": 11771,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Qingdao"
+  },
+  {
+    "x": 7.3758636,
+    "y": 6.234576,
+    "ID_HDC_G0": 11783,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Suqian"
+  },
+  {
+    "x": 7.3738236,
+    "y": 6.1129208,
+    "ID_HDC_G0": 11838,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Lianyungang"
+  },
+  {
+    "x": 11.01028,
+    "y": 9.026702,
+    "ID_HDC_G0": 11849,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Shuyang"
+  },
+  {
+    "x": 9.9879,
+    "y": 8.663505,
+    "ID_HDC_G0": 11856,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Weihai"
+  },
+  {
+    "x": 7.0925884,
+    "y": 4.8655357,
+    "ID_HDC_G0": 11881,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Hefei"
+  },
+  {
+    "x": 6.042397,
+    "y": 11.089991,
+    "ID_HDC_G0": 1190,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Anápolis"
+  },
+  {
+    "x": 11.086717,
+    "y": 11.191587,
+    "ID_HDC_G0": 11925,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Haikou"
+  },
+  {
+    "x": 7.315541,
+    "y": 6.09056,
+    "ID_HDC_G0": 11937,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Huai'an"
+  },
+  {
+    "x": 5.579235,
+    "y": 10.846034,
+    "ID_HDC_G0": 1197,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "São José do Rio Preto"
+  },
+  {
+    "x": 10.398157,
+    "y": 8.353963,
+    "ID_HDC_G0": 11987,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Chuzhou"
+  },
+  {
+    "x": 10.095154,
+    "y": 8.227454,
+    "ID_HDC_G0": 12000,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Anqing"
+  },
+  {
+    "x": 7.228665,
+    "y": 4.802295,
+    "ID_HDC_G0": 12010,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Nanchang"
+  },
+  {
+    "x": 11.011531,
+    "y": 8.506188,
+    "ID_HDC_G0": 12055,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Luhe"
+  },
+  {
+    "x": 7.263212,
+    "y": 5.188241,
+    "ID_HDC_G0": 12072,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Nanjing"
+  },
+  {
+    "x": 10.007834,
+    "y": 8.32271,
+    "ID_HDC_G0": 12073,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Ma'anshan"
+  },
+  {
+    "x": 5.5919147,
+    "y": 10.873122,
+    "ID_HDC_G0": 1208,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Caxias do Sul"
+  },
+  {
+    "x": 7.3573675,
+    "y": 5.030039,
+    "ID_HDC_G0": 12080,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Guangzhou"
+  },
+  {
+    "x": 10.517731,
+    "y": 8.903276,
+    "ID_HDC_G0": 12095,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "花都区"
+  },
+  {
+    "x": 7.3480296,
+    "y": 5.964887,
+    "ID_HDC_G0": 12097,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yancheng"
+  },
+  {
+    "x": 5.1268277,
+    "y": 10.390767,
+    "ID_HDC_G0": 1210,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Ceilândia"
+  },
+  {
+    "x": 7.2872515,
+    "y": 5.8833447,
+    "ID_HDC_G0": 12124,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yangzhou"
+  },
+  {
+    "x": 5.873892,
+    "y": 10.904916,
+    "ID_HDC_G0": 1214,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Novo Hamburgo"
+  },
+  {
+    "x": 5.1183467,
+    "y": 8.595538,
+    "ID_HDC_G0": 12147,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jingdezhen"
+  },
+  {
+    "x": 6.011231,
+    "y": 11.022455,
+    "ID_HDC_G0": 1215,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Gama"
+  },
+  {
+    "x": 7.3432975,
+    "y": 6.1539626,
+    "ID_HDC_G0": 12153,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zhenjiang"
+  },
+  {
+    "x": 5.75053,
+    "y": 11.031207,
+    "ID_HDC_G0": 1216,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Canoas"
+  },
+  {
+    "x": 10.697698,
+    "y": 8.923685,
+    "ID_HDC_G0": 12175,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Taizhou"
+  },
+  {
+    "x": 4.7692037,
+    "y": 9.591246,
+    "ID_HDC_G0": 1218,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Porto Alegre"
+  },
+  {
+    "x": 5.8559055,
+    "y": 10.99768,
+    "ID_HDC_G0": 1220,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Bauru"
+  },
+  {
+    "x": 6.130244,
+    "y": 10.883733,
+    "ID_HDC_G0": 1221,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Brasília"
+  },
+  {
+    "x": 7.1136103,
+    "y": 5.273644,
+    "ID_HDC_G0": 12211,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zhuhai"
+  },
+  {
+    "x": 7.6818166,
+    "y": 5.2310767,
+    "ID_HDC_G0": 12250,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Changzhou"
+  },
+  {
+    "x": 15.9462,
+    "y": 9.896606,
+    "ID_HDC_G0": 12251,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Vladivostok"
+  },
+  {
+    "x": 5.699694,
+    "y": 11.125246,
+    "ID_HDC_G0": 1226,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Gravataí"
+  },
+  {
+    "x": 8.572568,
+    "y": 5.1020284,
+    "ID_HDC_G0": 12274,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Hong Kong"
+  },
+  {
+    "x": 8.054097,
+    "y": 4.9847217,
+    "ID_HDC_G0": 12275,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jiangyin"
+  },
+  {
+    "x": 7.2008395,
+    "y": 5.3972397,
+    "ID_HDC_G0": 12279,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Huizhou"
+  },
+  {
+    "x": 5.1841726,
+    "y": 10.521586,
+    "ID_HDC_G0": 1228,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Uberlândia"
+  },
+  {
+    "x": 12.653617,
+    "y": 8.169905,
+    "ID_HDC_G0": 12291,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Sha Tin"
+  },
+  {
+    "x": 7.460729,
+    "y": 5.2033124,
+    "ID_HDC_G0": 12298,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Suzhou"
+  },
+  {
+    "x": 9.752947,
+    "y": 9.551667,
+    "ID_HDC_G0": 12300,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zhangjiagang"
+  },
+  {
+    "x": 7.4066586,
+    "y": 5.712949,
+    "ID_HDC_G0": 12319,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Nantong"
+  },
+  {
+    "x": 9.939327,
+    "y": 9.335349,
+    "ID_HDC_G0": 12346,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Changshu"
+  },
+  {
+    "x": 9.898642,
+    "y": 9.378533,
+    "ID_HDC_G0": 12348,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Huzhou"
+  },
+  {
+    "x": 10.764243,
+    "y": 8.671507,
+    "ID_HDC_G0": 12368,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Quzhou"
+  },
+  {
+    "x": 7.3619504,
+    "y": 5.0387497,
+    "ID_HDC_G0": 12386,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Hangzhou"
+  },
+  {
+    "x": 11.023933,
+    "y": 8.93925,
+    "ID_HDC_G0": 12396,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Fuyang"
+  },
+  {
+    "x": 7.4663286,
+    "y": 4.990724,
+    "ID_HDC_G0": 12400,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Shanghai"
+  },
+  {
+    "x": 10.494595,
+    "y": 8.992423,
+    "ID_HDC_G0": 12409,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jiaxing"
+  },
+  {
+    "x": 4.8995943,
+    "y": 8.94974,
+    "ID_HDC_G0": 1242,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Curitiba"
+  },
+  {
+    "x": 10.399053,
+    "y": 8.860364,
+    "ID_HDC_G0": 12421,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jinhua"
+  },
+  {
+    "x": 7.392678,
+    "y": 5.659838,
+    "ID_HDC_G0": 12430,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Jieyang"
+  },
+  {
+    "x": 10.342501,
+    "y": 9.067471,
+    "ID_HDC_G0": 12432,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zhuji"
+  },
+  {
+    "x": 13.014879,
+    "y": 8.321506,
+    "ID_HDC_G0": 12451,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yiwu"
+  },
+  {
+    "x": 10.552995,
+    "y": 8.730132,
+    "ID_HDC_G0": 12479,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Cixi"
+  },
+  {
+    "x": 6.197364,
+    "y": 10.927476,
+    "ID_HDC_G0": 1250,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Uberaba"
+  },
+  {
+    "x": 6.957359,
+    "y": 5.0467405,
+    "ID_HDC_G0": 12528,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Ningbo"
+  },
+  {
+    "x": 7.0559278,
+    "y": 4.901409,
+    "ID_HDC_G0": 12530,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Xiamen"
+  },
+  {
+    "x": 7.1716647,
+    "y": 4.8431354,
+    "ID_HDC_G0": 12566,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Fuzhou"
+  },
+  {
+    "x": 7.06369,
+    "y": 5.616907,
+    "ID_HDC_G0": 12569,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Quanzhou"
+  },
+  {
+    "x": 5.294393,
+    "y": 10.630035,
+    "ID_HDC_G0": 1257,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Ribeirao Preto"
+  },
+  {
+    "x": 7.2065907,
+    "y": 5.550547,
+    "ID_HDC_G0": 12578,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Wenzhou"
+  },
+  {
+    "x": 10.926765,
+    "y": 8.982209,
+    "ID_HDC_G0": 12583,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Zhoushan"
+  },
+  {
+    "x": 10.853282,
+    "y": 8.868437,
+    "ID_HDC_G0": 12593,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Cangnan"
+  },
+  {
+    "x": 10.648473,
+    "y": 8.843544,
+    "ID_HDC_G0": 12602,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Yueqing"
+  },
+  {
+    "x": 9.910884,
+    "y": 8.910492,
+    "ID_HDC_G0": 12618,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Taizhou"
+  },
+  {
+    "x": 5.5985217,
+    "y": 10.792908,
+    "ID_HDC_G0": 1262,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Joinville"
+  },
+  {
+    "x": 9.093914,
+    "y": 9.136913,
+    "ID_HDC_G0": 12623,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Wenling"
+  },
+  {
+    "x": 6.1181417,
+    "y": 10.877667,
+    "ID_HDC_G0": 1267,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Franca"
+  },
+  {
+    "x": 11.599746,
+    "y": 8.117613,
+    "ID_HDC_G0": 12691,
+    "CTR_MN_NM": "Taiwan",
+    "UC_NM_MN": "Hsinchu"
+  },
+  {
+    "x": 12.483103,
+    "y": 5.3954816,
+    "ID_HDC_G0": 12693,
+    "CTR_MN_NM": "Taiwan",
+    "UC_NM_MN": "Taichung"
+  },
+  {
+    "x": 9.379561,
+    "y": 4.353417,
+    "ID_HDC_G0": 12696,
+    "CTR_MN_NM": "Taiwan",
+    "UC_NM_MN": "New Taipei [Taipei]"
+  },
+  {
+    "x": 12.374098,
+    "y": 5.7782426,
+    "ID_HDC_G0": 12703,
+    "CTR_MN_NM": "Taiwan",
+    "UC_NM_MN": "Tainan"
+  },
+  {
+    "x": 12.491316,
+    "y": 5.651531,
+    "ID_HDC_G0": 12709,
+    "CTR_MN_NM": "Taiwan",
+    "UC_NM_MN": "Kaohsiung"
+  },
+  {
+    "x": 5.8622375,
+    "y": 10.973365,
+    "ID_HDC_G0": 1271,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Piracicaba"
+  },
+  {
+    "x": 10.724349,
+    "y": 6.0898137,
+    "ID_HDC_G0": 12736,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Sapporo"
+  },
+  {
+    "x": 10.762398,
+    "y": 7.359311,
+    "ID_HDC_G0": 12740,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Asahikawa"
+  },
+  {
+    "x": 10.8194275,
+    "y": 5.273547,
+    "ID_HDC_G0": 12741,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Fukuoka"
+  },
+  {
+    "x": 10.79023,
+    "y": 6.443088,
+    "ID_HDC_G0": 12743,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Kitakyushu"
+  },
+  {
+    "x": 10.6313925,
+    "y": 6.494584,
+    "ID_HDC_G0": 12769,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Kumamoto"
+  },
+  {
+    "x": 10.829571,
+    "y": 5.535294,
+    "ID_HDC_G0": 12778,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Hiroshima"
+  },
+  {
+    "x": 10.714847,
+    "y": 6.51152,
+    "ID_HDC_G0": 12797,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Ōita"
+  },
+  {
+    "x": 4.963732,
+    "y": 9.931806,
+    "ID_HDC_G0": 1281,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Florianópolis"
+  },
+  {
+    "x": 10.810596,
+    "y": 7.1490583,
+    "ID_HDC_G0": 12811,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Kagoshima"
+  },
+  {
+    "x": 10.753137,
+    "y": 6.9756646,
+    "ID_HDC_G0": 12825,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Matsuyama"
+  },
+  {
+    "x": 8.216441,
+    "y": 5.5988173,
+    "ID_HDC_G0": 12829,
+    "CTR_MN_NM": "Philippines",
+    "UC_NM_MN": "Quezon City [Manila]"
+  },
+  {
+    "x": 10.743337,
+    "y": 6.1274443,
+    "ID_HDC_G0": 12838,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Okayama"
+  },
+  {
+    "x": 5.7491155,
+    "y": 11.088373,
+    "ID_HDC_G0": 1284,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Americana"
+  },
+  {
+    "x": 10.902975,
+    "y": 7.5320516,
+    "ID_HDC_G0": 12857,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Takamatsu"
+  },
+  {
+    "x": 9.779857,
+    "y": 4.196125,
+    "ID_HDC_G0": 12858,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Osaka [Kyoto]"
+  },
+  {
+    "x": 5.2218914,
+    "y": 10.474218,
+    "ID_HDC_G0": 1286,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Sorocaba"
+  },
+  {
+    "x": 10.709558,
+    "y": 7.033716,
+    "ID_HDC_G0": 12869,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Kanazawa"
+  },
+  {
+    "x": 10.606974,
+    "y": 6.635681,
+    "ID_HDC_G0": 12881,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Tokushima"
+  },
+  {
+    "x": 10.664563,
+    "y": 6.30662,
+    "ID_HDC_G0": 12882,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Naha"
+  },
+  {
+    "x": 10.647237,
+    "y": 7.212967,
+    "ID_HDC_G0": 12902,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Moriyama [Otsu]"
+  },
+  {
+    "x": 10.732976,
+    "y": 6.3669376,
+    "ID_HDC_G0": 12904,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Niigata"
+  },
+  {
+    "x": 11.028904,
+    "y": 7.4768133,
+    "ID_HDC_G0": 12905,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Kinokawa [Wakayama]"
+  },
+  {
+    "x": 4.8310375,
+    "y": 9.939575,
+    "ID_HDC_G0": 1291,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Campinas"
+  },
+  {
+    "x": 9.807253,
+    "y": 4.0598493,
+    "ID_HDC_G0": 12914,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Nagoya"
+  },
+  {
+    "x": 11.267963,
+    "y": 8.294365,
+    "ID_HDC_G0": 12931,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Sendai"
+  },
+  {
+    "x": 10.71873,
+    "y": 6.036474,
+    "ID_HDC_G0": 12947,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Takasaki [Maebashi]"
+  },
+  {
+    "x": 10.859611,
+    "y": 7.581335,
+    "ID_HDC_G0": 12949,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Toyohashi"
+  },
+  {
+    "x": 11.077691,
+    "y": 7.772446,
+    "ID_HDC_G0": 12956,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Kai [Kofu]"
+  },
+  {
+    "x": 10.538426,
+    "y": 6.621231,
+    "ID_HDC_G0": 12958,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Hamamatsu"
+  },
+  {
+    "x": 9.689169,
+    "y": 4.077212,
+    "ID_HDC_G0": 12964,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Tokyo"
+  },
+  {
+    "x": 10.785676,
+    "y": 6.851751,
+    "ID_HDC_G0": 12965,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Utsunomiya"
+  },
+  {
+    "x": 10.666653,
+    "y": 7.069746,
+    "ID_HDC_G0": 12972,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Shizuoka"
+  },
+  {
+    "x": 10.947545,
+    "y": 7.688031,
+    "ID_HDC_G0": 12980,
+    "CTR_MN_NM": "Japan",
+    "UC_NM_MN": "Mishima"
+  },
+  {
+    "x": 11.50179,
+    "y": 7.9495254,
+    "ID_HDC_G0": 12981,
+    "CTR_MN_NM": "Philippines",
+    "UC_NM_MN": "Cebu City"
+  },
+  {
+    "x": 5.666788,
+    "y": 10.957763,
+    "ID_HDC_G0": 1302,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Jundiaí"
+  },
+  {
+    "x": 8.342833,
+    "y": 5.66174,
+    "ID_HDC_G0": 1303,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "São Paulo"
+  },
+  {
+    "x": 6.2669926,
+    "y": 11.062466,
+    "ID_HDC_G0": 1310,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Francisco Morato"
+  },
+  {
+    "x": 5.0864015,
+    "y": 10.049958,
+    "ID_HDC_G0": 1312,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "São Luís"
+  },
+  {
+    "x": 5.8646502,
+    "y": 10.654096,
+    "ID_HDC_G0": 1313,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Praia Grande"
+  },
+  {
+    "x": 5.014845,
+    "y": 10.40359,
+    "ID_HDC_G0": 1320,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Santos"
+  },
+  {
+    "x": 5.3189116,
+    "y": 10.609238,
+    "ID_HDC_G0": 1324,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Sao Jose dos Campos"
+  },
+  {
+    "x": 5.205947,
+    "y": 10.21262,
+    "ID_HDC_G0": 1343,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Teresina"
+  },
+  {
+    "x": 5.8289633,
+    "y": 10.809203,
+    "ID_HDC_G0": 1344,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Montes Claros"
+  },
+  {
+    "x": 4.8543077,
+    "y": 9.389306,
+    "ID_HDC_G0": 1346,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Belo Horizonte"
+  },
+  {
+    "x": 5.87107,
+    "y": 11.003014,
+    "ID_HDC_G0": 1354,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Volta Redonda"
+  },
+  {
+    "x": 4.7449603,
+    "y": 9.558879,
+    "ID_HDC_G0": 1361,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Rio de Janeiro"
+  },
+  {
+    "x": 5.703886,
+    "y": 10.794629,
+    "ID_HDC_G0": 1362,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Juiz de Fora"
+  },
+  {
+    "x": 5.0760946,
+    "y": 10.431699,
+    "ID_HDC_G0": 1372,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Sao Goncalo"
+  },
+  {
+    "x": 6.086826,
+    "y": 10.905372,
+    "ID_HDC_G0": 1384,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Petrolina"
+  },
+  {
+    "x": 5.931455,
+    "y": 10.3204975,
+    "ID_HDC_G0": 1391,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Campos dos Goytacazes"
+  },
+  {
+    "x": 9.376334,
+    "y": 3.8888,
+    "ID_HDC_G0": 14,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Los Angeles"
+  },
+  {
+    "x": 10.107173,
+    "y": 3.850819,
+    "ID_HDC_G0": 140,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Seattle"
+  },
+  {
+    "x": 4.868781,
+    "y": 10.049992,
+    "ID_HDC_G0": 1400,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Vila Velha"
+  },
+  {
+    "x": 5.857739,
+    "y": 11.11427,
+    "ID_HDC_G0": 1402,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Colina de Laranjeiras"
+  },
+  {
+    "x": 4.80764,
+    "y": 9.641152,
+    "ID_HDC_G0": 1406,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Fortaleza"
+  },
+  {
+    "x": 5.568869,
+    "y": 10.744164,
+    "ID_HDC_G0": 1411,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Feira de Santana"
+  },
+  {
+    "x": 4.7770433,
+    "y": 9.850146,
+    "ID_HDC_G0": 1420,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Salvador"
+  },
+  {
+    "x": 5.318431,
+    "y": 10.107381,
+    "ID_HDC_G0": 1430,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Aracaju"
+  },
+  {
+    "x": 6.1967545,
+    "y": 10.908587,
+    "ID_HDC_G0": 1437,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Campina Grande"
+  },
+  {
+    "x": 5.196918,
+    "y": 10.026551,
+    "ID_HDC_G0": 1438,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Maceió"
+  },
+  {
+    "x": 5.094556,
+    "y": 10.015306,
+    "ID_HDC_G0": 1442,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Natal"
+  },
+  {
+    "x": 4.7496095,
+    "y": 9.713889,
+    "ID_HDC_G0": 1445,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Recife"
+  },
+  {
+    "x": 5.02902,
+    "y": 10.079573,
+    "ID_HDC_G0": 1449,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "João Pessoa"
+  },
+  {
+    "x": 12.056131,
+    "y": 8.982523,
+    "ID_HDC_G0": 1488,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Santa Cruz de Tenerife"
+  },
+  {
+    "x": 11.762448,
+    "y": 8.702412,
+    "ID_HDC_G0": 1494,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Las Palmas de Gran Canaria"
+  },
+  {
+    "x": 14.874927,
+    "y": 9.570611,
+    "ID_HDC_G0": 1544,
+    "CTR_MN_NM": "Morocco",
+    "UC_NM_MN": "Agadir"
+  },
+  {
+    "x": 10.85367,
+    "y": 4.78417,
+    "ID_HDC_G0": 1551,
+    "CTR_MN_NM": "Portugal",
+    "UC_NM_MN": "Lisbon"
+  },
+  {
+    "x": 11.511462,
+    "y": 6.5215793,
+    "ID_HDC_G0": 1569,
+    "CTR_MN_NM": "Portugal",
+    "UC_NM_MN": "Porto"
+  },
+  {
+    "x": 14.803501,
+    "y": 9.519976,
+    "ID_HDC_G0": 1570,
+    "CTR_MN_NM": "Morocco",
+    "UC_NM_MN": "Marrakesh"
+  },
+  {
+    "x": 14.754431,
+    "y": 9.457071,
+    "ID_HDC_G0": 1575,
+    "CTR_MN_NM": "Morocco",
+    "UC_NM_MN": "Casablanca"
+  },
+  {
+    "x": 14.883037,
+    "y": 9.564078,
+    "ID_HDC_G0": 1595,
+    "CTR_MN_NM": "Morocco",
+    "UC_NM_MN": "Rabat"
+  },
+  {
+    "x": 12.5437765,
+    "y": 8.995989,
+    "ID_HDC_G0": 1632,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Seville"
+  },
+  {
+    "x": 14.817359,
+    "y": 9.529116,
+    "ID_HDC_G0": 1635,
+    "CTR_MN_NM": "Morocco",
+    "UC_NM_MN": "Tangier"
+  },
+  {
+    "x": 14.899775,
+    "y": 9.614401,
+    "ID_HDC_G0": 1664,
+    "CTR_MN_NM": "Morocco",
+    "UC_NM_MN": "Fez"
+  },
+  {
+    "x": 11.70233,
+    "y": 7.5076184,
+    "ID_HDC_G0": 1667,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Belfast"
+  },
+  {
+    "x": 12.541244,
+    "y": 8.976242,
+    "ID_HDC_G0": 1677,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Málaga"
+  },
+  {
+    "x": 12.883488,
+    "y": 8.988697,
+    "ID_HDC_G0": 1701,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Madrid"
+  },
+  {
+    "x": 12.007944,
+    "y": 8.944949,
+    "ID_HDC_G0": 1708,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Granada"
+  },
+  {
+    "x": 9.009474,
+    "y": 4.072064,
+    "ID_HDC_G0": 1709,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Glasgow"
+  },
+  {
+    "x": 12.226614,
+    "y": 5.190569,
+    "ID_HDC_G0": 171,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Boise"
+  },
+  {
+    "x": 12.356525,
+    "y": 8.986669,
+    "ID_HDC_G0": 1737,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Bilbao"
+  },
+  {
+    "x": 11.505824,
+    "y": 7.510418,
+    "ID_HDC_G0": 1741,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Cardiff"
+  },
+  {
+    "x": 11.577773,
+    "y": 7.321739,
+    "ID_HDC_G0": 1749,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Edinburgh"
+  },
+  {
+    "x": 11.569213,
+    "y": 6.882335,
+    "ID_HDC_G0": 1751,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Liverpool"
+  },
+  {
+    "x": 11.559333,
+    "y": 7.074571,
+    "ID_HDC_G0": 1771,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Bristol"
+  },
+  {
+    "x": 10.615829,
+    "y": 4.260842,
+    "ID_HDC_G0": 1780,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Manchester"
+  },
+  {
+    "x": 10.696318,
+    "y": 6.934952,
+    "ID_HDC_G0": 1795,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Stoke-on-Trent"
+  },
+  {
+    "x": 8.990559,
+    "y": 3.9729588,
+    "ID_HDC_G0": 18,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Concord"
+  },
+  {
+    "x": 10.749274,
+    "y": 4.3117,
+    "ID_HDC_G0": 1800,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Birmingham"
+  },
+  {
+    "x": 11.321608,
+    "y": 7.435891,
+    "ID_HDC_G0": 1806,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Bournemouth"
+  },
+  {
+    "x": 15.8558655,
+    "y": 9.0476465,
+    "ID_HDC_G0": 1819,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Leeds"
+  },
+  {
+    "x": 12.06204,
+    "y": 7.170713,
+    "ID_HDC_G0": 1821,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Nantes"
+  },
+  {
+    "x": 11.28029,
+    "y": 6.5013824,
+    "ID_HDC_G0": 1830,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Newcastle upon Tyne"
+  },
+  {
+    "x": 11.635632,
+    "y": 7.5796685,
+    "ID_HDC_G0": 1834,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Coventry"
+  },
+  {
+    "x": 11.307171,
+    "y": 7.512246,
+    "ID_HDC_G0": 1835,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Southampton"
+  },
+  {
+    "x": 11.334928,
+    "y": 6.4308567,
+    "ID_HDC_G0": 1838,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Sheffield"
+  },
+  {
+    "x": 12.266788,
+    "y": 8.951003,
+    "ID_HDC_G0": 1846,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Murcia"
+  },
+  {
+    "x": 11.335155,
+    "y": 7.426235,
+    "ID_HDC_G0": 1856,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Middlesbrough"
+  },
+  {
+    "x": 11.382565,
+    "y": 7.8313828,
+    "ID_HDC_G0": 1857,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Nottingham"
+  },
+  {
+    "x": 11.642487,
+    "y": 5.4911203,
+    "ID_HDC_G0": 1861,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Portsmouth"
+  },
+  {
+    "x": 11.419891,
+    "y": 7.907778,
+    "ID_HDC_G0": 1864,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Leicester"
+  },
+  {
+    "x": 9.540694,
+    "y": 4.0025306,
+    "ID_HDC_G0": 187,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Vancouver"
+  },
+  {
+    "x": 12.48148,
+    "y": 9.01132,
+    "ID_HDC_G0": 1871,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Zaragoza"
+  },
+  {
+    "x": 12.08534,
+    "y": 7.063652,
+    "ID_HDC_G0": 1897,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Bordeaux"
+  },
+  {
+    "x": 12.303035,
+    "y": 8.918726,
+    "ID_HDC_G0": 1908,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Alacant / Alicante"
+  },
+  {
+    "x": 12.705899,
+    "y": 9.011821,
+    "ID_HDC_G0": 1911,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Valencia"
+  },
+  {
+    "x": 8.35164,
+    "y": 5.5126677,
+    "ID_HDC_G0": 1912,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "London"
+  },
+  {
+    "x": 11.991405,
+    "y": 5.8370075,
+    "ID_HDC_G0": 192,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Provo"
+  },
+  {
+    "x": 11.412713,
+    "y": 7.433122,
+    "ID_HDC_G0": 1929,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Brighton"
+  },
+  {
+    "x": 11.577217,
+    "y": 4.254274,
+    "ID_HDC_G0": 193,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Salt Lake City"
+  },
+  {
+    "x": 11.399276,
+    "y": 7.554842,
+    "ID_HDC_G0": 1930,
+    "CTR_MN_NM": "United Kingdom",
+    "UC_NM_MN": "Hull"
+  },
+  {
+    "x": 11.712175,
+    "y": 4.9301677,
+    "ID_HDC_G0": 196,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Albuquerque"
+  },
+  {
+    "x": 11.641324,
+    "y": 7.569394,
+    "ID_HDC_G0": 1998,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Rouen"
+  },
+  {
+    "x": 12.084188,
+    "y": 7.0453477,
+    "ID_HDC_G0": 2017,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Toulouse"
+  },
+  {
+    "x": 9.324386,
+    "y": 4.1456094,
+    "ID_HDC_G0": 2046,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Paris"
+  },
+  {
+    "x": 12.966125,
+    "y": 8.845114,
+    "ID_HDC_G0": 2051,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Barcelona"
+  },
+  {
+    "x": 11.974553,
+    "y": 5.6401396,
+    "ID_HDC_G0": 206,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Ogden"
+  },
+  {
+    "x": 12.44002,
+    "y": 9.03997,
+    "ID_HDC_G0": 2076,
+    "CTR_MN_NM": "Spain",
+    "UC_NM_MN": "Palma de Mallorca"
+  },
+  {
+    "x": 12.124907,
+    "y": 6.932097,
+    "ID_HDC_G0": 2080,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Lille"
+  },
+  {
+    "x": 9.98406,
+    "y": 3.7170973,
+    "ID_HDC_G0": 21,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Tijuana"
+  },
+  {
+    "x": 11.946283,
+    "y": 8.973561,
+    "ID_HDC_G0": 2133,
+    "CTR_MN_NM": "Belgium",
+    "UC_NM_MN": "Antwerp"
+  },
+  {
+    "x": 12.109582,
+    "y": 8.765926,
+    "ID_HDC_G0": 2135,
+    "CTR_MN_NM": "Belgium",
+    "UC_NM_MN": "Brussels"
+  },
+  {
+    "x": 12.158682,
+    "y": 6.9244704,
+    "ID_HDC_G0": 2186,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Lyon"
+  },
+  {
+    "x": 11.530138,
+    "y": 8.982039,
+    "ID_HDC_G0": 2208,
+    "CTR_MN_NM": "Belgium",
+    "UC_NM_MN": "Liège"
+  },
+  {
+    "x": 12.092509,
+    "y": 6.925221,
+    "ID_HDC_G0": 2228,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Marseille"
+  },
+  {
+    "x": 11.869326,
+    "y": 7.4168043,
+    "ID_HDC_G0": 2246,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Grenoble"
+  },
+  {
+    "x": 11.854324,
+    "y": 7.610704,
+    "ID_HDC_G0": 2265,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Toulon"
+  },
+  {
+    "x": 12.7472105,
+    "y": 8.142264,
+    "ID_HDC_G0": 2276,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Dortmund"
+  },
+  {
+    "x": 12.595039,
+    "y": 8.227572,
+    "ID_HDC_G0": 2288,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Dusseldorf"
+  },
+  {
+    "x": 12.61343,
+    "y": 7.955284,
+    "ID_HDC_G0": 2310,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Cologne"
+  },
+  {
+    "x": 11.99977,
+    "y": 8.391006,
+    "ID_HDC_G0": 2317,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Wuppertal"
+  },
+  {
+    "x": 8.086946,
+    "y": 5.773759,
+    "ID_HDC_G0": 2329,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Bonn"
+  },
+  {
+    "x": 12.056589,
+    "y": 6.858523,
+    "ID_HDC_G0": 2368,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Nice"
+  },
+  {
+    "x": 11.921114,
+    "y": 7.276503,
+    "ID_HDC_G0": 2394,
+    "CTR_MN_NM": "France",
+    "UC_NM_MN": "Strasbourg"
+  },
+  {
+    "x": 11.587896,
+    "y": 8.653521,
+    "ID_HDC_G0": 2405,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Turin"
+  },
+  {
+    "x": 12.0629225,
+    "y": 8.522293,
+    "ID_HDC_G0": 2423,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Wiesbaden"
+  },
+  {
+    "x": 12.190559,
+    "y": 8.375085,
+    "ID_HDC_G0": 2439,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Bremen"
+  },
+  {
+    "x": 12.090866,
+    "y": 8.349129,
+    "ID_HDC_G0": 2442,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Mannheim"
+  },
+  {
+    "x": 12.726909,
+    "y": 8.128868,
+    "ID_HDC_G0": 2445,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Frankfurt am Main"
+  },
+  {
+    "x": 11.600692,
+    "y": 5.078926,
+    "ID_HDC_G0": 2493,
+    "CTR_MN_NM": "Norway",
+    "UC_NM_MN": "Oslo"
+  },
+  {
+    "x": 11.249993,
+    "y": 4.428621,
+    "ID_HDC_G0": 250,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "San Antonio"
+  },
+  {
+    "x": 12.582151,
+    "y": 8.165295,
+    "ID_HDC_G0": 2514,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Stuttgart"
+  },
+  {
+    "x": 12.116703,
+    "y": 8.471736,
+    "ID_HDC_G0": 2523,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Hanover"
+  },
+  {
+    "x": 12.800762,
+    "y": 8.115257,
+    "ID_HDC_G0": 2531,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Hamburg"
+  },
+  {
+    "x": 11.529776,
+    "y": 8.641075,
+    "ID_HDC_G0": 2535,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Genoa"
+  },
+  {
+    "x": 11.501524,
+    "y": 8.4867525,
+    "ID_HDC_G0": 2559,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Milan"
+  },
+  {
+    "x": 11.173157,
+    "y": 8.8015,
+    "ID_HDC_G0": 2631,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Bergamo"
+  },
+  {
+    "x": 12.155034,
+    "y": 5.250032,
+    "ID_HDC_G0": 265,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Colorado Springs"
+  },
+  {
+    "x": 11.981241,
+    "y": 7.2548623,
+    "ID_HDC_G0": 2682,
+    "CTR_MN_NM": "Sweden",
+    "UC_NM_MN": "Gothenburg"
+  },
+  {
+    "x": 10.031254,
+    "y": 3.9014578,
+    "ID_HDC_G0": 272,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Denver"
+  },
+  {
+    "x": 9.062519,
+    "y": 3.9532213,
+    "ID_HDC_G0": 273,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Austin"
+  },
+  {
+    "x": 12.198564,
+    "y": 8.367723,
+    "ID_HDC_G0": 2730,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Nuremberg"
+  },
+  {
+    "x": 12.298445,
+    "y": 8.317891,
+    "ID_HDC_G0": 2734,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Augsburg"
+  },
+  {
+    "x": 12.136293,
+    "y": 6.811601,
+    "ID_HDC_G0": 2749,
+    "CTR_MN_NM": "Denmark",
+    "UC_NM_MN": "Copenhagen"
+  },
+  {
+    "x": 12.850221,
+    "y": 8.082009,
+    "ID_HDC_G0": 2784,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Munich"
+  },
+  {
+    "x": 11.400079,
+    "y": 8.774817,
+    "ID_HDC_G0": 2801,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Florence"
+  },
+  {
+    "x": 11.530098,
+    "y": 8.663916,
+    "ID_HDC_G0": 2802,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Bologna"
+  },
+  {
+    "x": 12.123221,
+    "y": 8.491686,
+    "ID_HDC_G0": 2806,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Leipzig"
+  },
+  {
+    "x": 12.791792,
+    "y": 8.068582,
+    "ID_HDC_G0": 2851,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Berlin"
+  },
+  {
+    "x": 12.02465,
+    "y": 8.450205,
+    "ID_HDC_G0": 2887,
+    "CTR_MN_NM": "Germany",
+    "UC_NM_MN": "Dresden"
+  },
+  {
+    "x": 11.478086,
+    "y": 8.48518,
+    "ID_HDC_G0": 2897,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Rome"
+  },
+  {
+    "x": 12.221864,
+    "y": 5.246241,
+    "ID_HDC_G0": 29,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Bakersfield"
+  },
+  {
+    "x": 8.312392,
+    "y": 6.0049834,
+    "ID_HDC_G0": 2927,
+    "CTR_MN_NM": "Czech Republic",
+    "UC_NM_MN": "Prague"
+  },
+  {
+    "x": 11.524037,
+    "y": 8.740889,
+    "ID_HDC_G0": 2959,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Palermo"
+  },
+  {
+    "x": 12.033604,
+    "y": 9.001442,
+    "ID_HDC_G0": 2965,
+    "CTR_MN_NM": "Slovenia",
+    "UC_NM_MN": "Ljubljana"
+  },
+  {
+    "x": 12.274463,
+    "y": 6.6994977,
+    "ID_HDC_G0": 2973,
+    "CTR_MN_NM": "Sweden",
+    "UC_NM_MN": "Stockholm"
+  },
+  {
+    "x": 11.579095,
+    "y": 8.718795,
+    "ID_HDC_G0": 2980,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Naples"
+  },
+  {
+    "x": 10.971528,
+    "y": 7.02481,
+    "ID_HDC_G0": 3012,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Poznan"
+  },
+  {
+    "x": 12.449117,
+    "y": 5.856402,
+    "ID_HDC_G0": 3027,
+    "CTR_MN_NM": "Austria",
+    "UC_NM_MN": "Vienna"
+  },
+  {
+    "x": 11.079286,
+    "y": 6.9572806,
+    "ID_HDC_G0": 3031,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Wroclaw"
+  },
+  {
+    "x": 15.354232,
+    "y": 10.30113,
+    "ID_HDC_G0": 3032,
+    "CTR_MN_NM": "Croatia",
+    "UC_NM_MN": "Zagreb"
+  },
+  {
+    "x": 15.398703,
+    "y": 10.0900755,
+    "ID_HDC_G0": 3036,
+    "CTR_MN_NM": "Czech Republic",
+    "UC_NM_MN": "Brno"
+  },
+  {
+    "x": 11.4892645,
+    "y": 8.92377,
+    "ID_HDC_G0": 3051,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Catania"
+  },
+  {
+    "x": 10.964488,
+    "y": 7.4337153,
+    "ID_HDC_G0": 3054,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Bydgoszcz"
+  },
+  {
+    "x": 11.102259,
+    "y": 6.919226,
+    "ID_HDC_G0": 3060,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Gdansk"
+  },
+  {
+    "x": 11.071062,
+    "y": 6.9493217,
+    "ID_HDC_G0": 3134,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Katowice"
+  },
+  {
+    "x": 11.315308,
+    "y": 8.874475,
+    "ID_HDC_G0": 3135,
+    "CTR_MN_NM": "Italy",
+    "UC_NM_MN": "Bari"
+  },
+  {
+    "x": 9.420254,
+    "y": 3.890957,
+    "ID_HDC_G0": 315,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Houston"
+  },
+  {
+    "x": 10.961725,
+    "y": 7.144364,
+    "ID_HDC_G0": 3153,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Lodz"
+  },
+  {
+    "x": 16.003574,
+    "y": 9.948921,
+    "ID_HDC_G0": 3168,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Kaliningrad"
+  },
+  {
+    "x": 12.567068,
+    "y": 6.721167,
+    "ID_HDC_G0": 3193,
+    "CTR_MN_NM": "Hungary",
+    "UC_NM_MN": "Budapest"
+  },
+  {
+    "x": 11.076457,
+    "y": 6.9818625,
+    "ID_HDC_G0": 3205,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Krakow"
+  },
+  {
+    "x": 11.040056,
+    "y": 6.9365396,
+    "ID_HDC_G0": 3216,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Warsaw"
+  },
+  {
+    "x": 9.706887,
+    "y": 3.8170943,
+    "ID_HDC_G0": 323,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Dallas"
+  },
+  {
+    "x": 12.187155,
+    "y": 7.2019606,
+    "ID_HDC_G0": 3244,
+    "CTR_MN_NM": "Finland",
+    "UC_NM_MN": "Helsinki"
+  },
+  {
+    "x": 12.857571,
+    "y": 9.267349,
+    "ID_HDC_G0": 3255,
+    "CTR_MN_NM": "Estonia",
+    "UC_NM_MN": "Tallinn"
+  },
+  {
+    "x": 11.431005,
+    "y": 7.9496274,
+    "ID_HDC_G0": 3269,
+    "CTR_MN_NM": "Latvia",
+    "UC_NM_MN": "Riga"
+  },
+  {
+    "x": 10.996366,
+    "y": 7.21792,
+    "ID_HDC_G0": 3289,
+    "CTR_MN_NM": "Poland",
+    "UC_NM_MN": "Lublin"
+  },
+  {
+    "x": 11.9831505,
+    "y": 7.256006,
+    "ID_HDC_G0": 3339,
+    "CTR_MN_NM": "Lithuania",
+    "UC_NM_MN": "Vilnius"
+  },
+  {
+    "x": 11.498512,
+    "y": 8.935626,
+    "ID_HDC_G0": 3384,
+    "CTR_MN_NM": "Greece",
+    "UC_NM_MN": "Thessaloniki"
+  },
+  {
+    "x": 15.695871,
+    "y": 8.989604,
+    "ID_HDC_G0": 3396,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Saint Petersburg"
+  },
+  {
+    "x": 12.026137,
+    "y": 5.703085,
+    "ID_HDC_G0": 34,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Stockton"
+  },
+  {
+    "x": 15.904899,
+    "y": 9.338404,
+    "ID_HDC_G0": 3420,
+    "CTR_MN_NM": "Greece",
+    "UC_NM_MN": "Athens"
+  },
+  {
+    "x": 15.691268,
+    "y": 8.9832945,
+    "ID_HDC_G0": 3444,
+    "CTR_MN_NM": "Romania",
+    "UC_NM_MN": "Bucharest"
+  },
+  {
+    "x": 11.735808,
+    "y": 4.866265,
+    "ID_HDC_G0": 349,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Oklahoma City"
+  },
+  {
+    "x": 15.606917,
+    "y": 10.334499,
+    "ID_HDC_G0": 3502,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Smolensk"
+  },
+  {
+    "x": 15.980346,
+    "y": 10.189782,
+    "ID_HDC_G0": 3594,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Tver"
+  },
+  {
+    "x": 12.327942,
+    "y": 5.3921323,
+    "ID_HDC_G0": 362,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Calgary"
+  },
+  {
+    "x": 8.365631,
+    "y": 5.9970217,
+    "ID_HDC_G0": 3675,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Moscow"
+  },
+  {
+    "x": 15.888356,
+    "y": 10.093919,
+    "ID_HDC_G0": 3739,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Yaroslavl"
+  },
+  {
+    "x": 15.800471,
+    "y": 10.312597,
+    "ID_HDC_G0": 3743,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Tula"
+  },
+  {
+    "x": 15.758617,
+    "y": 10.276212,
+    "ID_HDC_G0": 3791,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Belgorod"
+  },
+  {
+    "x": 15.43993,
+    "y": 10.243279,
+    "ID_HDC_G0": 3833,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Ivanovo"
+  },
+  {
+    "x": 12.264012,
+    "y": 5.091801,
+    "ID_HDC_G0": 385,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Tulsa"
+  },
+  {
+    "x": 15.814285,
+    "y": 10.255758,
+    "ID_HDC_G0": 3865,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Ryazan"
+  },
+  {
+    "x": 11.5123005,
+    "y": 4.272151,
+    "ID_HDC_G0": 400,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "New Orleans"
+  },
+  {
+    "x": 15.876542,
+    "y": 10.364194,
+    "ID_HDC_G0": 4019,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Lipetsk"
+  },
+  {
+    "x": 15.934798,
+    "y": 9.537434,
+    "ID_HDC_G0": 4028,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Voronezh"
+  },
+  {
+    "x": 12.396671,
+    "y": 5.3862906,
+    "ID_HDC_G0": 403,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Edmonton"
+  },
+  {
+    "x": 11.2820835,
+    "y": 4.0551577,
+    "ID_HDC_G0": 411,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Kansas City"
+  },
+  {
+    "x": 11.801494,
+    "y": 4.4107714,
+    "ID_HDC_G0": 417,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Omaha"
+  },
+  {
+    "x": 15.86011,
+    "y": 9.217567,
+    "ID_HDC_G0": 4195,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Nizhny Novgorod"
+  },
+  {
+    "x": 11.231066,
+    "y": 9.263717,
+    "ID_HDC_G0": 421,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Piura"
+  },
+  {
+    "x": 15.907372,
+    "y": 9.29501,
+    "ID_HDC_G0": 4306,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Krasnodar"
+  },
+  {
+    "x": 12.790014,
+    "y": 8.06937,
+    "ID_HDC_G0": 4309,
+    "CTR_MN_NM": "Israel",
+    "UC_NM_MN": "Tel Aviv"
+  },
+  {
+    "x": 11.95145,
+    "y": 8.281006,
+    "ID_HDC_G0": 4312,
+    "CTR_MN_NM": "Israel",
+    "UC_NM_MN": "Haifa"
+  },
+  {
+    "x": 11.31238,
+    "y": 9.154075,
+    "ID_HDC_G0": 442,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Chiclayo"
+  },
+  {
+    "x": 11.929337,
+    "y": 4.7827787,
+    "ID_HDC_G0": 443,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Memphis"
+  },
+  {
+    "x": 15.727564,
+    "y": 10.56816,
+    "ID_HDC_G0": 4440,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Penza"
+  },
+  {
+    "x": 15.720017,
+    "y": 10.202664,
+    "ID_HDC_G0": 4454,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Cheboksary"
+  },
+  {
+    "x": 15.740261,
+    "y": 10.412738,
+    "ID_HDC_G0": 4536,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Stavropol"
+  },
+  {
+    "x": 15.930053,
+    "y": 9.1577835,
+    "ID_HDC_G0": 4552,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Kazan"
+  },
+  {
+    "x": 15.920158,
+    "y": 9.824697,
+    "ID_HDC_G0": 4554,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Saratov"
+  },
+  {
+    "x": 15.879452,
+    "y": 10.305608,
+    "ID_HDC_G0": 4571,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Volgograd"
+  },
+  {
+    "x": 15.7918,
+    "y": 10.358154,
+    "ID_HDC_G0": 4584,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Ulyanovsk"
+  },
+  {
+    "x": 12.20797,
+    "y": 5.0059123,
+    "ID_HDC_G0": 46,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Fresno"
+  },
+  {
+    "x": 11.296483,
+    "y": 9.306559,
+    "ID_HDC_G0": 466,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Trujillo"
+  },
+  {
+    "x": 15.731482,
+    "y": 10.170284,
+    "ID_HDC_G0": 4668,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Tolyatti"
+  },
+  {
+    "x": 12.177125,
+    "y": 4.984443,
+    "ID_HDC_G0": 474,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Des Moines"
+  },
+  {
+    "x": 15.901804,
+    "y": 9.2485895,
+    "ID_HDC_G0": 4756,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Samara"
+  },
+  {
+    "x": 15.807363,
+    "y": 10.123629,
+    "ID_HDC_G0": 4761,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Izhevsk"
+  },
+  {
+    "x": 15.833778,
+    "y": 10.262492,
+    "ID_HDC_G0": 4775,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Naberezhnye Chelny"
+  },
+  {
+    "x": 11.312344,
+    "y": 4.0747533,
+    "ID_HDC_G0": 487,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "St. Louis"
+  },
+  {
+    "x": 11.237229,
+    "y": 4.0931406,
+    "ID_HDC_G0": 49,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Sacramento"
+  },
+  {
+    "x": 12.193654,
+    "y": 5.0215015,
+    "ID_HDC_G0": 500,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Bradenton"
+  },
+  {
+    "x": 10.195575,
+    "y": 3.8879042,
+    "ID_HDC_G0": 501,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Tampa"
+  },
+  {
+    "x": 8.208272,
+    "y": 5.6441684,
+    "ID_HDC_G0": 528,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Lima"
+  },
+  {
+    "x": 15.975185,
+    "y": 9.41756,
+    "ID_HDC_G0": 5344,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Ufa"
+  },
+  {
+    "x": 15.829075,
+    "y": 10.410132,
+    "ID_HDC_G0": 5443,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Orenburg"
+  },
+  {
+    "x": 15.805415,
+    "y": 9.173063,
+    "ID_HDC_G0": 5489,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Yekaterinburg"
+  },
+  {
+    "x": 10.407168,
+    "y": 3.874259,
+    "ID_HDC_G0": 554,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Minneapolis [Saint Paul]"
+  },
+  {
+    "x": 9.816788,
+    "y": 3.8181183,
+    "ID_HDC_G0": 556,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Miami"
+  },
+  {
+    "x": 10.079335,
+    "y": 3.7680306,
+    "ID_HDC_G0": 559,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Atlanta"
+  },
+  {
+    "x": 12.09002,
+    "y": 5.7496185,
+    "ID_HDC_G0": 56,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Indio"
+  },
+  {
+    "x": 15.808036,
+    "y": 9.313294,
+    "ID_HDC_G0": 5633,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Chelyabinsk"
+  },
+  {
+    "x": 9.093452,
+    "y": 3.946684,
+    "ID_HDC_G0": 568,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Orlando"
+  },
+  {
+    "x": 15.954382,
+    "y": 9.519778,
+    "ID_HDC_G0": 5735,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Tyumen"
+  },
+  {
+    "x": 16.096594,
+    "y": 9.664519,
+    "ID_HDC_G0": 5914,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Omsk"
+  },
+  {
+    "x": 12.140067,
+    "y": 4.9651585,
+    "ID_HDC_G0": 595,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Jacksonville"
+  },
+  {
+    "x": 15.853924,
+    "y": 10.262924,
+    "ID_HDC_G0": 6019,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Tomsk"
+  },
+  {
+    "x": 15.781211,
+    "y": 9.10409,
+    "ID_HDC_G0": 6025,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Novosibirsk"
+  },
+  {
+    "x": 15.871579,
+    "y": 10.385067,
+    "ID_HDC_G0": 6088,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Kemerovo"
+  },
+  {
+    "x": 15.867841,
+    "y": 10.075639,
+    "ID_HDC_G0": 6098,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Barnaul"
+  },
+  {
+    "x": 11.316883,
+    "y": 9.205157,
+    "ID_HDC_G0": 616,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Huancayo"
+  },
+  {
+    "x": 11.539458,
+    "y": 4.244827,
+    "ID_HDC_G0": 624,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Louisville"
+  },
+  {
+    "x": 12.334348,
+    "y": 5.177391,
+    "ID_HDC_G0": 625,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Winnipeg"
+  },
+  {
+    "x": 15.967808,
+    "y": 9.387228,
+    "ID_HDC_G0": 6266,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Krasnoyarsk"
+  },
+  {
+    "x": 9.625103,
+    "y": 3.9320996,
+    "ID_HDC_G0": 634,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Chicago"
+  },
+  {
+    "x": 11.466874,
+    "y": 9.40035,
+    "ID_HDC_G0": 6458,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Jamnagar"
+  },
+  {
+    "x": 11.234744,
+    "y": 4.0204167,
+    "ID_HDC_G0": 651,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Indianapolis"
+  },
+  {
+    "x": 10.32237,
+    "y": 11.268372,
+    "ID_HDC_G0": 6522,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Rajkot"
+  },
+  {
+    "x": 10.426431,
+    "y": 11.104635,
+    "ID_HDC_G0": 6548,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Amritsar"
+  },
+  {
+    "x": 10.85164,
+    "y": 11.236441,
+    "ID_HDC_G0": 6595,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Jodhpur"
+  },
+  {
+    "x": 10.413169,
+    "y": 11.237914,
+    "ID_HDC_G0": 6618,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Jalandhar"
+  },
+  {
+    "x": 11.751754,
+    "y": 5.5523396,
+    "ID_HDC_G0": 662,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Waukegan"
+  },
+  {
+    "x": 7.9730377,
+    "y": 5.814658,
+    "ID_HDC_G0": 6651,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Ahmedabad"
+  },
+  {
+    "x": 9.943118,
+    "y": 11.196756,
+    "ID_HDC_G0": 6659,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Ludhiana"
+  },
+  {
+    "x": 10.792537,
+    "y": 11.251104,
+    "ID_HDC_G0": 6712,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Udaipur"
+  },
+  {
+    "x": 9.841905,
+    "y": 11.073373,
+    "ID_HDC_G0": 6728,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Surat"
+  },
+  {
+    "x": 10.487238,
+    "y": 11.982615,
+    "ID_HDC_G0": 6737,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Vadodara"
+  },
+  {
+    "x": 10.838357,
+    "y": 10.872819,
+    "ID_HDC_G0": 6744,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Ajmer"
+  },
+  {
+    "x": 11.331088,
+    "y": 4.122403,
+    "ID_HDC_G0": 675,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Milwaukee"
+  },
+  {
+    "x": 10.3797455,
+    "y": 11.999741,
+    "ID_HDC_G0": 6760,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Chandigarh"
+  },
+  {
+    "x": 11.563057,
+    "y": 4.23194,
+    "ID_HDC_G0": 681,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Cincinnati"
+  },
+  {
+    "x": 8.149395,
+    "y": 5.677318,
+    "ID_HDC_G0": 6845,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Mumbai"
+  },
+  {
+    "x": 8.078911,
+    "y": 5.832438,
+    "ID_HDC_G0": 6893,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Jaipur"
+  },
+  {
+    "x": 8.13087,
+    "y": 5.7106085,
+    "ID_HDC_G0": 6955,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Delhi [New Delhi]"
+  },
+  {
+    "x": 10.809889,
+    "y": 11.710332,
+    "ID_HDC_G0": 6970,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Nashik"
+  },
+  {
+    "x": 10.991321,
+    "y": 11.430718,
+    "ID_HDC_G0": 7016,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Dehradun"
+  },
+  {
+    "x": 11.983763,
+    "y": 4.8461742,
+    "ID_HDC_G0": 702,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Dayton"
+  },
+  {
+    "x": 10.674,
+    "y": 11.320211,
+    "ID_HDC_G0": 7028,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kota"
+  },
+  {
+    "x": 8.14361,
+    "y": 5.7736125,
+    "ID_HDC_G0": 7041,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Pune"
+  },
+  {
+    "x": 11.659092,
+    "y": 5.110796,
+    "ID_HDC_G0": 7045,
+    "CTR_MN_NM": "China",
+    "UC_NM_MN": "Ürümqi"
+  },
+  {
+    "x": 10.336391,
+    "y": 11.634987,
+    "ID_HDC_G0": 7061,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Meerut"
+  },
+  {
+    "x": 12.235909,
+    "y": 4.8851566,
+    "ID_HDC_G0": 707,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Charlotte"
+  },
+  {
+    "x": 10.276013,
+    "y": 11.979612,
+    "ID_HDC_G0": 7190,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Indore"
+  },
+  {
+    "x": 10.831789,
+    "y": 11.49124,
+    "ID_HDC_G0": 7218,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kolhapur"
+  },
+  {
+    "x": 11.365117,
+    "y": 9.151258,
+    "ID_HDC_G0": 723,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Cusco"
+  },
+  {
+    "x": 12.191305,
+    "y": 5.494643,
+    "ID_HDC_G0": 725,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Grand Rapids"
+  },
+  {
+    "x": 10.412528,
+    "y": 11.454538,
+    "ID_HDC_G0": 7251,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Moradabad"
+  },
+  {
+    "x": 10.297733,
+    "y": 11.622197,
+    "ID_HDC_G0": 7264,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Agra"
+  },
+  {
+    "x": 10.756122,
+    "y": 11.8482,
+    "ID_HDC_G0": 7266,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Aurangabad"
+  },
+  {
+    "x": 11.188271,
+    "y": 4.0543346,
+    "ID_HDC_G0": 729,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Columbus"
+  },
+  {
+    "x": 10.689611,
+    "y": 11.1335,
+    "ID_HDC_G0": 7322,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Belagavi"
+  },
+  {
+    "x": 11.165114,
+    "y": 4.038572,
+    "ID_HDC_G0": 74,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Las Vegas"
+  },
+  {
+    "x": 10.5797615,
+    "y": 11.894425,
+    "ID_HDC_G0": 7459,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Bhopal"
+  },
+  {
+    "x": 10.885055,
+    "y": 11.044973,
+    "ID_HDC_G0": 7496,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Mangaluru"
+  },
+  {
+    "x": 11.268409,
+    "y": 9.264231,
+    "ID_HDC_G0": 753,
+    "CTR_MN_NM": "Peru",
+    "UC_NM_MN": "Arequipa"
+  },
+  {
+    "x": 9.731893,
+    "y": 3.9998775,
+    "ID_HDC_G0": 770,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Detroit"
+  },
+  {
+    "x": 10.688739,
+    "y": 11.3736105,
+    "ID_HDC_G0": 7724,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kozhikode"
+  },
+  {
+    "x": 10.214613,
+    "y": 11.754535,
+    "ID_HDC_G0": 7756,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kanpur"
+  },
+  {
+    "x": 8.144282,
+    "y": 5.933682,
+    "ID_HDC_G0": 7854,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Lucknow"
+  },
+  {
+    "x": 10.845438,
+    "y": 11.658646,
+    "ID_HDC_G0": 7885,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Mysuru"
+  },
+  {
+    "x": 10.331298,
+    "y": 11.908864,
+    "ID_HDC_G0": 7887,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kochi"
+  },
+  {
+    "x": 9.961522,
+    "y": 3.8196828,
+    "ID_HDC_G0": 79,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Phoenix"
+  },
+  {
+    "x": 11.091696,
+    "y": 4.100137,
+    "ID_HDC_G0": 790,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Cleveland"
+  },
+  {
+    "x": 10.406365,
+    "y": 12.019286,
+    "ID_HDC_G0": 7927,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Nagpur"
+  },
+  {
+    "x": 8.080622,
+    "y": 5.7266903,
+    "ID_HDC_G0": 8005,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Hyderabad"
+  },
+  {
+    "x": 10.607792,
+    "y": 10.719912,
+    "ID_HDC_G0": 8011,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Anantapur"
+  },
+  {
+    "x": 9.934264,
+    "y": 11.397777,
+    "ID_HDC_G0": 8023,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Coimbatore"
+  },
+  {
+    "x": 8.105951,
+    "y": 5.68361,
+    "ID_HDC_G0": 8050,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Bengaluru"
+  },
+  {
+    "x": 10.809576,
+    "y": 10.610803,
+    "ID_HDC_G0": 8065,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kurnool"
+  },
+  {
+    "x": 10.6373825,
+    "y": 11.488536,
+    "ID_HDC_G0": 8095,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Thiruvananthapuram"
+  },
+  {
+    "x": 9.823308,
+    "y": 9.610253,
+    "ID_HDC_G0": 8104,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Tiruppur"
+  },
+  {
+    "x": 10.606117,
+    "y": 10.690636,
+    "ID_HDC_G0": 8154,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Karimnagar"
+  },
+  {
+    "x": 16.002935,
+    "y": 9.853379,
+    "ID_HDC_G0": 8177,
+    "CTR_MN_NM": "Russia",
+    "UC_NM_MN": "Irkutsk"
+  },
+  {
+    "x": 10.428329,
+    "y": 10.848718,
+    "ID_HDC_G0": 8188,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Erode"
+  },
+  {
+    "x": 11.449515,
+    "y": 4.168026,
+    "ID_HDC_G0": 819,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Pittsburgh"
+  },
+  {
+    "x": 10.462336,
+    "y": 11.355781,
+    "ID_HDC_G0": 8201,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Prayagraj"
+  },
+  {
+    "x": 6.4010167,
+    "y": 11.03796,
+    "ID_HDC_G0": 826,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Rio Branco"
+  },
+  {
+    "x": 10.471957,
+    "y": 10.942792,
+    "ID_HDC_G0": 8278,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Salem"
+  },
+  {
+    "x": 10.788702,
+    "y": 10.684782,
+    "ID_HDC_G0": 8284,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Warangal"
+  },
+  {
+    "x": 10.518642,
+    "y": 10.592995,
+    "ID_HDC_G0": 8326,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kadapa"
+  },
+  {
+    "x": 12.066297,
+    "y": 5.8147845,
+    "ID_HDC_G0": 834,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "London"
+  },
+  {
+    "x": 10.386034,
+    "y": 10.902173,
+    "ID_HDC_G0": 8344,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Madurai"
+  },
+  {
+    "x": 11.826225,
+    "y": 4.735585,
+    "ID_HDC_G0": 84,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Tucson"
+  },
+  {
+    "x": 10.397401,
+    "y": 10.875946,
+    "ID_HDC_G0": 8448,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Tiruchirappalli"
+  },
+  {
+    "x": 10.269119,
+    "y": 11.666956,
+    "ID_HDC_G0": 8463,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Varanasi"
+  },
+  {
+    "x": 11.54083,
+    "y": 4.930575,
+    "ID_HDC_G0": 847,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Virginia Beach"
+  },
+  {
+    "x": 10.768125,
+    "y": 11.012577,
+    "ID_HDC_G0": 8474,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Vellore"
+  },
+  {
+    "x": 11.993703,
+    "y": 5.6830506,
+    "ID_HDC_G0": 850,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Newport News"
+  },
+  {
+    "x": 10.8735285,
+    "y": 10.819941,
+    "ID_HDC_G0": 8505,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Tirupati"
+  },
+  {
+    "x": 10.812835,
+    "y": 11.644812,
+    "ID_HDC_G0": 8513,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Raipur"
+  },
+  {
+    "x": 9.824704,
+    "y": 3.7680445,
+    "ID_HDC_G0": 855,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Washington D.C."
+  },
+  {
+    "x": 10.71749,
+    "y": 10.754833,
+    "ID_HDC_G0": 8584,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Guntur"
+  },
+  {
+    "x": 10.5807705,
+    "y": 10.788502,
+    "ID_HDC_G0": 8628,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Vijayawada"
+  },
+  {
+    "x": 11.964345,
+    "y": 6.096482,
+    "ID_HDC_G0": 865,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Kitchener"
+  },
+  {
+    "x": 10.529774,
+    "y": 11.044443,
+    "ID_HDC_G0": 8661,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Puducherry"
+  },
+  {
+    "x": 8.027754,
+    "y": 5.691314,
+    "ID_HDC_G0": 8675,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Chennai"
+  },
+  {
+    "x": 9.726306,
+    "y": 3.8431754,
+    "ID_HDC_G0": 875,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Toronto"
+  },
+  {
+    "x": 11.042938,
+    "y": 4.019273,
+    "ID_HDC_G0": 880,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Baltimore"
+  },
+  {
+    "x": 11.0888195,
+    "y": 9.752297,
+    "ID_HDC_G0": 884,
+    "CTR_MN_NM": "Chile",
+    "UC_NM_MN": "La Serena"
+  },
+  {
+    "x": 11.859566,
+    "y": 4.622989,
+    "ID_HDC_G0": 890,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Buffalo"
+  },
+  {
+    "x": 10.389383,
+    "y": 11.7463255,
+    "ID_HDC_G0": 8914,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Patna"
+  },
+  {
+    "x": 10.429657,
+    "y": 10.821585,
+    "ID_HDC_G0": 8964,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kakinada"
+  },
+  {
+    "x": 9.8343725,
+    "y": 3.9131534,
+    "ID_HDC_G0": 898,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Philadelphia"
+  },
+  {
+    "x": 11.005106,
+    "y": 9.979639,
+    "ID_HDC_G0": 901,
+    "CTR_MN_NM": "Chile",
+    "UC_NM_MN": "Viña del Mar [Valparaíso]"
+  },
+  {
+    "x": 11.985799,
+    "y": 4.625161,
+    "ID_HDC_G0": 910,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Rochester"
+  },
+  {
+    "x": 10.581827,
+    "y": 11.138144,
+    "ID_HDC_G0": 9122,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Visakhapatnam"
+  },
+  {
+    "x": 12.219119,
+    "y": 5.005822,
+    "ID_HDC_G0": 913,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Allentown"
+  },
+  {
+    "x": 10.960856,
+    "y": 9.893054,
+    "ID_HDC_G0": 914,
+    "CTR_MN_NM": "Chile",
+    "UC_NM_MN": "Concepción"
+  },
+  {
+    "x": 6.1417255,
+    "y": 10.657046,
+    "ID_HDC_G0": 926,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Porto Velho"
+  },
+  {
+    "x": 8.046796,
+    "y": 5.4874825,
+    "ID_HDC_G0": 931,
+    "CTR_MN_NM": "Chile",
+    "UC_NM_MN": "Santiago"
+  },
+  {
+    "x": 10.93277,
+    "y": 10.042509,
+    "ID_HDC_G0": 9359,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Jamshedpur"
+  },
+  {
+    "x": 9.454947,
+    "y": 3.913279,
+    "ID_HDC_G0": 945,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "New York"
+  },
+  {
+    "x": 10.460557,
+    "y": 10.982664,
+    "ID_HDC_G0": 9474,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Cuttack"
+  },
+  {
+    "x": 10.910412,
+    "y": 11.418952,
+    "ID_HDC_G0": 9478,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Bhubaneshwar"
+  },
+  {
+    "x": 12.022736,
+    "y": 5.304907,
+    "ID_HDC_G0": 949,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Brick"
+  },
+  {
+    "x": 11.039041,
+    "y": 9.793185,
+    "ID_HDC_G0": 958,
+    "CTR_MN_NM": "Chile",
+    "UC_NM_MN": "Temuco"
+  },
+  {
+    "x": 11.106887,
+    "y": 9.426413,
+    "ID_HDC_G0": 962,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "San Juan"
+  },
+  {
+    "x": 10.889614,
+    "y": 9.611097,
+    "ID_HDC_G0": 966,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Mendoza"
+  },
+  {
+    "x": 11.113581,
+    "y": 9.499142,
+    "ID_HDC_G0": 969,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "Salta"
+  },
+  {
+    "x": 8.089799,
+    "y": 5.8191223,
+    "ID_HDC_G0": 9691,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Kolkata"
+  },
+  {
+    "x": 12.1140175,
+    "y": 5.361656,
+    "ID_HDC_G0": 972,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Bridgeport"
+  },
+  {
+    "x": 12.302856,
+    "y": 4.967976,
+    "ID_HDC_G0": 989,
+    "CTR_MN_NM": "Canada",
+    "UC_NM_MN": "Ottawa"
+  },
+  {
+    "x": 10.995873,
+    "y": 9.573554,
+    "ID_HDC_G0": 991,
+    "CTR_MN_NM": "Argentina",
+    "UC_NM_MN": "San Miguel de Tucumán"
+  },
+  {
+    "x": 10.752143,
+    "y": 11.454721,
+    "ID_HDC_G0": 9915,
+    "CTR_MN_NM": "India",
+    "UC_NM_MN": "Guwahati"
+  },
+  {
+    "x": 12.1529875,
+    "y": 5.144614,
+    "ID_HDC_G0": 997,
+    "CTR_MN_NM": "United States",
+    "UC_NM_MN": "Hartford"
+  },
+  {
+    "x": 6.266399,
+    "y": 11.023486,
+    "ID_HDC_G0": 998,
+    "CTR_MN_NM": "Brazil",
+    "UC_NM_MN": "Boa Vista"
+  }
+]
