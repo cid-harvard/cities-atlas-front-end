@@ -131,6 +131,20 @@ const GlobalStyles = createGlobalStyle`
       border-top: 8px solid #fff;
     }
   }
+
+  /********
+      MAPBOX CUSTOM STYLES
+  ********/
+  .mapboxgl-popup {
+    .mapboxgl-popup-content {
+      padding: 0;
+      border-radius: 4px;
+      overflow: hidden;
+      font-size: 0.7rem;
+      line-height: 1.4;
+      color: #333;
+    }
+  }
 `;
 
 export default GlobalStyles;

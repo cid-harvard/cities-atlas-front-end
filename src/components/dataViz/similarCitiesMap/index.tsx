@@ -1,9 +1,12 @@
-import React, {useRef} from 'react';
-import CitySpaceMap from 'react-city-space-mapbox'
+import React, {useRef, useEffect} from 'react';
+import CitySpaceMap from 'react-city-space-mapbox';
 import useLayoutData from './useLayoutData';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import MapOptionsAndSettings from './MapOptionsAndSettings';
+import {getStandardTooltip} from '../../../utilities/rapidTooltip';
+import {rgba} from 'polished';
+import useProximityData, {SuccessResponse} from './useProximityData';
 
 const Root = styled.div`
   width: 100%;
@@ -27,19 +30,33 @@ const Map = styled.div`
   width: 100%;
   height: 100%;
 `;
+
+let staticProximityData: SuccessResponse | undefined;
+
 const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
+  const {data: proximityData} = useProximityData();
 
-  const renderTooltipContent = (node: {id: string, country: string, city: string}) => {
-    return `
-      <div>
-        <strong>${node.city}</strong>
-      </div>
-      <small>${node.country}</small>
-    `;
-  }
-  console.log(data);
+  useEffect(() => {
+    staticProximityData = proximityData;
+  }, [proximityData]);
+
+  const renderTooltipContent = (node: {id: string, country: string, city: string, fill: string}) => {
+    if (data && staticProximityData) {
+      const proximityNode = staticProximityData.cities.find(c => c.partnerId.toString() === node.id.toString());
+      return getStandardTooltip({
+        title: node.city + ', ' + node.country,
+        color: rgba(node.fill, 0.35),
+        rows: node.fill !== 'gray'
+          ? [['Similarity:', proximityNode && proximityNode.proximity ? proximityNode.proximity.toFixed(2) : '0.00']]
+          : [],
+        boldColumns: [1],
+        hideArrow: true,
+      });
+    }
+    return '';
+  };
   return (
     <>
       <CitySpaceMap
@@ -58,6 +75,6 @@ const SimilarCitiesMap = () => {
       </Root>
     </>
   );
-}
+};
 
 export default SimilarCitiesMap;

@@ -1,7 +1,6 @@
 import CITIES_UMAPJSON_RAW from './data/cities-umap.json';
 import {scaleLinear} from 'd3-scale';
 import {extent} from 'd3-array';
-import {colorByCountryColorMap} from './Utils';
 import { useQuery, gql } from '@apollo/client';
 import {point, featureCollection} from '@turf/helpers';
 import {
@@ -55,7 +54,7 @@ interface Output {
 const useLayoutData = (): Output => {
   const {loading, error, data: responseData} = useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
 
-  let data: Output['data'] = undefined;
+  let data: Output['data'];
   if (responseData) {
     const allLatCoords: number[] = [];
     const allLngCoords: number[] = [];
@@ -77,8 +76,8 @@ const useLayoutData = (): Output => {
         allLngCoords.push(centroidLon);
       }
       const targetCountry = responseData.countries.find(country => countryId !== null && country.countryId === countryId.toString());
-      return point(coordinates, {id: cityId, country: targetCountry ? targetCountry.nameShortEn : '', city: name, fill: '#fff'});
-    }))
+      return point(coordinates, {id: cityId, country: targetCountry ? targetCountry.nameShortEn : '', city: name, fill: 'gray'});
+    }));
 
     const uMapXCoords: number[] = [];
     const uMapYCoords: number[] = [];
@@ -99,16 +98,14 @@ const useLayoutData = (): Output => {
 
     const cityUMapJson = featureCollection(filteredUMapCities.map(n => {
       const {x, y, ID_HDC_G0: id, CTR_MN_NM: country, UC_NM_MN: city } = n;
-      const colorNode = colorByCountryColorMap.find(c => c.id === country);
-      const fill = colorNode ? colorNode.color : 'gray';
-      return point([xToLngScale(x), yToLatScale(y)], {id, country, city, fill})
+      return point([xToLngScale(x), yToLatScale(y)], {id, country, city, fill: 'gray'});
     }));
 
-    data = {cityGeoJson, cityUMapJson}
+    data = {cityGeoJson, cityUMapJson};
   }
 
 
   return {loading, error, data};
-}
+};
 
 export default useLayoutData;

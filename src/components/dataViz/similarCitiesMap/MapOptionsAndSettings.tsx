@@ -1,13 +1,18 @@
-import React, {useCallback, useEffect} from 'react';
-import PreChartRow, {VizNavItem} from '../../../components/general/PreChartRow';
+import React, {useEffect} from 'react';
 import {useMapContext} from 'react-city-space-mapbox';
 import useLayoutData from './useLayoutData';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
+import {createProximityScale} from './Utils';
+import SettingsRow from './SettingsRow';
+import useProximityData from './useProximityData';
 
 const MapOptionsAndSettings = () => {
   const mapContext = useMapContext();
+
   const {data} = useLayoutData();
   const cityId = useCurrentCityId();
+
+  const {data: proximityData} = useProximityData();
 
   useEffect(() => {
     if (mapContext.intialized && data && cityId) {
@@ -17,41 +22,27 @@ const MapOptionsAndSettings = () => {
         mapContext.setHighlighted(cityId);
       }
     }
-  }, [mapContext, data, cityId])
-
-  const onGeoMapClick = useCallback(() => {
-    if (mapContext.intialized) {
-      mapContext.setToGeoMap();
+  }, [mapContext, data, cityId]);
+  useEffect(() => {
+    if (mapContext.intialized && proximityData && cityId) {
+      const allValues: number[] = [];
+      proximityData.cities.forEach(d => d && d.proximity !== null ? allValues.push(d.proximity) : false);
+      const colorScale = createProximityScale([0, ...allValues, 1]);
+      const proximityColorMap = proximityData.cities.map(({partnerId, proximity}) => ({
+        id: partnerId,
+        color: colorScale(proximity ? proximity : 0),
+      }));
+      proximityColorMap.push({id: cityId, color: 'gray'});
+      mapContext.setColors(proximityColorMap);
     }
-  }, [mapContext])
+  }, [mapContext, data, proximityData, cityId]);
 
-  const onUMapClick = useCallback(() => {
-    if (mapContext.intialized) {
-      mapContext.setToUMap();
-    }
-  }, [mapContext])
-
-  const vizNavigation: VizNavItem[] = [
-    {
-      label: 'Similarity Map',
-      active: false,
-      onClick: onGeoMapClick,
-    }, {
-      label: 'Clusters',
-      active: false,
-      onClick: onUMapClick,
-    }, {
-      label: 'Ring',
-      active: false,
-      onClick: () => console.log('Ring'),
-    },
-  ];
 
   return (
-    <PreChartRow
-      vizNavigation={vizNavigation}
+    <SettingsRow
+      mapContext={mapContext}
     />
   );
-}
+};
 
 export default MapOptionsAndSettings;

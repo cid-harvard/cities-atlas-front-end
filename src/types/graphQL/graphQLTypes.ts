@@ -160,6 +160,13 @@ export interface GlobalIndustryAgg {
   avgNumEmploy: number;
 }
 
+export interface CityPartner {
+  cityId: string;
+  partnerId: string;
+  proximity: number | null;
+  id: string;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;
@@ -173,4 +180,5 @@ export interface RootQuery {
   cityClusterYearList: CityClusterYear[];
   classificationNaicsClusterList: ClassificationNaicsCluster[];
   globalIndustryYear: GlobalIndustryAgg[];
+  cityPartnerList: CityPartner[];
 }
