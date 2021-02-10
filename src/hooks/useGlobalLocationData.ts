@@ -4,6 +4,8 @@ import {
   ClassificationCity,
 } from '../types/graphQL/graphQLTypes';
 import {Datum as SearchDatum} from 'react-panel-search';
+import {extent} from 'd3-array';
+import {scaleLinear} from 'd3-scale';
 
 const GLOBAL_LOCATION_QUERY = gql`
   query GetGlobalLocationData {
@@ -18,6 +20,7 @@ const GLOBAL_LOCATION_QUERY = gql`
       countryId
       id
       nameList
+      population: population15
     }
   }
 `;
@@ -36,6 +39,7 @@ interface SuccessResponse {
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
     geometry: ClassificationCity['geometry'],
+    population: ClassificationCity['population15'],
     id: ClassificationCity['id'],
   }[];
 }
@@ -71,6 +75,14 @@ export const locationDataToHierarchicalTreeData = (data: SuccessResponse | undef
     );
   }
   return response;
+};
+
+export const getPopulationScale = (data: SuccessResponse, min: number, max: number) => {
+  const allPops: number[] = [];
+  data.cities.forEach(c => c.population ? allPops.push(c.population) : null);
+  return scaleLinear()
+    .domain(extent(allPops) as [number, number])
+    .range([min, max]);
 };
 
 export const useGlobalLocationHierarchicalTreeData = () => {

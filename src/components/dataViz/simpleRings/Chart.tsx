@@ -1,9 +1,11 @@
 import React, {useEffect, useState, useRef} from 'react';
-import createChart from './createChart';
+import createChart, {
+  defaultNodeRadius,
+} from './createChart';
 import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {SuccessResponse} from '../similarCitiesMap/useProximityData';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
+import useGlobalLocationData, {getPopulationScale} from '../../../hooks/useGlobalLocationData';
 import {
   lightBaseColor,
   primaryColor,
@@ -41,6 +43,7 @@ const Chart = (props: Props) => {
       if (chartNode && tooltipNode && data !== undefined && cityId && cityData.data && (
           (chart.initialized === false && width && height)
       )) {
+        const populationScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
         const nodes = sortBy(data.cities, ['proximity'], ['asc']).map(c => {
           const city = cityData.data ? cityData.data.cities.find(cc => cc.cityId === c.partnerId) : undefined;
           return {
@@ -49,6 +52,7 @@ const Chart = (props: Props) => {
             name: city && city.name ? city.name : c.partnerId,
             color: c.partnerId === cityId ? primaryColor : lightBaseColor,
             proximity: c.proximity ? c.proximity : 0,
+            radius: city && city.population ? populationScale(city.population) : defaultNodeRadius,
           };
         });
         const primaryCity = cityData.data ? cityData.data.cities.find(cc => cc.cityId === cityId) : undefined;
@@ -59,6 +63,8 @@ const Chart = (props: Props) => {
             name: primaryCity.name ? primaryCity.name : cityId,
             color: primaryColor,
             proximity: 1,
+            radius: primaryCity && primaryCity.population
+              ? populationScale(primaryCity.population) : defaultNodeRadius,
           });
         }
         chartNode.innerHTML = '';

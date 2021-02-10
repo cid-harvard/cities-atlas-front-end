@@ -10,7 +10,7 @@ import {
 } from '../../../styling/styleUtils';
 
 const minExpectedScreenSize = 1020;
-const defaultNodeRadius = 30;
+export const defaultNodeRadius = 30;
 function circlePath(cx: number, cy: number, r: number){
     return svgPathReverse.reverse(
       'M '+cx+' '+cy+' m -'+r+', 0 a '+r+','+r+' 0 1,0 '+(r*2)+',0 a '+r+','+r+' 0 1,0 -'+(r*2)+',0',
@@ -182,7 +182,7 @@ const createChart = (input: Input) => {
       .style('text-anchor', 'middle')
       .text(d => ellipsisText(d.name as string, 30))
       .attr('x', d => d.x)
-      .attr('y', d => d.y + (d.radius ? d.radius : radius) * 2.25);
+      .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 1.25));
 
 };
 

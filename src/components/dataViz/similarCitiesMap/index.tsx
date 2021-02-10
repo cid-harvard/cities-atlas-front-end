@@ -7,7 +7,7 @@ import MapOptionsAndSettings from './MapOptionsAndSettings';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
-import SimpleRings from '../simpleRings';
+import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
 
 const Root = styled.div`
   width: 100%;
@@ -74,7 +74,7 @@ const SimilarCitiesMap = () => {
 
   const rings = showRings ? (
     <RingsContainer>
-      <SimpleRings />
+      <SimilarCitiesRings />
     </RingsContainer>
   ) : null;
 
