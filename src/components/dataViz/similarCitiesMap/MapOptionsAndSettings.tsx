@@ -33,7 +33,7 @@ const MapOptionsAndSettings = (props: Props) => {
     if (mapContext.intialized && proximityData && cityId) {
       const allValues: number[] = [];
       proximityData.cities.forEach(d => d && d.proximity !== null ? allValues.push(d.proximity) : false);
-      const colorScale = createProximityScale([0, ...allValues, 1]);
+      const colorScale = createProximityScale([0, ...allValues]);
       const proximityColorMap = proximityData.cities.map(({partnerId, proximity}) => ({
         id: partnerId,
         color: colorScale(proximity ? proximity : 0),

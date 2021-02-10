@@ -8,9 +8,9 @@ import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import useGlobalLocationData, {getPopulationScale} from '../../../hooks/useGlobalLocationData';
 import {
   lightBaseColor,
-  primaryColor,
 } from '../../../styling/styleUtils';
 import sortBy from 'lodash/sortBy';
+import {createProximityScale} from '../similarCitiesMap/Utils';
 
 type Chart = {
   initialized: false;
@@ -44,13 +44,16 @@ const Chart = (props: Props) => {
           (chart.initialized === false && width && height)
       )) {
         const populationScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
+        const allValues: number[] = [];
+        data.cities.forEach(d => d && d.proximity !== null ? allValues.push(d.proximity) : false);
+        const colorScale = createProximityScale([0, ...allValues]);
         const nodes = sortBy(data.cities, ['proximity'], ['asc']).map(c => {
           const city = cityData.data ? cityData.data.cities.find(cc => cc.cityId === c.partnerId) : undefined;
           return {
             primary: c.partnerId === cityId,
             id: c.partnerId,
             name: city && city.name ? city.name : c.partnerId,
-            color: c.partnerId === cityId ? primaryColor : lightBaseColor,
+            color: colorScale(c.proximity ? c.proximity : 0),
             proximity: c.proximity ? c.proximity : 0,
             radius: city && city.population ? populationScale(city.population) : defaultNodeRadius,
           };
@@ -61,7 +64,7 @@ const Chart = (props: Props) => {
             primary: true,
             id: cityId,
             name: primaryCity.name ? primaryCity.name : cityId,
-            color: primaryColor,
+            color: lightBaseColor,
             proximity: 1,
             radius: primaryCity && primaryCity.population
               ? populationScale(primaryCity.population) : defaultNodeRadius,
