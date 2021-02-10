@@ -6,7 +6,13 @@ import {createProximityScale} from './Utils';
 import SettingsRow from './SettingsRow';
 import useProximityData from './useProximityData';
 
-const MapOptionsAndSettings = () => {
+interface Props {
+  showRings: boolean;
+  setShowRings: (value: boolean) => void;
+}
+
+const MapOptionsAndSettings = (props: Props) => {
+  const {showRings, setShowRings} = props;
   const mapContext = useMapContext();
 
   const {data} = useLayoutData();
@@ -41,6 +47,8 @@ const MapOptionsAndSettings = () => {
   return (
     <SettingsRow
       mapContext={mapContext}
+      showRings={showRings}
+      setShowRings={setShowRings}
     />
   );
 };

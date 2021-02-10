@@ -1,4 +1,4 @@
-import React, {useRef, useEffect} from 'react';
+import React, {useRef, useEffect, useState} from 'react';
 import CitySpaceMap from 'react-city-space-mapbox';
 import useLayoutData from './useLayoutData';
 import styled from 'styled-components/macro';
@@ -7,6 +7,7 @@ import MapOptionsAndSettings from './MapOptionsAndSettings';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
+import SimpleRings from '../simpleRings';
 
 const Root = styled.div`
   width: 100%;
@@ -31,12 +32,25 @@ const Map = styled.div`
   height: 100%;
 `;
 
+const RingsContainer = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  z-index: 5;
+`;
+
 let staticProximityData: SuccessResponse | undefined;
 
 const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
+  const [showRings, setShowRings] = useState<boolean>(true);
 
   useEffect(() => {
     staticProximityData = proximityData;
@@ -57,6 +71,13 @@ const SimilarCitiesMap = () => {
     }
     return '';
   };
+
+  const rings = showRings ? (
+    <RingsContainer>
+      <SimpleRings />
+    </RingsContainer>
+  ) : null;
+
   return (
     <>
       <CitySpaceMap
@@ -68,10 +89,13 @@ const SimilarCitiesMap = () => {
         getPopupHTMLContent={renderTooltipContent}
       >
         <MapOptionsAndSettings
+          showRings={showRings}
+          setShowRings={setShowRings}
         />
       </CitySpaceMap>
       <Root>
         <Map ref={rootRef} />
+        {rings}
       </Root>
     </>
   );
