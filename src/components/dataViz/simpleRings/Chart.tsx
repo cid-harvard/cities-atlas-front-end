@@ -22,7 +22,6 @@ interface Props {
   width: number;
   height: number;
   data: SuccessResponse | undefined;
-  loading: boolean;
 }
 
 const Chart = (props: Props) => {

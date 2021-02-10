@@ -36,7 +36,7 @@ const SimpleRings = () => {
     ? cityId + 'industry-space-sized-to-container-key' + dimensions.width.toString() + dimensions.height.toString()
     : cityId + 'industry-space-sized-to-container-key-0-0';
 
-  const {loading, data} = useProximityData();
+  const {data} = useProximityData();
 
   useEffect(() => {
     const node = rootRef.current;
@@ -54,7 +54,6 @@ const SimpleRings = () => {
         <Chart
           width={dimensions ? dimensions.width : 0}
           height={dimensions ? dimensions.height : 0}
-          loading={loading}
           data={data}
         />
       </RingsContainer>

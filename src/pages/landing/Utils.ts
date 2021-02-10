@@ -17,7 +17,8 @@ export interface ExtendedSearchDatum extends SearchDatum {
 }
 
 export const StyledPopup = styled(Popup)`
-  .mapboxgl-popup-content {
+  /* && needed to override global styling */
+  && .mapboxgl-popup-content {
     border-radius: 0;
     padding: 1rem 1.1rem;
     position: relative;

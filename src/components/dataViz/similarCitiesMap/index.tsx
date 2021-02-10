@@ -50,7 +50,7 @@ const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
-  const [showRings, setShowRings] = useState<boolean>(true);
+  const [showRings, setShowRings] = useState<boolean>(false);
 
   useEffect(() => {
     staticProximityData = proximityData;
