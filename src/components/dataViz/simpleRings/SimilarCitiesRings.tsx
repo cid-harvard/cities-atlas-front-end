@@ -8,12 +8,10 @@ import useCurrentCityId from '../../../hooks/useCurrentCityId';
 const fadeIn = keyframes`
   0% {
     opacity: 0;
-    transform: scale(1.2);
   }
 
   100% {
     opacity: 1;
-    transform: scale(1);
   }
 `;
 const Root = styled.div`
@@ -25,7 +23,6 @@ const RingsContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
-  transform: scale(1.2);
   opacity: 0;
   animation: ${fadeIn} 0.2s ease-in-out 1 forwards;
 `;

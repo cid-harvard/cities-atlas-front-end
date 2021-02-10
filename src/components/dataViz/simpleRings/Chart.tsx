@@ -9,7 +9,7 @@ import useGlobalLocationData, {getPopulationScale} from '../../../hooks/useGloba
 import {
   lightBaseColor,
 } from '../../../styling/styleUtils';
-import sortBy from 'lodash/sortBy';
+import orderBy from 'lodash/orderBy';
 import {createProximityScale} from '../similarCitiesMap/Utils';
 
 type Chart = {
@@ -47,23 +47,32 @@ const Chart = (props: Props) => {
         const allValues: number[] = [];
         data.cities.forEach(d => d && d.proximity !== null ? allValues.push(d.proximity) : false);
         const colorScale = createProximityScale([0, ...allValues]);
-        const nodes = sortBy(data.cities, ['proximity'], ['asc']).map(c => {
+        const nodes = orderBy(data.cities, ['proximity'], ['desc']).map(c => {
           const city = cityData.data ? cityData.data.cities.find(cc => cc.cityId === c.partnerId) : undefined;
+          const country = cityData.data && city && city.countryId
+            ? cityData.data.countries.find(cc => city.countryId !== null && cc.countryId === city.countryId.toString())
+            : undefined;
           return {
             primary: c.partnerId === cityId,
             id: c.partnerId,
             name: city && city.name ? city.name : c.partnerId,
+            country: country && country.nameShortEn ? country.nameShortEn : '',
             color: colorScale(c.proximity ? c.proximity : 0),
             proximity: c.proximity ? c.proximity : 0,
             radius: city && city.population ? populationScale(city.population) : defaultNodeRadius,
           };
         });
         const primaryCity = cityData.data ? cityData.data.cities.find(cc => cc.cityId === cityId) : undefined;
+        const primaryCountry = cityData.data && primaryCity && primaryCity.countryId
+          ? cityData.data.countries.find(
+              cc => primaryCity.countryId !== null && cc.countryId === primaryCity.countryId.toString(),
+          ) : undefined;
         if (primaryCity) {
           nodes.push({
             primary: true,
             id: cityId,
             name: primaryCity.name ? primaryCity.name : cityId,
+            country: primaryCountry && primaryCountry.nameShortEn ? primaryCountry.nameShortEn : '',
             color: lightBaseColor,
             proximity: 1,
             radius: primaryCity && primaryCity.population

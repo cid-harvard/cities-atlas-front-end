@@ -8,6 +8,8 @@ import * as d3 from 'd3';
 import {
   primaryColorLight,
 } from '../../../styling/styleUtils';
+import {getStandardTooltip} from '../../../utilities/rapidTooltip';
+import {rgba} from 'polished';
 
 const minExpectedScreenSize = 1020;
 export const defaultNodeRadius = 30;
@@ -21,6 +23,7 @@ interface Node {
   primary: boolean;
   id: string;
   name: string;
+  country: string;
   color: string;
   proximity: number;
   radius?: number;
@@ -45,7 +48,7 @@ interface Input {
 
 const createChart = (input: Input) => {
   const {
-    rootEl, data, rootWidth, rootHeight,
+    rootEl, data, rootWidth, rootHeight, tooltipEl,
   } = input;
 
   const {
@@ -160,22 +163,39 @@ const createChart = (input: Input) => {
     .style('fill', primaryColorLight)
     .style('pointer-events', 'none');
 
-  g.selectAll('.industry-node')
+  g.selectAll('.city-node')
     .data(nodes)
     .enter().append('circle')
-      .attr('class', 'industry-node')
+      .attr('class', 'city-node')
       .attr('cx', d => d.x )
       .attr('cy', d => d.y )
       .attr('r', d => d.radius ? d.radius : radius)
-      .attr('fill', d => d.color ? d.color : 'gray');
+      .attr('fill', d => d.color ? d.color : 'gray')
+      .on('mousemove', d => {
+        const rows = !d.primary ? [
+          ['Proximity:', d.proximity ? d.proximity.toFixed(2) : ''],
+        ] : [];
+        tooltipEl.innerHTML = getStandardTooltip({
+          title: d.name + ', ' + d.country,
+          color: rgba(d.color, 0.3),
+          rows,
+          boldColumns: [1],
+        });
+        tooltipEl.style.display = 'block';
+        tooltipEl.style.top = d3.event.pageY + 'px';
+        tooltipEl.style.left = d3.event.pageX + 'px';
+      })
+      .on('mouseleave', () => {
+        tooltipEl.style.display = 'none';
+      });
 
   const nodeLabels = g.append('g')
-    .attr('class', 'industry-nodes-label-group');
+    .attr('class', 'city-nodes-label-group');
 
-  nodeLabels.selectAll('.industry-nodes-label')
+  nodeLabels.selectAll('.city-nodes-label')
     .data(nodes)
     .enter().append('text')
-      .attr('class', 'industry-nodes-label')
+      .attr('class', 'city-nodes-label')
       .style('font-size', baseFontSize * 0.9 + 'px')
       .style('fill', '#444')
       .style('paint-order', 'stroke')
@@ -183,6 +203,22 @@ const createChart = (input: Input) => {
       .text(d => ellipsisText(d.name as string, 30))
       .attr('x', d => d.x)
       .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 1.25));
+
+
+  const countryLabels = g.append('g')
+    .attr('class', 'country-nodes-label-group');
+
+  countryLabels.selectAll('.country-nodes-label')
+    .data(nodes)
+    .enter().append('text')
+      .attr('class', 'country-nodes-label')
+      .style('font-size', baseFontSize * 0.65 + 'px')
+      .style('fill', '#666')
+      .style('paint-order', 'stroke')
+      .style('text-anchor', 'middle')
+      .text(d => ellipsisText(d.country as string, 30))
+      .attr('x', d => d.x)
+      .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 2.25));
 
 };
 
