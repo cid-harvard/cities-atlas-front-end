@@ -109,7 +109,7 @@ landing-page-text-use-the-map = use the map
 landing-page-text-review-the-city = Review the City
 
 cities-single-page-titles-question-1 = What is my city's\neconomic composition?
-cities-single-page-titles-question-2 = What does my city\nhave an advantage in?
+cities-single-page-titles-question-2 = What does my city\nspecialize in?
 cities-single-page-titles-question-3 = What cities are similar\nto my city?
 cities-single-page-titles-question-4 = What is my city's position\nin the Industry Space?
 cities-single-page-titles-question-5 = What are the growth\nopportunities?
