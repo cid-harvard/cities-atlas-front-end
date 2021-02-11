@@ -9,9 +9,14 @@ interface Ratio {
 export const getAspectRatio = (aspect: Ratio, actual: Ratio, buffer: number) => {
   const longerAspectSide = aspect.w > aspect.h ? 'width' : 'height';
   const smallerActualValue = (actual.w > actual.h ? actual.h : actual.w) - (buffer * 2);
-  const ratio = longerAspectSide === 'width' ? aspect.h / aspect.w : aspect.w / aspect.h;
-  const width = longerAspectSide === 'width' ? smallerActualValue : smallerActualValue * ratio;
-  const height = longerAspectSide === 'height' ? smallerActualValue : smallerActualValue * ratio;
+  let ratio = longerAspectSide === 'height' ? aspect.h / aspect.w : aspect.w / aspect.h;
+  let width = longerAspectSide === 'height' ? smallerActualValue : smallerActualValue * ratio;
+  let height = longerAspectSide === 'width' ? smallerActualValue : smallerActualValue * ratio;
+  if (width > actual.w || height > actual.h) {
+    ratio = longerAspectSide === 'width' ? aspect.h / aspect.w : aspect.w / aspect.h;
+    width = longerAspectSide === 'width' ? smallerActualValue : smallerActualValue * ratio;
+    height = longerAspectSide === 'height' ? smallerActualValue : smallerActualValue * ratio;
+  }
   const margin = {
     left: ((actual.w - width) / 2) + (buffer / 2), right: ((actual.w - width) / 2) + (buffer / 2),
     top: ((actual.h - height) / 2) + (buffer / 2), bottom: ((actual.h - height) / 2) + (buffer / 2),

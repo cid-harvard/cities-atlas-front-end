@@ -9,7 +9,6 @@ import useFluent from '../../../../../hooks/useFluent';
 import styled from 'styled-components/macro';
 import {
   lightBorderColor,
-  baseColor,
   lightBaseColor,
   sectorColorMap,
 } from '../../../../../styling/styleUtils';
@@ -28,36 +27,11 @@ const Table = styled.div`
   grid-template-columns: auto auto auto;
 `;
 
-const Title = styled.div`
-  position: sticky;
-  top: 0;
-  padding: 1rem 0;
-  background-color: #fff;
-  display: grid;
-  grid-template-columns: 1.45rem 1fr;
-  grid-column-gap: 0.7rem;
-  align-items: center;
-`;
-
-const NodeCircle = styled.div`
-  width: 1.45rem;
-  height: 1.45rem;
-  box-sizing: border-box;
-  border-radius: 4000px;
-`;
-
 const Subtitle = styled.div`
   font-size: 0.75rem;
   text-transform: uppercase;
   font-weight: 600;
   color: ${lightBaseColor};
-`;
-
-const SelectedIndustryText = styled.h3`
-  margin: 0;
-  font-weight: 400;
-  color: ${baseColor};
-  font-size: 1rem;
 `;
 
 const TableCell = styled.div`
@@ -87,7 +61,7 @@ const HeaderCell = styled(Subtitle)`
 
 const MiniMapContainer = styled.div`
   width: 100%;
-  height: 170px;
+  height: 100px;
   box-sizing: border-box;
   position: sticky;
   bottom: 0;
@@ -186,13 +160,6 @@ const IndustryDistanceTable = (props: Props) => {
         <>
           <Root>
             <div>
-              <Title ref={titleRef}>
-                <NodeCircle style={{backgroundColor: node.industryColor}} />
-                <div>
-                  <Subtitle>{getString('global-ui-selected-industry')}</Subtitle>
-                  <SelectedIndustryText>{node.name}</SelectedIndustryText>
-                </div>
-              </Title>
               <Table>
                 <HeaderCell style={{top: titleHeight}}>
                   {getString('global-ui-related-industry')}

@@ -7,7 +7,7 @@ export const breakPointValues = {
     small: 800,
   },
   height: {
-    medium: 600,
+    medium: 768,
     mediumSmall: 550,
     small: 500,
   },

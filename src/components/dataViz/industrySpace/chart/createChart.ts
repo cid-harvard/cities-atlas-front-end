@@ -347,7 +347,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-continents-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', textAndSpacingSize * 7.5 + 'px')
+      .style('font-size', textAndSpacingSize * 9.5 + 'px')
       .text(d => d.name);
 
   const countryLabels = g.append('g')
@@ -360,21 +360,21 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-countries-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', textAndSpacingSize * 4 + 'px')
+      .style('font-size', textAndSpacingSize * 5 + 'px')
       .text(d => d.name);
 
   const nodeLabels = g.append('g')
     .attr('class', 'industry-nodes-label-group');
 
-  nodeLabels.selectAll('.industry-nodes-label')
-    .data(data.nodes)
-    .enter().append('text')
-      .attr('class', 'industry-nodes-label')
-      .attr('x', d => xScale(d.x) + margin.left)
-      .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
-      .style('font-size', textAndSpacingSize * 1 + 'px')
+  nodeLabels.selectAll('.industry-nodes-label');
+    // .data(data.nodes)
+    // .enter().append('text')
+      // .attr('class', 'industry-nodes-label')
+      // .attr('x', d => xScale(d.x) + margin.left)
+      // .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
+      // .style('font-size', textAndSpacingSize * 1 + 'px')
       // .style('font-size', textAndSpacingSize * 0.55 + 'px')
-      .text(d => ellipsisText(d.name as string, 20));
+      // .text(d => ellipsisText(d.name as string, 20));
 
   nodeLabels
     .style('display', 'none');
@@ -409,8 +409,8 @@ const createChart = (input: Input) => {
     const {translate, scale} = getBounds(
       allXValues,
       allYValues,
-      width * 1.25,
-      height * 1.25,
+      width,
+      height * 0.95,
       outerWidth,
       outerHeight,
       7,
@@ -507,7 +507,7 @@ const createChart = (input: Input) => {
           }
         })
         .style('pointer-events', 'auto')
-        .style('opacity', 0.75)
+        .style('opacity', 1)
         .attr('r', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? (d.radius ? d.radius * 1.5 : radius * 1.5) : radius)
         .style('display', d => d.id === state.active.datum.id ||
@@ -544,7 +544,7 @@ const createChart = (input: Input) => {
             : yScale(d.y) + margin.top + Math.max(radius * 2.5, 6.5),
           )
           .style('pointer-events', 'none')
-          .style('font-size', Math.min(4, Math.max(radius * 1.1, 3.4)) + 'px')
+          .style('font-size', Math.min(4, Math.max(radius * 1.2, 3.6)) + 'px')
           .text(d => ellipsisText(d.name as string, 30))
           .call(wrap, Math.max(radius * 14, 32), radius * 2)
           .style('opacity', 0)

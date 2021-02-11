@@ -70,7 +70,7 @@ const Root = styled.div`
     }
 
     textPath.ring-label {
-      font-size: 5.5px;
+      font-size: 5.75px;
       font-weight: 600;
       text-transform: uppercase;
       fill: ${primaryColorLight};
