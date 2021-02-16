@@ -66,6 +66,15 @@ const zoomScales = {
   },
 };
 
+export enum NodeAction {
+  ZoomIn = 'zoomin',
+  ZoomOut = 'zoomout',
+  Reset = 'reset',
+  SoftReset = 'softreset',
+  SelectNode = 'selectnode',
+  ExternalSelect = 'externalselectnode',
+}
+
 interface Input {
   rootEl: HTMLDivElement;
   data: LayoutData;
@@ -73,7 +82,7 @@ interface Input {
   rootHeight: number;
   backButton: HTMLButtonElement;
   tooltipEl: HTMLDivElement;
-  onNodeSelect: (naicsId: string | undefined) => void;
+  onNodeSelect: (naicsId: string | undefined, action: NodeAction) => void;
   onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
 }
@@ -140,11 +149,11 @@ const createChart = (input: Input) => {
     render();
   }
 
-  function clearActive(clear: boolean) {
+  function clearActive(clear: boolean, action: NodeAction) {
     state.active = null;
     clearActiveLabels();
     if (clear) {
-      onNodeSelect(undefined);
+      onNodeSelect(undefined, action);
     }
     svg.attr('class', '');
   }
@@ -152,8 +161,9 @@ const createChart = (input: Input) => {
   function zoomIn() {
     if (state.active !== null) {
       state.active.element.classed('active', false);
+      onNodeSelect(undefined, NodeAction.ZoomIn);
     }
-    clearActive(false);
+    clearActive(false, NodeAction.ZoomIn);
     zoom.scaleBy(svg.transition().duration(250), 1.4);
     svg.call(zoom);
     render();
@@ -162,8 +172,9 @@ const createChart = (input: Input) => {
   function zoomOut() {
     if (state.active !== null) {
       state.active.element.classed('active', false);
+      onNodeSelect(undefined, NodeAction.ZoomOut);
     }
-    clearActive(false);
+    clearActive(false, NodeAction.ZoomOut);
     zoom.scaleBy(svg.transition().duration(250), 0.6);
     svg.call(zoom);
     render();
@@ -173,12 +184,12 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    clearActive(true);
+    clearActive(true, NodeAction.Reset);
     svg.transition()
       .duration(300)
       .call(zoom.transform, d3.zoomIdentity);
     svg.call(zoom);
-    onNodeSelect(undefined);
+    onNodeSelect(undefined, NodeAction.Reset);
     render();
   }
 
@@ -186,7 +197,7 @@ const createChart = (input: Input) => {
     if (state.active !== null) {
       state.active.element.classed('active', false);
     }
-    clearActive(true);
+    clearActive(true, NodeAction.SoftReset);
 
     const {translate, scale} = getBounds(
       [xScale(d.x) + margin.left],
@@ -307,7 +318,7 @@ const createChart = (input: Input) => {
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
       .style('--true-fill-color', d => d.color)
-      .on('click', zoomToPoint as (d: any) => void)
+      .on('click', d => zoomToPoint(d, false))
       .on('mousemove', d => {
         const continent = data.clusters.continents.find(c => c.clusterId === d.continent);
         const country = data.clusters.countries.find(c => c.clusterId === d.country);
@@ -379,11 +390,12 @@ const createChart = (input: Input) => {
   nodeLabels
     .style('display', 'none');
 
-  function zoomToPoint(d: any, _external?: boolean) {
+  function zoomToPoint(d: any, external?: boolean) {
+    const action = external ? NodeAction.ExternalSelect : NodeAction.SelectNode;
     // @ts-ignore
     if (state.active !== null && (state.active.element.node() === this ||
         (state.active.datum && state.active.datum.id === d.id)) ) {
-      onNodeSelect(undefined);
+      onNodeSelect(undefined, action);
       return softReset(d);
     }
     svg.on('.zoom', null);
@@ -422,12 +434,18 @@ const createChart = (input: Input) => {
 
     svg.attr('class', svgRingModeClassName);
 
-    onNodeSelect(state.active.datum.id);
+    onNodeSelect(state.active.datum.id, action);
   }
 
-  const setHighlightedPoint = (id: string | undefined) => {
+  const setHighlightedPoint = (id: string | undefined, action: NodeAction) => {
     if (id === undefined) {
-      reset();
+      if (action === NodeAction.Reset) {
+        reset();
+      } else if (action === NodeAction.SoftReset) {
+        clearActive(false, NodeAction.SoftReset);
+        svg.call(zoom);
+        render();
+      }
     } else {
       const target = data.nodes.findIndex(d => d.id === id);
       if (target !== -1 && (state.active === null || state.active.datum.id !== id)
@@ -513,6 +531,7 @@ const createChart = (input: Input) => {
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
         .attr('fill', d => d.color)
+        .attr('class', d => d.id === state.active.datum.id ? 'industry-edge-node active' : 'industry-edge-node')
         .transition()
         .ease(d3.easeCircleInOut)
         .duration(500)
@@ -587,6 +606,7 @@ const createChart = (input: Input) => {
     } else {
       nodes
         .each((d: any) => d.adjustedCoords = undefined)
+        .attr('class', 'industry-edge-node')
         .style('display', 'block')
         .style('pointer-events', state.zoom > 2.25  ? 'auto' : 'none')
         .style('opacity', () => {

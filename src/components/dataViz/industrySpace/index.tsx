@@ -8,7 +8,7 @@ import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow from '../../../components/general/PreChartRow';
 import Chart from './chart';
-import {ZoomLevel} from './chart/createChart';
+import {ZoomLevel, NodeAction} from './chart/createChart';
 import {NodeSizing} from '../../../routing/routes';
 
 const Root = styled.div`
@@ -34,9 +34,11 @@ interface Props {
   cityId: number;
   year: number;
   highlighted: string | undefined;
+  preChartRowKey: string;
   hovered: string | undefined;
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
+  onNodeSelect: (value: string | undefined, action: NodeAction) => void;
   setHovered: (value: string | undefined) => void;
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
@@ -46,7 +48,7 @@ interface Props {
 const ClusteredIndustrySpace = (props: Props) => {
   const {
     setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
-    setHovered, hovered, nodeSizing,
+    setHovered, hovered, nodeSizing, preChartRowKey, onNodeSelect,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -68,6 +70,7 @@ const ClusteredIndustrySpace = (props: Props) => {
   return (
     <>
       <PreChartRow
+        key={preChartRowKey}
         searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
         settingsOptions={{compositionType: false, hideClusterOverlay: true, nodeSizing: true}}
       />
@@ -77,7 +80,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             key={chartKey}
             width={dimensions ? dimensions.width : 0}
             height={dimensions ? dimensions.height : 0}
-            onNodeSelect={setHighlighted}
+            onNodeSelect={onNodeSelect}
             hovered={hovered}
             onNodeHover={setHovered}
             highlighted={highlighted}

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import ClusteredIndustrySpace from '../../../../../components/dataViz/industrySpace';
-import {ZoomLevel} from '../../../../../components/dataViz/industrySpace/chart/createChart';
+import {ZoomLevel, NodeAction} from '../../../../../components/dataViz/industrySpace/chart/createChart';
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
@@ -46,11 +46,14 @@ interface Props {
   cityId: string;
 }
 
+const idToKey = (id: string | undefined) => 'industry-space-prechart-row-' + id + new Date();
+
 const IndustrySpacePosition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hovered, setHovered] = useState<string | undefined>(undefined);
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
+  const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted))
   const sectorMap = useSectorMap();
   const {cluster_overlay, node_sizing} = useQueryParams();
   const hideClusterOverlay= cluster_overlay === Toggle.Off;
@@ -71,6 +74,21 @@ const IndustrySpacePosition = (props: Props) => {
     </NodeLegend>
   ) : null;
 
+
+  const onNodeSelect = (id: string | undefined, action: NodeAction) => {
+    setHighlighted(id);
+    if (action === NodeAction.SoftReset || action === NodeAction.Reset) {
+      setPreChartRowKey(curr => idToKey(curr + undefined));
+    } else if (action !== NodeAction.ExternalSelect) {
+      setPreChartRowKey(idToKey(id));
+    }
+  }
+
+  const onTableSelect = (id: string | undefined) => {
+    setHighlighted(id);
+    setPreChartRowKey(idToKey(id));
+  }
+
   const sideContent = highlighted === undefined ? (
     <StandardSideTextBlock>
       <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
@@ -84,10 +102,11 @@ const IndustrySpacePosition = (props: Props) => {
         id={highlighted}
         hovered={hovered}
         setHovered={setHovered}
-        setHighlighted={setHighlighted}
+        setHighlighted={onTableSelect}
       />
     </StandardSideTextBlock>
   );
+
   return (
     <>
       <ContentGrid>
@@ -103,6 +122,8 @@ const IndustrySpacePosition = (props: Props) => {
           setHovered={setHovered}
           hovered={hovered}
           nodeSizing={node_sizing}
+          onNodeSelect={onNodeSelect}
+          preChartRowKey={preChartRowKey}
         />
         {legend}
       </ContentGrid>

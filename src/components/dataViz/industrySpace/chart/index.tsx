@@ -4,6 +4,7 @@ import createChart, {
   outerRingRadius,
   innerRingRadius,
   svgRingModeClassName,
+  NodeAction,
 } from './createChart';
 import useLayoutData from './useLayoutData';
 import useRCAData, {SuccessResponse} from './useRCAData';
@@ -193,7 +194,7 @@ type Chart = {
   reset: () => void;
   zoomIn: () => void;
   zoomOut: () => void;
-  setHighlightedPoint: (naicsId: string | undefined) => void;
+  setHighlightedPoint: (naicsId: string | undefined, action: NodeAction) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
   update: (data: SuccessResponse) => void;
   updateNodeSize: (nodeSizing: NodeSizing) => void;
@@ -204,7 +205,7 @@ interface Props {
   height: number;
   highlighted: string | undefined;
   hovered: string | undefined;
-  onNodeSelect: (naicsId: string | undefined) => void;
+  onNodeSelect: (naicsId: string | undefined, action: NodeAction) => void;
   onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
@@ -250,7 +251,8 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized) {
-      chart.setHighlightedPoint(highlighted);
+      const action = highlighted === undefined ? NodeAction.SoftReset : NodeAction.SelectNode;
+      chart.setHighlightedPoint(highlighted, action);
     }
   }, [chart, highlighted]);
 
