@@ -211,14 +211,14 @@ const PSWOTChart = (props: Props) => {
     if (nodeSizing === NodeSizing.linear) {
       radiusScale = scaleLinear()
         .domain([minSizeBy, maxSizeBy])
-        .range([ 7, 50 ]);
+        .range([ 5, 12 ]);
     } else if (nodeSizing === NodeSizing.log) {
       radiusScale = scaleLog()
         .domain([minSizeBy, maxSizeBy])
-        .range([ 3, 15 ])
+        .range([ 2, 8 ])
         .base(10);
     } else {
-      radiusScale = (_unused: number) => 6.5;
+      radiusScale = (_unused: number) => 5.5;
     }
 
     let highlightError: boolean = highlighted && !nodeRca.find(d => d.naicsId === highlighted) ? true : false;
