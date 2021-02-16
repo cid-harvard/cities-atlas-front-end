@@ -1,6 +1,5 @@
 import svgPathReverse from 'svg-path-reverse';
 import {
-  getAspectRatio,
   drawPoint,
   ellipsisText,
 } from '../industrySpace/chart/Utils';
@@ -12,12 +11,34 @@ import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 
 const minExpectedScreenSize = 1020;
-export const defaultNodeRadius = 30;
+export const defaultNodeRadius = 16;
 function circlePath(cx: number, cy: number, r: number){
     return svgPathReverse.reverse(
       'M '+cx+' '+cy+' m -'+r+', 0 a '+r+','+r+' 0 1,0 '+(r*2)+',0 a '+r+','+r+' 0 1,0 -'+(r*2)+',0',
     );
 }
+
+interface Ratio {
+  w: number;
+  h: number;
+}
+
+const getAspectRatio = (aspect: Ratio, actual: Ratio, buffer: number) => {
+  const longerAspectSide = aspect.w > aspect.h ? 'width' : 'height';
+  const smallerActualValue = (actual.w > actual.h ? actual.h : actual.w) - (buffer * 2);
+  const ratio = longerAspectSide === 'width' ? aspect.h / aspect.w : aspect.w / aspect.h;
+  const width = longerAspectSide === 'width' ? smallerActualValue : smallerActualValue * ratio;
+  const height = longerAspectSide === 'height' ? smallerActualValue : smallerActualValue * ratio;
+  const margin = {
+    left: ((actual.w - width) / 2) + (buffer / 2), right: ((actual.w - width) / 2) + (buffer / 2),
+    top: ((actual.h - height) / 2) + (buffer / 2), bottom: ((actual.h - height) / 2) + (buffer / 2),
+  };
+  return {
+    width, height, margin,
+    outerWidth: actual.w,
+    outerHeight: actual.h,
+  };
+};
 
 interface Node {
   primary: boolean;
@@ -61,13 +82,14 @@ const createChart = (input: Input) => {
 
   const innerRingRadius = 340 * radiusAdjuster;
   const outerRingRadius = 590 * radiusAdjuster;
-  const baseFontSize = 32 * radiusAdjuster;
+  const baseFontSize = Math.min(Math.max(38 * radiusAdjuster, 12), 18);
 
   const centerX = outerWidth / 2;
   const centerY = outerHeight / 2;
 
+  const topNodes = data.nodes.filter((d, i) => d.primary || i < 20);
 
-  const nodes: NodeWithCoords[] = data.nodes.map((d, i) => {
+  const nodes: NodeWithCoords[] = topNodes.map((d, i) => {
     if (d.primary) {
       return {
         ...d,
@@ -75,11 +97,11 @@ const createChart = (input: Input) => {
         y: centerY,
       };
     } else {
-      const innerCircleLength = data.nodes.length - 1 < 7 ? data.nodes.length - 1 : 7;
+      const innerCircleLength = topNodes.length - 1 < 10 ? topNodes.length - 1 : 10;
       const {x, y} = drawPoint(
-        i < 7 ? innerRingRadius : outerRingRadius,
-        i < 7 ? i : i - 7 - 1,
-        i < 7 ? innerCircleLength : data.nodes.length - 7 - 1,
+        i < 10 ? innerRingRadius : outerRingRadius,
+        i < 10 ? i : i - 10 - 1,
+        i < 10 ? innerCircleLength : topNodes.length - 10 - 1,
         centerX,
         centerY,
       );
@@ -200,7 +222,7 @@ const createChart = (input: Input) => {
       .style('fill', '#444')
       .style('paint-order', 'stroke')
       .style('text-anchor', 'middle')
-      .text(d => ellipsisText(d.name as string, 30))
+      .text(d => ellipsisText(d.name as string, 15))
       .attr('x', d => d.x)
       .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 1.25));
 

@@ -53,7 +53,7 @@ const IndustrySpacePosition = (props: Props) => {
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hovered, setHovered] = useState<string | undefined>(undefined);
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
-  const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted))
+  const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted));
   const sectorMap = useSectorMap();
   const {cluster_overlay, node_sizing} = useQueryParams();
   const hideClusterOverlay= cluster_overlay === Toggle.Off;
@@ -82,12 +82,12 @@ const IndustrySpacePosition = (props: Props) => {
     } else if (action !== NodeAction.ExternalSelect) {
       setPreChartRowKey(idToKey(id));
     }
-  }
+  };
 
   const onTableSelect = (id: string | undefined) => {
     setHighlighted(id);
     setPreChartRowKey(idToKey(id));
-  }
+  };
 
   const sideContent = highlighted === undefined ? (
     <StandardSideTextBlock>
