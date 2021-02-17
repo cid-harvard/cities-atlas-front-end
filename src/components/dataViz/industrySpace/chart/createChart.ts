@@ -371,7 +371,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-countries-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top)
-      .style('font-size', textAndSpacingSize * 5 + 'px')
+      .style('font-size', textAndSpacingSize * 4 + 'px')
       .text(d => d.name);
 
   const nodeLabels = g.append('g')

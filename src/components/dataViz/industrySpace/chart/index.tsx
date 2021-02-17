@@ -116,7 +116,6 @@ const Root = styled.div`
       stroke: #efefef;
       stroke-width: 1px;
       font-weight: 600;
-      text-transform: uppercase;
     }
 
     .industry-nodes-label {
