@@ -719,7 +719,7 @@ const createChart = (input: Input) => {
 
   function update(newData: SuccessResponse) {
     const continentsData = newData.clusterRca.filter(d => d.level === 1);
-    const countriesData = newData.clusterRca.filter(d => d.level === 2);
+    const countriesData = newData.clusterRca.filter(d => d.level === 3);
 
     const intensityColorScaleContinents = d3.scaleSymlog()
       .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
