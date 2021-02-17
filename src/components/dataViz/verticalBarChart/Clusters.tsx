@@ -55,7 +55,7 @@ const Industries = (props: Props) => {
         if (namedCluster) {
           title = namedCluster.name;
         }
-      } else if (clusterLevel === ClusterLevel.C2) {
+      } else if (clusterLevel === ClusterLevel.C3) {
         const namedCluster = layoutData.clusters.countries.find(c => c.clusterId === d.clusterId);
         if (namedCluster) {
           title = namedCluster.name;

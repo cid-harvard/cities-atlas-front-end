@@ -155,7 +155,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('Medium Proximity')
+    .text('Medium Similarity')
     .style('font-size', baseFontSize * 1.25 + 'px')
     .style('font-weight', '600')
     .style('text-transform', 'uppercase')
@@ -178,7 +178,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('High Proximity')
+    .text('High Similarity')
     .style('font-size', baseFontSize * 1.25 + 'px')
     .style('font-weight', '600')
     .style('text-transform', 'uppercase')
@@ -195,7 +195,7 @@ const createChart = (input: Input) => {
       .attr('fill', d => d.color ? d.color : 'gray')
       .on('mousemove', d => {
         const rows = !d.primary ? [
-          ['Proximity:', d.proximity ? d.proximity.toFixed(2) : ''],
+          ['Similarity:', d.proximity ? d.proximity.toFixed(2) : ''],
         ] : [];
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name + ', ' + d.country,

@@ -416,12 +416,12 @@ const Settings = (props: Props) => {
             {ClusterLevel.C1}
           </DigitLevelButton>
           <DigitLevelButton
-            onClick={() => updateSetting('cluster_level', ClusterLevel.C2)}
-            $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C2) ||
-              params.cluster_level === ClusterLevel.C2
+            onClick={() => updateSetting('cluster_level', ClusterLevel.C3)}
+            $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C3) ||
+              params.cluster_level === ClusterLevel.C3
             }
           >
-            {ClusterLevel.C2}
+            {ClusterLevel.C3}
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
@@ -482,7 +482,7 @@ const Settings = (props: Props) => {
         <InputContainer>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.none)}
-            $selected={!params.node_sizing || params.node_sizing === NodeSizing.none}
+            $selected={params.node_sizing === NodeSizing.none}
           >
             {upperFirst(NodeSizing.none)}
           </DigitLevelButton>
@@ -494,7 +494,7 @@ const Settings = (props: Props) => {
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.log)}
-            $selected={params.node_sizing === NodeSizing.log}
+            $selected={!params.node_sizing || params.node_sizing === NodeSizing.log}
           >
             {upperFirst(NodeSizing.log)}
           </DigitLevelButton>

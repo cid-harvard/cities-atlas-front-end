@@ -42,7 +42,7 @@ export enum ClusterLevel {
   C3 = '3',
 }
 
-export const defaultClusterLevel: ClusterLevel = ClusterLevel.C2;
+export const defaultClusterLevel: ClusterLevel = ClusterLevel.C3;
 
 export interface GlobalQueryParams {
   compare_city: string | undefined;

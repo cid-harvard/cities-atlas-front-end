@@ -10,7 +10,7 @@ export enum DigitLevel {
 export const defaultDigitLevel: DigitLevel = DigitLevel.Three;
 
 export enum CompositionType {
-  Companies = 'companies',
+  Companies = 'establishments',
   Employees = 'employees',
 }
 

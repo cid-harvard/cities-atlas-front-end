@@ -269,7 +269,7 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized) {
-      chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.none);
+      chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.log);
     }
   }, [chart, nodeSizing]);
 
