@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {scaleSymlog} from 'd3-scale';
+import {scaleLog} from 'd3-scale';
 import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
@@ -18,6 +18,7 @@ import {ClusterLevel} from '../../../routing/routes';
 //   useGlobalClusterMap,
 // } from '../../../hooks/useGlobalClusterData';
 import useLayoutData from '../industrySpace/chart/useLayoutData';
+import niceLogValues from './getNiceLogValues';
 
 interface Props {
   data: SuccessResponse['clusterRca'];
@@ -38,12 +39,15 @@ const Industries = (props: Props) => {
 
   const filteredClusterRCA = data.filter(d => clusterLevel === (d.level as number).toString() && d[field] && (d[field] as number) >= 1);
   const max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  const scale = scaleSymlog()
+  const {logValue, numberOfXAxisTicks} = niceLogValues(max);
+  const scale = scaleLog()
+    .domain([1, logValue])
+    .range([ 0, 100 ])
+    .base(2);
+  const colorScale = scaleLog()
     .domain([1, max])
-    .range([ 0, 100 ]);
-  const colorScale = scaleSymlog()
-    .domain([1, max])
-    .range(intensityColorRange as any);
+    .range(intensityColorRange as any)
+    .base(2);
   const clusterData = filteredClusterRCA.map(d => {
     // const cluster = clusterMap.data[d.clusterId];
     // const title = cluster && cluster.name !== null ? cluster.name : d.clusterId;
@@ -113,6 +117,7 @@ const Industries = (props: Props) => {
         axisLabel={axisLabel}
         formatValue={formatValue}
         onRowHover={setHovered}
+        numberOfXAxisTicks={numberOfXAxisTicks}
       />
       <RapidTooltipRoot ref={tooltipRef} />
     </>

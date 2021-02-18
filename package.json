@@ -44,7 +44,7 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
     "react-use": "^15.3.3",
-    "react-vertical-bar-chart": "^1.0.0",
+    "react-vertical-bar-chart": "^1.0.1",
     "screenfull": "^5.0.2",
     "styled-components": "^5.1.1",
     "svg-path-reverse": "^1.2.1",

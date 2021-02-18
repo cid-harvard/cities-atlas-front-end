@@ -1,5 +1,5 @@
 import React, {useState, useRef} from 'react';
-import {scaleSymlog} from 'd3-scale';
+import {scaleLog} from 'd3-scale';
 import {
   BasicLabel,
   sectorColorMap,
@@ -19,6 +19,7 @@ import QuickError from '../../transitionStateComponents/QuickError';
 import {rgba} from 'polished';
 import Tooltip from './../../general/Tooltip';
 import {defaultYear} from '../../../Utils';
+import niceLogValues from './getNiceLogValues';
 
 interface Props {
   data: SuccessResponse['nodeRca'];
@@ -47,9 +48,11 @@ const Industries = (props: Props) => {
     }
   });
   const max = Math.ceil((Math.max(...filteredIndustryRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  const scale = scaleSymlog()
-    .domain([1, max])
-    .range([ 0, 100 ]);
+  const {logValue, numberOfXAxisTicks} = niceLogValues(max);
+  const scale = scaleLog()
+    .domain([1, logValue])
+    .range([ 0, 100 ])
+    .base(2);
   const industryData = filteredIndustryRCA.map(d => {
     const industry = industryMap.data[d.naicsId];
     const colorDatum = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
@@ -116,6 +119,7 @@ const Industries = (props: Props) => {
         highlighted={highlighted}
         onRowHover={setHovered}
         onHighlightError={() => setHighlightError(true)}
+        numberOfXAxisTicks={numberOfXAxisTicks}
       />
       <RapidTooltipRoot ref={tooltipRef} />
       {highlightErrorPopup}
