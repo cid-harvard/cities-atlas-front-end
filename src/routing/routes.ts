@@ -33,7 +33,7 @@ export enum NodeSizing {
 
 export enum ColorBy {
   sector = 'sector',
-  intensity = 'intensity',
+  intensity = 'specialization',
 }
 
 export enum ClusterLevel {

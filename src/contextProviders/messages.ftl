@@ -46,16 +46,24 @@ global-ui-change-settings = Click to change settings
 
 global-ui-reset-sectors = Show all sectors
 
-global-ui-numbers-based-on = Numbers are based on
-global-ui-detail-level = Detail Level
-global-ui-cluster-level = Cluster Level
-global-ui-node-sizing = Node Sizing
+global-ui-numbers-based-on = Visualization based on numbers of
+global-ui-detail-level = Industry Groups Digit Level
+global-ui-cluster-level = Knowledge Cluster Level
+global-ui-node-sizing = Size Nodes By
+global-ui-node-color-by = Color Nodes By
 global-ui-color-by = Color By
-global-ui-show-clusters = Show cluster overlay
+global-ui-show-clusters = Show Knowledge Clusters Overlay
 global-ui-digit-level = digit level
 global-ui-sector-level = Sector level
 global-ui-year = Year
 global-ui-naics-code = NAICS Code
+
+global-ui-cluster-aggregation-level = {
+  $cluster ->
+    [cluster_1] High
+    [cluster_2] Medium
+    *[cluster_3] Low
+} Aggregation
 
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector

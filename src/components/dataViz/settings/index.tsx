@@ -314,16 +314,16 @@ const Settings = (props: Props) => {
         />
         <LabelContainer>{getString('global-ui-numbers-based-on')}</LabelContainer>
         <InputContainer>
-          <EmployeeButton
-            onClick={() => updateSetting('composition_type', CompositionType.Employees)}
-          >
-            {CompositionType.Employees}
-          </EmployeeButton>
           <CompanyButton
             onClick={() => updateSetting('composition_type', CompositionType.Companies)}
           >
             {CompositionType.Companies}
           </CompanyButton>
+          <EmployeeButton
+            onClick={() => updateSetting('composition_type', CompositionType.Employees)}
+          >
+            {CompositionType.Employees}
+          </EmployeeButton>
         </InputContainer>
       </SettingGrid>
     );
@@ -413,7 +413,7 @@ const Settings = (props: Props) => {
               params.cluster_level === ClusterLevel.C1
             }
           >
-            {ClusterLevel.C1}
+            {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C1})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('cluster_level', ClusterLevel.C3)}
@@ -421,7 +421,7 @@ const Settings = (props: Props) => {
               params.cluster_level === ClusterLevel.C3
             }
           >
-            {ClusterLevel.C3}
+            {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C3})}
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
