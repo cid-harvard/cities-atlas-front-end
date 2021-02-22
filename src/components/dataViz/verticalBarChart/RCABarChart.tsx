@@ -31,12 +31,14 @@ import Industries from './Industries';
 import Clusters from './Clusters';
 import {
   CityRoutes,
+  ColorBy,
 } from '../../../routing/routes';
 import {createRoute} from '../../../routing/Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
 import Tooltip from './../../general/Tooltip';
+import useColorByIntensity from '../treeMap/useColorByIntensity';
 
 const Root = styled.div`
   width: 100%;
@@ -134,6 +136,8 @@ interface Props {
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   clusterLevel: ClusterLevel;
+  digitLevel: DigitLevel;
+  colorBy: ColorBy;
 }
 
 const RCABarChart = (props: Props) => {
@@ -141,13 +145,16 @@ const RCABarChart = (props: Props) => {
     hiddenSectors, setHighlighted,
     highlighted, compositionType,
     isClusterView, clusterLevel,
+    digitLevel, colorBy,
   } = props;
   const cityId = useCurrentCityId();
   const getString = useFluent();
   const history = useHistory();
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
-  const {loading, error, data} = useRCAData();
+  const {loading, error, data} = useRCAData(digitLevel);
+  const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
+
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   useEffect(() => {
@@ -169,7 +176,8 @@ const RCABarChart = (props: Props) => {
   }
 
   let output: React.ReactElement<any> | null;
-  if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (industryMap.loading || !dimensions || (loading && prevData === undefined) ||
+      (colorBy === ColorBy.intensity && intensity.loading)) {
     output = <LoadingBlock />;
   } else if (error !== undefined) {
     output = (
@@ -185,6 +193,13 @@ const RCABarChart = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(error);
+  } else if (intensity.error !== undefined && colorBy === ColorBy.intensity) {
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
+    console.error(intensity.error);
   } else if (dataToUse !== undefined) {
     const clusterData = dataToUse.clusterRca;
     const industryData = dataToUse.nodeRca;
@@ -226,8 +241,10 @@ const RCABarChart = (props: Props) => {
   return (
     <>
       <PreChartRow
-        searchInGraphOptions={{hiddenSectors, digitLevel: DigitLevel.Six, setHighlighted}}
-        settingsOptions={{compositionType: true, clusterLevel: isClusterView ? isClusterView : undefined}}
+        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
+        settingsOptions={{
+          compositionType: true, clusterLevel: isClusterView ? isClusterView : undefined, digitLevel: true, colorBy: true,
+        }}
       />
       <Root>
         <VizNavRoot>

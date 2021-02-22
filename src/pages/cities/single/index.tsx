@@ -43,18 +43,19 @@ const City = () => {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
       url: createRoute.city(CityRoutes.CityGoodAt, cityId),
       removeParams: [
+        'compare_city' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
-        'color_by' as keyof GlobalQueryParams,
       ],
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-3'),
       url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
       removeParams: [
+        'compare_city' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
-        'color_by' as keyof GlobalQueryParams,
+        'digit_level' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -64,7 +65,6 @@ const City = () => {
         'compare_city' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
         'composition_type' as keyof GlobalQueryParams,
-        'color_by' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -74,7 +74,6 @@ const City = () => {
         'compare_city' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
-        'color_by' as keyof GlobalQueryParams,
       ],
     },
   ] : [];

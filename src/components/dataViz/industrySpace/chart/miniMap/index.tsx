@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import createChart from './createChart';
 import useLayoutData from '../useLayoutData';
 import useRCAData, {SuccessResponse} from '../useRCAData';
+import {DigitLevel} from '../../../../../types/graphQL/graphQLTypes';
 
 type Chart = {
   initialized: false;
@@ -26,7 +27,7 @@ const Chart = (props: Props) => {
   const [chart, setChart] = useState<Chart>({initialized: false});
 
   const layout = useLayoutData();
-  const {data} = useRCAData();
+  const {data} = useRCAData(DigitLevel.Six);
 
   useEffect(() => {
     const chartNode = chartRef.current;

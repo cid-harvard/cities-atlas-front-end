@@ -23,6 +23,7 @@ import {createRoute} from '../../../../routing/Utils';
 import {
   CityRoutes,
   cityIdParam,
+  ColorBy,
 } from '../../../../routing/routes';
 import {
   useHistory,
@@ -31,11 +32,14 @@ import {
   matchPath,
 } from 'react-router-dom';
 import PSWOTChart from '../../../../components/dataViz/pswotChart/';
+import IntensityLegend from '../../../../components/dataViz/legend/IntensityLegend';
+import EducationLegend from '../../../../components/dataViz/legend/EducationLegend';
+import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
-  const {composition_type, node_sizing} = useQueryParams();
+  const {composition_type, node_sizing, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -89,6 +93,35 @@ const GrowthOppurtunities = () => {
     );
   }
 
+  let legend: React.ReactElement<any> | null;
+  if (color_by === ColorBy.intensity) {
+    legend = (
+      <IntensityLegend />
+    );
+  } else if (color_by === ColorBy.education) {
+    legend = (
+      <EducationLegend />
+    );
+  } else if (color_by === ColorBy.wage) {
+    legend = (
+      <WageLegend />
+    );
+  } else {
+    legend = (
+      <CategoryLabels
+        categories={sectorMap}
+        allowToggle={true}
+        toggleCategory={toggleSector}
+        isolateCategory={isolateSector}
+        hiddenCategories={hiddenSectors}
+        resetCategories={resetSectors}
+        resetText={getString('global-ui-reset-sectors')}
+        fullWidth={true}
+      />
+    );
+  }
+
+
   return (
     <DefaultContentWrapper>
 
@@ -118,16 +151,7 @@ const GrowthOppurtunities = () => {
             )}
           />
         </Switch>
-        <CategoryLabels
-          categories={sectorMap}
-          allowToggle={true}
-          toggleCategory={toggleSector}
-          isolateCategory={isolateSector}
-          hiddenCategories={hiddenSectors}
-          resetCategories={resetSectors}
-          resetText={getString('global-ui-reset-sectors')}
-          fullWidth={true}
-        />
+        {legend}
       </ContentGrid>
       <UtiltyBar />
     </DefaultContentWrapper>

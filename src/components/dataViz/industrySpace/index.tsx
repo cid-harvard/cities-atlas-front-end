@@ -72,7 +72,7 @@ const ClusteredIndustrySpace = (props: Props) => {
       <PreChartRow
         key={preChartRowKey}
         searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
-        settingsOptions={{compositionType: false, hideClusterOverlay: true, nodeSizing: true}}
+        settingsOptions={{compositionType: false, hideClusterOverlay: true, nodeSizing: true, colorBy: true}}
       />
       <Root ref={rootRef}>
         <IndustrySpaceContainer>

@@ -45,6 +45,16 @@ export const intensityColorRange =[
   '#003e59',
 ];
 
+export const educationColorRange =[
+  '#bdf4e8',
+  '#199a7c',
+];
+
+export const wageColorRange =[
+  '#ebd9ed',
+  '#8a4593',
+];
+
 export const primaryFont = "'Source Sans Pro', sans-serif";
 export const secondaryFont = "'OfficeCodeProWeb', monospace";
 

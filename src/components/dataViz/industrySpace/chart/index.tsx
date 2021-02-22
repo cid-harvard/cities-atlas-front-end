@@ -18,6 +18,7 @@ import {
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
 import {NodeSizing} from '../../../../routing/routes';
+import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
 
 const hideClusterOverlayClassName = 'hide-industry-space-clusters-overlay-class';
 
@@ -223,7 +224,7 @@ const Chart = (props: Props) => {
   const [chart, setChart] = useState<Chart>({initialized: false});
 
   const layout = useLayoutData();
-  const {loading, data} = useRCAData();
+  const {loading, data} = useRCAData(DigitLevel.Six);
 
   useEffect(() => {
     const chartNode = chartRef.current;

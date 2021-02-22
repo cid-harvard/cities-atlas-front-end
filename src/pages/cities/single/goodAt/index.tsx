@@ -17,23 +17,28 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import useFluent from '../../../../hooks/useFluent';
 import CategoryLabels from '../../../../components/dataViz/legend/CategoryLabels';
 import IntensityLegend from '../../../../components/dataViz/legend/IntensityLegend';
+import EducationLegend from '../../../../components/dataViz/legend/EducationLegend';
+import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 import useSectorMap from '../../../../hooks/useSectorMap';
 import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import {
   CityRoutes,
   cityIdParam,
+  ColorBy,
   defaultClusterLevel,
+  defaultColorBy,
 } from '../../../../routing/routes';
 import {
   useHistory,
   matchPath,
 } from 'react-router-dom';
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
+import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
 
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
-  const {composition_type, cluster_level} = useQueryParams();
+  const {composition_type, cluster_level, digit_level, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -62,18 +67,33 @@ const CityGoodAt = () => {
     );
   }
 
-  const legend = isClusterView ? <IntensityLegend /> : (
-    <CategoryLabels
-      categories={sectorMap}
-      allowToggle={true}
-      toggleCategory={toggleSector}
-      isolateCategory={isolateSector}
-      hiddenCategories={hiddenSectors}
-      resetCategories={resetSectors}
-      resetText={getString('global-ui-reset-sectors')}
-      fullWidth={true}
-    />
-  );
+  let legend: React.ReactElement<any> | null;
+  if (isClusterView || color_by === ColorBy.intensity) {
+    legend = (
+      <IntensityLegend />
+    );
+  } else if (color_by === ColorBy.education) {
+    legend = (
+      <EducationLegend />
+    );
+  } else if (color_by === ColorBy.wage) {
+    legend = (
+      <WageLegend />
+    );
+  } else {
+    legend = (
+      <CategoryLabels
+        categories={sectorMap}
+        allowToggle={true}
+        toggleCategory={toggleSector}
+        isolateCategory={isolateSector}
+        hiddenCategories={hiddenSectors}
+        resetCategories={resetSectors}
+        resetText={getString('global-ui-reset-sectors')}
+        fullWidth={true}
+      />
+    );
+  }
 
   return (
     <DefaultContentWrapper>
@@ -91,6 +111,8 @@ const CityGoodAt = () => {
           compositionType={composition_type ? composition_type : defaultCompositionType}
           hiddenSectors={hiddenSectors}
           clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
+          digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+          colorBy={color_by ? color_by : defaultColorBy}
         />
         {legend}
       </ContentGrid>

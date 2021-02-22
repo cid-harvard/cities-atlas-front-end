@@ -24,6 +24,8 @@ import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
 import {ColorBy} from '../../../../../routing/routes';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
+import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
+import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -78,20 +80,33 @@ const EconomicComposition = (props: Props) => {
   } else {
     download = null;
   }
-  const legend = color_by === ColorBy.intensity ? (
-    <IntensityLegend />
-  ) : (
-    <CategoryLabels
-      categories={sectorMap}
-      allowToggle={true}
-      toggleCategory={toggleSector}
-      isolateCategory={isolateSector}
-      hiddenCategories={hiddenSectors}
-      resetCategories={resetSectors}
-      resetText={getString('global-ui-reset-sectors')}
-      fullWidth={true}
-    />
-  );
+  let legend: React.ReactElement<any> | null;
+  if (color_by === ColorBy.intensity) {
+    legend = (
+      <IntensityLegend />
+    );
+  } else if (color_by === ColorBy.education) {
+    legend = (
+      <EducationLegend />
+    );
+  } else if (color_by === ColorBy.wage) {
+    legend = (
+      <WageLegend />
+    );
+  } else {
+    legend = (
+      <CategoryLabels
+        categories={sectorMap}
+        allowToggle={true}
+        toggleCategory={toggleSector}
+        isolateCategory={isolateSector}
+        hiddenCategories={hiddenSectors}
+        resetCategories={resetSectors}
+        resetText={getString('global-ui-reset-sectors')}
+        fullWidth={true}
+      />
+    );
+  }
 
   return (
     <>

@@ -65,6 +65,14 @@ global-ui-cluster-aggregation-level = {
     *[cluster_3] Low
 } Aggregation
 
+global-formatted-color-by = {
+  $type ->
+  *[sector] Sector
+  [intensity] Specialization
+  [education] Average years education
+  [wage] Average wage
+}
+
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector
 global-ui-proximity = Proximity
@@ -108,6 +116,12 @@ global-intensity-low = Low Specialization
 global-intensity-lower = Lower Specialization
 global-intensity-high = High Specialization
 global-intensity-higher = Higher Specialization
+
+global-education-low = Low Education
+global-education-high = High Education
+
+global-wages-low = Low Wages
+global-wages-high = High Wages
 
 error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
 error-message-no-industries = No industries available

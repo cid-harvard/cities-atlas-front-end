@@ -320,7 +320,7 @@ const PSWOTChart = (props: Props) => {
           digitLevel,
           setHighlighted,
         }}
-        settingsOptions={{compositionType: true, nodeSizing: true}}
+        settingsOptions={{compositionType: true, nodeSizing: true, colorBy: true}}
         vizNavigation={vizNavigation}
       />
       <Root>

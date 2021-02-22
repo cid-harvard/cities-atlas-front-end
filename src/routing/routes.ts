@@ -33,7 +33,9 @@ export enum NodeSizing {
 
 export enum ColorBy {
   sector = 'sector',
-  intensity = 'specialization',
+  intensity = 'intensity',
+  education = 'education',
+  wage = 'wage',
 }
 
 export enum ClusterLevel {
@@ -43,6 +45,7 @@ export enum ClusterLevel {
 }
 
 export const defaultClusterLevel: ClusterLevel = ClusterLevel.C3;
+export const defaultColorBy: ColorBy = ColorBy.sector;
 
 export interface GlobalQueryParams {
   compare_city: string | undefined;

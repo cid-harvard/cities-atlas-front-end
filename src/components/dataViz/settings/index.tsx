@@ -523,13 +523,25 @@ const Settings = (props: Props) => {
             onClick={() => updateSetting('color_by', ColorBy.sector)}
             $selected={!params.color_by || params.color_by === ColorBy.sector}
           >
-            {upperFirst(ColorBy.sector)}
+            {getString('global-formatted-color-by', {type: ColorBy.sector})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('color_by', ColorBy.intensity)}
             $selected={params.color_by === ColorBy.intensity}
           >
-            {upperFirst(ColorBy.intensity)}
+            {getString('global-formatted-color-by', {type: ColorBy.intensity})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('color_by', ColorBy.education)}
+            $selected={params.color_by === ColorBy.education}
+          >
+            {getString('global-formatted-color-by', {type: ColorBy.education})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('color_by', ColorBy.wage)}
+            $selected={params.color_by === ColorBy.wage}
+          >
+            {getString('global-formatted-color-by', {type: ColorBy.wage})}
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>

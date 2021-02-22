@@ -13,10 +13,12 @@ import {
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
+import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
+import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import useQueryParams from '../../../../../hooks/useQueryParams';
-import {Toggle} from '../../../../../routing/routes';
+import {Toggle, ColorBy} from '../../../../../routing/routes';
 import IndustryDistanceTable from './IndustryDistanceTable';
 import styled from 'styled-components/macro';
 import NodeLegendSrc from './node-legend.svg';
@@ -55,15 +57,32 @@ const IndustrySpacePosition = (props: Props) => {
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
   const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted));
   const sectorMap = useSectorMap();
-  const {cluster_overlay, node_sizing} = useQueryParams();
+  const {cluster_overlay, node_sizing, color_by} = useQueryParams();
   const hideClusterOverlay= cluster_overlay === Toggle.Off;
-  const legend = zoomLevel === ZoomLevel.Node || hideClusterOverlay ? (
-    <CategoryLabels
-      categories={sectorMap}
-      allowToggle={false}
-      fullWidth={true}
-    />
-  ) : <IntensityLegend />;
+
+  let legend: React.ReactElement<any> | null;
+  if (!(zoomLevel === ZoomLevel.Node || hideClusterOverlay) || color_by === ColorBy.intensity) {
+    legend = (
+      <IntensityLegend />
+    );
+  } else if (color_by === ColorBy.education) {
+    legend = (
+      <EducationLegend />
+    );
+  } else if (color_by === ColorBy.wage) {
+    legend = (
+      <WageLegend />
+    );
+  } else {
+    legend = (
+      <CategoryLabels
+        categories={sectorMap}
+        allowToggle={false}
+        fullWidth={true}
+      />
+    );
+  }
+
 
   const nodeLegend = zoomLevel === ZoomLevel.Node || hideClusterOverlay ? (
     <NodeLegend>
