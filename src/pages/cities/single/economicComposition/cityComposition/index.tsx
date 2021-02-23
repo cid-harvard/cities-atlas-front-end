@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import CompositionTreeMap from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
+import ClusterCompositionTreeMap from '../../../../../components/dataViz/treeMap/ClusterCompositionTreeMap';
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
@@ -26,6 +27,11 @@ import {ColorBy} from '../../../../../routing/routes';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
+import {
+  Switch,
+  Route,
+} from 'react-router-dom';
+import {CityRoutes} from '../../../../../routing/routes';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -119,16 +125,35 @@ const EconomicComposition = (props: Props) => {
 
         </StandardSideTextBlock>
         <TreeMapRoot ref={treeMapRef}>
-          <CompositionTreeMap
-            cityId={parseInt(cityId, 10)}
-            year={defaultYear}
-            digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-            colorBy={color_by ? color_by : ColorBy.sector}
-            compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-            highlighted={highlighted}
-            hiddenSectors={hiddenSectors}
-            setHighlighted={setHighlighted}
-          />
+          <Switch>
+            <Route path={CityRoutes.CityEconomicCompositionClusters}
+              render={() => (
+                <ClusterCompositionTreeMap
+                  cityId={parseInt(cityId, 10)}
+                  year={defaultYear}
+                  digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+                  colorBy={color_by ? color_by : ColorBy.sector}
+                  compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                  highlighted={highlighted}
+                  setHighlighted={setHighlighted}
+                />
+              )}
+            />
+            <Route path={CityRoutes.CityEconomicComposition}
+              render={() => (
+                <CompositionTreeMap
+                  cityId={parseInt(cityId, 10)}
+                  year={defaultYear}
+                  digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+                  colorBy={color_by ? color_by : ColorBy.sector}
+                  compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                  highlighted={highlighted}
+                  hiddenSectors={hiddenSectors}
+                  setHighlighted={setHighlighted}
+                />
+              )}
+            />
+          </Switch>
         </TreeMapRoot>
         {legend}
         {download}

@@ -6,6 +6,7 @@ export const cityIdParam = 'cityId';
 export const CityRoutes = {
   CityBase: '/city/:cityId',
   CityEconomicComposition: '/city/:cityId/economic-composition',
+  CityEconomicCompositionClusters: '/city/:cityId/economic-composition/clusters',
   CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
   CitySimilarCities: '/city/:cityId/similar-cities',
   CityGoodAt: '/city/:cityId/good-at',
