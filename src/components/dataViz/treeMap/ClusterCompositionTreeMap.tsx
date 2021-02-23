@@ -21,10 +21,9 @@ import ErrorBoundary from '../ErrorBoundary';
 import useFluent from '../../../hooks/useFluent';
 import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import PreChartRow, {Indicator} from '../../../components/general/PreChartRow';
+import PreChartRow, {Indicator, VizNavItem, VizNavStyle} from '../../../components/general/PreChartRow';
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
-// import {rgba} from 'polished';
 import {ColorBy} from '../../../routing/routes';
 import {scaleSymlog} from 'd3-scale';
 import {extent} from 'd3-array';
@@ -89,12 +88,13 @@ interface Props {
   colorBy: ColorBy;
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
+  vizNavigation: VizNavItem[];
 }
 
 const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, digitLevel, compositionType, highlighted,
-    setHighlighted,
+    setHighlighted, vizNavigation,
   } = props;
   const clusterMap = useGlobalClusterMap();
   const getString = useFluent();
@@ -273,6 +273,8 @@ const CompositionTreeMap = (props: Props) => {
         indicator={indicator}
         searchInGraphOptions={{hiddenSectors: [], digitLevel, setHighlighted}}
         settingsOptions={{compositionType: true, colorBy: true}}
+        vizNavigation={vizNavigation}
+        vizNavigationStyle={VizNavStyle.Underline}
       />
       <Root ref={rootRef}>
         {output}

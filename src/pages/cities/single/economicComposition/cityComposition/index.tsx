@@ -29,9 +29,12 @@ import EducationLegend from '../../../../../components/dataViz/legend/EducationL
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
 import {
   Switch,
+  useHistory,
+  matchPath,
   Route,
 } from 'react-router-dom';
-import {CityRoutes} from '../../../../../routing/routes';
+import {CityRoutes, cityIdParam} from '../../../../../routing/routes';
+import {createRoute} from '../../../../../routing/Utils';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -61,6 +64,7 @@ const EconomicComposition = (props: Props) => {
   const treeMapRef = useRef<HTMLDivElement | null>(null);
   const globalLocationData = useGlobalLocationData();
   const getString = useFluent();
+  const history = useHistory();
 
   let download: React.ReactElement<any> | null;
   if (activeDownload === DownloadType.Image && treeMapRef.current) {
@@ -114,6 +118,36 @@ const EconomicComposition = (props: Props) => {
     );
   }
 
+  const isClusterTreeMap = matchPath<{[cityIdParam]: string}>(
+    history.location.pathname, CityRoutes.CityEconomicCompositionClusters,
+  );
+
+  const vizNavigation= [
+    {
+      label: 'Industry Groups',
+      active: !!(!isClusterTreeMap || !isClusterTreeMap.isExact),
+      onClick: () => {
+        setHighlighted(undefined);
+        history.push(
+          createRoute.city(CityRoutes.CityEconomicComposition, cityId)
+          + history.location.search,
+        );
+      },
+    },
+    {
+      label: 'Knowledge Clusters',
+      active: !!(isClusterTreeMap && isClusterTreeMap.isExact),
+      onClick: () => {
+        setHighlighted(undefined);
+        history.push(
+          createRoute.city(CityRoutes.CityEconomicCompositionClusters, cityId)
+          + history.location.search,
+        );
+      },
+      tooltipContent: 'About Knowledge Clusters',
+    },
+  ];
+
   return (
     <>
       <ContentGrid>
@@ -136,6 +170,7 @@ const EconomicComposition = (props: Props) => {
                   compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
                   highlighted={highlighted}
                   setHighlighted={setHighlighted}
+                  vizNavigation={vizNavigation}
                 />
               )}
             />
@@ -150,6 +185,7 @@ const EconomicComposition = (props: Props) => {
                   highlighted={highlighted}
                   hiddenSectors={hiddenSectors}
                   setHighlighted={setHighlighted}
+                  vizNavigation={vizNavigation}
                 />
               )}
             />

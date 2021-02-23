@@ -1,7 +1,14 @@
 import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../styling/GlobalGrid';
-import {backgroundDark, ButtonBase} from '../../styling/styleUtils';
+import {
+  backgroundDark,
+  ButtonBase,
+  primaryColor,
+  primaryColorLight,
+  baseColor,
+  lightBorderColor,
+} from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
 import raw from 'raw.macro';
 import SearchIndustryInGraph, {SearchInGraphOptions} from './searchIndustryInGraphDropdown';
@@ -44,12 +51,18 @@ const LeftColumn = styled(RowBase)`
   grid-row: 1;
   font-size: clamp(0.75rem, 1.5vw, 1rem);
   text-align: right;
+  font-size: 0.85rem;
 
   @media ${collapsedSizeMediaQuery} {
     flex-grow: 1;
     position: relative;
-    padding-left: 50px;
+    padding-left: 2rem;
   }
+`;
+
+const IndicatorTooltipContainer = styled.span`
+  position: relative;
+  top: 0.2rem;
 `;
 
 const RightColumn = styled(RowBase)`
@@ -60,6 +73,7 @@ const IndicatorRoot = styled.div`
   margin-left: auto;
   display: flex;
   align-items: center;
+  margin-left: 2rem;
 `;
 
 const SettingsButton = styled(ButtonBase)`
@@ -85,6 +99,46 @@ const HighlightedNavButton = styled(NavButton)`
   color: #fff;
 `;
 
+const UnderlineNavButton = styled.button`
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: ${baseColor};
+  border-bottom: solid 4px transparent;
+  background-color: transparent;
+  position: relative;
+
+  &:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 0;
+    border-bottom: solid 1px ${lightBorderColor};
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+  }
+
+  &:hover {
+    border-bottom: solid 4px ${primaryColorLight};
+  }
+`;
+const UnderlineHighlightedNavButton = styled(UnderlineNavButton)`
+  border-bottom: solid 4px ${primaryColor};
+
+  &:hover {
+    border-bottom: solid 4px ${primaryColor};
+  }
+`;
+
+const NavButtonTooltip = styled.div`
+  position: absolute;
+  display: inline;
+  top: -0.2rem;
+  transform: translateX(0.5rem);
+`;
+
 const ButtonNavContainer = styled.div`
   margin: auto;
   max-width: 100%;
@@ -107,6 +161,12 @@ export interface VizNavItem {
   label: string;
   active: boolean;
   onClick: () => void;
+  tooltipContent?: React.ReactNode;
+}
+
+export enum VizNavStyle {
+  Block = 'block',
+  Underline = 'underline',
 }
 
 interface Props {
@@ -114,11 +174,13 @@ interface Props {
   searchInGraphOptions?: SearchInGraphOptions;
   settingsOptions?: SettingsOptions;
   vizNavigation?: VizNavItem[];
+  vizNavigationStyle?: VizNavStyle;
 }
 
 const PreChartRow = (props: Props) => {
   const {
     indicator, searchInGraphOptions, settingsOptions, vizNavigation,
+    vizNavigationStyle,
   } = props;
 
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
@@ -126,15 +188,19 @@ const PreChartRow = (props: Props) => {
   const getString = useFluent();
 
   const indicatorTooltip = indicator && indicator.tooltipContent ? (
-    <Tooltip
-      explanation={indicator.tooltipContent}
-    />
+    <IndicatorTooltipContainer>
+      <Tooltip
+        explanation={indicator.tooltipContent}
+      />
+    </IndicatorTooltipContainer>
   ) : null;
 
   const indicatorElm = indicator ? (
     <IndicatorRoot>
-      {indicatorTooltip}
-      {indicator.text}
+      <span>
+        {indicatorTooltip}
+        {indicator.text}
+      </span>
     </IndicatorRoot>
   ) : null;
 
@@ -144,14 +210,27 @@ const PreChartRow = (props: Props) => {
   } : undefined;
 
   const vizNavigationButtonElms = vizNavigation && vizNavigation.length ? vizNavigation.map(link => {
-    const Button = link.active ? HighlightedNavButton : NavButton;
+    const Button = vizNavigationStyle === VizNavStyle.Underline
+      ? link.active ? UnderlineHighlightedNavButton : UnderlineNavButton
+      : link.active ? HighlightedNavButton : NavButton;
+    const tooltipContent = link.tooltipContent ? (
+      <IndicatorTooltipContainer>
+        <NavButtonTooltip>
+          <Tooltip
+            explanation={link.tooltipContent}
+          />
+        </NavButtonTooltip>
+      </IndicatorTooltipContainer>
+    ) : null;
     return (
-      <Button
-        key={link.label}
-        onClick={link.onClick}
-      >
-        {link.label}
-      </Button>
+      <div key={link.label}>
+        <Button
+          onClick={link.onClick}
+        >
+          {link.label}
+          {tooltipContent}
+        </Button>
+      </div>
     );
   }) : null;
   const vizNavigationButtons = vizNavigation && vizNavigation.length ? (
@@ -196,8 +275,8 @@ const PreChartRow = (props: Props) => {
         </RightColumn>
         <LeftColumn>
           <HowToRead />
-          {indicatorElm}
           {vizNavigationButtons}
+          {indicatorElm}
         </LeftColumn>
       </Root>
       {settingsPanel}

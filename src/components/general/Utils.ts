@@ -7,7 +7,7 @@ import {breakPointValues} from '../../styling/GlobalGrid';
 
 export const collapsedSizeMediaQueryValues = {
   min: breakPointValues.width.small + 1,
-  max: 1190,
+  max: 1280,
 };
 
 export const collapsedSizeMediaQuery = `
@@ -21,6 +21,7 @@ export const textClassName = 'expanding-button-responsive-text';
 export const ExpandingButton = styled(ButtonBase)`
   margin-right: 0.25rem;
   position: relative;
+  font-size: 0.85rem;
 
   @media ${collapsedSizeMediaQuery} {
     background-color: ${backgroundDark};
@@ -70,6 +71,7 @@ export const ExpandingButton = styled(ButtonBase)`
 
     &:hover {
       box-shadow: 0px 0px 0px 1px #fff;
+      z-index: 100;
 
       .${textClassName} {
         opacity: 1;
