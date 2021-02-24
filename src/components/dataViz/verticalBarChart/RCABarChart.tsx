@@ -13,18 +13,15 @@ import {
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {
-  primaryColor,
-  primaryColorLight,
   baseColor,
 } from '../../../styling/styleUtils';
-import PreChartRow from '../../../components/general/PreChartRow';
+import PreChartRow, {VizNavStyle} from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import useRCAData, {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
-  Link,
   useHistory,
 } from 'react-router-dom';
 import Industries from './Industries';
@@ -37,7 +34,6 @@ import {createRoute} from '../../../routing/Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
-import Tooltip from './../../general/Tooltip';
 import useColorByIntensity from '../treeMap/useColorByIntensity';
 
 const Root = styled.div`
@@ -47,7 +43,7 @@ const Root = styled.div`
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 2rem 1fr;
+  grid-template-rows: 1fr;
   grid-template-columns: 3.5rem 1fr;
 
   @media ${breakPoints.small} {
@@ -56,13 +52,8 @@ const Root = styled.div`
   }
 `;
 
-const VizNavRoot = styled.div`
-  grid-row: 1;
-  grid-column: 2;
-`;
-
 const LeftAxisRoot = styled.div`
-  grid-row: 2;
+  grid-row: 1;
   grid-column: 1;
   white-space: nowrap;
   display: flex;
@@ -88,7 +79,7 @@ const VizRoot = styled.div`
   height: 100%;
   position: relative;
   grid-column: 2;
-  grid-row: 2;
+  grid-row: 1;
 `;
 
 const VizContainer = styled.div`
@@ -100,32 +91,6 @@ const VizContainer = styled.div`
     h2 {
       text-transform: none;
     }
-  }
-`;
-
-const ClusterLinkContainer = styled.span`
-  display: inline-flex;
-  margin-left: 1rem;
-`;
-
-const NavLink = styled(Link)`
-  border-bottom: solid 4px rgba(0, 0, 0, 0);
-  text-transform: uppercase;
-  font-weight: 600;
-  font-size: 0.875rem;
-  color: ${baseColor};
-  text-decoration: none;
-
-  &:hover {
-    border-bottom-color: ${primaryColorLight};
-  }
-`;
-
-const ActiveNavLink = styled(NavLink)`
-  border-bottom-color: ${primaryColor};
-
-  &:hover {
-    border-bottom-color: ${primaryColor};
   }
 `;
 
@@ -232,11 +197,28 @@ const RCABarChart = (props: Props) => {
     output = null;
   }
 
-  const IndustryLink = isClusterView ? NavLink : ActiveNavLink;
-  const ClusterLink = isClusterView ? ActiveNavLink : NavLink;
-
   const industriesUrl = cityId ? createRoute.city(CityRoutes.CityGoodAt, cityId) + history.location.search : '';
   const clustersUrl = cityId ? createRoute.city(CityRoutes.CityGoodAtClusters, cityId) + history.location.search : '';
+
+  const vizNavigation = [
+    {
+      label: 'Industry Groups',
+      active: !isClusterView,
+      onClick: () => {
+        setHighlighted(undefined);
+        history.push(industriesUrl);
+      },
+    },
+    {
+      label: 'Knowledge Clusters',
+      active: isClusterView,
+      onClick: () => {
+        setHighlighted(undefined);
+        history.push(clustersUrl);
+      },
+      tooltipContent: 'About Knowledge Clusters',
+    },
+  ];
 
   return (
     <>
@@ -248,21 +230,10 @@ const RCABarChart = (props: Props) => {
           digitLevel: isClusterView ? undefined : true,
           colorBy: true,
         }}
+        vizNavigation={vizNavigation}
+        vizNavigationStyle={VizNavStyle.Underline}
       />
       <Root>
-        <VizNavRoot>
-          <IndustryLink to={industriesUrl}>
-            {getString('global-text-industries')}
-          </IndustryLink>
-          <ClusterLinkContainer>
-            <ClusterLink to={clustersUrl}>
-              {getString('global-ui-skill-clusters')}
-            </ClusterLink>
-            <Tooltip
-              explanation={getString('global-ui-about-skill-clusters')}
-            />
-          </ClusterLinkContainer>
-        </VizNavRoot>
         <LeftAxisRoot>
           <AxisLabelBase>← {getString('global-intensity-lower')}</AxisLabelBase>
           <AxisLabelHigh>{getString('global-intensity-higher')} →</AxisLabelHigh>
