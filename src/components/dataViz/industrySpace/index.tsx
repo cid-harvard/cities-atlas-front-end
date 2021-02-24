@@ -9,7 +9,7 @@ import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow from '../../../components/general/PreChartRow';
 import Chart from './chart';
 import {ZoomLevel, NodeAction} from './chart/createChart';
-import {NodeSizing} from '../../../routing/routes';
+import {NodeSizing, ColorBy} from '../../../routing/routes';
 
 const Root = styled.div`
   width: 100%;
@@ -43,12 +43,14 @@ interface Props {
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
   nodeSizing: NodeSizing | undefined;
+  colorBy: ColorBy;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
     setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
     setHovered, hovered, nodeSizing, preChartRowKey, onNodeSelect,
+    colorBy,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -87,6 +89,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             onZoomLevelChange={setZoomLevel}
             hideClusterOverlay={hideClusterOverlay}
             nodeSizing={nodeSizing}
+            colorBy={colorBy}
           />
       </IndustrySpaceContainer>
       </Root>

@@ -143,6 +143,7 @@ const IndustrySpacePosition = (props: Props) => {
           nodeSizing={node_sizing}
           onNodeSelect={onNodeSelect}
           preChartRowKey={preChartRowKey}
+          colorBy={color_by ? color_by : ColorBy.sector}
         />
         {legend}
       </ContentGrid>

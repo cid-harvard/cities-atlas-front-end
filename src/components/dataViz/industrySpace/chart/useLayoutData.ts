@@ -8,6 +8,8 @@ import {
 } from '../../../../types/graphQL/graphQLTypes';
 import {
   sectorColorMap,
+  wageColorRange,
+  educationColorRange,
 } from '../../../../styling/styleUtils';
 import {
   useAggregateIndustryMap,
@@ -56,6 +58,10 @@ interface Node {
   rca?: number;
   radius?: number;
   globalSumNumCompany: number;
+  yearsEducation: number;
+  hourlyWage: number;
+  educationColor: string;
+  wageColor: string;
 }
 
 export interface LayoutData {
@@ -105,6 +111,12 @@ const useLayoutData = ():Output => {
           .domain([minSizeBy, maxSizeBy])
           .range([ 2, 8.5]);
 
+        const educationColorScale = scaleLinear()
+          .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])
+          .range(educationColorRange as any) as any;
+        const wageColorScale = scaleLinear()
+          .domain([globalMinMax.minHourlyWage,globalMinMax.maxHourlyWage])
+          .range(wageColorRange as any) as any;
         const data: Output['data'] = {
           clusters: LAYOUT_DATA.clusters,
           nodes: LAYOUT_DATA.nodes.map(n => {
@@ -112,6 +124,8 @@ const useLayoutData = ():Output => {
             const parent = industryData[industry.naicsIdTopParent.toString()];
             const parentIndustry = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
             const globalIndustry = industries[industry.naicsId];
+            const yearsEducation = globalIndustry ? globalIndustry.yearsEducation : 0;
+            const hourlyWage = globalIndustry ? globalIndustry.hourlyWage : 0;
             return {
               ...n,
               id: industry.naicsId,
@@ -122,6 +136,10 @@ const useLayoutData = ():Output => {
               sectorName: parent && parent.name ? parent.name : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
               globalSumNumCompany: globalIndustry ? globalIndustry.sumNumCompany : 0,
+              yearsEducation,
+              hourlyWage,
+              educationColor: educationColorScale(yearsEducation),
+              wageColor: wageColorScale(hourlyWage),
             };
           }),
           global: {

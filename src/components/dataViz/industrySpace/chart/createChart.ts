@@ -14,6 +14,7 @@ import {SuccessResponse} from './useRCAData';
 import {intensityColorRange} from '../../../../styling/styleUtils';
 import {
   NodeSizing,
+  ColorBy,
 } from '../../../../routing/routes';
 
 const minExpectedScreenSize = 1020;
@@ -717,7 +718,7 @@ const createChart = (input: Input) => {
     }
   }
 
-  function update(newData: SuccessResponse) {
+  function update(newData: SuccessResponse, colorBy: ColorBy) {
     const continentsData = newData.clusterRca.filter(d => d.level === 1);
     const countriesData = newData.clusterRca.filter(d => d.level === 3);
 
@@ -727,6 +728,10 @@ const createChart = (input: Input) => {
 
     const intensityColorScaleCountries = d3.scaleSymlog()
       .domain(d3.extent(countriesData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .range(intensityColorRange as any);
+
+    const intensityColorScaleNodes = d3.scaleSymlog()
+      .domain(d3.extent(newData.nodeRca.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
       .range(intensityColorRange as any);
 
     continents.each(d => {
@@ -750,10 +755,18 @@ const createChart = (input: Input) => {
     nodes.each(d => {
       const newDatum = newData.nodeRca.find(({naicsId}) => d.id === naicsId);
       if (newDatum && newDatum.rcaNumCompany !== null) {
-        d.color = newDatum.rcaNumCompany >= 1 ? d.industryColor : lowIntensityNodeColor;
+        if (colorBy === ColorBy.intensity) {
+          d.color = intensityColorScaleNodes(newDatum.rcaNumCompany).toString();
+        } else {
+          d.color = newDatum.rcaNumCompany >= 1 ? d.industryColor : lowIntensityNodeColor;
+        }
         d.rca = newDatum.rcaNumCompany;
       } else {
-        d.color = lowIntensityNodeColor;
+        if (colorBy === ColorBy.intensity) {
+          d.color = intensityColorScaleNodes(0).toString();
+        } else {
+          d.color = lowIntensityNodeColor;
+        }
         d.rca = 0;
       }
     })
@@ -776,7 +789,25 @@ const createChart = (input: Input) => {
     render(true);
   }
 
-  return {render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId, update, updateNodeSize};
+  function updateNodeColor(colorBy: ColorBy) {
+    nodes.each(d => {
+      if (colorBy === ColorBy.education) {
+        d.color = d.educationColor;
+      } else if (colorBy === ColorBy.wage) {
+        d.color = d.wageColor;
+      } else {
+        d.color = d.industryColor;
+      }
+    })
+    .style('--true-fill-color', d => d.color);
+
+    render(true);
+  }
+
+  return {
+    render, reset, zoomIn, zoomOut, setHighlightedPoint, setExternalHoveredId, update,
+    updateNodeSize, updateNodeColor,
+  };
 
 };
 

@@ -17,8 +17,13 @@ import {
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
-import {NodeSizing} from '../../../../routing/routes';
-import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
+import {NodeSizing, ColorBy} from '../../../../routing/routes';
+import {DigitLevel,CompositionType} from '../../../../types/graphQL/graphQLTypes';
+import useColorByIntensity from '../../treeMap/useColorByIntensity';
+import {
+  useAggregateIndustryMap,
+} from '../../../../hooks/useAggregateIndustriesData';
+import {defaultYear} from '../../../../Utils';
 
 const hideClusterOverlayClassName = 'hide-industry-space-clusters-overlay-class';
 
@@ -140,7 +145,7 @@ const Root = styled.div`
       }
     }
     svg:not(.${svgRingModeClassName}) {
-      circle.industry-node {
+      circle.industry-edge-node {
         display: block !important;
         opacity: 1 !important;
         pointer-events: all !important;
@@ -196,8 +201,9 @@ type Chart = {
   zoomOut: () => void;
   setHighlightedPoint: (naicsId: string | undefined, action: NodeAction) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
-  update: (data: SuccessResponse) => void;
+  update: (data: SuccessResponse, colorBy: ColorBy) => void;
   updateNodeSize: (nodeSizing: NodeSizing) => void;
+  updateNodeColor: (colorBy: ColorBy) => void;
 };
 
 interface Props {
@@ -210,12 +216,13 @@ interface Props {
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
   hideClusterOverlay: boolean;
   nodeSizing: NodeSizing | undefined;
+  colorBy: ColorBy;
 }
 
 const Chart = (props: Props) => {
   const {
     width, height, onNodeSelect, highlighted, onZoomLevelChange, hideClusterOverlay,
-    onNodeHover, hovered, nodeSizing,
+    onNodeHover, hovered, nodeSizing, colorBy,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -225,6 +232,12 @@ const Chart = (props: Props) => {
 
   const layout = useLayoutData();
   const {loading, data} = useRCAData(DigitLevel.Six);
+  const intensity = useColorByIntensity({
+    digitLevel: DigitLevel.Six,
+    colorBy,
+    compositionType: CompositionType.Companies,
+  });
+  const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
 
   useEffect(() => {
     const chartNode = chartRef.current;
@@ -264,15 +277,21 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized && data !== undefined) {
-      chart.update(data);
+      chart.update(data, colorBy);
     }
-  }, [chart, data]);
+  }, [chart, data, colorBy]);
 
   useEffect(() => {
     if (chart.initialized) {
       chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.log);
     }
   }, [chart, nodeSizing]);
+
+  useEffect(() => {
+    if (chart.initialized && colorBy !== ColorBy.sector && colorBy !== ColorBy.intensity) {
+      chart.updateNodeColor(colorBy);
+    }
+  }, [chart, colorBy, aggregateIndustryDataMap, intensity]);
 
   const resetZoom = useCallback(() => {
     if (chart.initialized) {
