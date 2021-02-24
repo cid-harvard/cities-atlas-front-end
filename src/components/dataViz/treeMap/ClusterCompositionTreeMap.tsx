@@ -24,7 +24,7 @@ import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow, {Indicator, VizNavItem, VizNavStyle} from '../../../components/general/PreChartRow';
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
-import {ColorBy} from '../../../routing/routes';
+import {ColorBy, ClusterLevel} from '../../../routing/routes';
 import {scaleSymlog} from 'd3-scale';
 import {extent} from 'd3-array';
 import {intensityColorRange} from '../../../styling/styleUtils';
@@ -53,6 +53,7 @@ const CLUSTER_COMPOSITION_QUERY = gql`
     clusters: cityClusterYearList(cityId: $cityId, year: $year) {
       id
       clusterId
+      level
       numCompany
       numEmploy
       rcaNumCompany
@@ -65,6 +66,7 @@ interface SuccessResponse {
   clusters: {
     id: CityClusterYear['id'],
     clusterId: CityClusterYear['clusterId'],
+    level: CityClusterYear['level'],
     numCompany: CityClusterYear['numCompany'],
     numEmploy: CityClusterYear['numEmploy'],
     rcaNumCompany: CityClusterYear['rcaNumCompany'],
@@ -84,17 +86,17 @@ interface Props {
   cityId: number;
   year: number;
   highlighted: string | undefined;
-  digitLevel: DigitLevel;
   colorBy: ColorBy;
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
   vizNavigation: VizNavItem[];
+  clusterLevel: ClusterLevel;
 }
 
 const CompositionTreeMap = (props: Props) => {
   const {
-    cityId, year, digitLevel, compositionType, highlighted,
-    setHighlighted, vizNavigation,
+    cityId, year, compositionType, highlighted,
+    setHighlighted, vizNavigation, clusterLevel,
   } = props;
   const clusterMap = useGlobalClusterMap();
   const getString = useFluent();
@@ -154,7 +156,7 @@ const CompositionTreeMap = (props: Props) => {
     );
     console.error(clusterMap.error);
   } else if (dataToUse !== undefined) {
-    const {clusters} = dataToUse;
+    const clusters = dataToUse.clusters.filter(c => c.level && c.level.toString() === clusterLevel);
     const treeMapData: Inputs['data'] = [];
 
     const allRCAValues = clusters.map(c => {
@@ -172,9 +174,9 @@ const CompositionTreeMap = (props: Props) => {
 
     let total = 0;
     clusters.forEach(({clusterId, numCompany, numEmploy, rcaNumCompany, rcaNumEmploy}) => {
-      const industry = clusterMap.data[clusterId];
-      if (industry && industry.level === digitLevel) {
-        const {name, clusterIdTopParent} = industry;
+      const cluster = clusterMap.data[clusterId];
+      if (cluster && cluster.level && cluster.level.toString() === clusterLevel) {
+        const {name, clusterIdTopParent} = cluster;
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         total = compositionType === CompositionType.Companies ? total + companies : total + employees;
@@ -271,8 +273,8 @@ const CompositionTreeMap = (props: Props) => {
     <>
       <PreChartRow
         indicator={indicator}
-        searchInGraphOptions={{hiddenSectors: [], digitLevel, setHighlighted}}
-        settingsOptions={{compositionType: true, colorBy: true}}
+        searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
+        settingsOptions={{compositionType: true, colorBy: true, clusterLevel: true}}
         vizNavigation={vizNavigation}
         vizNavigationStyle={VizNavStyle.Underline}
       />

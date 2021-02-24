@@ -70,7 +70,7 @@ global-formatted-color-by = {
   *[sector] Sector
   [intensity] Specialization
   [education] Average years education
-  [wage] Average wage
+  [wage] Average hourly wage
 }
 
 global-ui-related-industry = Related Industry
@@ -120,8 +120,8 @@ global-intensity-higher = Higher Specialization
 global-education-low = Low Education
 global-education-high = High Education
 
-global-wages-low = Low Wages
-global-wages-high = High Wages
+global-wages-low = Low Hourly Wage
+global-wages-high = High Hourly Wage
 
 error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
 error-message-no-industries = No industries available

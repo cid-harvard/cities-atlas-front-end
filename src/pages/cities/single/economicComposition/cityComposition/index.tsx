@@ -23,7 +23,7 @@ import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
-import {ColorBy} from '../../../../../routing/routes';
+import {ColorBy, defaultClusterLevel} from '../../../../../routing/routes';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
@@ -48,7 +48,7 @@ const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
-  const {digit_level, composition_type, color_by} = useQueryParams();
+  const {digit_level, cluster_level, composition_type, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
     hiddenSectors.includes(sectorId)
@@ -90,12 +90,13 @@ const EconomicComposition = (props: Props) => {
   } else {
     download = null;
   }
+
+  const isClusterTreeMap = matchPath<{[cityIdParam]: string}>(
+    history.location.pathname, CityRoutes.CityEconomicCompositionClusters,
+  );
+
   let legend: React.ReactElement<any> | null;
-  if (color_by === ColorBy.intensity) {
-    legend = (
-      <IntensityLegend />
-    );
-  } else if (color_by === ColorBy.education) {
+  if (color_by === ColorBy.education) {
     legend = (
       <EducationLegend />
     );
@@ -103,7 +104,11 @@ const EconomicComposition = (props: Props) => {
     legend = (
       <WageLegend />
     );
-  } else {
+  } else if (color_by === ColorBy.intensity || !!(isClusterTreeMap && isClusterTreeMap.isExact)) {
+    legend = (
+      <IntensityLegend />
+    );
+  } else  {
     legend = (
       <CategoryLabels
         categories={sectorMap}
@@ -117,10 +122,6 @@ const EconomicComposition = (props: Props) => {
       />
     );
   }
-
-  const isClusterTreeMap = matchPath<{[cityIdParam]: string}>(
-    history.location.pathname, CityRoutes.CityEconomicCompositionClusters,
-  );
 
   const vizNavigation= [
     {
@@ -165,7 +166,7 @@ const EconomicComposition = (props: Props) => {
                 <ClusterCompositionTreeMap
                   cityId={parseInt(cityId, 10)}
                   year={defaultYear}
-                  digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+                  clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
                   colorBy={color_by ? color_by : ColorBy.sector}
                   compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
                   highlighted={highlighted}

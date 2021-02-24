@@ -512,6 +512,14 @@ const Settings = (props: Props) => {
     const LabelContainer = settingsOptions.colorBy === true ? Label : DisabledLabel;
     const tooltipText = settingsOptions.colorBy === true
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    const sectorColorByOption = !settingsOptions.clusterLevel ? (
+      <DigitLevelButton
+        onClick={() => updateSetting('color_by', ColorBy.sector)}
+        $selected={!params.color_by || params.color_by === ColorBy.sector}
+      >
+        {getString('global-formatted-color-by', {type: ColorBy.sector})}
+      </DigitLevelButton>
+    ) : null;
     colorByOptions = (
       <SettingGrid>
         <Tooltip
@@ -519,15 +527,12 @@ const Settings = (props: Props) => {
         />
         <LabelContainer>{getString('global-ui-color-by')}</LabelContainer>
         <InputContainer>
-          <DigitLevelButton
-            onClick={() => updateSetting('color_by', ColorBy.sector)}
-            $selected={!params.color_by || params.color_by === ColorBy.sector}
-          >
-            {getString('global-formatted-color-by', {type: ColorBy.sector})}
-          </DigitLevelButton>
+          {sectorColorByOption}
           <DigitLevelButton
             onClick={() => updateSetting('color_by', ColorBy.intensity)}
-            $selected={params.color_by === ColorBy.intensity}
+            $selected={
+              Boolean(params.color_by === ColorBy.intensity || (!params.color_by && settingsOptions.clusterLevel))
+            }
           >
             {getString('global-formatted-color-by', {type: ColorBy.intensity})}
           </DigitLevelButton>

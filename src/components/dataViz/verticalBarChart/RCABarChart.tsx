@@ -243,7 +243,10 @@ const RCABarChart = (props: Props) => {
       <PreChartRow
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         settingsOptions={{
-          compositionType: true, clusterLevel: isClusterView ? isClusterView : undefined, digitLevel: true, colorBy: true,
+          compositionType: true,
+          clusterLevel: isClusterView ? isClusterView : undefined,
+          digitLevel: isClusterView ? undefined : true,
+          colorBy: true,
         }}
       />
       <Root>

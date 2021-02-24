@@ -135,7 +135,7 @@ const UnderlineHighlightedNavButton = styled(UnderlineNavButton)`
 const NavButtonTooltip = styled.div`
   position: absolute;
   display: inline;
-  top: -0.2rem;
+  top: -0.1rem;
   transform: translateX(0.5rem);
 `;
 
