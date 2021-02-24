@@ -147,6 +147,7 @@ const GrowthOppurtunities = () => {
                 vizNavigation={vizNavigation}
                 hiddenSectors={hiddenSectors}
                 nodeSizing={node_sizing}
+                colorBy={color_by ? color_by : ColorBy.sector}
               />
             )}
           />

@@ -20,6 +20,9 @@ import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import {
   sectorColorMap,
+  educationColorRange,
+  wageColorRange,
+  intensityColorRange,
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
@@ -30,11 +33,12 @@ import useRCAData, {
   SuccessResponse,
 } from '../../../hooks/useRCAData';
 import useFluent from '../../../hooks/useFluent';
-import {NodeSizing} from '../../../routing/routes';
+import {NodeSizing, ColorBy} from '../../../routing/routes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {defaultYear} from '../../../Utils';
-import {scaleLinear, scaleLog} from 'd3-scale';
+import {scaleLinear, scaleLog, scaleSymlog} from 'd3-scale';
+import {extent} from 'd3-array';
 import orderBy from 'lodash/orderBy';
 import QuickError from '../../transitionStateComponents/QuickError';
 
@@ -78,12 +82,13 @@ interface Props {
   nodeSizing: NodeSizing | undefined;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   vizNavigation: VizNavItem[];
+  colorBy: ColorBy;
 }
 
 const PSWOTChart = (props: Props) => {
   const {
     compositionType, hiddenSectors, setHighlighted, vizNavigation, digitLevel,
-    highlighted, nodeSizing,
+    highlighted, nodeSizing, colorBy,
   } = props;
 
   const {loading, error, data} = useRCAData(digitLevel);
@@ -220,6 +225,32 @@ const PSWOTChart = (props: Props) => {
     } else {
       radiusScale = (_unused: number) => 5.5;
     }
+    let colorScale: (value: number) => string | undefined;
+    if (colorBy === ColorBy.intensity) {
+      const allRca = nodeRca.map(n => {
+        return compositionType === CompositionType.Employees
+        ? (n && n.rcaNumEmploy
+            ? n.rcaNumEmploy : 0.001)
+        : (n && n.rcaNumCompany
+            ? n.rcaNumCompany : 0.001);
+      });
+      const [minRca, maxRca] = extent(allRca) as [number, number];
+      colorScale = scaleSymlog()
+        .domain([minRca, maxRca])
+        .range(intensityColorRange as any) as unknown as (value: number) => string;
+    } else if (colorBy === ColorBy.education) {
+      const {minYearsEducation, maxYearsEducation} = globalMinMax;
+      colorScale = scaleLinear()
+        .domain([minYearsEducation, maxYearsEducation])
+        .range(educationColorRange as any) as any;
+    } else if (colorBy === ColorBy.wage) {
+      const {minHourlyWage, maxHourlyWage} = globalMinMax;
+      colorScale = scaleLinear()
+        .domain([minHourlyWage, maxHourlyWage])
+        .range(wageColorRange as any) as any;
+    } else {
+      colorScale = () => undefined;
+    }
 
     let highlightError: boolean = highlighted && !nodeRca.find(d => d.naicsId === highlighted) ? true : false;
 
@@ -240,13 +271,23 @@ const PSWOTChart = (props: Props) => {
               ? industryGlobalData.sumNumEmploy : 0.001)
           : (industryGlobalData && industryGlobalData.sumNumCompany
               ? industryGlobalData.sumNumCompany : 0.001);
+        let fill: string | undefined;
+        if (colorBy === ColorBy.intensity) {
+          fill = colorScale(x < 0.001 ? parseFloat(x.toFixed(3)) : x);
+        } else if (colorBy === ColorBy.education) {
+          fill = colorScale(industryGlobalData ? industryGlobalData.yearsEducation : 0);
+        } else if (colorBy === ColorBy.wage) {
+          fill = colorScale(industryGlobalData ? industryGlobalData.hourlyWage : 0);
+        } else {
+          fill = sector ? rgba(sector.color, 0.7) : undefined;
+        }
         pswotChartData.push({
           id: naicsId,
           label: industry && industry.name ? industry.name : naicsId,
           x: x < 0.001 ? parseFloat(x.toFixed(3)) : x,
           y,
           radius: radiusScale(radius),
-          fill: sector ? rgba(sector.color, 0.7) : undefined,
+          fill,
           highlighted: highlightIndustry && highlightIndustry.naicsId === naicsId,
           faded: !highlightError && highlightIndustry && highlightIndustry.naicsId !== naicsId,
           onMouseMove: setHovered,
