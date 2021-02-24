@@ -97,10 +97,12 @@ const industryDataToMap = (data: SuccessResponse | undefined) => {
       const averages = averageData.find(dd => {
         return dd.naicsId.toString() === d.naicsId.toString();
       });
+      const yearsEducation = averages && averages.yearsEducation ? averages.yearsEducation : 0;
+      const hourlyWage = averages && averages.hourlyWage ? averages.hourlyWage : 0;
       response.industries[d.naicsId] = {
         ...d,
-        yearsEducation: averages && averages.yearsEducation ? averages.yearsEducation : 0,
-        hourlyWage: averages && averages.hourlyWage ? averages.hourlyWage : 0,
+        yearsEducation,
+        hourlyWage,
       };
     });
     const [minSumNumCompany, maxSumNumCompany] = extent(aggregateData.map(d => d.sumNumCompany)) as [number, number];

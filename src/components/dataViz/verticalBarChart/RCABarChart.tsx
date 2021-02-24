@@ -183,6 +183,8 @@ const RCABarChart = (props: Props) => {
         highlighted={highlighted}
         compositionType={compositionType}
         hiddenSectors={hiddenSectors}
+        colorBy={colorBy}
+        digitLevel={digitLevel}
       />
     );
     output = (

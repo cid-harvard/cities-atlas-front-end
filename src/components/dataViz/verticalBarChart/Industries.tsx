@@ -3,6 +3,8 @@ import {scaleLog} from 'd3-scale';
 import {
   BasicLabel,
   sectorColorMap,
+  educationColorRange,
+  wageColorRange,
 } from '../../../styling/styleUtils';
 import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
@@ -12,7 +14,11 @@ import {
 import {
   CompositionType,
   ClassificationNaicsIndustry,
+  DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
+import {
+  ColorBy,
+} from '../../../routing/routes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import useFluent from '../../../hooks/useFluent';
 import QuickError from '../../transitionStateComponents/QuickError';
@@ -20,19 +26,50 @@ import {rgba} from 'polished';
 import Tooltip from './../../general/Tooltip';
 import {defaultYear} from '../../../Utils';
 import niceLogValues from './getNiceLogValues';
+import {scaleLinear} from 'd3-scale';
+import useColorByIntensity from '../treeMap/useColorByIntensity';
+import {
+  useAggregateIndustryMap,
+} from '../../../hooks/useAggregateIndustriesData';
 
 interface Props {
   data: SuccessResponse['nodeRca'];
   highlighted: string | undefined;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
+  colorBy: ColorBy;
+  digitLevel: DigitLevel;
 }
 
 const Industries = (props: Props) => {
-  const {data, highlighted, compositionType, hiddenSectors} = props;
+  const {
+    data, highlighted, compositionType, hiddenSectors,
+    colorBy, digitLevel,
+  } = props;
 
   const industryMap = useGlobalIndustryMap();
+  const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
+  const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
   const getString = useFluent();
+
+  let colorScale: (val: number) => string;
+  if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+    colorScale = scaleLinear()
+                  .domain([
+                    aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
+                    aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
+                  ])
+                  .range(educationColorRange as any) as any;
+  } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+    colorScale = scaleLinear()
+                  .domain([
+                    aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
+                    aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
+                  ])
+                  .range(wageColorRange as any) as any;
+  } else {
+    colorScale = () => 'lightgray';
+  }
 
   const [highlightError, setHighlightError] = useState<boolean>(false);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -55,12 +92,31 @@ const Industries = (props: Props) => {
     .base(2);
   const industryData = filteredIndustryRCA.map(d => {
     const industry = industryMap.data[d.naicsId];
-    const colorDatum = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
+    let color: string;
+    if (intensity && intensity.industries) {
+      const industryIntesity = intensity.industries.find(dd => d.naicsId === dd.naicsId);
+      if (industryIntesity) {
+        color = industryIntesity.fill;
+      } else {
+        color = 'lightgray';
+      }
+    } else if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+      const target = aggregateIndustryDataMap.data.industries[d.naicsId];
+      if (target) {
+        const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+        color = colorScale(targetValue);
+      } else {
+        color = 'lightgray';
+      }
+    } else {
+      const colorDatum = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
+      color = colorDatum ? colorDatum.color : 'lightgray';
+    }
     return {
       id: d.naicsId,
       title: industry && industry.name ? industry.name : '',
       value: d[field] ? scale(d[field] as number) as number : 0,
-      color: colorDatum ? colorDatum.color : 'gray',
+      color,
     };
   });
   const formatValue = (value: number) => {
