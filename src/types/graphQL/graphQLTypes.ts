@@ -167,6 +167,34 @@ export interface CityPartner {
   id: string;
 }
 
+export interface Industry {
+  naicsId: string;
+  yearsEducation: number;
+  hourlyWage: number;
+  jobs: number;
+  valueAdded: number;
+  acidRain: number;
+  freshwaterEcotoxicity: number;
+  eutrophication: number;
+  climateChange: number;
+  healthCancer: number;
+  healthNoncancer: number;
+  healthRespiratoryEffects: number;
+  healthCancerNoncancer: number;
+  ozoneDepletion: number;
+  smog: number;
+  hazardousAirPollutantRelease: number;
+  metalRelease: number;
+  pesticideRelease: number;
+  energyUse: number;
+  landUse: number;
+  mineralMetalUse: number;
+  nonrenewableEnergyUse: number;
+  renewableEnergyUse: number;
+  waterUse: number;
+  id: string;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;
@@ -181,4 +209,6 @@ export interface RootQuery {
   classificationNaicsClusterList: ClassificationNaicsCluster[];
   globalIndustryYear: GlobalIndustryAgg[];
   cityPartnerList: CityPartner[];
+  industry: Industry;
+  industryList: Industry[];
 }

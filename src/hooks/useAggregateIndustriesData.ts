@@ -2,6 +2,7 @@ import { useQuery, gql } from '@apollo/client';
 import {
   GlobalIndustryAgg,
   DigitLevel,
+  Industry,
 } from '../types/graphQL/graphQLTypes';
 import {extent} from 'd3-array';
 
@@ -14,6 +15,11 @@ const GLOBAL_INDUSTRIES_QUERY = gql`
       avgNumCompany
       avgNumEmploy
     }
+    averageData: industryList {
+      naicsId
+      yearsEducation
+      hourlyWage
+    }
   }
 `;
 
@@ -25,8 +31,15 @@ interface IndustryDatum {
   avgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
 }
 
+interface AverageDatum {
+  naicsId: Industry['naicsId'];
+  yearsEducation: Industry['yearsEducation'];
+  hourlyWage: Industry['hourlyWage'];
+}
+
 interface SuccessResponse {
   aggregateData: IndustryDatum[];
+  averageData: AverageDatum[];
 }
 
 interface Variables {
@@ -47,9 +60,16 @@ export interface IndustryMap {
     maxAvgNumCompany: GlobalIndustryAgg['avgNumCompany'];
     minAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     maxAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
+    minYearsEducation: Industry['yearsEducation'];
+    maxYearsEducation: Industry['yearsEducation'];
+    minHourlyWage: Industry['hourlyWage'];
+    maxHourlyWage: Industry['hourlyWage'];
   };
   industries: {
-    [id: string]: IndustryDatum;
+    [id: string]: IndustryDatum & {
+      yearsEducation: Industry['yearsEducation'];
+      hourlyWage: Industry['hourlyWage'];
+    };
   };
 }
 
@@ -65,20 +85,37 @@ const industryDataToMap = (data: SuccessResponse | undefined) => {
       maxAvgNumCompany: 0,
       minAvgNumEmploy: 0,
       maxAvgNumEmploy: 0,
+      minYearsEducation: 0,
+      maxYearsEducation: 0,
+      minHourlyWage: 0,
+      maxHourlyWage: 0,
     },
   };
   if (data !== undefined) {
-    const {aggregateData} = data;
-    aggregateData.forEach(d => response.industries[d.naicsId] = d);
+    const {aggregateData, averageData} = data;
+    aggregateData.forEach(d => {
+      const averages = averageData.find(dd => {
+        return dd.naicsId.toString() === d.naicsId.toString();
+      });
+      response.industries[d.naicsId] = {
+        ...d,
+        yearsEducation: averages && averages.yearsEducation ? averages.yearsEducation : 0,
+        hourlyWage: averages && averages.hourlyWage ? averages.hourlyWage : 0,
+      };
+    });
     const [minSumNumCompany, maxSumNumCompany] = extent(aggregateData.map(d => d.sumNumCompany)) as [number, number];
     const [minSumNumEmploy, maxSumNumEmploy] = extent(aggregateData.map(d => d.sumNumEmploy)) as [number, number];
     const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateData.map(d => d.avgNumCompany)) as [number, number];
     const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateData.map(d => d.avgNumEmploy)) as [number, number];
+    const [minYearsEducation, maxYearsEducation] = extent(averageData.map(d => d.yearsEducation)) as [number, number];
+    const [minHourlyWage, maxHourlyWage] = extent(averageData.map(d => d.hourlyWage)) as [number, number];
     response.globalMinMax = {
       minSumNumCompany, maxSumNumCompany,
       minSumNumEmploy, maxSumNumEmploy,
       minAvgNumCompany, maxAvgNumCompany,
       minAvgNumEmploy, maxAvgNumEmploy,
+      minYearsEducation, maxYearsEducation,
+      minHourlyWage, maxHourlyWage,
     };
   }
   return response;

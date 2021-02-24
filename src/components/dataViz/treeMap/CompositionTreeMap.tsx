@@ -11,7 +11,7 @@ import {
 } from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
-import {sectorColorMap} from '../../../styling/styleUtils';
+import {sectorColorMap, educationColorRange, wageColorRange} from '../../../styling/styleUtils';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
@@ -28,6 +28,11 @@ import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {ColorBy} from '../../../routing/routes';
 import useColorByIntensity from './useColorByIntensity';
+import {
+  useAggregateIndustryMap,
+} from '../../../hooks/useAggregateIndustriesData';
+import {defaultYear} from '../../../Utils';
+import {scaleLinear} from 'd3-scale';
 
 const Root = styled.div`
   width: 100%;
@@ -101,6 +106,7 @@ const CompositionTreeMap = (props: Props) => {
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
   const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
+  const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
 
   useEffect(() => {
     const node = rootRef.current;
@@ -129,7 +135,8 @@ const CompositionTreeMap = (props: Props) => {
   };
   let output: React.ReactElement<any> | null;
   if (industryMap.loading || !dimensions || (loading && prevData === undefined) ||
-      (colorBy === ColorBy.intensity && intensity.loading)
+      (colorBy === ColorBy.intensity && intensity.loading) ||
+      ((colorBy === ColorBy.education || colorBy === ColorBy.wage) && aggregateIndustryDataMap.loading)
     ) {
     indicator.text = (
       <>
@@ -161,9 +168,36 @@ const CompositionTreeMap = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(intensity.error);
+  } else if (aggregateIndustryDataMap.error !== undefined &&
+    (colorBy === ColorBy.education || colorBy === ColorBy.wage)) {
+    indicator.text = getString('global-ui-total') + ': ―';
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
+    console.error(intensity.error);
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
     const treeMapData: Inputs['data'] = [];
+    let colorScale: (val: number) => string | undefined;
+    if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
+                      aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
+                    ])
+                    .range(educationColorRange as any) as any;
+    } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
+                      aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
+                    ])
+                    .range(wageColorRange as any) as any;
+    } else {
+      colorScale = () => undefined;
+    }
     let total = 0;
     industries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
@@ -173,16 +207,21 @@ const CompositionTreeMap = (props: Props) => {
           const companies = numCompany ? numCompany : 0;
           const employees = numEmploy ? numEmploy : 0;
           total = compositionType === CompositionType.Companies ? total + companies : total + employees;
+          const value = compositionType === CompositionType.Companies ? companies : employees;
           let fill: string | undefined;
           if (intensity && intensity.industries) {
             const industryIntesity = intensity.industries.find(d => d.naicsId === naicsId);
             if (industryIntesity) {
               fill = industryIntesity.fill;
             }
+          } else if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+            const target = aggregateIndustryDataMap.data.industries[naicsId];
+            const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+            fill = colorScale(targetValue);
           }
           treeMapData.push({
             id: naicsId,
-            value: compositionType === CompositionType.Companies ? companies : employees,
+            value,
             title: name ? name : '',
             topLevelParentId: naicsIdTopParent.toString(),
             fill,
