@@ -6,7 +6,7 @@ import {
   defaultDigitLevel,
   defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
-import {Toggle, ColorBy, NodeSizing} from '../../../routing/routes';
+import {Toggle, ColorBy, defaultNodeSizing} from '../../../routing/routes';
 import {SettingsOptions} from './index';
 
 const Root = styled.div`
@@ -65,7 +65,7 @@ const CurrentSettingsTooltip = (props: Props) => {
   const sizeBy = settingsOptions.nodeSizing !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-node-sizing')}</Subtitle>
-      <em>{params.node_sizing ? params.node_sizing : NodeSizing.none}</em>
+      <em>{params.node_sizing ? params.node_sizing : defaultNodeSizing}</em>
     </Segment>
   ) : null;
 

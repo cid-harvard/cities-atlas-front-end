@@ -37,7 +37,7 @@ import {NodeSizing, ColorBy} from '../../../routing/routes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {defaultYear} from '../../../Utils';
-import {scaleLinear, scaleLog, scaleSymlog} from 'd3-scale';
+import {scaleLinear, scaleSymlog} from 'd3-scale';
 import {extent} from 'd3-array';
 import orderBy from 'lodash/orderBy';
 import QuickError from '../../transitionStateComponents/QuickError';
@@ -202,26 +202,39 @@ const PSWOTChart = (props: Props) => {
 
     const pswotChartData: Datum[] = [];
     const {globalMinMax} = aggregateIndustryDataMap.data;
-    const minSizeBy = compositionType === CompositionType.Employees
-      ? (globalMinMax && globalMinMax.minSumNumEmploy
-          ? globalMinMax.minSumNumEmploy : 0.001)
-      : (globalMinMax && globalMinMax.minSumNumCompany
-          ? globalMinMax.minSumNumCompany : 0.001);
-    const maxSizeBy = compositionType === CompositionType.Employees
-      ? (globalMinMax && globalMinMax.maxSumNumEmploy
-          ? globalMinMax.maxSumNumEmploy : 1)
-      : (globalMinMax && globalMinMax.maxSumNumCompany
-          ? globalMinMax.maxSumNumCompany : 1);
     let radiusScale: (value: number) => number | undefined;
-    if (nodeSizing === NodeSizing.linear) {
+    if (nodeSizing === NodeSizing.companies) {
+      const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany
+            ? globalMinMax.minSumNumCompany : 0;
+      const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany
+            ? globalMinMax.maxSumNumCompany : 1;
       radiusScale = scaleLinear()
         .domain([minSizeBy, maxSizeBy])
-        .range([ 5, 12 ]);
-    } else if (nodeSizing === NodeSizing.log) {
-      radiusScale = scaleLog()
+        .range([ 4, 16 ]);
+    } else if (nodeSizing === NodeSizing.employees) {
+      const minSizeBy = globalMinMax && globalMinMax.minSumNumEmploy
+            ? globalMinMax.minSumNumEmploy : 0;
+      const maxSizeBy = globalMinMax && globalMinMax.maxSumNumEmploy
+            ? globalMinMax.maxSumNumEmploy : 1;
+      radiusScale = scaleLinear()
         .domain([minSizeBy, maxSizeBy])
-        .range([ 2, 8 ])
-        .base(10);
+        .range([ 4, 16 ]);
+    } else if (nodeSizing === NodeSizing.wage) {
+      const minSizeBy = globalMinMax && globalMinMax.minHourlyWage
+            ? globalMinMax.minHourlyWage : 0;
+      const maxSizeBy = globalMinMax && globalMinMax.maxHourlyWage
+            ? globalMinMax.maxHourlyWage : 1;
+      radiusScale = scaleLinear()
+        .domain([minSizeBy, maxSizeBy])
+        .range([ 4, 16]);
+    } else if (nodeSizing === NodeSizing.education) {
+      const minSizeBy = globalMinMax && globalMinMax.minYearsEducation
+            ? globalMinMax.minYearsEducation : 0;
+      const maxSizeBy = globalMinMax && globalMinMax.maxYearsEducation
+            ? globalMinMax.maxYearsEducation : 1;
+      radiusScale = scaleLinear()
+        .domain([minSizeBy, maxSizeBy])
+        .range([ 2, 10]);
     } else {
       radiusScale = (_unused: number) => 5.5;
     }
@@ -266,11 +279,24 @@ const PSWOTChart = (props: Props) => {
         const y = compositionType === CompositionType.Employees
           ? (n.densityEmploy !== null ? n.densityEmploy : 0)
           : (n.densityCompany !== null ? n.densityCompany : 0);
-        const radius = compositionType === CompositionType.Employees
-          ? (industryGlobalData && industryGlobalData.sumNumEmploy
-              ? industryGlobalData.sumNumEmploy : 0.001)
-          : (industryGlobalData && industryGlobalData.sumNumCompany
-              ? industryGlobalData.sumNumCompany : 0.001);
+
+        let radius: number;
+        if (nodeSizing === NodeSizing.companies) {
+          radius = radiusScale(industryGlobalData && industryGlobalData.sumNumCompany
+              ? industryGlobalData.sumNumCompany : 0) as number;
+        } else if (nodeSizing === NodeSizing.employees) {
+          radius = radiusScale(industryGlobalData && industryGlobalData.sumNumEmploy
+              ? industryGlobalData.sumNumEmploy : 0) as number;
+        } else if (nodeSizing === NodeSizing.wage) {
+          radius = radiusScale(industryGlobalData && industryGlobalData.hourlyWage
+              ? industryGlobalData.hourlyWage : 0) as number;
+        } else if (nodeSizing === NodeSizing.education) {
+          radius = radiusScale(industryGlobalData && industryGlobalData.yearsEducation
+              ? industryGlobalData.yearsEducation : 0) as number;
+        } else {
+          radius = 5.5;
+        }
+
         let fill: string | undefined;
         if (colorBy === ColorBy.intensity) {
           fill = colorScale(x < 0.001 ? parseFloat(x.toFixed(3)) : x);
@@ -286,7 +312,7 @@ const PSWOTChart = (props: Props) => {
           label: industry && industry.name ? industry.name : naicsId,
           x: x < 0.001 ? parseFloat(x.toFixed(3)) : x,
           y,
-          radius: radiusScale(radius),
+          radius,
           fill,
           highlighted: highlightIndustry && highlightIndustry.naicsId === naicsId,
           faded: !highlightError && highlightIndustry && highlightIndustry.naicsId !== naicsId,

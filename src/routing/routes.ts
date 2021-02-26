@@ -27,10 +27,14 @@ export enum Toggle {
 }
 
 export enum NodeSizing {
-  none = 'none',
-  linear = 'linear',
-  log = 'log',
+  uniform = 'uniform',
+  companies = 'companies',
+  employees = 'employees',
+  education = 'education',
+  wage = 'wage',
 }
+
+export const defaultNodeSizing: NodeSizing = NodeSizing.companies;
 
 export enum ColorBy {
   sector = 'sector',

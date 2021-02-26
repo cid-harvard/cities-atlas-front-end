@@ -18,7 +18,7 @@ import {
   DigitLevel,
 } from '../../../../types/graphQL/graphQLTypes';
 import {defaultYear} from '../../../../Utils';
-import {scaleLinear, scaleSymlog} from 'd3-scale';
+import {scaleLinear} from 'd3-scale';
 
 interface ContinentCluster {
   center: number[];
@@ -58,6 +58,7 @@ interface Node {
   rca?: number;
   radius?: number;
   globalSumNumCompany: number;
+  globalSumNumEmploy: number;
   yearsEducation: number;
   hourlyWage: number;
   educationColor: string;
@@ -68,8 +69,10 @@ export interface LayoutData {
   clusters: Clusters;
   nodes: Node[];
   global: {
-    linearRadiusScale: (value: number) => number,
-    logRadiusScale: (value: number) => number,
+    companySizeByScale: (value: number) => number,
+    employSizeByScale: (value: number) => number,
+    educationSizeByScale: (value: number) => number,
+    wageSizeByScale: (value: number) => number,
   };
 }
 
@@ -102,14 +105,24 @@ const useLayoutData = ():Output => {
       } else if (industryData && !loading && industryMapData && !loadingIndustryMapData) {
 
         const {globalMinMax, industries} = industryMapData;
-        const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany ? globalMinMax.minSumNumCompany : 0.001;
-        const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany ? globalMinMax.maxSumNumCompany : 1;
-        const linearRadiusScale = scaleLinear()
-          .domain([minSizeBy, maxSizeBy])
+        const minCompanySizeBy = globalMinMax && globalMinMax.minSumNumCompany ? globalMinMax.minSumNumCompany : 0.001;
+        const maxCompanySizeBy = globalMinMax && globalMinMax.maxSumNumCompany ? globalMinMax.maxSumNumCompany : 1;
+        const companySizeByScale = scaleLinear()
+          .domain([minCompanySizeBy, maxCompanySizeBy])
           .range([ 5, 15]);
-        const logRadiusScale = scaleSymlog()
-          .domain([minSizeBy, maxSizeBy])
-          .range([ 2, 8.5]);
+
+        const minEmploySizeBy = globalMinMax && globalMinMax.minSumNumEmploy ? globalMinMax.minSumNumEmploy : 0.001;
+        const maxEmploySizeBy = globalMinMax && globalMinMax.maxSumNumEmploy ? globalMinMax.maxSumNumEmploy : 1;
+        const employSizeByScale = scaleLinear()
+          .domain([minEmploySizeBy, maxEmploySizeBy])
+          .range([ 5, 15]);
+
+        const educationSizeByScale = scaleLinear()
+          .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])
+          .range([ 2, 8]);
+        const wageSizeByScale = scaleLinear()
+          .domain([globalMinMax.minHourlyWage,globalMinMax.maxHourlyWage])
+          .range([ 4, 15]);
 
         const educationColorScale = scaleLinear()
           .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])
@@ -117,6 +130,8 @@ const useLayoutData = ():Output => {
         const wageColorScale = scaleLinear()
           .domain([globalMinMax.minHourlyWage,globalMinMax.maxHourlyWage])
           .range(wageColorRange as any) as any;
+
+
         const data: Output['data'] = {
           clusters: LAYOUT_DATA.clusters,
           nodes: LAYOUT_DATA.nodes.map(n => {
@@ -136,6 +151,7 @@ const useLayoutData = ():Output => {
               sectorName: parent && parent.name ? parent.name : '',
               edges: n.edges.map(e => ({trg: e.trg.toString(), proximity: e.proximity})),
               globalSumNumCompany: globalIndustry ? globalIndustry.sumNumCompany : 0,
+              globalSumNumEmploy: globalIndustry ? globalIndustry.sumNumEmploy : 0,
               yearsEducation,
               hourlyWage,
               educationColor: educationColorScale(yearsEducation),
@@ -143,7 +159,7 @@ const useLayoutData = ():Output => {
             };
           }),
           global: {
-            linearRadiusScale, logRadiusScale,
+            companySizeByScale, employSizeByScale, educationSizeByScale, wageSizeByScale,
           },
         };
         setOutput({loading: false, error: undefined, data});

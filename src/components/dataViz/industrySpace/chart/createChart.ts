@@ -778,10 +778,14 @@ const createChart = (input: Input) => {
 
   function updateNodeSize(nodeSizing: NodeSizing) {
     nodes.each(d => {
-      if (nodeSizing === NodeSizing.linear) {
-        d.radius = data.global.linearRadiusScale(d.globalSumNumCompany) * radiusAdjuster;
-      } else if (nodeSizing === NodeSizing.log) {
-        d.radius = data.global.logRadiusScale(d.globalSumNumCompany) * radiusAdjuster;
+      if (nodeSizing === NodeSizing.companies) {
+        d.radius = data.global.companySizeByScale(d.globalSumNumCompany) * radiusAdjuster;
+      } else if (nodeSizing === NodeSizing.employees) {
+        d.radius = data.global.employSizeByScale(d.globalSumNumEmploy) * radiusAdjuster;
+      } else if (nodeSizing === NodeSizing.education) {
+        d.radius = data.global.educationSizeByScale(d.yearsEducation) * radiusAdjuster;
+      } else if (nodeSizing === NodeSizing.wage) {
+        d.radius = data.global.wageSizeByScale(d.hourlyWage) * radiusAdjuster;
       } else {
         d.radius = radius;
       }

@@ -23,13 +23,13 @@ import {breakPoints} from '../../../styling/GlobalGrid';
 import {
   Toggle,
   NodeSizing,
+  defaultNodeSizing,
   ColorBy,
   ClusterLevel,
   defaultClusterLevel,
 } from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip from '../../general/Tooltip';
-import upperFirst from 'lodash/upperFirst';
 
 const gearIcon = raw('../../../assets/icons/settings.svg');
 
@@ -481,22 +481,34 @@ const Settings = (props: Props) => {
         <LabelContainer>{getString('global-ui-node-sizing')}</LabelContainer>
         <InputContainer>
           <DigitLevelButton
-            onClick={() => updateSetting('node_sizing', NodeSizing.none)}
-            $selected={params.node_sizing === NodeSizing.none}
+            onClick={() => updateSetting('node_sizing', NodeSizing.companies)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.companies) || params.node_sizing === NodeSizing.companies}
           >
-            {upperFirst(NodeSizing.none)}
+            {getString('global-formatted-size-by', {type: NodeSizing.companies})}
           </DigitLevelButton>
           <DigitLevelButton
-            onClick={() => updateSetting('node_sizing', NodeSizing.linear)}
-            $selected={params.node_sizing === NodeSizing.linear}
+            onClick={() => updateSetting('node_sizing', NodeSizing.employees)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.employees) || params.node_sizing === NodeSizing.employees}
           >
-            {upperFirst(NodeSizing.linear)}
+            {getString('global-formatted-size-by', {type: NodeSizing.employees})}
           </DigitLevelButton>
           <DigitLevelButton
-            onClick={() => updateSetting('node_sizing', NodeSizing.log)}
-            $selected={!params.node_sizing || params.node_sizing === NodeSizing.log}
+            onClick={() => updateSetting('node_sizing', NodeSizing.education)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.education) || params.node_sizing === NodeSizing.education}
           >
-            {upperFirst(NodeSizing.log)}
+            {getString('global-formatted-size-by', {type: NodeSizing.education})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.wage)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.wage) || params.node_sizing === NodeSizing.wage}
+          >
+            {getString('global-formatted-size-by', {type: NodeSizing.wage})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.uniform)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.uniform) || params.node_sizing === NodeSizing.uniform}
+          >
+            {getString('global-formatted-size-by', {type: NodeSizing.uniform})}
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>

@@ -17,7 +17,7 @@ import {
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
-import {NodeSizing, ColorBy} from '../../../../routing/routes';
+import {NodeSizing, defaultNodeSizing, ColorBy} from '../../../../routing/routes';
 import {DigitLevel,CompositionType} from '../../../../types/graphQL/graphQLTypes';
 import useColorByIntensity from '../../treeMap/useColorByIntensity';
 import {
@@ -283,7 +283,7 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized) {
-      chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.log);
+      chart.updateNodeSize(nodeSizing ? nodeSizing : defaultNodeSizing);
     }
   }, [chart, nodeSizing]);
 
