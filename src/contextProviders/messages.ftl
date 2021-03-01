@@ -28,6 +28,7 @@ global-ui-exit = Exit Fullscreen
 global-ui-guide = Guide
 global-ui-visualization-settings = Visualization Settings
 global-ui-settings = Settings
+global-ui-settings-option-na = Option is not available
 global-ui-close = Close
 global-ui-continue = Continue
 global-ui-more = More
@@ -163,6 +164,8 @@ glossary-composition = About the composition type
 glossary-composition-disabled = The composition type is disabled for this visualization
 glossary-digit-level = About digit levels
 glossary-digit-level-disabled = Digit levels are disabled for this visualization
+glossary-digit-level-disabled-industry-space = Industry Space is only available at the 6-digit level
+glossary-digit-level-disabled-swot = SWOT Analysis is only available at the 6-digit level
 glossary-cluster-overlay = About cluster overlay
 glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for this visualization
 

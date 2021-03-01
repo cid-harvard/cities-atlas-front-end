@@ -37,6 +37,7 @@ const City = () => {
       removeParams: [
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
+        'node_sizing' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -46,6 +47,7 @@ const City = () => {
         'compare_city' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
+        'cluster_level' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -56,6 +58,8 @@ const City = () => {
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
+        'cluster_level' as keyof GlobalQueryParams,
+        'color_by' as keyof GlobalQueryParams,
       ],
     },
     {

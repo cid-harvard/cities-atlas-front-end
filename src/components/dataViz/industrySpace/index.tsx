@@ -10,6 +10,7 @@ import PreChartRow from '../../../components/general/PreChartRow';
 import Chart from './chart';
 import {ZoomLevel, NodeAction} from './chart/createChart';
 import {NodeSizing, ColorBy} from '../../../routing/routes';
+import useFluent from '../../../hooks/useFluent';
 
 const Root = styled.div`
   width: 100%;
@@ -58,6 +59,7 @@ const ClusteredIndustrySpace = (props: Props) => {
   const chartKey = dimensions
     ? 'industry-space-sized-to-container-key' + dimensions.width.toString() + dimensions.height.toString()
     : 'industry-space-sized-to-container-key-0-0';
+  const getString = useFluent();
 
   useEffect(() => {
     const node = rootRef.current;
@@ -74,7 +76,13 @@ const ClusteredIndustrySpace = (props: Props) => {
       <PreChartRow
         key={preChartRowKey}
         searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
-        settingsOptions={{compositionType: false, hideClusterOverlay: true, nodeSizing: true, colorBy: true}}
+        settingsOptions={{compositionType: {
+          disabledOptions: [CompositionType.Employees],
+        }, hideClusterOverlay: true, nodeSizing: true, colorBy: {nodes: true},
+        digitLevel: {
+          sixDigitOnlyMessage: getString('glossary-digit-level-disabled-industry-space'),
+        },
+      }}
       />
       <Root ref={rootRef}>
         <IndustrySpaceContainer>

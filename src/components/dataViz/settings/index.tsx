@@ -12,6 +12,7 @@ import {
   primaryColorLight,
   BlockButton,
   BlockButtonHighlighted,
+  baseColor,
 } from '../../../styling/styleUtils';
 import {
   CompositionType,
@@ -29,7 +30,7 @@ import {
   defaultClusterLevel,
 } from '../../../routing/routes';
 import raw from 'raw.macro';
-import Tooltip from '../../general/Tooltip';
+import Tooltip, {TooltipTheme} from '../../general/Tooltip';
 
 const gearIcon = raw('../../../assets/icons/settings.svg');
 
@@ -169,9 +170,27 @@ const DisabledSettingsInputContainer = styled(SettingsInputContainer)`
 
 const CompostionButtonBase = styled(BlockButton)`
   text-transform: capitalize;
+
+  &.disabled-option {
+    opacity: 0.5;
+    cursor: default;
+    &:hover {
+      color: ${baseColor};
+      background-color: transparent;
+    }
+  }
 `;
 const CompostionButtonHighlight = styled(BlockButtonHighlighted)`
   text-transform: capitalize;
+
+  &.disabled-option {
+    opacity: 0.5;
+    cursor: default;
+    &:hover {
+      color: ${baseColor};
+      background-color: transparent;
+    }
+  }
 `;
 
 const Label = styled.label`
@@ -199,10 +218,14 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   position: relative;
   margin: 0;
 
-  &:hover {
+  &:hover:not(.disabled-option) {
     &:before {
       background-color: ${backgroundDark};
     }
+  }
+  &.disabled-option {
+    opacity: 0.5;
+    cursor: default;
   }
 
   &:focus, &:active {
@@ -246,17 +269,31 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   }
 `;
 
+const DigitLevelSoloButton = styled(DigitLevelButton)`
+   &:after {
+     display: none;
+   }
+`;
+
 const ResetButton = styled(BlockButton)`
   margin: 1rem auto;
 `;
 
 export interface SettingsOptions {
-  digitLevel?: boolean;
-  compositionType?: boolean;
+  digitLevel?: boolean | {
+    sixDigitOnlyMessage?: string;
+  };
+  compositionType?: boolean | {
+    disabledOptions?: CompositionType[];
+  };
   hideClusterOverlay?: boolean;
   nodeSizing?: boolean;
-  colorBy?: boolean;
-  clusterLevel?: boolean;
+  colorBy?: boolean | {
+    nodes: boolean,
+  };
+  clusterLevel?: boolean | {
+    disabledOptions?: ClusterLevel[];
+  };
 }
 
 interface Props {
@@ -302,11 +339,13 @@ const Settings = (props: Props) => {
     const EmployeeButton = (!params.composition_type && defaultCompositionType === CompositionType.Employees) ||
                           (params.composition_type === CompositionType.Employees)
                           ? CompostionButtonHighlight : CompostionButtonBase;
-    const InputContainer = settingsOptions.compositionType === true
+    const InputContainer = settingsOptions.compositionType !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
-    const LabelContainer = settingsOptions.compositionType === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.compositionType === true
+    const LabelContainer = settingsOptions.compositionType !== false ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.compositionType !== false
       ? getString('glossary-composition') : getString('glossary-composition-disabled');
+    const disabledOptions = typeof settingsOptions.compositionType === 'object' &&
+      settingsOptions.compositionType.disabledOptions ? settingsOptions.compositionType.disabledOptions : [];
     compositionOptions = (
       <SettingGrid>
         <Tooltip
@@ -315,14 +354,36 @@ const Settings = (props: Props) => {
         <LabelContainer>{getString('global-ui-numbers-based-on')}</LabelContainer>
         <InputContainer>
           <CompanyButton
-            onClick={() => updateSetting('composition_type', CompositionType.Companies)}
+            onClick={disabledOptions.includes(CompositionType.Companies)
+              ? undefined : () => updateSetting('composition_type', CompositionType.Companies)}
+            className={disabledOptions.includes(CompositionType.Companies) ? 'disabled-option' : undefined}
           >
-            {CompositionType.Companies}
+            <Tooltip
+              explanation={disabledOptions.includes(CompositionType.Companies)
+                ? getString('global-ui-settings-option-na')
+                : null
+              }
+              theme={TooltipTheme.Dark}
+              cursor={disabledOptions.includes(CompositionType.Companies) ? 'default' : 'pointer'}
+            >
+              {CompositionType.Companies}
+            </Tooltip>
           </CompanyButton>
           <EmployeeButton
-            onClick={() => updateSetting('composition_type', CompositionType.Employees)}
+            onClick={disabledOptions.includes(CompositionType.Employees)
+              ? undefined : () => updateSetting('composition_type', CompositionType.Employees)}
+            className={disabledOptions.includes(CompositionType.Employees) ? 'disabled-option' : undefined}
           >
-            {CompositionType.Employees}
+            <Tooltip
+              explanation={disabledOptions.includes(CompositionType.Employees)
+                ? getString('global-ui-settings-option-na')
+                : null
+              }
+              theme={TooltipTheme.Dark}
+              cursor={disabledOptions.includes(CompositionType.Employees) ? 'default' : 'pointer'}
+            >
+              {CompositionType.Employees}
+            </Tooltip>
           </EmployeeButton>
         </InputContainer>
       </SettingGrid>
@@ -333,12 +394,29 @@ const Settings = (props: Props) => {
 
   let digitLevelOptions: React.ReactElement<any> | null;
   if (settingsOptions.digitLevel !== undefined) {
-    const InputContainer = settingsOptions.digitLevel === true
+    const InputContainer = settingsOptions.digitLevel !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
-    const LabelContainer = settingsOptions.digitLevel === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.digitLevel === true
+    const LabelContainer = settingsOptions.digitLevel !== false ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.digitLevel !== false
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
-    digitLevelOptions = (
+    const sixDigitOnlyMessage = typeof settingsOptions.digitLevel === 'object' &&
+      settingsOptions.digitLevel.sixDigitOnlyMessage ? settingsOptions.digitLevel.sixDigitOnlyMessage : '';
+    digitLevelOptions = sixDigitOnlyMessage ? (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-detail-level')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelSoloButton
+            $selected={true}
+          >
+            {DigitLevel.Six}-{getString('global-ui-digit-level')}
+          </DigitLevelSoloButton>
+          <small><em>{sixDigitOnlyMessage}</em></small>
+        </InputContainer>
+      </SettingGrid>
+    ) : (
       <SettingGrid>
         <Tooltip
           explanation={tooltipText}
@@ -395,11 +473,13 @@ const Settings = (props: Props) => {
   }
   let clusterLevelOptions: React.ReactElement<any> | null;
   if (settingsOptions.clusterLevel !== undefined) {
-    const InputContainer = settingsOptions.clusterLevel === true
+    const InputContainer = settingsOptions.clusterLevel !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
-    const LabelContainer = settingsOptions.clusterLevel === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.clusterLevel === true
+    const LabelContainer = settingsOptions.clusterLevel !== false ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.clusterLevel !== false
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    const disabledOptions = typeof settingsOptions.clusterLevel === 'object' &&
+      settingsOptions.clusterLevel.disabledOptions ? settingsOptions.clusterLevel.disabledOptions : [];
     clusterLevelOptions = (
       <SettingGrid>
         <Tooltip
@@ -408,20 +488,42 @@ const Settings = (props: Props) => {
         <LabelContainer>{getString('global-ui-cluster-level')}</LabelContainer>
         <InputContainer>
           <DigitLevelButton
-            onClick={() => updateSetting('cluster_level', ClusterLevel.C1)}
+            onClick={!disabledOptions.includes(ClusterLevel.C1) ?
+              () => updateSetting('cluster_level', ClusterLevel.C1) : undefined}
+            className={disabledOptions.includes(ClusterLevel.C1) ? 'disabled-option' : undefined}
             $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C1) ||
               params.cluster_level === ClusterLevel.C1
             }
           >
-            {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C1})}
+            <Tooltip
+              explanation={disabledOptions.includes(ClusterLevel.C1)
+                ? getString('global-ui-settings-option-na')
+                : null
+              }
+              theme={TooltipTheme.Dark}
+              cursor={disabledOptions.includes(ClusterLevel.C1) ? 'default' : 'pointer'}
+            >
+              {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C1})}
+            </Tooltip>
           </DigitLevelButton>
           <DigitLevelButton
-            onClick={() => updateSetting('cluster_level', ClusterLevel.C3)}
+            onClick={!disabledOptions.includes(ClusterLevel.C3) ?
+              () => updateSetting('cluster_level', ClusterLevel.C3) : undefined}
+            className={disabledOptions.includes(ClusterLevel.C3) ? 'disabled-option' : undefined}
             $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C3) ||
               params.cluster_level === ClusterLevel.C3
             }
           >
-            {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C3})}
+            <Tooltip
+              explanation={disabledOptions.includes(ClusterLevel.C3)
+                ? getString('global-ui-settings-option-na')
+                : null
+              }
+              theme={TooltipTheme.Dark}
+              cursor={disabledOptions.includes(ClusterLevel.C3) ? 'default' : 'pointer'}
+            >
+              {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C3})}
+            </Tooltip>
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
@@ -519,11 +621,13 @@ const Settings = (props: Props) => {
 
   let colorByOptions: React.ReactElement<any> | null;
   if (settingsOptions.colorBy !== undefined) {
-    const InputContainer = settingsOptions.colorBy === true
+    const InputContainer = settingsOptions.colorBy !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
-    const LabelContainer = settingsOptions.colorBy === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.colorBy === true
+    const LabelContainer = settingsOptions.colorBy !== false ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.colorBy !== false
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    const labelText = typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
+      ? getString('global-ui-node-color-by') : getString('global-ui-color-by');
     const sectorColorByOption = !settingsOptions.clusterLevel ? (
       <DigitLevelButton
         onClick={() => updateSetting('color_by', ColorBy.sector)}
@@ -537,7 +641,7 @@ const Settings = (props: Props) => {
         <Tooltip
           explanation={tooltipText}
         />
-        <LabelContainer>{getString('global-ui-color-by')}</LabelContainer>
+        <LabelContainer>{labelText}</LabelContainer>
         <InputContainer>
           {sectorColorByOption}
           <DigitLevelButton

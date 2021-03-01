@@ -228,7 +228,9 @@ const RCABarChart = (props: Props) => {
         searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
         settingsOptions={{
           compositionType: true,
-          clusterLevel: isClusterView ? isClusterView : undefined,
+          clusterLevel: isClusterView ? {
+            disabledOptions: [ClusterLevel.C1],
+          } : undefined,
           digitLevel: isClusterView ? undefined : true,
           colorBy: true,
         }}

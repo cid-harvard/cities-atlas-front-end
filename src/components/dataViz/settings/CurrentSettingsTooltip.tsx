@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import useQueryParams from '../../../hooks/useQueryParams';
 import useFluent from '../../../hooks/useFluent';
 import {
+  DigitLevel,
   defaultDigitLevel,
   defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
@@ -51,7 +52,21 @@ const CurrentSettingsTooltip = (props: Props) => {
   const detailLevel = settingsOptions.digitLevel !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-detail-level')}</Subtitle>
-      <em>{params.digit_level ? params.digit_level : defaultDigitLevel} {getString('global-ui-digit-level')}</em>
+      <em>{params.digit_level ? params.digit_level : (
+        typeof settingsOptions.digitLevel === 'object' && settingsOptions.digitLevel.sixDigitOnlyMessage
+          ? DigitLevel.Six : defaultDigitLevel
+      )} {getString('global-ui-digit-level')}</em>
+    </Segment>
+  ) : null;
+
+  const clusterLevel = settingsOptions.clusterLevel !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-cluster-level')}</Subtitle>
+      <em>
+        {getString('global-ui-cluster-aggregation-level', {
+          cluster: 'cluster_' + params.cluster_overlay ? params.cluster_overlay : defaultDigitLevel,
+        })}
+      </em>
     </Segment>
   ) : null;
 
@@ -71,7 +86,10 @@ const CurrentSettingsTooltip = (props: Props) => {
 
   const colorBy = settingsOptions.colorBy !== undefined ? (
     <Segment>
-      <Subtitle>{getString('global-ui-color-by')}</Subtitle>
+      <Subtitle>{
+        typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
+          ? getString('global-ui-node-color-by') : getString('global-ui-color-by')
+      }</Subtitle>
       <em>{params.color_by ? params.color_by : ColorBy.sector}</em>
     </Segment>
   ) : null;
@@ -84,6 +102,7 @@ const CurrentSettingsTooltip = (props: Props) => {
       </Segment>
       {compositionText}
       {detailLevel}
+      {clusterLevel}
       {hideClusters}
       {sizeBy}
       {colorBy}
