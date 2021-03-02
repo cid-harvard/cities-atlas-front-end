@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import ClusteredIndustrySpace from '../../../../../components/dataViz/industrySpace';
 import {ZoomLevel, NodeAction} from '../../../../../components/dataViz/industrySpace/chart/createChart';
-import {defaultYear} from '../../../../../Utils';
+import {defaultYear, formatNumberLong} from '../../../../../Utils';
 import {
   ContentGrid,
   ContentParagraph,
@@ -10,39 +10,22 @@ import {
 } from '../../../../../styling/styleUtils';
 import {
   defaultCompositionType,
+  DigitLevel,
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
+import NodeLegend from '../../../../../components/dataViz/legend/NodeLegend';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import useSectorMap from '../../../../../hooks/useSectorMap';
+import useFluent from '../../../../../hooks/useFluent';
 import useQueryParams from '../../../../../hooks/useQueryParams';
-import {Toggle, ColorBy} from '../../../../../routing/routes';
+import {Toggle, ColorBy, defaultNodeSizing, NodeSizing} from '../../../../../routing/routes';
 import IndustryDistanceTable from './IndustryDistanceTable';
-import styled from 'styled-components/macro';
-import NodeLegendSrc from './node-legend.svg';
-
-const NodeLegend = styled.div`
-  width: 100%;
-  box-sizing: border-box;
-  padding: 0.875rem;
-  position: absolute;
-  bottom: 0;
-  background-color: #fff;
-  z-index: 100;
-  border-top: none;
-
-  img {
-    width: 100%;
-    max-width: 200px;
-    max-height: 100%;
-  }
-
-  @media (max-height: 875px) {
-    position: sticky;
-  }
-`;
+import {
+  useAggregateIndustryMap,
+} from '../../../../../hooks/useAggregateIndustriesData';
 
 interface Props {
   cityId: string;
@@ -59,6 +42,8 @@ const IndustrySpacePosition = (props: Props) => {
   const sectorMap = useSectorMap();
   const {cluster_overlay, node_sizing, color_by} = useQueryParams();
   const hideClusterOverlay= cluster_overlay === Toggle.Off;
+  const getString = useFluent();
+  const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
 
   let legend: React.ReactElement<any> | null;
   if (!(zoomLevel === ZoomLevel.Node || hideClusterOverlay) || color_by === ColorBy.intensity) {
@@ -83,15 +68,37 @@ const IndustrySpacePosition = (props: Props) => {
     );
   }
 
-
-  const nodeLegend = zoomLevel === ZoomLevel.Node || hideClusterOverlay ? (
-    <NodeLegend>
-      <img
-        src={NodeLegendSrc}
-        alt={'Colored Nodes mean High Intensity Employment, Gray Nodes mean Low Intensity Employment'}
-      />
-    </NodeLegend>
-  ) : null;
+  const nodeSizing = node_sizing ? node_sizing : defaultNodeSizing;
+  let nodeSizingTitle: string | undefined;
+  let nodeSizingMinText: string | undefined;
+  let nodeSizingMaxText: string | undefined;
+  if (aggregateIndustryDataMap.data && !aggregateIndustryDataMap.loading) {
+    if (nodeSizing === NodeSizing.companies) {
+      nodeSizingTitle = 'Node Size by Number of Establishments';
+      nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumCompany);
+      nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumCompany);
+    } else if (nodeSizing === NodeSizing.employees) {
+      nodeSizingTitle = 'Node Size by Number of Employees';
+      nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumEmploy);
+      nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumEmploy);
+    } else if (nodeSizing === NodeSizing.education) {
+      nodeSizingTitle = 'Node Size by Years of Education';
+      nodeSizingMinText = parseFloat(
+        aggregateIndustryDataMap.data.globalMinMax.minYearsEducation.toFixed(1),
+        ) + ' years';
+      nodeSizingMaxText = parseFloat(
+        aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation.toFixed(1),
+        ) + ' years';
+    } else if (nodeSizing === NodeSizing.wage) {
+      nodeSizingTitle = 'Node Size by Average Hourly Wage';
+      nodeSizingMinText = '$' + parseFloat(
+        aggregateIndustryDataMap.data.globalMinMax.minHourlyWage.toFixed(2),
+        ) + ' (USD)';
+      nodeSizingMaxText = '$' + parseFloat(
+        aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage.toFixed(2),
+        ) + ' (USD)';
+    }
+  }
 
 
   const onNodeSelect = (id: string | undefined, action: NodeAction) => {
@@ -113,7 +120,21 @@ const IndustrySpacePosition = (props: Props) => {
       <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
       {/* eslint-disable-next-line */}
       <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
-        {nodeLegend}
+        <NodeLegend
+          sizeBy={nodeSizingMinText && nodeSizingMaxText && nodeSizingTitle ? {
+              title: nodeSizingTitle,
+              minLabel: nodeSizingMinText,
+              maxLabel: nodeSizingMaxText,
+            } : null
+          }
+          colorBy={(zoomLevel === ZoomLevel.Node || hideClusterOverlay) && (!color_by || color_by === ColorBy.sector)
+            && !aggregateIndustryDataMap.loading
+            ? {
+              coloredLabel: getString('global-intensity-high'),
+              greyLabel: getString('global-intensity-low'),
+            } : null
+          }
+        />
     </StandardSideTextBlock>
   ) : (
     <StandardSideTextBlock clearStyles={true}>
