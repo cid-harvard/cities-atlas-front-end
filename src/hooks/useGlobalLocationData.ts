@@ -21,6 +21,7 @@ const GLOBAL_LOCATION_QUERY = gql`
       id
       nameList
       population: population15
+      gdpPpp: gdpPpp15
     }
   }
 `;
@@ -40,6 +41,7 @@ interface SuccessResponse {
     countryId: ClassificationCity['countryId'],
     geometry: ClassificationCity['geometry'],
     population: ClassificationCity['population15'],
+    gdpPpp: ClassificationCity['gdpPpp15'],
     id: ClassificationCity['id'],
   }[];
 }
@@ -82,6 +84,14 @@ export const getPopulationScale = (data: SuccessResponse, min: number, max: numb
   data.cities.forEach(c => c.population ? allPops.push(c.population) : null);
   return scaleLinear()
     .domain(extent(allPops) as [number, number])
+    .range([min, max]);
+};
+
+export const getGdpPppScale = (data: SuccessResponse, min: number, max: number) => {
+  const allGdp: number[] = [];
+  data.cities.forEach(c => c.gdpPpp ? allGdp.push(c.gdpPpp) : null);
+  return scaleLinear()
+    .domain(extent(allGdp) as [number, number])
     .range([min, max]);
 };
 

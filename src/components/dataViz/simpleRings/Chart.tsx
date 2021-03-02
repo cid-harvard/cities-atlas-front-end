@@ -5,12 +5,17 @@ import createChart, {
 import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {SuccessResponse} from '../similarCitiesMap/useProximityData';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import useGlobalLocationData, {getPopulationScale} from '../../../hooks/useGlobalLocationData';
+import useGlobalLocationData, {getPopulationScale, getGdpPppScale} from '../../../hooks/useGlobalLocationData';
 import {
   lightBaseColor,
 } from '../../../styling/styleUtils';
 import orderBy from 'lodash/orderBy';
 import {createProximityScale} from '../similarCitiesMap/Utils';
+import useQueryParams from '../../../hooks/useQueryParams';
+import {
+  CityNodeSizing,
+  defaultCityNodeSizing,
+} from '../../../routing/routes';
 
 type Chart = {
   initialized: false;
@@ -30,6 +35,7 @@ const Chart = (props: Props) => {
   } = props;
 
   const cityId = useCurrentCityId();
+  const {city_node_sizing} = useQueryParams();
   const cityData = useGlobalLocationData();
   const chartRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -42,7 +48,15 @@ const Chart = (props: Props) => {
       if (chartNode && tooltipNode && data !== undefined && cityId && cityData.data && (
           (chart.initialized === false && width && height)
       )) {
-        const populationScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
+        let radiusScale: (value: number) => number;
+        const nodeSizing = city_node_sizing ? city_node_sizing : defaultCityNodeSizing;
+        if (nodeSizing === CityNodeSizing.population) {
+          radiusScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
+        } else if (nodeSizing === CityNodeSizing.gdpPpp) {
+          radiusScale = getGdpPppScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
+        } else {
+          radiusScale = (_unused: any) => defaultNodeRadius;
+        }
         const allValues: number[] = [];
         data.cities.forEach(d => d && d.proximity !== null ? allValues.push(d.proximity) : false);
         const colorScale = createProximityScale([0, ...allValues]);
@@ -51,6 +65,9 @@ const Chart = (props: Props) => {
           const country = cityData.data && city && city.countryId
             ? cityData.data.countries.find(cc => city.countryId !== null && cc.countryId === city.countryId.toString())
             : undefined;
+          const radius = city
+            ? nodeSizing === CityNodeSizing.population ? city.population as number : city.gdpPpp as number
+            : defaultNodeRadius;
           return {
             primary: c.partnerId === cityId,
             id: c.partnerId,
@@ -58,7 +75,7 @@ const Chart = (props: Props) => {
             country: country && country.nameShortEn ? country.nameShortEn : '',
             color: colorScale(c.proximity ? c.proximity : 0),
             proximity: c.proximity ? c.proximity : 0,
-            radius: city && city.population ? populationScale(city.population) : defaultNodeRadius,
+            radius: radiusScale(radius),
           };
         });
         const primaryCity = cityData.data ? cityData.data.cities.find(cc => cc.cityId === cityId) : undefined;
@@ -66,6 +83,10 @@ const Chart = (props: Props) => {
           ? cityData.data.countries.find(
               cc => primaryCity.countryId !== null && cc.countryId === primaryCity.countryId.toString(),
           ) : undefined;
+
+        const radiusValue = primaryCity
+          ? nodeSizing === CityNodeSizing.population ? primaryCity.population as number : primaryCity.gdpPpp as number
+          : defaultNodeRadius;
         if (primaryCity) {
           nodes.push({
             primary: true,
@@ -74,8 +95,7 @@ const Chart = (props: Props) => {
             country: primaryCountry && primaryCountry.nameShortEn ? primaryCountry.nameShortEn : '',
             color: lightBaseColor,
             proximity: 1,
-            radius: primaryCity && primaryCity.population
-              ? populationScale(primaryCity.population) : defaultNodeRadius,
+            radius: radiusScale(radiusValue),
           });
         }
         chartNode.innerHTML = '';
@@ -89,7 +109,7 @@ const Chart = (props: Props) => {
         setChart({initialized: true });
       }
     }
-  }, [chartRef, chart, width, height, data, cityId, cityData]);
+  }, [chartRef, chart, width, height, data, cityId, cityData, city_node_sizing]);
 
   return (
     <>

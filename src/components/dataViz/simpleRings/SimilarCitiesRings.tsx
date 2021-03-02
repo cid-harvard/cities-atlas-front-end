@@ -4,6 +4,7 @@ import styled, {keyframes} from 'styled-components/macro';
 import Chart from './Chart';
 import useProximityData from '../similarCitiesMap/useProximityData';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
+import useQueryParams from '../../../hooks/useQueryParams';
 
 const fadeIn = keyframes`
   0% {
@@ -32,9 +33,11 @@ const SimpleRings = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const cityId = useCurrentCityId();
+  const {city_node_sizing} = useQueryParams();
   const chartKey = dimensions
-    ? cityId + 'industry-space-sized-to-container-key' + dimensions.width.toString() + dimensions.height.toString()
-    : cityId + 'industry-space-sized-to-container-key-0-0';
+    ? cityId + 'industry-space-sized-to-container-key' +
+        dimensions.width.toString() + dimensions.height.toString() + city_node_sizing
+    : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing;
 
   const {data} = useProximityData();
 
