@@ -43,6 +43,18 @@ export enum ColorBy {
   wage = 'wage',
 }
 
+export enum CityNodeSizing {
+  uniform = 'uniform',
+  population = 'population',
+  gdpPpp = 'gdpPpp',
+}
+
+export const defaultCityNodeSizing: CityNodeSizing = CityNodeSizing.population;
+
+export enum CityColorBy {
+  proximity = 'proximity',
+}
+
 export enum ClusterLevel {
   C1 = '1',
   C2 = '2',
@@ -59,5 +71,7 @@ export interface GlobalQueryParams {
   cluster_overlay: Toggle | undefined;
   node_sizing: NodeSizing | undefined;
   color_by: ColorBy | undefined;
+  city_node_sizing: CityNodeSizing | undefined;
+  city_color_by: CityColorBy | undefined;
   cluster_level: ClusterLevel | undefined;
 }

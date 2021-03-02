@@ -21,13 +21,13 @@ const SettingsRow = (props: Props) => {
     setShowRings(false);
   }, [mapContext, view, setShowRings]);
 
-  const onUMapClick = useCallback(() => {
-    if (mapContext.intialized && view !== MapMode.UMAP) {
-      mapContext.setToUMap();
-    }
-    setView(MapMode.UMAP);
-    setShowRings(false);
-  }, [mapContext, view, setShowRings]);
+  // const onUMapClick = useCallback(() => {
+  //   if (mapContext.intialized && view !== MapMode.UMAP) {
+  //     mapContext.setToUMap();
+  //   }
+  //   setView(MapMode.UMAP);
+  //   setShowRings(false);
+  // }, [mapContext, view, setShowRings]);
 
   const onShowRingsClick = useCallback(() => {
     setShowRings(true);
@@ -39,10 +39,10 @@ const SettingsRow = (props: Props) => {
       active: view === MapMode.GEO && !showRings,
       onClick: onGeoMapClick,
     }, {
-      label: 'Clusters',
-      active: view === MapMode.UMAP && !showRings,
-      onClick: onUMapClick,
-    }, {
+    //   label: 'Clusters',
+    //   active: view === MapMode.UMAP && !showRings,
+    //   onClick: onUMapClick,
+    // }, {
       label: 'Ring',
       active: showRings,
       onClick: onShowRingsClick,
@@ -52,6 +52,10 @@ const SettingsRow = (props: Props) => {
   return (
     <PreChartRow
       vizNavigation={vizNavigation}
+      settingsOptions={{
+        cityColorBy: true,
+        cityNodeSizing: true,
+      }}
     />
   );
 };

@@ -74,6 +74,8 @@ global-formatted-color-by = {
   [wage] Average hourly wage
 }
 
+color-by-proximity-only = Color by option is only available for proximity
+
 global-formatted-size-by = {
   $type ->
   *[uniform] Uniform
@@ -81,6 +83,8 @@ global-formatted-size-by = {
   [employees] Global employee size
   [education] Average years education
   [wage] Average hourly wage
+  [population] Population
+  [gdpPpp] GDP PPP
 }
 
 global-ui-related-industry = Related Industry

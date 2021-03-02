@@ -7,8 +7,15 @@ import {
   defaultDigitLevel,
   defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
-import {Toggle, ColorBy, defaultNodeSizing} from '../../../routing/routes';
+import {
+  Toggle,
+  ColorBy,
+  CityColorBy,
+  defaultNodeSizing,
+  defaultCityNodeSizing,
+} from '../../../routing/routes';
 import {SettingsOptions} from './index';
+import upperFirst from 'lodash/upperFirst';
 
 const Root = styled.div`
   text-align: center;
@@ -94,6 +101,23 @@ const CurrentSettingsTooltip = (props: Props) => {
     </Segment>
   ) : null;
 
+  const citySizeBy = settingsOptions.cityNodeSizing !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-node-sizing')}</Subtitle>
+      <em>
+        {getString('global-formatted-size-by', {type:
+          params.city_node_sizing ? params.city_node_sizing : defaultCityNodeSizing})}
+      </em>
+    </Segment>
+  ) : null;
+
+  const cityColorBy = settingsOptions.cityColorBy !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-node-color-by')}</Subtitle>
+      <em>{upperFirst(params.city_color_by ? params.city_color_by : CityColorBy.proximity)}</em>
+    </Segment>
+  ) : null;
+
   return (
     <Root>
       <Title>{getString('global-ui-change-settings')}</Title>
@@ -106,6 +130,8 @@ const CurrentSettingsTooltip = (props: Props) => {
       {hideClusters}
       {sizeBy}
       {colorBy}
+      {cityColorBy}
+      {citySizeBy}
     </Root>
   );
 };

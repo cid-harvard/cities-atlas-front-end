@@ -8,6 +8,8 @@ import {
   ClassificationCity,
 } from '../../../types/graphQL/graphQLTypes';
 
+export const defaultRadius = 20;
+
 const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
   query GetGlobalLocationData {
     countries: classificationCountryList {
@@ -21,6 +23,8 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
       centroidLat
       centroidLon
       countryId
+      population: population15
+      gdpPpp: gdpPpp15
       id
     }
   }
@@ -38,6 +42,8 @@ interface SuccessResponse {
     centroidLat: ClassificationCity['centroidLat'],
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
+    population: ClassificationCity['population15'],
+    gdpPpp: ClassificationCity['gdpPpp15'],
     id: ClassificationCity['id'],
   }[];
 }
@@ -67,7 +73,7 @@ const useLayoutData = (): Output => {
 
 
     const cityGeoJson = featureCollection(filteredResponseCities.map(city => {
-      const {name, centroidLat, centroidLon, cityId, countryId} = city;
+      const {name, centroidLat, centroidLon, cityId, countryId, population, gdpPpp} = city;
       const coordinates: [number, number] = centroidLat && centroidLon ? [centroidLon, centroidLat] : [0, 0];
       if (centroidLat) {
         allLatCoords.push(centroidLat);
@@ -76,7 +82,15 @@ const useLayoutData = (): Output => {
         allLngCoords.push(centroidLon);
       }
       const targetCountry = responseData.countries.find(country => countryId !== null && country.countryId === countryId.toString());
-      return point(coordinates, {id: cityId, country: targetCountry ? targetCountry.nameShortEn : '', city: name, fill: 'gray'});
+      return point(coordinates, {
+        id: cityId,
+        country: targetCountry ? targetCountry.nameShortEn : '',
+        city: name,
+        fill: 'gray',
+        radius: defaultRadius,
+        population,
+        gdpPpp,
+      });
     }));
 
     const uMapXCoords: number[] = [];
@@ -98,7 +112,13 @@ const useLayoutData = (): Output => {
 
     const cityUMapJson = featureCollection(filteredUMapCities.map(n => {
       const {x, y, ID_HDC_G0: id, CTR_MN_NM: country, UC_NM_MN: city } = n;
-      return point([xToLngScale(x), yToLatScale(y)], {id, country, city, fill: 'gray'});
+      const targetCity = filteredResponseCities.find(c => c.cityId.toString() === id.toString());
+      return point([xToLngScale(x), yToLatScale(y)], {
+        id: id.toString(),
+        country, city, fill: 'gray', radius: defaultRadius,
+        population: targetCity ? targetCity.population : 0,
+        gdpPpp: targetCity ? targetCity.gdpPpp : 0,
+      });
     }));
 
     data = {cityGeoJson, cityUMapJson};

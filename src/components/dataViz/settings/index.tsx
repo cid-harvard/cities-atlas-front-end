@@ -28,9 +28,13 @@ import {
   ColorBy,
   ClusterLevel,
   defaultClusterLevel,
+  CityNodeSizing,
+  CityColorBy,
+  defaultCityNodeSizing,
 } from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip, {TooltipTheme} from '../../general/Tooltip';
+import upperFirst from 'lodash/upperFirst';
 
 const gearIcon = raw('../../../assets/icons/settings.svg');
 
@@ -294,6 +298,8 @@ export interface SettingsOptions {
   clusterLevel?: boolean | {
     disabledOptions?: ClusterLevel[];
   };
+  cityNodeSizing?: boolean;
+  cityColorBy?: boolean;
 }
 
 interface Props {
@@ -323,6 +329,8 @@ const Settings = (props: Props) => {
       cluster_overlay: _unusedHideClusters,
       node_sizing: _unusedNodeSizing,
       color_by: _unusedColorBy,
+      city_color_by: _unusedCityColorBy,
+      city_node_sizing: _unusedCitySizeBy,
       ...rest
     } = params;
     const query = queryString.stringify({...rest});
@@ -671,6 +679,72 @@ const Settings = (props: Props) => {
     colorByOptions = null;
   }
 
+  let cityColorByOptions: React.ReactElement<any> | null;
+  if (settingsOptions.cityColorBy !== undefined) {
+    const InputContainer = settingsOptions.cityColorBy !== false
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.cityColorBy !== false ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.cityColorBy !== false
+      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    cityColorByOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-node-color-by')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelSoloButton
+            $selected={true}
+          >
+            {upperFirst(CityColorBy.proximity)}
+          </DigitLevelSoloButton>
+          <small><em>{getString('color-by-proximity-only')}</em></small>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    cityColorByOptions = null;
+  }
+
+  let cityNodeSizingOptions: React.ReactElement<any> | null;
+  if (settingsOptions.cityNodeSizing !== undefined) {
+    const InputContainer = settingsOptions.cityNodeSizing === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.cityNodeSizing === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.cityNodeSizing === true
+      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    cityNodeSizingOptions = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-node-sizing')}</LabelContainer>
+        <InputContainer>
+          <DigitLevelButton
+            onClick={() => updateSetting('city_node_sizing', CityNodeSizing.population)}
+            $selected={(!params.city_node_sizing && defaultCityNodeSizing === CityNodeSizing.population) || params.city_node_sizing === CityNodeSizing.population}
+          >
+            {getString('global-formatted-size-by', {type: CityNodeSizing.population})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('city_node_sizing', CityNodeSizing.gdpPpp)}
+            $selected={(!params.city_node_sizing && defaultCityNodeSizing === CityNodeSizing.gdpPpp) || params.city_node_sizing === CityNodeSizing.gdpPpp}
+          >
+            {getString('global-formatted-size-by', {type: CityNodeSizing.gdpPpp})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('city_node_sizing', CityNodeSizing.uniform)}
+            $selected={(!params.city_node_sizing && defaultCityNodeSizing === CityNodeSizing.uniform) || params.city_node_sizing === CityNodeSizing.uniform}
+          >
+            {getString('global-formatted-size-by', {type: CityNodeSizing.uniform})}
+          </DigitLevelButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    cityNodeSizingOptions = null;
+  }
+
   return (
     <Root>
       <ContentRoot>
@@ -686,6 +760,8 @@ const Settings = (props: Props) => {
           {clusterOverlayToggle}
           {nodeSizingOptions}
           {colorByOptions}
+          {cityColorByOptions}
+          {cityNodeSizingOptions}
           <ResetButton onClick={resetSettings}>
             {getString('global-ui-settings-reset')}
           </ResetButton>
