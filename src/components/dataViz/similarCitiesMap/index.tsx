@@ -8,6 +8,7 @@ import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
 import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
+import CityProximityLegend from '../legend/CityProximityLegend';
 
 const Root = styled.div`
   width: 100%;
@@ -97,6 +98,7 @@ const SimilarCitiesMap = () => {
         <Map ref={rootRef} />
         {rings}
       </Root>
+      <CityProximityLegend isRings={showRings} />
     </>
   );
 };

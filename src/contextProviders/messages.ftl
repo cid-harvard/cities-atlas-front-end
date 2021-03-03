@@ -131,6 +131,10 @@ global-intensity-lower = Lower Specialization
 global-intensity-high = High Specialization
 global-intensity-higher = Higher Specialization
 
+global-similarity-low = Least Similar
+global-similarity-high = Most Similar
+global-your-city = City, Country
+
 global-education-low = Low Education
 global-education-high = High Education
 

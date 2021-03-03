@@ -44,6 +44,7 @@ const Title = styled.h3`
   color: ${baseColor};
   grid-column: 1 / -1;
   margin: 0;
+  font-weight: 600;
 `;
 
 const NodeBase = styled.div`

@@ -42,7 +42,7 @@ export const colorByCountryColorMap = [
   {id: 'Philippines', color: '#B0C4DE'},
 ];
 
-const proximityColors = [
+export const proximityColors = [
    '#F9E200',
    '#E3260B',
    '#C9178E',
