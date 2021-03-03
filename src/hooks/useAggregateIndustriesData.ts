@@ -15,7 +15,7 @@ const GLOBAL_INDUSTRIES_QUERY = gql`
       avgNumCompany
       avgNumEmploy
     }
-    averageData: industryList {
+    averageData: naicsIndustryList {
       naicsId
       yearsEducation
       hourlyWage

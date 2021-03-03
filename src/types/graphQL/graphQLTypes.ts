@@ -210,5 +210,5 @@ export interface RootQuery {
   globalIndustryYear: GlobalIndustryAgg[];
   cityPartnerList: CityPartner[];
   industry: Industry;
-  industryList: Industry[];
+  naicsIndustryList: Industry[];
 }
