@@ -25,9 +25,13 @@ import PreChartRow, {Indicator, VizNavItem, VizNavStyle} from '../../../componen
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {ColorBy, ClusterLevel} from '../../../routing/routes';
-import {scaleSymlog} from 'd3-scale';
+import {scaleSymlog, scaleLinear} from 'd3-scale';
 import {extent} from 'd3-array';
-import {intensityColorRange} from '../../../styling/styleUtils';
+import {intensityColorRange, educationColorRange, wageColorRange} from '../../../styling/styleUtils';
+import {defaultYear} from '../../../Utils';
+import {
+  useAggregateIndustryMap,
+} from '../../../hooks/useAggregateIndustriesData';
 
 const Root = styled.div`
   width: 100%;
@@ -97,6 +101,7 @@ const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, compositionType, highlighted,
     setHighlighted, vizNavigation, clusterLevel,
+    colorBy,
   } = props;
   const clusterMap = useGlobalClusterMap();
   const getString = useFluent();
@@ -105,6 +110,9 @@ const CompositionTreeMap = (props: Props) => {
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useClusterCompositionQuery({cityId, year});
+  const aggregateIndustryDataMap = useAggregateIndustryMap({
+    level: DigitLevel.Six, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10),
+  });
 
   useEffect(() => {
     const node = rootRef.current;
@@ -132,7 +140,8 @@ const CompositionTreeMap = (props: Props) => {
     tooltipContent: undefined,
   };
   let output: React.ReactElement<any> | null;
-  if (clusterMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (clusterMap.loading || !dimensions || (loading && prevData === undefined) ||
+      ((colorBy === ColorBy.education || colorBy === ColorBy.wage) && aggregateIndustryDataMap.loading)) {
     indicator.text = (
       <>
         {getString('global-ui-total') + ': '}<SimpleTextLoading />
@@ -155,6 +164,15 @@ const CompositionTreeMap = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(clusterMap.error);
+  } else if (aggregateIndustryDataMap.error !== undefined &&
+    (colorBy === ColorBy.education || colorBy === ColorBy.wage)) {
+    indicator.text = getString('global-ui-total') + ': ―';
+    output = (
+      <LoadingOverlay>
+        <SimpleError />
+      </LoadingOverlay>
+    );
+    console.error(aggregateIndustryDataMap.error);
   } else if (dataToUse !== undefined) {
     const clusters = dataToUse.clusters.filter(c => c.level && c.level.toString() === clusterLevel);
     const treeMapData: Inputs['data'] = [];
@@ -168,9 +186,29 @@ const CompositionTreeMap = (props: Props) => {
     });
 
     const minMax = extent(allRCAValues) as [number, number];
-    const intensityColorScale = scaleSymlog()
-      .domain(minMax)
-      .range(intensityColorRange as any) as unknown as (value: number) => string;
+
+    let colorScale: (val: number) => string | undefined;
+    if (colorBy === ColorBy.intensity) {
+      colorScale = scaleSymlog()
+        .domain(minMax)
+        .range(intensityColorRange as any) as unknown as (value: number) => string;
+    } else if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
+                      aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
+                    ])
+                    .range(educationColorRange as any) as any;
+    } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
+                      aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
+                    ])
+                    .range(wageColorRange as any) as any;
+    } else {
+      colorScale = () => undefined;
+    }
 
     let total = 0;
     clusters.forEach(({clusterId, numCompany, numEmploy, rcaNumCompany, rcaNumEmploy}) => {
@@ -181,13 +219,30 @@ const CompositionTreeMap = (props: Props) => {
         const employees = numEmploy ? numEmploy : 0;
         total = compositionType === CompositionType.Companies ? total + companies : total + employees;
         const value = compositionType === CompositionType.Companies ? companies : employees;
-        const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
+        let fill: string;
+        const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[clusterId];
+        if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+          if (clusterIndustryDatum) {
+            fill = colorScale(clusterIndustryDatum.yearsEducation) as string;
+          } else {
+            fill = 'gray';
+          }
+        } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+          if (clusterIndustryDatum) {
+            fill = colorScale(clusterIndustryDatum.hourlyWage) as string;
+          } else {
+            fill = 'gray';
+          }
+        } else {
+          const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
+          fill = colorScale(rca) as string;
+        }
         treeMapData.push({
           id: clusterId,
           value,
           title: name ? name : '',
           topLevelParentId: clusterIdTopParent ? clusterIdTopParent.toString() : clusterId.toString(),
-          fill: intensityColorScale(rca),
+          fill,
         });
       }
     });
@@ -219,6 +274,23 @@ const CompositionTreeMap = (props: Props) => {
           const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
+          let color: string;
+          const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[id];
+          if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+            if (clusterIndustryDatum) {
+              color = colorScale(clusterIndustryDatum.yearsEducation) as string;
+            } else {
+              color = 'gray';
+            }
+          } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+            if (clusterIndustryDatum) {
+              color = colorScale(clusterIndustryDatum.hourlyWage) as string;
+            } else {
+              color = 'gray';
+            }
+          } else {
+            color = colorScale(rca) as string;
+          }
           const rows = [
             [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
             [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
@@ -228,7 +300,7 @@ const CompositionTreeMap = (props: Props) => {
           ];
           node.innerHTML = getStandardTooltip({
             title: cluster.name ? cluster.name : '',
-            color: intensityColorScale(rca),
+            color,
             rows,
             boldColumns: [1, 2],
           });

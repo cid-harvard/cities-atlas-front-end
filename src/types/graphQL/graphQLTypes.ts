@@ -6,6 +6,11 @@ export enum DigitLevel {
   Five = 5,
   Six = 6,
 }
+export enum ClusterLevel {
+  C1 = 1,
+  C2 = 2,
+  C3 = 3,
+}
 
 export const defaultDigitLevel: DigitLevel = DigitLevel.Three;
 
@@ -167,7 +172,7 @@ export interface CityPartner {
   id: string;
 }
 
-export interface Industry {
+export interface NaicsIndustry {
   naicsId: string;
   yearsEducation: number;
   hourlyWage: number;
@@ -193,6 +198,15 @@ export interface Industry {
   renewableEnergyUse: number;
   waterUse: number;
   id: string;
+  level: DigitLevel | null;
+}
+
+export interface ClusterIndustry {
+  clusterId: string;
+  level: ClusterLevel;
+  yearsEducation: number;
+  hourlyWage: number;
+  id: string;
 }
 
 export interface RootQuery {
@@ -209,6 +223,8 @@ export interface RootQuery {
   classificationNaicsClusterList: ClassificationNaicsCluster[];
   globalIndustryYear: GlobalIndustryAgg[];
   cityPartnerList: CityPartner[];
-  industry: Industry;
-  naicsIndustryList: Industry[];
+  naicsIndustry: NaicsIndustry;
+  naicsIndustryList: NaicsIndustry[];
+  clusterIndustry: ClusterIndustry;
+  clusterIndustryList: ClusterIndustry[];
 }

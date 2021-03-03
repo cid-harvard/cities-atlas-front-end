@@ -176,7 +176,7 @@ const CompositionTreeMap = (props: Props) => {
         <SimpleError />
       </LoadingOverlay>
     );
-    console.error(intensity.error);
+    console.error(aggregateIndustryDataMap.error);
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
     const treeMapData: Inputs['data'] = [];
