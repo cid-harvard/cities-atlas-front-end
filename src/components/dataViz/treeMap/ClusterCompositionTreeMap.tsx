@@ -207,7 +207,10 @@ const CompositionTreeMap = (props: Props) => {
                     ])
                     .range(wageColorRange as any) as any;
     } else {
-      colorScale = () => undefined;
+      // colorScale = () => undefined;
+      colorScale = scaleSymlog()
+        .domain(minMax)
+        .range(intensityColorRange as any) as unknown as (value: number) => string;
     }
 
     let total = 0;
