@@ -9,6 +9,7 @@ import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
 import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
 import CityProximityLegend from '../legend/CityProximityLegend';
+import FilterBar from './FilterBar';
 
 const Root = styled.div`
   width: 100%;
@@ -16,11 +17,18 @@ const Root = styled.div`
   grid-column: 1;
   grid-row: 2;
   position: relative;
+  display: grid;
+  grid-template-rows: 100px 1fr;
 
   @media ${breakPoints.small} {
     grid-row: 3;
     grid-column: 1;
   }
+`;
+
+const MapContainer = styled.div`
+  position: relative;
+  grid-row: 2;
 `;
 
 const Map = styled.div`
@@ -49,6 +57,7 @@ let staticProximityData: SuccessResponse | undefined;
 
 const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
+  const filterBarRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
   const [showRings, setShowRings] = useState<boolean>(false);
@@ -93,10 +102,16 @@ const SimilarCitiesMap = () => {
           showRings={showRings}
           setShowRings={setShowRings}
         />
+        <FilterBar
+          node={filterBarRef.current}
+        />
       </CitySpaceMap>
       <Root>
-        <Map ref={rootRef} />
-        {rings}
+        <div ref={filterBarRef} />
+        <MapContainer>
+          <Map ref={rootRef} />
+          {rings}
+        </MapContainer>
       </Root>
       <CityProximityLegend isRings={showRings} />
     </>
