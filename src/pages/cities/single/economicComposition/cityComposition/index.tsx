@@ -156,7 +156,9 @@ const EconomicComposition = (props: Props) => {
           <ContentTitle>Employment &amp; Industry Composition</ContentTitle>
 
           {/* eslint-disable-next-line */}
-          <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+          <ContentParagraph>{'<City> is a <y-level> income level city in <Country>. As of <year>, the population of <City> was <XX> million people and its GDP was <XX>. It is the <XX> largest city and <XX> richest city in <Benchmark Region>. <City>’s workforce is made of <XX> workers spread throughout <XX> economic establishments. It’s workforce captures <XX> out of every 100 citizens - the <XX> largest in <Benchmark Region>.'}</ContentParagraph>
+          {/* eslint-disable-next-line */}
+          <ContentParagraph>{'<City>’s economy is concentrated in <Sector> industries (<XX%> of all employment/establishments) such as <Industry> (<XX%>). Similarly, it shows a high participation in <Sector> (<XX%>), in industries such as <XX> (<YY%>).'}</ContentParagraph>
 
         </StandardSideTextBlock>
         <TreeMapRoot ref={treeMapRef}>

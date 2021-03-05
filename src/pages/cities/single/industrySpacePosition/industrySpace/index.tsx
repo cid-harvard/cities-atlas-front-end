@@ -119,7 +119,7 @@ const IndustrySpacePosition = (props: Props) => {
     <StandardSideTextBlock>
       <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
       {/* eslint-disable-next-line */}
-      <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+      <ContentParagraph>{'The Industry Space maps the technological relatedness between all industries. This map is informative, as industries similar to those in which a city is specialized  on are more likely to grow. <City> is <position quality> positioned to access many new industries. The best opportunities are in the <Community>, <Community> and <Community> communities. Some industries likely to emerge and grow in the city include <Ind>, <Ind>, and <Ind>.'}</ContentParagraph>
         <NodeLegend
           sizeBy={nodeSizingMinText && nodeSizingMaxText && nodeSizingTitle ? {
               title: nodeSizingTitle,

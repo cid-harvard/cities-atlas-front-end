@@ -102,7 +102,7 @@ const CityGoodAt = () => {
         <StandardSideTextBlock>
           <ContentTitle>What does my City specialize in?</ContentTitle>
           {/* eslint-disable-next-line */}
-          <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+          <ContentParagraph>{'Considering the aggregated share of employment/establishments of each industry in all of <reference regions>, we can assess which industries in  <City> concentrate a higher share of employment/establishments, implying  that the city displays a relative advantage. <City> display the strongest relative advantage in <Ind>, <Ind> and <Ind>. Overall, <City> shows a stronger advantage in the <Sec> sector. At the opposite end, <City> is relatively lower presence in industries in the <Sec> sector.'}</ContentParagraph>
         </StandardSideTextBlock>
         <RCABarChart
           isClusterView={Boolean(isClusterView)}

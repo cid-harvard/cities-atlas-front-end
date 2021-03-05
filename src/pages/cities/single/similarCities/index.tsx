@@ -60,7 +60,7 @@ const SimilarCities = () => {
         <StandardSideTextBlock>
           <ContentTitle>What Cities Are Similar to my City?</ContentTitle>
           {/* eslint-disable-next-line */}
-          <ContentParagraph>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</ContentParagraph>
+          <ContentParagraph>{'We can assess the similarity between the economies of different cities in the World by looking at whether they are competitive in the same industries. This similarity is informative because it can reveal industries that are prevalent in economically similar cities, but have yet to be developed in <City>. The cities in the World that are most economically similar to <City> are <Ct>, <Ct> and <Ct>. These cities have been able to develop a number of industries that are still absent in <City>, such as <Ind>, <Ind> and <Ind>.'}</ContentParagraph>
 
             <NodeLegend
               sizeBy={nodeSizingMinText && nodeSizingMaxText && nodeSizingTitle ? {
