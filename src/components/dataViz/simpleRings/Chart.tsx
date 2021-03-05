@@ -27,11 +27,14 @@ interface Props {
   width: number;
   height: number;
   data: SuccessResponse | undefined;
+  selectedRegionIds: string[];
+  minMaxPopulation: [number, number];
+  minMaxGdpPppPc: [number, number];
 }
 
 const Chart = (props: Props) => {
   const {
-    width, height, data,
+    width, height, data, minMaxPopulation, minMaxGdpPppPc, selectedRegionIds,
   } = props;
 
   const cityId = useCurrentCityId();
@@ -44,6 +47,10 @@ const Chart = (props: Props) => {
   useEffect(() => {
     const chartNode = chartRef.current;
     const tooltipNode = tooltipRef.current;
+
+    const [minPop, maxPop] = minMaxPopulation;
+    const [minGdpPppPc, maxGdpPppPc] = minMaxGdpPppPc;
+
     if (chartNode) {
       if (chartNode && tooltipNode && data !== undefined && cityId && cityData.data && (
           (chart.initialized === false && width && height)
@@ -68,6 +75,14 @@ const Chart = (props: Props) => {
           const radius = city
             ? nodeSizing === CityNodeSizing.population ? city.population as number : city.gdpPpp as number
             : defaultNodeRadius;
+          const population = city && city.population ? city.population : 0;
+          const gdpPpp = city && city.gdpPpp ? city.gdpPpp : 0;
+          const gdpPppPc = gdpPpp / population;
+          const region = city && city.region !== null ? city.region.toString() : null;
+          const shown =
+            population >= minPop && population <= maxPop &&
+            gdpPppPc >= minGdpPppPc && gdpPppPc <= maxGdpPppPc &&
+            (!selectedRegionIds.length || (region !== null && selectedRegionIds.includes(region))) ? true : false;
           return {
             primary: c.partnerId === cityId,
             id: c.partnerId,
@@ -76,6 +91,7 @@ const Chart = (props: Props) => {
             color: colorScale(c.proximity ? c.proximity : 0),
             proximity: c.proximity ? c.proximity : 0,
             radius: radiusScale(radius),
+            shown: c.partnerId === cityId || shown,
           };
         });
         const primaryCity = cityData.data ? cityData.data.cities.find(cc => cc.cityId === cityId) : undefined;
@@ -96,6 +112,7 @@ const Chart = (props: Props) => {
             color: lightBaseColor,
             proximity: 1,
             radius: radiusScale(radiusValue),
+            shown: true,
           });
         }
         chartNode.innerHTML = '';
@@ -109,7 +126,8 @@ const Chart = (props: Props) => {
         setChart({initialized: true });
       }
     }
-  }, [chartRef, chart, width, height, data, cityId, cityData, city_node_sizing]);
+  }, [chartRef, chart, width, height, data, cityId, cityData, city_node_sizing,
+      minMaxPopulation, minMaxGdpPppPc, selectedRegionIds]);
 
   return (
     <>

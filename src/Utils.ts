@@ -13,13 +13,16 @@ const ranges = [
   { divider: 1e3 , suffix: 'k' },
 ];
 
-export const formatNumber = (n: number) => {
+export const formatNumber = (n: number, decimalPlaces?: number) => {
+  const fixedRange = decimalPlaces !== undefined ? decimalPlaces : 1;
   for (const range of ranges) {
     if (n >= range.divider) {
-      return parseFloat((n / range.divider).toFixed(1)) + range.suffix;
+      return parseFloat((n / range.divider).toFixed(fixedRange)) + range.suffix;
     }
   }
-  return n.toString();
+  return decimalPlaces !== undefined
+    ? n.toFixed(decimalPlaces)
+    : n.toString();
 };
 
 const rangesLong = [

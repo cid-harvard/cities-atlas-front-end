@@ -103,8 +103,19 @@ export interface ClassificationCountry {
 
 export interface ClassificationRegion {
   regionId: string;
-  regionMajor: string | null;
-  regionMinor: string | null;
+  regionName: string;
+  subregionId: string;
+  subregionName: string;
+  regionCity: {
+    edges: {
+      node: ClassificationCity[],
+    },
+  };
+  subregionCity: {
+    edges: {
+      node: ClassificationCity[],
+    },
+  };
   id: string;
 }
 

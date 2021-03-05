@@ -48,6 +48,7 @@ interface Node {
   color: string;
   proximity: number;
   radius?: number;
+  shown: boolean;
 }
 
 interface NodeWithCoords extends Node {
@@ -87,9 +88,10 @@ const createChart = (input: Input) => {
   const centerX = outerWidth / 2;
   const centerY = outerHeight / 2;
 
-  const topNodes = data.nodes.filter((d, i) => d.primary || i < 20);
+  const highNodesDatum = data.nodes.filter((d, i) => (d.primary || i < 10) && d.shown);
+  const mediumNodesDatum = data.nodes.filter((d, i) => i < 20 && i >= 10 && d.shown);
 
-  const nodes: NodeWithCoords[] = topNodes.map((d, i) => {
+  const highNodes = highNodesDatum.map((d, i) => {
     if (d.primary) {
       return {
         ...d,
@@ -97,11 +99,11 @@ const createChart = (input: Input) => {
         y: centerY,
       };
     } else {
-      const innerCircleLength = topNodes.length - 1 < 10 ? topNodes.length - 1 : 10;
+      const innerCircleLength = highNodesDatum.length - 1;
       const {x, y} = drawPoint(
-        i < 10 ? innerRingRadius : outerRingRadius,
-        i < 10 ? i : i - 10 - 1,
-        i < 10 ? innerCircleLength : topNodes.length - 10 - 1,
+        innerRingRadius,
+        i,
+        innerCircleLength,
         centerX,
         centerY,
       );
@@ -111,6 +113,30 @@ const createChart = (input: Input) => {
       };
     }
   });
+
+  const mediumNodes = mediumNodesDatum.map((d, i) => {
+    if (d.primary) {
+      return {
+        ...d,
+        x: centerX,
+        y: centerY,
+      };
+    } else {
+      const {x, y} = drawPoint(
+        outerRingRadius,
+        i,
+        mediumNodesDatum.length,
+        centerX,
+        centerY,
+      );
+      return {
+        ...d,
+        x, y,
+      };
+    }
+  });
+
+  const nodes: NodeWithCoords[] = [...highNodes, ...mediumNodes];
 
   const svg = d3.select(rootEl).append('svg')
   .attr('width',  outerWidth)
@@ -193,6 +219,7 @@ const createChart = (input: Input) => {
       .attr('cy', d => d.y )
       .attr('r', d => d.radius ? d.radius : radius)
       .attr('fill', d => d.color ? d.color : 'gray')
+      .attr('display', d => d.shown ? 'block' : 'none')
       .on('mousemove', d => {
         const rows = !d.primary ? [
           ['Similarity:', d.proximity ? d.proximity.toFixed(2) : ''],
@@ -222,6 +249,7 @@ const createChart = (input: Input) => {
       .style('fill', '#444')
       .style('paint-order', 'stroke')
       .style('text-anchor', 'middle')
+      .attr('display', d => d.shown ? 'block' : 'none')
       .text(d => ellipsisText(d.name as string, 15))
       .attr('x', d => d.x)
       .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 1.25));
@@ -238,6 +266,7 @@ const createChart = (input: Input) => {
       .style('fill', '#666')
       .style('paint-order', 'stroke')
       .style('text-anchor', 'middle')
+      .attr('display', d => d.shown ? 'block' : 'none')
       .text(d => ellipsisText(d.country as string, 30))
       .attr('x', d => d.x)
       .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 2.25));

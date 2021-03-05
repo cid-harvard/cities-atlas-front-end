@@ -22,6 +22,7 @@ const GLOBAL_LOCATION_QUERY = gql`
       nameList
       population: population15
       gdpPpp: gdpPpp15
+      region: regionId
     }
   }
 `;
@@ -43,6 +44,7 @@ interface SuccessResponse {
     population: ClassificationCity['population15'],
     gdpPpp: ClassificationCity['gdpPpp15'],
     id: ClassificationCity['id'],
+    region: ClassificationCity['regionId'],
   }[];
 }
 

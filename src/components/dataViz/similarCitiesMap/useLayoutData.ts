@@ -6,7 +6,9 @@ import {point, featureCollection} from '@turf/helpers';
 import {
   ClassificationCountry,
   ClassificationCity,
+  ClassificationRegion,
 } from '../../../types/graphQL/graphQLTypes';
+import uniqBy from 'lodash/uniqBy';
 
 export const defaultRadius = 20;
 
@@ -25,7 +27,12 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
       countryId
       population: population15
       gdpPpp: gdpPpp15
+      region: regionId
       id
+    }
+    regions: classificationRegionList {
+      regionId
+      regionName
     }
   }
 `;
@@ -44,7 +51,12 @@ interface SuccessResponse {
     countryId: ClassificationCity['countryId'],
     population: ClassificationCity['population15'],
     gdpPpp: ClassificationCity['gdpPpp15'],
+    region: ClassificationCity['regionId'],
     id: ClassificationCity['id'],
+  }[];
+  regions: {
+    regionId: ClassificationRegion['regionId'];
+    regionName: ClassificationRegion['regionName'];
   }[];
 }
 
@@ -54,6 +66,7 @@ interface Output {
   data: {
     cityGeoJson: any;
     cityUMapJson: any;
+    regions: {label: string, value: string}[];
   } | undefined;
 }
 
@@ -71,6 +84,7 @@ const useLayoutData = (): Output => {
     const filteredUMapCities = CITIES_UMAPJSON_RAW
       .filter(umap => responseData.cities.find(city => umap.ID_HDC_G0.toString() === city.cityId.toString()));
 
+    const regions = uniqBy(responseData.regions, 'regionId').map(r => ({label: r.regionName, value: r.regionId}));
 
     const cityGeoJson = featureCollection(filteredResponseCities.map(city => {
       const {name, centroidLat, centroidLon, cityId, countryId, population, gdpPpp} = city;
@@ -90,6 +104,7 @@ const useLayoutData = (): Output => {
         radius: defaultRadius,
         population,
         gdpPpp,
+        region: city.region,
       });
     }));
 
@@ -118,10 +133,11 @@ const useLayoutData = (): Output => {
         country, city, fill: 'gray', radius: defaultRadius,
         population: targetCity ? targetCity.population : 0,
         gdpPpp: targetCity ? targetCity.gdpPpp : 0,
+        region: targetCity ? targetCity.region : null,
       });
     }));
 
-    data = {cityGeoJson, cityUMapJson};
+    data = {cityGeoJson, cityUMapJson, regions};
   }
 
 

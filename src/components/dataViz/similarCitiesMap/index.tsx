@@ -10,6 +10,7 @@ import useProximityData, {SuccessResponse} from './useProximityData';
 import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
 import CityProximityLegend from '../legend/CityProximityLegend';
 import FilterBar from './FilterBar';
+import {extent} from 'd3-array';
 
 const Root = styled.div`
   width: 100%;
@@ -55,12 +56,19 @@ const RingsContainer = styled.div`
 
 let staticProximityData: SuccessResponse | undefined;
 
+interface FilterValues {
+  selectedRegionIds:  string[];
+  minMaxPopulation: [number, number];
+  minMaxGdpPppPc: [number, number];
+}
+
 const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const filterBarRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
   const [showRings, setShowRings] = useState<boolean>(false);
+  const [filterValues, setFilterValues] = useState<FilterValues | undefined>(undefined);
 
   useEffect(() => {
     staticProximityData = proximityData;
@@ -82,11 +90,58 @@ const SimilarCitiesMap = () => {
     return '';
   };
 
-  const rings = showRings ? (
-    <RingsContainer>
-      <SimilarCitiesRings />
-    </RingsContainer>
-  ) : null;
+
+  let rings: React.ReactElement<any> | null = null;
+  let filterBar: React.ReactElement<any> | null;
+  if (showRings && filterValues) {
+    rings = (
+      <RingsContainer>
+        <SimilarCitiesRings
+          selectedRegionIds={filterValues.selectedRegionIds}
+          minMaxPopulation={filterValues.minMaxPopulation}
+          minMaxGdpPppPc={filterValues.minMaxGdpPppPc}
+        />
+      </RingsContainer>
+    );
+  }
+  if (data) {
+    const allPopulations: number[] = [];
+    const allGdpPppPc: number[] = [];
+    data.cityGeoJson.features.forEach((d: any) => {
+      if (!isNaN(d.properties.population)) {
+        allPopulations.push(d.properties.population);
+        if (!isNaN(d.properties.gdpPpp)) {
+          allGdpPppPc.push(d.properties.gdpPpp / d.properties.population);
+        }
+      }
+    });
+
+    const populationRange = extent(allPopulations) as [number, number];
+    const gdpPppPcRange = extent(allGdpPppPc) as [number, number];
+    const regions = data.regions;
+    filterBar = (
+      <FilterBar
+        node={filterBarRef.current}
+        populationRange={populationRange}
+        gdpPppPcRange={gdpPppPcRange}
+        regions={regions}
+        setFilterValues={setFilterValues}
+      />
+    );
+    if (showRings && !filterValues) {
+      rings = (
+        <RingsContainer>
+          <SimilarCitiesRings
+            selectedRegionIds={[]}
+            minMaxPopulation={populationRange}
+            minMaxGdpPppPc={gdpPppPcRange}
+          />
+        </RingsContainer>
+      );
+    }
+  } else {
+    filterBar = null;
+  }
 
   return (
     <>
@@ -102,9 +157,7 @@ const SimilarCitiesMap = () => {
           showRings={showRings}
           setShowRings={setShowRings}
         />
-        <FilterBar
-          node={filterBarRef.current}
-        />
+        {filterBar}
       </CitySpaceMap>
       <Root>
         <div ref={filterBarRef} />

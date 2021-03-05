@@ -13,6 +13,8 @@ import {
 import useFluent from '../../../hooks/useFluent';
 import ReactSlider from 'react-slider';
 import MultiSelect from '@khanacademy/react-multi-select';
+import {formatNumber} from '../../../Utils';
+import {useMapContext} from 'react-city-space-mapbox';
 
 const Title = styled.h3`
   color: ${primaryColor};
@@ -87,6 +89,8 @@ const SliderContainer = styled.div`
 
 const SelectBoxContainer = styled.div`
   margin-top: 0.3rem;
+  position: relative;
+  z-index: 10;
 
   .multi-select {
     .dropdown {
@@ -129,12 +133,6 @@ const SelectBoxContainer = styled.div`
   }
 `;
 
-const options = [
-  {label: 'One', value: 1},
-  {label: 'Two', value: 2},
-  {label: 'Three', value: 3},
-];
-
 function selectBoxValueRenderer(selected: any, allOptions: any) {
   if (selected.length === 0 || selected.length === allOptions.length) {
     return 'All Regions';
@@ -143,14 +141,34 @@ function selectBoxValueRenderer(selected: any, allOptions: any) {
   return selected.length === 1 ? selected.label : `${selected.length} Regions Selected`;
 }
 
+interface FilterValues {
+  selectedRegionIds:  string[];
+  minMaxPopulation: [number, number];
+  minMaxGdpPppPc: [number, number];
+}
+
 interface Props {
   node: HTMLDivElement | null;
+  populationRange: [number, number];
+  gdpPppPcRange: [number, number];
+  regions: {label: string, value: string}[];
+  setFilterValues: (value: FilterValues) => void;
 }
 
 const FilterBar = (props: Props) => {
-  const {node} = props;
+  const {node, populationRange, gdpPppPcRange, regions, setFilterValues} = props;
+  const mapContext = useMapContext();
   const getString = useFluent();
-  const [selected, setSelected] = useState<any>([]);
+  const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
+  const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>(populationRange);
+  const [minMaxGdpPppPc, setMinMaxGdpPppPc] = useState<[number, number]>(gdpPppPcRange);
+
+  const onUpdateClick = () => {
+    if (mapContext.intialized) {
+      mapContext.setFilterParamaters(minMaxPopulation, minMaxGdpPppPc, selectedRegionIds);
+      setFilterValues({minMaxPopulation, minMaxGdpPppPc, selectedRegionIds});
+    }
+  };
 
   if (node) {
     return createPortal((
@@ -164,12 +182,13 @@ const FilterBar = (props: Props) => {
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
-                defaultValue={[18, 344]}
-                renderThumb={(p, state) => <small {...p}><span>{state.valueNow}</span></small>}
+                defaultValue={populationRange}
+                renderThumb={(p, state) => <small {...p}><span>{formatNumber(state.valueNow, 0)}</span></small>}
                 pearling
-                max={344}
-                min={18}
-                minDistance={10}
+                max={populationRange[1]}
+                min={populationRange[0]}
+                //minDistance={5000000}
+                onAfterChange={v => setMinMaxPopulation(v as [number, number])}
               />
             </SliderContainer>
           </ExpandBox>
@@ -180,12 +199,13 @@ const FilterBar = (props: Props) => {
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
-                defaultValue={[18, 344]}
-                renderThumb={(p, state) => <small {...p}><span>{state.valueNow}</span></small>}
+                defaultValue={gdpPppPcRange}
+                renderThumb={(p, state) => <small {...p}><span>${formatNumber(state.valueNow, 0)}</span></small>}
                 pearling
-                max={344}
-                min={18}
-                minDistance={10}
+                max={gdpPppPcRange[1]}
+                min={gdpPppPcRange[0]}
+                //minDistance={15000}
+                onAfterChange={v => setMinMaxGdpPppPc(v as [number, number])}
               />
             </SliderContainer>
           </ExpandBox>
@@ -193,16 +213,17 @@ const FilterBar = (props: Props) => {
             {getString('city-filter-regions')}
             <SelectBoxContainer>
               <MultiSelect
-                options={options}
-                selected={selected}
-                onSelectedChanged={(s: any) => setSelected(s)}
+                options={regions}
+                selected={selectedRegionIds}
+                onSelectedChanged={(s: string[]) => setSelectedRegionIds(s)}
                 valueRenderer={selectBoxValueRenderer}
                 hasSelectAll={false}
+                disableSearch={true}
               />
             </SelectBoxContainer>
           </ExpandBox>
           <ShrinkBox>
-            <UpdateButton>
+            <UpdateButton onClick={onUpdateClick}>
               {getString('city-filter-update')}
             </UpdateButton>
           </ShrinkBox>

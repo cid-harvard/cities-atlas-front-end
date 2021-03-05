@@ -28,7 +28,14 @@ const RingsContainer = styled.div`
   animation: ${fadeIn} 0.2s ease-in-out 1 forwards;
 `;
 
-const SimpleRings = () => {
+interface Props {
+  selectedRegionIds: string[];
+  minMaxPopulation: [number, number];
+  minMaxGdpPppPc: [number, number];
+}
+
+const SimpleRings = (props: Props) => {
+  const {selectedRegionIds, minMaxPopulation, minMaxGdpPppPc} = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -36,8 +43,8 @@ const SimpleRings = () => {
   const {city_node_sizing} = useQueryParams();
   const chartKey = dimensions
     ? cityId + 'industry-space-sized-to-container-key' +
-        dimensions.width.toString() + dimensions.height.toString() + city_node_sizing
-    : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing;
+        dimensions.width.toString() + dimensions.height.toString() + city_node_sizing + JSON.stringify(props)
+    : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing + JSON.stringify(props);
 
   const {data} = useProximityData();
 
@@ -58,6 +65,9 @@ const SimpleRings = () => {
           width={dimensions ? dimensions.width : 0}
           height={dimensions ? dimensions.height : 0}
           data={data}
+          selectedRegionIds={selectedRegionIds}
+          minMaxPopulation={minMaxPopulation}
+          minMaxGdpPppPc={minMaxGdpPppPc}
         />
       </RingsContainer>
     </Root>
