@@ -362,6 +362,15 @@ const createChart = (input: Input) => {
       .style('font-size', textAndSpacingSize * 9.5 + 'px')
       .text(d => d.name);
 
+  const continentValueLabels = g.selectAll('.industry-continents-value-label')
+    .data(data.clusters.continents)
+    .enter().append('text')
+      .attr('class', 'industry-continents-value-label')
+      .attr('x', d => xScale(d.center[0]) + margin.left)
+      .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 9.5))
+      .style('font-size', textAndSpacingSize * 7.5 + 'px')
+      .text('0% of total est.');
+
   const countryLabels = g.append('g')
     .attr('class', 'industry-countries-label-group')
     .style('display', 'none');
@@ -589,6 +598,8 @@ const createChart = (input: Input) => {
 
       continentLabels
         .style('display', 'none');
+      continentValueLabels
+        .style('display', 'none');
 
       countryLabels
         .style('display', 'none');
@@ -645,6 +656,9 @@ const createChart = (input: Input) => {
         .style('opacity', 1);
 
       continentLabels
+        .style('opacity', zoomScales.continent.label(state.zoom))
+        .style('display', 'block');
+      continentValueLabels
         .style('opacity', zoomScales.continent.label(state.zoom))
         .style('display', 'block');
 
@@ -721,6 +735,7 @@ const createChart = (input: Input) => {
   function update(newData: SuccessResponse, colorBy: ColorBy) {
     const continentsData = newData.clusterRca.filter(d => d.level === 1);
     const countriesData = newData.clusterRca.filter(d => d.level === 3);
+    const totalCompanies = continentsData.reduce((total, c) => c.numCompany ? c.numCompany + total : total, 0);
 
     const intensityColorScaleContinents = d3.scaleSymlog()
       .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
@@ -742,6 +757,17 @@ const createChart = (input: Input) => {
         d.color = intensityColorRange[0];
       }
     });
+
+    continentValueLabels
+      .text(d => {
+        const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
+        if (newDatum && newDatum.numCompany !== null) {
+          return parseFloat((newDatum.numCompany / totalCompanies * 100).toFixed(1)) + '% of total est.';
+        } else {
+          return '0% of total est.';
+        }
+
+      });
 
     countries.each(d => {
       const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
