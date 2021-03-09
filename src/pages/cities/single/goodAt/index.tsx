@@ -68,7 +68,7 @@ const CityGoodAt = () => {
   }
 
   let legend: React.ReactElement<any> | null;
-  if (isClusterView || color_by === ColorBy.intensity) {
+  if (color_by === ColorBy.intensity) {
     legend = (
       <IntensityLegend />
     );

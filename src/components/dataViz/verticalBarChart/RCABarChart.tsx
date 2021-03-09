@@ -175,6 +175,7 @@ const RCABarChart = (props: Props) => {
         data={clusterData}
         compositionType={compositionType}
         clusterLevel={clusterLevel}
+        colorBy={colorBy}
       />
     ) : (
       <Industries
