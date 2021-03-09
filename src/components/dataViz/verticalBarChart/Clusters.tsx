@@ -18,7 +18,7 @@ import {ClusterLevel} from '../../../routing/routes';
 //   useGlobalClusterMap,
 // } from '../../../hooks/useGlobalClusterData';
 import useLayoutData from '../industrySpace/chart/useLayoutData';
-import niceLogValues from './getNiceLogValues';
+import {tickMarksForMinMax} from './getNiceLogValues';
 
 interface Props {
   data: SuccessResponse['clusterRca'];
@@ -37,17 +37,22 @@ const Industries = (props: Props) => {
 
   const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
 
-  const filteredClusterRCA = data.filter(d => clusterLevel === (d.level as number).toString() && d[field] && (d[field] as number) >= 1);
+  const filteredClusterRCA = data.filter(d => clusterLevel === (d.level as number).toString() && d[field] && (d[field] as number) > 0);
   const max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  const {logValue, numberOfXAxisTicks} = niceLogValues(max);
+  const min = Math.min(...filteredClusterRCA.map(d => d[field] as number));
   const scale = scaleLog()
-    .domain([1, logValue])
+    .domain([min, max])
     .range([ 0, 100 ])
-    .base(2);
+    .nice();
+  const numberOfXAxisTicks = tickMarksForMinMax(
+    parseFloat(scale.invert(0).toFixed(5)),
+    parseFloat(scale.invert(100).toFixed(5)),
+  );
   const colorScale = scaleLog()
-    .domain([1, max])
+    .domain([min, max])
     .range(intensityColorRange as any)
-    .base(2);
+    .nice();
+    // .base(2);
   const clusterData = filteredClusterRCA.map(d => {
     // const cluster = clusterMap.data[d.clusterId];
     // const title = cluster && cluster.name !== null ? cluster.name : d.clusterId;
@@ -74,7 +79,7 @@ const Industries = (props: Props) => {
     };
   });
   const formatValue = (value: number) => {
-    return parseFloat(scale.invert(value).toFixed(2));
+    return parseFloat(scale.invert(value).toFixed(5));
   };
 
   const setHovered = (e: RowHoverEvent | undefined) => {
@@ -118,6 +123,11 @@ const Industries = (props: Props) => {
         formatValue={formatValue}
         onRowHover={setHovered}
         numberOfXAxisTicks={numberOfXAxisTicks}
+        centerLineValue={scale(1) as number}
+        centerLineLabel={'Expected Specialization'}
+        overMideLineLabel={'Over Specialized'}
+        underMideLineLabel={'Under Specialized'}
+        scrollDownText={'Scroll down to see under specialization'}
       />
       <RapidTooltipRoot ref={tooltipRef} />
     </>

@@ -131,6 +131,11 @@ global-intensity-lower = Lower Specialization
 global-intensity-high = High Specialization
 global-intensity-higher = Higher Specialization
 
+global-specialization-expected = Expected Specialization
+global-specialization-over = Over Specialized
+global-specialization-under = Under Specialized
+global-specialization-scroll = Scroll down to see under specialization
+
 global-similarity-low = Least Similar
 global-similarity-high = Most Similar
 global-your-city = City, Country

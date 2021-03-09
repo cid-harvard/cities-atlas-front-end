@@ -25,7 +25,7 @@ import QuickError from '../../transitionStateComponents/QuickError';
 import {rgba} from 'polished';
 import Tooltip from './../../general/Tooltip';
 import {defaultYear} from '../../../Utils';
-import niceLogValues from './getNiceLogValues';
+import {tickMarksForMinMax} from './getNiceLogValues';
 import {scaleLinear} from 'd3-scale';
 import useColorByIntensity from '../treeMap/useColorByIntensity';
 import {
@@ -78,18 +78,22 @@ const Industries = (props: Props) => {
 
   const filteredIndustryRCA = data.filter(d => {
     const industry = industryMap.data[d.naicsId];
-    if (industry && industry.naicsIdTopParent && !hiddenSectors.includes(industry.naicsIdTopParent.toString())) {
-      return d[field] && (d[field] as number) >= 1;
+    if (industry && !hiddenSectors.includes(industry.naicsIdTopParent.toString())) {
+      return d[field] && (d[field] as number) > 0;
     } else {
       return false;
     }
   });
   const max = Math.ceil((Math.max(...filteredIndustryRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  const {logValue, numberOfXAxisTicks} = niceLogValues(max);
+  const min = Math.min(...filteredIndustryRCA.map(d => d[field] as number));
   const scale = scaleLog()
-    .domain([1, logValue])
+    .domain([min, max])
     .range([ 0, 100 ])
-    .base(2);
+    .nice();
+  const numberOfXAxisTicks = tickMarksForMinMax(
+    parseFloat(scale.invert(0).toFixed(5)),
+    parseFloat(scale.invert(100).toFixed(5)),
+  );
   const industryData = filteredIndustryRCA.map(d => {
     const industry = industryMap.data[d.naicsId];
     let color: string;
@@ -120,7 +124,7 @@ const Industries = (props: Props) => {
     };
   });
   const formatValue = (value: number) => {
-    return parseFloat(scale.invert(value).toFixed(2));
+    return parseFloat(scale.invert(value).toFixed(5));
   };
 
   const setHovered = (e: RowHoverEvent | undefined) => {
@@ -176,6 +180,11 @@ const Industries = (props: Props) => {
         onRowHover={setHovered}
         onHighlightError={() => setHighlightError(true)}
         numberOfXAxisTicks={numberOfXAxisTicks}
+        centerLineValue={scale(1) as number}
+        centerLineLabel={getString('global-specialization-expected')}
+        overMideLineLabel={getString('global-specialization-over')}
+        underMideLineLabel={getString('global-specialization-under')}
+        scrollDownText={getString('global-specialization-scroll')}
       />
       <RapidTooltipRoot ref={tooltipRef} />
       {highlightErrorPopup}

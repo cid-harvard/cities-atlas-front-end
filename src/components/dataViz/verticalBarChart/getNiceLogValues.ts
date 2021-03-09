@@ -42,4 +42,9 @@ const niceLogValues = (value: number) => {
   return {logValue, numberOfXAxisTicks};
 };
 
+export const tickMarksForMinMax = (min: number, max: number) => {
+  const digits = min.toString().length + max.toString().length;
+  return digits - 3;
+};
+
 export default niceLogValues;
