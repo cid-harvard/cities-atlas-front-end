@@ -10,6 +10,7 @@ import {
 } from '../../../../../styling/styleUtils';
 import {
   ClassificationNaicsIndustry,
+  ClassificationNaicsCluster,
   CompositionType,
   defaultDigitLevel,
   defaultCompositionType,
@@ -19,6 +20,7 @@ import StandardSideTextBlock from '../../../../../components/general/StandardSid
 import styled from 'styled-components/macro';
 import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
 import useSectorMap from '../../../../../hooks/useSectorMap';
+import useClusterMap from '../../../../../hooks/useClusterMap';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import noop from 'lodash/noop';
 import useQueryParams from '../../../../../hooks/useQueryParams';
@@ -48,8 +50,11 @@ const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
+  const [hiddenClusters, setHiddenClusters] = useState<ClassificationNaicsCluster['id'][]>([]);
   const {digit_level, cluster_level, composition_type, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
+  const clusterMap = useClusterMap();
+
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
     hiddenSectors.includes(sectorId)
       ? setHiddenSectors(hiddenSectors.filter(sId => sId !== sectorId))
@@ -59,6 +64,17 @@ const EconomicComposition = (props: Props) => {
       ? setHiddenSectors([])
       : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
   const resetSectors = () => setHiddenSectors([]);
+
+  const toggleCluster = (clusterId: ClassificationNaicsCluster['id']) =>
+    hiddenClusters.includes(clusterId)
+      ? setHiddenClusters(hiddenClusters.filter(sId => sId !== clusterId))
+      : setHiddenClusters([...hiddenClusters, clusterId]);
+  const isolateCluster = (clusterId: ClassificationNaicsCluster['id']) =>
+    hiddenClusters.length === clusterMap.length - 1 && !hiddenClusters.find(sId => sId === clusterId)
+      ? setHiddenClusters([])
+      : setHiddenClusters([...clusterMap.map(s => s.id).filter(sId => sId !== clusterId)]);
+  const resetClusters = () => setHiddenClusters([]);
+
   const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
   const closeDownload = () => setActiveDownload(null);
   const treeMapRef = useRef<HTMLDivElement | null>(null);
@@ -104,23 +120,38 @@ const EconomicComposition = (props: Props) => {
     legend = (
       <WageLegend />
     );
-  } else if (color_by === ColorBy.intensity || !!(isClusterTreeMap && isClusterTreeMap.isExact)) {
+  } else if (color_by === ColorBy.intensity) {
     legend = (
       <IntensityLegend />
     );
   } else  {
-    legend = (
-      <CategoryLabels
-        categories={sectorMap}
-        allowToggle={true}
-        toggleCategory={toggleSector}
-        isolateCategory={isolateSector}
-        hiddenCategories={hiddenSectors}
-        resetCategories={resetSectors}
-        resetText={getString('global-ui-reset-sectors')}
-        fullWidth={true}
-      />
-    );
+    if (!!(isClusterTreeMap && isClusterTreeMap.isExact)) {
+      legend = (
+        <CategoryLabels
+          categories={clusterMap}
+          allowToggle={true}
+          toggleCategory={toggleCluster}
+          isolateCategory={isolateCluster}
+          hiddenCategories={hiddenClusters}
+          resetCategories={resetClusters}
+          resetText={getString('global-ui-reset-clusters')}
+          fullWidth={true}
+        />
+      );
+    } else {
+      legend = (
+        <CategoryLabels
+          categories={sectorMap}
+          allowToggle={true}
+          toggleCategory={toggleSector}
+          isolateCategory={isolateSector}
+          hiddenCategories={hiddenSectors}
+          resetCategories={resetSectors}
+          resetText={getString('global-ui-reset-sectors')}
+          fullWidth={true}
+        />
+      );
+    }
   }
 
   const vizNavigation= [
@@ -172,6 +203,7 @@ const EconomicComposition = (props: Props) => {
                   colorBy={color_by ? color_by : ColorBy.sector}
                   compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
                   highlighted={highlighted}
+                  hiddenClusters={hiddenClusters}
                   setHighlighted={setHighlighted}
                   vizNavigation={vizNavigation}
                 />

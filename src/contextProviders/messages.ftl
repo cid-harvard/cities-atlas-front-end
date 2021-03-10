@@ -46,6 +46,7 @@ global-ui-current-settings = Current settings
 global-ui-change-settings = Click to change settings
 
 global-ui-reset-sectors = Show all sectors
+global-ui-reset-clusters = Show all clusters
 
 global-ui-numbers-based-on = Visualization based on numbers of
 global-ui-detail-level = Industry Groups Digit Level
@@ -121,6 +122,14 @@ global-naics-sector-name-5 = Natural resources
 global-naics-sector-name-6 = Other
 global-naics-sector-name-7 = Professional & business
 global-naics-sector-name-8 = Trade & transportation
+
+global-cluster-c1-name-1 = Basic Materials
+global-cluster-c1-name-2 = Manufacturing
+global-cluster-c1-name-3 = Food
+global-cluster-c1-name-4 = Household Retail
+global-cluster-c1-name-5 = Basic Services
+global-cluster-c1-name-6 = Services
+global-cluster-c1-name-7 = Finance
 
 global-click-to-expand-industry = Click to expand industry
 

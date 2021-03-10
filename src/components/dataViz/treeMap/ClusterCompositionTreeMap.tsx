@@ -7,10 +7,11 @@ import {
   CityClusterYear,
   DigitLevel,
   CompositionType,
+  ClassificationNaicsCluster,
 } from '../../../types/graphQL/graphQLTypes';
 import {usePrevious} from 'react-use';
 import TreeMap, {transformData, Inputs} from 'react-canvas-treemap';
-import {sectorColorMap} from '../../../styling/styleUtils';
+import {clusterColorMap} from '../../../styling/styleUtils';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
@@ -32,6 +33,7 @@ import {defaultYear} from '../../../Utils';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
+import {rgba} from 'polished';
 
 const Root = styled.div`
   width: 100%;
@@ -93,6 +95,7 @@ interface Props {
   colorBy: ColorBy;
   compositionType: CompositionType;
   setHighlighted: (value: string | undefined) => void;
+  hiddenClusters: ClassificationNaicsCluster['id'][];
   vizNavigation: VizNavItem[];
   clusterLevel: ClusterLevel;
 }
@@ -101,7 +104,7 @@ const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, compositionType, highlighted,
     setHighlighted, vizNavigation, clusterLevel,
-    colorBy,
+    colorBy, hiddenClusters,
   } = props;
   const clusterMap = useGlobalClusterMap();
   const getString = useFluent();
@@ -218,35 +221,39 @@ const CompositionTreeMap = (props: Props) => {
       const cluster = clusterMap.data[clusterId];
       if (cluster && cluster.level && cluster.level.toString() === clusterLevel) {
         const {name, clusterIdTopParent} = cluster;
-        const companies = numCompany ? numCompany : 0;
-        const employees = numEmploy ? numEmploy : 0;
-        total = compositionType === CompositionType.Companies ? total + companies : total + employees;
-        const value = compositionType === CompositionType.Companies ? companies : employees;
-        let fill: string;
-        const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[clusterId];
-        if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
-          if (clusterIndustryDatum) {
-            fill = colorScale(clusterIndustryDatum.yearsEducation) as string;
+        if (clusterIdTopParent && !hiddenClusters.includes(clusterIdTopParent.toString())) {
+          const companies = numCompany ? numCompany : 0;
+          const employees = numEmploy ? numEmploy : 0;
+          total = compositionType === CompositionType.Companies ? total + companies : total + employees;
+          const value = compositionType === CompositionType.Companies ? companies : employees;
+          let fill: string | undefined;
+          const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[clusterId];
+          if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+            if (clusterIndustryDatum) {
+              fill = colorScale(clusterIndustryDatum.yearsEducation) as string;
+            } else {
+              fill = 'gray';
+            }
+          } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+            if (clusterIndustryDatum) {
+              fill = colorScale(clusterIndustryDatum.hourlyWage) as string;
+            } else {
+              fill = 'gray';
+            }
+          } else if (colorBy === ColorBy.intensity) {
+            const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
+            fill = colorScale(rca) as string;
           } else {
-            fill = 'gray';
+            fill = undefined;
           }
-        } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
-          if (clusterIndustryDatum) {
-            fill = colorScale(clusterIndustryDatum.hourlyWage) as string;
-          } else {
-            fill = 'gray';
-          }
-        } else {
-          const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
-          fill = colorScale(rca) as string;
+          treeMapData.push({
+            id: clusterId,
+            value,
+            title: name ? name : '',
+            topLevelParentId: clusterIdTopParent ? clusterIdTopParent.toString() : clusterId.toString(),
+            fill,
+          });
         }
-        treeMapData.push({
-          id: clusterId,
-          value,
-          title: name ? name : '',
-          topLevelParentId: clusterIdTopParent ? clusterIdTopParent.toString() : clusterId.toString(),
-          fill,
-        });
       }
     });
     if (!treeMapData.length) {
@@ -261,7 +268,7 @@ const CompositionTreeMap = (props: Props) => {
         data: treeMapData,
         width: dimensions.width,
         height: dimensions.height,
-        colorMap: sectorColorMap,
+        colorMap: clusterColorMap,
       });
       const loadingOverlay = loading ? <LoadingBlock /> : null;
       const onHover = (id: string) => {
@@ -277,23 +284,7 @@ const CompositionTreeMap = (props: Props) => {
           const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
-          let color: string;
-          const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[id];
-          if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
-            if (clusterIndustryDatum) {
-              color = colorScale(clusterIndustryDatum.yearsEducation) as string;
-            } else {
-              color = 'gray';
-            }
-          } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
-            if (clusterIndustryDatum) {
-              color = colorScale(clusterIndustryDatum.hourlyWage) as string;
-            } else {
-              color = 'gray';
-            }
-          } else {
-            color = colorScale(rca) as string;
-          }
+          const color = clusterColorMap.find(c => cluster.clusterIdTopParent && c.id === cluster.clusterIdTopParent.toString());
           const rows = [
             [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
             [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
@@ -303,7 +294,7 @@ const CompositionTreeMap = (props: Props) => {
           ];
           node.innerHTML = getStandardTooltip({
             title: cluster.name ? cluster.name : '',
-            color,
+            color: color ? rgba(color.color, 0.3) : '#fff',
             rows,
             boldColumns: [1, 2],
           });

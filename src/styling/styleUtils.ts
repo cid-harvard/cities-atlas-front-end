@@ -40,6 +40,16 @@ export const sectorColorMap = [
   { id: '8', color: '#F28188' },
 ];
 
+export const clusterColorMap = [
+  {id: '1', color: '#BB968A'},
+  {id: '2', color: '#449DBC'},
+  {id: '3', color: '#91E045'},
+  {id: '4', color: '#FF9C34'},
+  {id: '5', color: '#A746C2'},
+  {id: '6', color: '#D6443C'},
+  {id: '7', color: '#FFCD56'},
+];
+
 export const intensityColorRange =[
   '#c2e5fc',
   '#003e59',

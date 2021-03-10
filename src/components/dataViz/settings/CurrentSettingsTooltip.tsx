@@ -91,13 +91,14 @@ const CurrentSettingsTooltip = (props: Props) => {
     </Segment>
   ) : null;
 
+  const defaultColorByText = settingsOptions.clusterLevel !== undefined ? 'Cluster' : ColorBy.sector;
   const colorBy = settingsOptions.colorBy !== undefined ? (
     <Segment>
       <Subtitle>{
         typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
           ? getString('global-ui-node-color-by') : getString('global-ui-color-by')
       }</Subtitle>
-      <em>{params.color_by ? params.color_by : ColorBy.sector}</em>
+      <em>{params.color_by ? params.color_by : defaultColorByText}</em>
     </Segment>
   ) : null;
 
