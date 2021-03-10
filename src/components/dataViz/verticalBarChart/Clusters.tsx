@@ -5,14 +5,18 @@ import {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
   CompositionType,
   DigitLevel,
+  ClassificationNaicsCluster,
 } from '../../../types/graphQL/graphQLTypes';
-import {intensityColorRange, educationColorRange, wageColorRange} from '../../../styling/styleUtils';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import useFluent from '../../../hooks/useFluent';
 import Tooltip from './../../general/Tooltip';
 import {defaultYear} from '../../../Utils';
 import {
   BasicLabel,
+  clusterColorMap,
+  intensityColorRange,
+  educationColorRange,
+  wageColorRange,
 } from '../../../styling/styleUtils';
 import {ClusterLevel, ColorBy} from '../../../routing/routes';
 import {
@@ -22,16 +26,18 @@ import {tickMarksForMinMax} from './getNiceLogValues';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
+import {rgba} from 'polished';
 
 interface Props {
   data: SuccessResponse['clusterRca'];
   compositionType: CompositionType;
   clusterLevel: ClusterLevel;
   colorBy: ColorBy;
+  hiddenClusters: ClassificationNaicsCluster['id'][];
 }
 
 const Industries = (props: Props) => {
-  const {data, compositionType, clusterLevel, colorBy} = props;
+  const {data, compositionType, clusterLevel, colorBy, hiddenClusters} = props;
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
   const clusterMap = useGlobalClusterMap();
@@ -41,7 +47,16 @@ const Industries = (props: Props) => {
 
   const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
 
-  const filteredClusterRCA = data.filter(d => clusterLevel === (d.level as number).toString() && d[field] && (d[field] as number) > 0);
+  const filteredClusterRCA = data.filter(d => {
+    const cluster = clusterMap.data[d.clusterId];
+    const clusterIdTopParent = cluster && cluster.clusterIdTopParent ? cluster.clusterIdTopParent : '';
+    if (cluster && !hiddenClusters.includes(clusterIdTopParent.toString())) {
+      return clusterLevel === (d.level as number).toString() && d[field] && (d[field] as number) > 0;
+    } else {
+      return false;
+    }
+  });
+
   const max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
   const min = Math.min(...filteredClusterRCA.map(d => d[field] as number));
   const scale = scaleLog()
@@ -97,9 +112,13 @@ const Industries = (props: Props) => {
       } else {
         color = 'gray';
       }
-    } else {
+    } else if (colorBy === ColorBy.intensity) {
       const rca = d[field] as number;
       color = colorScale(rca) as string;
+    } else {
+      const colorDatum = clusterColorMap
+        .find(s => cluster && cluster.clusterIdTopParent && s.id === cluster.clusterIdTopParent.toString());
+      color = colorDatum ? colorDatum.color : 'lightgray';
     }
     return {
       id: d.clusterId,
@@ -119,7 +138,7 @@ const Industries = (props: Props) => {
         const {datum, mouseCoords} = e;
         node.innerHTML = getStandardTooltip({
           title: datum.title,
-          color: datum.color,
+          color: rgba(datum.color, 0.3),
           rows: [
             [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
             [getString('global-ui-year') + ':', defaultYear.toString()],

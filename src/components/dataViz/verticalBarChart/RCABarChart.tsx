@@ -2,6 +2,7 @@ import React, {useEffect, useState, useRef} from 'react';
 import {
   DigitLevel,
   ClassificationNaicsIndustry,
+  ClassificationNaicsCluster,
   CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import {
@@ -100,6 +101,7 @@ interface Props {
   setHighlighted: (value: string | undefined) => void;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
+  hiddenClusters: ClassificationNaicsCluster['id'][];
   clusterLevel: ClusterLevel;
   digitLevel: DigitLevel;
   colorBy: ColorBy;
@@ -110,7 +112,7 @@ const RCABarChart = (props: Props) => {
     hiddenSectors, setHighlighted,
     highlighted, compositionType,
     isClusterView, clusterLevel,
-    digitLevel, colorBy,
+    digitLevel, colorBy, hiddenClusters,
   } = props;
   const cityId = useCurrentCityId();
   const getString = useFluent();
@@ -176,6 +178,7 @@ const RCABarChart = (props: Props) => {
         compositionType={compositionType}
         clusterLevel={clusterLevel}
         colorBy={colorBy}
+        hiddenClusters={hiddenClusters}
       />
     ) : (
       <Industries
