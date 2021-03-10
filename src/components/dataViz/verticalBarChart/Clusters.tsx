@@ -57,8 +57,14 @@ const Industries = (props: Props) => {
     }
   });
 
-  const max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  const min = Math.min(...filteredClusterRCA.map(d => d[field] as number));
+  let max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
+  let min = Math.min(...filteredClusterRCA.map(d => d[field] as number));
+  if (max < 10) {
+    max = 10;
+  }
+  if (min >= 1) {
+    min = 0.1;
+  }
   const scale = scaleLog()
     .domain([min, max])
     .range([ 0, 100 ])
