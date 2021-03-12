@@ -42,11 +42,14 @@ const CloseButton = styled.button`
 export default (props: Props) => {
   const {children, ...rest} = props;
   const getString = useFluent();
+  const closeButton = props.onClose
+    ? <CloseButton onClick={props.onClose}>✕ {getString('global-ui-close')}</CloseButton>
+    : null;
   return (
     <Modal {...rest}>
       <Root>
         {children}
-        <CloseButton onClick={props.onClose}>✕ {getString('global-ui-close')}</CloseButton>
+        {closeButton}
       </Root>
     </Modal>
   );

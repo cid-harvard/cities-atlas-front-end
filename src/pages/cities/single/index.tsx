@@ -45,7 +45,6 @@ const City = () => {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
       url: createRoute.city(CityRoutes.CityGoodAt, cityId),
       removeParams: [
-        'compare_city' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
         'cluster_level' as keyof GlobalQueryParams,
@@ -57,7 +56,6 @@ const City = () => {
       label: getStringWithNewLines('cities-single-page-titles-question-3'),
       url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
       removeParams: [
-        'compare_city' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
@@ -69,7 +67,6 @@ const City = () => {
       label: getStringWithNewLines('cities-single-page-titles-question-4'),
       url: createRoute.city(CityRoutes.CityIndustrySpacePosition, cityId),
       removeParams: [
-        'compare_city' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
         'composition_type' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,
@@ -80,7 +77,6 @@ const City = () => {
       label: getStringWithNewLines('cities-single-page-titles-question-5'),
       url: createRoute.city(CityRoutes.CityGrowthOpportunities, cityId),
       removeParams: [
-        'compare_city' as keyof GlobalQueryParams,
         'digit_level' as keyof GlobalQueryParams,
         'cluster_overlay' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,

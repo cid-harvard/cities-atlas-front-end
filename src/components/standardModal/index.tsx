@@ -85,7 +85,7 @@ const Content = styled.div`
 
 export interface Props {
   children: React.ReactNode;
-  onClose: () => void;
+  onClose: (() => void) | undefined;
   width: string;
   height: string;
 }
@@ -109,7 +109,7 @@ const Modal = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    const closeOnEsc = (e: KeyboardEvent) => e.key === 'Escape' ? onClose() : null;
+    const closeOnEsc = (e: KeyboardEvent) => e.key === 'Escape' && onClose ? onClose() : null;
     document.addEventListener('keydown', closeOnEsc);
     return () => document.removeEventListener('keydown', closeOnEsc);
   }, [onClose]);

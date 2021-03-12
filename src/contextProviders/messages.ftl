@@ -41,6 +41,10 @@ global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison
 global-ui-compare-title = Compare { $name } with
 
+global-ui-add-benchmark = Add Benchmark
+global-ui-remove-benchmark = Remove Benchmark
+global-ui-benchmark-title = Benchmark { $name } with
+
 global-ui-settings-reset = Default Settings
 global-ui-current-settings = Current settings
 global-ui-change-settings = Click to change settings

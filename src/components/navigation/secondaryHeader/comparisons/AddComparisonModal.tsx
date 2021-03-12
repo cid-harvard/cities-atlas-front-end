@@ -1,24 +1,24 @@
 import React, {useState, useRef} from 'react';
-import BasicModal from '../../standardModal/BasicModal';
+import BasicModal from '../../../standardModal/BasicModal';
 import styled from 'styled-components/macro';
 import {
   secondaryFont,
   SearchContainerDark,
   backgroundDark,
   radioButtonCss,
-} from '../../../styling/styleUtils';
-import useFluent from '../../../hooks/useFluent';
+} from '../../../../styling/styleUtils';
+import useFluent from '../../../../hooks/useFluent';
 import PanelSearch, {Datum} from 'react-panel-search';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
+import useCurrentCityId from '../../../../hooks/useCurrentCityId';
+import useGlobalLocationData from '../../../../hooks/useGlobalLocationData';
 import {
   useHistory,
 } from 'react-router-dom';
 import queryString from 'query-string';
-import useQueryParams from '../../../hooks/useQueryParams';
-import {RegionGroup} from '../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
-import matchingKeywordFormatter from '../../../styling/utils/panelSearchKeywordFormatter';
-import {TooltipTheme} from '../../general/Tooltip';
+import useQueryParams from '../../../../hooks/useQueryParams';
+import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
+import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywordFormatter';
+import {TooltipTheme} from '../../../general/Tooltip';
 
 const mobileWidth = 750; // in px
 
@@ -203,19 +203,20 @@ const SimilarCity = styled.li`
 `;
 
 interface Props {
-  closeModal: () => void;
+  closeModal: (value: string | undefined) => void;
   data: Datum[];
+  field: 'benchmark' | 'compare_city';
 }
 
 const AddComparisonModal = (props: Props) => {
-  const {closeModal, data} = props;
+  const {closeModal, data, field} = props;
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const continueButtonRef = useRef<HTMLButtonElement | null>(null);
   const [selected, setSelected] = useState<Datum | null | RegionGroup>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
-  const { compare_city, ...otherParams } = useQueryParams();
+  const { compare_city, benchmark, ...otherParams } = useQueryParams();
 
   const currentCity = globalData ? globalData.cities.find(c => c.cityId === cityId) : undefined;
   const name = currentCity ? currentCity.name : '';
@@ -232,20 +233,25 @@ const AddComparisonModal = (props: Props) => {
 
   const onContinue = () => {
     if (selected && typeof selected === 'object') {
-      const query = queryString.stringify({...otherParams, compare_city: selected.id});
+      const query = queryString.stringify({...otherParams, compare_city, benchmark, [field]: selected.id});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
-      closeModal();
+      closeModal(selected.id.toString());
     } else if (selected === RegionGroup.World) {
-      const query = queryString.stringify({...otherParams, compare_city: RegionGroup.World});
+      const query = queryString.stringify({...otherParams, compare_city, benchmark, [field]: RegionGroup.World});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
-      closeModal();
+      closeModal(RegionGroup.World);
     }
   };
 
+  const prevValue = field === 'benchmark' ? benchmark : compare_city;
+  const closeModalWithoutConfirming = prevValue === undefined ? undefined : () => {
+    closeModal(prevValue);
+  };
+
   return (
-    <BasicModal onClose={closeModal} width={'auto'} height={'auto'}>
+    <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'auto'}>
       <Root>
         <H1>{getString('global-ui-compare-title', {name})}:</H1>
         <SearchContainerDark>
