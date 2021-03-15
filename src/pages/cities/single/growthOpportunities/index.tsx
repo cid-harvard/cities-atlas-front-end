@@ -4,7 +4,6 @@ import SimpleError from '../../../../components/transitionStateComponents/Simple
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
 import React, {useState} from 'react';
 import {
-  defaultCompositionType,
   DigitLevel,
   ClassificationNaicsIndustry,
 } from '../../../../types/graphQL/graphQLTypes';
@@ -39,7 +38,7 @@ import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
-  const {composition_type, node_sizing, color_by} = useQueryParams();
+  const {node_sizing, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -143,7 +142,6 @@ const GrowthOppurtunities = () => {
                 highlighted={highlighted ? highlighted : null}
                 setHighlighted={setHighlighted}
                 digitLevel={DigitLevel.Six}
-                compositionType={composition_type ? composition_type : defaultCompositionType}
                 vizNavigation={vizNavigation}
                 hiddenSectors={hiddenSectors}
                 nodeSizing={node_sizing}

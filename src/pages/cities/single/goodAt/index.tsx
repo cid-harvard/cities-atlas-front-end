@@ -4,7 +4,6 @@ import SimpleError from '../../../../components/transitionStateComponents/Simple
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
 import React, {useState} from 'react';
 import {
-  defaultCompositionType,
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
 } from '../../../../types/graphQL/graphQLTypes';
@@ -40,7 +39,7 @@ import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
-  const {composition_type, cluster_level, digit_level, color_by} = useQueryParams();
+  const {cluster_level, digit_level, color_by} = useQueryParams();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -138,7 +137,6 @@ const CityGoodAt = () => {
           isClusterView={Boolean(isClusterView)}
           highlighted={highlighted}
           setHighlighted={setHighlighted}
-          compositionType={composition_type ? composition_type : defaultCompositionType}
           hiddenSectors={hiddenSectors}
           hiddenClusters={hiddenClusters}
           clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}

@@ -1,7 +1,6 @@
 import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {
   ClassificationNaicsIndustry,
-  CompositionType,
   DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
 import {
@@ -78,7 +77,6 @@ interface Props {
   highlighted: string | null;
   setHighlighted: (value: string | undefined) => void;
   digitLevel: DigitLevel;
-  compositionType: CompositionType;
   nodeSizing: NodeSizing | undefined;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   vizNavigation: VizNavItem[];
@@ -87,7 +85,7 @@ interface Props {
 
 const PSWOTChart = (props: Props) => {
   const {
-    compositionType, hiddenSectors, setHighlighted, vizNavigation, digitLevel,
+    hiddenSectors, setHighlighted, vizNavigation, digitLevel,
     highlighted, nodeSizing, colorBy,
   } = props;
 
@@ -198,7 +196,7 @@ const PSWOTChart = (props: Props) => {
       aggregateIndustryDataMap && aggregateIndustryDataMap.data &&
       industries && industries.data
     ) {
-    const {nodeRca} = dataToUse;
+    const {naicsRca, naicsData} = dataToUse;
 
     const pswotChartData: Datum[] = [];
     const {globalMinMax} = aggregateIndustryDataMap.data;
@@ -240,12 +238,8 @@ const PSWOTChart = (props: Props) => {
     }
     let colorScale: (value: number) => string | undefined;
     if (colorBy === ColorBy.intensity) {
-      const allRca = nodeRca.map(n => {
-        return compositionType === CompositionType.Employees
-        ? (n && n.rcaNumEmploy
-            ? n.rcaNumEmploy : 0.001)
-        : (n && n.rcaNumCompany
-            ? n.rcaNumCompany : 0.001);
+      const allRca = naicsRca.map(n => {
+        return n && n.rca !== null ? n.rca : 0;
       });
       const [minRca, maxRca] = extent(allRca) as [number, number];
       colorScale = scaleSymlog()
@@ -265,20 +259,18 @@ const PSWOTChart = (props: Props) => {
       colorScale = () => undefined;
     }
 
-    let highlightError: boolean = highlighted && !nodeRca.find(d => d.naicsId === highlighted) ? true : false;
+    let highlightError = Boolean(highlighted && !naicsRca.find(
+      d => d.naicsId !== null && d.naicsId.toString() === highlighted.toString()));
 
-    nodeRca.forEach(n => {
+    naicsRca.forEach(n => {
       const industry = n.naicsId ? industries.data[n.naicsId] : undefined;
       const industryGlobalData = n.naicsId ? aggregateIndustryDataMap.data.industries[n.naicsId] : undefined;
       const naicsId = industry ? industry.naicsId : '';
       const sector = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
-      if (sector && !hiddenSectors.includes(sector.id)) {
-        const x = compositionType === CompositionType.Employees
-          ? (n.rcaNumEmploy !== null ? n.rcaNumEmploy : 0)
-          : (n.rcaNumCompany !== null ? n.rcaNumCompany : 0);
-        const y = compositionType === CompositionType.Employees
-          ? (n.densityEmploy !== null ? n.densityEmploy : 0)
-          : (n.densityCompany !== null ? n.densityCompany : 0);
+      const datum = naicsData.find(nn => n.naicsId !== null && nn.naicsId.toString() === n.naicsId.toString());
+      if (sector && datum && !hiddenSectors.includes(sector.id)) {
+        const x = n.rca !== null ? n.rca : 0;
+        const y = datum.densityEmploy !== null ? datum.densityEmploy : 0;
 
         let radius: number;
         if (nodeSizing === NodeSizing.companies) {

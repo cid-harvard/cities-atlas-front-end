@@ -733,26 +733,27 @@ const createChart = (input: Input) => {
   }
 
   function update(newData: SuccessResponse, colorBy: ColorBy) {
-    const continentsData = newData.clusterRca.filter(d => d.level === 1);
-    const countriesData = newData.clusterRca.filter(d => d.level === 3);
+    const {c1Rca, c3Rca, clusterData, naicsRca} = newData;
+    const continentsData = clusterData.filter(d => d.level === 1);
     const totalCompanies = continentsData.reduce((total, c) => c.numCompany ? c.numCompany + total : total, 0);
 
     const intensityColorScaleContinents = d3.scaleSymlog()
-      .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .domain(d3.extent(c1Rca.map(c => c.rca ? c.rca : 0)) as [number, number])
       .range(intensityColorRange as any);
 
     const intensityColorScaleCountries = d3.scaleSymlog()
-      .domain(d3.extent(countriesData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .domain(d3.extent(c3Rca.map(c => c.rca ? c.rca : 0)) as [number, number])
       .range(intensityColorRange as any);
 
     const intensityColorScaleNodes = d3.scaleSymlog()
-      .domain(d3.extent(newData.nodeRca.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
+      .domain(d3.extent(naicsRca.map(c => c.rca ? c.rca : 0)) as [number, number])
       .range(intensityColorRange as any);
 
     continents.each(d => {
-      const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
-      if (newDatum && newDatum.rcaNumCompany !== null) {
-        d.color = intensityColorScaleContinents(newDatum.rcaNumCompany) as unknown as string;
+      const newDatum = c1Rca.find(({clusterId}) =>
+        clusterId !== null && d.clusterId.toString() === clusterId.toString());
+      if (newDatum && newDatum.rca !== null) {
+        d.color = intensityColorScaleContinents(newDatum.rca) as unknown as string;
       } else {
         d.color = intensityColorRange[0];
       }
@@ -760,7 +761,8 @@ const createChart = (input: Input) => {
 
     continentValueLabels
       .text(d => {
-        const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
+        const newDatum = clusterData.find(({clusterId}) =>
+          clusterId !== null && d.clusterId.toString() === clusterId.toString());
         if (newDatum && newDatum.numCompany !== null) {
           return parseFloat((newDatum.numCompany / totalCompanies * 100).toFixed(1)) + '% of total est.';
         } else {
@@ -770,23 +772,25 @@ const createChart = (input: Input) => {
       });
 
     countries.each(d => {
-      const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
-      if (newDatum && newDatum.rcaNumCompany !== null) {
-        d.color = intensityColorScaleCountries(newDatum.rcaNumCompany) as unknown as string;
+      const newDatum = c3Rca.find(({clusterId}) =>
+          clusterId !== null && d.clusterId.toString() === clusterId.toString());
+      if (newDatum && newDatum.rca !== null) {
+        d.color = intensityColorScaleCountries(newDatum.rca) as unknown as string;
       } else {
         d.color = intensityColorRange[0];
       }
     });
 
     nodes.each(d => {
-      const newDatum = newData.nodeRca.find(({naicsId}) => d.id === naicsId);
-      if (newDatum && newDatum.rcaNumCompany !== null) {
+      const newDatum = naicsRca.find(({naicsId}) =>
+        naicsId !== null && d.id.toString() === naicsId.toString());
+      if (newDatum && newDatum.rca !== null) {
         if (colorBy === ColorBy.intensity) {
-          d.color = intensityColorScaleNodes(newDatum.rcaNumCompany).toString();
+          d.color = intensityColorScaleNodes(newDatum.rca).toString();
         } else {
-          d.color = newDatum.rcaNumCompany >= 1 ? d.industryColor : lowIntensityNodeColor;
+          d.color = newDatum.rca >= 1 ? d.industryColor : lowIntensityNodeColor;
         }
-        d.rca = newDatum.rcaNumCompany;
+        d.rca = newDatum.rca;
       } else {
         if (colorBy === ColorBy.intensity) {
           d.color = intensityColorScaleNodes(0).toString();

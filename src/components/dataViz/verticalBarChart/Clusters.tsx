@@ -3,7 +3,6 @@ import {scaleLog, scaleLinear} from 'd3-scale';
 import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
-  CompositionType,
   DigitLevel,
   ClassificationNaicsCluster,
 } from '../../../types/graphQL/graphQLTypes';
@@ -29,15 +28,14 @@ import {
 import {rgba} from 'polished';
 
 interface Props {
-  data: SuccessResponse['clusterRca'];
-  compositionType: CompositionType;
+  data: SuccessResponse['c3Rca'] | SuccessResponse['c1Rca'];
   clusterLevel: ClusterLevel;
   colorBy: ColorBy;
   hiddenClusters: ClassificationNaicsCluster['id'][];
 }
 
 const Industries = (props: Props) => {
-  const {data, compositionType, clusterLevel, colorBy, hiddenClusters} = props;
+  const {data, clusterLevel, colorBy, hiddenClusters} = props;
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
   const clusterMap = useGlobalClusterMap();
@@ -45,20 +43,18 @@ const Industries = (props: Props) => {
     level: DigitLevel.Six, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10),
   });
 
-  const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
-
   const filteredClusterRCA = data.filter(d => {
-    const cluster = clusterMap.data[d.clusterId];
+    const cluster = d.clusterId !== null ? clusterMap.data[d.clusterId] : undefined;
     const clusterIdTopParent = cluster && cluster.clusterIdTopParent ? cluster.clusterIdTopParent : '';
     if (cluster && !hiddenClusters.includes(clusterIdTopParent.toString())) {
-      return clusterLevel === (d.level as number).toString() && d[field] && (d[field] as number) > 0;
+      return d.rca && (d.rca as number) > 0;
     } else {
       return false;
     }
   });
 
-  let max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  let min = Math.min(...filteredClusterRCA.map(d => d[field] as number));
+  let max = Math.ceil((Math.max(...filteredClusterRCA.map(d => d.rca as number)) * 1.1) / 10) * 10;
+  let min = Math.min(...filteredClusterRCA.map(d => d.rca as number));
   if (max < 10) {
     max = 10;
   }
@@ -102,10 +98,11 @@ const Industries = (props: Props) => {
   }
 
   const clusterData = filteredClusterRCA.map(d => {
-    const cluster = clusterMap.data[d.clusterId];
-    const title = cluster && cluster.name !== null ? cluster.name : d.clusterId;
+    const cluster = d.clusterId !== null ? clusterMap.data[d.clusterId] : undefined;
+    const title = cluster && cluster.name !== null ? cluster.name : '';
     let color: string;
-    const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[d.clusterId];
+    const clusterIndustryDatum = d.clusterId !== null
+      ? aggregateIndustryDataMap.data.clusters[d.clusterId] : undefined;
     if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
       if (clusterIndustryDatum) {
         color = colorScale(clusterIndustryDatum.yearsEducation) as string;
@@ -119,7 +116,7 @@ const Industries = (props: Props) => {
         color = 'gray';
       }
     } else if (colorBy === ColorBy.intensity) {
-      const rca = d[field] as number;
+      const rca = d.rca as number;
       color = colorScale(rca) as string;
     } else {
       const colorDatum = clusterColorMap
@@ -127,9 +124,9 @@ const Industries = (props: Props) => {
       color = colorDatum ? colorDatum.color : 'lightgray';
     }
     return {
-      id: d.clusterId,
+      id: d.clusterId !== null ? d.clusterId.toString() : '',
       title,
-      value: d[field] ? scale(d[field] as number) as number : 0,
+      value: d.rca ? scale(d.rca as number) as number : 0,
       color,
     };
   });

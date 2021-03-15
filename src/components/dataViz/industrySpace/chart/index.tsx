@@ -18,7 +18,7 @@ import {
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
 import {NodeSizing, defaultNodeSizing, ColorBy} from '../../../../routing/routes';
-import {DigitLevel,CompositionType} from '../../../../types/graphQL/graphQLTypes';
+import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
 import useColorByIntensity from '../../treeMap/useColorByIntensity';
 import {
   useAggregateIndustryMap,
@@ -239,7 +239,6 @@ const Chart = (props: Props) => {
   const intensity = useColorByIntensity({
     digitLevel: DigitLevel.Six,
     colorBy,
-    compositionType: CompositionType.Companies,
   });
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
 

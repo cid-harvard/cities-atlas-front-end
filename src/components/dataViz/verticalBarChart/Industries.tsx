@@ -12,7 +12,6 @@ import {
   useGlobalIndustryMap,
 } from '../../../hooks/useGlobalIndustriesData';
 import {
-  CompositionType,
   ClassificationNaicsIndustry,
   DigitLevel,
 } from '../../../types/graphQL/graphQLTypes';
@@ -33,9 +32,8 @@ import {
 } from '../../../hooks/useAggregateIndustriesData';
 
 interface Props {
-  data: SuccessResponse['nodeRca'];
+  data: SuccessResponse['naicsRca'];
   highlighted: string | undefined;
-  compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   colorBy: ColorBy;
   digitLevel: DigitLevel;
@@ -43,12 +41,12 @@ interface Props {
 
 const Industries = (props: Props) => {
   const {
-    data, highlighted, compositionType, hiddenSectors,
+    data, highlighted, hiddenSectors,
     colorBy, digitLevel,
   } = props;
 
   const industryMap = useGlobalIndustryMap();
-  const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
+  const intensity = useColorByIntensity({digitLevel, colorBy});
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
   const getString = useFluent();
 
@@ -74,18 +72,16 @@ const Industries = (props: Props) => {
   const [highlightError, setHighlightError] = useState<boolean>(false);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
 
-  const field = compositionType === CompositionType.Employees ? 'rcaNumEmploy' : 'rcaNumCompany';
-
   const filteredIndustryRCA = data.filter(d => {
-    const industry = industryMap.data[d.naicsId];
+    const industry = d.naicsId !== null ? industryMap.data[d.naicsId] : undefined;
     if (industry && !hiddenSectors.includes(industry.naicsIdTopParent.toString())) {
-      return d[field] && (d[field] as number) > 0;
+      return d.rca && (d.rca as number) > 0;
     } else {
       return false;
     }
   });
-  let max = Math.ceil((Math.max(...filteredIndustryRCA.map(d => d[field] as number)) * 1.1) / 10) * 10;
-  let min = Math.min(...filteredIndustryRCA.map(d => d[field] as number));
+  let max = Math.ceil((Math.max(...filteredIndustryRCA.map(d => d.rca as number)) * 1.1) / 10) * 10;
+  let min = Math.min(...filteredIndustryRCA.map(d => d.rca as number));
   if (max < 10) {
     max = 10;
   }
@@ -101,7 +97,7 @@ const Industries = (props: Props) => {
     parseFloat(scale.invert(100).toFixed(5)),
   );
   const industryData = filteredIndustryRCA.map(d => {
-    const industry = industryMap.data[d.naicsId];
+    const industry = d.naicsId !== null ? industryMap.data[d.naicsId] : undefined;
     let color: string;
     if (intensity && intensity.industries) {
       const industryIntesity = intensity.industries.find(dd => d.naicsId === dd.naicsId);
@@ -111,7 +107,7 @@ const Industries = (props: Props) => {
         color = 'lightgray';
       }
     } else if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
-      const target = aggregateIndustryDataMap.data.industries[d.naicsId];
+      const target = d.naicsId !== null ? aggregateIndustryDataMap.data.industries[d.naicsId] : undefined;
       if (target) {
         const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
         color = colorScale(targetValue);
@@ -119,13 +115,14 @@ const Industries = (props: Props) => {
         color = 'lightgray';
       }
     } else {
-      const colorDatum = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
+      const colorDatum = industry
+        ? sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString()) : undefined;
       color = colorDatum ? colorDatum.color : 'lightgray';
     }
     return {
-      id: d.naicsId,
+      id: d.naicsId !== null ? d.naicsId.toString() : '',
       title: industry && industry.name ? industry.name : '',
-      value: d[field] ? scale(d[field] as number) as number : 0,
+      value: d.rca ? scale(d.rca as number) as number : 0,
       color,
     };
   });

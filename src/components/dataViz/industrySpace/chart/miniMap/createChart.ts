@@ -80,15 +80,15 @@ const createChart = (input: Input) => {
   }
 
   function update(nodeId: string | undefined, newData: SuccessResponse) {
-  const continentsData = newData.clusterRca.filter(d => d.level === 1);
-  const intensityColorScaleContinents = d3.scaleSymlog()
-    .domain(d3.extent(continentsData.map(c => c.rcaNumCompany ? c.rcaNumCompany : 0)) as [number, number])
-    .range(intensityColorRange as any);
+    const intensityColorScaleContinents = d3.scaleSymlog()
+      .domain(d3.extent(newData.c1Rca.map(c => c.rca ? c.rca : 0)) as [number, number])
+      .range(intensityColorRange as any);
 
     continents.each(d => {
-      const newDatum = newData.clusterRca.find(({clusterId}) => d.clusterId === clusterId);
-        if (newDatum && newDatum.rcaNumCompany !== null) {
-          d.color = intensityColorScaleContinents(newDatum.rcaNumCompany) as unknown as string;
+      const newDatum = newData.c1Rca.find(({clusterId}) =>
+        clusterId !== null && d.clusterId.toString() === clusterId.toString());
+        if (newDatum && newDatum.rca !== null) {
+          d.color = intensityColorScaleContinents(newDatum.rca) as unknown as string;
         } else {
           d.color = intensityColorRange[0];
         }

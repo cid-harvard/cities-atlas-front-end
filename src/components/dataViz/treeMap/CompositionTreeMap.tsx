@@ -105,7 +105,7 @@ const CompositionTreeMap = (props: Props) => {
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
-  const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
+  const intensity = useColorByIntensity({digitLevel, colorBy});
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
 
   useEffect(() => {
@@ -210,7 +210,8 @@ const CompositionTreeMap = (props: Props) => {
           const value = compositionType === CompositionType.Companies ? companies : employees;
           let fill: string | undefined;
           if (intensity && intensity.industries) {
-            const industryIntesity = intensity.industries.find(d => d.naicsId === naicsId);
+            const industryIntesity = intensity.industries.find(
+              d => d.naicsId !== null && d.naicsId.toString() === naicsId.toString());
             if (industryIntesity) {
               fill = industryIntesity.fill;
             }
@@ -262,12 +263,11 @@ const CompositionTreeMap = (props: Props) => {
             [getString('global-ui-year') + ':', year.toString()],
           ];
           if (intensity && intensity.industries) {
-            const industryIntesity = intensity.industries.find(d => d.naicsId === id);
+            const industryIntesity = intensity.industries.find(
+              d => d.naicsId !== null && d.naicsId.toString() === id.toString());
             if (industryIntesity) {
 
-              const rcaNumCompany = industryIntesity.rcaNumCompany ? industryIntesity.rcaNumCompany : 0;
-              const rcaNumEmploy = industryIntesity.rcaNumEmploy ? industryIntesity.rcaNumEmploy : 0;
-              const rca = compositionType === CompositionType.Employees ? rcaNumEmploy : rcaNumCompany;
+              const rca = industryIntesity.rca ? industryIntesity.rca : 0;
               rows.push([getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)]);
             }
           }

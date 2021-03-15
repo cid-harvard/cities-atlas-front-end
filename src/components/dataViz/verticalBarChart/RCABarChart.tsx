@@ -3,7 +3,6 @@ import {
   DigitLevel,
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
-  CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import {
   useGlobalIndustryMap,
@@ -99,7 +98,6 @@ interface Props {
   isClusterView: boolean;
   highlighted: string | undefined;
   setHighlighted: (value: string | undefined) => void;
-  compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   hiddenClusters: ClassificationNaicsCluster['id'][];
   clusterLevel: ClusterLevel;
@@ -110,7 +108,7 @@ interface Props {
 const RCABarChart = (props: Props) => {
   const {
     hiddenSectors, setHighlighted,
-    highlighted, compositionType,
+    highlighted,
     isClusterView, clusterLevel,
     digitLevel, colorBy, hiddenClusters,
   } = props;
@@ -120,7 +118,7 @@ const RCABarChart = (props: Props) => {
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const {loading, error, data} = useRCAData(digitLevel);
-  const intensity = useColorByIntensity({digitLevel, colorBy, compositionType});
+  const intensity = useColorByIntensity({digitLevel, colorBy});
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -168,14 +166,13 @@ const RCABarChart = (props: Props) => {
     );
     console.error(intensity.error);
   } else if (dataToUse !== undefined) {
-    const clusterData = dataToUse.clusterRca;
-    const industryData = dataToUse.nodeRca;
+    const clusterData = dataToUse.c3Rca;
+    const industryData = dataToUse.naicsRca;
     const loadingOverlay = loading ? <LoadingBlock /> : null;
     const viz = isClusterView ? (
       <Clusters
         key={'ClustersRCAChart' + dimensions.height.toString() + dimensions.width.toString()}
         data={clusterData}
-        compositionType={compositionType}
         clusterLevel={clusterLevel}
         colorBy={colorBy}
         hiddenClusters={hiddenClusters}
@@ -185,7 +182,6 @@ const RCABarChart = (props: Props) => {
         key={'IndustriesRCAChart' + dimensions.height.toString() + dimensions.width.toString()}
         data={industryData}
         highlighted={highlighted}
-        compositionType={compositionType}
         hiddenSectors={hiddenSectors}
         colorBy={colorBy}
         digitLevel={digitLevel}
