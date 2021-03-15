@@ -19,6 +19,7 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywordFormatter';
 import {TooltipTheme} from '../../../general/Tooltip';
+import {PeerGroup} from '../../../../types/graphQL/graphQLTypes';
 
 const mobileWidth = 750; // in px
 
@@ -48,7 +49,8 @@ const H1 = styled.h1`
 const Label = styled.label`
   text-transform: uppercase;
   padding-bottom: 0.2rem;
-  display: inline-block;
+  display: block;
+  width: 100%;
 `;
 
 const LabelUnderline = styled(Label)`
@@ -57,7 +59,7 @@ const LabelUnderline = styled(Label)`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto 1.5fr;
   grid-gap: 2rem;
 
   @media (max-width: ${mobileWidth}px) {
@@ -76,6 +78,24 @@ const Grid = styled.div`
   .react-panel-search-search-results {
     background-color: #454a4f;
   }
+`;
+
+const GlobalVRegionalGrid = styled.div`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 0.75rem;
+`;
+
+const GroupContainer = styled.ul`
+  border: solid 1px #fff;
+  padding: 0.5rem;
+  margin: 0;
+`;
+
+const ContainerTitle = styled.h3`
+  color: #fff;
+  font-weight: 400;
+  margin-bottom: 0.4rem;
 `;
 
 const Or = styled.div`
@@ -160,6 +180,7 @@ const GroupItem = styled.li`
   margin-bottom: 0.5rem;
   display: block;
   list-style: none;
+  font-size: 0.875rem;
 `;
 
 const GroupRadio = styled.div`
@@ -213,10 +234,21 @@ const AddComparisonModal = (props: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const continueButtonRef = useRef<HTMLButtonElement | null>(null);
-  const [selected, setSelected] = useState<Datum | null | RegionGroup>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
   const { compare_city, benchmark, ...otherParams } = useQueryParams();
+  let intialSelected: Datum | null | RegionGroup | PeerGroup = null;
+  if (field === 'benchmark' && benchmark) {
+    if (benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
+        benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation) {
+      intialSelected = benchmark;
+    }
+  } else if (field === 'compare_city' && compare_city) {
+    if (compare_city === RegionGroup.World || compare_city === RegionGroup.SimilarCities) {
+      intialSelected = compare_city;
+    }
+  }
+  const [selected, setSelected] = useState<Datum | null | RegionGroup | PeerGroup>(intialSelected);
 
   const currentCity = globalData ? globalData.cities.find(c => c.cityId === cityId) : undefined;
   const name = currentCity ? currentCity.name : '';
@@ -237,8 +269,8 @@ const AddComparisonModal = (props: Props) => {
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal(selected.id.toString());
-    } else if (selected === RegionGroup.World) {
-      const query = queryString.stringify({...otherParams, compare_city, benchmark, [field]: RegionGroup.World});
+    } else if (typeof selected === 'string') {
+      const query = queryString.stringify({...otherParams, compare_city, benchmark, [field]: selected});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal(RegionGroup.World);
@@ -246,9 +278,93 @@ const AddComparisonModal = (props: Props) => {
   };
 
   const prevValue = field === 'benchmark' ? benchmark : compare_city;
-  const closeModalWithoutConfirming = prevValue === undefined ? undefined : () => {
-    closeModal(prevValue);
-  };
+  const closeModalWithoutConfirming = prevValue === undefined && field === 'benchmark'
+    ? undefined
+    : () => closeModal(prevValue);
+
+  const groups = field === 'compare_city' ? (
+    <div>
+      <LabelUnderline>{getString('global-ui-select-a-group')}</LabelUnderline>
+      <GroupsList>
+        <GroupItem>
+          <GroupRadio
+            onClick={() => setSelected(RegionGroup.World)}
+            $checked={selected === RegionGroup.World}
+          >
+            {getString('global-text-world')}
+          </GroupRadio>
+        </GroupItem>
+        <GroupItem>
+          <GroupRadio
+            onClick={() => setSelected(RegionGroup.SimilarCities)}
+            $checked={selected === RegionGroup.SimilarCities}
+          >
+            {getString('global-text-similar-cities')} (10)
+          </GroupRadio>
+          <SimilarCitiesList>
+            <SimilarCity>First Group Name</SimilarCity>
+            <SimilarCity>Second Group Name</SimilarCity>
+            <SimilarCity>Third Group Name</SimilarCity>
+            <SimilarCity>Fourth Group Name</SimilarCity>
+            <SimilarCity>Fifth Group Name</SimilarCity>
+            <SimilarCity>Sixth Group Name</SimilarCity>
+            <SimilarCity>Seventh Group Name</SimilarCity>
+            <SimilarCity>Eight Group Name</SimilarCity>
+            <SimilarCity>Ninth Group Name</SimilarCity>
+            <SimilarCity>Tenth Group Name</SimilarCity>
+          </SimilarCitiesList>
+        </GroupItem>
+      </GroupsList>
+    </div>
+  ) : (
+    <div>
+      <LabelUnderline>{getString('global-ui-select-peer-group')}</LabelUnderline>
+      <GlobalVRegionalGrid>
+        <div>
+        <ContainerTitle>{getString('global-text-global-peers')}</ContainerTitle>
+        <GroupContainer>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.GlobalPopulation)}
+                $checked={selected === PeerGroup.GlobalPopulation}
+              >
+                {getString('global-text-similar-population')}
+              </GroupRadio>
+            </GroupItem>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.GlobalIncome)}
+                $checked={selected === PeerGroup.GlobalIncome}
+              >
+                {getString('global-text-similar-income')}
+              </GroupRadio>
+            </GroupItem>
+          </GroupContainer>
+        </div>
+        <div>
+        <ContainerTitle>{getString('global-text-regional-peers')}</ContainerTitle>
+          <GroupContainer>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.RegionalPopulation)}
+                $checked={selected === PeerGroup.RegionalPopulation}
+              >
+                {getString('global-text-similar-population')}
+              </GroupRadio>
+            </GroupItem>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.RegionalIncome)}
+                $checked={selected === PeerGroup.RegionalIncome}
+              >
+                {getString('global-text-similar-income')}
+              </GroupRadio>
+            </GroupItem>
+          </GroupContainer>
+        </div>
+      </GlobalVRegionalGrid>
+    </div>
+  );
 
   return (
     <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'auto'}>
@@ -274,39 +390,7 @@ const AddComparisonModal = (props: Props) => {
               />
             </div>
             <Or>{getString('global-ui-or')}</Or>
-            <div>
-              <LabelUnderline>{getString('global-ui-select-a-group')}</LabelUnderline>
-              <GroupsList>
-                <GroupItem>
-                  <GroupRadio
-                    onClick={() => setSelected(RegionGroup.World)}
-                    $checked={selected === RegionGroup.World}
-                  >
-                    {getString('global-text-world')}
-                  </GroupRadio>
-                </GroupItem>
-                <GroupItem>
-                  <GroupRadio
-                    onClick={() => setSelected(RegionGroup.SimilarCities)}
-                    $checked={selected === RegionGroup.SimilarCities}
-                  >
-                    {getString('global-text-similar-cities')} (10)
-                  </GroupRadio>
-                  <SimilarCitiesList>
-                    <SimilarCity>First Group Name</SimilarCity>
-                    <SimilarCity>Second Group Name</SimilarCity>
-                    <SimilarCity>Third Group Name</SimilarCity>
-                    <SimilarCity>Fourth Group Name</SimilarCity>
-                    <SimilarCity>Fifth Group Name</SimilarCity>
-                    <SimilarCity>Sixth Group Name</SimilarCity>
-                    <SimilarCity>Seventh Group Name</SimilarCity>
-                    <SimilarCity>Eight Group Name</SimilarCity>
-                    <SimilarCity>Ninth Group Name</SimilarCity>
-                    <SimilarCity>Tenth Group Name</SimilarCity>
-                  </SimilarCitiesList>
-                </GroupItem>
-              </GroupsList>
-            </div>
+            {groups}
           </Grid>
         </SearchContainerDark>
         <ContinueButtonContainer>

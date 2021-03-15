@@ -12,6 +12,7 @@ global-app-name = Cities Atlas
 global-ui-loading-cities = Loading cities
 global-ui-select-a-city-name = Select a city
 global-ui-select-a-group = Select an existing group
+global-ui-select-peer-group = Select a peer group
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
 global-ui-selected-industry = Selected industry
@@ -79,6 +80,14 @@ global-formatted-color-by = {
   [wage] Average hourly wage
 }
 
+global-formatted-peer-groups = {
+  $type ->
+  *[global_pop] Global Peers by Similar Population
+  [global_income] Global Peers by Similar Income
+  [regional_pop] Regional Peers by Similar Population
+  [regional_income] Regional Peers by Similar Income
+}
+
 color-by-proximity-only = Color by option is only available for proximity
 
 global-formatted-size-by = {
@@ -116,6 +125,11 @@ global-text-industries = Industries
 
 global-text-world = World
 global-text-similar-cities = Similar Cites
+
+global-text-global-peers = Top Global Peers
+global-text-regional-peers = Top Regional Peers
+global-text-similar-population = by similar population
+global-text-similar-income = by similar income
 
 global-naics-sector-name-0 = Construction
 global-naics-sector-name-1 = Education & health

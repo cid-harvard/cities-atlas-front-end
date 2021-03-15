@@ -134,7 +134,7 @@ export const SearchContainerDark = styled.div`
   margin: 0 auto;
 
   @media (min-width: 990px) {
-    width: 85%;
+    width: 95%;
   }
 
   font-family: ${secondaryFont};
@@ -342,6 +342,7 @@ export const radioButtonCss = css<{$checked: boolean}>`
     border-radius: 200px;
     border: solid 1px #fff;
     margin-right: 4px;
+    flex-shrink: 0;
   }
 
   &:after {
@@ -352,6 +353,7 @@ export const radioButtonCss = css<{$checked: boolean}>`
     background-color: #fff;
     transform: translate(4px, 0);
     position: absolute;
+    flex-shrink: 0;
   }
 
 

@@ -220,6 +220,33 @@ export interface ClusterIndustry {
   id: string;
 }
 
+export enum PeerGroup {
+  GlobalPopulation = 'global_pop',
+  GlobalIncome = 'global_income',
+  RegionalPopulation = 'regional_pop',
+  RegionalIncome = 'regional_income',
+}
+
+export interface NaicsRcaCalculation {
+  cityId: number | null;
+  naicsId: number | null;
+  level: number | null;
+  year: number | null;
+  rca: number | null;
+  rcaLb: number | null;
+  rcaUb: number | null;
+}
+
+export interface ClusterRcaCalculation {
+  cityId: number | null;
+  clusterId: number | null;
+  level: number | null;
+  year: number | null;
+  rca: number | null;
+  rcaLb: number | null;
+  rcaUb: number | null;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;
@@ -238,4 +265,6 @@ export interface RootQuery {
   naicsIndustryList: NaicsIndustry[];
   clusterIndustry: ClusterIndustry;
   clusterIndustryList: ClusterIndustry[];
+  naicsRca: NaicsRcaCalculation[];
+  clusterRca: ClusterRcaCalculation[];
 }

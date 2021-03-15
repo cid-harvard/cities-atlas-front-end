@@ -9,6 +9,7 @@ import {Datum} from 'react-panel-search';
 import useFluent from '../../../../hooks/useFluent';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import useQueryParams from '../../../../hooks/useQueryParams';
+import {PeerGroup} from '../../../../types/graphQL/graphQLTypes';
 
 const ButtonBase = styled.button`
   height: 100%;
@@ -51,7 +52,6 @@ const ComparisonSelection = (props: Props) => {
   const {data} = props;
   const getString = useFluent();
   const cityId = useCurrentCityId();
-  // const history = useHistory();
   const { benchmark } = useQueryParams();
   const [modalOpen, setModalOpen] = useState<boolean>(benchmark === undefined);
 
@@ -72,7 +72,11 @@ const ComparisonSelection = (props: Props) => {
       ...data.filter(({id}) => id !== cityId),
     ];
     const selectedValue = comparisonData.find(({id}) => id === benchmark);
-    const benchmarkName = selectedValue ? selectedValue.title : '---';
+    let benchmarkName = selectedValue ? selectedValue.title : '---';
+    if (benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
+        benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation) {
+      benchmarkName = getString('global-formatted-peer-groups', {type: benchmark});
+    }
     benchkmarkDropdown = (
       <>
         <div>
