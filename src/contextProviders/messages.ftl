@@ -46,6 +46,8 @@ global-ui-add-benchmark = Add Benchmark
 global-ui-remove-benchmark = Remove Benchmark
 global-ui-benchmark-title = Benchmark { $name } with
 
+global-ui-city-city-benchmark-warning = City to City Benchmarking is not reliable in this visualization
+
 global-ui-settings-reset = Default Settings
 global-ui-current-settings = Current settings
 global-ui-change-settings = Click to change settings

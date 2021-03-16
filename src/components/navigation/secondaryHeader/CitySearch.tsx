@@ -30,10 +30,23 @@ import {
 
 const Root = styled.div`
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: auto 1fr auto;
   grid-gap: 1rem;
   height: 100%;
   align-items: center;
+
+  @media (max-width: 500px) {
+    grid-template-columns: auto;
+    grid-template-rows: auto auto auto;
+  }
+`;
+
+const SearchContainer = styled.div`
+  width: clamp(200px, 25vw, 300px);
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const LoadingContainer = styled.div`
@@ -41,6 +54,11 @@ const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: clamp(200px, 25vw, 300px);
+
+  @media (max-width: 500px) {
+    width: 100%;
+  }
 `;
 
 const SecondaryHeader = () => {
@@ -79,19 +97,21 @@ const SecondaryHeader = () => {
 
     output = (
       <>
-        <PanelSearch
-          data={compare_city !== undefined ? data.filter(({id}) => id !== compare_city) : data}
-          topLevelTitle={getString('global-text-countries')}
-          disallowSelectionLevels={['0']}
-          defaultPlaceholderText={getString('global-ui-type-a-city-name')}
-          showCount={true}
-          resultsIdentation={1.75}
-          neverEmpty={true}
-          selectedValue={initialSelected ? initialSelected : undefined}
-          onSelect={onSelect}
-          maxResults={500}
-          matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
-        />
+        <SearchContainer>
+          <PanelSearch
+            data={compare_city !== undefined ? data.filter(({id}) => id !== compare_city) : data}
+            topLevelTitle={getString('global-text-countries')}
+            disallowSelectionLevels={['0']}
+            defaultPlaceholderText={getString('global-ui-type-a-city-name')}
+            showCount={true}
+            resultsIdentation={1.75}
+            neverEmpty={true}
+            selectedValue={initialSelected ? initialSelected : undefined}
+            onSelect={onSelect}
+            maxResults={500}
+            matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
+          />
+        </SearchContainer>
 
         <Switch>
           <Route path={CityRoutes.CityEconomicComposition} render={() => <ComparisonSelection data={data} />} />
