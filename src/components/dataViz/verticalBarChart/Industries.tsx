@@ -30,6 +30,7 @@ import useColorByIntensity from '../treeMap/useColorByIntensity';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
+import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 
 interface Props {
   data: SuccessResponse['naicsRca'];
@@ -49,6 +50,7 @@ const Industries = (props: Props) => {
   const intensity = useColorByIntensity({digitLevel, colorBy});
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
   const getString = useFluent();
+  const { benchmarkNameShort } = useCurrentBenchmark();
 
   let colorScale: (val: number) => string;
   if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
@@ -164,7 +166,7 @@ const Industries = (props: Props) => {
 
   const axisLabel = (
     <BasicLabel>
-      {getString('global-intensity')}
+      {getString('global-intensity')}: {benchmarkNameShort}
       <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
         <Tooltip
           explanation={getString('global-intensity-about')}
