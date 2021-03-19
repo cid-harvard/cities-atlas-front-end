@@ -65,7 +65,7 @@ const SecondaryHeader = () => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const history = useHistory();
-  const { compare_city } = useQueryParams();
+  const { compare_city, benchmark } = useQueryParams();
 
   const {loading, error, data} = useGlobalLocationHierarchicalTreeData();
   let output: React.ReactElement<any> | null;
@@ -95,11 +95,14 @@ const SecondaryHeader = () => {
       }
     };
 
+    const dataWithoutCurrentComparisonOrBenchmark = compare_city !== undefined || benchmark !== undefined
+      ? data.filter(({id}) => id !== compare_city && id !== benchmark) : data;
+
     output = (
       <>
         <SearchContainer>
           <PanelSearch
-            data={compare_city !== undefined ? data.filter(({id}) => id !== compare_city) : data}
+            data={dataWithoutCurrentComparisonOrBenchmark}
             topLevelTitle={getString('global-text-countries')}
             disallowSelectionLevels={['0']}
             defaultPlaceholderText={getString('global-ui-type-a-city-name')}
