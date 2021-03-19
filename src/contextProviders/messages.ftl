@@ -90,6 +90,14 @@ global-formatted-peer-groups = {
   [regional_income] Regional Peers by Similar Income
 }
 
+global-formatted-peer-groups-short = {
+  $type ->
+  *[global_pop] Peer Group
+  [global_income] Peer Group
+  [regional_pop] Peer Group
+  [regional_income] Peer Group
+}
+
 color-by-proximity-only = Color by option is only available for proximity
 
 global-formatted-size-by = {

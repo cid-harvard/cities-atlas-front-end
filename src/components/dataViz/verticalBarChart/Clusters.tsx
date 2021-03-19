@@ -26,6 +26,7 @@ import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
 import {rgba} from 'polished';
+import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 
 interface Props {
   data: SuccessResponse['c3Rca'] | SuccessResponse['c1Rca'];
@@ -39,6 +40,7 @@ const Industries = (props: Props) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
   const clusterMap = useGlobalClusterMap();
+  const { benchmarkNameShort } = useCurrentBenchmark();
   const aggregateIndustryDataMap = useAggregateIndustryMap({
     level: DigitLevel.Six, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10),
   });
@@ -158,7 +160,7 @@ const Industries = (props: Props) => {
   };
   const axisLabel = (
     <BasicLabel>
-      {getString('global-intensity')}
+      {getString('global-intensity')}: {benchmarkNameShort}
       <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
         <Tooltip
           explanation={getString('global-intensity-about')}

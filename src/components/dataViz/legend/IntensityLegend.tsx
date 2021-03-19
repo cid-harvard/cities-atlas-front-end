@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {intensityColorRange} from '../../../styling/styleUtils';
 import useFluent from '../../../hooks/useFluent';
+import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
+import Tooltip from './../../general/Tooltip';
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -38,6 +40,11 @@ const Labels = styled.div`
   text-transform: uppercase;
 `;
 
+const Label = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 interface Props {
   fullWidth?: boolean;
 }
@@ -46,13 +53,22 @@ const IntensityLegend = (props: Props) => {
   const {fullWidth} = props;
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
   const getString = useFluent();
+  const {benchmarkNameShort} = useCurrentBenchmark();
 
   return (
     <Root>
       <Content>
         <Labels>
-          <div>{getString('global-intensity-low')}</div>
-          <div>{getString('global-intensity-high')}</div>
+          <Label>{getString('global-intensity-low')}</Label>
+          <Label>
+            {getString('global-intensity')}: {benchmarkNameShort}
+            <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
+              <Tooltip
+                explanation={getString('global-intensity-about')}
+              />
+            </span>
+          </Label>
+          <Label>{getString('global-intensity-high')}</Label>
         </Labels>
         <Bar />
       </Content>

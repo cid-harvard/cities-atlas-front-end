@@ -23,6 +23,7 @@ const RootBase = styled.div`
 
 const StandardRoot = styled(RootBase)`
   grid-column: 1;
+  justify-content: center;
 `;
 
 const FullWidthRoot = styled(RootBase)`

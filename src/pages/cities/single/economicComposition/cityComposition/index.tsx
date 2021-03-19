@@ -135,7 +135,7 @@ const EconomicComposition = (props: Props) => {
           hiddenCategories={hiddenClusters}
           resetCategories={resetClusters}
           resetText={getString('global-ui-reset-clusters')}
-          fullWidth={true}
+          fullWidth={false}
         />
       );
     } else {
