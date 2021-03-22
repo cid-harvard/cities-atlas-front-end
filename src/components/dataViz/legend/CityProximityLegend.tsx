@@ -3,7 +3,9 @@ import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {proximityColors} from '../similarCitiesMap/Utils';
 import useFluent from '../../../hooks/useFluent';
+import useCurrentCity from '../../../hooks/useCurrentCity';
 import ArrowSVG from '../../../assets/icons/arrow.svg';
+import TextLoading from '../../transitionStateComponents/SimpleTextLoading';
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -83,6 +85,7 @@ const IntensityLegend = (props: Props) => {
   const {fullWidth, isRings} = props;
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
   const getString = useFluent();
+  const {loading, city} = useCurrentCity();
 
   const icon = isRings ? (
     <Circle />
@@ -90,12 +93,21 @@ const IntensityLegend = (props: Props) => {
     <Arrow src={ArrowSVG} alt='' title='' />
   );
 
+  let cityName: React.ReactElement<any>;
+  if (loading) {
+    cityName = <TextLoading />;
+  } else if (city && city.name) {
+    cityName = <div>{city.name}</div>;
+  } else {
+    cityName = <div>{getString('global-your-city')}</div>;
+  }
+
   return (
     <Root>
       <Content>
         <YourLocation>
           {icon}
-          <div>{getString('global-your-city')}</div>
+          {cityName}
         </YourLocation>
       </Content>
       <Content>
