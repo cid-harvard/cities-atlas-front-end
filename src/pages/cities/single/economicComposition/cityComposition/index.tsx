@@ -184,7 +184,7 @@ const EconomicComposition = (props: Props) => {
     <>
       <ContentGrid>
         <StandardSideTextBlock>
-          <ContentTitle>Employment &amp; Industry Composition</ContentTitle>
+          <ContentTitle>What is my city's economic composition?</ContentTitle>
 
           {/* eslint-disable-next-line */}
           <ContentParagraph>{'<City> is a <y-level> income level city in <Country>. As of <year>, the population of <City> was <XX> million people and its GDP was <XX>. It is the <XX> largest city and <XX> richest city in <Benchmark Region>. <City>’s workforce is made of <XX> workers spread throughout <XX> economic establishments. It’s workforce captures <XX> out of every 100 citizens - the <XX> largest in <Benchmark Region>.'}</ContentParagraph>

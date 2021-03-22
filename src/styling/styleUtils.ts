@@ -86,16 +86,21 @@ export const ContentGrid = styled.div`
   width: 100%;
   min-height: 100%;
   grid-template-rows: auto 1fr auto;
-  grid-template-columns: 1fr 18.5rem;
+  grid-template-columns: 1fr 21rem;
   grid-column-gap: 2rem;
 
+  @media screen and (max-width: 1350px) {
+    grid-template-columns: 1fr 17.5rem;
+    grid-column-gap: 1rem;
+  }
+
   @media screen and (max-width: ${breakPointValues.width.medium}px) {
-    grid-template-columns: 1fr 14rem;
+    grid-template-columns: 1fr 14.5rem;
     grid-column-gap: 1rem;
   }
 
   @media screen and (max-width: ${breakPointValues.width.mediumSmall}px) {
-    grid-template-columns: 1fr 10rem;
+    grid-template-columns: 1fr 11rem;
   }
 
   @media ${breakPoints.small} {
@@ -372,10 +377,11 @@ export const radioButtonCss = css<{$checked: boolean}>`
 `;
 
 export const ContentTitle = styled.h2`
-  font-size: 1.4rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 
   @media ${breakPoints.medium} {
-    font-size: 1.1rem;
+    font-size: 1rem;
   }
 
   @media ${breakPoints.mediumSmall} {
