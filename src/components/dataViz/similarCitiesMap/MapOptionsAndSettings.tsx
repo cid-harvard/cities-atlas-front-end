@@ -16,12 +16,14 @@ import {extent} from 'd3-array';
 interface Props {
   showRings: boolean;
   setShowRings: (value: boolean) => void;
+  timeStamp: number;
 }
 
 let previousCityId: string | undefined;
+let previousTimeStamp: number | undefined;
 
 const MapOptionsAndSettings = (props: Props) => {
-  const {showRings, setShowRings} = props;
+  const {showRings, setShowRings, timeStamp} = props;
   const mapContext = useMapContext();
 
   const {data} = useLayoutData();
@@ -31,15 +33,18 @@ const MapOptionsAndSettings = (props: Props) => {
   const {data: proximityData} = useProximityData();
 
   useEffect(() => {
-    if (mapContext.intialized && data && cityId && cityId !== previousCityId) {
-      previousCityId = cityId;
+    if (mapContext.intialized && data && cityId) {
       const currentCityFeature = data.cityGeoJson.features.find(({properties}: {properties: {id: number}}) => properties.id.toString() === cityId);
       if (currentCityFeature) {
-        mapContext.setNewCenter(currentCityFeature.geometry.coordinates);
+        if (cityId !== previousCityId || timeStamp !== previousTimeStamp) {
+          previousCityId = cityId;
+          previousTimeStamp = timeStamp;
+          mapContext.setNewCenter(currentCityFeature.geometry.coordinates);
+        }
         mapContext.setHighlighted(cityId);
       }
     }
-  }, [mapContext, data, cityId]);
+  }, [mapContext, data, cityId, timeStamp]);
 
   useEffect(() => {
     if (mapContext.intialized && proximityData && cityId) {

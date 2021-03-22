@@ -16,6 +16,8 @@ import MultiSelect from '@khanacademy/react-multi-select';
 import {formatNumber} from '../../../Utils';
 import {useMapContext} from 'react-city-space-mapbox';
 
+export const filterBarId = 'similar-cities-filter-bar-id';
+
 const Title = styled.h3`
   color: ${primaryColor};
   text-transform: uppercase;
@@ -156,7 +158,7 @@ interface Props {
 }
 
 const FilterBar = (props: Props) => {
-  const {node, populationRange, gdpPppPcRange, regions, setFilterValues} = props;
+  const {populationRange, gdpPppPcRange, regions, setFilterValues} = props;
   const mapContext = useMapContext();
   const getString = useFluent();
   const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
@@ -170,6 +172,7 @@ const FilterBar = (props: Props) => {
     }
   };
 
+  const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
     return createPortal((
       <>

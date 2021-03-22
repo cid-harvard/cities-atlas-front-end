@@ -9,7 +9,7 @@ import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
 import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
 import CityProximityLegend from '../legend/CityProximityLegend';
-import FilterBar from './FilterBar';
+import FilterBar, {filterBarId} from './FilterBar';
 import {extent} from 'd3-array';
 
 const Root = styled.div`
@@ -62,7 +62,7 @@ interface FilterValues {
   minMaxGdpPppPc: [number, number];
 }
 
-const SimilarCitiesMap = () => {
+const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const filterBarRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
@@ -145,6 +145,13 @@ const SimilarCitiesMap = () => {
 
   return (
     <>
+      <Root>
+        <div ref={filterBarRef} id={filterBarId} />
+        <MapContainer>
+          <Map ref={rootRef} />
+          {rings}
+        </MapContainer>
+      </Root>
       <CitySpaceMap
         accessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as  string}
         mapStyle={'mapbox://styles/harvardgrowthlab/ckelvcgh70cg019qgiu39035a'}
@@ -156,16 +163,10 @@ const SimilarCitiesMap = () => {
         <MapOptionsAndSettings
           showRings={showRings}
           setShowRings={setShowRings}
+          timeStamp={timeStamp}
         />
         {filterBar}
       </CitySpaceMap>
-      <Root>
-        <div ref={filterBarRef} />
-        <MapContainer>
-          <Map ref={rootRef} />
-          {rings}
-        </MapContainer>
-      </Root>
       <CityProximityLegend isRings={showRings} />
     </>
   );

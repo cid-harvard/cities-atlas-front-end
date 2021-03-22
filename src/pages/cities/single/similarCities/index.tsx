@@ -72,7 +72,7 @@ const SimilarCities = () => {
               colorBy={null}
             />
         </StandardSideTextBlock>
-        <SimilarCitiesMap />
+        <SimilarCitiesMap timeStamp={new Date().getTime()} />
       </ContentGrid>
       <UtiltyBar />
     </DefaultContentWrapper>
