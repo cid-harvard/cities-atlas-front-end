@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {PrimaryHeaderContainer} from '../../../styling/GlobalGrid';
-import styled from 'styled-components';
+import styled from 'styled-components/macro';
 import {
   secondaryFont,
   primaryColor,
@@ -24,11 +24,16 @@ const Root = styled(PrimaryHeaderContainer)`
   display: flex;
   justify-content: space-between;
   border-bottom: solid 3px ${primaryColor};
-  padding-top: 1rem;
+  padding-top: 0.5rem;
   box-sizing: border-box;
   pointer-events: auto;
 
-  @media (max-width: 500px) {
+  @media (max-height: 850px) {
+    padding-top: 0.2rem;
+    border-bottom: solid 2px ${primaryColor};
+  }
+
+  @media (max-width: 800px) {
     min-height: 4rem;
     padding-right: 1rem;
   }
@@ -60,9 +65,17 @@ const Logo = styled.h1`
     margin: 0 1.75rem 0 1rem;
   }
 
-  @media (max-width: 500px) {
+
+  @media (max-height: 850px) {
     width: 6.5rem;
-    margin: 0 1rem 0 1rem;
+    height: 1rem;
+    margin: -0.5rem 0 0 0.5rem;
+  }
+
+  @media (max-width: 800px) {
+    width: 10rem;
+    height: 1.5rem;
+    margin: 0.75rem 1rem 0 1rem;
   }
 `;
 
@@ -119,9 +132,23 @@ const H2 = styled.h2<{$active: boolean}>`
     font-size: 0.85rem;
   }
 
+  @media (max-height: 850px) {
+    font-size: 0.85rem;
+    padding: 0 0.5rem 0.5rem;
+    &:after {
+      height: ${({$active}) => $active ? '0.25rem' : 0};
+    }
+    &:hover {
+      &:after {
+        height: 0.25rem;
+      }
+    }
+  }
+
   @media (max-width: 800px) {
     padding: 0 0.5rem 1.05rem;
   }
+
 `;
 
 const MobileH2 = styled(H2)`
@@ -151,13 +178,18 @@ const NavIcon = styled.div`
     }
   }
 
-  @media (max-width: 550px) {
+  @media (max-height: 850px) {
+    width: 0.85rem;
+    height: 0.85rem;
+  }
+
+  @media (max-width: 800px) {
     display: none;
   }
 `;
 
 const MobileNavIcon = styled(NavIcon)`
-  @media (max-width: 550px) {
+  @media (max-width: 800px) {
     display: block;
   }
 `;
@@ -239,7 +271,7 @@ const Header = () => {
   const getString = useFluent();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const {width} = useWindowWidth();
-  if (width < 500) {
+  if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
     return (
       <Root>
@@ -249,24 +281,6 @@ const Header = () => {
             dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
           />
         </StyledLink>
-        <NavSection>
-          <StyledLink to={Routes.Landing}>
-            <H2 $active={true}>
-              <NavIcon
-                dangerouslySetInnerHTML={{__html: cityIconSVG}}
-              />
-              {getString('navigation-city-profiles')}
-            </H2>
-          </StyledLink>
-          <StyledLink to={'#'}>
-            <H2 $active={false}>
-              <NavIcon
-                dangerouslySetInnerHTML={{__html: cityIconSVG}}
-              />
-              {getString('navigation-industry-profiles')}
-            </H2>
-          </StyledLink>
-        </NavSection>
         <NavSection>
           <MobileMenu
             style={{transform: mobileMenuOpen ? 'translate(0, 0)' : 'translate(100%, 0)'}}
@@ -283,14 +297,6 @@ const Header = () => {
                   dangerouslySetInnerHTML={{__html: cityIconSVG}}
                 />
                 {getString('navigation-city-profiles')}
-              </MobileH2>
-            </StyledLink>
-            <StyledLink to={'#'}>
-              <MobileH2 $active={false}>
-                <MobileNavIcon
-                  dangerouslySetInnerHTML={{__html: cityIconSVG}}
-                />
-                {getString('navigation-industry-profiles')}
               </MobileH2>
             </StyledLink>
             <StyledLink to={'#'}>
@@ -347,19 +353,9 @@ const Header = () => {
           </StyledLink>
           <StyledLink to={'#'}>
             <H2 $active={false}>
-              <NavIcon
-                dangerouslySetInnerHTML={{__html: cityIconSVG}}
-              />
-              {getString('navigation-industry-profiles')}
-            </H2>
-          </StyledLink>
-          <StyledLink to={'#'}>
-            <H2 $active={false}>
               {getString('navigation-data')}
             </H2>
           </StyledLink>
-        </NavSection>
-        <NavSection>
           <StyledLink to={'#'}>
             <H2 $active={false}>
               {getString('navigation-about')}
