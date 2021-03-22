@@ -6,8 +6,9 @@ const Root = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0.875rem 0;
-  position: absolute;
+  position: sticky;
   left: 0;
+  bottom: 0;
   background-color: #fff;
   z-index: 100;
   border-top: none;
@@ -18,10 +19,7 @@ const Root = styled.div`
   font-size: clamp(0.65rem, 1vw, 0.85rem);
   grid-column-gap: 1rem;
   grid-row-gap: 0.5rem;
-
-  @media (max-height: 875px) {
-    position: sticky;
-  }
+  box-shadow: 0px -4px 3px 0px rgba(255, 255, 255, 1);
 `;
 
 const ColumnBase = styled.div`
