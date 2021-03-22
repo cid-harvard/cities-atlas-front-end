@@ -238,6 +238,7 @@ pswot-axis-labels-bottom-right = High Relative Advantage
 pswot-average-line-text = Relative Advantage = 1
 pswot-zero-axis-label = Relative Advantage = 0
 
-city-filter-title = Filter Cities
+city-filter-title-open = Open Filter Cities Options
+city-filter-title-close = Close Filter Cities Options
 city-filter-regions = Regions Filter
 city-filter-update = Update Cities

@@ -17,6 +17,10 @@ const RootBase = styled.div`
 
 const StandardRoot = styled(RootBase)`
   grid-column: 1;
+
+  @media (max-width: 1200px) {
+    grid-column: 1 / -1;
+  }
 `;
 
 const FullWidthRoot = styled(RootBase)`
@@ -24,12 +28,12 @@ const FullWidthRoot = styled(RootBase)`
 `;
 
 const Content = styled.div`
-  padding: 1rem 0 2rem;
+  padding: 0.875rem 0;
 `;
 
 const Bar = styled.div`
   width: 100%;
-  height: 0.65rem;
+  height: 0.6rem;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
 `;
@@ -51,14 +55,14 @@ const YourLocation = styled.div`
   justify-content: space-between;
   align-items: flex-end;
   height: 100%;
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   font-weight: 600;
   padding-right: 2rem;
 `;
 
 const Arrow = styled.img`
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 1.2rem;
+  height: 1.2rem;
   margin-right: 0.5rem;
 `;
 

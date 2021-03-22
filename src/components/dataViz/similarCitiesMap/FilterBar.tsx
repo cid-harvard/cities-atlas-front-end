@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom';
 import styled from 'styled-components/macro';
 import {
   primaryColor,
+  primaryHoverColor,
   ButtonBase,
   backgroundDark,
   backgroundMedium,
@@ -15,18 +16,47 @@ import ReactSlider from 'react-slider';
 import MultiSelect from '@khanacademy/react-multi-select';
 import {formatNumber} from '../../../Utils';
 import {useMapContext} from 'react-city-space-mapbox';
+import raw from 'raw.macro';
+const ChevronSVG = raw('../../../assets/icons/chevron.svg');
 
 export const filterBarId = 'similar-cities-filter-bar-id';
+
+const Root = styled.div`
+  background-color: rgba(255, 255, 255, 0.85);
+`;
 
 const Title = styled.h3`
   color: ${primaryColor};
   text-transform: uppercase;
   margin: 0;
+  padding: 0.2rem 0.75rem;
   font-size: 0.875rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
+
+const TitleText = styled.span`
+  margin-right: 0.5rem;
+`;
+
+const Arrow = styled.span`
+  width: 0.7rem;
+  height: 1rem;
+  display: inline-block;
+
+  svg {
+    width: 100%;
+    height: 100%;
+
+    polyline {
+      stroke: ${primaryColor};
+    }
+  }
 `;
 
 const Settings = styled.div`
-  padding-top: 0.35rem;
+  padding: 0.35rem 0.75rem 1rem;
   display: flex;
 `;
 
@@ -37,12 +67,16 @@ const ExpandBox = styled.div`
 
 const ShrinkBox = styled.div`
   flex-shrink: 1;
-  margin-top: auto;
+  margin-top: 1.6rem;
 `;
 
 const UpdateButton = styled(ButtonBase)`
-  background-color: ${backgroundDark};
+  background-color: ${primaryColor};
   color: #fff;
+
+  &:hover {
+    background-color: ${primaryHoverColor};
+  }
 `;
 
 
@@ -161,6 +195,7 @@ const FilterBar = (props: Props) => {
   const {populationRange, gdpPppPcRange, regions, setFilterValues} = props;
   const mapContext = useMapContext();
   const getString = useFluent();
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
   const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>(populationRange);
   const [minMaxGdpPppPc, setMinMaxGdpPppPc] = useState<[number, number]>(gdpPppPcRange);
@@ -175,9 +210,17 @@ const FilterBar = (props: Props) => {
   const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
     return createPortal((
-      <>
-        <Title>{getString('city-filter-title')}</Title>
-        <Settings>
+      <Root>
+        <Title
+          onClick={() => setSettingsOpen(curr => !curr)}
+        >
+          <TitleText>{getString(settingsOpen ? 'city-filter-title-close' : 'city-filter-title-open')}</TitleText>
+          <Arrow
+            style={{transform: settingsOpen ? 'rotate(180deg)' : undefined}}
+            dangerouslySetInnerHTML={{__html: ChevronSVG}}
+          />
+        </Title>
+        <Settings style={{display: settingsOpen ? undefined : 'none'}}>
           <ExpandBox>
             {getString('global-text-population')}
             <SliderContainer>
@@ -231,7 +274,7 @@ const FilterBar = (props: Props) => {
             </UpdateButton>
           </ShrinkBox>
         </Settings>
-      </>
+      </Root>
     ), node);
   }
 

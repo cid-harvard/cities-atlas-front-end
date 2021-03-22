@@ -9,6 +9,7 @@ export const mapLabelColor = '#04151b'; // dark blue/black
 export const hoverBackgroundColor = '#f3f3f3'; // really light gray color for use as a hover background color on cards
 
 export const primaryColor = '#f89570'; // orange
+export const primaryHoverColor = '#ef8963'; // slightly dark orange
 export const primaryColorLight = '#fdd4c7'; // light orange
 export const secondaryColor = '#3b848d'; // blue/teal
 export const tertiaryColor = '#cfbc3c'; // yellow

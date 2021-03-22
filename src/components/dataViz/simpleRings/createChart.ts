@@ -11,7 +11,7 @@ import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 
 const minExpectedScreenSize = 1020;
-export const defaultNodeRadius = 16;
+export const defaultNodeRadius = 14;
 function circlePath(cx: number, cy: number, r: number){
     return svgPathReverse.reverse(
       'M '+cx+' '+cy+' m -'+r+', 0 a '+r+','+r+' 0 1,0 '+(r*2)+',0 a '+r+','+r+' 0 1,0 -'+(r*2)+',0',
@@ -241,6 +241,13 @@ const createChart = (input: Input) => {
   const nodeLabels = g.append('g')
     .attr('class', 'city-nodes-label-group');
 
+  let maxCharLength = 8;
+  if (window.innerHeight > 700 && window.innerWidth > 1200) {
+    maxCharLength = 15;
+  } else if (window.innerHeight > 600) {
+    maxCharLength = 10;
+  }
+
   nodeLabels.selectAll('.city-nodes-label')
     .data(nodes)
     .enter().append('text')
@@ -250,26 +257,9 @@ const createChart = (input: Input) => {
       .style('paint-order', 'stroke')
       .style('text-anchor', 'middle')
       .attr('display', d => d.shown ? 'block' : 'none')
-      .text(d => ellipsisText(d.name as string, 15))
+      .text(d => ellipsisText(d.name as string, maxCharLength))
       .attr('x', d => d.x)
       .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 1.25));
-
-
-  const countryLabels = g.append('g')
-    .attr('class', 'country-nodes-label-group');
-
-  countryLabels.selectAll('.country-nodes-label')
-    .data(nodes)
-    .enter().append('text')
-      .attr('class', 'country-nodes-label')
-      .style('font-size', baseFontSize * 0.65 + 'px')
-      .style('fill', '#666')
-      .style('paint-order', 'stroke')
-      .style('text-anchor', 'middle')
-      .attr('display', d => d.shown ? 'block' : 'none')
-      .text(d => ellipsisText(d.country as string, 30))
-      .attr('x', d => d.x)
-      .attr('y', d => d.y + (d.radius ? d.radius : radius) + (baseFontSize * 2.25));
 
 };
 

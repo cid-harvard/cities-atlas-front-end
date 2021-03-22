@@ -22,7 +22,7 @@ const Root = styled.div`
 
 const RingsContainer = styled.div`
   position: absolute;
-  top: 0;
+  top: 1rem;
   left: 0;
   opacity: 0;
   animation: ${fadeIn} 0.2s ease-in-out 1 forwards;
@@ -32,10 +32,11 @@ interface Props {
   selectedRegionIds: string[];
   minMaxPopulation: [number, number];
   minMaxGdpPppPc: [number, number];
+  tooltipNode: HTMLDivElement | null;
 }
 
 const SimpleRings = (props: Props) => {
-  const {selectedRegionIds, minMaxPopulation, minMaxGdpPppPc} = props;
+  const {selectedRegionIds, minMaxPopulation, minMaxGdpPppPc, tooltipNode} = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -43,8 +44,10 @@ const SimpleRings = (props: Props) => {
   const {city_node_sizing} = useQueryParams();
   const chartKey = dimensions
     ? cityId + 'industry-space-sized-to-container-key' +
-        dimensions.width.toString() + dimensions.height.toString() + city_node_sizing + JSON.stringify(props)
-    : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing + JSON.stringify(props);
+        dimensions.width.toString() + dimensions.height.toString() + city_node_sizing
+          + JSON.stringify({selectedRegionIds, minMaxPopulation, minMaxGdpPppPc})
+    : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing
+      + JSON.stringify({selectedRegionIds, minMaxPopulation, minMaxGdpPppPc});
 
   const {data} = useProximityData();
 
@@ -68,6 +71,7 @@ const SimpleRings = (props: Props) => {
           selectedRegionIds={selectedRegionIds}
           minMaxPopulation={minMaxPopulation}
           minMaxGdpPppPc={minMaxGdpPppPc}
+          tooltipNode={tooltipNode}
         />
       </RingsContainer>
     </Root>

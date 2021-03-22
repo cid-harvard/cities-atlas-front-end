@@ -2,7 +2,6 @@ import React, {useEffect, useState, useRef} from 'react';
 import createChart, {
   defaultNodeRadius,
 } from './createChart';
-import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {SuccessResponse} from '../similarCitiesMap/useProximityData';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import useGlobalLocationData, {getPopulationScale, getGdpPppScale} from '../../../hooks/useGlobalLocationData';
@@ -30,23 +29,23 @@ interface Props {
   selectedRegionIds: string[];
   minMaxPopulation: [number, number];
   minMaxGdpPppPc: [number, number];
+  tooltipNode: HTMLDivElement | null;
 }
 
 const Chart = (props: Props) => {
   const {
     width, height, data, minMaxPopulation, minMaxGdpPppPc, selectedRegionIds,
+    tooltipNode,
   } = props;
 
   const cityId = useCurrentCityId();
   const {city_node_sizing} = useQueryParams();
   const cityData = useGlobalLocationData();
   const chartRef = useRef<HTMLDivElement | null>(null);
-  const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [chart, setChart] = useState<Chart>({initialized: false});
 
   useEffect(() => {
     const chartNode = chartRef.current;
-    const tooltipNode = tooltipRef.current;
 
     const [minPop, maxPop] = minMaxPopulation;
     const [minGdpPppPc, maxGdpPppPc] = minMaxGdpPppPc;
@@ -58,9 +57,9 @@ const Chart = (props: Props) => {
         let radiusScale: (value: number) => number;
         const nodeSizing = city_node_sizing ? city_node_sizing : defaultCityNodeSizing;
         if (nodeSizing === CityNodeSizing.population) {
-          radiusScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
+          radiusScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.45, defaultNodeRadius * 1.25);
         } else if (nodeSizing === CityNodeSizing.gdpPpp) {
-          radiusScale = getGdpPppScale(cityData.data, defaultNodeRadius * 0.6, defaultNodeRadius * 2);
+          radiusScale = getGdpPppScale(cityData.data, defaultNodeRadius * 0.45, defaultNodeRadius * 1.25);
         } else {
           radiusScale = (_unused: any) => defaultNodeRadius;
         }
@@ -127,7 +126,7 @@ const Chart = (props: Props) => {
       }
     }
   }, [chartRef, chart, width, height, data, cityId, cityData, city_node_sizing,
-      minMaxPopulation, minMaxGdpPppPc, selectedRegionIds]);
+      minMaxPopulation, minMaxGdpPppPc, selectedRegionIds, tooltipNode]);
 
   return (
     <>
@@ -135,7 +134,6 @@ const Chart = (props: Props) => {
         ref={chartRef}
         style={{width, height}}
       />
-      <RapidTooltipRoot ref={tooltipRef} />
     </>
   );
 };

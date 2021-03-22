@@ -8,7 +8,7 @@ const Root = styled.div`
   padding: 0.875rem 0;
   position: sticky;
   left: 0;
-  bottom: 0;
+  bottom: -1px;
   background-color: #fff;
   z-index: 100;
   border-top: none;
