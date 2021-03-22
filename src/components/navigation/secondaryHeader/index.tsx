@@ -18,13 +18,13 @@ import {CityRoutes} from '../../../routing/routes';
 
 const Root = styled(SecondaryHeaderContainer)`
   background-color: ${backgroundMedium};
-  padding: 0.55rem ${defaultPadding}rem;
+  padding: 0.4rem ${defaultPadding}rem;
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr auto;
   grid-gap: 0.7rem;
   pointer-events: auto;
-  min-height: 50px;
+  min-height: 40px;
 
   @media (max-width: 1100px) {
     padding: 0.55rem;
@@ -46,6 +46,7 @@ const SearchContainer = styled(SearchContainerLight)`
   .react-panel-search-search-bar-input {
     background-color: ${backgroundMedium};
     padding: 0.4rem 0.5rem;
+    font-size: 0.75rem;
 
     &:focus::placeholder {
       color: ${backgroundMedium};

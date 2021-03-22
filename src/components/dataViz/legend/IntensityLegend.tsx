@@ -16,6 +16,10 @@ const RootBase = styled.div`
 
 const StandardRoot = styled(RootBase)`
   grid-column: 1;
+
+  @media (max-width: 1200px) {
+    grid-column: 1 / -1;
+  }
 `;
 
 const FullWidthRoot = styled(RootBase)`
@@ -23,20 +27,19 @@ const FullWidthRoot = styled(RootBase)`
 `;
 
 const Content = styled.div`
-  padding: 1rem 0 2rem;
+  padding: 0.875rem 0;
 `;
 
 const Bar = styled.div`
   width: 100%;
-  height: 0.65rem;
+  height: 0.6rem;
   background: linear-gradient(90deg, ${intensityColorRange[0]} 0%, ${intensityColorRange[1]} 100%);
 `;
 
 const Labels = styled.div`
   display: flex;
   justify-content: space-between;
-  font-size: 0.85rem;
-  margin-bottom: 0.3rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
 `;
 

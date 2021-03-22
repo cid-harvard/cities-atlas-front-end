@@ -1,5 +1,5 @@
 import styled, {keyframes, css} from 'styled-components/macro';
-import {breakPoints} from './GlobalGrid';
+import {breakPoints, breakPointValues} from './GlobalGrid';
 
 export const baseColor = '#333333'; // dark gray/black color for text
 export const lightBaseColor = '#7c7c7c'; // light gray color for subtitles and contextual information
@@ -80,7 +80,7 @@ export const noOutlineOnFocus = css`
 `;
 
 export const ContentGrid = styled.div`
-  padding: 1rem;
+  padding: 0 0.75rem 0.25rem;
   box-sizing: border-box;
   display: grid;
   width: 100%;
@@ -89,12 +89,12 @@ export const ContentGrid = styled.div`
   grid-template-columns: 1fr 18.5rem;
   grid-column-gap: 2rem;
 
-  @media ${breakPoints.medium} {
+  @media screen and (max-width: ${breakPointValues.width.medium}px) {
     grid-template-columns: 1fr 14rem;
     grid-column-gap: 1rem;
   }
 
-  @media ${breakPoints.mediumSmall} {
+  @media screen and (max-width: ${breakPointValues.width.mediumSmall}px) {
     grid-template-columns: 1fr 10rem;
   }
 

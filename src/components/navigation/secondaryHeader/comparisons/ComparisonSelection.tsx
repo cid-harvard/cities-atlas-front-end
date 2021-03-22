@@ -40,7 +40,7 @@ const ButtonBase = styled.button`
 `;
 
 const AddComparisonButton = styled(ButtonBase)`
-  font-size: 0.85rem;
+  font-size: 0.75rem;
   border: dashed 1px ${lightBaseColor};
   padding: 0.4rem 0.5rem 0.4rem 1.65rem;
   color: ${baseColor};
@@ -65,12 +65,12 @@ const AddComparisonButton = styled(ButtonBase)`
 const RemoveComparisonButton = styled(ButtonBase)`
   color: ${errorColor};
   outline: 0 solid rgba(255, 255, 255, 0);
-  font-size: clamp(0.65rem, 1vw, 1rem);
+  font-size: 0.75rem;
   padding: 0 0.25rem;
   transition: outline 0.1s ease;
 
   &:before {
-    font-size: 1.25rem;
+    font-size: 1rem;
     margin-right: 0.35rem;
     content: '✕';
     transform: translate(1%, 0);

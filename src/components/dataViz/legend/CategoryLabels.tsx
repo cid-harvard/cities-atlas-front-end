@@ -36,7 +36,7 @@ const StandardContent = styled.div`
   position: relative;
   align-items: center;
   box-sizing: border-box;
-  padding: 1rem 0 0;
+  padding: 0.875rem 0 1rem;
   margin-bottom: 1rem;
 
   @media ${breakPoints.small} {
@@ -45,56 +45,93 @@ const StandardContent = styled.div`
 `;
 
 const FullWidthContent = styled(StandardContent)`
-  padding: 1rem 1rem 1rem 0;
+  padding: 0.875rem 0;
 
   @media ${breakPoints.small} {
     padding-right: 0;
   }
+
+  @media (min-width: 1001px) {
+    margin-bottom: 0;
+  }
 `;
 
 const fadeAndSlideIn = keyframes`
-  from {
-    transform: translate(0, 0);
+  0% {
+    transform: translate(300%, 0);
     opacity: 0;
   }
 
-  to {
-    transform: translate(0, calc(50% + 0.25rem));
+  70% {
+    transform: translate(90%, 0);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translate(110%, 0);
+    opacity: 1;
+  }
+`;
+
+const fadeAndSlideDown = keyframes`
+  0% {
+    transform: translate(0, -50%);
+    opacity: 0;
+  }
+
+  70% {
+    transform: translate(0, 20%);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translate(0, 0);
     opacity: 1;
   }
 `;
 
 const ResetLabelsButtonContainer = styled.div`
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
   text-align: center;
   pointer-events: none;
+  right: 0;
+
+  @media (max-width: 1000px) {
+    left: 0;
+    bottom: -0.5rem;
+  }
 `;
 
 const ResetLabelsButton = styled.button`
   pointer-events: all;
-  animation: ${fadeAndSlideIn} 0.2s linear 1 forwards;
+  animation: ${fadeAndSlideIn} 0.2s ease-in-out 1 forwards;
   text-transform: uppercase;
   color: ${baseColor};
   background-color: ${backgroundMedium};
-  font-size: 0.65rem;
+  font-size: 0.5rem;
   font-weight: 600;
   outline-color: ${backgroundMedium};
-  transition: outline 0.1s linear;
+  transition: outline 0.1s ease-in-out;
   padding: 0.3rem 0.5rem;
   display: inline-flex;
   align-items: center;
+  width: 5rem;
 
   &:hover, &:focus {
     outline: solid 2px ${backgroundMedium};
   }
+
+  @media (max-width: 1000px) {
+    animation: ${fadeAndSlideDown} 0.2s ease-in-out 1 forwards;
+    width: auto;
+    left: 0;
+    bottom: 0;
+  }
 `;
 
 const ReloadIcon = styled.div`
-  width: 0.7rem;
-  height: 0.7rem;
+  width: 1rem;
+  height: 1rem;
   margin-right: 0.5rem;
 
   svg {
@@ -104,6 +141,11 @@ const ReloadIcon = styled.div`
     path {
       fill: ${baseColor};
     }
+  }
+
+  @media (max-width: 1000px) {
+    width: 0.7rem;
+    height: 0.7rem;
   }
 `;
 
