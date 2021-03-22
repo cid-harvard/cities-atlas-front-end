@@ -79,6 +79,7 @@ const IndicatorRoot = styled.div`
 const SettingsButton = styled(ButtonBase)`
   margin-left: auto;
   height: 100%;
+  white-space: nowrap;
 `;
 
 const NavButton = styled(ButtonBase)`
