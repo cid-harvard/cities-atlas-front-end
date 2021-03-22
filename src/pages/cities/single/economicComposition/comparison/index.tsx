@@ -18,7 +18,6 @@ import useFluent from '../../../../../hooks/useFluent';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import {RegionGroup} from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import useSectorMap from '../../../../../hooks/useSectorMap';
-import noop from 'lodash/noop';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import {createRoute} from '../../../../../routing/Utils';
 import {CityRoutes, cityIdParam} from '../../../../../routing/routes';
@@ -167,7 +166,6 @@ const CompositionComparison = (props: Props) => {
         />
         <UtiltyBar
           onDownloadImageButtonClick={() => setActiveDownload(DownloadType.Image)}
-          onDownloadDataButtonClick={noop}
         />
       </ContentGrid>
       {download}

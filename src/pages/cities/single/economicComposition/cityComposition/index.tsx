@@ -22,7 +22,6 @@ import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import useClusterMap from '../../../../../hooks/useClusterMap';
 import DownloadImageOverlay from './DownloadImageOverlay';
-import noop from 'lodash/noop';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
 import {ColorBy, defaultClusterLevel} from '../../../../../routing/routes';
@@ -231,7 +230,6 @@ const EconomicComposition = (props: Props) => {
       </ContentGrid>
       <UtiltyBar
         onDownloadImageButtonClick={() => setActiveDownload(DownloadType.Image)}
-        onDownloadDataButtonClick={noop}
       />
     </>
   );
