@@ -18,12 +18,16 @@ const growIn = keyframes`
 `;
 
 const Root = styled.div`
-  padding: 1.5rem;
   background-color: ${backgroundDark};
   position: relative;
   animation: ${growIn} 0.1s normal forwards ease-in-out;
   animation-iteration-count: 1;
   color: #fff;
+  height: 100%;
+
+  @media screen and (max-height: 700px) {
+    overflow: visible;
+  }
 `;
 
 const CloseButton = styled.button`

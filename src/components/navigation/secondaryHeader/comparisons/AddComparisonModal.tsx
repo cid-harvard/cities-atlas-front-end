@@ -33,9 +33,12 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  box-sizing: border-box;
 
-  @media (max-width: 900px) {
+  @media (max-width: 900px), (max-height: 700px) {
     width: 100%;
+    max-height: initial;
+    padding: 1rem;
   }
 `;
 
@@ -149,6 +152,13 @@ const ContinueButtonContainer = styled.div`
   margin-top: auto;
   display: flex;
   justify-content: flex-end;
+  padding: 2rem 1rem 1rem;
+  position: sticky;
+  bottom: 0;
+
+  @media (max-width: 750px) {
+    position: relative;
+  }
 `;
 
 const ContinueButton = styled.button`
@@ -367,7 +377,7 @@ const AddComparisonModal = (props: Props) => {
   );
 
   return (
-    <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'auto'}>
+    <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'inherit'}>
       <Root>
         <H1>{getString('global-ui-compare-title', {name})}:</H1>
         <SearchContainerDark>
