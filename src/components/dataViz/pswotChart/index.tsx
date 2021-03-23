@@ -353,8 +353,8 @@ const PSWOTChart = (props: Props) => {
             zeroAxisLabel={getString('pswot-zero-axis-label')}
             axisLabels={{
               left: getString('pswot-axis-labels-left'),
-              leftUp: getString('pswot-axis-labels-left-up'),
-              leftDown: getString('pswot-axis-labels-left-down'),
+              leftUp: dimensions.height > 400 ? getString('pswot-axis-labels-left-up') : '',
+              leftDown: dimensions.height > 400 ? getString('pswot-axis-labels-left-down') : '',
               bottomLeft: getString('pswot-axis-labels-bottom-left'),
               bottomRight: getString('pswot-axis-labels-bottom-right'),
             }}

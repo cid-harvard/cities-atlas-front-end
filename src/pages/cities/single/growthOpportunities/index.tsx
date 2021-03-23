@@ -126,7 +126,7 @@ const GrowthOppurtunities = () => {
 
       <ContentGrid>
         <StandardSideTextBlock>
-          <ContentTitle>What are the Growth Opportunities in my City?<br />SWOT Analysis</ContentTitle>
+          <ContentTitle>What are the Growth Opportunities in my City?</ContentTitle>
           {/* eslint-disable-next-line */}
           <ContentParagraph>{'Building on all these measures, we can rank industries not only by their relative size in <City>, but by their predicted future growth. These measures can help analysts make sense not only of <City>\'s economic strengths and weaknesses, but to assess growth opportunities and contraction threats. <City>\'s strengths concentrate in sector <Sec>, while its weaknesses concentrate in <Sec>. <City> has great opportunities in <Sec>, but faces threats in <Sec>.'}</ContentParagraph>
         </StandardSideTextBlock>

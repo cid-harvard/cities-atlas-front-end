@@ -232,8 +232,8 @@ pswot-quadrant-labels-v = Potential
 pswot-axis-labels-left = Expected Change
 pswot-axis-labels-left-up = Growing
 pswot-axis-labels-left-down = Decreasing
-pswot-axis-labels-bottom-left = Low Relative Advantage
-pswot-axis-labels-bottom-right = High Relative Advantage
+pswot-axis-labels-bottom-left = Low Specialization
+pswot-axis-labels-bottom-right = High Specialization
 
 pswot-average-line-text = Relative Advantage = 1
 pswot-zero-axis-label = Relative Advantage = 0
