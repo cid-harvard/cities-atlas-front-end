@@ -68,10 +68,18 @@ const AxisLabelBase = styled.div`
   font-size: 0.875rem;
   color: ${baseColor};
   text-transform: uppercase;
+
+  @media (max-height: 600px) {
+    font-size: 0.65rem;
+  }
 `;
 
 const AxisLabelHigh = styled(AxisLabelBase)`
   margin-left: 3rem;
+
+  @media (max-height: 700px) {
+    margin-left: 1rem;
+  }
 `;
 
 const VizRoot = styled.div`

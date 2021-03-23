@@ -132,6 +132,7 @@ export const BasicLabel = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
 `;
 
 export const SearchContainerDark = styled.div`
