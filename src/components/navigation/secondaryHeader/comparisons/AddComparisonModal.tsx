@@ -155,6 +155,7 @@ const ContinueButtonContainer = styled.div`
   padding: 2rem 1rem 1rem;
   position: sticky;
   bottom: 0;
+  pointer-events: none;
 
   @media (max-width: 750px) {
     position: relative;
@@ -170,6 +171,8 @@ const ContinueButton = styled.button`
   font-size: 1.25rem;
   padding: 0.6rem 1rem;
   transition: opacity 0.2s ease-in-out;
+  background-color: ${backgroundDark};
+  pointer-events: all;
 
   &:hover:not(:disabled) {
     background-color: #fff;
@@ -178,7 +181,8 @@ const ContinueButton = styled.button`
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.5);
+    border-color: rgba(255, 255, 255, 0.5);
   }
 `;
 
