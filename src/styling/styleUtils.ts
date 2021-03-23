@@ -153,7 +153,7 @@ export const SearchContainerDark = styled.div`
   .react-panel-search-search-bar-input {
     text-transform: uppercase;
     font-size: 0.85rem;
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgba(0, 0, 0, 0.85);
     color: #fff;
     border: solid 1px #fff;
     padding-top: 1rem;
@@ -195,7 +195,7 @@ export const SearchContainerDark = styled.div`
   }
 
   .react-panel-search-search-results {
-    background-color: rgba(0, 0, 0, 0.35);
+    background-color: rgba(0, 0, 0, 0.85);
     border: solid 1px #fff;
 
     ::-webkit-scrollbar-thumb {
@@ -213,19 +213,19 @@ export const SearchContainerDark = styled.div`
   }
 
   .react-panel-search-current-tier-breadcrumb-outer:hover {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.35);
   }
 
   .react-panel-search-list-item {
     background-color: transparent;
     color: #fff;
     &:hover {
-      background-color: rgba(255, 255, 255, 0.25);
+      background-color: rgba(255, 255, 255, 0.35);
     }
   }
 
   .react-panel-search-highlighted-item {
-    background-color: rgba(255, 255, 255, 0.25);
+    background-color: rgba(255, 255, 255, 0.35);
   }
 
   .react-panel-search-search-results:hover {
