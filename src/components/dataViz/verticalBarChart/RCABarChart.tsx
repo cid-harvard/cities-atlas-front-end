@@ -15,23 +15,17 @@ import {breakPoints} from '../../../styling/GlobalGrid';
 import {
   baseColor,
 } from '../../../styling/styleUtils';
-import PreChartRow, {VizNavStyle} from '../../../components/general/PreChartRow';
+import PreChartRow from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import useRCAData, {SuccessResponse} from '../industrySpace/chart/useRCAData';
-import {
-  useHistory,
-} from 'react-router-dom';
 import Industries from './Industries';
 import Clusters from './Clusters';
 import {
-  CityRoutes,
   ColorBy,
 } from '../../../routing/routes';
-import {createRoute} from '../../../routing/Utils';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
 import useColorByIntensity from '../treeMap/useColorByIntensity';
@@ -120,9 +114,7 @@ const RCABarChart = (props: Props) => {
     isClusterView, clusterLevel,
     digitLevel, colorBy, hiddenClusters,
   } = props;
-  const cityId = useCurrentCityId();
   const getString = useFluent();
-  const history = useHistory();
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const {loading, error, data} = useRCAData(digitLevel);
@@ -207,29 +199,6 @@ const RCABarChart = (props: Props) => {
     output = null;
   }
 
-  const industriesUrl = cityId ? createRoute.city(CityRoutes.CityGoodAt, cityId) + history.location.search : '';
-  const clustersUrl = cityId ? createRoute.city(CityRoutes.CityGoodAtClusters, cityId) + history.location.search : '';
-
-  const vizNavigation = [
-    {
-      label: 'Industry Groups',
-      active: !isClusterView,
-      onClick: () => {
-        setHighlighted(undefined);
-        history.push(industriesUrl);
-      },
-    },
-    {
-      label: 'Knowledge Clusters',
-      active: isClusterView,
-      onClick: () => {
-        setHighlighted(undefined);
-        history.push(clustersUrl);
-      },
-      tooltipContent: 'About Knowledge Clusters',
-    },
-  ];
-
   return (
     <>
       <PreChartRow
@@ -241,9 +210,8 @@ const RCABarChart = (props: Props) => {
           } : undefined,
           digitLevel: isClusterView ? undefined : true,
           colorBy: true,
+          aggregationMode: true,
         }}
-        vizNavigation={vizNavigation}
-        vizNavigationStyle={VizNavStyle.Underline}
       />
       <Root>
         <LeftAxisRoot>

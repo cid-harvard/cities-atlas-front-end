@@ -22,7 +22,7 @@ import ErrorBoundary from '../ErrorBoundary';
 import useFluent from '../../../hooks/useFluent';
 import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import PreChartRow, {Indicator, VizNavItem, VizNavStyle} from '../../../components/general/PreChartRow';
+import {Indicator} from '../../../components/general/PreChartRow';
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
@@ -89,14 +89,13 @@ interface Props {
   colorBy: ColorBy;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  setHighlighted: (value: string | undefined) => void;
-  vizNavigation: VizNavItem[];
+  setIndicatorContent: (indicator: Indicator) => void;
 }
 
 const CompositionTreeMap = (props: Props) => {
   const {
     cityId, year, digitLevel, compositionType, highlighted, hiddenSectors,
-    setHighlighted, colorBy, vizNavigation,
+    colorBy, setIndicatorContent,
   } = props;
   const industryMap = useGlobalIndustryMap();
   const getString = useFluent();
@@ -117,7 +116,6 @@ const CompositionTreeMap = (props: Props) => {
       }, 0);
     }
   }, [rootRef, windowDimensions]);
-
 
   const prevData = usePrevious(data);
   let dataToUse: SuccessResponse | undefined;
@@ -314,15 +312,9 @@ const CompositionTreeMap = (props: Props) => {
     output = null;
   }
 
+  setIndicatorContent(indicator);
   return (
     <>
-      <PreChartRow
-        indicator={indicator}
-        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
-        settingsOptions={{compositionType: true, digitLevel: true, colorBy: true}}
-        vizNavigation={vizNavigation}
-        vizNavigationStyle={VizNavStyle.Underline}
-      />
       <Root ref={rootRef}>
         {output}
       </Root>

@@ -62,6 +62,7 @@ global-ui-node-sizing = Size Nodes By
 global-ui-node-color-by = Color Nodes By
 global-ui-color-by = Color By
 global-ui-show-clusters = Show Knowledge Clusters Overlay
+global-ui-aggregation-mode = Aggregation Method
 global-ui-digit-level = digit level
 global-ui-sector-level = Sector level
 global-ui-year = Year
@@ -132,6 +133,7 @@ global-text-countries = Countries
 global-text-population = Population
 global-text-gdp-per-capita = GDP per Capita
 global-text-industries = Industries
+global-text-industry-groups = Industry Groups
 
 global-text-world = World
 global-text-similar-cities = Similar Cites
@@ -216,6 +218,7 @@ glossary-digit-level = About digit levels
 glossary-digit-level-disabled = Digit levels are disabled for this visualization
 glossary-digit-level-disabled-industry-space = Industry Space is only available at the 6-digit level
 glossary-digit-level-disabled-swot = SWOT Analysis is only available at the 6-digit level
+glossary-cluster-vs-naics = About clusters vs industries
 glossary-cluster-overlay = About cluster overlay
 glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for this visualization
 

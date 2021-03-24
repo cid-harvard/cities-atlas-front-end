@@ -6,11 +6,9 @@ export const cityIdParam = 'cityId';
 export const CityRoutes = {
   CityBase: '/city/:cityId',
   CityEconomicComposition: '/city/:cityId/economic-composition',
-  CityEconomicCompositionClusters: '/city/:cityId/economic-composition/clusters',
   CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
   CitySimilarCities: '/city/:cityId/similar-cities',
   CityGoodAt: '/city/:cityId/good-at',
-  CityGoodAtClusters: '/city/:cityId/good-at/clusters',
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
   CityGrowthOpportunities: '/city/:cityId/growth-opportunities',
   CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',
@@ -61,6 +59,13 @@ export enum ClusterLevel {
   C3 = '3',
 }
 
+export enum AggregationMode {
+  cluster = 'clusters',
+  industries = 'industries',
+}
+
+export const defaultAggregationMode: AggregationMode = AggregationMode.industries;
+
 export const defaultClusterLevel: ClusterLevel = ClusterLevel.C3;
 export const defaultColorBy: ColorBy = ColorBy.sector;
 
@@ -69,6 +74,7 @@ export interface GlobalQueryParams {
   compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
+  aggregation: AggregationMode | undefined;
   cluster_overlay: Toggle | undefined;
   node_sizing: NodeSizing | undefined;
   color_by: ColorBy | undefined;

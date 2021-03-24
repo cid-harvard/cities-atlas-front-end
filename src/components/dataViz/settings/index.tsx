@@ -31,6 +31,8 @@ import {
   CityNodeSizing,
   CityColorBy,
   defaultCityNodeSizing,
+  defaultAggregationMode,
+  AggregationMode,
 } from '../../../routing/routes';
 import raw from 'raw.macro';
 import Tooltip, {TooltipTheme} from '../../general/Tooltip';
@@ -300,6 +302,7 @@ export interface SettingsOptions {
   };
   cityNodeSizing?: boolean;
   cityColorBy?: boolean;
+  aggregationMode?: boolean;
 }
 
 interface Props {
@@ -331,6 +334,7 @@ const Settings = (props: Props) => {
       color_by: _unusedColorBy,
       city_color_by: _unusedCityColorBy,
       city_node_sizing: _unusedCitySizeBy,
+      aggregation: _unusedAggregation,
       ...rest
     } = params;
     const query = queryString.stringify({...rest});
@@ -398,6 +402,43 @@ const Settings = (props: Props) => {
     );
   } else {
     compositionOptions = null;
+  }
+
+  let aggregationMode: React.ReactElement<any> | null;
+  if (settingsOptions.aggregationMode !== undefined) {
+    const ClusterButton = (!params.aggregation && defaultAggregationMode === AggregationMode.cluster) ||
+      (params.aggregation === AggregationMode.cluster)
+        ? CompostionButtonHighlight : CompostionButtonBase;
+    const NaicButton = (!params.aggregation && defaultAggregationMode === AggregationMode.industries) ||
+      (params.aggregation === AggregationMode.industries)
+      ? CompostionButtonHighlight : CompostionButtonBase;
+    const InputContainer = settingsOptions.aggregationMode === true
+      ? SettingsInputContainer : DisabledSettingsInputContainer;
+    const LabelContainer = settingsOptions.aggregationMode === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.aggregationMode === true
+      ? getString('glossary-cluster-vs-naics') : getString('glossary-cluster-vs-naics');
+    aggregationMode = (
+      <SettingGrid>
+        <Tooltip
+          explanation={tooltipText}
+        />
+        <LabelContainer>{getString('global-ui-aggregation-mode')}</LabelContainer>
+        <InputContainer>
+          <NaicButton
+            onClick={() => updateSetting('aggregation', AggregationMode.industries)}
+          >
+            {getString('global-text-industry-groups')}
+          </NaicButton>
+          <ClusterButton
+            onClick={() => updateSetting('aggregation', AggregationMode.cluster)}
+          >
+            {getString('global-ui-skill-clusters')}
+          </ClusterButton>
+        </InputContainer>
+      </SettingGrid>
+    );
+  } else {
+    aggregationMode = null;
   }
 
   let digitLevelOptions: React.ReactElement<any> | null;
@@ -753,6 +794,7 @@ const Settings = (props: Props) => {
         </Title>
         <Content>
           {compositionOptions}
+          {aggregationMode}
           {digitLevelOptions}
           {clusterLevelOptions}
           {clusterOverlayToggle}

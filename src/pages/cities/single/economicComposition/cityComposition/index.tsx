@@ -14,6 +14,7 @@ import {
   CompositionType,
   defaultDigitLevel,
   defaultCompositionType,
+  DigitLevel,
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
@@ -28,14 +29,8 @@ import {ColorBy, defaultClusterLevel} from '../../../../../routing/routes';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
-import {
-  Switch,
-  useHistory,
-  matchPath,
-  Route,
-} from 'react-router-dom';
-import {CityRoutes, cityIdParam} from '../../../../../routing/routes';
-import {createRoute} from '../../../../../routing/Utils';
+import {AggregationMode, defaultAggregationMode} from '../../../../../routing/routes';
+import PreChartRow, {Indicator} from '../../../../../components/general/PreChartRow';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -50,7 +45,7 @@ const EconomicComposition = (props: Props) => {
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const [hiddenClusters, setHiddenClusters] = useState<ClassificationNaicsCluster['id'][]>([]);
-  const {digit_level, cluster_level, composition_type, color_by} = useQueryParams();
+  const {digit_level, cluster_level, composition_type, color_by, aggregation} = useQueryParams();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
 
@@ -76,10 +71,15 @@ const EconomicComposition = (props: Props) => {
 
   const [activeDownload, setActiveDownload] = useState<DownloadType | null>(null);
   const closeDownload = () => setActiveDownload(null);
+
+  const [indicatorContent, setIndicatorContent] = useState<Indicator>({
+    text: undefined,
+    tooltipContent: undefined,
+  });
+
   const treeMapRef = useRef<HTMLDivElement | null>(null);
   const globalLocationData = useGlobalLocationData();
   const getString = useFluent();
-  const history = useHistory();
 
   let download: React.ReactElement<any> | null;
   if (activeDownload === DownloadType.Image && treeMapRef.current) {
@@ -106,9 +106,8 @@ const EconomicComposition = (props: Props) => {
     download = null;
   }
 
-  const isClusterTreeMap = matchPath<{[cityIdParam]: string}>(
-    history.location.pathname, CityRoutes.CityEconomicCompositionClusters,
-  );
+  const isClusterTreeMap =
+    (!aggregation && defaultAggregationMode === AggregationMode.cluster) || (aggregation === AggregationMode.cluster);
 
   let legend: React.ReactElement<any> | null;
   if (color_by === ColorBy.education) {
@@ -124,7 +123,7 @@ const EconomicComposition = (props: Props) => {
       <IntensityLegend />
     );
   } else  {
-    if (!!(isClusterTreeMap && isClusterTreeMap.isExact)) {
+    if (isClusterTreeMap) {
       legend = (
         <CategoryLabels
           categories={clusterMap}
@@ -153,31 +152,29 @@ const EconomicComposition = (props: Props) => {
     }
   }
 
-  const vizNavigation= [
-    {
-      label: 'Industry Groups',
-      active: !!(!isClusterTreeMap || !isClusterTreeMap.isExact),
-      onClick: () => {
-        setHighlighted(undefined);
-        history.push(
-          createRoute.city(CityRoutes.CityEconomicComposition, cityId)
-          + history.location.search,
-        );
-      },
-    },
-    {
-      label: 'Knowledge Clusters',
-      active: !!(isClusterTreeMap && isClusterTreeMap.isExact),
-      onClick: () => {
-        setHighlighted(undefined);
-        history.push(
-          createRoute.city(CityRoutes.CityEconomicCompositionClusters, cityId)
-          + history.location.search,
-        );
-      },
-      tooltipContent: 'About Knowledge Clusters',
-    },
-  ];
+  const treeMapViz = isClusterTreeMap ? (
+    <ClusterCompositionTreeMap
+      cityId={parseInt(cityId, 10)}
+      year={defaultYear}
+      clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
+      colorBy={color_by ? color_by : ColorBy.sector}
+      compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+      highlighted={highlighted}
+      hiddenClusters={hiddenClusters}
+      setIndicatorContent={setIndicatorContent}
+    />
+  ) : (
+    <CompositionTreeMap
+      cityId={parseInt(cityId, 10)}
+      year={defaultYear}
+      digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+      colorBy={color_by ? color_by : ColorBy.sector}
+      compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+      highlighted={highlighted}
+      hiddenSectors={hiddenSectors}
+      setIndicatorContent={setIndicatorContent}
+    />
+  );
 
   return (
     <>
@@ -192,38 +189,22 @@ const EconomicComposition = (props: Props) => {
 
         </StandardSideTextBlock>
         <TreeMapRoot ref={treeMapRef}>
-          <Switch>
-            <Route path={CityRoutes.CityEconomicCompositionClusters}
-              render={() => (
-                <ClusterCompositionTreeMap
-                  cityId={parseInt(cityId, 10)}
-                  year={defaultYear}
-                  clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
-                  colorBy={color_by ? color_by : ColorBy.sector}
-                  compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-                  highlighted={highlighted}
-                  hiddenClusters={hiddenClusters}
-                  setHighlighted={setHighlighted}
-                  vizNavigation={vizNavigation}
-                />
-              )}
-            />
-            <Route path={CityRoutes.CityEconomicComposition}
-              render={() => (
-                <CompositionTreeMap
-                  cityId={parseInt(cityId, 10)}
-                  year={defaultYear}
-                  digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-                  colorBy={color_by ? color_by : ColorBy.sector}
-                  compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-                  highlighted={highlighted}
-                  hiddenSectors={hiddenSectors}
-                  setHighlighted={setHighlighted}
-                  vizNavigation={vizNavigation}
-                />
-              )}
-            />
-          </Switch>
+          <PreChartRow
+            indicator={indicatorContent}
+            searchInGraphOptions={{
+              hiddenSectors: isClusterTreeMap ? [] : hiddenClusters,
+              digitLevel: isClusterTreeMap ? DigitLevel.Six : digit_level ? parseInt(digit_level, 10) : defaultDigitLevel,
+              setHighlighted,
+            }}
+            settingsOptions={{
+              compositionType: true,
+              colorBy: true,
+              aggregationMode: true,
+              clusterLevel: isClusterTreeMap ? true : undefined,
+              digitLevel: isClusterTreeMap ? undefined : true,
+            }}
+          />
+          {treeMapViz}
         </TreeMapRoot>
         {legend}
         {download}

@@ -13,6 +13,7 @@ import {
   CityColorBy,
   defaultNodeSizing,
   defaultCityNodeSizing,
+  defaultAggregationMode,
 } from '../../../routing/routes';
 import {SettingsOptions} from './index';
 import upperFirst from 'lodash/upperFirst';
@@ -53,6 +54,13 @@ const CurrentSettingsTooltip = (props: Props) => {
     <Segment>
       <Subtitle>{getString('global-ui-numbers-based-on')}</Subtitle>
       <em>{params.composition_type ? params.composition_type : defaultCompositionType}</em>
+    </Segment>
+  ) : null;
+
+  const aggregationText = settingsOptions.aggregationMode !== undefined ? (
+    <Segment>
+      <Subtitle>{getString('global-ui-aggregation-mode')}</Subtitle>
+      <em>{upperFirst(params.aggregation ? params.aggregation : defaultAggregationMode)}</em>
     </Segment>
   ) : null;
 
@@ -126,6 +134,7 @@ const CurrentSettingsTooltip = (props: Props) => {
         <em>{getString('global-ui-current-settings')}</em>
       </Segment>
       {compositionText}
+      {aggregationText}
       {detailLevel}
       {clusterLevel}
       {hideClusters}

@@ -36,8 +36,7 @@ const StandardContent = styled.div`
   position: relative;
   align-items: center;
   box-sizing: border-box;
-  padding: 0.875rem 0 1rem;
-  margin-bottom: 1rem;
+  padding: 0.875rem 0;
 
   @media ${breakPoints.small} {
     margin-bottom: 3rem;
@@ -49,10 +48,6 @@ const FullWidthContent = styled(StandardContent)`
 
   @media ${breakPoints.small} {
     padding-right: 0;
-  }
-
-  @media (min-width: 1001px) {
-    margin-bottom: 0;
   }
 `;
 

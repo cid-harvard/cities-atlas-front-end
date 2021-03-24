@@ -23,23 +23,19 @@ import useSectorMap from '../../../../hooks/useSectorMap';
 import useClusterMap from '../../../../hooks/useClusterMap';
 import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import {
-  CityRoutes,
-  cityIdParam,
   ColorBy,
   defaultClusterLevel,
   defaultColorBy,
+  AggregationMode,
+  defaultAggregationMode,
 } from '../../../../routing/routes';
-import {
-  useHistory,
-  matchPath,
-} from 'react-router-dom';
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
 import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
 
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
-  const {cluster_level, digit_level, color_by} = useQueryParams();
+  const {cluster_level, digit_level, color_by, aggregation} = useQueryParams();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -66,10 +62,9 @@ const CityGoodAt = () => {
 
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const getString = useFluent();
-  const history = useHistory();
-  const isClusterView = matchPath<{[cityIdParam]: string}>(
-    history.location.pathname, CityRoutes.CityGoodAtClusters,
-  );
+
+  const isClusterView =
+    (!aggregation && defaultAggregationMode === AggregationMode.cluster) || (aggregation === AggregationMode.cluster);
 
   if (cityId === null) {
     return (
@@ -95,7 +90,7 @@ const CityGoodAt = () => {
       <WageLegend />
     );
   } else {
-    if (!!(isClusterView && isClusterView.isExact)) {
+    if (isClusterView) {
       legend = (
         <CategoryLabels
           categories={clusterMap}
