@@ -341,7 +341,7 @@ const PSWOTChart = (props: Props) => {
               II: getString('pswot-quadrant-labels-ii'),
               III: getString('pswot-quadrant-labels-iii'),
               IV: getString('pswot-quadrant-labels-iv'),
-              V: getString('pswot-quadrant-labels-v'),
+              V: 'Possible\nEntrants',
             }}
             quadrantBackgroundColors={{
               I: '#dadbdd',

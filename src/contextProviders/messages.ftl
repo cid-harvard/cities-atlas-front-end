@@ -231,7 +231,7 @@ pswot-quadrant-labels-i = Strength
 pswot-quadrant-labels-ii = Opportunity
 pswot-quadrant-labels-iii = Weakness
 pswot-quadrant-labels-iv = Threat
-pswot-quadrant-labels-v = Potential
+pswot-quadrant-labels-v = Possible Entrants
 
 pswot-axis-labels-left = Expected Change
 pswot-axis-labels-left-up = Growing
