@@ -28,8 +28,8 @@ const Root = styled.div`
   color: #fff;
   width: 800px;
   max-width: 100%;
-  height: 600px;
-  max-height: 70vh;
+  height: 800px;
+  max-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -46,7 +46,8 @@ const H1 = styled.h1`
   text-transform: uppercase;
   font-weight: 400;
   text-align: center;
-  margin-bottom: 4rem;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
 `;
 
 const Label = styled.label`
@@ -236,6 +237,11 @@ const SimilarCity = styled.li`
   color: #fff;
   margin-left: 2rem;
 `;
+const AboutText = styled.p`
+  color: #fff;
+  padding: 0 1.5rem;
+  margin: 0 0 1rem;
+`;
 
 interface Props {
   closeModal: (value: string | undefined) => void;
@@ -380,10 +386,24 @@ const AddComparisonModal = (props: Props) => {
     </div>
   );
 
+  const title = field === 'benchmark'
+    ? getString('global-ui-benchmark-title')
+    : getString('global-ui-compare-title', {name});
+
+  const about = field === 'benchmark'
+    ? (
+      <AboutText>
+        {getString('global-ui-benchmark-about')}
+      </AboutText>
+    ) : null;
+
   return (
     <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'inherit'}>
       <Root>
-        <H1>{getString('global-ui-compare-title', {name})}:</H1>
+        <H1 style={field === 'compare_city' ? {marginBottom: '4rem'} : undefined}>
+          {title}:
+        </H1>
+        {about}
         <SearchContainerDark>
           <Grid>
             <div>

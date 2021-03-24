@@ -41,10 +41,11 @@ global-ui-read-chart = How to read this
 global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison
 global-ui-compare-title = Compare { $name } with
+global-ui-benchmark-title = Chose a benchmarking measure for city specialization
+global-ui-benchmark-about = What a city specializes in is relative. By selecting a benchmark, you can determine whether your city possess a higher intensity in an industry versus other cities.
 
 global-ui-add-benchmark = Add Benchmark
 global-ui-remove-benchmark = Remove Benchmark
-global-ui-benchmark-title = Benchmark { $name } with
 
 global-ui-city-city-benchmark-warning = City to City Benchmarking is not reliable in this visualization
 
@@ -164,7 +165,7 @@ global-cluster-c1-name-7 = Finance
 global-click-to-expand-industry = Click to expand industry
 
 global-intensity = Specialization
-global-intensity-about = About Specialization
+global-intensity-about = Helps you determine whether your city possess a higher intensity in an industry versus your chosen benchmarking cities.
 global-intensity-low = Low Specialization
 global-intensity-lower = Lower Specialization
 global-intensity-high = High Specialization
@@ -218,7 +219,7 @@ glossary-digit-level = About digit levels
 glossary-digit-level-disabled = Digit levels are disabled for this visualization
 glossary-digit-level-disabled-industry-space = Industry Space is only available at the 6-digit level
 glossary-digit-level-disabled-swot = SWOT Analysis is only available at the 6-digit level
-glossary-cluster-vs-naics = About clusters vs industries
+glossary-cluster-vs-naics = Knowledge clusters group industries that require similar know-how. They help assess what a city’s capability base is, how this differs from other cities and what latent development opportunities it holds.
 glossary-cluster-overlay = About cluster overlay
 glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for this visualization
 
