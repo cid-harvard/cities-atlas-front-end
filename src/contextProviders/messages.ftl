@@ -41,7 +41,7 @@ global-ui-read-chart = How to read this
 global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison
 global-ui-compare-title = Compare { $name } with
-global-ui-benchmark-title = Chose a benchmarking measure for city specialization
+global-ui-benchmark-title = Choose a benchmarking measure for city specialization
 global-ui-benchmark-about = What a city specializes in is relative. By selecting a benchmark, you can determine whether your city possess a higher intensity in an industry versus other cities.
 
 global-ui-add-benchmark = Add Benchmark
