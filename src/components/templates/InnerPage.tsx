@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '../navigation/header';
 import SecondaryHeader from '../navigation/secondaryHeader';
 import SideNavigation, {
@@ -22,12 +22,17 @@ const InnerPage = (props: Props) => {
   const {
     children, baseLinkData,
   } = props;
+  const [collapsed, setCollapsed] = useState<boolean>(false);
   return (
     <Root>
       <Header />
       <SecondaryHeader />
-      <SideNavigation baseLinkData={baseLinkData} />
-      <ContentContainer>
+      <SideNavigation
+        baseLinkData={baseLinkData}
+        collapsed={collapsed}
+        setCollapsed={setCollapsed}
+      />
+      <ContentContainer key={'container-collapsed-' + collapsed}>
         {children}
       </ContentContainer>
     </Root>

@@ -23,10 +23,30 @@ import {GlobalQueryParams} from '../../../routing/routes';
 import useQueryParams from '../../../hooks/useQueryParams';
 import queryString from 'query-string';
 
+const collapsibleMenuClassName = 'collapsible-side-menu-root';
+
+const Container = styled(NavigationContainer)`
+  pointer-events: all;
+
+  &:hover {
+    .${collapsibleMenuClassName} {
+      outline: dashed 1px ${lightBorderColor};
+    }
+  }
+
+  @media ${breakPoints.small} {
+    &:hover {
+      .${collapsibleMenuClassName} {
+        outline: none;
+      }
+    }
+  }
+`;
+
 const Root = styled.div`
   width: 240px;
-  overflow: hidden;
   position: relative;
+  padding-top: 1rem;
   margin: auto;
   box-sizing: border-box;
 
@@ -67,7 +87,7 @@ const Root = styled.div`
     width: 100%;
     max-width: 300px;
     position: absolute;
-    z-index: 100;
+    z-index: 150;
     background-color: #fff;
     border: solid 1px ${lightBorderColor};
     margin: 0 auto;
@@ -182,12 +202,117 @@ const BetaIcon = styled.div`
   top: 0;
   transform: translate(0, calc(-100% - 0.1rem));
   text-align: center;
-  font-family: 0.6rem;
+  font-size: 0.6rem;
 
   @media ${breakPoints.small} {
     top: -0.3rem;
     right: 0;
   }
+`;
+
+const CollapseButton = styled.button`
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(0, -100%);
+  font-family: ${secondaryFont};
+  text-transform: uppercase;
+  background-color: transparent;
+  border: none;
+  font-size: 0.6rem;
+
+  &:hover {
+    background-color: ${baseColor};
+    color: #fff;
+  }
+
+  @media ${breakPoints.small} {
+    display: none;
+  }
+`;
+
+const CollapsedMenu = styled.div`
+  position: relative;
+  padding-top: 1rem;
+  margin: auto;
+  box-sizing: border-box;
+  height: 380px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 2rem;
+
+  &:hover {
+    z-index: 1000;
+  }
+
+  @media ${breakPoints.medium} {
+    height: 280px;
+  }
+
+  @media ${breakPoints.small} {
+    display: none;
+  }
+`;
+
+const CollapsedLink = styled(Link)`
+  white-space: nowrap;
+  min-width: 1rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 1000px;
+  border: solid 2px ${baseColor};
+  font-size: 0;
+  color: rgba(0, 0, 0, 0);
+  margin-left: 0.3rem;
+  transition: all 0.2s ease;
+  letter-spacing: -0.3px;
+  font-weight: 600;
+  text-decoration: none;
+  display: flex;
+
+  &:hover {
+    font-family: ${secondaryFont};
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    padding: 0 1.25rem;
+    color: #fff;
+    background-color: ${baseColor};
+    width: min-content;
+  }
+
+  &.${acitveLinkClass}:before {
+    content: '';
+    display: block;
+    width: 0.75rem;
+    height: 0.75rem;
+    background-color: ${baseColor};
+    margin: auto;
+    border-radius: 1000px;
+  }
+`;
+
+const ExpandButton = styled.div`
+  width: 1.15rem;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  background-color: ${baseColor};
+  color: #fff;
+  transform: rotate(180deg);
+  padding: 0.4rem 0.2rem;
+  text-transform: uppercase;
+  font-size: 0.875rem;
+  font-family: ${secondaryFont};
+  cursor: pointer;
+`;
+
+const ExtendArrow = styled.span`
+  display: inline-block;
+  transform: rotate(90deg);
+  position: relative;
+  left: -0.1rem;
+  padding: 3px 0;
+  cursor: pointer;
 `;
 
 interface LinkDatum {
@@ -210,13 +335,19 @@ export interface Props {
   }[];
 }
 
-const SideNavigation = ({baseLinkData}: Props) => {
+interface SideNavProps extends Props {
+  setCollapsed: (value: boolean) => void;
+  collapsed: boolean;
+}
+
+const SideNavigation = ({baseLinkData, collapsed, setCollapsed}: SideNavProps) => {
   const history = useHistory();
   const params = useQueryParams();
   const {windowDimensions} = useContext(AppContext);
 
   const [linkData, setLinkData] = useState<LinkDatum[]>([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
+  const [containerHovered, setContainerHovered] = useState<boolean>(false);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
 
@@ -227,20 +358,24 @@ const SideNavigation = ({baseLinkData}: Props) => {
   const circle_4 = useRef<SVGCircleElement | null>(null);
 
   useEffect(() => {
-    const refArray = [circle_0, circle_1, circle_2, circle_3, circle_4];
-    const pageScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-    const containerPosition = rootRef && rootRef.current ? rootRef.current.offsetTop : 0;
-    const offset = pageScrollTop - containerPosition;
-    const newLinkDatum: LinkDatum[] = [];
-    refArray.forEach((ref, i) => {
-      const node = ref.current;
-      if (node) {
-        const {top, left} = node.getBoundingClientRect();
-        newLinkDatum.push({...baseLinkData[i], top: top + offset, left});
-      }
-    });
-    setLinkData([...newLinkDatum]);
-  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, baseLinkData, windowDimensions]);
+    if (collapsed) {
+      setLinkData(baseLinkData.map(l => ({...l, top: 0, left: 0})));
+    } else {
+      const refArray = [circle_0, circle_1, circle_2, circle_3, circle_4];
+      const pageScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+      const containerPosition = rootRef && rootRef.current ? rootRef.current.offsetTop : 0;
+      const offset = pageScrollTop - containerPosition;
+      const newLinkDatum: LinkDatum[] = [];
+      refArray.forEach((ref, i) => {
+        const node = ref.current;
+        if (node) {
+          const {top, left} = node.getBoundingClientRect();
+          newLinkDatum.push({...baseLinkData[i], top: top + offset, left});
+        }
+      });
+      setLinkData([...newLinkDatum]);
+    }
+  }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, baseLinkData, windowDimensions, collapsed, mobileMenuOpen]);
 
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
@@ -259,8 +394,9 @@ const SideNavigation = ({baseLinkData}: Props) => {
     } else {
       url = url + history.location.search;
     }
+    const LinkRoot = mobileMenuOpen || !collapsed ? NavLink : CollapsedLink;
     return (
-      <NavLink
+      <LinkRoot
         to={url}
         key={d.label + d.url}
         style={{top: d.top, left: d.left}}
@@ -269,7 +405,7 @@ const SideNavigation = ({baseLinkData}: Props) => {
       >
         {d.label}
         {beta}
-      </NavLink>
+      </LinkRoot>
     );
   });
 
@@ -283,39 +419,63 @@ const SideNavigation = ({baseLinkData}: Props) => {
      />
    ) : null;
 
-  return (
-    <NavigationContainer>
-      {mobileMenu}
-      <Root
-        ref={rootRef}
-        style={{display: mobileMenuOpen ? 'block' : undefined}}
-      >
-        <LinkContainer>
-        {links}
-        </LinkContainer>
-        <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 377.85'>
-          <clipPath id={clipPathIdDesktop}>
-            <path
-              d='M0,0v0.8C41.6,35.5,68.3,112,64.4,199.4C61,274.8,35.6,340.1,0,376.4l0,4.4h366.4V0H0z'
-            />
-          </clipPath>
-          <clipPath id={clipPathIdTablet}>
-            <path
-              d='M0,0v0.6c30.7,25.5,50.4,81.9,47.5,146.3C44.9,202.5,26.2,250.6,0,277.3l0,3.2h270V0H0z'
-            />
-          </clipPath>
+  const collapseButton = containerHovered
+    ? <CollapseButton onClick={() => setCollapsed(true)}>{'<'} Collapse</CollapseButton>
+    : null;
+
+
+  const menu = mobileMenuOpen || !collapsed ? (
+    <Root
+      ref={rootRef}
+      style={{
+        display: mobileMenuOpen ? 'block' : undefined,
+      }}
+      className={collapsibleMenuClassName}
+    >
+      {collapseButton}
+      <LinkContainer>
+      {links}
+      </LinkContainer>
+      <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 377.85'>
+        <clipPath id={clipPathIdDesktop}>
           <path
-            d='M569.33,197.85c42.17,34.26,69.37,111.25,65.4,199.38-3.4,75.47-28.83,140.75-64.37,177'
-            transform='translate(-568.7 -197.07)'
+            d='M0,0v0.8C41.6,35.5,68.3,112,64.4,199.4C61,274.8,35.6,340.1,0,376.4l0,4.4h366.4V0H0z'
           />
-          <circle ref={circle_0} cx='20.1' cy='20.4' r={radius}/>
-          <circle ref={circle_1} cx='53.4' cy='90.1' r={radius}/>
-          <circle ref={circle_2} cx='65.7' cy='184.6' r={radius}/>
-          <circle ref={circle_3} cx='55.8' cy='269.3' r={radius}/>
-          <circle ref={circle_4} cx='25.3' cy='347' r={radius}/>
-        </svg>
-      </Root>
-    </NavigationContainer>
+        </clipPath>
+        <clipPath id={clipPathIdTablet}>
+          <path
+            d='M0,0v0.6c30.7,25.5,50.4,81.9,47.5,146.3C44.9,202.5,26.2,250.6,0,277.3l0,3.2h270V0H0z'
+          />
+        </clipPath>
+        <path
+          d='M569.33,197.85c42.17,34.26,69.37,111.25,65.4,199.38-3.4,75.47-28.83,140.75-64.37,177'
+          transform='translate(-568.7 -197.07)'
+        />
+        <circle ref={circle_0} cx='20.1' cy='20.4' r={radius}/>
+        <circle ref={circle_1} cx='53.4' cy='90.1' r={radius}/>
+        <circle ref={circle_2} cx='65.7' cy='184.6' r={radius}/>
+        <circle ref={circle_3} cx='55.8' cy='269.3' r={radius}/>
+        <circle ref={circle_4} cx='25.3' cy='347' r={radius}/>
+      </svg>
+    </Root>
+  ) : (
+    <CollapsedMenu>
+      <ExpandButton onClick={() => setCollapsed(false)}>
+        Extend
+        <ExtendArrow>{'>'}</ExtendArrow>
+      </ExpandButton>
+      {links}
+    </CollapsedMenu>
+  );
+
+  return (
+    <Container
+      onMouseEnter={() => setContainerHovered(true)}
+      onMouseLeave={() => setContainerHovered(false)}
+    >
+      {mobileMenu}
+      {menu}
+    </Container>
   );
 };
 
