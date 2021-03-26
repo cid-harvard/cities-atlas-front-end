@@ -15,16 +15,16 @@ import {sectorColorMap, educationColorRange, wageColorRange} from '../../../styl
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import styled from 'styled-components/macro';
 import noop from 'lodash/noop';
-import SimpleError from '../../../components/transitionStateComponents/SimpleError';
+import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Tooltip from '../../general/Tooltip';
 import ErrorBoundary from '../ErrorBoundary';
 import useFluent from '../../../hooks/useFluent';
 import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import {Indicator} from '../../../components/general/PreChartRow';
-import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
-import {getStandardTooltip} from '../../../utilities/rapidTooltip';
+import {Indicator} from '../../general/PreChartRow';
+import SimpleTextLoading from '../../transitionStateComponents/SimpleTextLoading';
+import {RapidTooltipRoot, getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {ColorBy} from '../../../routing/routes';
 import useColorByIntensity from './useColorByIntensity';
@@ -33,6 +33,7 @@ import {
 } from '../../../hooks/useAggregateIndustriesData';
 import {defaultYear} from '../../../Utils';
 import {scaleLinear} from 'd3-scale';
+import QuickError from '../../transitionStateComponents/QuickError';
 
 const Root = styled.div`
   width: 100%;
@@ -85,6 +86,7 @@ interface Props {
   cityId: number;
   year: number;
   highlighted: string | undefined;
+  clearHighlighted: () => void;
   digitLevel: DigitLevel;
   colorBy: ColorBy;
   compositionType: CompositionType;
@@ -102,6 +104,7 @@ const CompositionTreeMap = (props: Props) => {
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
+  const highlightedTooltipRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
   const intensity = useColorByIntensity({digitLevel, colorBy});
@@ -278,6 +281,70 @@ const CompositionTreeMap = (props: Props) => {
         }
       };
 
+      const highlightedCell = transformed.treeMapCells.find(d => d.id === highlighted);
+
+      if (highlighted && highlightedCell) {
+        const node = highlightedTooltipRef.current;
+        const industry = industryMap.data[highlighted];
+        const industryWithData = industries.find(({naicsId}) => naicsId === highlighted);
+        if (industry && industryWithData && node) {
+          const color = sectorColorMap.find(c => c.id === industry.naicsIdTopParent.toString());
+          const numCompany = industryWithData.numCompany ? industryWithData.numCompany : 0;
+          const numEmploy = industryWithData.numEmploy ? industryWithData.numEmploy : 0;
+          const value = compositionType === CompositionType.Employees ? numEmploy : numCompany;
+          const share = (value / total * 100);
+          const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
+          const rows = [
+            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
+            [getString('global-ui-naics-code') + ':', industry.naicsId],
+            [getString('global-ui-year') + ':', year.toString()],
+          ];
+          if (intensity && intensity.industries) {
+            const industryIntesity = intensity.industries.find(
+              d => d.naicsId !== null && d.naicsId.toString() === highlighted.toString());
+            if (industryIntesity) {
+
+              const rca = industryIntesity.rca ? industryIntesity.rca : 0;
+              rows.push([getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)]);
+            }
+          }
+          node.innerHTML = getStandardTooltip({
+            title: industry.name ? industry.name : '',
+            color: color ? rgba(color.color, 0.3) : '#fff',
+            rows,
+            boldColumns: [1, 2],
+          }) + `
+           <div style="position:absolute;top: 2px;right:2px;">×</div>
+          `;
+          node.style.position = 'absolute';
+          node.style.pointerEvents = 'all';
+          node.style.cursor = 'pointer';
+          node.style.display = 'block';
+          node.style.left =
+            highlightedCell.x0 + ((highlightedCell.x1 - highlightedCell.x0) / 2) + 'px';
+          node.style.top = highlightedCell.y0 + 16 + 'px';
+          const clearHighlighted = () => {
+            props.clearHighlighted();
+            node.removeEventListener('click', clearHighlighted);
+          };
+          node.addEventListener('click', clearHighlighted);
+        }
+      } else {
+        const node = highlightedTooltipRef.current;
+        if (node) {
+          node.style.display = 'none';
+        }
+      }
+
+      const highlightErrorPopup = highlighted && !highlightedCell ? (
+        <QuickError
+          closeError={props.clearHighlighted}
+        >
+          {getString('global-ui-error-industry-not-in-data-set')}
+        </QuickError>
+      ) : null;
+
       indicator.text = loading ? (
         <>
           {getString('global-ui-total') + ': '}<SimpleTextLoading />
@@ -305,6 +372,7 @@ const CompositionTreeMap = (props: Props) => {
             </ErrorBoundary>
           </Tooltip>
           {loadingOverlay}
+          {highlightErrorPopup}
         </TreeMapContainer>
       );
     }
@@ -317,6 +385,9 @@ const CompositionTreeMap = (props: Props) => {
     <>
       <Root ref={rootRef}>
         {output}
+        <RapidTooltipRoot
+          ref={highlightedTooltipRef}
+        />
       </Root>
     </>
   );

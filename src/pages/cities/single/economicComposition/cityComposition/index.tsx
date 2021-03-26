@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useCallback, useEffect} from 'react';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import CompositionTreeMap from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
 import ClusterCompositionTreeMap from '../../../../../components/dataViz/treeMap/ClusterCompositionTreeMap';
@@ -31,6 +31,7 @@ import EducationLegend from '../../../../../components/dataViz/legend/EducationL
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
 import {AggregationMode, defaultAggregationMode} from '../../../../../routing/routes';
 import PreChartRow, {Indicator} from '../../../../../components/general/PreChartRow';
+import {usePrevious} from 'react-use';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -43,11 +44,15 @@ interface Props {
 const EconomicComposition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
+  const clearHighlighted = useCallback(() => setHighlighted(undefined), [setHighlighted]);
+  const prevHighlighted = usePrevious(highlighted);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const [hiddenClusters, setHiddenClusters] = useState<ClassificationNaicsCluster['id'][]>([]);
   const {digit_level, cluster_level, composition_type, color_by, aggregation} = useQueryParams();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
+
+  useEffect(() => clearHighlighted, [digit_level, clearHighlighted]);
 
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
     hiddenSectors.includes(sectorId)
@@ -171,6 +176,7 @@ const EconomicComposition = (props: Props) => {
       colorBy={color_by ? color_by : ColorBy.sector}
       compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
       highlighted={highlighted}
+      clearHighlighted={clearHighlighted}
       hiddenSectors={hiddenSectors}
       setIndicatorContent={setIndicatorContent}
     />
@@ -190,6 +196,7 @@ const EconomicComposition = (props: Props) => {
         </StandardSideTextBlock>
         <TreeMapRoot ref={treeMapRef}>
           <PreChartRow
+            key={'tree-map-search-' + Boolean(!highlighted && prevHighlighted)}
             indicator={indicatorContent}
             searchInGraphOptions={{
               hiddenSectors: isClusterTreeMap ? [] : hiddenClusters,
