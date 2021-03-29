@@ -32,11 +32,12 @@ interface Props {
   data: SuccessResponse['c3Rca'] | SuccessResponse['c1Rca'];
   clusterLevel: ClusterLevel;
   colorBy: ColorBy;
+  highlighted: string | undefined;
   hiddenClusters: ClassificationNaicsCluster['id'][];
 }
 
 const Industries = (props: Props) => {
-  const {data, clusterLevel, colorBy, hiddenClusters} = props;
+  const {data, clusterLevel, colorBy, hiddenClusters, highlighted} = props;
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
   const clusterMap = useGlobalClusterMap();
@@ -174,6 +175,7 @@ const Industries = (props: Props) => {
       <VerticalBarChart
         data={clusterData}
         axisLabel={axisLabel}
+        highlighted={highlighted}
         formatValue={formatValue}
         onRowHover={setHovered}
         numberOfXAxisTicks={numberOfXAxisTicks}

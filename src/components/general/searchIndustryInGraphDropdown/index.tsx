@@ -198,7 +198,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
         windowDimensions.width < collapsedSizeMediaQueryValues.min) {
       searchPanel = (
         <PanelSearch
-          key={'PreChartPanelSearchKeyFor' + tiers}
+          key={`PreChartPanelSearchKeyFor${digitLevel}${clusterLevel}${mode}`}
           data={searchData}
           topLevelTitle={topLevelTitle}
           disallowSelectionLevels={disallowSelectionLevels}
