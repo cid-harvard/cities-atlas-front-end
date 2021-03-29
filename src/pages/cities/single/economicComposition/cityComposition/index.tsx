@@ -14,7 +14,6 @@ import {
   CompositionType,
   defaultDigitLevel,
   defaultCompositionType,
-  DigitLevel,
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
 import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
@@ -25,13 +24,19 @@ import useClusterMap from '../../../../../hooks/useClusterMap';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
-import {ColorBy, defaultClusterLevel} from '../../../../../routing/routes';
 import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
-import {AggregationMode, defaultAggregationMode} from '../../../../../routing/routes';
+import {
+  ColorBy,
+  AggregationMode,
+  defaultAggregationMode,
+  ClusterLevel,
+  defaultClusterLevel,
+} from '../../../../../routing/routes';
 import PreChartRow, {Indicator} from '../../../../../components/general/PreChartRow';
 import {usePrevious} from 'react-use';
+import {Mode} from '../../../../../components/general/searchIndustryInGraphDropdown';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -165,6 +170,7 @@ const EconomicComposition = (props: Props) => {
       colorBy={color_by ? color_by : ColorBy.sector}
       compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
       highlighted={highlighted}
+      clearHighlighted={clearHighlighted}
       hiddenClusters={hiddenClusters}
       setIndicatorContent={setIndicatorContent}
     />
@@ -199,9 +205,12 @@ const EconomicComposition = (props: Props) => {
             key={'tree-map-search-' + Boolean(!highlighted && prevHighlighted)}
             indicator={indicatorContent}
             searchInGraphOptions={{
-              hiddenSectors: isClusterTreeMap ? [] : hiddenClusters,
-              digitLevel: isClusterTreeMap ? DigitLevel.Six : digit_level ? parseInt(digit_level, 10) : defaultDigitLevel,
+              hiddenParents: isClusterTreeMap ? hiddenClusters : hiddenSectors,
+              digitLevel: isClusterTreeMap ? null : digit_level ? parseInt(digit_level, 10) : defaultDigitLevel,
+              clusterLevel: isClusterTreeMap
+                ? cluster_level ? parseInt(cluster_level, 10).toString() as ClusterLevel : defaultClusterLevel : null,
               setHighlighted,
+              mode: isClusterTreeMap ? Mode.cluster : Mode.naics,
             }}
             settingsOptions={{
               compositionType: true,

@@ -40,6 +40,7 @@ import {scaleLinear, scaleSymlog} from 'd3-scale';
 import {extent} from 'd3-array';
 import orderBy from 'lodash/orderBy';
 import QuickError from '../../transitionStateComponents/QuickError';
+import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
   width: 100%;
@@ -375,9 +376,11 @@ const PSWOTChart = (props: Props) => {
     <>
       <PreChartRow
         searchInGraphOptions={{
-          hiddenSectors,
+          hiddenParents: hiddenSectors,
           digitLevel,
+          clusterLevel: null,
           setHighlighted,
+          mode: Mode.naics,
         }}
         settingsOptions={{compositionType: true, nodeSizing: true, colorBy: {nodes: true}, digitLevel: {
           sixDigitOnlyMessage: getString('glossary-digit-level-disabled-swot'),

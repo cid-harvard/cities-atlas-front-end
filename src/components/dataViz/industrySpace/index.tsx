@@ -11,6 +11,7 @@ import Chart from './chart';
 import {ZoomLevel, NodeAction} from './chart/createChart';
 import {NodeSizing, ColorBy} from '../../../routing/routes';
 import useFluent from '../../../hooks/useFluent';
+import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
   width: 100%;
@@ -75,7 +76,10 @@ const ClusteredIndustrySpace = (props: Props) => {
     <>
       <PreChartRow
         key={preChartRowKey}
-        searchInGraphOptions={{hiddenSectors: [], digitLevel: DigitLevel.Six, setHighlighted}}
+        searchInGraphOptions={{
+          hiddenParents: [], digitLevel: DigitLevel.Six, clusterLevel: null, setHighlighted,
+          mode: Mode.naics,
+        }}
         settingsOptions={{compositionType: {
           disabledOptions: [CompositionType.Employees],
         }, hideClusterOverlay: true, nodeSizing: true, colorBy: {nodes: true},

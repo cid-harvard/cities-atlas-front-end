@@ -1,4 +1,5 @@
 import styled from 'styled-components/macro';
+import {arrowContainerClassName} from '../components/general/Tooltip';
 
 interface Input {
   title: string;
@@ -47,7 +48,7 @@ export const getStandardTooltip = (input: Input) => {
 
   const additionalContent = input.additionalHTML ? `<div>${input.additionalHTML}</div>` : '';
   const arrow = input.hideArrow ? '' : `
-    <div class="rapid-tooltip-arrow-container">
+    <div class="rapid-tooltip-arrow-container ${arrowContainerClassName}">
       <div class="rapid-tooltip-arrow"></div>
     </div>
   `;

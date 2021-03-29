@@ -18,7 +18,8 @@ export enum TooltipTheme {
 }
 
 const farEndOfScreenToggleClass = 'tooltip-at-right-end-of-screen';
-const arrowContainerClassName = 'tooltip-arrow-container-class';
+export const arrowContainerClassName = 'tooltip-arrow-container-class';
+const flipArrowClassName = 'tooltip-arrow-flip-side-class';
 
 //#region Styling
 const Root = styled.span`
@@ -74,6 +75,22 @@ const TooltipBase = styled.div<{$theme: TooltipTheme | undefined, $overrideStyle
     justify-content: flex-end;
     padding-right: 0.7rem;
     box-sizing: border-box;
+  }
+
+  &.${flipArrowClassName} .${arrowContainerClassName} {
+    transform: translate(0, -100%);
+    top: 0;
+
+    div {
+      &:before {
+        top: -1px;
+        transform: rotate(180deg);
+      }
+
+      &:after {
+        transform: rotate(180deg);
+      }
+    }
   }
 `;
 
@@ -169,6 +186,9 @@ const Tooltip = (props: Props) => {
       if (tooltipTopValue < 0 || tooltipPosition === TooltipPosition.Bottom) {
         // tooltip will be above the window
         tooltipTopValue = top + (tooltipSpacing * 2);
+        tooltipElm.classList.add(flipArrowClassName);
+      } else {
+        tooltipElm.classList.remove(flipArrowClassName);
       }
       if (tooltipLeftValue < tooltipSpacing) {
         tooltipLeftValue = tooltipSpacing;

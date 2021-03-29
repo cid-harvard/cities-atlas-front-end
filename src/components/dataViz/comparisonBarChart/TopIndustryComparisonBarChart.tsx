@@ -22,6 +22,7 @@ import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import Chart, {FilteredDatum} from './Chart';
 import {useComparisonQuery, SuccessResponse, RegionGroup} from './cityIndustryComparisonQuery';
+import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
   width: 100%;
@@ -186,7 +187,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   return (
     <>
       <PreChartRow
-        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
+        searchInGraphOptions={{
+          hiddenParents: hiddenSectors, digitLevel, setHighlighted, clusterLevel: null,
+          mode: Mode.naics,
+        }}
         settingsOptions={{compositionType: true, digitLevel: true}}
         vizNavigation={vizNavigation}
       />

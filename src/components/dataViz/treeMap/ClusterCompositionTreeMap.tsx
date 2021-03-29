@@ -24,7 +24,7 @@ import {numberWithCommas} from '../../../Utils';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {Indicator} from '../../../components/general/PreChartRow';
 import SimpleTextLoading from '../../../components/transitionStateComponents/SimpleTextLoading';
-import {getStandardTooltip} from '../../../utilities/rapidTooltip';
+import {RapidTooltipRoot, getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {ColorBy, ClusterLevel} from '../../../routing/routes';
 import {scaleSymlog, scaleLinear} from 'd3-scale';
 import {extent} from 'd3-array';
@@ -34,6 +34,7 @@ import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
 import {rgba} from 'polished';
+import QuickError from '../../transitionStateComponents/QuickError';
 
 const Root = styled.div`
   width: 100%;
@@ -97,6 +98,7 @@ interface Props {
   hiddenClusters: ClassificationNaicsCluster['id'][];
   clusterLevel: ClusterLevel;
   setIndicatorContent: (indicator: Indicator) => void;
+  clearHighlighted: () => void;
 }
 
 const CompositionTreeMap = (props: Props) => {
@@ -110,6 +112,7 @@ const CompositionTreeMap = (props: Props) => {
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const tooltipContentRef = useRef<HTMLDivElement | null>(null);
+  const highlightedTooltipRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useClusterCompositionQuery({cityId, year});
   const aggregateIndustryDataMap = useAggregateIndustryMap({
@@ -300,6 +303,66 @@ const CompositionTreeMap = (props: Props) => {
         }
       };
 
+
+      const highlightedCell = transformed.treeMapCells.find(d => d.id === highlighted);
+
+      if (highlighted && highlightedCell) {
+        const node = highlightedTooltipRef.current;
+        const cluster = clusterMap.data[highlighted];
+        const clusterWithData = clusters.find(({clusterId}) => clusterId === highlighted);
+        if (cluster && clusterWithData && node) {
+          const numCompany = clusterWithData.numCompany ? clusterWithData.numCompany : 0;
+          const numEmploy = clusterWithData.numEmploy ? clusterWithData.numEmploy : 0;
+          const rcaNumCompany = clusterWithData.rcaNumCompany ? clusterWithData.rcaNumCompany : 0;
+          const rcaNumEmploy = clusterWithData.rcaNumEmploy ? clusterWithData.rcaNumEmploy : 0;
+          const value = compositionType === CompositionType.Employees ? numEmploy : numCompany;
+          const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
+          const share = (value / total * 100);
+          const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
+          const color = clusterColorMap.find(c => cluster.clusterIdTopParent && c.id === cluster.clusterIdTopParent.toString());
+          const rows = [
+            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
+            [getString('global-ui-naics-code') + ':', cluster.clusterId],
+            [getString('global-ui-year') + ':', year.toString()],
+            [getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)],
+          ];
+          node.innerHTML = getStandardTooltip({
+            title: cluster.name ? cluster.name : '',
+            color: color ? rgba(color.color, 0.3) : '#fff',
+            rows,
+            boldColumns: [1, 2],
+          }) + `
+           <div style="position:absolute;top: 2px;right:2px;">×</div>
+          `;
+          node.style.position = 'absolute';
+          node.style.pointerEvents = 'all';
+          node.style.cursor = 'pointer';
+          node.style.display = 'block';
+          node.style.left =
+            highlightedCell.x0 + ((highlightedCell.x1 - highlightedCell.x0) / 2) + 'px';
+          node.style.top = highlightedCell.y0 + 16 + 'px';
+          const clearHighlighted = () => {
+            props.clearHighlighted();
+            node.removeEventListener('click', clearHighlighted);
+          };
+          node.addEventListener('click', clearHighlighted);
+        }
+      } else {
+        const node = highlightedTooltipRef.current;
+        if (node) {
+          node.style.display = 'none';
+        }
+      }
+
+      const highlightErrorPopup = highlighted && !highlightedCell ? (
+        <QuickError
+          closeError={props.clearHighlighted}
+        >
+          {getString('global-ui-error-industry-not-in-data-set')}
+        </QuickError>
+      ) : null;
+
       indicator.text = loading ? (
         <>
           {getString('global-ui-total') + ': '}<SimpleTextLoading />
@@ -327,6 +390,7 @@ const CompositionTreeMap = (props: Props) => {
             </ErrorBoundary>
           </Tooltip>
           {loadingOverlay}
+          {highlightErrorPopup}
         </TreeMapContainer>
       );
     }
@@ -339,6 +403,9 @@ const CompositionTreeMap = (props: Props) => {
     <>
       <Root ref={rootRef}>
         {output}
+        <RapidTooltipRoot
+          ref={highlightedTooltipRef}
+        />
       </Root>
     </>
   );

@@ -34,6 +34,7 @@ import {rgba} from 'polished';
 import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
 import useFluent from '../../../hooks/useFluent';
 import Chart, {Group} from './Chart';
+import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
   width: 100%;
@@ -339,9 +340,11 @@ const IndustryZoomableBarChart = (props: Props) => {
     <>
       <PreChartRow
         searchInGraphOptions={{
-          hiddenSectors,
+          hiddenParents: hiddenSectors,
           digitLevel: null,
+          clusterLevel: null,
           setHighlighted,
+          mode: Mode.naics,
         }}
         settingsOptions={{compositionType: true, digitLevel: false}}
         vizNavigation={vizNavigation}

@@ -29,6 +29,7 @@ import {
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
 import useColorByIntensity from '../treeMap/useColorByIntensity';
+import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
   width: 100%;
@@ -202,7 +203,13 @@ const RCABarChart = (props: Props) => {
   return (
     <>
       <PreChartRow
-        searchInGraphOptions={{hiddenSectors, digitLevel, setHighlighted}}
+        searchInGraphOptions={{
+          hiddenParents: isClusterView ? hiddenClusters : hiddenSectors,
+          digitLevel,
+          clusterLevel,
+          setHighlighted,
+          mode: isClusterView ? Mode.cluster : Mode.naics,
+        }}
         settingsOptions={{
           compositionType: true,
           clusterLevel: isClusterView ? {

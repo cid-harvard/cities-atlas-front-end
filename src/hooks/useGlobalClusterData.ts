@@ -27,13 +27,14 @@ const clusterDataToHierarchicalTreeData = (data: SuccessResponse | undefined) =>
   const response: SearchDatum[] = [];
   if (data !== undefined) {
     const {clusters} = data;
-    clusters.forEach(({clusterId, name, level, parentId}) => {
-      if (name !== null && level !== null) {
+    clusters.forEach(({clusterId, name, level, clusterIdTopParent}) => {
+      if (name !== null && level !== null && level !== 2) {
         response.push({
           id: clusterId,
           title: name,
           level,
-          parent_id: parentId === null ? null : parentId.toString(),
+          parent_id: clusterIdTopParent === null || clusterId === clusterIdTopParent.toString()
+            ? null : clusterIdTopParent.toString(),
         });
       }
     });

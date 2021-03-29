@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
-import {DigitLevel} from '../../../types/graphQL/graphQLTypes';
 import useFluent from '../../../hooks/useFluent';
 import styled, {keyframes} from 'styled-components/macro';
 import {
@@ -69,13 +68,16 @@ const ToggleButton = styled(ExpandingButton)`
 export interface SearchInGraphOptions {
   disallowSelectionLevels: number[] | undefined;
   setHighlighted: (value: string | undefined) => void;
-  digitLevel: DigitLevel | null;
+  rerenderKey: string;
   searchData: SearchDatum[];
+  defaultPlaceholderText: string;
+  topLevelTitle: string;
 }
 
 const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const {
-    setHighlighted, digitLevel, disallowSelectionLevels, searchData,
+    setHighlighted, rerenderKey, disallowSelectionLevels, searchData,
+    defaultPlaceholderText, topLevelTitle,
   } = props;
 
   const getString = useFluent();
@@ -98,11 +100,11 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const dropdown = isDropdownVisible ? (
     <DropdownContainer>
       <PanelSearch
-        key={'ButtonTogglePreChartPanelSearchKeyFor' + digitLevel}
+        key={'ButtonTogglePreChartPanelSearchKeyFor' + rerenderKey}
         data={searchData}
-        topLevelTitle={getString('global-text-industries')}
+        topLevelTitle={topLevelTitle}
         disallowSelectionLevels={disallowSelectionLevels}
-        defaultPlaceholderText={getString('global-ui-search-an-industry-in-graph')}
+        defaultPlaceholderText={defaultPlaceholderText}
         showCount={true}
         resultsIdentation={1}
         onSelect={onSelect}

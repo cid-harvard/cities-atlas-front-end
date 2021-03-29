@@ -4,9 +4,13 @@ import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
 import {
   useGlobalIndustryHierarchicalTreeData,
 } from '../../../hooks/useGlobalIndustriesData';
+import {
+  useGlobalClusterHierarchicalTreeData,
+} from '../../../hooks/useGlobalClusterData';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import useSectorMap from '../../../hooks/useSectorMap';
-import {DigitLevel, ClassificationNaicsIndustry} from '../../../types/graphQL/graphQLTypes';
+import useClusterMap from '../../../hooks/useClusterMap';
+import {DigitLevel} from '../../../types/graphQL/graphQLTypes';
 import {
   SearchContainerLight,
   lightBaseColor,
@@ -16,6 +20,7 @@ import useFluent from '../../../hooks/useFluent';
 import {useWindowSize} from 'react-use';
 import styled from 'styled-components/macro';
 import ToggleDropdown from './ToggleDropdown';
+import {ClusterLevel} from '../../../routing/routes';
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -97,43 +102,86 @@ const SearchContainer = styled(SearchContainerLight)`
   }
 `;
 
+export enum Mode {
+  naics = 'naics',
+  cluster = 'cluster',
+  geo = 'geo',
+}
+
 export interface SearchInGraphOptions {
-  hiddenSectors: ClassificationNaicsIndustry['id'][];
+  hiddenParents: string[];
   setHighlighted: (value: string | undefined) => void;
   digitLevel: DigitLevel | null;
+  clusterLevel: ClusterLevel | null;
+  mode: Mode;
 }
 
 const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const {
-    hiddenSectors, setHighlighted, digitLevel,
+    hiddenParents, setHighlighted, digitLevel, clusterLevel, mode,
   } = props;
 
   const getString = useFluent();
   const sectorMap = useSectorMap();
+  const clusterMap = useClusterMap();
   const industrySearchData = useGlobalIndustryHierarchicalTreeData();
+  const clusterSearchData = useGlobalClusterHierarchicalTreeData();
   const windowDimensions = useWindowSize();
 
+  let hierarchalSearchData: undefined | SearchDatum[];
+  let tiers: DigitLevel | ClusterLevel | null;
+  let disallowSelectionLevels: number[] | undefined;
+  let defaultPlaceholderText: string;
+  let topLevelTitle: string;
+  if (mode === Mode.naics) {
+    hierarchalSearchData = industrySearchData.data;
+    tiers = digitLevel;
+    disallowSelectionLevels = tiers
+      ? Array.from(Array(tiers).keys()) : undefined;
+    defaultPlaceholderText = getString('global-ui-search-an-industry-in-graph');
+    topLevelTitle = getString('global-text-industries');
+  } else if (mode === Mode.cluster) {
+    hierarchalSearchData = clusterSearchData.data;
+    tiers = clusterLevel;
+    disallowSelectionLevels = clusterLevel === ClusterLevel.C3 ? [1] : undefined;
+    defaultPlaceholderText = getString('global-ui-search-a-cluster-in-graph');
+    topLevelTitle = getString('global-ui-skill-clusters');
+  } else {
+    hierarchalSearchData = [];
+    tiers = null;
+    defaultPlaceholderText = '';
+    topLevelTitle = '';
+  }
+
   let searchPanel: React.ReactElement<any> | null;
-  if (industrySearchData.loading) {
+  if ((mode === Mode.naics && industrySearchData.loading) || (mode === Mode.cluster && clusterSearchData.loading)) {
     searchPanel = (
       <LoadingContainer>
         <SimpleLoader />
       </LoadingContainer>
     );
-  } else if (industrySearchData.error !== undefined) {
+  } else if (mode === Mode.naics && industrySearchData.error !== undefined) {
     console.error(industrySearchData.error);
     searchPanel = (
       <LoadingContainer>
         <SimpleError />
       </LoadingContainer>
     );
-  } else if (hiddenSectors.length === sectorMap.length) {
+  } else if (mode === Mode.cluster && clusterSearchData.error !== undefined) {
+    console.error(clusterSearchData.error);
+    searchPanel = (
+      <LoadingContainer>
+        <SimpleError />
+      </LoadingContainer>
+    );
+  } else if ((mode === Mode.naics && hiddenParents.length === sectorMap.length) ||
+      (mode === Mode.cluster && hiddenParents.length === clusterMap.length)) {
     searchPanel = (
       <LoadingContainer>
         <SimpleError fluentMessageId={'error-message-no-industries'} />
       </LoadingContainer>
     );
-  } else if (industrySearchData.data !== undefined) {
+  } else if (hierarchalSearchData !== undefined) {
     const onSelect = (d: {id: string | number} | null) => {
       if (d) {
         setHighlighted(d.id as string);
@@ -141,22 +189,20 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
         setHighlighted(undefined);
       }
     };
-    const searchData: SearchDatum[] = industrySearchData.data.filter(
-      ({level, id}) => (digitLevel === null || (level !== null && level <= digitLevel)) &&
-                        !hiddenSectors.includes(id as string),
+    const searchData: SearchDatum[] = hierarchalSearchData.filter(
+      ({level, id}) => (tiers === null || (level !== null && level <= tiers)) &&
+                        !hiddenParents.includes(id as string),
     );
-    const disallowSelectionLevels = digitLevel
-      ? Array.from(Array(digitLevel).keys()) : undefined;
 
     if (windowDimensions.width > collapsedSizeMediaQueryValues.max ||
         windowDimensions.width < collapsedSizeMediaQueryValues.min) {
       searchPanel = (
         <PanelSearch
-          key={'PreChartPanelSearchKeyFor' + digitLevel}
+          key={'PreChartPanelSearchKeyFor' + tiers}
           data={searchData}
-          topLevelTitle={getString('global-text-industries')}
+          topLevelTitle={topLevelTitle}
           disallowSelectionLevels={disallowSelectionLevels}
-          defaultPlaceholderText={getString('global-ui-search-an-industry-in-graph')}
+          defaultPlaceholderText={defaultPlaceholderText}
           showCount={true}
           resultsIdentation={1}
           onSelect={onSelect}
@@ -168,8 +214,10 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
         <ToggleDropdown
           disallowSelectionLevels={disallowSelectionLevels}
           setHighlighted={setHighlighted}
-          digitLevel={digitLevel}
+          rerenderKey={`${digitLevel}${clusterLevel}${mode}`}
           searchData={searchData}
+          defaultPlaceholderText={defaultPlaceholderText}
+          topLevelTitle={topLevelTitle}
         />
       );
     }
