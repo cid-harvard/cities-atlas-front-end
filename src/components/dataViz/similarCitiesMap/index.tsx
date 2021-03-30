@@ -77,13 +77,20 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
-  const [showRings, setShowRings] = useState<boolean>(true);
+  const [showRings, setShowRings] = useState<boolean>(false);
   const [filterValues, setFilterValues] = useState<FilterValues | undefined>(undefined);
   const cityId = useCurrentCityId();
 
   useEffect(() => {
     staticProximityData = proximityData;
   }, [proximityData]);
+
+  useEffect(() => {
+    // hack needed to handle issues with mapbox and d3 rendering contexts
+    // initial showRings state should be opposite of what is desired, and flip
+    // it here
+    setShowRings(true);
+  }, [timeStamp]);
 
   const renderTooltipContent = (node: {id: string, country: string, city: string, fill: string}) => {
     if (data && staticProximityData) {
@@ -100,7 +107,6 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
     }
     return '';
   };
-
 
   let rings: React.ReactElement<any> | null = null;
   let filterBar: React.ReactElement<any> | null;
@@ -131,7 +137,6 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
         }
       }
     });
-
 
     const populationRange = extent(allPopulations) as [number, number];
     const gdpPppPcRange = extent(allGdpPppPc) as [number, number];
