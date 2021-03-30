@@ -76,7 +76,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
-  const [showRings, setShowRings] = useState<boolean>(false);
+  const [showRings, setShowRings] = useState<boolean>(true);
   const [filterValues, setFilterValues] = useState<FilterValues | undefined>(undefined);
 
   useEffect(() => {

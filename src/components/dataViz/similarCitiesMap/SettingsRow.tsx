@@ -37,17 +37,17 @@ const SettingsRow = (props: Props) => {
 
   const vizNavigation: VizNavItem[] = [
     {
-      label: 'Similarity Map',
-      active: view === MapMode.GEO && !showRings,
-      onClick: onGeoMapClick,
+      label: 'Ring',
+      active: showRings,
+      onClick: onShowRingsClick,
     }, {
     //   label: 'Clusters',
     //   active: view === MapMode.UMAP && !showRings,
     //   onClick: onUMapClick,
     // }, {
-      label: 'Ring',
-      active: showRings,
-      onClick: onShowRingsClick,
+      label: 'Similarity Map',
+      active: view === MapMode.GEO && !showRings,
+      onClick: onGeoMapClick,
     },
   ];
 
