@@ -18,6 +18,7 @@ import {formatNumber} from '../../../Utils';
 import {useMapContext} from 'react-city-space-mapbox';
 import raw from 'raw.macro';
 import {scaleSymlog} from 'd3-scale';
+
 const ChevronSVG = raw('../../../assets/icons/chevron.svg');
 
 export const filterBarId = 'similar-cities-filter-bar-id';
@@ -87,6 +88,7 @@ const slideTrackClassName = 'react-slider-track-class';
 
 const SliderContainer = styled.div`
   margin-top: 1.5rem;
+  position: relative;
 
   .${slideThumbClassName} {
     background-color: ${primaryColor};
@@ -170,6 +172,33 @@ const SelectBoxContainer = styled.div`
   }
 `;
 
+const CityMark = styled.div`
+  position: absolute;
+  top: 0;
+  font-size: 0.775rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: ${lightBaseColor};
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  white-space: nowrap;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 0;
+    border-left: solid 3px ${lightBaseColor};
+    height: 0.75rem;
+    top: 0.25rem;
+  }
+`;
+
+const CityName = styled.div`
+  transform: translate(0, 100%);
+  position: absolute;
+`;
+
 function selectBoxValueRenderer(selected: any, allOptions: any) {
   if (selected.length === 0 || selected.length === allOptions.length) {
     return 'All Regions';
@@ -190,16 +219,17 @@ interface Props {
   gdpPppPcRange: [number, number];
   regions: {label: string, value: string}[];
   setFilterValues: (value: FilterValues) => void;
+  currentCity: {city: string, population: number, gdpPpp: number} | undefined;
 }
 
 interface ThumbState {
-  index: number,
-  value: number | number[],
-  valueNow: number,
+  index: number;
+  value: number | number[];
+  valueNow: number;
 }
 
 const FilterBar = (props: Props) => {
-  const {populationRange, gdpPppPcRange, regions, setFilterValues} = props;
+  const {populationRange, gdpPppPcRange, regions, setFilterValues, currentCity} = props;
   const mapContext = useMapContext();
   const getString = useFluent();
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
@@ -210,6 +240,12 @@ const FilterBar = (props: Props) => {
   const gdpLogScale = scaleSymlog().domain(gdpPppPcRange).range([0, 100]);
   const popLogScale = scaleSymlog().domain(populationRange).range([0, 100]);
 
+  // const currentGdp = currentCity ? '$' + formatNumber(currentCity.gdpPpp / currentCity.population, 0) : '';
+  // const currentPop = currentCity ? formatNumber(currentCity.population, 0) : '';
+  const currentGdpPercent = currentCity ? gdpLogScale(currentCity.gdpPpp / currentCity.population) : 0;
+  const currentPopPercent = currentCity ? popLogScale(currentCity.population) : 0;
+  const currentCityName = currentCity ? currentCity.city : '';
+
   const onUpdateClick = () => {
     if (mapContext.intialized) {
       const convertedGdpPpc = minMaxGdpPppPc.map(n => gdpLogScale.invert(n)) as [number, number];
@@ -219,12 +255,14 @@ const FilterBar = (props: Props) => {
     }
   };
 
-  const Thumb = (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => {
-    const value = popLogScale.invert(state.valueNow);
+  const thumbRender = (type: 'gdp' | 'pop') => (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => {
+    const scale = type === 'pop' ? popLogScale.invert : gdpLogScale.invert;
+    const $ = type === 'pop' ? '' : '$';
+    const value = scale(state.valueNow);
     const decimalPlaces = value > 999999 && value < 9999999 ? 1 : 0;
     const formatted = formatNumber(value, decimalPlaces);
-    return <small {...p}><span>${formatted}</span></small>;
-  }
+    return <small {...p}><span>{$}{formatted}</span></small>;
+  };
 
   const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
@@ -243,12 +281,17 @@ const FilterBar = (props: Props) => {
           <ExpandBox>
             {getString('global-text-population')}
             <SliderContainer>
+              <CityMark style={{left: currentPopPercent + '%'}}>
+                <CityName>
+                  {currentCityName}
+                </CityName>
+              </CityMark>
               <ReactSlider
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
                 defaultValue={[0, 100]}
-                renderThumb={Thumb}
+                renderThumb={thumbRender('pop')}
                 max={100}
                 min={0}
                 onAfterChange={v => setMinMaxPopulation(v as [number, number])}
@@ -258,12 +301,17 @@ const FilterBar = (props: Props) => {
           <ExpandBox>
             {getString('global-text-gdp-per-capita')}
             <SliderContainer>
+              <CityMark style={{left: currentGdpPercent + '%'}}>
+                <CityName>
+                  {currentCityName}
+                </CityName>
+              </CityMark>
               <ReactSlider
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
                 defaultValue={[0, 100]}
-                renderThumb={Thumb}
+                renderThumb={thumbRender('gdp')}
                 max={100}
                 min={0}
                 onAfterChange={v => setMinMaxGdpPppPc(v as [number, number])}

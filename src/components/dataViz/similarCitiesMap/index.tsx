@@ -12,6 +12,7 @@ import CityProximityLegend from '../legend/CityProximityLegend';
 import FilterBar, {filterBarId} from './FilterBar';
 import {extent} from 'd3-array';
 import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
+import useCurrentCityId from '../../../hooks/useCurrentCityId';
 
 const Root = styled.div`
   width: 100%;
@@ -78,6 +79,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
   const {data: proximityData} = useProximityData();
   const [showRings, setShowRings] = useState<boolean>(true);
   const [filterValues, setFilterValues] = useState<FilterValues | undefined>(undefined);
+  const cityId = useCurrentCityId();
 
   useEffect(() => {
     staticProximityData = proximityData;
@@ -115,9 +117,13 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
     );
   }
   if (data) {
+    let currentCity: {city: string, population: number, gdpPpp: number} | undefined;
     const allPopulations: number[] = [];
     const allGdpPppPc: number[] = [];
     data.cityGeoJson.features.forEach((d: any) => {
+      if (d.properties.id === cityId) {
+        currentCity = d.properties;
+      }
       if (!isNaN(d.properties.population)) {
         allPopulations.push(d.properties.population);
         if (!isNaN(d.properties.gdpPpp)) {
@@ -125,6 +131,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
         }
       }
     });
+
 
     const populationRange = extent(allPopulations) as [number, number];
     const gdpPppPcRange = extent(allGdpPppPc) as [number, number];
@@ -136,6 +143,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
         gdpPppPcRange={gdpPppPcRange}
         regions={regions}
         setFilterValues={setFilterValues}
+        currentCity={currentCity}
       />
     );
     if (showRings && !filterValues) {
