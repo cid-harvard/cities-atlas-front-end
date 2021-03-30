@@ -143,7 +143,7 @@ global-text-similar-cities = Similar Cites
 global-text-global-peers = Top Global Peers
 global-text-regional-peers = Top Regional Peers
 global-text-similar-population = by similar population
-global-text-similar-income = by similar income
+global-text-similar-income = by similar income per capita
 
 global-naics-sector-name-0 = Construction
 global-naics-sector-name-1 = Education & health

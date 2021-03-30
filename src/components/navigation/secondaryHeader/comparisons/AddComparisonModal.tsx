@@ -63,7 +63,7 @@ const LabelUnderline = styled(Label)`
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: 1fr auto 1.5fr;
+  grid-template-columns: 1.5fr auto 1fr;
   grid-gap: 2rem;
 
   @media (max-width: ${mobileWidth}px) {
@@ -406,6 +406,8 @@ const AddComparisonModal = (props: Props) => {
         {about}
         <SearchContainerDark>
           <Grid>
+            {groups}
+            <Or>{getString('global-ui-or')}</Or>
             <div>
               <Label>{getString('global-ui-select-a-city-name')}</Label>
               <PanelSearch
@@ -423,8 +425,6 @@ const AddComparisonModal = (props: Props) => {
                 matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
               />
             </div>
-            <Or>{getString('global-ui-or')}</Or>
-            {groups}
           </Grid>
         </SearchContainerDark>
         <ContinueButtonContainer>
