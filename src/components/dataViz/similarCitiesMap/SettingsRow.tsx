@@ -37,7 +37,7 @@ const SettingsRow = (props: Props) => {
 
   const vizNavigation: VizNavItem[] = [
     {
-      label: 'Ring',
+      label: 'Similarity Ring',
       active: showRings,
       onClick: onShowRingsClick,
     }, {

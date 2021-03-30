@@ -68,7 +68,7 @@ const MapOptionsAndSettings = (props: Props) => {
         const minMaxPopulation = extent(allPopulationValues) as unknown as [number, number];
         const populationScale = scaleLinear()
             .domain(minMaxPopulation)
-            .range([16, 70]);
+            .range([24, 100]);
         const populationSizeByMap = data.cityGeoJson.features.map((f: any) => ({
           id: f.properties.id,
           radius: populationScale(f.properties.population),
@@ -79,7 +79,7 @@ const MapOptionsAndSettings = (props: Props) => {
         const minMaxGdpPpp = extent(allGdpPppValues) as unknown as [number, number];
         const gdpPppScale = scaleLinear()
             .domain(minMaxGdpPpp)
-            .range([16, 70]);
+            .range([24, 100]);
         const gdpPppSizeByMap = data.cityGeoJson.features.map((f: any) => ({
           id: f.properties.id,
           radius: gdpPppScale(f.properties.gdpPpp),
