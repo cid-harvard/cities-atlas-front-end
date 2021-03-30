@@ -20,6 +20,8 @@ const GLOBAL_LOCATION_QUERY = gql`
       countryId
       id
       nameList
+      centroidLat
+      centroidLon
       population: population15
       gdpPpp: gdpPpp15
       region: regionId

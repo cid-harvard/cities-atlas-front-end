@@ -66,7 +66,7 @@ const ToggleButton = styled(ExpandingButton)`
 `;
 
 export interface SearchInGraphOptions {
-  disallowSelectionLevels: number[] | undefined;
+  disallowSelectionLevels: (number | string)[] | undefined;
   setHighlighted: (value: string | undefined) => void;
   rerenderKey: string;
   searchData: SearchDatum[];

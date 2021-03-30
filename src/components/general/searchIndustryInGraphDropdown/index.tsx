@@ -7,6 +7,9 @@ import {
 import {
   useGlobalClusterHierarchicalTreeData,
 } from '../../../hooks/useGlobalClusterData';
+import {
+  useGlobalLocationHierarchicalTreeData,
+} from '../../../hooks/useGlobalLocationData';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import useSectorMap from '../../../hooks/useSectorMap';
 import useClusterMap from '../../../hooks/useClusterMap';
@@ -114,11 +117,12 @@ export interface SearchInGraphOptions {
   digitLevel: DigitLevel | null;
   clusterLevel: ClusterLevel | null;
   mode: Mode;
+  hidden?: boolean;
 }
 
 const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const {
-    hiddenParents, setHighlighted, digitLevel, clusterLevel, mode,
+    hiddenParents, setHighlighted, digitLevel, clusterLevel, mode, hidden,
   } = props;
 
   const getString = useFluent();
@@ -126,11 +130,12 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const clusterMap = useClusterMap();
   const industrySearchData = useGlobalIndustryHierarchicalTreeData();
   const clusterSearchData = useGlobalClusterHierarchicalTreeData();
+  const locationSearchData = useGlobalLocationHierarchicalTreeData();
   const windowDimensions = useWindowSize();
 
   let hierarchalSearchData: undefined | SearchDatum[];
-  let tiers: DigitLevel | ClusterLevel | null;
-  let disallowSelectionLevels: number[] | undefined;
+  let tiers: DigitLevel | ClusterLevel | string | null;
+  let disallowSelectionLevels: (number | string)[] | undefined;
   let defaultPlaceholderText: string;
   let topLevelTitle: string;
   if (mode === Mode.naics) {
@@ -146,6 +151,12 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
     disallowSelectionLevels = clusterLevel === ClusterLevel.C3 ? [1] : undefined;
     defaultPlaceholderText = getString('global-ui-search-a-cluster-in-graph');
     topLevelTitle = getString('global-ui-skill-clusters');
+  } else if (mode === Mode.geo) {
+    hierarchalSearchData = locationSearchData.data;
+    disallowSelectionLevels = ['0'];
+    tiers = null;
+    defaultPlaceholderText = 'Find a city in map';
+    topLevelTitle = 'Countries';
   } else {
     hierarchalSearchData = [];
     tiers = null;
@@ -154,7 +165,8 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   }
 
   let searchPanel: React.ReactElement<any> | null;
-  if ((mode === Mode.naics && industrySearchData.loading) || (mode === Mode.cluster && clusterSearchData.loading)) {
+  if ((mode === Mode.naics && industrySearchData.loading) || (mode === Mode.cluster && clusterSearchData.loading) ||
+        (mode === Mode.geo && locationSearchData.loading)) {
     searchPanel = (
       <LoadingContainer>
         <SimpleLoader />
@@ -169,6 +181,13 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
     );
   } else if (mode === Mode.cluster && clusterSearchData.error !== undefined) {
     console.error(clusterSearchData.error);
+    searchPanel = (
+      <LoadingContainer>
+        <SimpleError />
+      </LoadingContainer>
+    );
+  } else if (mode === Mode.geo && locationSearchData.error !== undefined) {
+    console.error(locationSearchData.error);
     searchPanel = (
       <LoadingContainer>
         <SimpleError />
@@ -226,7 +245,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   }
 
   return (
-    <SearchContainer>
+    <SearchContainer style={hidden ? {visibility: 'hidden'} : undefined}>
       {searchPanel}
     </SearchContainer>
   );
