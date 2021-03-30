@@ -17,6 +17,7 @@ import MultiSelect from '@khanacademy/react-multi-select';
 import {formatNumber} from '../../../Utils';
 import {useMapContext} from 'react-city-space-mapbox';
 import raw from 'raw.macro';
+import {scaleSymlog} from 'd3-scale';
 const ChevronSVG = raw('../../../assets/icons/chevron.svg');
 
 export const filterBarId = 'similar-cities-filter-bar-id';
@@ -191,21 +192,39 @@ interface Props {
   setFilterValues: (value: FilterValues) => void;
 }
 
+interface ThumbState {
+  index: number,
+  value: number | number[],
+  valueNow: number,
+}
+
 const FilterBar = (props: Props) => {
   const {populationRange, gdpPppPcRange, regions, setFilterValues} = props;
   const mapContext = useMapContext();
   const getString = useFluent();
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
-  const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>(populationRange);
-  const [minMaxGdpPppPc, setMinMaxGdpPppPc] = useState<[number, number]>(gdpPppPcRange);
+  const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>([0, 100]);
+  const [minMaxGdpPppPc, setMinMaxGdpPppPc] = useState<[number, number]>([0 , 100]);
+
+  const gdpLogScale = scaleSymlog().domain(gdpPppPcRange).range([0, 100]);
+  const popLogScale = scaleSymlog().domain(populationRange).range([0, 100]);
 
   const onUpdateClick = () => {
     if (mapContext.intialized) {
-      mapContext.setFilterParamaters(minMaxPopulation, minMaxGdpPppPc, selectedRegionIds);
-      setFilterValues({minMaxPopulation, minMaxGdpPppPc, selectedRegionIds});
+      const convertedGdpPpc = minMaxGdpPppPc.map(n => gdpLogScale.invert(n)) as [number, number];
+      const convertedPop = minMaxPopulation.map(n => popLogScale.invert(n)) as [number, number];
+      mapContext.setFilterParamaters(convertedPop, convertedGdpPpc, selectedRegionIds);
+      setFilterValues({minMaxPopulation: convertedPop, minMaxGdpPppPc: convertedGdpPpc, selectedRegionIds});
     }
   };
+
+  const Thumb = (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => {
+    const value = popLogScale.invert(state.valueNow);
+    const decimalPlaces = value > 999999 && value < 9999999 ? 1 : 0;
+    const formatted = formatNumber(value, decimalPlaces);
+    return <small {...p}><span>${formatted}</span></small>;
+  }
 
   const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
@@ -228,12 +247,10 @@ const FilterBar = (props: Props) => {
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
-                defaultValue={populationRange}
-                renderThumb={(p, state) => <small {...p}><span>{formatNumber(state.valueNow, 0)}</span></small>}
-                pearling
-                max={populationRange[1]}
-                min={populationRange[0]}
-                //minDistance={5000000}
+                defaultValue={[0, 100]}
+                renderThumb={Thumb}
+                max={100}
+                min={0}
                 onAfterChange={v => setMinMaxPopulation(v as [number, number])}
               />
             </SliderContainer>
@@ -245,12 +262,10 @@ const FilterBar = (props: Props) => {
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
-                defaultValue={gdpPppPcRange}
-                renderThumb={(p, state) => <small {...p}><span>${formatNumber(state.valueNow, 0)}</span></small>}
-                pearling
-                max={gdpPppPcRange[1]}
-                min={gdpPppPcRange[0]}
-                //minDistance={15000}
+                defaultValue={[0, 100]}
+                renderThumb={Thumb}
+                max={100}
+                min={0}
                 onAfterChange={v => setMinMaxGdpPppPc(v as [number, number])}
               />
             </SliderContainer>
