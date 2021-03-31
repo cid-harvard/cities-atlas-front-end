@@ -43,6 +43,7 @@ interface Props {
   onNodeSelect: (value: string | undefined, action: NodeAction) => void;
   setHovered: (value: string | undefined) => void;
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
+  zoomLevel: ZoomLevel;
   hideClusterOverlay: boolean;
   nodeSizing: NodeSizing | undefined;
   colorBy: ColorBy;
@@ -52,7 +53,7 @@ const ClusteredIndustrySpace = (props: Props) => {
   const {
     setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
     setHovered, hovered, nodeSizing, preChartRowKey, onNodeSelect,
-    colorBy,
+    colorBy, zoomLevel,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -102,6 +103,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             hideClusterOverlay={hideClusterOverlay}
             nodeSizing={nodeSizing}
             colorBy={colorBy}
+            zoomLevel={zoomLevel}
           />
       </IndustrySpaceContainer>
       </Root>

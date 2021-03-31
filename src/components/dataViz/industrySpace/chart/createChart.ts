@@ -27,7 +27,8 @@ export const outerRingRadius = 60;
 export const svgRingModeClassName = 'svg-ring-mode-class';
 
 export enum ZoomLevel {
-  Cluster = 'cluster',
+  Cluster1 = 'cluster1',
+  Cluster2 = 'cluster2',
   Node = 'node',
 }
 
@@ -81,7 +82,9 @@ interface Input {
   data: LayoutData;
   rootWidth: number;
   rootHeight: number;
-  backButton: HTMLButtonElement;
+  breadCrumbCluster1Button: HTMLButtonElement;
+  breadCrumbCluster2Button: HTMLButtonElement;
+  breadCrumbNodeButton: HTMLButtonElement;
   tooltipEl: HTMLDivElement;
   onNodeSelect: (naicsId: string | undefined, action: NodeAction) => void;
   onNodeHover: (naicsId: string | undefined) => void;
@@ -101,8 +104,8 @@ const defaultNodeRadius = 4.5;
 
 const createChart = (input: Input) => {
   const {
-    rootEl, data, rootWidth, rootHeight, backButton, tooltipEl, onNodeSelect, onZoomLevelChange,
-    onNodeHover,
+    rootEl, data, rootWidth, rootHeight, tooltipEl, onNodeSelect, onZoomLevelChange,
+    onNodeHover, breadCrumbCluster1Button, breadCrumbCluster2Button, breadCrumbNodeButton,
   } = input;
 
   const {
@@ -117,7 +120,7 @@ const createChart = (input: Input) => {
 
   const state: State = {
     zoom: 1,
-    zoomLevel: ZoomLevel.Cluster,
+    zoomLevel: ZoomLevel.Cluster1,
     active: null,
     hoveredShape: null,
     hoveredNode: null,
@@ -194,6 +197,32 @@ const createChart = (input: Input) => {
     render();
   }
 
+  function resetToClusterMid() {
+    if (state.active !== null) {
+      state.active.element.classed('active', false);
+    }
+    clearActive(true, NodeAction.Reset);
+    if (state.zoomLevel !== ZoomLevel.Cluster2) {
+      zoom.scaleTo(svg.transition().duration(250), 2.25);
+    }
+    svg.call(zoom);
+    onNodeSelect(undefined, NodeAction.Reset);
+    render();
+  }
+
+  function resetToNode() {
+    if (state.active !== null) {
+      state.active.element.classed('active', false);
+    }
+    clearActive(true, NodeAction.Reset);
+    if (state.zoomLevel !== ZoomLevel.Node) {
+      zoom.scaleTo(svg.transition().duration(250), 3.65);
+    }
+    svg.call(zoom);
+    onNodeSelect(undefined, NodeAction.Reset);
+    render();
+  }
+
   function softReset(d: any) {
     if (state.active !== null) {
       state.active.element.classed('active', false);
@@ -212,8 +241,14 @@ const createChart = (input: Input) => {
     render();
   }
 
-  backButton.removeEventListener('click', reset);
-  backButton.addEventListener('click', reset);
+  breadCrumbCluster1Button.removeEventListener('click', reset);
+  breadCrumbCluster1Button.addEventListener('click', reset);
+
+  breadCrumbCluster2Button.removeEventListener('click', resetToClusterMid);
+  breadCrumbCluster2Button.addEventListener('click', resetToClusterMid);
+
+  breadCrumbNodeButton.removeEventListener('click', resetToNode);
+  breadCrumbNodeButton.addEventListener('click', resetToNode);
 
   function setHoveredShape(datum: any) {
     state.hoveredShape = datum;
@@ -610,8 +645,7 @@ const createChart = (input: Input) => {
       state.active.element
         .style('display', 'block');
 
-      backButton.style.display = 'block';
-      if (state.zoomLevel === ZoomLevel.Cluster) {
+      if (state.zoomLevel !== ZoomLevel.Node) {
         state.zoomLevel = ZoomLevel.Node;
         onZoomLevelChange(ZoomLevel.Node);
       }
@@ -677,21 +711,20 @@ const createChart = (input: Input) => {
           .style('display', 'none');
       }
 
-      if (state.zoom > 1.5) {
-       backButton.style.display = 'block';
-      } else {
-       backButton.style.display = 'none';
-      }
-
       if (state.zoom > 3.5) {
-        if (state.zoomLevel === ZoomLevel.Cluster) {
+        if (state.zoomLevel !== ZoomLevel.Node) {
           state.zoomLevel = ZoomLevel.Node;
           onZoomLevelChange(ZoomLevel.Node);
         }
+      } else if (state.zoom > 1.5) {
+        if (state.zoomLevel !== ZoomLevel.Cluster2) {
+          state.zoomLevel = ZoomLevel.Cluster2;
+          onZoomLevelChange(ZoomLevel.Cluster2);
+        }
       } else {
-        if (state.zoomLevel === ZoomLevel.Node) {
-          state.zoomLevel = ZoomLevel.Cluster;
-          onZoomLevelChange(ZoomLevel.Cluster);
+        if (state.zoomLevel !== ZoomLevel.Cluster1) {
+          state.zoomLevel = ZoomLevel.Cluster1;
+          onZoomLevelChange(ZoomLevel.Cluster1);
         }
       }
 

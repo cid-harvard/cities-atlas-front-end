@@ -354,10 +354,12 @@ const Landing = () => {
             gdp,
             coordinates: coordinates[0][0],
           });
-        } else {
+        } else if (parentIndex !== -1) {
           searchData[parentIndex].coordinates = [...searchData[parentIndex].coordinates, ...coordinates[0][0]];
           searchData[parentIndex].gdp += gdp;
           searchData[parentIndex].population += population;
+        } else {
+          console.error(city);
         }
         const id = cityId;
         const searchDatum: ExtendedSearchDatum = {

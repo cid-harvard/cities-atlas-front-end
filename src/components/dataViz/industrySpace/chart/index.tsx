@@ -14,6 +14,8 @@ import {
   ButtonBase,
   lightBorderColor,
   primaryColorLight,
+  primaryColor,
+  secondaryFont,
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
@@ -159,22 +161,6 @@ const Root = styled.div`
   }
 `;
 
-const BackButtonContainer = styled.div`
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  width: 100%;
-  pointer-events: none;
-  display: flex;
-  justify-content: center;
-`;
-const BackButton = styled(ButtonBase)`
-  display: none;
-  pointer-events: all;
-  transform: translate(0, calc(-100% - 0.25rem));
-`;
-
 const ZoomButtonsContainer = styled.div`
   position: absolute;
   right: 0;
@@ -193,6 +179,44 @@ const ZoomButton = styled(ButtonBase)`
   font-weight: 600;
   padding: 0.1rem 0.4rem;
   margin-bottom: 0.45rem;
+`;
+
+const BreadCrumbContainer = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+
+  @media (max-width: 950px) {
+    justify-content: flex-end;
+  }
+`;
+
+const BreadCrumb = styled.button`
+  transform: translate(0, calc(-100% - 0.25rem));
+  pointer-events: all;
+  max-width: min-content;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-family: ${secondaryFont};
+  text-transform: uppercase;
+  font-size: clamp(0.6rem, 0.7vw, 0.875rem);
+  background-color: transparent;
+`;
+
+const Arrow = styled.span`
+  font-size: 1.25rem;
+  padding-left: 0.6rem;
+
+  @media (max-width: 950px) {
+    font-size: 0.9rem;
+  }
 `;
 
 type Chart = {
@@ -218,6 +242,7 @@ interface Props {
   onNodeSelect: (naicsId: string | undefined, action: NodeAction) => void;
   onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
+  zoomLevel: ZoomLevel;
   hideClusterOverlay: boolean;
   nodeSizing: NodeSizing | undefined;
   colorBy: ColorBy;
@@ -226,11 +251,13 @@ interface Props {
 const Chart = (props: Props) => {
   const {
     width, height, onNodeSelect, highlighted, onZoomLevelChange, hideClusterOverlay,
-    onNodeHover, hovered, nodeSizing, colorBy,
+    onNodeHover, hovered, nodeSizing, colorBy, zoomLevel,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
-  const backButtonRef = useRef<HTMLButtonElement | null>(null);
+  const breadCrumbCluster1Ref = useRef<HTMLButtonElement | null>(null);
+  const breadCrumbCluster2Ref = useRef<HTMLButtonElement | null>(null);
+  const breadCrumbNodeRef = useRef<HTMLButtonElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const [chart, setChart] = useState<Chart>({initialized: false});
 
@@ -244,10 +271,13 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     const chartNode = chartRef.current;
-    const backButtonNode = backButtonRef.current;
     const tooltipNode = tooltipRef.current;
+    const breadCrumbCluster1Button = breadCrumbCluster1Ref.current;
+    const breadCrumbCluster2Button = breadCrumbCluster2Ref.current;
+    const breadCrumbNodeButton = breadCrumbNodeRef.current;
     if (chartNode) {
-      if (chartNode && layout.data && backButtonNode && tooltipNode && (
+      if (chartNode && layout.data && tooltipNode &&
+          breadCrumbCluster1Button && breadCrumbCluster2Button && breadCrumbNodeButton && (
           (chart.initialized === false && width && height)
       )) {
         chartNode.innerHTML = '';
@@ -256,10 +286,12 @@ const Chart = (props: Props) => {
           data: layout.data,
           rootWidth: width,
           rootHeight: height,
-          backButton: backButtonNode,
           tooltipEl: tooltipNode,
           onNodeSelect, onZoomLevelChange,
           onNodeHover,
+          breadCrumbCluster1Button,
+          breadCrumbCluster2Button,
+          breadCrumbNodeButton,
         }), initialized: true });
       }
     }
@@ -324,9 +356,45 @@ const Chart = (props: Props) => {
         style={{width, height}}
         className={hideClusterOverlay ? hideClusterOverlayClassName : undefined}
       />
-      <BackButtonContainer>
-        <BackButton ref={backButtonRef}>{'< Back to Industry Space'}</BackButton>
-      </BackButtonContainer>
+      <BreadCrumbContainer>
+        <BreadCrumb
+          ref={breadCrumbCluster1Ref}
+        >
+          <span
+            style={zoomLevel === ZoomLevel.Cluster1 ?
+              {color: primaryColor, fontWeight: 600}
+              : undefined}
+          >
+            Level 1
+            Knowledge&nbsp;Clusters
+          </span>
+          <Arrow>{'→'}</Arrow>
+        </BreadCrumb>
+        <BreadCrumb
+          ref={breadCrumbCluster2Ref}
+        >
+          <span
+            style={zoomLevel === ZoomLevel.Cluster2 ?
+              {color: primaryColor, fontWeight: 600}
+              : undefined}
+          >
+            Level 2
+            Knowledge&nbsp;Clusters
+          </span>
+          <Arrow>{'→'}</Arrow>
+        </BreadCrumb>
+        <BreadCrumb
+          ref={breadCrumbNodeRef}
+        >
+          <span
+            style={zoomLevel === ZoomLevel.Node ?
+              {color: primaryColor, fontWeight: 600}
+              : undefined}
+          >
+            Industry&nbsp;Nodes
+          </span>
+        </BreadCrumb>
+      </BreadCrumbContainer>
       <RapidTooltipRoot ref={tooltipRef} />
       <ZoomButtonsContainer>
         <ZoomButton onClick={zoomIn}>

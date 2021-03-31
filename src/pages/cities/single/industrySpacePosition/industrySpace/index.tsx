@@ -37,7 +37,7 @@ const IndustrySpacePosition = (props: Props) => {
   const { cityId } = props;
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const [hovered, setHovered] = useState<string | undefined>(undefined);
-  const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster);
+  const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster1);
   const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted));
   const sectorMap = useSectorMap();
   const {cluster_overlay, node_sizing, color_by} = useQueryParams();
@@ -157,6 +157,7 @@ const IndustrySpacePosition = (props: Props) => {
           compositionType={defaultCompositionType}
           highlighted={highlighted}
           setHighlighted={setHighlighted}
+          zoomLevel={zoomLevel}
           setZoomLevel={setZoomLevel}
           hideClusterOverlay={hideClusterOverlay}
           setHovered={setHovered}
