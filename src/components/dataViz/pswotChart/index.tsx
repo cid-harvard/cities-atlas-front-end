@@ -303,7 +303,7 @@ const PSWOTChart = (props: Props) => {
         pswotChartData.push({
           id: naicsId,
           label: industry && industry.name ? industry.name : naicsId,
-          x: x < 0.001 ? parseFloat(x.toFixed(3)) : x,
+          x,
           y,
           radius,
           fill,
