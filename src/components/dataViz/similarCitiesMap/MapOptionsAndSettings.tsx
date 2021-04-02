@@ -16,11 +16,11 @@ import {extent} from 'd3-array';
 interface Props {
   showRings: boolean;
   setShowRings: (value: boolean) => void;
-  timeStamp: number;
+  timeStamp: number | string;
 }
 
 let previousCityId: string | undefined;
-let previousTimeStamp: number | undefined;
+let previousTimeStamp: number | string | undefined;
 
 const MapOptionsAndSettings = (props: Props) => {
   const {showRings, setShowRings, timeStamp} = props;

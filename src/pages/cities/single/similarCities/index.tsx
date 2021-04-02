@@ -2,7 +2,7 @@ import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
-import React from 'react';
+import React, {useState} from 'react';
 import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import {
   ContentGrid,
@@ -22,6 +22,7 @@ const SimilarCities = () => {
   const cityId = useCurrentCityId();
   const {city_node_sizing} = useQueryParams();
   const {data} = useLayoutData();
+  const [timeStamp] = useState<number>(new Date().getTime());
 
   if (cityId === null) {
     return (
@@ -72,7 +73,7 @@ const SimilarCities = () => {
               colorBy={null}
             />
         </StandardSideTextBlock>
-        <SimilarCitiesMap timeStamp={new Date().getTime()} />
+        <SimilarCitiesMap timeStamp={timeStamp} />
       </ContentGrid>
       <UtiltyBar />
     </DefaultContentWrapper>

@@ -71,7 +71,7 @@ interface FilterValues {
   minMaxGdpPppPc: [number, number];
 }
 
-const SimilarCitiesMap = ({timeStamp}: {timeStamp: number}) => {
+const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const filterBarRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
