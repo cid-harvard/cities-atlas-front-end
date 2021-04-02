@@ -19,7 +19,7 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywordFormatter';
 import {TooltipTheme} from '../../../general/Tooltip';
-import {PeerGroup} from '../../../../types/graphQL/graphQLTypes';
+import {PeerGroup, isValidPeerGroup} from '../../../../types/graphQL/graphQLTypes';
 
 const mobileWidth = 750; // in px
 
@@ -259,9 +259,8 @@ const AddComparisonModal = (props: Props) => {
   const { compare_city, benchmark, ...otherParams } = useQueryParams();
   let intialSelected: Datum | null | RegionGroup | PeerGroup = null;
   if (field === 'benchmark' && benchmark) {
-    if (benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
-        benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation) {
-      intialSelected = benchmark;
+    if (isValidPeerGroup(benchmark)) {
+      intialSelected = benchmark as PeerGroup;
     }
   } else if (field === 'compare_city' && compare_city) {
     if (compare_city === RegionGroup.World || compare_city === RegionGroup.SimilarCities) {
@@ -359,6 +358,14 @@ const AddComparisonModal = (props: Props) => {
                 {getString('global-text-similar-income')}
               </GroupRadio>
             </GroupItem>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.GlobalProximity)}
+                $checked={selected === PeerGroup.GlobalProximity}
+              >
+                {getString('global-text-similar-proximity')}
+              </GroupRadio>
+            </GroupItem>
           </GroupContainer>
         </div>
         <div>
@@ -378,6 +385,22 @@ const AddComparisonModal = (props: Props) => {
                 $checked={selected === PeerGroup.RegionalIncome}
               >
                 {getString('global-text-similar-income')}
+              </GroupRadio>
+            </GroupItem>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.RegionalProximity)}
+                $checked={selected === PeerGroup.RegionalProximity}
+              >
+                {getString('global-text-similar-proximity')}
+              </GroupRadio>
+            </GroupItem>
+            <GroupItem>
+              <GroupRadio
+                onClick={() => setSelected(PeerGroup.Region)}
+                $checked={selected === PeerGroup.Region}
+              >
+                {getString('global-text-all-regional-peers')}
               </GroupRadio>
             </GroupItem>
           </GroupContainer>

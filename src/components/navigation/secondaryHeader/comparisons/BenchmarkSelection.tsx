@@ -10,7 +10,7 @@ import {Datum} from 'react-panel-search';
 import useFluent from '../../../../hooks/useFluent';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import useQueryParams from '../../../../hooks/useQueryParams';
-import {PeerGroup} from '../../../../types/graphQL/graphQLTypes';
+import {isValidPeerGroup} from '../../../../types/graphQL/graphQLTypes';
 import {useHistory} from 'react-router-dom';
 import {Routes} from '../../../../routing/routes';
 
@@ -102,8 +102,7 @@ const ComparisonSelection = (props: Props) => {
     ];
     const selectedValue = comparisonData.find(({id}) => id === benchmark);
     let benchmarkName = selectedValue ? selectedValue.title : '---';
-    if (benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
-        benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation) {
+    if (isValidPeerGroup(benchmark)) {
       benchmarkName = getString('global-formatted-peer-groups', {type: benchmark});
     }
 

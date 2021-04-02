@@ -8,6 +8,7 @@ import {
   defaultCompositionType,
   NaicsRcaCalculation,
   ClusterRcaCalculation,
+  isValidPeerGroup,
 } from '../../../../types/graphQL/graphQLTypes';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import {defaultYear} from '../../../../Utils';
@@ -130,9 +131,7 @@ const useRCAData = (level: DigitLevel) => {
     variable = 'employ';
   }
 
-  const peerGroup = benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
-                    benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation
-                    ? benchmark : '';
+  const peerGroup = isValidPeerGroup(benchmark) ? benchmark as PeerGroup : '';
 
   const partnerCityIds: [number] | [] = benchmark !== undefined && !isNaN(parseInt(benchmark, 10))
     ? [parseInt(benchmark, 10)] : [];

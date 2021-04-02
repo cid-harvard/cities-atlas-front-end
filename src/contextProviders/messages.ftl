@@ -88,17 +88,23 @@ global-formatted-color-by = {
 global-formatted-peer-groups = {
   $type ->
   *[global_pop] Global Peers by Similar Population
-  [global_income] Global Peers by Similar Income
+  [global_income] Global Peers by Similar Income per capita
+  [global_proximity] Global Peers by by similar economic structure
   [regional_pop] Regional Peers by Similar Population
-  [regional_income] Regional Peers by Similar Income
+  [regional_income] Regional Peers by Similar Income per capita
+  [regional_proximity] Regional Peers by by similar economic structure
+  [region] All Regional Peers
 }
 
 global-formatted-peer-groups-short = {
   $type ->
   *[global_pop] Peer Group
   [global_income] Peer Group
+  [global_proximity] Peer Group
   [regional_pop] Peer Group
   [regional_income] Peer Group
+  [regional_proximity] Peer Group
+  [region] Peer Group
 }
 
 color-by-proximity-only = Color by option is only available for proximity
@@ -144,6 +150,8 @@ global-text-global-peers = Top Global Peers
 global-text-regional-peers = Top Regional Peers
 global-text-similar-population = by similar population
 global-text-similar-income = by similar income per capita
+global-text-similar-proximity = by similar economic structure
+global-text-all-regional-peers = all regional peers
 
 global-naics-sector-name-0 = Construction
 global-naics-sector-name-1 = Education & health

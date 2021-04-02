@@ -1,6 +1,6 @@
 import useQueryParams from './useQueryParams';
 import useGlobalLocationData from './useGlobalLocationData';
-import {PeerGroup} from '../types/graphQL/graphQLTypes';
+import {PeerGroup, isValidPeerGroup} from '../types/graphQL/graphQLTypes';
 import useFluent from '../hooks/useFluent';
 
 const useCurrentBenchmark = () => {
@@ -16,8 +16,7 @@ const useCurrentBenchmark = () => {
     ? selectedValue.name + (country ? ', ' + country.nameShortEn : '')
     : '---';
   let benchmarkNameShort = selectedValue ? selectedValue.name : '---';
-  if (benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
-      benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation) {
+  if (isValidPeerGroup(benchmark)) {
     benchmarkName = getString('global-formatted-peer-groups', {type: benchmark});
     benchmarkNameShort = getString('global-formatted-peer-groups-short', {type: benchmark});
   }

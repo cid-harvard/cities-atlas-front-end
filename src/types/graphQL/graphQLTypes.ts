@@ -223,9 +223,21 @@ export interface ClusterIndustry {
 export enum PeerGroup {
   GlobalPopulation = 'global_pop',
   GlobalIncome = 'global_income',
+  GlobalProximity = 'global_proximity',
   RegionalPopulation = 'regional_pop',
   RegionalIncome = 'regional_income',
+  RegionalProximity = 'regional_proximity',
+  Region = 'region',
 }
+
+export const isValidPeerGroup = (value: any) =>
+  value === PeerGroup.GlobalPopulation ||
+  value === PeerGroup.GlobalIncome ||
+  value === PeerGroup.GlobalProximity ||
+  value === PeerGroup.RegionalPopulation ||
+  value === PeerGroup.RegionalIncome ||
+  value === PeerGroup.RegionalProximity ||
+  value === PeerGroup.Region;
 
 export interface NaicsRcaCalculation {
   cityId: number | null;

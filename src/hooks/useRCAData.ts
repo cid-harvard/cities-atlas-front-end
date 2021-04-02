@@ -6,6 +6,7 @@ import {
   PeerGroup,
   CompositionType,
   defaultCompositionType,
+  isValidPeerGroup,
 } from '../types/graphQL/graphQLTypes';
 import useCurrentCityId from './useCurrentCityId';
 import {defaultYear} from '../Utils';
@@ -94,9 +95,7 @@ const useRCAData = (level: DigitLevel) => {
     variable = 'employ';
   }
 
-  const peerGroup = benchmark === PeerGroup.GlobalIncome || benchmark === PeerGroup.GlobalPopulation ||
-                    benchmark === PeerGroup.RegionalIncome || benchmark === PeerGroup.RegionalPopulation
-                    ? benchmark : '';
+  const peerGroup = isValidPeerGroup(benchmark) ? benchmark as PeerGroup : '';
 
   const partnerCityIds: [number] | [] = benchmark !== undefined && !isNaN(parseInt(benchmark, 10))
     ? [parseInt(benchmark, 10)] : [];
