@@ -11,6 +11,8 @@ import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTool
 import {
   CityIndustryYear,
   CompositionType,
+  isValidPeerGroup,
+  PeerGroup,
 } from '../../../types/graphQL/graphQLTypes';
 import QuickError from '../../transitionStateComponents/QuickError';
 import {RegionGroup} from './cityIndustryComparisonQuery';
@@ -33,7 +35,7 @@ interface Props {
   primaryTotal: number;
   secondaryTotal: number;
   primaryCityId: number;
-  secondaryCityId: number | RegionGroup;
+  secondaryCityId: number | RegionGroup | PeerGroup;
   highlighted: string | undefined;
   compositionType: CompositionType;
 }
@@ -81,8 +83,8 @@ const Chart = (props: Props) => {
   let secondaryCityName: string;
   if (secondaryCityId === RegionGroup.World) {
     secondaryCityName = getString('global-text-world');
-  } else if (secondaryCityId === RegionGroup.SimilarCities) {
-    secondaryCityName = getString('global-text-similar-cities');
+  } else if (isValidPeerGroup(secondaryCityId)) {
+    secondaryCityName = getString('global-formatted-peer-groups', {type: secondaryCityId});
   } else {
     const secondaryCityDatum = globalData
       ? globalData.cities.find(c => parseInt(c.cityId, 10) === secondaryCityId) : undefined;

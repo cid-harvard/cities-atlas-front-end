@@ -3,6 +3,7 @@ import LoadingBlock from '../../../../../components/transitionStateComponents/Vi
 import html2canvas from 'html2canvas';
 import {FullPageOverlay} from '../../../../../styling/styleUtils';
 import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
+import {isValidPeerGroup} from '../../../../../types/graphQL/graphQLTypes';
 import useFluent from '../../../../../hooks/useFluent';
 import {RegionGroup} from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 
@@ -39,8 +40,8 @@ export default (props: Props) => {
       let secondaryCityName: string;
       if (secondaryCityId === RegionGroup.World) {
         secondaryCityName = getString('global-text-world');
-      } else if (secondaryCityId === RegionGroup.SimilarCities) {
-        secondaryCityName = getString('global-text-similar-cities');
+      } else if (isValidPeerGroup(secondaryCityId)) {
+        secondaryCityName = getString('global-formatted-peer-groups', {type: secondaryCityId});
       } else {
         const secondaryCityDatum = globalData
           ? globalData.cities.find(c => parseInt(c.cityId, 10) === parseInt(secondaryCityId, 10)) : undefined;

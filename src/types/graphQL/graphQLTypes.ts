@@ -259,6 +259,18 @@ export interface ClusterRcaCalculation {
   rcaUb: number | null;
 }
 
+export interface PeerEconStruct {
+  naicsId: number | null;
+  level: number | null;
+  year: number | null;
+  totalEmployCount: number | null;
+  avgEmployCount: number | null;
+  avgEmployShare: number | null;
+  totalCompanyCount: number | null;
+  avgCompanyCount: number | null;
+  avgCompanyShare: number | null;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;

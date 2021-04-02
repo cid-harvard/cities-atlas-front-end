@@ -9,6 +9,8 @@ import {
   CompositionType,
   defaultDigitLevel,
   ClassificationNaicsIndustry,
+  isValidPeerGroup,
+  PeerGroup,
 } from '../../../../../types/graphQL/graphQLTypes';
 import {
   ContentGrid,
@@ -84,11 +86,11 @@ const CompositionComparison = (props: Props) => {
     },
   ];
 
-  let comparison: number | RegionGroup;
+  let comparison: number | RegionGroup | PeerGroup;
   if (secondaryCity === RegionGroup.World) {
     comparison = RegionGroup.World;
-  } else if (secondaryCity === RegionGroup.SimilarCities) {
-    comparison = RegionGroup.World;
+  } else if (isValidPeerGroup(secondaryCity)) {
+    comparison = secondaryCity as PeerGroup;
   } else {
     comparison = parseInt(secondaryCity, 10);
   }

@@ -211,32 +211,6 @@ const GroupRadio = styled.div`
     margin-right: 16px;
   }
 `;
-
-const SimilarCitiesList = styled.ol`
-  background-color: #454a4e;
-  padding: 0.65rem;
-  margin-top: 1rem;
-  box-sizing: border-box;
-  max-height: 130px;
-  overflow: auto;
-
-  ::-webkit-scrollbar {
-    -webkit-appearance: none;
-    width: 7px;
-  }
-  ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
-    background-color: rgba(255, 255, 255, .3);
-  }
-  ::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, .1);
-  }
-`;
-const SimilarCity = styled.li`
-  font-size: 0.75rem;
-  color: #fff;
-  margin-left: 2rem;
-`;
 const AboutText = styled.p`
   color: #fff;
   padding: 0 1.5rem;
@@ -263,8 +237,8 @@ const AddComparisonModal = (props: Props) => {
       intialSelected = benchmark as PeerGroup;
     }
   } else if (field === 'compare_city' && compare_city) {
-    if (compare_city === RegionGroup.World || compare_city === RegionGroup.SimilarCities) {
-      intialSelected = compare_city;
+    if (compare_city === RegionGroup.World || isValidPeerGroup(compare_city)) {
+      intialSelected = compare_city as RegionGroup || PeerGroup;
     }
   }
   const [selected, setSelected] = useState<Datum | null | RegionGroup | PeerGroup>(intialSelected);
@@ -301,113 +275,18 @@ const AddComparisonModal = (props: Props) => {
     ? undefined
     : () => closeModal(prevValue);
 
-  const groups = field === 'compare_city' ? (
-    <div>
-      <LabelUnderline>{getString('global-ui-select-a-group')}</LabelUnderline>
-      <GroupsList>
-        <GroupItem>
-          <GroupRadio
-            onClick={() => setSelected(RegionGroup.World)}
-            $checked={selected === RegionGroup.World}
-          >
-            {getString('global-text-world')}
-          </GroupRadio>
-        </GroupItem>
-        <GroupItem>
-          <GroupRadio
-            onClick={() => setSelected(RegionGroup.SimilarCities)}
-            $checked={selected === RegionGroup.SimilarCities}
-          >
-            {getString('global-text-similar-cities')} (10)
-          </GroupRadio>
-          <SimilarCitiesList>
-            <SimilarCity>First Group Name</SimilarCity>
-            <SimilarCity>Second Group Name</SimilarCity>
-            <SimilarCity>Third Group Name</SimilarCity>
-            <SimilarCity>Fourth Group Name</SimilarCity>
-            <SimilarCity>Fifth Group Name</SimilarCity>
-            <SimilarCity>Sixth Group Name</SimilarCity>
-            <SimilarCity>Seventh Group Name</SimilarCity>
-            <SimilarCity>Eight Group Name</SimilarCity>
-            <SimilarCity>Ninth Group Name</SimilarCity>
-            <SimilarCity>Tenth Group Name</SimilarCity>
-          </SimilarCitiesList>
-        </GroupItem>
-      </GroupsList>
-    </div>
-  ) : (
-    <div>
-      <LabelUnderline>{getString('global-ui-select-peer-group')}</LabelUnderline>
-      <GlobalVRegionalGrid>
-        <div>
-        <ContainerTitle>{getString('global-text-global-peers')}</ContainerTitle>
-        <GroupContainer>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.GlobalPopulation)}
-                $checked={selected === PeerGroup.GlobalPopulation}
-              >
-                {getString('global-text-similar-population')}
-              </GroupRadio>
-            </GroupItem>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.GlobalIncome)}
-                $checked={selected === PeerGroup.GlobalIncome}
-              >
-                {getString('global-text-similar-income')}
-              </GroupRadio>
-            </GroupItem>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.GlobalProximity)}
-                $checked={selected === PeerGroup.GlobalProximity}
-              >
-                {getString('global-text-similar-proximity')}
-              </GroupRadio>
-            </GroupItem>
-          </GroupContainer>
-        </div>
-        <div>
-        <ContainerTitle>{getString('global-text-regional-peers')}</ContainerTitle>
-          <GroupContainer>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.RegionalPopulation)}
-                $checked={selected === PeerGroup.RegionalPopulation}
-              >
-                {getString('global-text-similar-population')}
-              </GroupRadio>
-            </GroupItem>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.RegionalIncome)}
-                $checked={selected === PeerGroup.RegionalIncome}
-              >
-                {getString('global-text-similar-income')}
-              </GroupRadio>
-            </GroupItem>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.RegionalProximity)}
-                $checked={selected === PeerGroup.RegionalProximity}
-              >
-                {getString('global-text-similar-proximity')}
-              </GroupRadio>
-            </GroupItem>
-            <GroupItem>
-              <GroupRadio
-                onClick={() => setSelected(PeerGroup.Region)}
-                $checked={selected === PeerGroup.Region}
-              >
-                {getString('global-text-all-regional-peers')}
-              </GroupRadio>
-            </GroupItem>
-          </GroupContainer>
-        </div>
-      </GlobalVRegionalGrid>
-    </div>
-  );
+  const worldOption = field === 'compare_city' ? (
+    <GroupsList>
+      <GroupItem>
+        <GroupRadio
+          onClick={() => setSelected(RegionGroup.World)}
+          $checked={selected === RegionGroup.World}
+        >
+          {getString('global-text-world')}
+        </GroupRadio>
+      </GroupItem>
+    </GroupsList>
+  ) : null;
 
   const title = field === 'benchmark'
     ? getString('global-ui-benchmark-title')
@@ -429,7 +308,78 @@ const AddComparisonModal = (props: Props) => {
         {about}
         <SearchContainerDark>
           <Grid>
-            {groups}
+          <div>
+            <LabelUnderline>{getString('global-ui-select-peer-group')}</LabelUnderline>
+            {worldOption}
+            <GlobalVRegionalGrid>
+              <div>
+                <ContainerTitle>{getString('global-text-global-peers')}</ContainerTitle>
+                <GroupContainer>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.GlobalPopulation)}
+                        $checked={selected === PeerGroup.GlobalPopulation}
+                      >
+                        {getString('global-text-similar-population')}
+                      </GroupRadio>
+                    </GroupItem>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.GlobalIncome)}
+                        $checked={selected === PeerGroup.GlobalIncome}
+                      >
+                        {getString('global-text-similar-income')}
+                      </GroupRadio>
+                    </GroupItem>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.GlobalProximity)}
+                        $checked={selected === PeerGroup.GlobalProximity}
+                      >
+                        {getString('global-text-similar-proximity')}
+                      </GroupRadio>
+                    </GroupItem>
+                  </GroupContainer>
+                </div>
+                <div>
+                <ContainerTitle>{getString('global-text-regional-peers')}</ContainerTitle>
+                  <GroupContainer>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.RegionalPopulation)}
+                        $checked={selected === PeerGroup.RegionalPopulation}
+                      >
+                        {getString('global-text-similar-population')}
+                      </GroupRadio>
+                    </GroupItem>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.RegionalIncome)}
+                        $checked={selected === PeerGroup.RegionalIncome}
+                      >
+                        {getString('global-text-similar-income')}
+                      </GroupRadio>
+                    </GroupItem>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.RegionalProximity)}
+                        $checked={selected === PeerGroup.RegionalProximity}
+                      >
+                        {getString('global-text-similar-proximity')}
+                      </GroupRadio>
+                    </GroupItem>
+                    <GroupItem>
+                      <GroupRadio
+                        onClick={() => setSelected(PeerGroup.Region)}
+                        $checked={selected === PeerGroup.Region}
+                      >
+                        {getString('global-text-all-regional-peers')}
+                      </GroupRadio>
+                    </GroupItem>
+                  </GroupContainer>
+                </div>
+              </GlobalVRegionalGrid>
+            </div>
             <Or>{getString('global-ui-or')}</Or>
             <div>
               <Label>{getString('global-ui-select-a-city-name')}</Label>

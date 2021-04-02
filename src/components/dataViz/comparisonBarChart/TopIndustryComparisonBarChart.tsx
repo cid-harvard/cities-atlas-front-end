@@ -3,6 +3,7 @@ import {
   DigitLevel,
   ClassificationNaicsIndustry,
   CompositionType,
+  PeerGroup,
 } from '../../../types/graphQL/graphQLTypes';
 import {
   useGlobalIndustryMap,
@@ -51,7 +52,7 @@ const VizContainer = styled.div`
 
 interface Props {
   primaryCity: number;
-  comparison: number | RegionGroup;
+  comparison: number | RegionGroup | PeerGroup;
   year: number;
   highlighted: string | undefined;
   setHighlighted: (value: string | undefined) => void;

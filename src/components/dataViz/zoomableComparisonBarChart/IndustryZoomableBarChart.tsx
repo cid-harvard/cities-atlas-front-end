@@ -3,6 +3,8 @@ import {
   DigitLevel,
   ClassificationNaicsIndustry,
   CompositionType,
+  isValidPeerGroup,
+  PeerGroup,
 } from '../../../types/graphQL/graphQLTypes';
 import {
   useGlobalIndustryMap,
@@ -142,7 +144,7 @@ const LegendText = styled.div`
 
 interface Props {
   primaryCity: number;
-  comparison: number | RegionGroup;
+  comparison: number | RegionGroup | PeerGroup;
   year: number;
   highlighted: number | null;
   setHighlighted: (value: string | undefined) => void;
@@ -175,8 +177,8 @@ const IndustryZoomableBarChart = (props: Props) => {
   let secondaryCityName: string;
   if (comparison === RegionGroup.World) {
     secondaryCityName = getString('global-text-world');
-  } else if (comparison === RegionGroup.SimilarCities) {
-    secondaryCityName = getString('global-text-similar-cities');
+  } else if (isValidPeerGroup(comparison)) {
+    secondaryCityName = getString('global-formatted-peer-groups', {type: comparison});
   } else {
     const secondaryCityDatum = globalData
       ? globalData.cities.find(c => parseInt(c.cityId, 10) === comparison) : undefined;

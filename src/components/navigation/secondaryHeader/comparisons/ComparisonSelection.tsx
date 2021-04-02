@@ -22,6 +22,7 @@ import {
 } from '../../../../routing/routes';
 import {createRoute} from '../../../../routing/Utils';
 import useQueryParams from '../../../../hooks/useQueryParams';
+import {PeerGroup} from '../../../../types/graphQL/graphQLTypes';
 import {TooltipTheme} from '../../../general/Tooltip';
 
 const CompareDropdownRoot = styled.div`
@@ -132,7 +133,50 @@ const ComparisonSelection = (props: Props) => {
       history.push(newUrl);
     };
     const comparisonData: Datum[] = [
-      {id: RegionGroup.World, title: getString('global-text-world'), level: null, parent_id: null},
+      // space before world to trick alphabetical sort
+      {id: RegionGroup.World, title: ' ' + getString('global-text-world'), level: null, parent_id: null},
+      {
+        id: PeerGroup.GlobalPopulation,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.GlobalPopulation}),
+        level: null,
+        parent_id: null,
+      },
+      {
+        id: PeerGroup.GlobalIncome,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.GlobalIncome}),
+        level: null,
+        parent_id: null,
+      },
+      {
+        id: PeerGroup.GlobalProximity,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.GlobalProximity}),
+        level: null,
+        parent_id: null,
+      },
+      {
+        id: PeerGroup.RegionalPopulation,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.RegionalPopulation}),
+        level: null,
+        parent_id: null,
+      },
+      {
+        id: PeerGroup.RegionalIncome,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.RegionalIncome}),
+        level: null,
+        parent_id: null,
+      },
+      {
+        id: PeerGroup.RegionalProximity,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.RegionalProximity}),
+        level: null,
+        parent_id: null,
+      },
+      {
+        id: PeerGroup.Region,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.Region}),
+        level: null,
+        parent_id: null,
+      },
       ...data.filter(({id}) => id !== cityId),
     ];
     compareDropdown = (
