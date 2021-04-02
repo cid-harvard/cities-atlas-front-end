@@ -38,7 +38,8 @@ import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
-  const {node_sizing, color_by} = useQueryParams();
+  const {node_sizing, color_by, digit_level} = useQueryParams();
+  const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : DigitLevel.Six;
   const sectorMap = useSectorMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -141,7 +142,7 @@ const GrowthOppurtunities = () => {
               <PSWOTChart
                 highlighted={highlighted ? highlighted : null}
                 setHighlighted={setHighlighted}
-                digitLevel={DigitLevel.Six}
+                digitLevel={digitLevel}
                 vizNavigation={vizNavigation}
                 hiddenSectors={hiddenSectors}
                 nodeSizing={node_sizing}

@@ -382,9 +382,12 @@ const PSWOTChart = (props: Props) => {
           setHighlighted,
           mode: Mode.naics,
         }}
-        settingsOptions={{compositionType: true, nodeSizing: true, colorBy: {nodes: true}, digitLevel: {
-          sixDigitOnlyMessage: getString('glossary-digit-level-disabled-swot'),
-        }}}
+        settingsOptions={{
+          compositionType: true,
+          nodeSizing: true,
+          colorBy: {nodes: true},
+          digitLevel: {defaultDigitLevel: DigitLevel.Six},
+        }}
         vizNavigation={vizNavigation}
       />
       <Root>
