@@ -21,7 +21,7 @@ import StandardSideTextBlock from '../../../../../components/general/StandardSid
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import useFluent from '../../../../../hooks/useFluent';
 import useQueryParams from '../../../../../hooks/useQueryParams';
-import {Toggle, ColorBy, defaultNodeSizing, NodeSizing} from '../../../../../routing/routes';
+import {ClusterMode, defaultClusterMode, ColorBy, defaultNodeSizing, NodeSizing} from '../../../../../routing/routes';
 import IndustryDistanceTable from './IndustryDistanceTable';
 import {
   useAggregateIndustryMap,
@@ -41,12 +41,15 @@ const IndustrySpacePosition = (props: Props) => {
   const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted));
   const sectorMap = useSectorMap();
   const {cluster_overlay, node_sizing, color_by} = useQueryParams();
-  const hideClusterOverlay= cluster_overlay === Toggle.Off;
+  const clusterOverlayMode = cluster_overlay ? cluster_overlay : defaultClusterMode;
   const getString = useFluent();
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
 
   let legend: React.ReactElement<any> | null;
-  if (!(zoomLevel === ZoomLevel.Node || hideClusterOverlay) || color_by === ColorBy.intensity) {
+  if (!(zoomLevel === ZoomLevel.Node
+        || clusterOverlayMode === ClusterMode.none
+        || clusterOverlayMode === ClusterMode.outline
+      ) || color_by === ColorBy.intensity) {
     legend = (
       <IntensityLegend />
     );
@@ -127,8 +130,11 @@ const IndustrySpacePosition = (props: Props) => {
               maxLabel: nodeSizingMaxText,
             } : null
           }
-          colorBy={(zoomLevel === ZoomLevel.Node || hideClusterOverlay) && (!color_by || color_by === ColorBy.sector)
-            && !aggregateIndustryDataMap.loading
+          colorBy={(zoomLevel === ZoomLevel.Node ||
+                    clusterOverlayMode === ClusterMode.none ||
+                    clusterOverlayMode === ClusterMode.outline
+                  ) && (!color_by || color_by === ColorBy.sector)
+                  && !aggregateIndustryDataMap.loading
             ? {
               coloredLabel: getString('global-intensity-high'),
               greyLabel: getString('global-intensity-low'),
@@ -159,7 +165,7 @@ const IndustrySpacePosition = (props: Props) => {
           setHighlighted={setHighlighted}
           zoomLevel={zoomLevel}
           setZoomLevel={setZoomLevel}
-          hideClusterOverlay={hideClusterOverlay}
+          clusterOverlayMode={clusterOverlayMode}
           setHovered={setHovered}
           hovered={hovered}
           nodeSizing={node_sizing}

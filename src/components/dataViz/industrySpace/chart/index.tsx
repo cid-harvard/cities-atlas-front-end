@@ -19,7 +19,7 @@ import {
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
-import {NodeSizing, defaultNodeSizing, ColorBy} from '../../../../routing/routes';
+import {NodeSizing, defaultNodeSizing, ColorBy, ClusterMode} from '../../../../routing/routes';
 import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
 import useColorByIntensity from '../../treeMap/useColorByIntensity';
 import {
@@ -27,7 +27,11 @@ import {
 } from '../../../../hooks/useAggregateIndustriesData';
 import {defaultYear} from '../../../../Utils';
 
-const hideClusterOverlayClassName = 'hide-industry-space-clusters-overlay-class';
+const clusterOverlayClassNames = {
+  [ClusterMode.outline]: 'industry-space-clusters-outlines-class',
+  [ClusterMode.overlay]: undefined,
+  [ClusterMode.none]: 'hide-industry-space-clusters-overlay-class',
+};
 
 const Root = styled.div`
   will-change: all;
@@ -140,7 +144,7 @@ const Root = styled.div`
     }
   }
 
-  &.${hideClusterOverlayClassName} {
+  &.${clusterOverlayClassNames[ClusterMode.none]} {
     svg {
       .industry-continents,
       .industry-countries,
@@ -243,14 +247,14 @@ interface Props {
   onNodeHover: (naicsId: string | undefined) => void;
   onZoomLevelChange: (zoomLevel: ZoomLevel) => void;
   zoomLevel: ZoomLevel;
-  hideClusterOverlay: boolean;
+  clusterOverlayMode: ClusterMode;
   nodeSizing: NodeSizing | undefined;
   colorBy: ColorBy;
 }
 
 const Chart = (props: Props) => {
   const {
-    width, height, onNodeSelect, highlighted, onZoomLevelChange, hideClusterOverlay,
+    width, height, onNodeSelect, highlighted, onZoomLevelChange, clusterOverlayMode,
     onNodeHover, hovered, nodeSizing, colorBy, zoomLevel,
   } = props;
 
@@ -354,7 +358,7 @@ const Chart = (props: Props) => {
       <Root
         ref={chartRef}
         style={{width, height}}
-        className={hideClusterOverlay ? hideClusterOverlayClassName : undefined}
+        className={clusterOverlayClassNames[clusterOverlayMode]}
       />
       <BreadCrumbContainer>
         <BreadCrumb

@@ -22,7 +22,8 @@ import {
 } from '../../../types/graphQL/graphQLTypes';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {
-  Toggle,
+  ClusterMode,
+  defaultClusterMode,
   NodeSizing,
   defaultNodeSizing,
   ColorBy,
@@ -293,7 +294,7 @@ export interface SettingsOptions {
   compositionType?: boolean | {
     disabledOptions?: CompositionType[];
   };
-  hideClusterOverlay?: boolean;
+  clusterOverlayMode?: boolean;
   nodeSizing?: boolean;
   colorBy?: boolean | {
     nodes: boolean,
@@ -585,15 +586,11 @@ const Settings = (props: Props) => {
   }
 
   let clusterOverlayToggle: React.ReactElement<any> | null;
-  if (settingsOptions.hideClusterOverlay !== undefined) {
-    const OffButton = params.cluster_overlay && params.cluster_overlay === Toggle.Off
-      ? CompostionButtonHighlight : CompostionButtonBase;
-    const OnButton = !params.cluster_overlay || params.cluster_overlay === Toggle.On
-      ? CompostionButtonHighlight : CompostionButtonBase;
-    const InputContainer = settingsOptions.hideClusterOverlay === true
+  if (settingsOptions.clusterOverlayMode !== undefined) {
+    const InputContainer = settingsOptions.clusterOverlayMode === true
       ? SettingsInputContainer : DisabledSettingsInputContainer;
-    const LabelContainer = settingsOptions.hideClusterOverlay === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.hideClusterOverlay === true
+    const LabelContainer = settingsOptions.clusterOverlayMode === true ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.clusterOverlayMode === true
       ? getString('glossary-cluster-overlay') : getString('glossary-cluster-overlay-disabled');
     clusterOverlayToggle = (
       <SettingGrid>
@@ -602,16 +599,30 @@ const Settings = (props: Props) => {
         />
         <LabelContainer>{getString('global-ui-show-clusters')}</LabelContainer>
         <InputContainer>
-          <OnButton
-            onClick={() => updateSetting('cluster_overlay', Toggle.On)}
+          <DigitLevelButton
+            onClick={() => updateSetting('cluster_overlay', ClusterMode.outline)}
+            $selected={(!params.cluster_overlay && defaultClusterMode === ClusterMode.outline) ||
+              params.cluster_overlay === ClusterMode.outline
+            }
           >
-            {Toggle.On}
-          </OnButton>
-          <OffButton
-            onClick={() => updateSetting('cluster_overlay', Toggle.Off)}
+            {upperFirst(ClusterMode.outline)}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('cluster_overlay', ClusterMode.overlay)}
+            $selected={(!params.cluster_overlay && defaultClusterMode === ClusterMode.overlay) ||
+              params.cluster_overlay === ClusterMode.overlay
+            }
           >
-            {Toggle.Off}
-          </OffButton>
+            {upperFirst(ClusterMode.overlay)}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('cluster_overlay', ClusterMode.none)}
+            $selected={(!params.cluster_overlay && defaultClusterMode === ClusterMode.none) ||
+              params.cluster_overlay === ClusterMode.none
+            }
+          >
+            {upperFirst(ClusterMode.none)}
+          </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
     );

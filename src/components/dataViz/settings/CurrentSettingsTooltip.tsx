@@ -8,7 +8,7 @@ import {
   defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import {
-  Toggle,
+  defaultClusterMode,
   ColorBy,
   CityColorBy,
   defaultNodeSizing,
@@ -85,10 +85,10 @@ const CurrentSettingsTooltip = (props: Props) => {
     </Segment>
   ) : null;
 
-  const hideClusters = settingsOptions.hideClusterOverlay !== undefined ? (
+  const hideClusters = settingsOptions.clusterOverlayMode !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-show-clusters')}</Subtitle>
-      <em>{params.cluster_overlay ? params.cluster_overlay : Toggle.On}</em>
+      <em>{params.cluster_overlay ? params.cluster_overlay : defaultClusterMode}</em>
     </Segment>
   ) : null;
 

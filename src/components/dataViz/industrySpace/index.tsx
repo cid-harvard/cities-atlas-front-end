@@ -9,7 +9,7 @@ import {breakPoints} from '../../../styling/GlobalGrid';
 import PreChartRow from '../../../components/general/PreChartRow';
 import Chart from './chart';
 import {ZoomLevel, NodeAction} from './chart/createChart';
-import {NodeSizing, ColorBy} from '../../../routing/routes';
+import {NodeSizing, ColorBy, ClusterMode} from '../../../routing/routes';
 import useFluent from '../../../hooks/useFluent';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
@@ -44,14 +44,14 @@ interface Props {
   setHovered: (value: string | undefined) => void;
   setZoomLevel: (zoomLevel: ZoomLevel) => void;
   zoomLevel: ZoomLevel;
-  hideClusterOverlay: boolean;
+  clusterOverlayMode: ClusterMode;
   nodeSizing: NodeSizing | undefined;
   colorBy: ColorBy;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
-    setHighlighted, highlighted, setZoomLevel, hideClusterOverlay,
+    setHighlighted, highlighted, setZoomLevel, clusterOverlayMode,
     setHovered, hovered, nodeSizing, preChartRowKey, onNodeSelect,
     colorBy, zoomLevel,
   } = props;
@@ -83,7 +83,7 @@ const ClusteredIndustrySpace = (props: Props) => {
         }}
         settingsOptions={{compositionType: {
           disabledOptions: [CompositionType.Employees],
-        }, hideClusterOverlay: true, nodeSizing: true, colorBy: {nodes: true},
+        }, clusterOverlayMode: true, nodeSizing: true, colorBy: {nodes: true},
         digitLevel: {
           sixDigitOnlyMessage: getString('glossary-digit-level-disabled-industry-space'),
         },
@@ -100,7 +100,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             onNodeHover={setHovered}
             highlighted={highlighted}
             onZoomLevelChange={setZoomLevel}
-            hideClusterOverlay={hideClusterOverlay}
+            clusterOverlayMode={clusterOverlayMode}
             nodeSizing={nodeSizing}
             colorBy={colorBy}
             zoomLevel={zoomLevel}

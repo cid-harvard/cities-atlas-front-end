@@ -19,10 +19,13 @@ export const Routes = {
   ...CityRoutes,
 } as const;
 
-export enum Toggle {
-  On = 'on',
-  Off = 'off',
+export enum ClusterMode {
+  outline = 'outline',
+  overlay = 'overlay',
+  none = 'none',
 }
+
+export const defaultClusterMode: ClusterMode = ClusterMode.outline;
 
 export enum NodeSizing {
   uniform = 'uniform',
@@ -75,7 +78,7 @@ export interface GlobalQueryParams {
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
   aggregation: AggregationMode | undefined;
-  cluster_overlay: Toggle | undefined;
+  cluster_overlay: ClusterMode | undefined;
   node_sizing: NodeSizing | undefined;
   color_by: ColorBy | undefined;
   city_node_sizing: CityNodeSizing | undefined;
