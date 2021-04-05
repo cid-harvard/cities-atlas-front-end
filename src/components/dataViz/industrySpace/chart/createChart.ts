@@ -742,8 +742,8 @@ const createChart = (input: Input) => {
           .attr('points', state.hoveredShape.polygon.map(([xCoord, yCoord]: [number, number]) =>
             [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' ') )
           .attr('fill', 'none')
-          .attr('stroke', '#efefef')
-          .attr('stroke-width', 3)
+          // .attr('stroke', '#efefef')
+          // .attr('stroke-width', 4)
           .style('display', 'block');
       } else {
         hoveredShape

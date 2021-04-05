@@ -144,6 +144,20 @@ const Root = styled.div`
     }
   }
 
+  .industry-continents {
+    stroke-width: 3.5px;
+    &:hover {
+      stroke-width: 7px;
+    }
+  }
+
+  .industry-countries {
+
+    &:hover {
+      stroke-width: 3px;
+    }
+  }
+
   &.${clusterOverlayClassNames[ClusterMode.none]} {
     svg {
       .industry-continents,
@@ -159,6 +173,23 @@ const Root = styled.div`
         display: block !important;
         opacity: 1 !important;
         pointer-events: all !important;
+        fill: var(--true-fill-color) !important;
+      }
+    }
+  }
+
+  &.${clusterOverlayClassNames[ClusterMode.outline]} {
+    svg {
+      .industry-continents,
+      .industry-countries {
+        fill: rgba(0, 0, 0, 0);
+        stroke: #efefef !important;
+      }
+    }
+    svg:not(.${svgRingModeClassName}) {
+      circle.industry-edge-node {
+        display: block !important;
+        opacity: 1 !important;
         fill: var(--true-fill-color) !important;
       }
     }
