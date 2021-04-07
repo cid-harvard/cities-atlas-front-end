@@ -839,16 +839,24 @@ const createChart = (input: Input) => {
     render(true);
   }
 
-  function updateNodeSize(nodeSizing: NodeSizing) {
+  function updateNodeSize(nodeSizing: NodeSizing, newData?: SuccessResponse) {
+    const field = nodeSizing === NodeSizing.cityEmployees ? 'numEmploy' : 'numCompany';
+    let radiusScale: undefined | ((val: number) => number);
+    if (newData && newData.naicsData) {
+      const allValues = newData.naicsData.map(c => c[field] ? c[field] : 0) as number[];
+      radiusScale = d3.scaleLinear()
+        .domain([0, d3.max(allValues)] as [number, number])
+        .range([ 2.25, 13]);
+    }
     nodes.each(d => {
-      if (nodeSizing === NodeSizing.companies) {
+      if (nodeSizing === NodeSizing.globalCompanies) {
         d.radius = data.global.companySizeByScale(d.globalSumNumCompany) * radiusAdjuster;
-      } else if (nodeSizing === NodeSizing.employees) {
+      } else if (nodeSizing === NodeSizing.globalEmployees) {
         d.radius = data.global.employSizeByScale(d.globalSumNumEmploy) * radiusAdjuster;
-      } else if (nodeSizing === NodeSizing.education) {
-        d.radius = data.global.educationSizeByScale(d.yearsEducation) * radiusAdjuster;
-      } else if (nodeSizing === NodeSizing.wage) {
-        d.radius = data.global.wageSizeByScale(d.hourlyWage) * radiusAdjuster;
+      } else if (radiusScale && newData && newData.naicsData) {
+        const targetNode = newData.naicsData.find(dd => dd.naicsId === d.id);
+        d.radius = targetNode && targetNode[field]
+          ? radiusScale(targetNode[field] as number) : radiusScale(0);
       } else {
         d.radius = radius;
       }

@@ -202,7 +202,7 @@ const PSWOTChart = (props: Props) => {
     const pswotChartData: Datum[] = [];
     const {globalMinMax} = aggregateIndustryDataMap.data;
     let radiusScale: (value: number) => number | undefined;
-    if (nodeSizing === NodeSizing.companies) {
+    if (nodeSizing === NodeSizing.globalCompanies) {
       const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany
             ? globalMinMax.minSumNumCompany : 0;
       const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany
@@ -210,7 +210,7 @@ const PSWOTChart = (props: Props) => {
       radiusScale = scaleLinear()
         .domain([minSizeBy, maxSizeBy])
         .range([ 4, 16 ]);
-    } else if (nodeSizing === NodeSizing.employees) {
+    } else if (nodeSizing === NodeSizing.globalEmployees) {
       const minSizeBy = globalMinMax && globalMinMax.minSumNumEmploy
             ? globalMinMax.minSumNumEmploy : 0;
       const maxSizeBy = globalMinMax && globalMinMax.maxSumNumEmploy
@@ -218,22 +218,6 @@ const PSWOTChart = (props: Props) => {
       radiusScale = scaleLinear()
         .domain([minSizeBy, maxSizeBy])
         .range([ 4, 16 ]);
-    } else if (nodeSizing === NodeSizing.wage) {
-      const minSizeBy = globalMinMax && globalMinMax.minHourlyWage
-            ? globalMinMax.minHourlyWage : 0;
-      const maxSizeBy = globalMinMax && globalMinMax.maxHourlyWage
-            ? globalMinMax.maxHourlyWage : 1;
-      radiusScale = scaleLinear()
-        .domain([minSizeBy, maxSizeBy])
-        .range([ 4, 16]);
-    } else if (nodeSizing === NodeSizing.education) {
-      const minSizeBy = globalMinMax && globalMinMax.minYearsEducation
-            ? globalMinMax.minYearsEducation : 0;
-      const maxSizeBy = globalMinMax && globalMinMax.maxYearsEducation
-            ? globalMinMax.maxYearsEducation : 1;
-      radiusScale = scaleLinear()
-        .domain([minSizeBy, maxSizeBy])
-        .range([ 2, 10]);
     } else {
       radiusScale = (_unused: number) => 5.5;
     }
@@ -274,18 +258,12 @@ const PSWOTChart = (props: Props) => {
         const y = datum.densityEmploy !== null ? datum.densityEmploy : 0;
 
         let radius: number;
-        if (nodeSizing === NodeSizing.companies) {
+        if (nodeSizing === NodeSizing.globalCompanies) {
           radius = radiusScale(industryGlobalData && industryGlobalData.sumNumCompany
               ? industryGlobalData.sumNumCompany : 0) as number;
-        } else if (nodeSizing === NodeSizing.employees) {
+        } else if (nodeSizing === NodeSizing.globalEmployees) {
           radius = radiusScale(industryGlobalData && industryGlobalData.sumNumEmploy
               ? industryGlobalData.sumNumEmploy : 0) as number;
-        } else if (nodeSizing === NodeSizing.wage) {
-          radius = radiusScale(industryGlobalData && industryGlobalData.hourlyWage
-              ? industryGlobalData.hourlyWage : 0) as number;
-        } else if (nodeSizing === NodeSizing.education) {
-          radius = radiusScale(industryGlobalData && industryGlobalData.yearsEducation
-              ? industryGlobalData.yearsEducation : 0) as number;
         } else {
           radius = 5.5;
         }

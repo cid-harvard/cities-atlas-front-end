@@ -29,13 +29,13 @@ export const defaultClusterMode: ClusterMode = ClusterMode.outline;
 
 export enum NodeSizing {
   uniform = 'uniform',
-  companies = 'companies',
-  employees = 'employees',
-  education = 'education',
-  wage = 'wage',
+  globalCompanies = 'global_companies',
+  globalEmployees = 'global_employees',
+  cityCompanies = 'city_companies',
+  cityEmployees = 'city_employees',
 }
 
-export const defaultNodeSizing: NodeSizing = NodeSizing.companies;
+export const defaultNodeSizing: NodeSizing = NodeSizing.cityCompanies;
 
 export enum ColorBy {
   sector = 'sector',

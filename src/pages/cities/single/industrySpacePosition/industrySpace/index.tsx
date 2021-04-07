@@ -76,30 +76,22 @@ const IndustrySpacePosition = (props: Props) => {
   let nodeSizingMinText: string | undefined;
   let nodeSizingMaxText: string | undefined;
   if (aggregateIndustryDataMap.data && !aggregateIndustryDataMap.loading) {
-    if (nodeSizing === NodeSizing.companies) {
-      nodeSizingTitle = 'Node Size by Number of Establishments';
+    if (nodeSizing === NodeSizing.globalCompanies) {
+      nodeSizingTitle = 'Node Size by Global Number of Establishments';
       nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumCompany);
       nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumCompany);
-    } else if (nodeSizing === NodeSizing.employees) {
-      nodeSizingTitle = 'Node Size by Number of Employees';
+    } else if (nodeSizing === NodeSizing.globalEmployees) {
+      nodeSizingTitle = 'Node Size by Global Number of Employees';
       nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumEmploy);
       nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumEmploy);
-    } else if (nodeSizing === NodeSizing.education) {
-      nodeSizingTitle = 'Node Size by Years of Education';
-      nodeSizingMinText = parseFloat(
-        aggregateIndustryDataMap.data.globalMinMax.minYearsEducation.toFixed(1),
-        ) + ' years';
-      nodeSizingMaxText = parseFloat(
-        aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation.toFixed(1),
-        ) + ' years';
-    } else if (nodeSizing === NodeSizing.wage) {
-      nodeSizingTitle = 'Node Size by Average Hourly Wage';
-      nodeSizingMinText = '$' + parseFloat(
-        aggregateIndustryDataMap.data.globalMinMax.minHourlyWage.toFixed(2),
-        ) + ' (USD)';
-      nodeSizingMaxText = '$' + parseFloat(
-        aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage.toFixed(2),
-        ) + ' (USD)';
+    } if (nodeSizing === NodeSizing.cityCompanies) {
+      nodeSizingTitle = 'Node Size by Number of Establishments';
+      // nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumCompany);
+      // nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumCompany);
+    } else if (nodeSizing === NodeSizing.cityEmployees) {
+      nodeSizingTitle = 'Node Size by Number of Employees';
+      // nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumEmploy);
+      // nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumEmploy);
     }
   }
 

@@ -71,8 +71,6 @@ export interface LayoutData {
   global: {
     companySizeByScale: (value: number) => number,
     employSizeByScale: (value: number) => number,
-    educationSizeByScale: (value: number) => number,
-    wageSizeByScale: (value: number) => number,
   };
 }
 
@@ -117,20 +115,12 @@ const useLayoutData = ():Output => {
           .domain([minEmploySizeBy, maxEmploySizeBy])
           .range([ 5, 15]);
 
-        const educationSizeByScale = scaleLinear()
-          .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])
-          .range([ 2, 8]);
-        const wageSizeByScale = scaleLinear()
-          .domain([globalMinMax.minHourlyWage,globalMinMax.maxHourlyWage])
-          .range([ 4, 15]);
-
         const educationColorScale = scaleLinear()
           .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])
           .range(educationColorRange as any) as any;
         const wageColorScale = scaleLinear()
           .domain([globalMinMax.minHourlyWage,globalMinMax.maxHourlyWage])
           .range(wageColorRange as any) as any;
-
 
         const data: Output['data'] = {
           clusters: LAYOUT_DATA.clusters,
@@ -159,7 +149,7 @@ const useLayoutData = ():Output => {
             };
           }),
           global: {
-            companySizeByScale, employSizeByScale, educationSizeByScale, wageSizeByScale,
+            companySizeByScale, employSizeByScale,
           },
         };
         setOutput({loading: false, error: undefined, data});

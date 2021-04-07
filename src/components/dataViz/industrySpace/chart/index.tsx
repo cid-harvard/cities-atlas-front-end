@@ -265,7 +265,7 @@ type Chart = {
   setHighlightedPoint: (naicsId: string | undefined, action: NodeAction) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
   update: (data: SuccessResponse, colorBy: ColorBy) => void;
-  updateNodeSize: (nodeSizing: NodeSizing) => void;
+  updateNodeSize: (nodeSizing: NodeSizing, data?: SuccessResponse) => void;
   updateNodeColor: (colorBy: ColorBy) => void;
 };
 
@@ -353,9 +353,13 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized) {
-      chart.updateNodeSize(nodeSizing ? nodeSizing : defaultNodeSizing);
+      const newData = !nodeSizing || nodeSizing === NodeSizing.cityCompanies ||
+        nodeSizing === NodeSizing.cityEmployees
+        ? data
+        : undefined;
+      chart.updateNodeSize(nodeSizing ? nodeSizing : defaultNodeSizing, newData);
     }
-  }, [chart, nodeSizing]);
+  }, [chart, data, nodeSizing]);
 
   useEffect(() => {
     if (chart.initialized && colorBy !== ColorBy.sector && colorBy !== ColorBy.intensity) {
