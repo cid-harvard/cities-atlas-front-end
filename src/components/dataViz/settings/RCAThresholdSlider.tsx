@@ -79,10 +79,29 @@ interface ThumbState {
 }
 
 const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
-  const logScale = scaleLog().domain([0.0001, 1000]).range([1, 8]);
+  const logScale = scaleLog().domain([0.001, 100]).range([1, 120]);
 
   const logScaleWithZero = (value: number) => value ? logScale(value) : 0;
-  const convertValue = (value: number) => value ? parseFloat(logScale.invert(value).toFixed(6)) : 0;
+  const convertValue = (value: number) => {
+    const logValue = value ? logScale.invert(value) : 0;
+    let decimalPlaces = 0;
+    if (logValue < 0.0001) {
+      decimalPlaces = 6;
+    } else if (logValue < 0.001) {
+      decimalPlaces = 5;
+    } else if (logValue < 0.01) {
+      decimalPlaces = 4;
+    } else if (logValue < 0.1) {
+      decimalPlaces = 3;
+    } else if (logValue < 0.9) {
+      decimalPlaces = 2;
+    }  else if (logValue < 10 && logValue > 1.15) {
+      decimalPlaces = 1;
+    } else {
+      decimalPlaces = 0;
+    }
+    return value ? parseFloat(logValue.toFixed(decimalPlaces)) : 0
+  };
 
   const thumbRender = (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => (
     <small {...p}><span>RCA {'≥'} {convertValue(state.valueNow)}</span></small>
@@ -94,9 +113,9 @@ const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
         className={slideRootClassName}
         thumbClassName={slideThumbClassName}
         trackClassName={slideTrackClassName}
-        defaultValue={isNaN(initialValue) ? logScale(1) : logScaleWithZero(initialValue)}
+        defaultValue={isNaN(initialValue) ? logScaleWithZero(1) : logScaleWithZero(initialValue)}
         renderThumb={thumbRender}
-        max={8}
+        max={120}
         min={0}
         onAfterChange={(v: number) => updateValue(convertValue(v))}
       />

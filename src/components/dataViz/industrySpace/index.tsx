@@ -47,13 +47,14 @@ interface Props {
   clusterOverlayMode: ClusterMode;
   nodeSizing: NodeSizing | undefined;
   colorBy: ColorBy;
+  rcaThreshold: number;
 }
 
 const ClusteredIndustrySpace = (props: Props) => {
   const {
     setHighlighted, highlighted, setZoomLevel, clusterOverlayMode,
     setHovered, hovered, nodeSizing, preChartRowKey, onNodeSelect,
-    colorBy, zoomLevel,
+    colorBy, zoomLevel, rcaThreshold,
   } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -105,6 +106,7 @@ const ClusteredIndustrySpace = (props: Props) => {
             nodeSizing={nodeSizing}
             colorBy={colorBy}
             zoomLevel={zoomLevel}
+            rcaThreshold={rcaThreshold}
           />
       </IndustrySpaceContainer>
       </Root>

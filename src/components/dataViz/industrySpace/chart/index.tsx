@@ -264,7 +264,7 @@ type Chart = {
   zoomOut: () => void;
   setHighlightedPoint: (naicsId: string | undefined, action: NodeAction) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
-  update: (data: SuccessResponse, colorBy: ColorBy) => void;
+  update: (data: SuccessResponse, colorBy: ColorBy, rcaThreshold: number) => void;
   updateNodeSize: (nodeSizing: NodeSizing, data?: SuccessResponse) => void;
   updateNodeColor: (colorBy: ColorBy) => void;
 };
@@ -281,12 +281,13 @@ interface Props {
   clusterOverlayMode: ClusterMode;
   nodeSizing: NodeSizing | undefined;
   colorBy: ColorBy;
+  rcaThreshold: number;
 }
 
 const Chart = (props: Props) => {
   const {
     width, height, onNodeSelect, highlighted, onZoomLevelChange, clusterOverlayMode,
-    onNodeHover, hovered, nodeSizing, colorBy, zoomLevel,
+    onNodeHover, hovered, nodeSizing, colorBy, zoomLevel, rcaThreshold
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -347,9 +348,9 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized && data !== undefined) {
-      chart.update(data, colorBy);
+      chart.update(data, colorBy, rcaThreshold);
     }
-  }, [chart, data, colorBy]);
+  }, [chart, data, colorBy, rcaThreshold]);
 
   useEffect(() => {
     if (chart.initialized) {

@@ -39,6 +39,7 @@ const City = () => {
         'node_sizing' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,
         'city_color_by' as keyof GlobalQueryParams,
+        'rca_threshold' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -50,6 +51,7 @@ const City = () => {
         'cluster_level' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,
         'city_color_by' as keyof GlobalQueryParams,
+        'rca_threshold' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -61,6 +63,7 @@ const City = () => {
         'digit_level' as keyof GlobalQueryParams,
         'cluster_level' as keyof GlobalQueryParams,
         'color_by' as keyof GlobalQueryParams,
+        'rca_threshold' as keyof GlobalQueryParams,
       ],
     },
     {
@@ -80,6 +83,7 @@ const City = () => {
         'cluster_overlay' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,
         'city_color_by' as keyof GlobalQueryParams,
+        'rca_threshold' as keyof GlobalQueryParams,
       ],
     },
   ] : [];

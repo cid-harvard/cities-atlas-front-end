@@ -127,6 +127,13 @@ const CurrentSettingsTooltip = (props: Props) => {
     </Segment>
   ) : null;
 
+  const rcaThreshold = settingsOptions.rcaThreshold !== undefined ? (
+    <Segment>
+      <Subtitle>RCA Threshold</Subtitle>
+      <em>{params.rca_threshold !== undefined ? params.rca_threshold : 1}</em>
+    </Segment>
+  ) : null;
+
   return (
     <Root>
       <Title>{getString('global-ui-change-settings')}</Title>
@@ -140,6 +147,7 @@ const CurrentSettingsTooltip = (props: Props) => {
       {hideClusters}
       {sizeBy}
       {colorBy}
+      {rcaThreshold}
       {cityColorBy}
       {citySizeBy}
     </Root>

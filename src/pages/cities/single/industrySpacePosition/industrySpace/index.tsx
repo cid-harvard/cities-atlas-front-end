@@ -40,8 +40,9 @@ const IndustrySpacePosition = (props: Props) => {
   const [zoomLevel, setZoomLevel] = useState<ZoomLevel>(ZoomLevel.Cluster1);
   const [preChartRowKey, setPreChartRowKey] = useState<string>(idToKey(highlighted));
   const sectorMap = useSectorMap();
-  const {cluster_overlay, node_sizing, color_by} = useQueryParams();
+  const {cluster_overlay, node_sizing, color_by, rca_threshold} = useQueryParams();
   const clusterOverlayMode = cluster_overlay ? cluster_overlay : defaultClusterMode;
+  const rcaThreshold = rca_threshold !== undefined ? parseFloat(rca_threshold) : 1;
   const getString = useFluent();
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
 
@@ -164,6 +165,7 @@ const IndustrySpacePosition = (props: Props) => {
           onNodeSelect={onNodeSelect}
           preChartRowKey={preChartRowKey}
           colorBy={color_by ? color_by : ColorBy.sector}
+          rcaThreshold={isNaN(rcaThreshold) ? 1 : rcaThreshold}
         />
         {legend}
       </ContentGrid>

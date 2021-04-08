@@ -765,7 +765,7 @@ const createChart = (input: Input) => {
     }
   }
 
-  function update(newData: SuccessResponse, colorBy: ColorBy) {
+  function update(newData: SuccessResponse, colorBy: ColorBy, rcaThreshold: number) {
     const {c1Rca, c3Rca, clusterData, naicsRca} = newData;
     const continentsData = clusterData.filter(d => d.level === 1);
     const totalCompanies = continentsData.reduce((total, c) => c.numCompany ? c.numCompany + total : total, 0);
@@ -821,7 +821,7 @@ const createChart = (input: Input) => {
         if (colorBy === ColorBy.intensity) {
           d.color = intensityColorScaleNodes(newDatum.rca).toString();
         } else {
-          d.color = newDatum.rca >= 1 ? d.industryColor : lowIntensityNodeColor;
+          d.color = newDatum.rca >= rcaThreshold ? d.industryColor : lowIntensityNodeColor;
         }
         d.rca = newDatum.rca;
       } else {
