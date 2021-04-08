@@ -38,6 +38,7 @@ import {
 import raw from 'raw.macro';
 import Tooltip, {TooltipTheme} from '../../general/Tooltip';
 import upperFirst from 'lodash/upperFirst';
+import RCAThresholdSlider from './RCAThresholdSlider';
 
 const gearIcon = raw('../../../assets/icons/settings.svg');
 
@@ -217,11 +218,13 @@ const DisabledLabel = styled(Label)`
 
 const DigitLevelButton = styled.button<{$selected: boolean}>`
   font-size: 0.85rem;
+  width: 100%;
   text-transform: none;
   display: block;
   background-color: transparent;
   padding: 0.45rem 0;
   display: flex;
+  flex-wrap: wrap;
   position: relative;
   margin: 0;
 
@@ -305,6 +308,7 @@ export interface SettingsOptions {
   cityNodeSizing?: boolean;
   cityColorBy?: boolean;
   aggregationMode?: boolean;
+  rcaThreshold?: boolean;
 }
 
 interface Props {
@@ -337,6 +341,7 @@ const Settings = (props: Props) => {
       city_color_by: _unusedCityColorBy,
       city_node_sizing: _unusedCitySizeBy,
       aggregation: _unusedAggregation,
+      rca_threshold: _rcaThreshold,
       ...rest
     } = params;
     const query = queryString.stringify({...rest});
@@ -692,6 +697,14 @@ const Settings = (props: Props) => {
     const labelText = typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
       ? getString('global-ui-node-color-by') : getString('global-ui-color-by');
     const defaultColorByText = settingsOptions.clusterLevel !== undefined ? 'Cluster' : 'Sector';
+    const defaultIsSelected = !params.color_by || params.color_by === ColorBy.sector;
+    const rcaThreshold = settingsOptions.rcaThreshold && defaultIsSelected ? (
+      <RCAThresholdSlider
+        key={'rca-slider-key-' + params.rca_threshold}
+        updateValue={v => updateSetting('rca_threshold', v)}
+        initialValue={params.rca_threshold ? parseFloat(params.rca_threshold) : 1}
+      />
+    ) : null;
     colorByOptions = (
       <SettingGrid>
         <Tooltip
@@ -700,10 +713,10 @@ const Settings = (props: Props) => {
         <LabelContainer>{labelText}</LabelContainer>
         <InputContainer>
           <DigitLevelButton
-            onClick={() => updateSetting('color_by', ColorBy.sector)}
-            $selected={!params.color_by || params.color_by === ColorBy.sector}
+            onClick={!defaultIsSelected ? () => updateSetting('color_by', ColorBy.sector) : undefined}
+            $selected={defaultIsSelected}
           >
-            {defaultColorByText}
+            {defaultColorByText}{rcaThreshold}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('color_by', ColorBy.intensity)}

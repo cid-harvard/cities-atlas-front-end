@@ -84,4 +84,5 @@ export interface GlobalQueryParams {
   city_node_sizing: CityNodeSizing | undefined;
   city_color_by: CityColorBy | undefined;
   cluster_level: ClusterLevel | undefined;
+  rca_threshold: string | undefined;
 }

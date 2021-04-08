@@ -87,6 +87,7 @@ const ClusteredIndustrySpace = (props: Props) => {
         digitLevel: {
           sixDigitOnlyMessage: getString('glossary-digit-level-disabled-industry-space'),
         },
+        rcaThreshold: true,
       }}
       />
       <Root ref={rootRef}>
