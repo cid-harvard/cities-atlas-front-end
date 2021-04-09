@@ -272,6 +272,15 @@ export interface PeerEconStruct {
   avgCompanyShare: number | null;
 }
 
+export interface NaicsDensityRescale {
+  cityId: number;
+  naicsId: number;
+  level: number | null;
+  year: number | null;
+  densityEmploy: number | null;
+  densityCompany: number | null;
+}
+
 export interface RootQuery {
   classificationNaicsIndustryList: ClassificationNaicsIndustry[];
   classificationNaicsIndustry: ClassificationNaicsIndustry;

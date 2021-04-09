@@ -1,6 +1,6 @@
 import { useQuery, gql } from '@apollo/client';
 import {
-  CityIndustryYear,
+  NaicsDensityRescale,
   DigitLevel,
   NaicsRcaCalculation,
   PeerGroup,
@@ -26,15 +26,16 @@ const NODE_RCA_QUERY = gql`
     $partnerCityIds: [Int],
     $variable: String,
   ) {
-    naicsData: cityIndustryYearList(cityId: $cityId, year: $year, level: $level) {
+    naicsData: naicsDensityRescale(
+      cityId: $cityId,
+      peerGroup: $peerGroup,
+      partnerCityIds: $partnerCityIds,
+      year: $year,
+      naicsLevel: $level
+    ) {
       naicsId
-      numCompany
-      rcaNumCompany
       densityCompany
-      numEmploy
-      rcaNumEmploy
       densityEmploy
-      id
     }
     naicsRca(
       cityId: $cityId,
@@ -51,11 +52,9 @@ const NODE_RCA_QUERY = gql`
 `;
 
 interface NaicsData {
-  naicsId: CityIndustryYear['naicsId'];
-  numCompany: CityIndustryYear['numCompany'];
-  densityCompany: CityIndustryYear['densityCompany'];
-  numEmploy: CityIndustryYear['numEmploy'];
-  densityEmploy: CityIndustryYear['densityEmploy'];
+  naicsId: NaicsDensityRescale['naicsId'];
+  densityCompany: NaicsDensityRescale['densityCompany'];
+  densityEmploy: NaicsDensityRescale['densityEmploy'];
 }
 
 
