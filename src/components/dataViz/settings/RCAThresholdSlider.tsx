@@ -100,7 +100,7 @@ const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
     } else {
       decimalPlaces = 0;
     }
-    return value ? parseFloat(logValue.toFixed(decimalPlaces)) : 0
+    return value ? parseFloat(logValue.toFixed(decimalPlaces)) : 0;
   };
 
   const thumbRender = (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => (

@@ -72,6 +72,7 @@ export interface ClassificationCity {
   population15: number | null;
   builtAreaPc15: number | null;
   gdpPpp15: number | null;
+  gdppc: number | null;
   incomeClass: IncomeClassType | null;
   devGroup: DevGroupType | null;
   travelTimeToCapital: number | null;

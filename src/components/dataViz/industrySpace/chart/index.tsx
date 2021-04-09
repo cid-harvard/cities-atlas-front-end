@@ -287,7 +287,7 @@ interface Props {
 const Chart = (props: Props) => {
   const {
     width, height, onNodeSelect, highlighted, onZoomLevelChange, clusterOverlayMode,
-    onNodeHover, hovered, nodeSizing, colorBy, zoomLevel, rcaThreshold
+    onNodeHover, hovered, nodeSizing, colorBy, zoomLevel, rcaThreshold,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);

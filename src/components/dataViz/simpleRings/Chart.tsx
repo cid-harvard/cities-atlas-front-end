@@ -72,15 +72,14 @@ const Chart = (props: Props) => {
             ? cityData.data.countries.find(cc => city.countryId !== null && cc.countryId === city.countryId.toString())
             : undefined;
           const radius = city
-            ? nodeSizing === CityNodeSizing.population ? city.population as number : city.gdpPpp as number
+            ? nodeSizing === CityNodeSizing.population ? city.population as number : city.gdppc as number
             : defaultNodeRadius;
           const population = city && city.population ? city.population : 0;
-          const gdpPpp = city && city.gdpPpp ? city.gdpPpp : 0;
-          const gdpPppPc = gdpPpp / population;
+          const gdppc = city && city.gdppc ? city.gdppc : 0;
           const region = city && city.region !== null ? city.region.toString() : null;
           const shown =
             population >= minPop && population <= maxPop &&
-            gdpPppPc >= minGdpPppPc && gdpPppPc <= maxGdpPppPc &&
+            gdppc >= minGdpPppPc && gdppc <= maxGdpPppPc &&
             (!selectedRegionIds.length || (region !== null && selectedRegionIds.includes(region))) ? true : false;
           return {
             primary: c.partnerId === cityId,
@@ -100,7 +99,7 @@ const Chart = (props: Props) => {
           ) : undefined;
 
         const radiusValue = primaryCity
-          ? nodeSizing === CityNodeSizing.population ? primaryCity.population as number : primaryCity.gdpPpp as number
+          ? nodeSizing === CityNodeSizing.population ? primaryCity.population as number : primaryCity.gdppc as number
           : defaultNodeRadius;
         if (primaryCity) {
           nodes.push({
