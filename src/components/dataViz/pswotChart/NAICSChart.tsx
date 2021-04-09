@@ -14,7 +14,6 @@ import {
 } from 'react-use';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 import {breakPoints} from '../../../styling/GlobalGrid';
-import PreChartRow, {VizNavItem} from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import {
@@ -40,7 +39,6 @@ import {scaleLinear, scaleSymlog} from 'd3-scale';
 import {extent} from 'd3-array';
 import orderBy from 'lodash/orderBy';
 import QuickError from '../../transitionStateComponents/QuickError';
-import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
   width: 100%;
@@ -80,13 +78,12 @@ interface Props {
   digitLevel: DigitLevel;
   nodeSizing: NodeSizing | undefined;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
-  vizNavigation: VizNavItem[];
   colorBy: ColorBy;
 }
 
 const PSWOTChart = (props: Props) => {
   const {
-    hiddenSectors, setHighlighted, vizNavigation, digitLevel,
+    hiddenSectors, setHighlighted, digitLevel,
     highlighted, nodeSizing, colorBy,
   } = props;
 
@@ -352,23 +349,6 @@ const PSWOTChart = (props: Props) => {
   }
   return (
     <>
-      <PreChartRow
-        searchInGraphOptions={{
-          hiddenParents: hiddenSectors,
-          digitLevel,
-          clusterLevel: null,
-          setHighlighted,
-          mode: Mode.naics,
-        }}
-        settingsOptions={{
-          compositionType: true,
-          nodeSizing: true,
-          colorBy: {nodes: true},
-          digitLevel: {defaultDigitLevel: DigitLevel.Six},
-          aggregationMode: true,
-        }}
-        vizNavigation={vizNavigation}
-      />
       <Root>
         <SizingContainer ref={rootRef}>
           {output}

@@ -40,6 +40,8 @@ import IntensityLegend from '../../../../components/dataViz/legend/IntensityLege
 import EducationLegend from '../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 import useClusterMap from '../../../../hooks/useClusterMap';
+import PreChartRow from '../../../../components/general/PreChartRow';
+import {Mode} from '../../../../components/general/searchIndustryInGraphDropdown';
 
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
@@ -97,12 +99,11 @@ const GrowthOppurtunities = () => {
       label: 'Table of Industries',
       active: !!(isTableView && isTableView.isExact),
       onClick: () => {
-        window.open('https://citiestool.invisionapp.com/console/share/8D23T0CCJG/498711467', '_blank');
-        // setHighlighted(undefined);
-        // history.push(
-        //   createRoute.city(CityRoutes.CityGrowthOpportunitiesTable, cityId ? cityId :'')
-        //   + history.location.search,
-        // );
+        setHighlighted(undefined);
+        history.push(
+          createRoute.city(CityRoutes.CityGrowthOpportunitiesTable, cityId ? cityId :'')
+          + history.location.search,
+        );
       },
     },
   ];
@@ -166,7 +167,6 @@ const GrowthOppurtunities = () => {
         highlighted={highlighted ? highlighted : null}
         setHighlighted={setHighlighted}
         clusterLevel={clusterLevel}
-        vizNavigation={vizNavigation}
         hiddenClusters={hiddenClusters}
         nodeSizing={node_sizing}
         colorBy={color_by ? color_by : ColorBy.sector}
@@ -176,7 +176,6 @@ const GrowthOppurtunities = () => {
         highlighted={highlighted ? highlighted : null}
         setHighlighted={setHighlighted}
         digitLevel={digitLevel}
-        vizNavigation={vizNavigation}
         hiddenSectors={hiddenSectors}
         nodeSizing={node_sizing}
         colorBy={color_by ? color_by : ColorBy.sector}
@@ -193,6 +192,24 @@ const GrowthOppurtunities = () => {
           {/* eslint-disable-next-line */}
           <ContentParagraph>{'Building on all these measures, we can rank industries not only by their relative size in <City>, but by their predicted future growth. These measures can help analysts make sense not only of <City>\'s economic strengths and weaknesses, but to assess growth opportunities and contraction threats. <City>\'s strengths concentrate in sector <Sec>, while its weaknesses concentrate in <Sec>. <City> has great opportunities in <Sec>, but faces threats in <Sec>.'}</ContentParagraph>
         </StandardSideTextBlock>
+        <PreChartRow
+          searchInGraphOptions={{
+            hiddenParents: isClusterMode ? hiddenClusters : hiddenSectors,
+            digitLevel: isClusterMode ? null : digitLevel,
+            clusterLevel: isClusterMode ? clusterLevel.toString() as any : null,
+            setHighlighted,
+            mode: isClusterMode ? Mode.cluster : Mode.naics,
+          }}
+          settingsOptions={{
+            compositionType: true,
+            nodeSizing: true,
+            colorBy: {nodes: true},
+            aggregationMode: true,
+            digitLevel: isClusterMode ? undefined : {defaultDigitLevel: DigitLevel.Six},
+            clusterLevel: isClusterMode ? true : undefined,
+          }}
+          vizNavigation={vizNavigation}
+        />
         <Switch>
           <Route path={CityRoutes.CityGrowthOpportunitiesTable}
             render={() => (
