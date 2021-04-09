@@ -205,7 +205,7 @@ const GrowthOppurtunities = () => {
             nodeSizing: true,
             colorBy: {nodes: true},
             aggregationMode: true,
-            digitLevel: isClusterMode ? undefined : {defaultDigitLevel: DigitLevel.Six},
+            digitLevel: isClusterMode ? undefined : true,
             clusterLevel: isClusterMode ? true : undefined,
           }}
           vizNavigation={vizNavigation}
