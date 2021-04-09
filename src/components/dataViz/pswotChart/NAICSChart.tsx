@@ -365,6 +365,7 @@ const PSWOTChart = (props: Props) => {
           nodeSizing: true,
           colorBy: {nodes: true},
           digitLevel: {defaultDigitLevel: DigitLevel.Six},
+          aggregationMode: true,
         }}
         vizNavigation={vizNavigation}
       />

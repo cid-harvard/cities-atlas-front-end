@@ -275,30 +275,16 @@ export interface PeerEconStruct {
 export interface NaicsDensityRescale {
   cityId: number;
   naicsId: number;
-  level: number | null;
+  level: DigitLevel | null;
   year: number | null;
   densityEmploy: number | null;
   densityCompany: number | null;
 }
-
-export interface RootQuery {
-  classificationNaicsIndustryList: ClassificationNaicsIndustry[];
-  classificationNaicsIndustry: ClassificationNaicsIndustry;
-  classificationCityList: ClassificationCity[];
-  classificationCity: ClassificationCity;
-  classificationCountryList: ClassificationCountry[];
-  classificationCountry: ClassificationCountry;
-  classificationRegionList: ClassificationRegion[];
-  classificationRegion: ClassificationRegion;
-  cityIndustryYearList: CityIndustryYear[];
-  cityClusterYearList: CityClusterYear[];
-  classificationNaicsClusterList: ClassificationNaicsCluster[];
-  globalIndustryYear: GlobalIndustryAgg[];
-  cityPartnerList: CityPartner[];
-  naicsIndustry: NaicsIndustry;
-  naicsIndustryList: NaicsIndustry[];
-  clusterIndustry: ClusterIndustry;
-  clusterIndustryList: ClusterIndustry[];
-  naicsRca: NaicsRcaCalculation[];
-  clusterRca: ClusterRcaCalculation[];
+export interface ClusterDensityRescale {
+  cityId: number;
+  clusterId: number;
+  level: ClusterLevel | null;
+  year: number | null;
+  densityEmploy: number | null;
+  densityCompany: number | null;
 }
