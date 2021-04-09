@@ -85,7 +85,7 @@ interface Props {
 const PSWOTChart = (props: Props) => {
   const {
     hiddenClusters, setHighlighted, clusterLevel,
-    highlighted, nodeSizing, colorBy,
+    highlighted, colorBy,
   } = props;
 
   const {loading, error, data} = useClusterRCAData(clusterLevel);
@@ -194,27 +194,27 @@ const PSWOTChart = (props: Props) => {
     const {clusterRca, clusterData} = dataToUse;
 
     const pswotChartData: Datum[] = [];
-    const {globalMinMax} = aggregateIndustryDataMap.data;
-    let radiusScale: (value: number) => number | undefined;
-    if (nodeSizing === NodeSizing.globalCompanies) {
-      const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany
-            ? globalMinMax.minSumNumCompany : 0;
-      const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany
-            ? globalMinMax.maxSumNumCompany : 1;
-      radiusScale = scaleLinear()
-        .domain([minSizeBy, maxSizeBy])
-        .range([ 4, 16 ]);
-    } else if (nodeSizing === NodeSizing.globalEmployees) {
-      const minSizeBy = globalMinMax && globalMinMax.minSumNumEmploy
-            ? globalMinMax.minSumNumEmploy : 0;
-      const maxSizeBy = globalMinMax && globalMinMax.maxSumNumEmploy
-            ? globalMinMax.maxSumNumEmploy : 1;
-      radiusScale = scaleLinear()
-        .domain([minSizeBy, maxSizeBy])
-        .range([ 4, 16 ]);
-    } else {
-      radiusScale = (_unused: number) => 5.5;
-    }
+    const {clusterMinMax} = aggregateIndustryDataMap.data;
+    // let radiusScale: (value: number) => number | undefined;
+    // if (nodeSizing === NodeSizing.globalCompanies) {
+    //   const minSizeBy = clusterMinMax && clusterMinMax.minSumNumCompany
+    //         ? clusterMinMax.minSumNumCompany : 0;
+    //   const maxSizeBy = clusterMinMax && clusterMinMax.maxSumNumCompany
+    //         ? clusterMinMax.maxSumNumCompany : 1;
+    //   radiusScale = scaleLinear()
+    //     .domain([minSizeBy, maxSizeBy])
+    //     .range([ 4, 16 ]);
+    // } else if (nodeSizing === NodeSizing.globalEmployees) {
+    //   const minSizeBy = clusterMinMax && clusterMinMax.minSumNumEmploy
+    //         ? clusterMinMax.minSumNumEmploy : 0;
+    //   const maxSizeBy = clusterMinMax && clusterMinMax.maxSumNumEmploy
+    //         ? clusterMinMax.maxSumNumEmploy : 1;
+    //   radiusScale = scaleLinear()
+    //     .domain([minSizeBy, maxSizeBy])
+    //     .range([ 4, 16 ]);
+    // } else {
+    //   radiusScale = (_unused: number) => 5.5;
+    // }
     let colorScale: (value: number) => string | undefined;
     if (colorBy === ColorBy.intensity) {
       const allRca = clusterRca.map(n => {
@@ -225,12 +225,12 @@ const PSWOTChart = (props: Props) => {
         .domain([minRca, maxRca])
         .range(intensityColorRange as any) as unknown as (value: number) => string;
     } else if (colorBy === ColorBy.education) {
-      const {minYearsEducation, maxYearsEducation} = globalMinMax;
+      const {minYearsEducation, maxYearsEducation} = clusterMinMax;
       colorScale = scaleLinear()
         .domain([minYearsEducation, maxYearsEducation])
         .range(educationColorRange as any) as any;
     } else if (colorBy === ColorBy.wage) {
-      const {minHourlyWage, maxHourlyWage} = globalMinMax;
+      const {minHourlyWage, maxHourlyWage} = clusterMinMax;
       colorScale = scaleLinear()
         .domain([minHourlyWage, maxHourlyWage])
         .range(wageColorRange as any) as any;
@@ -243,7 +243,7 @@ const PSWOTChart = (props: Props) => {
 
     clusterRca.forEach(n => {
       const cluster = n.clusterId ? clusters.data[n.clusterId] : undefined;
-      const clusterGlobalData = n.clusterId ? aggregateIndustryDataMap.data.industries[n.clusterId] : undefined;
+      const clusterGlobalData = n.clusterId ? aggregateIndustryDataMap.data.clusters[n.clusterId] : undefined;
       const clusterId = cluster ? cluster.clusterId : '';
       const clusterColor = clusterColorMap.find(c => cluster && cluster.clusterIdTopParent &&
         c.id === cluster.clusterIdTopParent.toString());
@@ -252,16 +252,16 @@ const PSWOTChart = (props: Props) => {
         const x = n.rca !== null ? n.rca : 0;
         const y = datum.densityEmploy !== null ? datum.densityEmploy : 0;
 
-        let radius: number;
-        if (nodeSizing === NodeSizing.globalCompanies) {
-          radius = radiusScale(clusterGlobalData && clusterGlobalData.sumNumCompany
-              ? clusterGlobalData.sumNumCompany : 0) as number;
-        } else if (nodeSizing === NodeSizing.globalEmployees) {
-          radius = radiusScale(clusterGlobalData && clusterGlobalData.sumNumEmploy
-              ? clusterGlobalData.sumNumEmploy : 0) as number;
-        } else {
-          radius = 5.5;
-        }
+        // let radius: number;
+        // if (nodeSizing === NodeSizing.globalCompanies) {
+        //   radius = radiusScale(clusterGlobalData && clusterGlobalData.sumNumCompany
+        //       ? clusterGlobalData.sumNumCompany : 0) as number;
+        // } else if (nodeSizing === NodeSizing.globalEmployees) {
+        //   radius = radiusScale(clusterGlobalData && clusterGlobalData.sumNumEmploy
+        //       ? clusterGlobalData.sumNumEmploy : 0) as number;
+        // } else {
+        //   radius = 5.5;
+        // }
 
         let fill: string | undefined;
         if (colorBy === ColorBy.intensity) {
@@ -278,7 +278,7 @@ const PSWOTChart = (props: Props) => {
           label: cluster && cluster.name ? cluster.name : clusterId,
           x,
           y,
-          radius,
+          radius: 5.5,
           fill,
           highlighted: highlightCluster && highlightCluster.clusterId === clusterId,
           faded: !highlightError && highlightCluster && highlightCluster.clusterId !== clusterId,

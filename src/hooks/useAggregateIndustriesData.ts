@@ -101,7 +101,7 @@ export interface IndustryMap {
   };
 }
 
-const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel) => {
+const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel, clusterLevel: ClusterLevel) => {
   const response: IndustryMap = {
     industries: {},
     clusters: {},
@@ -144,8 +144,10 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel)
     const allClusterWages: number[] = [];
     const allClusterEducations: number[] = [];
     clusterAverageData.forEach(c => {
-      allClusterWages.push(c.hourlyWage);
-      allClusterEducations.push(c.yearsEducation);
+      if (c.level === clusterLevel) {
+        allClusterWages.push(c.hourlyWage);
+        allClusterEducations.push(c.yearsEducation);
+      }
       response.clusters[c.clusterId] = c;
     });
     const [clusterMinYearsEducation, clusterMaxYearsEducation] = extent(allClusterEducations) as [number, number];
@@ -180,9 +182,8 @@ export const useAggregateIndustryMap = (variables: Variables) => {
   const {loading, error, data: responseData} = useAggregateIndustriesData({
     level: variables.level,
     year: variables.year,
-    clusterLevel,
   });
-  const data = industryDataToMap(responseData, variables.level);
+  const data = industryDataToMap(responseData, variables.level, clusterLevel);
   return {loading, error, data};
 };
 
