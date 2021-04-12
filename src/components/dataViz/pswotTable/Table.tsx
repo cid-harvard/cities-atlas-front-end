@@ -9,6 +9,7 @@ import styled from 'styled-components/macro';
 import TableRow, {Props as RowDatum} from './TableRow';
 import {
   lightBorderColor,
+  backgroundMedium,
 } from '../../../styling/styleUtils';
 
 const Root = styled.div`
@@ -24,6 +25,7 @@ const ScrollRoot = styled(ScrollContainer)`
   right: 0;
   left: 0;
   cursor: move;
+  border: solid 1px ${lightBorderColor};
 `;
 
 const Table = styled.table`
@@ -34,8 +36,11 @@ const Th = styled.th`
   position: sticky;
   top: 0;
   z-index: 20;
-  background-color: #fff;
-  padding: 0.5rem;
+  padding: 0.2rem 0.5rem;
+  background-color: ${backgroundMedium};
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
 
   &:before {
     content: '';
@@ -100,7 +105,7 @@ interface Props {
 
 const PSWOTTable = (props: Props) => {
   const {
-    loading, error, data, compositionType,
+    loading, error, data,
   } = props;
   let output: React.ReactElement<any> | null;
   if (loading) {
@@ -122,6 +127,7 @@ const PSWOTTable = (props: Props) => {
             density={d.density}
             rca={d.rca}
             quadrant={d.quadrant}
+            color={d.color}
           />
         );
       });
@@ -131,8 +137,8 @@ const PSWOTTable = (props: Props) => {
         <thead>
           <tr>
             <NameTh>Name</NameTh>
-            <Th>Specialization ({compositionType})</Th>
-            <Th>Density ({compositionType})</Th>
+            <Th>Relative Advantage</Th>
+            <Th>Predicted Growth</Th>
             <Th>Assigned category</Th>
           </tr>
         </thead>

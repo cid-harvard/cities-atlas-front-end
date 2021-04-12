@@ -9,6 +9,9 @@ import {
 } from '../../../types/graphQL/graphQLTypes';
 import Table, {getQuadrant} from './Table';
 import {Props as RowDatum} from './TableRow';
+import {
+  sectorColorMap,
+} from '../../../styling/styleUtils';
 
 interface Props {
   digitLevel: DigitLevel;
@@ -49,12 +52,14 @@ const PSWOTTable = (props: Props) => {
         const density = densityDatum && densityDatum[densityKey] !== null ? densityDatum[densityKey] as number : 0;
         const rca = rcaDatum && rcaDatum.rca ? rcaDatum.rca : 0;
         const quadrant = getQuadrant(rca, density);
+        const parent = sectorColorMap.find(dd => d.naicsIdTopParent.toString() === dd.id);
         const datum: RowDatum = {
           id: d.naicsId,
           name: d.name ? d.name : '',
           density,
           rca,
           quadrant,
+          color: parent ? parent.color : 'gray',
         };
         return datum;
       });

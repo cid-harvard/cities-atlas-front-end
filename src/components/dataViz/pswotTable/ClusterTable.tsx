@@ -9,6 +9,9 @@ import {
 } from '../../../types/graphQL/graphQLTypes';
 import Table, {getQuadrant} from './Table';
 import {Props as RowDatum} from './TableRow';
+import {
+  clusterColorMap,
+} from '../../../styling/styleUtils';
 
 interface Props {
   clusterLevel: ClusterLevel;
@@ -36,7 +39,7 @@ const PSWOTTable = (props: Props) => {
     const {clusterRca, clusterData} = rcaData.data;
     data = clusters.data.clusters
       .filter(d => d.level === clusterLevel &&
-        !hiddenClusters.includes(d.clusterIdTopParent ? d.clusterIdTopParent.toString() : ''))
+        !hiddenClusters.includes(d.clusterIdTopParent !== null ? d.clusterIdTopParent.toString() : ''))
       .map(d => {
         const rcaDatum = clusterRca.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
         const densityDatum = clusterData.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
@@ -50,12 +53,15 @@ const PSWOTTable = (props: Props) => {
         const density = densityDatum && densityDatum[densityKey] !== null ? densityDatum[densityKey] as number : 0;
         const rca = rcaDatum && rcaDatum.rca ? rcaDatum.rca : 0;
         const quadrant = getQuadrant(rca, density);
+        const parent = clusterColorMap.find(dd => d.clusterIdTopParent !== null &&
+          d.clusterIdTopParent.toString() === dd.id);
         const datum: RowDatum = {
           id: d.clusterId,
           name: d.name ? d.name : '',
           density,
           rca,
           quadrant,
+          color: parent ? parent.color : 'gray',
         };
         return datum;
       });
