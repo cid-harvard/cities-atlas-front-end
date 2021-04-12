@@ -1,4 +1,4 @@
-meta-data-title-default = Cities Atlas | Harvard Growth Lab
+meta-data-title-default = Cityverse | Harvard Growth Lab
 
 navigation-pick-a-city = Pick a city
 navigation-city-profiles = City Profiles
@@ -7,7 +7,7 @@ navigation-data = Data
 navigation-about = About
 navigation-contact = Contact
 
-global-app-name = Cities Atlas
+global-app-name = Cityverse
 
 global-ui-loading-cities = Loading cities
 global-ui-select-a-city-name = Select a city
