@@ -29,7 +29,8 @@ const NameTd = styled(Td)`
   }
 `;
 
-interface Props {
+export interface Props {
+  id: string;
   name: string;
   rca: number;
   density: number;

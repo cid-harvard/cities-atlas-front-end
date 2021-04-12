@@ -232,8 +232,12 @@ const GrowthOppurtunities = () => {
         vizNavigation={vizNavigation}
       />
       <PSWOTTable
+        clusterLevel={clusterLevel}
         digitLevel={digitLevel}
         compositionType={compositionType}
+        aggregationMode={isClusterMode ? AggregationMode.cluster : AggregationMode.industries}
+        hiddenSectors={hiddenSectors}
+        hiddenClusters={hiddenClusters}
       />
     </>
   );
