@@ -9,6 +9,8 @@ import {
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
   ClusterLevel,
+  CompositionType,
+  defaultCompositionType,
 } from '../../../../types/graphQL/graphQLTypes';
 import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import {
@@ -43,13 +45,15 @@ import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 import useClusterMap from '../../../../hooks/useClusterMap';
 import PreChartRow from '../../../../components/general/PreChartRow';
 import {Mode} from '../../../../components/general/searchIndustryInGraphDropdown';
+import PSWOTTable from '../../../../components/dataViz/pswotTable';
 
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
-  const {node_sizing, color_by, digit_level, aggregation, cluster_level} = useQueryParams();
+  const {node_sizing, color_by, digit_level, aggregation, cluster_level, composition_type} = useQueryParams();
   const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : defaultDigitLevel;
   const clusterLevel = cluster_level ? parseInt(cluster_level, 10) as ClusterLevel : ClusterLevel.C3;
+  const compositionType = composition_type ? composition_type as CompositionType : defaultCompositionType;
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -171,6 +175,7 @@ const GrowthOppurtunities = () => {
         hiddenClusters={hiddenClusters}
         nodeSizing={node_sizing}
         colorBy={color_by ? color_by : ColorBy.sector}
+        compositionType={compositionType}
       />
   ) : (
       <NAICSChart
@@ -180,7 +185,57 @@ const GrowthOppurtunities = () => {
         hiddenSectors={hiddenSectors}
         nodeSizing={node_sizing}
         colorBy={color_by ? color_by : ColorBy.sector}
+        compositionType={compositionType}
       />
+  );
+
+  const pswotChartWithSettings = (
+    <>
+      <PreChartRow
+        searchInGraphOptions={{
+          hiddenParents: isClusterMode ? hiddenClusters : hiddenSectors,
+          digitLevel: isClusterMode ? null : digitLevel,
+          clusterLevel: isClusterMode ? clusterLevel.toString() as any : null,
+          setHighlighted,
+          mode: isClusterMode ? Mode.cluster : Mode.naics,
+        }}
+        settingsOptions={{
+          compositionType: true,
+          nodeSizing: true,
+          colorBy: {nodes: true},
+          aggregationMode: true,
+          digitLevel: isClusterMode ? undefined : true,
+          clusterLevel: isClusterMode ? true : undefined,
+        }}
+        vizNavigation={vizNavigation}
+      />
+      {pswotChart}
+    </>
+  );
+
+  const pswotTable = (
+    <>
+      <PreChartRow
+        searchInGraphOptions={{
+          hiddenParents: isClusterMode ? hiddenClusters : hiddenSectors,
+          digitLevel: isClusterMode ? null : digitLevel,
+          clusterLevel: isClusterMode ? clusterLevel.toString() as any : null,
+          setHighlighted,
+          mode: isClusterMode ? Mode.cluster : Mode.naics,
+        }}
+        settingsOptions={{
+          compositionType: true,
+          aggregationMode: true,
+          digitLevel: isClusterMode ? undefined : true,
+          clusterLevel: isClusterMode ? true : undefined,
+        }}
+        vizNavigation={vizNavigation}
+      />
+      <PSWOTTable
+        digitLevel={digitLevel}
+        compositionType={compositionType}
+      />
+    </>
   );
 
 
@@ -193,32 +248,12 @@ const GrowthOppurtunities = () => {
           {/* eslint-disable-next-line */}
           <ContentParagraph>{'Building on all these measures, we can rank industries not only by their relative size in <City>, but by their predicted future growth. These measures can help analysts make sense not only of <City>\'s economic strengths and weaknesses, but to assess growth opportunities and contraction threats. <City>\'s strengths concentrate in sector <Sec>, while its weaknesses concentrate in <Sec>. <City> has great opportunities in <Sec>, but faces threats in <Sec>.'}</ContentParagraph>
         </StandardSideTextBlock>
-        <PreChartRow
-          searchInGraphOptions={{
-            hiddenParents: isClusterMode ? hiddenClusters : hiddenSectors,
-            digitLevel: isClusterMode ? null : digitLevel,
-            clusterLevel: isClusterMode ? clusterLevel.toString() as any : null,
-            setHighlighted,
-            mode: isClusterMode ? Mode.cluster : Mode.naics,
-          }}
-          settingsOptions={{
-            compositionType: true,
-            nodeSizing: true,
-            colorBy: {nodes: true},
-            aggregationMode: true,
-            digitLevel: isClusterMode ? undefined : true,
-            clusterLevel: isClusterMode ? true : undefined,
-          }}
-          vizNavigation={vizNavigation}
-        />
         <Switch>
           <Route path={CityRoutes.CityGrowthOpportunitiesTable}
-            render={() => (
-              <div>Table</div>
-            )}
+            render={() => (<>{pswotTable}</>)}
           />
           <Route path={CityRoutes.CityGrowthOpportunities}
-            render={() => (<>{pswotChart}</>)}
+            render={() => (<>{pswotChartWithSettings}</>)}
           />
         </Switch>
         {legend}

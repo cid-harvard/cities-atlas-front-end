@@ -2,6 +2,8 @@ import React, {useState, useRef, useEffect, useCallback} from 'react';
 import {
   ClassificationNaicsIndustry,
   DigitLevel,
+  CompositionType,
+  defaultCompositionType,
 } from '../../../types/graphQL/graphQLTypes';
 import {
   useGlobalIndustryMap,
@@ -79,12 +81,13 @@ interface Props {
   nodeSizing: NodeSizing | undefined;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   colorBy: ColorBy;
+  compositionType: CompositionType;
 }
 
 const PSWOTChart = (props: Props) => {
   const {
     hiddenSectors, setHighlighted, digitLevel,
-    highlighted, nodeSizing, colorBy,
+    highlighted, nodeSizing, colorBy, compositionType,
   } = props;
 
   const {loading, error, data} = useRCAData(digitLevel);
@@ -252,7 +255,14 @@ const PSWOTChart = (props: Props) => {
       const datum = naicsData.find(nn => n.naicsId !== null && nn.naicsId.toString() === n.naicsId.toString());
       if (sector && datum && !hiddenSectors.includes(sector.id)) {
         const x = n.rca !== null ? n.rca : 0;
-        const y = datum.densityEmploy !== null ? datum.densityEmploy : 0;
+        let densityKey: 'densityCompany' | 'densityEmploy';
+        if (compositionType === CompositionType.Companies ||
+            (!compositionType && defaultCompositionType === CompositionType.Companies)) {
+          densityKey = 'densityCompany';
+        } else {
+          densityKey = 'densityEmploy';
+        }
+        const y = datum[densityKey] !== null ? datum[densityKey] as number : 0;
 
         let radius: number;
         if (nodeSizing === NodeSizing.globalCompanies) {

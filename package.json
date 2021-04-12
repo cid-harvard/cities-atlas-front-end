@@ -41,6 +41,7 @@
     "react-dom": "^16.13.1",
     "react-fast-charts": "^1.1.51",
     "react-helmet": "^6.1.0",
+    "react-indiana-drag-scroll": "^2.0.1",
     "react-mapbox-gl": "^4.8.6",
     "react-panel-search": "^1.4.4",
     "react-pswot-plot": "^1.0.3",
