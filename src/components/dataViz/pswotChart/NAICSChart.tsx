@@ -119,9 +119,9 @@ const PSWOTChart = (props: Props) => {
         rows.push(
           ['Code', industry.code],
         );
-      } else {
+      } else if (datum.id) {
         rows.push(
-          ['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'],
+          [getString('pswot-quadrant-tooltips-' + datum.id.toLowerCase())],
         );
       }
       if (datum.x !== undefined) {
@@ -136,7 +136,7 @@ const PSWOTChart = (props: Props) => {
       }
       node.innerHTML = getStandardTooltip({
         title: datum.label,
-        color: datum.fill ? rgba(datum.fill, 0.5) : '#f69c7c',
+        color: datum.fill ? rgba(datum.fill, 0.5) : rgba('#f69c7c', 0.5),
         rows,
         boldColumns: [1],
       });
