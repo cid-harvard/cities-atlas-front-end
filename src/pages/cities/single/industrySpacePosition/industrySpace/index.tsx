@@ -26,6 +26,8 @@ import IndustryDistanceTable from './IndustryDistanceTable';
 import {
   useAggregateIndustryMap,
 } from '../../../../../hooks/useAggregateIndustriesData';
+import useRCAData from '../../../../../components/dataViz/industrySpace/chart/useRCAData';
+import {extent} from 'd3-array';
 
 interface Props {
   cityId: string;
@@ -45,6 +47,7 @@ const IndustrySpacePosition = (props: Props) => {
   const rcaThreshold = rca_threshold !== undefined ? parseFloat(rca_threshold) : 1;
   const getString = useFluent();
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
+  const {data: rcaData} = useRCAData(DigitLevel.Six);
 
   let legend: React.ReactElement<any> | null;
   if (!(zoomLevel === ZoomLevel.Node
@@ -85,14 +88,16 @@ const IndustrySpacePosition = (props: Props) => {
       nodeSizingTitle = 'Node Size by Global Number of Employees';
       nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumEmploy);
       nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumEmploy);
-    } if (nodeSizing === NodeSizing.cityCompanies) {
+    } if (nodeSizing === NodeSizing.cityCompanies && rcaData) {
       nodeSizingTitle = 'Node Size by Number of Establishments';
-      // nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumCompany);
-      // nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumCompany);
-    } else if (nodeSizing === NodeSizing.cityEmployees) {
+      const [min, max] = extent(rcaData.naicsData.map(d => d.numCompany).filter(d => d !== null) as number []);
+      nodeSizingMinText = formatNumberLong(min ? min : 0);
+      nodeSizingMaxText = formatNumberLong(max ? max : 0);
+    } else if (nodeSizing === NodeSizing.cityEmployees && rcaData) {
       nodeSizingTitle = 'Node Size by Number of Employees';
-      // nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumEmploy);
-      // nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumEmploy);
+      const [min, max] = extent(rcaData.naicsData.map(d => d.numEmploy).filter(d => d !== null) as number []);
+      nodeSizingMinText = formatNumberLong(min ? min : 0);
+      nodeSizingMaxText = formatNumberLong(max ? max : 0);
     }
   }
 
