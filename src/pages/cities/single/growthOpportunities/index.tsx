@@ -5,6 +5,7 @@ import {LoadingOverlay} from '../../../../components/transitionStateComponents/V
 import React, {useState} from 'react';
 import {
   DigitLevel,
+  defaultDigitLevel,
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
   ClusterLevel,
@@ -47,7 +48,7 @@ const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
   const {node_sizing, color_by, digit_level, aggregation, cluster_level} = useQueryParams();
-  const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : DigitLevel.Six;
+  const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : defaultDigitLevel;
   const clusterLevel = cluster_level ? parseInt(cluster_level, 10) as ClusterLevel : ClusterLevel.C3;
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
