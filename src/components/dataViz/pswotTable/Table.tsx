@@ -203,7 +203,7 @@ const PSWOTTable = (props: Props) => {
       const rootNode = rootRef.current;
       const highlightedElm: HTMLElement | null = rootNode.querySelector(`#${highlightedIdName}`);
       if (highlightedElm) {
-        highlightedElm.scrollIntoView({behavior: "smooth", block: "center"});
+        highlightedElm.scrollIntoView({behavior: 'smooth', block: 'center'});
       } else {
         setHighlightError(true);
       }
