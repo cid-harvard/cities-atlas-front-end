@@ -2,7 +2,10 @@ import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {
   lightBorderColor,
+  primaryColorLight,
 } from '../../../styling/styleUtils';
+
+export const highlightedIdName = 'react-comparison-bar-chart-highlighted-item';
 
 const hoverBackgroundColor = '#efefef';
 
@@ -64,7 +67,7 @@ const ColorBar = styled.div`
   margin: -0.2rem 0.75rem -0.2rem 0;
 `;
 
-export interface Props {
+export interface RowDatum {
   id: string;
   name: string;
   rca: number;
@@ -73,9 +76,13 @@ export interface Props {
   color: string;
 }
 
+interface Props extends RowDatum {
+  highlighted: string | undefined;
+}
+
 const TableRow = (props: Props) => {
   const {
-    name, rca, density, quadrant, color,
+    id, name, rca, density, quadrant, color, highlighted,
   } = props;
 
   const [hovered, setHovered] = useState<boolean>(false);
@@ -84,8 +91,12 @@ const TableRow = (props: Props) => {
     <Tr
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
+      id={highlighted === id ? highlightedIdName : undefined}
+      style={highlighted === id ? {backgroundColor: primaryColorLight} : undefined}
     >
-      <NameTd style={hovered ? {backgroundColor: hoverBackgroundColor} : undefined}>
+      <NameTd style={hovered && highlighted !== id
+          ? {backgroundColor: hoverBackgroundColor}
+          : highlighted === id ? {backgroundColor: primaryColorLight} : undefined}>
         <NameContent>
           <ColorBar style={{backgroundColor: color}} />
           {name}

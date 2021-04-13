@@ -24,6 +24,7 @@ const Root = styled.div`
   width: 100%;
   display: flex;
   justify-content: center;
+  z-index: 50;
 `;
 
 const Content = styled.div`

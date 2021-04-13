@@ -8,7 +8,7 @@ import {
   ClassificationNaicsCluster,
 } from '../../../types/graphQL/graphQLTypes';
 import Table, {getQuadrant} from './Table';
-import {Props as RowDatum} from './TableRow';
+import {RowDatum} from './TableRow';
 import {
   clusterColorMap,
 } from '../../../styling/styleUtils';
@@ -17,11 +17,13 @@ interface Props {
   clusterLevel: ClusterLevel;
   compositionType: CompositionType;
   hiddenClusters: ClassificationNaicsCluster['id'][];
+  highlighted: string | undefined;
+  clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
-    clusterLevel, compositionType, hiddenClusters,
+    clusterLevel, compositionType, hiddenClusters, highlighted, clearHighlighted,
   } = props;
   const rcaData = useClusterRCAData(clusterLevel);
   const clusters = useGlobalClusterData();
@@ -73,6 +75,8 @@ const PSWOTTable = (props: Props) => {
       error={error}
       data={data}
       compositionType={compositionType}
+      highlighted={highlighted}
+      clearHighlighted={clearHighlighted}
     />
   );
 };

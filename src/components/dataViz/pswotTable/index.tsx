@@ -36,12 +36,14 @@ interface Props {
   aggregationMode: AggregationMode;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   hiddenClusters: ClassificationNaicsCluster['id'][];
+  highlighted: string | undefined;
+  clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
     digitLevel, compositionType, aggregationMode, clusterLevel,
-    hiddenSectors, hiddenClusters,
+    hiddenSectors, hiddenClusters, highlighted, clearHighlighted,
   } = props;
 
   const table = aggregationMode === AggregationMode.cluster ? (
@@ -49,12 +51,16 @@ const PSWOTTable = (props: Props) => {
       clusterLevel={clusterLevel}
       compositionType={compositionType}
       hiddenClusters={hiddenClusters}
+      highlighted={highlighted}
+      clearHighlighted={clearHighlighted}
     />
   ) : (
     <NAICSTable
       digitLevel={digitLevel}
       compositionType={compositionType}
       hiddenSectors={hiddenSectors}
+      highlighted={highlighted}
+      clearHighlighted={clearHighlighted}
     />
   );
 

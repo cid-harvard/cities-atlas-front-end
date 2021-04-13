@@ -8,7 +8,7 @@ import {
   ClassificationNaicsIndustry,
 } from '../../../types/graphQL/graphQLTypes';
 import Table, {getQuadrant} from './Table';
-import {Props as RowDatum} from './TableRow';
+import {RowDatum} from './TableRow';
 import {
   sectorColorMap,
 } from '../../../styling/styleUtils';
@@ -17,11 +17,14 @@ interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
+  highlighted: string | undefined;
+  clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
     digitLevel, compositionType, hiddenSectors,
+    highlighted, clearHighlighted,
   } = props;
   const rcaData = useRCAData(digitLevel);
   const industries = useGlobalIndustriesData();
@@ -71,6 +74,8 @@ const PSWOTTable = (props: Props) => {
       error={error}
       data={data}
       compositionType={compositionType}
+      highlighted={highlighted}
+      clearHighlighted={clearHighlighted}
     />
   );
 };

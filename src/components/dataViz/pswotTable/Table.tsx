@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import {
   CompositionType,
 } from '../../../types/graphQL/graphQLTypes';
@@ -6,7 +6,7 @@ import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
 import ScrollContainer from 'react-indiana-drag-scroll';
 import styled from 'styled-components/macro';
-import TableRow, {Props as RowDatum} from './TableRow';
+import TableRow, {RowDatum, highlightedIdName} from './TableRow';
 import {
   lightBorderColor,
   backgroundMedium,
@@ -15,6 +15,8 @@ import raw from 'raw.macro';
 import orderBy from 'lodash/orderBy';
 import ColumnFilterBox from './ColumnFilterBox';
 import TextFilter from './TextFilter';
+import QuickError from '../../transitionStateComponents/QuickError';
+import useFluent from '../../../hooks/useFluent';
 
 const sortArrows = raw('../../../assets/icons/sort-arrows.svg');
 
@@ -170,17 +172,21 @@ interface Props {
   error: any | undefined;
   data: RowDatum[] | undefined;
   compositionType: CompositionType;
+  highlighted: string | undefined;
+  clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
-    loading, error, data,
+    loading, error, data, highlighted, clearHighlighted,
   } = props;
 
   const [sortField, setSortField] = useState<SortField>(SortField.name);
   const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ascending);
   const [filterText, setFilterText] = useState<string>('');
   const [filterdQuadrants, setFilteredQuadrants] = useState<Quadrant[]>([]);
+  const [highlightError, setHighlightError] = useState<boolean>(false);
+  const getString = useFluent();
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
@@ -189,6 +195,22 @@ const PSWOTTable = (props: Props) => {
       setSortField(field);
     }
   };
+
+  const rootRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (rootRef && rootRef.current && highlighted !== undefined) {
+      const rootNode = rootRef.current;
+      const highlightedElm: HTMLElement | null = rootNode.querySelector(`#${highlightedIdName}`);
+      if (highlightedElm) {
+        highlightedElm.scrollIntoView({behavior: "smooth", block: "center"});
+      } else {
+        setHighlightError(true);
+      }
+    } else {
+      setHighlightError(false);
+    }
+  }, [rootRef, highlighted]);
 
   let output: React.ReactElement<any> | null;
   if (loading) {
@@ -222,6 +244,7 @@ const PSWOTTable = (props: Props) => {
               rca={d.rca}
               quadrant={d.quadrant}
               color={d.color}
+              highlighted={highlighted}
             />
           );
         });
@@ -335,14 +358,25 @@ const PSWOTTable = (props: Props) => {
   }
 
 
+  const highlightErrorPopup = highlightError && highlighted !== undefined ? (
+    <QuickError
+      closeError={clearHighlighted}
+    >
+      {getString('global-ui-error-industry-not-in-data-set')}
+    </QuickError>
+  ) : null;
+
   return (
-    <Root>
+    <Root
+      ref={rootRef as any}
+    >
       <ScrollRoot
         hideScrollbars={false}
         ignoreElements={'input'}
       >
         {output}
       </ScrollRoot>
+      {highlightErrorPopup}
     </Root>
   );
 };

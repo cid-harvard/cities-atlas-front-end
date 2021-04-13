@@ -79,6 +79,7 @@ const GrowthOppurtunities = () => {
   const resetClusters = () => setHiddenClusters([]);
 
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
+  const clearHighlighted = () => setHighlighted(undefined);
   const getString = useFluent();
   const history = useHistory();
   const isTableView = matchPath<{[cityIdParam]: string}>(
@@ -238,6 +239,8 @@ const GrowthOppurtunities = () => {
         aggregationMode={isClusterMode ? AggregationMode.cluster : AggregationMode.industries}
         hiddenSectors={hiddenSectors}
         hiddenClusters={hiddenClusters}
+        highlighted={highlighted}
+        clearHighlighted={clearHighlighted}
       />
     </>
   );
