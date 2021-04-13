@@ -7,6 +7,8 @@ import {
 const hoverBackgroundColor = '#efefef';
 
 const Tr = styled.tr`
+  height: initial;
+
   &:hover {
     background-color: ${hoverBackgroundColor};
   }
@@ -14,7 +16,7 @@ const Tr = styled.tr`
 
 const Td = styled.td`
   padding: 0.5rem;
-  vertical-align: center;
+  vertical-align: middle;
   font-size: 0.8rem;
 
   &:before {
@@ -34,7 +36,6 @@ const NameTd = styled(Td)`
   left: 0;
   z-index: 10;
   background-color: #fff;
-  display: flex;
 
   &:after {
     content: '';
@@ -46,6 +47,10 @@ const NameTd = styled(Td)`
     width: 0;
     display: block;
   }
+`;
+
+const NameContent = styled.div`
+  display: flex;
 `;
 
 const ContentTd = styled(Td)`
@@ -81,8 +86,10 @@ const TableRow = (props: Props) => {
       onMouseLeave={() => setHovered(false)}
     >
       <NameTd style={hovered ? {backgroundColor: hoverBackgroundColor} : undefined}>
-        <ColorBar style={{backgroundColor: color}} />
-        {name}
+        <NameContent>
+          <ColorBar style={{backgroundColor: color}} />
+          {name}
+        </NameContent>
       </NameTd>
       <ContentTd>{rca}</ContentTd>
       <ContentTd>{density}</ContentTd>

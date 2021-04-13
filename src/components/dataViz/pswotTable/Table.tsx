@@ -13,6 +13,8 @@ import {
 } from '../../../styling/styleUtils';
 import raw from 'raw.macro';
 import orderBy from 'lodash/orderBy';
+import ColumnFilterBox from './ColumnFilterBox';
+import TextFilter from './TextFilter';
 
 const sortArrows = raw('../../../assets/icons/sort-arrows.svg');
 
@@ -35,7 +37,6 @@ const ScrollRoot = styled(ScrollContainer)`
 const Table = styled.table`
   border-collapse: collapse;
   min-width: 100%;
-  height: 100%;
 `;
 
 const Th = styled.th`
@@ -46,18 +47,7 @@ const Th = styled.th`
   font-weight: 600;
   font-size: 0.8rem;
   text-transform: uppercase;
-  height: 100%;
-
-  &:before {
-    content: '';
-    position: absolute;
-    right: 0;
-    left: 0;
-    bottom: 0;
-    border-bottom: solid 1px ${lightBorderColor};
-    width: 100%;
-    display: block;
-  }
+  height: 70px;
 `;
 
 const NameTh = styled(Th)`
@@ -135,12 +125,20 @@ const SortArrowsBase = styled.div`
 `;
 
 enum Quadrant {
-  Potential = 'Potential',
+  Potential = 'Possible Entrants',
   Strength = 'Strength',
   Weakness = 'Weakness',
   Opportunity = 'Opportunity',
   Threat = 'Threat',
 }
+
+const quadrantOptionsArray = [
+  {value: Quadrant.Potential, label: Quadrant.Potential},
+  {value: Quadrant.Strength, label: Quadrant.Strength},
+  {value: Quadrant.Weakness, label: Quadrant.Weakness},
+  {value: Quadrant.Opportunity, label: Quadrant.Opportunity},
+  {value: Quadrant.Threat, label: Quadrant.Threat},
+];
 
 enum SortField {
   name = 'name',
@@ -181,6 +179,8 @@ const PSWOTTable = (props: Props) => {
 
   const [sortField, setSortField] = useState<SortField>(SortField.name);
   const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ascending);
+  const [filterText, setFilterText] = useState<string>('');
+  const [filterdQuadrants, setFilteredQuadrants] = useState<Quadrant[]>([]);
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
@@ -201,19 +201,30 @@ const PSWOTTable = (props: Props) => {
     );
     console.error(error);
   } else if (data !== undefined) {
-    const rows = orderBy(data, [sortField], [sortDirection]).map(d => {
-        return (
-          <TableRow
-            key={'table-row-' + d.id}
-            id={d.id}
-            name={d.name}
-            density={d.density}
-            rca={d.rca}
-            quadrant={d.quadrant}
-            color={d.color}
-          />
-        );
-      });
+    const rows =
+      orderBy(data, [sortField], [sortDirection])
+        .filter(d => {
+          if (filterdQuadrants.length && !filterdQuadrants.includes(d.quadrant as Quadrant)) {
+            return false;
+          }
+          if (filterText.length && !d.name.toLowerCase().includes(filterText.toLowerCase())) {
+            return false;
+          }
+          return true;
+        })
+        .map(d => {
+          return (
+            <TableRow
+              key={'table-row-' + d.id}
+              id={d.id}
+              name={d.name}
+              density={d.density}
+              rca={d.rca}
+              quadrant={d.quadrant}
+              color={d.color}
+            />
+          );
+        });
 
     const activeClass = activeClassBase + sortDirection;
 
@@ -233,7 +244,11 @@ const PSWOTTable = (props: Props) => {
                   />
                 </SortContent>
                 <FilterContent>
-                  <input />
+                  <TextFilter
+                    initialQuery={filterText}
+                    setSearchQuery={setFilterText}
+                    placeholder={'Filter name'}
+                  />
                 </FilterContent>
               </CellContent>
             </NameTh>
@@ -249,7 +264,16 @@ const PSWOTTable = (props: Props) => {
                   />
                 </SortContent>
                 <FilterContent>
-                  <input />
+                  <ColumnFilterBox
+                    allOptions={[
+                      {label: 'High', value: 'High'},
+                      {label: 'Neutral', value: 'Neutral'},
+                      {label: 'Low', value: 'Low'},
+                    ]}
+                    selectedOptions={[]}
+                    setSelectedOptions={() => null}
+                    title={'RCA Values'}
+                  />
                 </FilterContent>
               </CellContent>
             </Th>
@@ -265,7 +289,16 @@ const PSWOTTable = (props: Props) => {
                   />
                 </SortContent>
                 <FilterContent>
-                  <input />
+                  <ColumnFilterBox
+                    allOptions={[
+                      {label: 'High', value: 'High'},
+                      {label: 'Neutral', value: 'Neutral'},
+                      {label: 'Low', value: 'Low'},
+                    ]}
+                    selectedOptions={[]}
+                    setSelectedOptions={() => null}
+                    title={'Growth Values'}
+                  />
                 </FilterContent>
               </CellContent>
             </Th>
@@ -281,7 +314,12 @@ const PSWOTTable = (props: Props) => {
                   />
                 </SortContent>
                 <FilterContent>
-                  <input />
+                  <ColumnFilterBox
+                    allOptions={quadrantOptionsArray}
+                    selectedOptions={filterdQuadrants}
+                    setSelectedOptions={setFilteredQuadrants as any}
+                    title={'Categories'}
+                  />
                 </FilterContent>
               </CellContent>
             </Th>
