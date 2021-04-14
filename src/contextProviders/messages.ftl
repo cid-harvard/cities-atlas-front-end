@@ -276,3 +276,24 @@ economic-composition-title = What is { $name-plural } economic composition?
 economic-composition-para-1 = { $name } is a { $income-level } income level city in { $country }. As of { $pop-year }, the population of { $name } was { $population } people and in 2020 its estimated GDP per capita was ${ $gdppc }. It is the { $region-size-rank } largest city and { $region-wealth-rank } richest city in { $region-name }.
 
 economic-composition-para-2 = { $name-plural } economy is concentrated in { $largest-sector } industries ({ $largest-sector-share-percent }% of all { $composition-type }) such as { $largest-3-digit-industry-in-sector } ({ $largest-3-digit-industry-in-sector-share-percent }%). Similarly, it shows a high participation in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).
+
+good-at-title = What does { $name } specialize in?
+good-at-para-1 = Considering the aggregated share of { $composition-type } of each industry in all {
+  $benchmark-type ->
+  *[global_pop] global peers by similar population
+  [global_income] global peers by similar income per capita
+  [global_proximity] global peers by by similar economic structure
+  [regional_pop] regional peers by similar population
+  [regional_income] regional peers by similar income per capita
+  [regional_proximity] regional peers by by similar economic structure
+  [region] regional peers
+}, we can assess which industries in { $name } concentrate a higher share of { $composition-type }, implying that the city displays a relative advantage. { $name } display the strongest relative advantage in { $node-1st }, { $node-2nd } and { $node-3rd }. Overall, { $name } shows a stronger advantage in the { $highest-top-level } {
+  $sector-or-cluster ->
+  *[sector] sector
+  [cluster] knowledge cluster
+}. At the opposite end, { $name } is relatively lower presence in industries in the { $lowest-top-level } {
+  $sector-or-cluster ->
+  *[sector] sector
+  [cluster] knowledge cluster
+}.
+

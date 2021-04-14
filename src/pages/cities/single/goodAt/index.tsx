@@ -6,12 +6,11 @@ import React, {useState} from 'react';
 import {
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
+  CompositionType,
+  defaultCompositionType,
 } from '../../../../types/graphQL/graphQLTypes';
-import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import {
   ContentGrid,
-  ContentParagraph,
-  ContentTitle,
 } from '../../../../styling/styleUtils';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import useFluent from '../../../../hooks/useFluent';
@@ -31,11 +30,13 @@ import {
 } from '../../../../routing/routes';
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
 import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
+import SideText from './SideText';
+import {defaultYear} from '../../../../Utils';
 
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
-  const {cluster_level, digit_level, color_by, aggregation} = useQueryParams();
+  const {cluster_level, digit_level, color_by, aggregation, composition_type} = useQueryParams();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -123,11 +124,12 @@ const CityGoodAt = () => {
     <DefaultContentWrapper>
 
       <ContentGrid>
-        <StandardSideTextBlock>
-          <ContentTitle>What does my City specialize in?</ContentTitle>
-          {/* eslint-disable-next-line */}
-          <ContentParagraph>{'Considering the aggregated share of employment/establishments of each industry in all of <reference regions>, we can assess which industries in  <City> concentrate a higher share of employment/establishments, implying  that the city displays a relative advantage. <City> display the strongest relative advantage in <Ind>, <Ind> and <Ind>. Overall, <City> shows a stronger advantage in the <Sec> sector. At the opposite end, <City> is relatively lower presence in industries in the <Sec> sector.'}</ContentParagraph>
-        </StandardSideTextBlock>
+        <SideText
+          cityId={parseInt(cityId, 10)}
+          year={defaultYear}
+          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+          isCluster={Boolean(isClusterView)}
+        />
         <RCABarChart
           isClusterView={Boolean(isClusterView)}
           highlighted={highlighted}
