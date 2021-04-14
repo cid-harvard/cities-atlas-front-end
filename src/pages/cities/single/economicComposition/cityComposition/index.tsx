@@ -5,8 +5,6 @@ import ClusterCompositionTreeMap from '../../../../../components/dataViz/treeMap
 import {defaultYear} from '../../../../../Utils';
 import {
   ContentGrid,
-  ContentParagraph,
-  ContentTitle,
 } from '../../../../../styling/styleUtils';
 import {
   ClassificationNaicsIndustry,
@@ -16,7 +14,6 @@ import {
   defaultCompositionType,
 } from '../../../../../types/graphQL/graphQLTypes';
 import CategoryLabels from '../../../../../components/dataViz/legend/CategoryLabels';
-import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
 import styled from 'styled-components/macro';
 import useGlobalLocationData from '../../../../../hooks/useGlobalLocationData';
 import useSectorMap from '../../../../../hooks/useSectorMap';
@@ -37,6 +34,7 @@ import {
 import PreChartRow, {Indicator} from '../../../../../components/general/PreChartRow';
 import {usePrevious} from 'react-use';
 import {Mode} from '../../../../../components/general/searchIndustryInGraphDropdown';
+import SideText from './SideText';
 
 const TreeMapRoot = styled.div`
   display: contents;
@@ -191,15 +189,11 @@ const EconomicComposition = (props: Props) => {
   return (
     <>
       <ContentGrid>
-        <StandardSideTextBlock>
-          <ContentTitle>What is my city's economic composition?</ContentTitle>
-
-          {/* eslint-disable-next-line */}
-          <ContentParagraph>{'<City> is a <y-level> income level city in <Country>. As of <year>, the population of <City> was <XX> million people and its GDP was <XX>. It is the <XX> largest city and <XX> richest city in <Benchmark Region>. <City>’s workforce is made of <XX> workers spread throughout <XX> economic establishments. It’s workforce captures <XX> out of every 100 citizens - the <XX> largest in <Benchmark Region>.'}</ContentParagraph>
-          {/* eslint-disable-next-line */}
-          <ContentParagraph>{'<City>’s economy is concentrated in <Sector> industries (<XX%> of all employment/establishments) such as <Industry> (<XX%>). Similarly, it shows a high participation in <Sector> (<XX%>), in industries such as <XX> (<YY%>).'}</ContentParagraph>
-
-        </StandardSideTextBlock>
+        <SideText
+          cityId={parseInt(cityId, 10)}
+          year={defaultYear}
+          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+        />
         <TreeMapRoot ref={treeMapRef}>
           <PreChartRow
             key={'tree-map-search-' + Boolean(!highlighted && prevHighlighted)}

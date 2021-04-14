@@ -89,6 +89,8 @@ export interface ClassificationCity {
   landUseEfficiency15: number | null;
   popGreenArea15: number | null;
   openSpace15: number | null;
+  regionGdppcRank: number | null;
+  regionPopRank: number | null;
   geometry: GeoJSONString | null;
   id: string;
 }

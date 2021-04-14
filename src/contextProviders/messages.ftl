@@ -120,6 +120,15 @@ global-formatted-size-by = {
   [gdpPpp] GDP PPP
 }
 
+global-formatted-income-class = {
+  $type ->
+  [HIC] high income
+  [UMIC] upper-middle income
+  [LMIC] lower-middle income
+  [LIC] low income
+  *[OTHER] other
+}
+
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector
 global-ui-proximity = Proximity
@@ -261,3 +270,9 @@ city-filter-title-open = Open Filter Cities Options
 city-filter-title-close = Close Filter Cities Options
 city-filter-regions = Regions Filter
 city-filter-update = Update Cities
+
+economic-composition-title = What is { $name-plural } economic composition?
+
+economic-composition-para-1 = { $name } is a { $income-level } income level city in { $country }. As of { $pop-year }, the population of { $name } was { $population } people and in 2020 its estimated GDP per capita was ${ $gdppc }. It is the { $region-size-rank } largest city and { $region-wealth-rank } richest city in { $region-name }.
+
+economic-composition-para-2 = { $name-plural } economy is concentrated in { $largest-sector } industries ({ $largest-sector-share-percent }% of all { $composition-type }) such as { $largest-3-digit-industry-in-sector } ({ $largest-3-digit-industry-in-sector-share-percent }%). Similarly, it shows a high participation in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).

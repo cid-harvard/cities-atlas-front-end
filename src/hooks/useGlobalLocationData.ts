@@ -1,6 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 import {
   ClassificationCountry,
+  ClassificationRegion,
   ClassificationCity,
 } from '../types/graphQL/graphQLTypes';
 import {Datum as SearchDatum} from 'react-panel-search';
@@ -24,7 +25,14 @@ const GLOBAL_LOCATION_QUERY = gql`
       centroidLon
       population: population15
       gdppc
+      incomeClass
       region: regionId
+      regionPopRank
+      regionGdppcRank
+    }
+    regions: classificationRegionList {
+      regionId
+      regionName
     }
   }
 `;
@@ -34,6 +42,10 @@ interface SuccessResponse {
     countryId: ClassificationCountry['countryId'],
     nameShortEn: ClassificationCountry['nameShortEn'],
     id: ClassificationCountry['id'],
+  }[];
+  regions: {
+    regionId: ClassificationRegion['regionId'],
+    regionName: ClassificationRegion['regionName'],
   }[];
   cities: {
     cityId: ClassificationCity['cityId'],
@@ -45,8 +57,11 @@ interface SuccessResponse {
     geometry: ClassificationCity['geometry'],
     population: ClassificationCity['population15'],
     gdppc: ClassificationCity['gdppc'],
+    incomeClass: ClassificationCity['incomeClass'],
     id: ClassificationCity['id'],
     region: ClassificationCity['regionId'],
+    regionPopRank: ClassificationCity['regionPopRank'],
+    regionGdppcRank: ClassificationCity['regionGdppcRank'],
   }[];
 }
 
