@@ -297,3 +297,5 @@ good-at-para-1 = Considering the aggregated share of { $composition-type } of ea
   [cluster] knowledge cluster
 }.
 
+city-similarity-title = What cities are similar to { $name }?
+city-similarity-para-1 = We can assess the similarity between the economies of different cities in the World by looking at whether they are competitive in the same industries. This similarity is informative because it can reveal industries that are prevalent in economically similar cities, but have yet to be developed in { $name }. The cities in the World that are most economically similar to { $name } are { $top-city-1 }, { $top-city-2 } and { $top-city-3 }.

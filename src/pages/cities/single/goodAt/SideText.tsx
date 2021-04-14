@@ -18,8 +18,6 @@ import useRCAData from '../../../../components/dataViz/industrySpace/chart/useRC
 import orderBy from 'lodash/orderBy';
 
 interface Props {
-  year: number;
-  cityId: number;
   compositionType: CompositionType;
   isCluster: boolean;
 }

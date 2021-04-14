@@ -31,7 +31,6 @@ import {
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
 import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
 import SideText from './SideText';
-import {defaultYear} from '../../../../Utils';
 
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
@@ -125,8 +124,6 @@ const CityGoodAt = () => {
 
       <ContentGrid>
         <SideText
-          cityId={parseInt(cityId, 10)}
-          year={defaultYear}
           compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
           isCluster={Boolean(isClusterView)}
         />
