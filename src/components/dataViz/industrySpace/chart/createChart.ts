@@ -765,7 +765,7 @@ const createChart = (input: Input) => {
     }
   }
 
-  function update(newData: SuccessResponse, colorBy: ColorBy, rcaThreshold: number) {
+  function update(newData: SuccessResponse, rcaThreshold: number) {
     const {c1Rca, c3Rca, clusterData, naicsRca} = newData;
     const continentsData = clusterData.filter(d => d.level === 1);
     const totalCompanies = continentsData.reduce((total, c) => c.numCompany ? c.numCompany + total : total, 0);
@@ -776,10 +776,6 @@ const createChart = (input: Input) => {
 
     const intensityColorScaleCountries = d3.scaleSymlog()
       .domain(d3.extent(c3Rca.map(c => c.rca ? c.rca : 0)) as [number, number])
-      .range(intensityColorRange as any);
-
-    const intensityColorScaleNodes = d3.scaleSymlog()
-      .domain(d3.extent(naicsRca.map(c => c.rca ? c.rca : 0)) as [number, number])
       .range(intensityColorRange as any);
 
     continents.each(d => {
@@ -815,21 +811,12 @@ const createChart = (input: Input) => {
     });
 
     nodes.each(d => {
-      const newDatum = naicsRca.find(({naicsId}) =>
-        naicsId !== null && d.id.toString() === naicsId.toString());
+      const newDatum = naicsRca.find(({naicsId}) => naicsId !== null && d.id.toString() === naicsId.toString());
       if (newDatum && newDatum.rca !== null) {
-        if (colorBy === ColorBy.intensity) {
-          d.color = intensityColorScaleNodes(newDatum.rca).toString();
-        } else {
-          d.color = newDatum.rca >= rcaThreshold ? d.industryColor : lowIntensityNodeColor;
-        }
+        d.color = newDatum.rca >= rcaThreshold ? d.industryColor : lowIntensityNodeColor;
         d.rca = newDatum.rca;
       } else {
-        if (colorBy === ColorBy.intensity) {
-          d.color = intensityColorScaleNodes(0).toString();
-        } else {
-          d.color = lowIntensityNodeColor;
-        }
+        d.color = lowIntensityNodeColor;
         d.rca = 0;
       }
     })

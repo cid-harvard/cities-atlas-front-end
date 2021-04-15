@@ -22,7 +22,6 @@ import {
   sectorColorMap,
   educationColorRange,
   wageColorRange,
-  intensityColorRange,
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
@@ -37,8 +36,7 @@ import {NodeSizing, ColorBy} from '../../../routing/routes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {defaultYear} from '../../../Utils';
-import {scaleLinear, scaleSymlog} from 'd3-scale';
-import {extent} from 'd3-array';
+import {scaleLinear} from 'd3-scale';
 import orderBy from 'lodash/orderBy';
 import QuickError from '../../transitionStateComponents/QuickError';
 
@@ -222,15 +220,7 @@ const PSWOTChart = (props: Props) => {
       radiusScale = (_unused: number) => 5.5;
     }
     let colorScale: (value: number) => string | undefined;
-    if (colorBy === ColorBy.intensity) {
-      const allRca = naicsRca.map(n => {
-        return n && n.rca !== null ? n.rca : 0;
-      });
-      const [minRca, maxRca] = extent(allRca) as [number, number];
-      colorScale = scaleSymlog()
-        .domain([minRca, maxRca])
-        .range(intensityColorRange as any) as unknown as (value: number) => string;
-    } else if (colorBy === ColorBy.education) {
+    if (colorBy === ColorBy.education) {
       const {minYearsEducation, maxYearsEducation} = globalMinMax;
       colorScale = scaleLinear()
         .domain([minYearsEducation, maxYearsEducation])
@@ -276,9 +266,7 @@ const PSWOTChart = (props: Props) => {
         }
 
         let fill: string | undefined;
-        if (colorBy === ColorBy.intensity) {
-          fill = colorScale(x < 0.001 ? parseFloat(x.toFixed(3)) : x);
-        } else if (colorBy === ColorBy.education) {
+        if (colorBy === ColorBy.education) {
           fill = colorScale(industryGlobalData ? industryGlobalData.yearsEducation : 0);
         } else if (colorBy === ColorBy.wage) {
           fill = colorScale(industryGlobalData ? industryGlobalData.hourlyWage : 0);

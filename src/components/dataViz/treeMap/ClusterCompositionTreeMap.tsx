@@ -193,11 +193,7 @@ const CompositionTreeMap = (props: Props) => {
     const minMax = extent(allRCAValues) as [number, number];
 
     let colorScale: (val: number) => string | undefined;
-    if (colorBy === ColorBy.intensity) {
-      colorScale = scaleSymlog()
-        .domain(minMax)
-        .range(intensityColorRange as any) as unknown as (value: number) => string;
-    } else if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+    if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
       colorScale = scaleLinear()
                     .domain([
                       aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
@@ -219,7 +215,7 @@ const CompositionTreeMap = (props: Props) => {
     }
 
     let total = 0;
-    clusters.forEach(({clusterId, numCompany, numEmploy, rcaNumCompany, rcaNumEmploy}) => {
+    clusters.forEach(({clusterId, numCompany, numEmploy}) => {
       const cluster = clusterMap.data[clusterId];
       if (cluster && cluster.level && cluster.level.toString() === clusterLevel) {
         const {name, clusterIdTopParent} = cluster;
@@ -242,9 +238,6 @@ const CompositionTreeMap = (props: Props) => {
             } else {
               fill = 'gray';
             }
-          } else if (colorBy === ColorBy.intensity) {
-            const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
-            fill = colorScale(rca) as string;
           } else {
             fill = undefined;
           }

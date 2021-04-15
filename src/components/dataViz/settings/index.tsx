@@ -719,14 +719,6 @@ const Settings = (props: Props) => {
             {defaultColorByText}{rcaThreshold}
           </DigitLevelButton>
           <DigitLevelButton
-            onClick={() => updateSetting('color_by', ColorBy.intensity)}
-            $selected={
-              Boolean(params.color_by === ColorBy.intensity)
-            }
-          >
-            {getString('global-formatted-color-by', {type: ColorBy.intensity})}
-          </DigitLevelButton>
-          <DigitLevelButton
             onClick={() => updateSetting('color_by', ColorBy.education)}
             $selected={params.color_by === ColorBy.education}
           >

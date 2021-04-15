@@ -26,7 +26,6 @@ import Tooltip from './../../general/Tooltip';
 import {defaultYear} from '../../../Utils';
 import {tickMarksForMinMax} from './getNiceLogValues';
 import {scaleLinear} from 'd3-scale';
-import useColorByIntensity from '../treeMap/useColorByIntensity';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
@@ -47,7 +46,6 @@ const Industries = (props: Props) => {
   } = props;
 
   const industryMap = useGlobalIndustryMap();
-  const intensity = useColorByIntensity({digitLevel, colorBy});
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
   const getString = useFluent();
   const { benchmarkNameShort } = useCurrentBenchmark();
@@ -101,14 +99,7 @@ const Industries = (props: Props) => {
   const industryData = filteredIndustryRCA.map(d => {
     const industry = d.naicsId !== null ? industryMap.data[d.naicsId] : undefined;
     let color: string;
-    if (intensity && intensity.industries) {
-      const industryIntesity = intensity.industries.find(dd => d.naicsId === dd.naicsId);
-      if (industryIntesity) {
-        color = industryIntesity.fill;
-      } else {
-        color = 'lightgray';
-      }
-    } else if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+    if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
       const target = d.naicsId !== null ? aggregateIndustryDataMap.data.industries[d.naicsId] : undefined;
       if (target) {
         const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;

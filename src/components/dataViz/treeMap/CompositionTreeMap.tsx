@@ -27,7 +27,6 @@ import SimpleTextLoading from '../../transitionStateComponents/SimpleTextLoading
 import {RapidTooltipRoot, getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {ColorBy} from '../../../routing/routes';
-import useColorByIntensity from './useColorByIntensity';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
@@ -107,7 +106,6 @@ const CompositionTreeMap = (props: Props) => {
   const highlightedTooltipRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
-  const intensity = useColorByIntensity({digitLevel, colorBy});
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
 
   useEffect(() => {
@@ -136,7 +134,6 @@ const CompositionTreeMap = (props: Props) => {
   };
   let output: React.ReactElement<any> | null;
   if (industryMap.loading || !dimensions || (loading && prevData === undefined) ||
-      (colorBy === ColorBy.intensity && intensity.loading) ||
       ((colorBy === ColorBy.education || colorBy === ColorBy.wage) && aggregateIndustryDataMap.loading)
     ) {
     indicator.text = (
@@ -161,14 +158,6 @@ const CompositionTreeMap = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(industryMap.error);
-  } else if (intensity.error !== undefined && colorBy === ColorBy.intensity) {
-    indicator.text = getString('global-ui-total') + ': ―';
-    output = (
-      <LoadingOverlay>
-        <SimpleError />
-      </LoadingOverlay>
-    );
-    console.error(intensity.error);
   } else if (aggregateIndustryDataMap.error !== undefined &&
     (colorBy === ColorBy.education || colorBy === ColorBy.wage)) {
     indicator.text = getString('global-ui-total') + ': ―';
@@ -210,13 +199,7 @@ const CompositionTreeMap = (props: Props) => {
           total = compositionType === CompositionType.Companies ? total + companies : total + employees;
           const value = compositionType === CompositionType.Companies ? companies : employees;
           let fill: string | undefined;
-          if (intensity && intensity.industries) {
-            const industryIntesity = intensity.industries.find(
-              d => d.naicsId !== null && d.naicsId.toString() === naicsId.toString());
-            if (industryIntesity) {
-              fill = industryIntesity.fill;
-            }
-          } else if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+          if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
             const target = aggregateIndustryDataMap.data.industries[naicsId];
             const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
             fill = colorScale(targetValue);
@@ -263,15 +246,6 @@ const CompositionTreeMap = (props: Props) => {
             [getString('global-ui-naics-code') + ':', industry.naicsId],
             [getString('global-ui-year') + ':', year.toString()],
           ];
-          if (intensity && intensity.industries) {
-            const industryIntesity = intensity.industries.find(
-              d => d.naicsId !== null && d.naicsId.toString() === id.toString());
-            if (industryIntesity) {
-
-              const rca = industryIntesity.rca ? industryIntesity.rca : 0;
-              rows.push([getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)]);
-            }
-          }
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
@@ -300,15 +274,6 @@ const CompositionTreeMap = (props: Props) => {
             [getString('global-ui-naics-code') + ':', industry.naicsId],
             [getString('global-ui-year') + ':', year.toString()],
           ];
-          if (intensity && intensity.industries) {
-            const industryIntesity = intensity.industries.find(
-              d => d.naicsId !== null && d.naicsId.toString() === highlighted.toString());
-            if (industryIntesity) {
-
-              const rca = industryIntesity.rca ? industryIntesity.rca : 0;
-              rows.push([getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)]);
-            }
-          }
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',

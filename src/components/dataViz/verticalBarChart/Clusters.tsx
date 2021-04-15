@@ -74,12 +74,7 @@ const Industries = (props: Props) => {
   );
 
   let colorScale: (val: number) => string | undefined;
-  if (colorBy === ColorBy.intensity) {
-    colorScale = scaleLog()
-      .domain([min, max])
-      .range(intensityColorRange as any)
-      .nice() as any;
-  } else if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+  if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
@@ -118,9 +113,6 @@ const Industries = (props: Props) => {
       } else {
         color = 'gray';
       }
-    } else if (colorBy === ColorBy.intensity) {
-      const rca = d.rca as number;
-      color = colorScale(rca) as string;
     } else {
       const colorDatum = clusterColorMap
         .find(s => cluster && cluster.clusterIdTopParent && s.id === cluster.clusterIdTopParent.toString());

@@ -39,7 +39,6 @@ import {
 } from 'react-router-dom';
 import NAICSChart from '../../../../components/dataViz/pswotChart/NAICSChart';
 import ClusterChart from '../../../../components/dataViz/pswotChart/ClusterChart';
-import IntensityLegend from '../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 import useClusterMap from '../../../../hooks/useClusterMap';
@@ -125,11 +124,7 @@ const GrowthOppurtunities = () => {
   }
 
   let legend: React.ReactElement<any> | null;
-  if (color_by === ColorBy.intensity) {
-    legend = (
-      <IntensityLegend />
-    );
-  } else if (color_by === ColorBy.education) {
+  if (color_by === ColorBy.education) {
     legend = (
       <EducationLegend />
     );

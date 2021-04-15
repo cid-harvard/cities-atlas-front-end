@@ -21,7 +21,6 @@ import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
 import {NodeSizing, defaultNodeSizing, ColorBy, ClusterMode} from '../../../../routing/routes';
 import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
-import useColorByIntensity from '../../treeMap/useColorByIntensity';
 import {
   useAggregateIndustryMap,
 } from '../../../../hooks/useAggregateIndustriesData';
@@ -264,7 +263,7 @@ type Chart = {
   zoomOut: () => void;
   setHighlightedPoint: (naicsId: string | undefined, action: NodeAction) => void;
   setExternalHoveredId: (naicsId: string | undefined) => void;
-  update: (data: SuccessResponse, colorBy: ColorBy, rcaThreshold: number) => void;
+  update: (data: SuccessResponse, rcaThreshold: number) => void;
   updateNodeSize: (nodeSizing: NodeSizing, data?: SuccessResponse) => void;
   updateNodeColor: (colorBy: ColorBy) => void;
 };
@@ -299,10 +298,7 @@ const Chart = (props: Props) => {
 
   const layout = useLayoutData();
   const {loading, data} = useRCAData(DigitLevel.Six);
-  const intensity = useColorByIntensity({
-    digitLevel: DigitLevel.Six,
-    colorBy,
-  });
+
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
 
   useEffect(() => {
@@ -348,7 +344,7 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized && data !== undefined) {
-      chart.update(data, colorBy, rcaThreshold);
+      chart.update(data, rcaThreshold);
     }
   }, [chart, data, colorBy, rcaThreshold]);
 
@@ -363,10 +359,10 @@ const Chart = (props: Props) => {
   }, [chart, data, nodeSizing]);
 
   useEffect(() => {
-    if (chart.initialized && colorBy !== ColorBy.sector && colorBy !== ColorBy.intensity) {
+    if (chart.initialized && colorBy !== ColorBy.sector) {
       chart.updateNodeColor(colorBy);
     }
-  }, [chart, colorBy, aggregateIndustryDataMap, intensity]);
+  }, [chart, colorBy, aggregateIndustryDataMap]);
 
   const resetZoom = useCallback(() => {
     if (chart.initialized) {

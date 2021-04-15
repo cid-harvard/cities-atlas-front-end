@@ -21,7 +21,6 @@ import useClusterMap from '../../../../../hooks/useClusterMap';
 import DownloadImageOverlay from './DownloadImageOverlay';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import useFluent from '../../../../../hooks/useFluent';
-import IntensityLegend from '../../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../../components/dataViz/legend/WageLegend';
 import {
@@ -125,10 +124,6 @@ const EconomicComposition = (props: Props) => {
   } else if (color_by === ColorBy.wage) {
     legend = (
       <WageLegend />
-    );
-  } else if (color_by === ColorBy.intensity) {
-    legend = (
-      <IntensityLegend />
     );
   } else  {
     if (isClusterTreeMap) {

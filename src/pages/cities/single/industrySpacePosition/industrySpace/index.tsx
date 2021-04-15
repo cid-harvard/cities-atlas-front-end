@@ -53,7 +53,7 @@ const IndustrySpacePosition = (props: Props) => {
   if (!(zoomLevel === ZoomLevel.Node
         || clusterOverlayMode === ClusterMode.none
         || clusterOverlayMode === ClusterMode.outline
-      ) || color_by === ColorBy.intensity) {
+      )) {
     legend = (
       <IntensityLegend />
     );

@@ -15,7 +15,6 @@ import {
 import useQueryParams from '../../../../hooks/useQueryParams';
 import useFluent from '../../../../hooks/useFluent';
 import CategoryLabels from '../../../../components/dataViz/legend/CategoryLabels';
-import IntensityLegend from '../../../../components/dataViz/legend/IntensityLegend';
 import EducationLegend from '../../../../components/dataViz/legend/EducationLegend';
 import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 import useSectorMap from '../../../../hooks/useSectorMap';
@@ -77,11 +76,7 @@ const CityGoodAt = () => {
   }
 
   let legend: React.ReactElement<any> | null;
-  if (color_by === ColorBy.intensity) {
-    legend = (
-      <IntensityLegend />
-    );
-  } else if (color_by === ColorBy.education) {
+  if (color_by === ColorBy.education) {
     legend = (
       <EducationLegend />
     );

@@ -28,7 +28,6 @@ import {
 } from '../../../routing/routes';
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
-import useColorByIntensity from '../treeMap/useColorByIntensity';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
 
 const Root = styled.div`
@@ -119,7 +118,6 @@ const RCABarChart = (props: Props) => {
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const {loading, error, data} = useRCAData(digitLevel);
-  const intensity = useColorByIntensity({digitLevel, colorBy});
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -142,8 +140,7 @@ const RCABarChart = (props: Props) => {
   }
 
   let output: React.ReactElement<any> | null;
-  if (industryMap.loading || !dimensions || (loading && prevData === undefined) ||
-      (colorBy === ColorBy.intensity && intensity.loading)) {
+  if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
     output = <LoadingBlock />;
   } else if (error !== undefined) {
     output = (
@@ -159,13 +156,6 @@ const RCABarChart = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(error);
-  } else if (intensity.error !== undefined && colorBy === ColorBy.intensity) {
-    output = (
-      <LoadingOverlay>
-        <SimpleError />
-      </LoadingOverlay>
-    );
-    console.error(intensity.error);
   } else if (dataToUse !== undefined) {
     const clusterData = dataToUse.c3Rca;
     const industryData = dataToUse.naicsRca;

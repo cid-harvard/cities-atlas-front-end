@@ -39,7 +39,6 @@ export const defaultNodeSizing: NodeSizing = NodeSizing.cityCompanies;
 
 export enum ColorBy {
   sector = 'sector',
-  intensity = 'intensity',
   education = 'education',
   wage = 'wage',
 }
