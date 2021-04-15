@@ -372,22 +372,6 @@ const Settings = (props: Props) => {
         />
         <LabelContainer>{getString('global-ui-numbers-based-on')}</LabelContainer>
         <InputContainer>
-          <CompanyButton
-            onClick={disabledOptions.includes(CompositionType.Companies)
-              ? undefined : () => updateSetting('composition_type', CompositionType.Companies)}
-            className={disabledOptions.includes(CompositionType.Companies) ? 'disabled-option' : undefined}
-          >
-            <Tooltip
-              explanation={disabledOptions.includes(CompositionType.Companies)
-                ? getString('global-ui-settings-option-na')
-                : null
-              }
-              theme={TooltipTheme.Dark}
-              cursor={disabledOptions.includes(CompositionType.Companies) ? 'default' : 'pointer'}
-            >
-              {CompositionType.Companies}
-            </Tooltip>
-          </CompanyButton>
           <EmployeeButton
             onClick={disabledOptions.includes(CompositionType.Employees)
               ? undefined : () => updateSetting('composition_type', CompositionType.Employees)}
@@ -404,6 +388,22 @@ const Settings = (props: Props) => {
               {CompositionType.Employees}
             </Tooltip>
           </EmployeeButton>
+          <CompanyButton
+            onClick={disabledOptions.includes(CompositionType.Companies)
+              ? undefined : () => updateSetting('composition_type', CompositionType.Companies)}
+            className={disabledOptions.includes(CompositionType.Companies) ? 'disabled-option' : undefined}
+          >
+            <Tooltip
+              explanation={disabledOptions.includes(CompositionType.Companies)
+                ? getString('global-ui-settings-option-na')
+                : null
+              }
+              theme={TooltipTheme.Dark}
+              cursor={disabledOptions.includes(CompositionType.Companies) ? 'default' : 'pointer'}
+            >
+              {CompositionType.Companies}
+            </Tooltip>
+          </CompanyButton>
         </InputContainer>
       </SettingGrid>
     );
