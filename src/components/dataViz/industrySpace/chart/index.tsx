@@ -170,7 +170,7 @@ const Root = styled.div`
     svg:not(.${svgRingModeClassName}) {
       circle.industry-edge-node {
         display: block !important;
-        opacity: 1 !important;
+        opacity: 0.8 !important;
         pointer-events: all !important;
         fill: var(--true-fill-color) !important;
       }
@@ -181,14 +181,14 @@ const Root = styled.div`
     svg {
       .industry-continents,
       .industry-countries {
-        fill: rgba(0, 0, 0, 0);
+        fill: rgba(255, 255, 255, 0);
         stroke: #efefef !important;
       }
     }
     svg:not(.${svgRingModeClassName}) {
       circle.industry-edge-node {
         display: block !important;
-        opacity: 1 !important;
+        opacity: 0.8 !important;
         fill: var(--true-fill-color) !important;
       }
     }

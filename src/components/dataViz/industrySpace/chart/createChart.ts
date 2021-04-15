@@ -307,22 +307,6 @@ const createChart = (input: Input) => {
     .attr('startOffset', '25%')
     .text('High Proximity');
 
-  const continents = g.selectAll('.industry-continents')
-    .data(data.clusters.continents)
-    .enter().append('polygon')
-      .attr('class', 'industry-continents')
-      .attr('points', d =>
-        d.polygon.map(([xCoord, yCoord]: [number, number]) =>
-          [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
-      )
-      .attr('fill', d => d.color)
-      .attr('stroke', rgba('#efefef', 1))
-      .style('opacity', 1)
-      .on('click', d => zoomToShape(d, 3))
-      .on('mouseenter', d => setHoveredShape(d))
-      .on('mouseleave', () => setHoveredShape(null));
-
-
   const countries = g.selectAll('.industry-countries')
     .data(data.clusters.countries)
     .enter().append('polygon')
@@ -338,6 +322,20 @@ const createChart = (input: Input) => {
       .on('mouseenter', d => setHoveredShape(d))
       .on('mouseleave', () => setHoveredShape(null));
 
+  const continents = g.selectAll('.industry-continents')
+    .data(data.clusters.continents)
+    .enter().append('polygon')
+      .attr('class', 'industry-continents')
+      .attr('points', d =>
+        d.polygon.map(([xCoord, yCoord]: [number, number]) =>
+          [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
+      )
+      .attr('fill', d => rgba(d.color, 0))
+      .attr('stroke', rgba('#efefef', 1))
+      .style('opacity', 1)
+      .on('click', d => zoomToShape(d, 3))
+      .on('mouseenter', d => setHoveredShape(d))
+      .on('mouseleave', () => setHoveredShape(null));
 
   const hoveredShape = g.append('polygon')
     .attr('class', 'industry-cluster-hovered')
@@ -679,13 +677,12 @@ const createChart = (input: Input) => {
 
       continents
         .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 ? 'auto' : 'none')
-        .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom)))
         .style('opacity', 1);
 
       countries
         .style('pointer-events', zoomScales.countries.fill(state.zoom) > 0.01 ? 'auto' : 'none')
-        .attr('fill', d => state.zoom < 3.5 && state.zoom > 1.5 ? d.color : rgba(d.color, 0))
+        .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.countries.stroke(state.zoom)))
         .style('opacity', 1);
 
