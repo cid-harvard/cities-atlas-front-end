@@ -71,7 +71,6 @@ const City = () => {
       url: createRoute.city(CityRoutes.CityIndustrySpacePosition, cityId),
       removeParams: [
         'digit_level' as keyof GlobalQueryParams,
-        'composition_type' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,
         'city_color_by' as keyof GlobalQueryParams,
       ],

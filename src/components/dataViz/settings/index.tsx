@@ -651,16 +651,10 @@ const Settings = (props: Props) => {
         <LabelContainer>{getString('global-ui-node-sizing')}</LabelContainer>
         <InputContainer>
           <DigitLevelButton
-            onClick={() => updateSetting('node_sizing', NodeSizing.globalCompanies)}
-            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.globalCompanies) || params.node_sizing === NodeSizing.globalCompanies}
+            onClick={() => updateSetting('node_sizing', NodeSizing.cityEmployees)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.cityEmployees) || params.node_sizing === NodeSizing.cityEmployees}
           >
-            {getString('global-formatted-size-by', {type: NodeSizing.globalCompanies})}
-          </DigitLevelButton>
-          <DigitLevelButton
-            onClick={() => updateSetting('node_sizing', NodeSizing.globalEmployees)}
-            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.globalEmployees) || params.node_sizing === NodeSizing.globalEmployees}
-          >
-            {getString('global-formatted-size-by', {type: NodeSizing.globalEmployees})}
+            {getString('global-formatted-size-by', {type: NodeSizing.cityEmployees})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.cityCompanies)}
@@ -669,16 +663,22 @@ const Settings = (props: Props) => {
             {getString('global-formatted-size-by', {type: NodeSizing.cityCompanies})}
           </DigitLevelButton>
           <DigitLevelButton
-            onClick={() => updateSetting('node_sizing', NodeSizing.cityEmployees)}
-            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.cityEmployees) || params.node_sizing === NodeSizing.cityEmployees}
-          >
-            {getString('global-formatted-size-by', {type: NodeSizing.cityEmployees})}
-          </DigitLevelButton>
-          <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.uniform)}
             $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.uniform) || params.node_sizing === NodeSizing.uniform}
           >
             {getString('global-formatted-size-by', {type: NodeSizing.uniform})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.globalEmployees)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.globalEmployees) || params.node_sizing === NodeSizing.globalEmployees}
+          >
+            {getString('global-formatted-size-by', {type: NodeSizing.globalEmployees})}
+          </DigitLevelButton>
+          <DigitLevelButton
+            onClick={() => updateSetting('node_sizing', NodeSizing.globalCompanies)}
+            $selected={(!params.node_sizing && defaultNodeSizing === NodeSizing.globalCompanies) || params.node_sizing === NodeSizing.globalCompanies}
+          >
+            {getString('global-formatted-size-by', {type: NodeSizing.globalCompanies})}
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>

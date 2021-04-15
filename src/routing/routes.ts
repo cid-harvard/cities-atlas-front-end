@@ -35,7 +35,7 @@ export enum NodeSizing {
   cityEmployees = 'city_employees',
 }
 
-export const defaultNodeSizing: NodeSizing = NodeSizing.cityCompanies;
+export const defaultNodeSizing: NodeSizing = NodeSizing.cityEmployees;
 
 export enum ColorBy {
   sector = 'sector',

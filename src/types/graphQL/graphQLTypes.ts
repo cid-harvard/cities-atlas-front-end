@@ -19,7 +19,7 @@ export enum CompositionType {
   Employees = 'employees',
 }
 
-export const defaultCompositionType: CompositionType = CompositionType.Companies;
+export const defaultCompositionType: CompositionType = CompositionType.Employees;
 
 
 export interface ClassificationNaicsIndustry {
