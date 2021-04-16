@@ -88,8 +88,20 @@ const createChart = (input: Input) => {
   const centerX = outerWidth / 2;
   const centerY = outerHeight / 2;
 
-  const highNodesDatum = data.nodes.filter((d, i) => (d.primary || i < 10) && d.shown);
-  const mediumNodesDatum = data.nodes.filter((d, i) => i < 20 && i >= 10 && d.shown);
+  const highNodesDatum: Node[] = [];
+  const mediumNodesDatum: Node[] = [];
+  const primary = data.nodes.find(d => d.primary);
+  if (primary) {
+    highNodesDatum.push(primary);
+  }
+  const filtered = data.nodes.filter(d => d.shown && !d.primary);
+  filtered.slice(0, 20).forEach((d, i) => {
+    if (i < 10) {
+      highNodesDatum.push(d);
+    } else {
+      mediumNodesDatum.push(d);
+    }
+  });
 
   const highNodes = highNodesDatum.map((d, i) => {
     if (d.primary) {
@@ -181,7 +193,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('Medium Similarity')
+    .text('Similar')
     .style('font-size', baseFontSize * 1.25 + 'px')
     .style('font-weight', '600')
     .style('text-transform', 'uppercase')
@@ -204,7 +216,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('High Similarity')
+    .text('Most Similar')
     .style('font-size', baseFontSize * 1.25 + 'px')
     .style('font-weight', '600')
     .style('text-transform', 'uppercase')

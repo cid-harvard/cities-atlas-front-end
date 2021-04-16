@@ -34,7 +34,7 @@
     "raw.macro": "^0.4.2",
     "react": "^16.13.1",
     "react-canvas-treemap": "^1.0.4",
-    "react-city-space-mapbox": "^1.0.4",
+    "react-city-space-mapbox": "^1.0.5",
     "react-comparison-bar-chart": "^1.1.72",
     "react-compound-slider": "^3.3.1",
     "react-csv": "^2.0.3",

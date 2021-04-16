@@ -40,14 +40,14 @@ const SimilarCities = () => {
       const [minPop, maxPop] = extent(
         data.cityGeoJson.features.map((f: any) => f.properties.population)) as unknown as [number, number];
       nodeSizingTitle = 'Node Size by Population';
-      nodeSizingMinText = formatNumberLong(minPop);
-      nodeSizingMaxText = formatNumberLong(maxPop);
+      nodeSizingMinText = formatNumberLong(minPop ? minPop : 0);
+      nodeSizingMaxText = formatNumberLong(maxPop ? maxPop : 0);
     } else if (nodeSizing === CityNodeSizing.gdpPpp) {
       const [minGdpPpp, maxGdpPpp] = extent(
-        data.cityGeoJson.features.map((f: any) => f.properties.gdpPpp)) as unknown as [number, number];
-      nodeSizingTitle = 'Node Size by GDP PPP';
-      nodeSizingMinText = formatNumberLong(minGdpPpp);
-      nodeSizingMaxText = formatNumberLong(maxGdpPpp);
+        data.cityGeoJson.features.map((f: any) => f.properties.gdppc)) as unknown as [number, number];
+      nodeSizingTitle = 'Node Size by GDP per capita';
+      nodeSizingMinText = '$' + formatNumberLong(minGdpPpp ? minGdpPpp : 0);
+      nodeSizingMaxText = '$' + formatNumberLong(maxGdpPpp ? maxGdpPpp : 0);
     }
   }
 

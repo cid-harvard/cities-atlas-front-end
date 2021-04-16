@@ -28,13 +28,13 @@ interface Props {
   data: SuccessResponse | undefined;
   selectedRegionIds: string[];
   minMaxPopulation: [number, number];
-  minMaxGdpPppPc: [number, number];
+  minMaxGdppc: [number, number];
   tooltipNode: HTMLDivElement | null;
 }
 
 const Chart = (props: Props) => {
   const {
-    width, height, data, minMaxPopulation, minMaxGdpPppPc, selectedRegionIds,
+    width, height, data, minMaxPopulation, minMaxGdppc, selectedRegionIds,
     tooltipNode,
   } = props;
 
@@ -48,7 +48,7 @@ const Chart = (props: Props) => {
     const chartNode = chartRef.current;
 
     const [minPop, maxPop] = minMaxPopulation;
-    const [minGdpPppPc, maxGdpPppPc] = minMaxGdpPppPc;
+    const [minGdppc, maxGdppc] = minMaxGdppc;
 
     if (chartNode) {
       if (chartNode && tooltipNode && data !== undefined && cityId && cityData.data && (
@@ -79,7 +79,7 @@ const Chart = (props: Props) => {
           const region = city && city.region !== null ? city.region.toString() : null;
           const shown =
             population >= minPop && population <= maxPop &&
-            gdppc >= minGdpPppPc && gdppc <= maxGdpPppPc &&
+            gdppc >= minGdppc && gdppc <= maxGdppc &&
             (!selectedRegionIds.length || (region !== null && selectedRegionIds.includes(region))) ? true : false;
           return {
             primary: c.partnerId === cityId,
@@ -125,7 +125,7 @@ const Chart = (props: Props) => {
       }
     }
   }, [chartRef, chart, width, height, data, cityId, cityData, city_node_sizing,
-      minMaxPopulation, minMaxGdpPppPc, selectedRegionIds, tooltipNode]);
+      minMaxPopulation, minMaxGdppc, selectedRegionIds, tooltipNode]);
 
   return (
     <>

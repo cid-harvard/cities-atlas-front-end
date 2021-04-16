@@ -68,7 +68,7 @@ let staticProximityData: SuccessResponse | undefined;
 interface FilterValues {
   selectedRegionIds:  string[];
   minMaxPopulation: [number, number];
-  minMaxGdpPppPc: [number, number];
+  minMaxGdppc: [number, number];
 }
 
 const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
@@ -116,36 +116,36 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         <SimilarCitiesRings
           selectedRegionIds={filterValues.selectedRegionIds}
           minMaxPopulation={filterValues.minMaxPopulation}
-          minMaxGdpPppPc={filterValues.minMaxGdpPppPc}
+          minMaxGdppc={filterValues.minMaxGdppc}
           tooltipNode={tooltipRef.current}
         />
       </RingsContainer>
     );
   }
   if (data) {
-    let currentCity: {city: string, population: number, gdpPpp: number} | undefined;
+    let currentCity: {city: string, population: number, gdppc: number} | undefined;
     const allPopulations: number[] = [];
-    const allGdpPppPc: number[] = [];
+    const allGdppc: number[] = [];
     data.cityGeoJson.features.forEach((d: any) => {
       if (d.properties.id === cityId) {
         currentCity = d.properties;
       }
       if (!isNaN(d.properties.population)) {
         allPopulations.push(d.properties.population);
-        if (!isNaN(d.properties.gdpPpp)) {
-          allGdpPppPc.push(d.properties.gdpPpp / d.properties.population);
+        if (!isNaN(d.properties.gdppc)) {
+          allGdppc.push(d.properties.gdppc);
         }
       }
     });
 
     const populationRange = extent(allPopulations) as [number, number];
-    const gdpPppPcRange = extent(allGdpPppPc) as [number, number];
+    const gdppcRange = extent(allGdppc) as [number, number];
     const regions = data.regions;
     filterBar = (
       <FilterBar
         node={filterBarRef.current}
         populationRange={populationRange}
-        gdpPppPcRange={gdpPppPcRange}
+        gdppcRange={gdppcRange}
         regions={regions}
         setFilterValues={setFilterValues}
         currentCity={currentCity}
@@ -157,7 +157,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
           <SimilarCitiesRings
             selectedRegionIds={[]}
             minMaxPopulation={populationRange}
-            minMaxGdpPppPc={gdpPppPcRange}
+            minMaxGdppc={gdppcRange}
             tooltipNode={tooltipRef.current}
           />
         </RingsContainer>

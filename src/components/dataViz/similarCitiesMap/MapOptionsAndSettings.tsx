@@ -75,14 +75,14 @@ const MapOptionsAndSettings = (props: Props) => {
         }));
         mapContext.setNodeSizing(populationSizeByMap);
       } else if (nodeSize === CityNodeSizing.gdpPpp) {
-        const allGdpPppValues = data.cityGeoJson.features.map((f: any) => f.properties.gdpPpp);
+        const allGdpPppValues = data.cityGeoJson.features.map((f: any) => f.properties.gdppc);
         const minMaxGdpPpp = extent(allGdpPppValues) as unknown as [number, number];
         const gdpPppScale = scaleLinear()
             .domain(minMaxGdpPpp)
-            .range([24, 100]);
+            .range([16, 50]);
         const gdpPppSizeByMap = data.cityGeoJson.features.map((f: any) => ({
           id: f.properties.id,
-          radius: gdpPppScale(f.properties.gdpPpp),
+          radius: gdpPppScale(f.properties.gdppc),
         }));
         mapContext.setNodeSizing(gdpPppSizeByMap);
       } else {

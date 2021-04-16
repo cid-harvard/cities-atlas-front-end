@@ -210,16 +210,16 @@ function selectBoxValueRenderer(selected: any, allOptions: any) {
 interface FilterValues {
   selectedRegionIds:  string[];
   minMaxPopulation: [number, number];
-  minMaxGdpPppPc: [number, number];
+  minMaxGdppc: [number, number];
 }
 
 interface Props {
   node: HTMLDivElement | null;
   populationRange: [number, number];
-  gdpPppPcRange: [number, number];
+  gdppcRange: [number, number];
   regions: {label: string, value: string}[];
   setFilterValues: (value: FilterValues) => void;
-  currentCity: {city: string, population: number, gdpPpp: number} | undefined;
+  currentCity: {city: string, population: number, gdppc: number} | undefined;
 }
 
 interface ThumbState {
@@ -229,29 +229,27 @@ interface ThumbState {
 }
 
 const FilterBar = (props: Props) => {
-  const {populationRange, gdpPppPcRange, regions, setFilterValues, currentCity} = props;
+  const {populationRange, gdppcRange, regions, setFilterValues, currentCity} = props;
   const mapContext = useMapContext();
   const getString = useFluent();
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
   const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>([0, 100]);
-  const [minMaxGdpPppPc, setMinMaxGdpPppPc] = useState<[number, number]>([0 , 100]);
+  const [minMaxGdppc, setMinMaxGdppc] = useState<[number, number]>([0 , 100]);
 
-  const gdpLogScale = scaleSymlog().domain(gdpPppPcRange).range([0, 100]);
+  const gdpLogScale = scaleSymlog().domain(gdppcRange).range([0, 100]);
   const popLogScale = scaleSymlog().domain(populationRange).range([0, 100]);
 
-  // const currentGdp = currentCity ? '$' + formatNumber(currentCity.gdpPpp / currentCity.population, 0) : '';
-  // const currentPop = currentCity ? formatNumber(currentCity.population, 0) : '';
-  const currentGdpPercent = currentCity ? gdpLogScale(currentCity.gdpPpp / currentCity.population) : 0;
+  const currentGdpPercent = currentCity ? gdpLogScale(currentCity.gdppc) : 0;
   const currentPopPercent = currentCity ? popLogScale(currentCity.population) : 0;
   const currentCityName = currentCity ? currentCity.city : '';
 
   const onUpdateClick = () => {
     if (mapContext.intialized) {
-      const convertedGdpPpc = minMaxGdpPppPc.map(n => gdpLogScale.invert(n)) as [number, number];
+      const convertedGdpPpc = minMaxGdppc.map(n => gdpLogScale.invert(n)) as [number, number];
       const convertedPop = minMaxPopulation.map(n => popLogScale.invert(n)) as [number, number];
       mapContext.setFilterParamaters(convertedPop, convertedGdpPpc, selectedRegionIds);
-      setFilterValues({minMaxPopulation: convertedPop, minMaxGdpPppPc: convertedGdpPpc, selectedRegionIds});
+      setFilterValues({minMaxPopulation: convertedPop, minMaxGdppc: convertedGdpPpc, selectedRegionIds});
     }
   };
 
@@ -314,7 +312,7 @@ const FilterBar = (props: Props) => {
                 renderThumb={thumbRender('gdp')}
                 max={100}
                 min={0}
-                onAfterChange={v => setMinMaxGdpPppPc(v as [number, number])}
+                onAfterChange={v => setMinMaxGdppc(v as [number, number])}
               />
             </SliderContainer>
           </ExpandBox>

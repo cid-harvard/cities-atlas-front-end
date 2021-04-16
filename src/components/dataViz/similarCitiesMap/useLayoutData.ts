@@ -26,7 +26,7 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
       centroidLon
       countryId
       population: population15
-      gdpPpp: gdpPpp15
+      gdppc
       region: regionId
       id
     }
@@ -50,7 +50,7 @@ interface SuccessResponse {
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
     population: ClassificationCity['population15'],
-    gdpPpp: ClassificationCity['gdpPpp15'],
+    gdppc: ClassificationCity['gdppc'],
     region: ClassificationCity['regionId'],
     id: ClassificationCity['id'],
   }[];
@@ -87,7 +87,7 @@ const useLayoutData = (): Output => {
     const regions = uniqBy(responseData.regions, 'regionId').map(r => ({label: r.regionName, value: r.regionId}));
 
     const cityGeoJson = featureCollection(filteredResponseCities.map(city => {
-      const {name, centroidLat, centroidLon, cityId, countryId, population, gdpPpp} = city;
+      const {name, centroidLat, centroidLon, cityId, countryId, population, gdppc} = city;
       const coordinates: [number, number] = centroidLat && centroidLon ? [centroidLon, centroidLat] : [0, 0];
       if (centroidLat) {
         allLatCoords.push(centroidLat);
@@ -103,7 +103,7 @@ const useLayoutData = (): Output => {
         fill: 'gray',
         radius: defaultRadius,
         population,
-        gdpPpp,
+        gdppc,
         region: city.region,
       });
     }));
@@ -132,7 +132,7 @@ const useLayoutData = (): Output => {
         id: id.toString(),
         country, city, fill: 'gray', radius: defaultRadius,
         population: targetCity ? targetCity.population : 0,
-        gdpPpp: targetCity ? targetCity.gdpPpp : 0,
+        gdppc: targetCity ? targetCity.gdppc : 0,
         region: targetCity ? targetCity.region : null,
       });
     }));

@@ -117,7 +117,7 @@ global-formatted-size-by = {
   [city_companies] City establishment size
   [city_employees] City employee size
   [population] Population
-  [gdpPpp] GDP PPP
+  [gdpPpp] GDP Per Capita
 }
 
 global-formatted-income-class = {
