@@ -333,8 +333,8 @@ const AddComparisonModal = (props: Props) => {
                     </GroupItem>
                     <GroupItem>
                       <GroupRadio
-                        onClick={() => setSelected(PeerGroup.GlobalProximity)}
-                        $checked={selected === PeerGroup.GlobalProximity}
+                        onClick={() => setSelected(PeerGroup.GlobalEuclideanDistance)}
+                        $checked={selected === PeerGroup.GlobalEuclideanDistance}
                       >
                         {getString('global-text-similar-proximity')}
                       </GroupRadio>
@@ -362,8 +362,8 @@ const AddComparisonModal = (props: Props) => {
                     </GroupItem>
                     <GroupItem>
                       <GroupRadio
-                        onClick={() => setSelected(PeerGroup.RegionalProximity)}
-                        $checked={selected === PeerGroup.RegionalProximity}
+                        onClick={() => setSelected(PeerGroup.RegionalEuclideanDistance)}
+                        $checked={selected === PeerGroup.RegionalEuclideanDistance}
                       >
                         {getString('global-text-similar-proximity')}
                       </GroupRadio>

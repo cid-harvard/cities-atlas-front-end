@@ -89,10 +89,10 @@ global-formatted-peer-groups = {
   $type ->
   *[global_pop] Global Peers by Similar Population
   [global_income] Global Peers by Similar Income per capita
-  [global_proximity] Global Peers by by similar economic structure
+  [global_eucdist] Global Peers by by similar economic structure
   [regional_pop] Regional Peers by Similar Population
   [regional_income] Regional Peers by Similar Income per capita
-  [regional_proximity] Regional Peers by by similar economic structure
+  [regional_eucdist] Regional Peers by by similar economic structure
   [region] All Regional Peers
 }
 
@@ -100,10 +100,10 @@ global-formatted-peer-groups-short = {
   $type ->
   *[global_pop] Peer Group
   [global_income] Peer Group
-  [global_proximity] Peer Group
+  [global_eucdist] Peer Group
   [regional_pop] Peer Group
   [regional_income] Peer Group
-  [regional_proximity] Peer Group
+  [regional_eucdist] Peer Group
   [region] Peer Group
 }
 
@@ -282,10 +282,10 @@ good-at-para-1 = Considering the aggregated share of { $composition-type } of ea
   $benchmark-type ->
   *[global_pop] global peers by similar population
   [global_income] global peers by similar income per capita
-  [global_proximity] global peers by by similar economic structure
+  [global_eucdist] global peers by by similar economic structure
   [regional_pop] regional peers by similar population
   [regional_income] regional peers by similar income per capita
-  [regional_proximity] regional peers by by similar economic structure
+  [regional_eucdist] regional peers by by similar economic structure
   [region] regional peers
 }, we can assess which industries in { $name } concentrate a higher share of { $composition-type }, implying that the city displays a relative advantage. { $name } display the strongest relative advantage in { $node-1st }, { $node-2nd } and { $node-3rd }. Overall, { $name } shows a stronger advantage in the { $highest-top-level } {
   $sector-or-cluster ->

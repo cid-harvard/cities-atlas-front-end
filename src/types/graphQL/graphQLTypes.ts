@@ -227,20 +227,20 @@ export interface ClusterIndustry {
 export enum PeerGroup {
   GlobalPopulation = 'global_pop',
   GlobalIncome = 'global_income',
-  GlobalProximity = 'global_proximity',
+  GlobalEuclideanDistance = 'global_eucdist',
   RegionalPopulation = 'regional_pop',
   RegionalIncome = 'regional_income',
-  RegionalProximity = 'regional_proximity',
+  RegionalEuclideanDistance = 'regional_eucdist',
   Region = 'region',
 }
 
 export const isValidPeerGroup = (value: any) =>
   value === PeerGroup.GlobalPopulation ||
   value === PeerGroup.GlobalIncome ||
-  value === PeerGroup.GlobalProximity ||
+  value === PeerGroup.GlobalEuclideanDistance ||
   value === PeerGroup.RegionalPopulation ||
   value === PeerGroup.RegionalIncome ||
-  value === PeerGroup.RegionalProximity ||
+  value === PeerGroup.RegionalEuclideanDistance ||
   value === PeerGroup.Region;
 
 export interface NaicsRcaCalculation {

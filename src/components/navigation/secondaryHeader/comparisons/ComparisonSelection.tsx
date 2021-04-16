@@ -148,8 +148,8 @@ const ComparisonSelection = (props: Props) => {
         parent_id: null,
       },
       {
-        id: PeerGroup.GlobalProximity,
-        title: getString('global-formatted-peer-groups', {type: PeerGroup.GlobalProximity}),
+        id: PeerGroup.GlobalEuclideanDistance,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.GlobalEuclideanDistance}),
         level: null,
         parent_id: null,
       },
@@ -166,8 +166,8 @@ const ComparisonSelection = (props: Props) => {
         parent_id: null,
       },
       {
-        id: PeerGroup.RegionalProximity,
-        title: getString('global-formatted-peer-groups', {type: PeerGroup.RegionalProximity}),
+        id: PeerGroup.RegionalEuclideanDistance,
+        title: getString('global-formatted-peer-groups', {type: PeerGroup.RegionalEuclideanDistance}),
         level: null,
         parent_id: null,
       },
