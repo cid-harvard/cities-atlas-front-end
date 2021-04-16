@@ -31,6 +31,7 @@ import SimpleLoader from '../../components/transitionStateComponents/SimpleLoade
 import SimpleError from '../../components/transitionStateComponents/SimpleError';
 import SearchBar from './SearchBar';
 import useFluent from '../../hooks/useFluent';
+import Overlay from './Overlay';
 
 const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
   query GetGlobalLocationData {
@@ -271,19 +272,6 @@ const LoadingContainer = styled.div`
   padding-left: 0.5rem;
 `;
 
-const MapLoader = styled.div`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
 const Landing = () => {
   const {loading, error, data} = useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
   const getString = useFluent();
@@ -296,6 +284,8 @@ const Landing = () => {
       features: [],
     },
   });
+  const [overlayOn, setOverlayOn] = useState<boolean>(true);
+  const closeOverlay = () => setOverlayOn(false);
   const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(null);
   const [highlightedCountry, setHighlightedCountry] = useState<ExtendedSearchDatum | null>(null);
   const [hovered, setHovered] = useState<ExtendedSearchDatum | null>(null);
@@ -307,6 +297,7 @@ const Landing = () => {
         bounds: getBounds(highlighted.coordinates),
         padding,
       });
+      closeOverlay();
     }
   }, [highlighted]);
 
@@ -451,11 +442,7 @@ const Landing = () => {
   let mapContent: React.ReactElement<any>;
   let searchBar: React.ReactElement<any>;
   if (loading === true) {
-    mapContent = (
-      <MapLoader>
-        <SimpleLoader size={100} />
-      </MapLoader>
-    );
+    mapContent = <></>;
     searchBar = (
       <LoadingContainer>
         <SimpleLoader />
@@ -472,12 +459,6 @@ const Landing = () => {
     );
   } else if (data !== undefined) {
     mapContent = (
-      <ClusterMap
-        unclusteredPointCallback={unclusteredPointCallback}
-        clearPopup={() => setHighlighted(null)}
-        fitBounds={fitBounds.bounds}
-        padding={fitBounds.padding}
-      >
         <>
           <GeoJSONLayer
             id={clusterSourceLayerId}
@@ -584,7 +565,6 @@ const Landing = () => {
           {highlightedTooltipPopup}
           {hoveredTooltipPopup}
         </>
-      </ClusterMap>
     );
     searchBar = (
       <SearchBar
@@ -600,17 +580,29 @@ const Landing = () => {
     searchBar = <></>;
   }
 
+  const overlay = overlayOn ? <Overlay onCitySelect={closeOverlay} /> : (
+    <SidePanel>
+      <Heading />
+      <SearchContainer
+        onMouseDown={() => setHovered(null)}
+      >
+        {searchBar}
+      </SearchContainer>
+    </SidePanel>
+  );
+
   return (
     <Root>
-      {mapContent}
-      <SidePanel>
-        <Heading />
-        <SearchContainer
-          onMouseDown={() => setHovered(null)}
-        >
-          {searchBar}
-        </SearchContainer>
-      </SidePanel>
+
+      <ClusterMap
+        unclusteredPointCallback={unclusteredPointCallback}
+        clearPopup={() => setHighlighted(null)}
+        fitBounds={fitBounds.bounds}
+        padding={fitBounds.padding}
+      >
+        {mapContent}
+      </ClusterMap>
+      {overlay}
     </Root>
   );
 
