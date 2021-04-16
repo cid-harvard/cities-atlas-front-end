@@ -183,6 +183,7 @@ export interface CityPartner {
   cityId: string;
   partnerId: string;
   proximity: number | null;
+  eucdist: number | null;
   id: string;
 }
 

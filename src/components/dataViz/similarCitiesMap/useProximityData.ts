@@ -9,14 +9,19 @@ const GET_SIMILAR_CITIES_PROXIMITY_QUERY = gql`
     cities: cityPartnerList (cityId: $cityId){
       cityId
       partnerId
-      proximity
+      eucdist
       id
     }
   }
 `;
 
 export interface SuccessResponse {
-  cities: CityPartner[];
+  cities: {
+    cityId: CityPartner['cityId'];
+    partnerId: CityPartner['partnerId'];
+    eucdist: CityPartner['eucdist'];
+    id: CityPartner['id'];
+  }[];
 }
 
 const useProximityData = () => {

@@ -1,5 +1,7 @@
-import {scaleQuantize} from 'd3-scale';
-import {extent} from 'd3-array';
+import {
+  scaleThreshold,
+} from 'd3-scale';
+import sortBy from 'lodash/sortBy';
 
 export const colorByCountryColorMap = [
   {id: 'United States', color: '#696969'},
@@ -43,16 +45,28 @@ export const colorByCountryColorMap = [
 ];
 
 export const proximityColors = [
-   '#F9E200',
-   '#E3260B',
-   '#C9178E',
-   '#6E1DB2',
    '#223E9A',
+   '#6E1DB2',
+   '#C9178E',
+   '#E3260B',
+   '#F9E200',
 ];
 
 export const createProximityScale = (values: number[]) => {
-  const scale: (val: number) => string = scaleQuantize()
-    .domain(extent(values) as [number, number])
+  const inc = Math.floor(values.length / proximityColors.length);
+  const sortedValues = sortBy(values);
+  const thresholdValues: number[] = [];
+  let i = 0;
+  while (i < sortedValues.length) {
+    if (sortedValues[i] !== undefined) {
+      thresholdValues.push(sortedValues[i]);
+    }
+    i += inc;
+  }
+  thresholdValues.pop();
+  thresholdValues.shift();
+  const scale: (val: number) => string = scaleThreshold()
+    .domain(thresholdValues)
     .range(proximityColors as any[]) as any;
   return scale;
 };

@@ -49,11 +49,11 @@ const MapOptionsAndSettings = (props: Props) => {
   useEffect(() => {
     if (mapContext.intialized && proximityData && cityId) {
       const allValues: number[] = [];
-      proximityData.cities.forEach(d => d && d.proximity !== null ? allValues.push(d.proximity) : false);
-      const colorScale = createProximityScale([0, ...allValues]);
-      const proximityColorMap = proximityData.cities.map(({partnerId, proximity}) => ({
+      proximityData.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
+      const colorScale = createProximityScale([...allValues]);
+      const proximityColorMap = proximityData.cities.map(({partnerId, eucdist}) => ({
         id: partnerId,
-        color: colorScale(proximity ? proximity : 0),
+        color: colorScale(eucdist ? eucdist : allValues[allValues.length - 1]),
       }));
       proximityColorMap.push({id: cityId, color: 'gray'});
       mapContext.setColors(proximityColorMap);

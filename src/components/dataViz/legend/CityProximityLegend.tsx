@@ -116,11 +116,11 @@ const IntensityLegend = (props: Props) => {
           <div>{getString('global-similarity-high')}</div>
         </Labels>
         <Bar>
-          <Segment style={{backgroundColor: proximityColors[0]}} />
-          <Segment style={{backgroundColor: proximityColors[1]}} />
-          <Segment style={{backgroundColor: proximityColors[2]}} />
-          <Segment style={{backgroundColor: proximityColors[3]}} />
           <Segment style={{backgroundColor: proximityColors[4]}} />
+          <Segment style={{backgroundColor: proximityColors[3]}} />
+          <Segment style={{backgroundColor: proximityColors[2]}} />
+          <Segment style={{backgroundColor: proximityColors[1]}} />
+          <Segment style={{backgroundColor: proximityColors[0]}} />
         </Bar>
       </Content>
     </Root>

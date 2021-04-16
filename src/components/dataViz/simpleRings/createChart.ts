@@ -222,7 +222,7 @@ const createChart = (input: Input) => {
       .attr('display', d => d.shown ? 'block' : 'none')
       .on('mousemove', d => {
         const rows = !d.primary ? [
-          ['Similarity:', d.proximity ? d.proximity.toFixed(2) : ''],
+          ['Distance:', d.proximity ? d.proximity.toFixed(2) : ''],
         ] : [];
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name + ', ' + d.country,

@@ -99,7 +99,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         title: node.city + ', ' + node.country,
         color: rgba(node.fill, 0.35),
         rows: node.fill !== 'gray'
-          ? [['Similarity:', proximityNode && proximityNode.proximity ? proximityNode.proximity.toFixed(2) : '0.00']]
+          ? [['Distance:', proximityNode && proximityNode.eucdist ? proximityNode.eucdist.toFixed(2) : '0.00']]
           : [],
         boldColumns: [1],
         hideArrow: true,
