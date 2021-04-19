@@ -257,6 +257,12 @@ pswot-quadrant-tooltips-iii = Industries in this quadrant are smaller in the sel
 pswot-quadrant-tooltips-iv = Industries in this quadrant are larger in the selected city than in their peer(s) but are considered a weaker technological fit with the city’s overall economy than with their peer(s).
 pswot-quadrant-tooltips-v = Industries in this section are absent in the selected city.
 
+pswot-cluster-quadrant-tooltips-i = Clusters in this quadrant are larger in the selected city than in their peer(s) and are considered a stronger technological fit with the city’s overall economy than with one of their peer(s).
+pswot-cluster-quadrant-tooltips-ii = Clusters in this quadrant are smaller in the selected city than in their peer(s) but are considered a stronger technological fit with the city’s overall economy than with their peer(s).
+pswot-cluster-quadrant-tooltips-iii = Clusters in this quadrant are smaller in the selected city than in their peer(s) and are considered a weaker technological fit with the city’s overall economy than with their peer(s).
+pswot-cluster-quadrant-tooltips-iv = Clusters in this quadrant are larger in the selected city than in their peer(s) but are considered a weaker technological fit with the city’s overall economy than with their peer(s).
+pswot-cluster-quadrant-tooltips-v = Clusters in this section are absent in the selected city.
+
 pswot-axis-labels-left = Expected Change
 pswot-axis-labels-left-up = Growing
 pswot-axis-labels-left-down = Decreasing

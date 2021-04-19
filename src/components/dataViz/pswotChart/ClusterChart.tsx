@@ -114,9 +114,9 @@ const PSWOTChart = (props: Props) => {
     const cluster = clusters && clusters.data && datum.id ? clusters.data[datum.id] : undefined;
     if (node) {
       const rows: string[][] = [];
-      if (!cluster || cluster.clusterId === null || cluster.clusterId === undefined) {
+      if (datum.id && (!cluster || cluster.clusterId === null || cluster.clusterId === undefined)) {
         rows.push(
-          ['Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'],
+          [getString('pswot-cluster-quadrant-tooltips-' + datum.id.toLowerCase())],
         );
       }
       if (datum.x !== undefined) {
