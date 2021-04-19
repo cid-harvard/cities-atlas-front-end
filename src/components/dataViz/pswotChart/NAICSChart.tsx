@@ -241,9 +241,10 @@ const PSWOTChart = (props: Props) => {
       const industry = n.naicsId ? industries.data[n.naicsId] : undefined;
       const industryGlobalData = n.naicsId ? aggregateIndustryDataMap.data.industries[n.naicsId] : undefined;
       const naicsId = industry ? industry.naicsId : '';
+      const tradeable = industry && industry.tradable ? true : false;
       const sector = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
       const datum = naicsData.find(nn => n.naicsId !== null && nn.naicsId.toString() === n.naicsId.toString());
-      if (sector && datum && !hiddenSectors.includes(sector.id)) {
+      if (sector && datum && !hiddenSectors.includes(sector.id) && tradeable) {
         const x = n.rca !== null ? n.rca : 0;
         let densityKey: 'densityCompany' | 'densityEmploy';
         if (compositionType === CompositionType.Companies ||

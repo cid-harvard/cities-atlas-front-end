@@ -32,6 +32,7 @@ export interface ClassificationNaicsIndustry {
   codeHierarchy: string | null;
   naicsIdHierarchy: string | null;
   naicsIdTopParent: number;
+  tradable: boolean;
   id: string;
 }
 

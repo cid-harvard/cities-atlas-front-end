@@ -13,6 +13,7 @@ const GLOBAL_INDUSTRIES_QUERY = gql`
       level
       parentId
       naicsIdTopParent
+      tradable
       id
     }
   }
@@ -26,6 +27,7 @@ interface IndustryDatum {
   level: ClassificationNaicsIndustry['level'];
   parentId: ClassificationNaicsIndustry['parentId'];
   naicsIdTopParent: ClassificationNaicsIndustry['naicsIdTopParent'];
+  tradable: ClassificationNaicsIndustry['tradable'];
 }
 
 interface SuccessResponse {
@@ -66,7 +68,7 @@ const industryDataToMap = (data: SuccessResponse | undefined) => {
   const response: IndustryMap = {};
   if (data !== undefined) {
     const {industries} = data;
-    industries.forEach(({id, naicsId, name, level, parentId, naicsIdTopParent, code}) => {
+    industries.forEach(({id, naicsId, name, level, parentId, naicsIdTopParent, code, tradable}) => {
       response[naicsId] = {
         id,
         naicsId,
@@ -75,6 +77,7 @@ const industryDataToMap = (data: SuccessResponse | undefined) => {
         level,
         parentId,
         naicsIdTopParent,
+        tradable,
       };
     });
   }
