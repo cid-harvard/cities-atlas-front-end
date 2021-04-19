@@ -7,6 +7,7 @@ import {
   CompositionType,
   defaultCompositionType,
   isValidPeerGroup,
+  CityClusterYear,
 } from '../types/graphQL/graphQLTypes';
 import useCurrentCityId from './useCurrentCityId';
 import {defaultYear} from '../Utils';
@@ -26,7 +27,7 @@ const CLUSTER_RCA_QUERY = gql`
     $partnerCityIds: [Int],
     $variable: String,
   ) {
-    clusterData: clusterDensityRescale(
+    clusterDensity: clusterDensityRescale(
       cityId: $cityId,
       peerGroup: $peerGroup,
       partnerCityIds: $partnerCityIds,
@@ -48,24 +49,38 @@ const CLUSTER_RCA_QUERY = gql`
       clusterId
       rca
     }
+    clusterData: cityClusterYearList(cityId: $cityId, year: $year) {
+      clusterId
+      level
+      numCompany
+      numEmploy
+      id
+    }
   }
 `;
 
-interface ClusterData {
+interface ClusterDensity {
   clusterId: ClusterDensityRescale['clusterId'];
   densityCompany: ClusterDensityRescale['densityCompany'];
   densityEmploy: ClusterDensityRescale['densityEmploy'];
 }
-
 
 interface ClusterRca {
   clusterId: ClusterRcaCalculation['clusterId'];
   rca: ClusterRcaCalculation['rca'];
 }
 
+interface ClusterData {
+  clusterId: CityClusterYear['clusterId'];
+  level: CityClusterYear['level'];
+  numCompany: CityClusterYear['numCompany'];
+  numEmploy: CityClusterYear['numEmploy'];
+}
+
 export interface SuccessResponse {
-  clusterData: ClusterData[];
+  clusterDensity: ClusterDensity[];
   clusterRca: ClusterRca[];
+  clusterData: ClusterData[];
 }
 
 interface Variables {

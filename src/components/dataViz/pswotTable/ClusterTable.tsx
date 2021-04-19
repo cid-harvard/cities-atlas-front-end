@@ -38,13 +38,13 @@ const PSWOTTable = (props: Props) => {
 
   let data: RowDatum[] | undefined;
   if (rcaData.data !== undefined && clusters && clusters.data) {
-    const {clusterRca, clusterData} = rcaData.data;
+    const {clusterRca, clusterDensity} = rcaData.data;
     data = clusters.data.clusters
       .filter(d => d.level === clusterLevel &&
         !hiddenClusters.includes(d.clusterIdTopParent !== null ? d.clusterIdTopParent.toString() : ''))
       .map(d => {
         const rcaDatum = clusterRca.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
-        const densityDatum = clusterData.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
+        const densityDatum = clusterDensity.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
         let densityKey: 'densityCompany' | 'densityEmploy';
         if (compositionType === CompositionType.Companies ||
             (!compositionType && defaultCompositionType === CompositionType.Companies)) {

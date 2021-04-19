@@ -86,7 +86,7 @@ interface Props {
 const PSWOTChart = (props: Props) => {
   const {
     hiddenClusters, setHighlighted, clusterLevel,
-    highlighted, colorBy, compositionType,
+    highlighted, colorBy, compositionType, nodeSizing,
   } = props;
 
   const {loading, error, data} = useClusterRCAData(clusterLevel);
@@ -192,30 +192,38 @@ const PSWOTChart = (props: Props) => {
       aggregateIndustryDataMap && aggregateIndustryDataMap.data &&
       clusters && clusters.data
     ) {
-    const {clusterRca, clusterData} = dataToUse;
+    const {clusterRca, clusterDensity, clusterData} = dataToUse;
 
     const pswotChartData: Datum[] = [];
     const {clusterMinMax} = aggregateIndustryDataMap.data;
-    // let radiusScale: (value: number) => number | undefined;
-    // if (nodeSizing === NodeSizing.globalCompanies) {
-    //   const minSizeBy = clusterMinMax && clusterMinMax.minSumNumCompany
-    //         ? clusterMinMax.minSumNumCompany : 0;
-    //   const maxSizeBy = clusterMinMax && clusterMinMax.maxSumNumCompany
-    //         ? clusterMinMax.maxSumNumCompany : 1;
+
+    let radiusScale: (value: number) => number | undefined;
+    if (nodeSizing === NodeSizing.cityCompanies || nodeSizing === NodeSizing.cityEmployees) {
+      const field = nodeSizing === NodeSizing.cityEmployees ? 'numEmploy' : 'numCompany';
+      const allValues = clusterData.filter(c => c.level === clusterLevel).map(c => c[field] ? c[field] : 0) as number[];
+      radiusScale = scaleLinear()
+        .domain([0, Math.max(...allValues)] as [number, number])
+        .range([ 4, 16 ]);
+    // } else if (nodeSizing === NodeSizing.globalCompanies) {
+    //   const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany
+    //         ? globalMinMax.minSumNumCompany : 0;
+    //   const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany
+    //         ? globalMinMax.maxSumNumCompany : 1;
     //   radiusScale = scaleLinear()
     //     .domain([minSizeBy, maxSizeBy])
     //     .range([ 4, 16 ]);
     // } else if (nodeSizing === NodeSizing.globalEmployees) {
-    //   const minSizeBy = clusterMinMax && clusterMinMax.minSumNumEmploy
-    //         ? clusterMinMax.minSumNumEmploy : 0;
-    //   const maxSizeBy = clusterMinMax && clusterMinMax.maxSumNumEmploy
-    //         ? clusterMinMax.maxSumNumEmploy : 1;
+    //   const minSizeBy = globalMinMax && globalMinMax.minSumNumEmploy
+    //         ? globalMinMax.minSumNumEmploy : 0;
+    //   const maxSizeBy = globalMinMax && globalMinMax.maxSumNumEmploy
+    //         ? globalMinMax.maxSumNumEmploy : 1;
     //   radiusScale = scaleLinear()
     //     .domain([minSizeBy, maxSizeBy])
     //     .range([ 4, 16 ]);
-    // } else {
-    //   radiusScale = (_unused: number) => 5.5;
-    // }
+    } else {
+      radiusScale = (_unused: number) => 5.5;
+    }
+
     let colorScale: (value: number) => string | undefined;
     if (colorBy === ColorBy.education) {
       const {minYearsEducation, maxYearsEducation} = clusterMinMax;
@@ -240,7 +248,7 @@ const PSWOTChart = (props: Props) => {
       const clusterId = cluster ? cluster.clusterId : '';
       const clusterColor = clusterColorMap.find(c => cluster && cluster.clusterIdTopParent &&
         c.id === cluster.clusterIdTopParent.toString());
-      const datum = clusterData.find(nn => n.clusterId !== null && nn.clusterId.toString() === n.clusterId.toString());
+      const datum = clusterDensity.find(nn => n.clusterId !== null && nn.clusterId.toString() === n.clusterId.toString());
       if (clusterColor && datum && !hiddenClusters.includes(clusterColor.id)) {
         const x = n.rca !== null ? n.rca : 0;
         let densityKey: 'densityCompany' | 'densityEmploy';
@@ -252,16 +260,20 @@ const PSWOTChart = (props: Props) => {
         }
         const y = datum[densityKey] !== null ? datum[densityKey] as number : 0;
 
-        // let radius: number;
-        // if (nodeSizing === NodeSizing.globalCompanies) {
-        //   radius = radiusScale(clusterGlobalData && clusterGlobalData.sumNumCompany
-        //       ? clusterGlobalData.sumNumCompany : 0) as number;
+        let radius: number;
+        if (nodeSizing === NodeSizing.cityCompanies || nodeSizing === NodeSizing.cityEmployees) {
+          const field = nodeSizing === NodeSizing.cityEmployees ? 'numEmploy' : 'numCompany';
+          const naicsDatum = clusterData.find(nn => nn.clusterId === clusterId);
+          radius = radiusScale(naicsDatum && naicsDatum[field] !== null ? naicsDatum[field] as number : 0) as number;
+        // } else if (nodeSizing === NodeSizing.globalCompanies) {
+        //   radius = radiusScale(industryGlobalData && industryGlobalData.sumNumCompany
+        //       ? industryGlobalData.sumNumCompany : 0) as number;
         // } else if (nodeSizing === NodeSizing.globalEmployees) {
-        //   radius = radiusScale(clusterGlobalData && clusterGlobalData.sumNumEmploy
-        //       ? clusterGlobalData.sumNumEmploy : 0) as number;
-        // } else {
-        //   radius = 5.5;
-        // }
+        //   radius = radiusScale(industryGlobalData && industryGlobalData.sumNumEmploy
+        //       ? industryGlobalData.sumNumEmploy : 0) as number;
+        } else {
+          radius = 5.5;
+        }
 
         let fill: string | undefined;
         if (colorBy === ColorBy.education) {
@@ -276,7 +288,7 @@ const PSWOTChart = (props: Props) => {
           label: cluster && cluster.name ? cluster.name : clusterId,
           x,
           y,
-          radius: 5.5,
+          radius,
           fill,
           highlighted: highlightCluster && highlightCluster.clusterId === clusterId,
           faded: !highlightError && highlightCluster && highlightCluster.clusterId !== clusterId,

@@ -7,6 +7,7 @@ import {
   CompositionType,
   defaultCompositionType,
   isValidPeerGroup,
+  CityIndustryYear,
 } from '../types/graphQL/graphQLTypes';
 import useCurrentCityId from './useCurrentCityId';
 import {defaultYear} from '../Utils';
@@ -26,7 +27,7 @@ const NODE_RCA_QUERY = gql`
     $partnerCityIds: [Int],
     $variable: String,
   ) {
-    naicsData: naicsDensityRescale(
+    naicsDensity: naicsDensityRescale(
       cityId: $cityId,
       peerGroup: $peerGroup,
       partnerCityIds: $partnerCityIds,
@@ -48,15 +49,26 @@ const NODE_RCA_QUERY = gql`
       naicsId
       rca
     }
+    naicsData: cityIndustryYearList(cityId: $cityId, year: $year, level: $level) {
+      naicsId
+      numCompany
+      numEmploy
+      id
+    }
   }
 `;
 
-interface NaicsData {
+interface NaicsDensity {
   naicsId: NaicsDensityRescale['naicsId'];
   densityCompany: NaicsDensityRescale['densityCompany'];
   densityEmploy: NaicsDensityRescale['densityEmploy'];
 }
 
+interface NaicsData {
+  naicsId: CityIndustryYear['naicsId'];
+  numCompany: CityIndustryYear['numCompany'];
+  numEmploy: CityIndustryYear['numEmploy'];
+}
 
 interface NaicsRca {
   naicsId: NaicsRcaCalculation['naicsId'];
@@ -64,8 +76,9 @@ interface NaicsRca {
 }
 
 export interface SuccessResponse {
-  naicsData: NaicsData[];
+  naicsDensity: NaicsDensity[];
   naicsRca: NaicsRca[];
+  naicsData: NaicsData[];
 }
 
 interface Variables {

@@ -195,12 +195,18 @@ const PSWOTChart = (props: Props) => {
       aggregateIndustryDataMap && aggregateIndustryDataMap.data &&
       industries && industries.data
     ) {
-    const {naicsRca, naicsData} = dataToUse;
+    const {naicsRca, naicsDensity, naicsData} = dataToUse;
 
     const pswotChartData: Datum[] = [];
     const {globalMinMax} = aggregateIndustryDataMap.data;
     let radiusScale: (value: number) => number | undefined;
-    if (nodeSizing === NodeSizing.globalCompanies) {
+    if (nodeSizing === NodeSizing.cityCompanies || nodeSizing === NodeSizing.cityEmployees) {
+      const field = nodeSizing === NodeSizing.cityEmployees ? 'numEmploy' : 'numCompany';
+      const allValues = naicsData.map(c => c[field] ? c[field] : 0) as number[];
+      radiusScale = scaleLinear()
+        .domain([0, Math.max(...allValues)] as [number, number])
+        .range([ 4, 16 ]);
+    } else if (nodeSizing === NodeSizing.globalCompanies) {
       const minSizeBy = globalMinMax && globalMinMax.minSumNumCompany
             ? globalMinMax.minSumNumCompany : 0;
       const maxSizeBy = globalMinMax && globalMinMax.maxSumNumCompany
@@ -243,7 +249,7 @@ const PSWOTChart = (props: Props) => {
       const naicsId = industry ? industry.naicsId : '';
       const tradeable = industry && industry.tradable ? true : false;
       const sector = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
-      const datum = naicsData.find(nn => n.naicsId !== null && nn.naicsId.toString() === n.naicsId.toString());
+      const datum = naicsDensity.find(nn => n.naicsId !== null && nn.naicsId.toString() === n.naicsId.toString());
       if (sector && datum && !hiddenSectors.includes(sector.id) && tradeable) {
         const x = n.rca !== null ? n.rca : 0;
         let densityKey: 'densityCompany' | 'densityEmploy';
@@ -256,7 +262,11 @@ const PSWOTChart = (props: Props) => {
         const y = datum[densityKey] !== null ? datum[densityKey] as number : 0;
 
         let radius: number;
-        if (nodeSizing === NodeSizing.globalCompanies) {
+        if (nodeSizing === NodeSizing.cityCompanies || nodeSizing === NodeSizing.cityEmployees) {
+          const field = nodeSizing === NodeSizing.cityEmployees ? 'numEmploy' : 'numCompany';
+          const naicsDatum = naicsData.find(nn => nn.naicsId === naicsId);
+          radius = radiusScale(naicsDatum && naicsDatum[field] !== null ? naicsDatum[field] as number : 0) as number;
+        } else if (nodeSizing === NodeSizing.globalCompanies) {
           radius = radiusScale(industryGlobalData && industryGlobalData.sumNumCompany
               ? industryGlobalData.sumNumCompany : 0) as number;
         } else if (nodeSizing === NodeSizing.globalEmployees) {

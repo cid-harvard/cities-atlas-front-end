@@ -39,12 +39,12 @@ const PSWOTTable = (props: Props) => {
 
   let data: RowDatum[] | undefined;
   if (rcaData.data !== undefined && industries && industries.data) {
-    const {naicsRca, naicsData} = rcaData.data;
+    const {naicsRca, naicsDensity} = rcaData.data;
     data = industries.data.industries
       .filter(d => d.level === digitLevel && !hiddenSectors.includes(d.naicsIdTopParent.toString()))
       .map(d => {
         const rcaDatum = naicsRca.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
-        const densityDatum = naicsData.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
+        const densityDatum = naicsDensity.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
         let densityKey: 'densityCompany' | 'densityEmploy';
         if (compositionType === CompositionType.Companies ||
             (!compositionType && defaultCompositionType === CompositionType.Companies)) {
