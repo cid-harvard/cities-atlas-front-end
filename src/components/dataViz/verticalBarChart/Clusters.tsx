@@ -36,7 +36,7 @@ interface Props {
   hiddenClusters: ClassificationNaicsCluster['id'][];
 }
 
-const Industries = (props: Props) => {
+const Clusters = (props: Props) => {
   const {data, clusterLevel, colorBy, hiddenClusters, highlighted} = props;
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
@@ -182,4 +182,4 @@ const Industries = (props: Props) => {
   );
 };
 
-export default Industries;
+export default Clusters;

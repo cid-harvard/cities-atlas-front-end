@@ -157,7 +157,7 @@ const RCABarChart = (props: Props) => {
     );
     console.error(error);
   } else if (dataToUse !== undefined) {
-    const clusterData = dataToUse.c3Rca;
+    const clusterData = clusterLevel === ClusterLevel.C1 ? dataToUse.c1Rca : dataToUse.c3Rca;
     const industryData = dataToUse.naicsRca;
     const loadingOverlay = loading ? <LoadingBlock /> : null;
     const viz = isClusterView ? (
@@ -203,9 +203,7 @@ const RCABarChart = (props: Props) => {
         }}
         settingsOptions={{
           compositionType: true,
-          clusterLevel: isClusterView ? {
-            disabledOptions: [ClusterLevel.C1],
-          } : undefined,
+          clusterLevel: isClusterView ? true : undefined,
           digitLevel: isClusterView ? undefined : true,
           colorBy: true,
           aggregationMode: true,
