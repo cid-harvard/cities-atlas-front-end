@@ -12,12 +12,15 @@ const slideRootClassName = 'react-slider-root-class';
 const slideThumbClassName = 'react-slider-thumb-class';
 const slideTrackClassName = 'react-slider-track-class';
 
+const Root = styled.div`
+  width: 60%;
+`;
 const SliderContainer = styled.div`
   width: 100%;
   box-sizing: border-box;
   padding: 0 1rem 0 2rem;
   flex-shrink: 0;
-  margin: 0.65rem 0 1.15rem;
+  margin: 0rem auto 1.15rem;
   position: relative;
 
   .${slideThumbClassName} {
@@ -104,22 +107,24 @@ const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
   };
 
   const thumbRender = (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => (
-    <small {...p}><span>RCA {'≥'} {convertValue(state.valueNow)}</span></small>
+    <small {...p}><span>Presence Value {'≥'} {convertValue(state.valueNow)}</span></small>
   );
 
   return (
-    <SliderContainer>
-      <ReactSlider
-        className={slideRootClassName}
-        thumbClassName={slideThumbClassName}
-        trackClassName={slideTrackClassName}
-        defaultValue={isNaN(initialValue) ? logScaleWithZero(1) : logScaleWithZero(initialValue)}
-        renderThumb={thumbRender}
-        max={120}
-        min={0}
-        onAfterChange={(v: number) => updateValue(convertValue(v))}
-      />
-    </SliderContainer>
+    <Root>
+      <SliderContainer>
+        <ReactSlider
+          className={slideRootClassName}
+          thumbClassName={slideThumbClassName}
+          trackClassName={slideTrackClassName}
+          defaultValue={isNaN(initialValue) ? logScaleWithZero(1) : logScaleWithZero(initialValue)}
+          renderThumb={thumbRender}
+          max={120}
+          min={0}
+          onAfterChange={(v: number) => updateValue(convertValue(v))}
+        />
+      </SliderContainer>
+    </Root>
   );
 };
 
