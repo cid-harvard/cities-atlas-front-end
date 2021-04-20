@@ -47,6 +47,7 @@ global-ui-benchmark-about = What a city specializes in is relative. By selecting
 
 global-ui-add-benchmark = Add Benchmark
 global-ui-remove-benchmark = Remove Benchmark
+global-benchmark-selected = Selected Benchmark
 
 global-ui-city-city-benchmark-warning = City to City Benchmarking is not reliable in this visualization
 
@@ -181,17 +182,17 @@ global-cluster-c1-name-7 = Finance
 
 global-click-to-expand-industry = Click to expand industry
 
-global-intensity = Specialization
-global-intensity-about = Helps you determine whether your city possess a higher intensity in an industry versus your chosen benchmarking cities.
-global-intensity-low = Low Specialization
-global-intensity-lower = Lower Specialization
-global-intensity-high = High Specialization
-global-intensity-higher = Higher Specialization
+global-intensity = Relative Presence
+global-intensity-about = Helps you determine whether your city possess a higher presence in an industry versus your chosen benchmarking cities.
+global-intensity-low = Low Relative Presence
+global-intensity-lower = Lower Relative Presence
+global-intensity-high = High Relative Presence
+global-intensity-higher = Higher Relative Presence
 
-global-specialization-expected = Expected Specialization
-global-specialization-over = Over Specialized
-global-specialization-under = Under Specialized
-global-specialization-scroll = Scroll down to see under specialization
+global-specialization-expected = Expected Relative Presence
+global-specialization-over = High Relative Presence
+global-specialization-under = Low Relative Presence
+global-specialization-scroll = Scroll down to see low relative presence 
 
 global-similarity-low = Least Similar
 global-similarity-high = Most Similar
@@ -262,14 +263,15 @@ pswot-cluster-quadrant-tooltips-iii = Clusters in this quadrant are smaller in t
 pswot-cluster-quadrant-tooltips-iv = Clusters in this quadrant are larger in the selected city than in their peer(s) but are considered a weaker technological fit with the city’s overall economy than with their peer(s).
 pswot-cluster-quadrant-tooltips-v = Clusters in this section are absent in the selected city.
 
-pswot-axis-labels-left = Expected Change
-pswot-axis-labels-left-up = Growing
-pswot-axis-labels-left-down = Decreasing
-pswot-axis-labels-bottom-left = Low Specialization
-pswot-axis-labels-bottom-right = High Specialization
+pswot-axis-labels-left = Technological Fit
+pswot-axis-labels-left-up = Stronger than peer(s)
+pswot-axis-labels-left-down = Weaker than peer(s)
+pswot-axis-labels-bottom = Relative Presence
+pswot-axis-labels-bottom-left = Smaller than peer(s)
+pswot-axis-labels-bottom-right = Larger than peer(s)
 
-pswot-average-line-text = Relative Advantage = 1
-pswot-zero-axis-label = Relative Advantage = 0
+pswot-average-line-text = Relative Presence = 1
+pswot-zero-axis-label = Relative Presence = 0
 
 city-filter-title-open = Open Filter Cities Options
 city-filter-title-close = Close Filter Cities Options

@@ -64,7 +64,7 @@ const IntensityLegend = (props: Props) => {
         <Labels>
           <Label>{getString('global-intensity-low')}</Label>
           <Label>
-            {getString('global-intensity')}: {benchmarkNameShort}
+            {getString('global-benchmark-selected')}: {benchmarkNameShort}
             <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
               <Tooltip
                 explanation={getString('global-intensity-about')}
