@@ -80,9 +80,8 @@ global-ui-cluster-aggregation-level = {
 global-formatted-color-by = {
   $type ->
   *[sector] Sector
-  [intensity] Specialization
-  [education] Average years education
-  [wage] Average hourly wage
+  [education] Years of education (U.S. average)
+  [wage] Hourly wage (U.S. average)
 }
 
 global-formatted-peer-groups = {
