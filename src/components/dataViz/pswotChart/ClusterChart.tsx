@@ -77,7 +77,7 @@ interface Props {
   highlighted: string | null;
   setHighlighted: (value: string | undefined) => void;
   clusterLevel: ClusterLevel;
-  nodeSizing: NodeSizing | undefined;
+  nodeSizing: NodeSizing;
   hiddenClusters: ClassificationNaicsCluster['id'][];
   colorBy: ColorBy;
   compositionType: CompositionType;

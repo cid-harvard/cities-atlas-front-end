@@ -30,6 +30,7 @@ import {
   ColorBy,
   AggregationMode,
   defaultAggregationMode,
+  defaultNodeSizing,
 } from '../../../../routing/routes';
 import {
   useHistory,
@@ -169,7 +170,7 @@ const GrowthOppurtunities = () => {
         setHighlighted={setHighlighted}
         clusterLevel={clusterLevel}
         hiddenClusters={hiddenClusters}
-        nodeSizing={node_sizing}
+        nodeSizing={node_sizing ? node_sizing : defaultNodeSizing}
         colorBy={color_by ? color_by : ColorBy.sector}
         compositionType={compositionType}
       />
@@ -179,7 +180,7 @@ const GrowthOppurtunities = () => {
         setHighlighted={setHighlighted}
         digitLevel={digitLevel}
         hiddenSectors={hiddenSectors}
-        nodeSizing={node_sizing}
+        nodeSizing={node_sizing ? node_sizing : defaultNodeSizing}
         colorBy={color_by ? color_by : ColorBy.sector}
         compositionType={compositionType}
       />

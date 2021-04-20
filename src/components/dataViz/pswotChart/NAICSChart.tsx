@@ -76,7 +76,7 @@ interface Props {
   highlighted: string | null;
   setHighlighted: (value: string | undefined) => void;
   digitLevel: DigitLevel;
-  nodeSizing: NodeSizing | undefined;
+  nodeSizing: NodeSizing;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   colorBy: ColorBy;
   compositionType: CompositionType;
