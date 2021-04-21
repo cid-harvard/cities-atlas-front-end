@@ -401,7 +401,7 @@ const Chart = (props: Props) => {
               {color: primaryColor, fontWeight: 600}
               : undefined}
           >
-            Level 1
+            Low&nbsp;Aggregation
             Knowledge&nbsp;Clusters
           </span>
           <Arrow>{'→'}</Arrow>
@@ -414,7 +414,7 @@ const Chart = (props: Props) => {
               {color: primaryColor, fontWeight: 600}
               : undefined}
           >
-            Level 2
+            High&nbsp;Aggregation
             Knowledge&nbsp;Clusters
           </span>
           <Arrow>{'→'}</Arrow>
@@ -427,7 +427,7 @@ const Chart = (props: Props) => {
               {color: primaryColor, fontWeight: 600}
               : undefined}
           >
-            Industry&nbsp;Nodes
+            Single&nbsp;Industries
           </span>
         </BreadCrumb>
       </BreadCrumbContainer>
