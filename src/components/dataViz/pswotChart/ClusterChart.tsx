@@ -246,10 +246,11 @@ const PSWOTChart = (props: Props) => {
       const cluster = n.clusterId ? clusters.data[n.clusterId] : undefined;
       const clusterGlobalData = n.clusterId ? aggregateIndustryDataMap.data.clusters[n.clusterId] : undefined;
       const clusterId = cluster ? cluster.clusterId : '';
+      const tradable = cluster && cluster.tradable ? true : false;
       const clusterColor = clusterColorMap.find(c => cluster && cluster.clusterIdTopParent &&
         c.id === cluster.clusterIdTopParent.toString());
       const datum = clusterDensity.find(nn => n.clusterId !== null && nn.clusterId.toString() === n.clusterId.toString());
-      if (clusterColor && datum && !hiddenClusters.includes(clusterColor.id)) {
+      if (clusterColor && datum && !hiddenClusters.includes(clusterColor.id) && tradable) {
         const x = n.rca !== null ? n.rca : 0;
         let densityKey: 'densityCompany' | 'densityEmploy';
         if (compositionType === CompositionType.Companies ||

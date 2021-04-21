@@ -12,6 +12,7 @@ const GLOBAL_CLUSTER_QUERY = gql`
       clusterIdTopParent
       level
       name
+      tradable
       id
     }
   }
@@ -56,13 +57,14 @@ const clusterDataToMap = (data: SuccessResponse | undefined) => {
   const response: ClusterMap = {};
   if (data !== undefined) {
     const {clusters} = data;
-    clusters.forEach(({id, clusterId, name, level, parentId, clusterIdTopParent}) => {
+    clusters.forEach(({id, clusterId, name, level, parentId, clusterIdTopParent, tradable}) => {
       response[clusterId] = {
         id,
         clusterId,
         name,
         level,
         parentId,
+        tradable,
         clusterIdTopParent,
       };
     });

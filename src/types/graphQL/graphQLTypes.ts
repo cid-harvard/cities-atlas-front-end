@@ -166,6 +166,7 @@ export interface ClassificationNaicsCluster {
   clusterIdTopParent: number | null;
   level: number | null;
   name: string | null;
+  tradable: boolean;
   id: string;
 }
 
