@@ -37,7 +37,7 @@ const Root = styled.div`
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 1fr;
+  grid-template-rows: 1fr 2rem;
   grid-template-columns: 3.5rem 1fr;
 
   @media ${breakPoints.small} {
@@ -57,14 +57,58 @@ const LeftAxisRoot = styled.div`
   pointer-events: none;
 `;
 
+const BottomAxisRoot = styled.div`
+  grid-row: 2;
+  grid-column: 2;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  padding-left: clamp(75px, 300px, 15%);
+
+  @media (max-width: 1090px) {
+    padding-left: 0;
+  }
+  @media (max-width: 990px) {
+    grid-template-columns: 1 / -1;
+  }
+`;
+
 const AxisLabelBase = styled.div`
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   color: ${baseColor};
   text-transform: uppercase;
 
   @media (max-height: 600px) {
     font-size: 0.65rem;
+  }
+`;
+
+const AxisLabelLeft = styled(AxisLabelBase)`
+  margin-right: 2rem;
+  font-weight: 400;
+
+  @media (max-width: 990px) {
+    margin-right: 0.75rem;
+  }
+
+  @media (max-width: 860px) {
+    display: none;
+  }
+`;
+
+const AxisLabelRight = styled(AxisLabelBase)`
+  margin-left: 2rem;
+  font-weight: 400;
+
+  @media (max-width: 990px) {
+    margin-left: 0.75rem;
+  }
+
+  @media (max-width: 860px) {
+    display: none;
   }
 `;
 
@@ -214,6 +258,11 @@ const RCABarChart = (props: Props) => {
           <AxisLabelBase>← {getString('global-intensity-lower')}</AxisLabelBase>
           <AxisLabelHigh>{getString('global-intensity-higher')} →</AxisLabelHigh>
         </LeftAxisRoot>
+        <BottomAxisRoot>
+          <AxisLabelLeft>{getString('pswot-axis-labels-bottom-left')}</AxisLabelLeft>
+          <AxisLabelBase>← {getString('pswot-axis-labels-bottom')} →</AxisLabelBase>
+          <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
+        </BottomAxisRoot>
         <VizRoot ref={rootRef}>
           {output}
         </VizRoot>
