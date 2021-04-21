@@ -193,7 +193,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#outerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('Similar')
+    .text('Lower Similarity')
     .style('font-size', baseFontSize * 1.25 + 'px')
     .style('font-weight', '600')
     .style('text-transform', 'uppercase')
@@ -216,7 +216,7 @@ const createChart = (input: Input) => {
     .attr('xlink:href', '#innerRingLabelPath') //place the ID of the path here
     .style('text-anchor','middle')
     .attr('startOffset', '25%')
-    .text('Most Similar')
+    .text('Higher Similarity')
     .style('font-size', baseFontSize * 1.25 + 'px')
     .style('font-weight', '600')
     .style('text-transform', 'uppercase')

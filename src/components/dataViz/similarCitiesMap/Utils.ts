@@ -45,11 +45,11 @@ export const colorByCountryColorMap = [
 ];
 
 export const proximityColors = [
-   '#223E9A',
-   '#6E1DB2',
-   '#C9178E',
-   '#E3260B',
-   '#F9E200',
+   '#E3260E',
+   '#F99600',
+   '#F9E202',
+   '#47C774',
+   '#2E8CB9',
 ];
 
 export const createProximityScale = (values: number[]) => {
