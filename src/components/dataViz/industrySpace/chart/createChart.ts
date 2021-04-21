@@ -550,6 +550,14 @@ const createChart = (input: Input) => {
       innerRingLabelPath
         .attr('d', circlePath(centerX, centerY, innerRingRadius + 4));
 
+      const smallerRadius = (r: number) => {
+        const newRadius = r * 0.75;
+        if (newRadius < radius * 0.75) {
+          return radius * 0.75;
+        } else {
+          return newRadius;
+        }
+      };
       nodes
         .each(d => {
           const i = edgeData.findIndex((e: {id: string}) => e.id === d.id);
@@ -570,7 +578,7 @@ const createChart = (input: Input) => {
         .style('pointer-events', 'auto')
         .style('opacity', 1)
         .attr('r', d => d.id === state.active.datum.id ||
-          edgeData.find((e: {id: string}) => e.id === d.id) ? (d.radius ? d.radius * 1.5 : radius * 1.5) : radius)
+          edgeData.find((e: {id: string}) => e.id === d.id) ? smallerRadius(d.radius ? d.radius * 0.5 : radius * 0.5) : radius)
         .style('display', d => d.id === state.active.datum.id ||
           edgeData.find((e: {id: string}) => e.id === d.id) ? 'block' : 'none')
         .attr('fill', d => d.color)
