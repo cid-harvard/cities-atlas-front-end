@@ -35,41 +35,41 @@ const PEER_GROUP_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
       numCompany
       numEmploy
     }
-    groupIndustries_1: peerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 1) {
+    groupIndustries_1: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 1) {
       id: naicsId
       naicsId
       numCompany: avgEmployCount
-      numEmploy:avgCompanyCount
+      numEmploy: avgCompanyCount
     }
-    groupIndustries_2: peerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 2) {
+    groupIndustries_2: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 2) {
       id: naicsId
       naicsId
       numCompany: avgEmployCount
-      numEmploy:avgCompanyCount
+      numEmploy: avgCompanyCount
     }
-    groupIndustries_3: peerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 3) {
+    groupIndustries_3: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 3) {
       id: naicsId
       naicsId
       numCompany: avgEmployCount
-      numEmploy:avgCompanyCount
+      numEmploy: avgCompanyCount
     }
-    groupIndustries_4: peerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 4) {
+    groupIndustries_4: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 4) {
       id: naicsId
       naicsId
       numCompany: avgEmployCount
-      numEmploy:avgCompanyCount
+      numEmploy: avgCompanyCount
     }
-    groupIndustries_5: peerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 5) {
+    groupIndustries_5: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 5) {
       id: naicsId
       naicsId
       numCompany: avgEmployCount
-      numEmploy:avgCompanyCount
+      numEmploy: avgCompanyCount
     }
-    groupIndustries_6: peerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 6) {
+    groupIndustries_6: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 6) {
       id: naicsId
       naicsId
       numCompany: avgEmployCount
-      numEmploy:avgCompanyCount
+      numEmploy: avgCompanyCount
     }
   }
 `;

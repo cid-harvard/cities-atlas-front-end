@@ -1,21 +1,32 @@
 import { useQuery, gql } from '@apollo/client';
 import {
-  GlobalIndustryAgg,
+  NaicsPeerEconStruct,
+  ClusterPeerEconStruct,
   DigitLevel,
   NaicsIndustry,
   ClusterIndustry,
   ClusterLevel,
+  GlobalIndustryAgg,
 } from '../types/graphQL/graphQLTypes';
 import {extent} from 'd3-array';
 
 const GLOBAL_INDUSTRIES_QUERY = gql`
-  query GetAggregateIndustryData($level: Int!, $year: Int!) {
-    aggregateData: globalIndustryYear(level: $level, year: $year) {
+  query GetAggregateIndustryData($level: Int!, $clusterLevel: Int!, $year: Int!, $cityId: Int!) {
+    aggregateData: naicsPeerEconStruct(cityId: $cityId, year: $year, peerGroup: "global", naicsLevel: $level) {
       naicsId
-      sumNumCompany
-      sumNumEmploy
-      avgNumCompany
-      avgNumEmploy
+      sumNumCompany: totalCompanyCount
+      sumNumEmploy: totalEmployCount
+      avgNumCompany: avgCompanyCount
+      avgNumEmploy: avgEmployCount
+    }
+    aggregateClusterData: clusterPeerEconStruct(
+      cityId: $cityId, year: $year, peerGroup: "global", clusterLevel: $clusterLevel
+    ) {
+      clusterId
+      sumNumCompany: totalCompanyCount
+      sumNumEmploy: totalEmployCount
+      avgNumCompany: avgCompanyCount
+      avgNumEmploy: avgEmployCount
     }
     averageData: naicsIndustryList {
       naicsId
@@ -32,12 +43,19 @@ const GLOBAL_INDUSTRIES_QUERY = gql`
   }
 `;
 
-interface IndustryDatum {
-  naicsId: GlobalIndustryAgg['naicsId'];
-  sumNumCompany: GlobalIndustryAgg['sumNumCompany'];
-  sumNumEmploy: GlobalIndustryAgg['sumNumEmploy'];
-  avgNumCompany: GlobalIndustryAgg['avgNumCompany'];
-  avgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
+interface AggregateDatum {
+  sumNumCompany: NaicsPeerEconStruct['totalCompanyCount'];
+  sumNumEmploy: NaicsPeerEconStruct['totalEmployCount'];
+  avgNumCompany: NaicsPeerEconStruct['avgEmployCount'];
+  avgNumEmploy: NaicsPeerEconStruct['avgCompanyCount'];
+}
+
+interface IndustryDatum extends AggregateDatum{
+  naicsId: NaicsPeerEconStruct['naicsId'];
+}
+
+interface ClusterDatum extends AggregateDatum{
+  clusterId: ClusterPeerEconStruct['clusterId'];
 }
 
 interface AverageDatum {
@@ -56,18 +74,32 @@ interface ClusterAverageData {
 
 interface SuccessResponse {
   aggregateData: IndustryDatum[];
+  aggregateClusterData: ClusterDatum[];
   averageData: AverageDatum[];
   clusterAverageData: ClusterAverageData[];
 }
 
-interface Variables {
+interface CoreVariables {
   level: DigitLevel;
   year: number;
   clusterLevel?: ClusterLevel;
 }
 
-const useAggregateIndustriesData = (variables: Variables) =>
-  useQuery<SuccessResponse, Variables>(GLOBAL_INDUSTRIES_QUERY, {variables});
+interface Variables extends CoreVariables {
+  cityId: number;
+  clusterLevel: ClusterLevel;
+}
+
+const useAggregateIndustriesData = (variables: CoreVariables) =>
+  useQuery<SuccessResponse, Variables>(GLOBAL_INDUSTRIES_QUERY, {
+    variables: {
+      ...variables,
+      // 1022 = Boston's city id. For global peerGroup, city id does not matter,
+      // but it is still required for the query to be successful
+      cityId: 1022,
+      clusterLevel: variables.clusterLevel ? variables.clusterLevel : ClusterLevel.C1,
+    },
+  });
 
 export interface IndustryMap {
   globalMinMax: {
@@ -85,6 +117,14 @@ export interface IndustryMap {
     maxHourlyWage: NaicsIndustry['hourlyWage'];
   };
   clusterMinMax: {
+    minSumNumCompany: GlobalIndustryAgg['sumNumCompany'];
+    maxSumNumCompany: GlobalIndustryAgg['sumNumCompany'];
+    minSumNumEmploy: GlobalIndustryAgg['sumNumEmploy'];
+    maxSumNumEmploy: GlobalIndustryAgg['sumNumEmploy'];
+    minAvgNumCompany: GlobalIndustryAgg['avgNumCompany'];
+    maxAvgNumCompany: GlobalIndustryAgg['avgNumCompany'];
+    minAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
+    maxAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     minYearsEducation: ClusterIndustry['yearsEducation'];
     maxYearsEducation: ClusterIndustry['yearsEducation'];
     minHourlyWage: ClusterIndustry['hourlyWage'];
@@ -92,12 +132,15 @@ export interface IndustryMap {
   };
   industries: {
     [id: string]: IndustryDatum & {
-      yearsEducation: NaicsIndustry['yearsEducation'];
-      hourlyWage: NaicsIndustry['hourlyWage'];
+      yearsEducation: ClusterIndustry['yearsEducation'];
+      hourlyWage: ClusterIndustry['hourlyWage'];
     };
   };
   clusters: {
-    [id: string]: ClusterAverageData;
+    [id: string]: ClusterDatum & {
+      yearsEducation: NaicsIndustry['yearsEducation'];
+      hourlyWage: NaicsIndustry['hourlyWage'];
+    };
   };
 }
 
@@ -120,6 +163,14 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       maxHourlyWage: 0,
     },
     clusterMinMax: {
+      minSumNumCompany: 0,
+      maxSumNumCompany: 0,
+      minSumNumEmploy: 0,
+      maxSumNumEmploy: 0,
+      minAvgNumCompany: 0,
+      maxAvgNumCompany: 0,
+      minAvgNumEmploy: 0,
+      maxAvgNumEmploy: 0,
       minYearsEducation: 0,
       maxYearsEducation: 0,
       minHourlyWage: 0,
@@ -127,7 +178,7 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
     },
   };
   if (data !== undefined) {
-    const {aggregateData, averageData, clusterAverageData} = data;
+    const {aggregateData, averageData, clusterAverageData, aggregateClusterData} = data;
     const filteredAverageData = averageData.filter(d => d.level === level);
     aggregateData.forEach(d => {
       const averages = filteredAverageData.find(dd => {
@@ -141,47 +192,64 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
         hourlyWage,
       };
     });
-    const allClusterWages: number[] = [];
-    const allClusterEducations: number[] = [];
-    clusterAverageData.forEach(c => {
-      if (c.level === clusterLevel) {
-        allClusterWages.push(c.hourlyWage);
-        allClusterEducations.push(c.yearsEducation);
-      }
-      response.clusters[c.clusterId] = c;
-    });
-    const [clusterMinYearsEducation, clusterMaxYearsEducation] = extent(allClusterEducations) as [number, number];
-    const [clusterMinHourlyWage, clusterMaxHourlyWage] = extent(allClusterWages) as [number, number];
-    response.clusterMinMax = {
-      minYearsEducation: clusterMinYearsEducation,
-      maxYearsEducation: clusterMaxYearsEducation,
-      minHourlyWage: clusterMinHourlyWage,
-      maxHourlyWage: clusterMaxHourlyWage,
-    };
+    {
+      const [minSumNumCompany, maxSumNumCompany] = extent(aggregateData.map(d => d.sumNumCompany)) as [number, number];
+      const [minSumNumEmploy, maxSumNumEmploy] = extent(aggregateData.map(d => d.sumNumEmploy)) as [number, number];
+      const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateData.map(d => d.avgNumCompany)) as [number, number];
+      const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateData.map(d => d.avgNumEmploy)) as [number, number];
+      const [minYearsEducation, maxYearsEducation] = extent(filteredAverageData.map(d => d.yearsEducation)) as [number, number];
+      const [minHourlyWage, maxHourlyWage] = extent(filteredAverageData.map(d => d.hourlyWage)) as [number, number];
+      response.globalMinMax = {
+        minSumNumCompany, maxSumNumCompany,
+        minSumNumEmploy, maxSumNumEmploy,
+        minAvgNumCompany, maxAvgNumCompany,
+        minAvgNumEmploy, maxAvgNumEmploy,
+        minYearsEducation, maxYearsEducation,
+        minHourlyWage, maxHourlyWage,
+      };
+    }
 
-    const [minSumNumCompany, maxSumNumCompany] = extent(aggregateData.map(d => d.sumNumCompany)) as [number, number];
-    const [minSumNumEmploy, maxSumNumEmploy] = extent(aggregateData.map(d => d.sumNumEmploy)) as [number, number];
-    const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateData.map(d => d.avgNumCompany)) as [number, number];
-    const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateData.map(d => d.avgNumEmploy)) as [number, number];
-    const [minYearsEducation, maxYearsEducation] = extent(filteredAverageData.map(d => d.yearsEducation)) as [number, number];
-    const [minHourlyWage, maxHourlyWage] = extent(filteredAverageData.map(d => d.hourlyWage)) as [number, number];
-    response.globalMinMax = {
-      minSumNumCompany, maxSumNumCompany,
-      minSumNumEmploy, maxSumNumEmploy,
-      minAvgNumCompany, maxAvgNumCompany,
-      minAvgNumEmploy, maxAvgNumEmploy,
-      minYearsEducation, maxYearsEducation,
-      minHourlyWage, maxHourlyWage,
-    };
+    const filteredAverageClusterData = clusterAverageData.filter(d => d.level === clusterLevel);
+    aggregateClusterData.forEach(d => {
+      const averages = filteredAverageClusterData.find(dd => {
+        return dd.clusterId.toString() === d.clusterId.toString();
+      });
+      const yearsEducation = averages && averages.yearsEducation ? averages.yearsEducation : 0;
+      const hourlyWage = averages && averages.hourlyWage ? averages.hourlyWage : 0;
+      response.clusters[d.clusterId] = {
+        ...d,
+        yearsEducation,
+        hourlyWage,
+      };
+    });
+
+    {
+      const [minSumNumCompany, maxSumNumCompany] = extent(aggregateClusterData.map(d => d.sumNumCompany)) as [number, number];
+      const [minSumNumEmploy, maxSumNumEmploy] = extent(aggregateClusterData.map(d => d.sumNumEmploy)) as [number, number];
+      const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateClusterData.map(d => d.avgNumCompany)) as [number, number];
+      const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateClusterData.map(d => d.avgNumEmploy)) as [number, number];
+      const [minYearsEducation, maxYearsEducation] = extent(filteredAverageClusterData.map(d => d.yearsEducation)) as [number, number];
+      const [minHourlyWage, maxHourlyWage] = extent(filteredAverageClusterData.map(d => d.hourlyWage)) as [number, number];
+      response.clusterMinMax = {
+        minSumNumCompany, maxSumNumCompany,
+        minSumNumEmploy, maxSumNumEmploy,
+        minAvgNumCompany, maxAvgNumCompany,
+        minAvgNumEmploy, maxAvgNumEmploy,
+        minYearsEducation, maxYearsEducation,
+        minHourlyWage, maxHourlyWage,
+      };
+    }
+
   }
   return response;
 };
 
-export const useAggregateIndustryMap = (variables: Variables) => {
+export const useAggregateIndustryMap = (variables: CoreVariables) => {
   const clusterLevel = variables.clusterLevel ? variables.clusterLevel : ClusterLevel.C1;
   const {loading, error, data: responseData} = useAggregateIndustriesData({
     level: variables.level,
     year: variables.year,
+    clusterLevel,
   });
   const data = industryDataToMap(responseData, variables.level, clusterLevel);
   return {loading, error, data};

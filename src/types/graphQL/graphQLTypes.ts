@@ -265,16 +265,28 @@ export interface ClusterRcaCalculation {
   rcaUb: number | null;
 }
 
-export interface PeerEconStruct {
-  naicsId: number | null;
-  level: number | null;
-  year: number | null;
-  totalEmployCount: number | null;
-  avgEmployCount: number | null;
-  avgEmployShare: number | null;
-  totalCompanyCount: number | null;
-  avgCompanyCount: number | null;
-  avgCompanyShare: number | null;
+export interface NaicsPeerEconStruct {
+  naicsId: number;
+  level: DigitLevel;
+  year: number;
+  totalEmployCount: number;
+  avgEmployCount: number;
+  avgEmployShare: number;
+  totalCompanyCount: number;
+  avgCompanyCount: number;
+  avgCompanyShare: number;
+}
+
+export interface ClusterPeerEconStruct {
+  clusterId: number;
+  level: ClusterLevel;
+  year: number;
+  totalEmployCount: number;
+  avgEmployCount: number;
+  avgEmployShare: number;
+  totalCompanyCount: number;
+  avgCompanyCount: number;
+  avgCompanyShare: number;
 }
 
 export interface NaicsDensityRescale {

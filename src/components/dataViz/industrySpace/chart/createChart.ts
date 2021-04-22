@@ -551,9 +551,9 @@ const createChart = (input: Input) => {
         .attr('d', circlePath(centerX, centerY, innerRingRadius + 4));
 
       const smallerRadius = (r: number) => {
-        const newRadius = r * 0.75;
-        if (newRadius < radius * 0.75) {
-          return radius * 0.75;
+        const newRadius = r * 0.85;
+        if (newRadius < radius * 0.5) {
+          return radius * 0.5;
         } else {
           return newRadius;
         }
