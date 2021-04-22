@@ -24,6 +24,7 @@ import {createRoute} from '../../../../routing/Utils';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import {PeerGroup} from '../../../../types/graphQL/graphQLTypes';
 import {TooltipTheme} from '../../../general/Tooltip';
+import {joyrideClassNames} from '../../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const CompareDropdownRoot = styled.div`
   padding-left: 1rem;
@@ -107,7 +108,10 @@ const ComparisonSelection = (props: Props) => {
   if (compare_city === undefined) {
     compareDropdown = (
       <div>
-        <AddComparisonButton onClick={() => setModalOpen(true)}>
+        <AddComparisonButton
+          onClick={() => setModalOpen(true)}
+          className={joyrideClassNames.compareEconComp}
+        >
           {getString('global-ui-add-comparison')}
         </AddComparisonButton>
       </div>

@@ -17,6 +17,7 @@ import Settings, {SettingsOptions} from '../dataViz/settings';
 import Tooltip, {TooltipTheme, TooltipPosition} from './Tooltip';
 import {collapsedSizeMediaQuery} from './Utils';
 import HowToRead from './howToRead';
+import {joyrideClassNames} from '../navigation/secondaryHeader/guide/CitiesGuide';
 
 const gearIcon = raw('../../assets/icons/settings.svg');
 
@@ -253,6 +254,7 @@ const PreChartRow = (props: Props) => {
     >
       <SettingsButton
         onClick={() => setSettingsOpen(current => !current)}
+        className={joyrideClassNames.vizOptions}
       >
         <span dangerouslySetInnerHTML={{__html: gearIcon}} />
         {getString('global-ui-settings')}
@@ -275,7 +277,8 @@ const PreChartRow = (props: Props) => {
           {settingsButton}
         </RightColumn>
         <LeftColumn>
-          <HowToRead />
+          <HowToRead
+          />
           {vizNavigationButtons}
           {indicatorElm}
         </LeftColumn>

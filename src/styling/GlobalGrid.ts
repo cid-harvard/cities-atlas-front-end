@@ -108,6 +108,7 @@ export const NavigationContainer = styled.div`
 export const ContentContainer = styled.div`
   grid-row: ${lines.rows.contentTop} / ${lines.rows.contentBottom};
   grid-column: ${lines.columns.contentLeft} / ${lines.columns.contentRight};
+  background-color: #fff;
 `;
 
 export const DefaultContentWrapper = styled.div`

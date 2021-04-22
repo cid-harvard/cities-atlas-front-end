@@ -89,3 +89,20 @@ export const Text = styled.span`
     text-align: center;
   }
 `;
+
+export const LargeSvg = styled(SvgBase)`
+  width: 1.4rem;
+  height: 1.4rem;
+
+  @media (max-width: ${mediumSmallBreakpoint}px) {
+    width: 1rem;
+    height: 1rem;
+  }
+`;
+
+export const TooltipContent = styled.div`
+  font-family: ${secondaryFont};
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+  font-size: 0.6rem;
+`;

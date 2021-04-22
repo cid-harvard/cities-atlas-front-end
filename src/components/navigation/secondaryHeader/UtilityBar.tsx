@@ -11,15 +11,16 @@ import {
   mediumSmallBreakpoint,
   SvgBase,
   Text,
+  TooltipContent,
+  LargeSvg,
 } from '../Utils';
 import screenfull from 'screenfull';
 import Tooltip, {TooltipPosition} from '../../general/Tooltip';
-import {secondaryFont} from '../../../styling/styleUtils';
+import Guide from './guide';
 
 const shareIconSvg = raw('../../../assets/icons/share.svg');
 const expandIconSvg = raw('../../../assets/icons/expand.svg');
 const collapseIconSvg = raw('../../../assets/icons/collapse.svg');
-const guideIconSvg = raw('../../../assets/icons/guide.svg');
 const downloadImageIconSvg = raw('../../../assets/icons/image-download.svg');
 const downloadDataIconSvg = raw('../../../assets/icons/download.svg');
 
@@ -30,23 +31,6 @@ const UtilityBarRoot = styled.div`
   @media (max-width: ${columnsToRowsBreakpoint}px) {
     justify-content: space-around;
   }
-`;
-
-const LargeSvg = styled(SvgBase)`
-  width: 1.4rem;
-  height: 1.4rem;
-
-  @media (max-width: ${mediumSmallBreakpoint}px) {
-    width: 1rem;
-    height: 1rem;
-  }
-`;
-
-const TooltipContent = styled.div`
-  font-family: ${secondaryFont};
-  letter-spacing: -0.3px;
-  text-transform: uppercase;
-  font-size: 0.6rem;
 `;
 
 const secondaryHeaderUtilityBarId = 'secondaryHeaderUtilityBarId';
@@ -194,24 +178,7 @@ const UtilityBar = (props: Props) => {
             </Text>
           </UtilityBarButtonBase>
         </Tooltip>
-        <Tooltip
-          explanation={windowDimensions.width < mediumSmallBreakpoint &&
-            windowDimensions.width > columnsToRowsBreakpoint
-            ? <TooltipContent>{getString('global-ui-guide')}</TooltipContent>
-            : null
-          }
-          cursor='pointer'
-          tooltipPosition={TooltipPosition.Bottom}
-        >
-          <UtilityBarButtonBase>
-            <LargeSvg
-              dangerouslySetInnerHTML={{__html: guideIconSvg}}
-            />
-            <Text>
-              {getString('global-ui-guide')}
-            </Text>
-          </UtilityBarButtonBase>
-        </Tooltip>
+        <Guide />
         {downloadImageButton}
         {downloadDataButton}
         <Tooltip

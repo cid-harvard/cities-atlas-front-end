@@ -24,6 +24,7 @@ import {useWindowSize} from 'react-use';
 import styled from 'styled-components/macro';
 import ToggleDropdown from './ToggleDropdown';
 import {ClusterLevel} from '../../../routing/routes';
+import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -245,7 +246,10 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   }
 
   return (
-    <SearchContainer style={hidden ? {visibility: 'hidden'} : undefined}>
+    <SearchContainer
+      className={mode === Mode.geo ? joyrideClassNames.searchCountryInGraph : joyrideClassNames.searchInGraph}
+      style={hidden ? {visibility: 'hidden'} : undefined}
+    >
       {searchPanel}
     </SearchContainer>
   );

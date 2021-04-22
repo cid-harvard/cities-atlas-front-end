@@ -7,6 +7,7 @@ import {
   baseColor,
 } from '../../../styling/styleUtils';
 import raw from 'raw.macro';
+import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const ReloadImgSrc = raw('../../../assets/icons/reload.svg');
 
@@ -222,7 +223,7 @@ const CategoryLabels = (props: Props) => {
 
   return (
     <Root>
-      <Content>
+      <Content className={!props.allowToggle ? joyrideClassNames.colorLegendNoFilter : joyrideClassNames.colorLegend}>
         {output}
       </Content>
     </Root>
