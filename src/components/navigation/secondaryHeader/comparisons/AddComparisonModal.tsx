@@ -19,7 +19,37 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywordFormatter';
 import {TooltipTheme} from '../../../general/Tooltip';
-import {PeerGroup, isValidPeerGroup} from '../../../../types/graphQL/graphQLTypes';
+import {PeerGroup, isValidPeerGroup, CityPeerGroupCounts} from '../../../../types/graphQL/graphQLTypes';
+import { useQuery, gql } from '@apollo/client';
+
+const PEER_GROUP_CITY_COUNT = gql`
+  query GetPeerGroupCityCounts($cityId: Int!) {
+    cityPeerGroupCounts(cityId: $cityId) {
+      cityId
+      globalPop
+      globalIncome
+      globalEucdist
+      regionalPop
+      regionalIncome
+      regionalEucdist
+      region
+    }
+  }
+`;
+
+enum PeerGroupCountFields {
+  globalPop = 'globalPop',
+  globalIncome = 'globalIncome',
+  globalEucdist = 'globalEucdist',
+  regionalPop = 'regionalPop',
+  regionalIncome = 'regionalIncome',
+  regionalEucdist = 'regionalEucdist',
+  region = 'region',
+}
+
+interface SuccessResponse {
+  cityPeerGroupCounts: CityPeerGroupCounts;
+}
 
 const mobileWidth = 750; // in px
 
@@ -231,6 +261,10 @@ const AddComparisonModal = (props: Props) => {
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
   const { compare_city, benchmark, ...otherParams } = useQueryParams();
+  const {data: counts} = useQuery<SuccessResponse, {cityId: number}>(PEER_GROUP_CITY_COUNT, {
+    variables: {
+      cityId: cityId !== null ? parseInt(cityId, 10) : 0,
+  } });
   let intialSelected: Datum | null | RegionGroup | PeerGroup = null;
   if (field === 'benchmark' && benchmark) {
     if (isValidPeerGroup(benchmark)) {
@@ -299,6 +333,14 @@ const AddComparisonModal = (props: Props) => {
       </AboutText>
     ) : null;
 
+  const getCount = (f: PeerGroupCountFields) => {
+    if (counts && counts.cityPeerGroupCounts) {
+      return counts.cityPeerGroupCounts[f]
+        ? <small>({counts.cityPeerGroupCounts[f]} cities)</small> : <small>(0 cities)</small>;
+    }
+    return null;
+  };
+
   return (
     <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'inherit'}>
       <Root>
@@ -320,7 +362,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.GlobalPopulation)}
                         $checked={selected === PeerGroup.GlobalPopulation}
                       >
-                        {getString('global-text-similar-population')}
+                        <div>
+                          {getString('global-text-similar-population')}
+                          <br />
+                          {getCount(PeerGroupCountFields.globalPop)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                     <GroupItem>
@@ -328,7 +374,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.GlobalIncome)}
                         $checked={selected === PeerGroup.GlobalIncome}
                       >
-                        {getString('global-text-similar-income')}
+                        <div>
+                          {getString('global-text-similar-income')}
+                          <br />
+                          {getCount(PeerGroupCountFields.globalIncome)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                     <GroupItem>
@@ -336,7 +386,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.GlobalEuclideanDistance)}
                         $checked={selected === PeerGroup.GlobalEuclideanDistance}
                       >
-                        {getString('global-text-similar-proximity')}
+                        <div>
+                          {getString('global-text-similar-proximity')}
+                          <br />
+                          {getCount(PeerGroupCountFields.globalEucdist)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                   </GroupContainer>
@@ -349,7 +403,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.RegionalPopulation)}
                         $checked={selected === PeerGroup.RegionalPopulation}
                       >
-                        {getString('global-text-similar-population')}
+                        <div>
+                          {getString('global-text-similar-population')}
+                          <br />
+                          {getCount(PeerGroupCountFields.regionalPop)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                     <GroupItem>
@@ -357,7 +415,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.RegionalIncome)}
                         $checked={selected === PeerGroup.RegionalIncome}
                       >
-                        {getString('global-text-similar-income')}
+                        <div>
+                          {getString('global-text-similar-income')}
+                          <br />
+                          {getCount(PeerGroupCountFields.regionalIncome)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                     <GroupItem>
@@ -365,7 +427,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.RegionalEuclideanDistance)}
                         $checked={selected === PeerGroup.RegionalEuclideanDistance}
                       >
-                        {getString('global-text-similar-proximity')}
+                        <div>
+                          {getString('global-text-similar-proximity')}
+                          <br />
+                          {getCount(PeerGroupCountFields.regionalEucdist)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                     <GroupItem>
@@ -373,7 +439,11 @@ const AddComparisonModal = (props: Props) => {
                         onClick={() => setSelected(PeerGroup.Region)}
                         $checked={selected === PeerGroup.Region}
                       >
-                        {getString('global-text-all-regional-peers')}
+                        <div>
+                          {getString('global-text-all-regional-peers')}
+                          <br />
+                          {getCount(PeerGroupCountFields.region)}
+                        </div>
                       </GroupRadio>
                     </GroupItem>
                   </GroupContainer>

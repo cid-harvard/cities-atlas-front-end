@@ -305,3 +305,16 @@ export interface ClusterDensityRescale {
   densityEmploy: number | null;
   densityCompany: number | null;
 }
+export interface CityPeerGroupCounts {
+  cityId: number;
+  globalPop: number;
+  regionalPop: number;
+  globalIncome: number;
+  regionalIncome: number;
+  globalProximity: number;
+  regionalProximity: number;
+  globalEucdist: number;
+  regionalEucdist: number;
+  region: number;
+  subregion: number;
+}
