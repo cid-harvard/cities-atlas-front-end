@@ -6,6 +6,7 @@ import useFluent from '../../../hooks/useFluent';
 import useCurrentCity from '../../../hooks/useCurrentCity';
 import ArrowSVG from '../../../assets/icons/arrow.svg';
 import TextLoading from '../../transitionStateComponents/SimpleTextLoading';
+import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -103,7 +104,7 @@ const IntensityLegend = (props: Props) => {
   }
 
   return (
-    <Root>
+    <Root className={joyrideClassNames.colorLegendNoFilter}>
       <Content>
         <YourLocation>
           {icon}

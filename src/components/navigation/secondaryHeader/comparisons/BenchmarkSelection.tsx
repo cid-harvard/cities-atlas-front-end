@@ -13,6 +13,7 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import {isValidPeerGroup} from '../../../../types/graphQL/graphQLTypes';
 import {useHistory} from 'react-router-dom';
 import {Routes} from '../../../../routing/routes';
+import {joyrideClassNames} from '../../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const Grid = styled.div`
   display: grid;
@@ -118,7 +119,10 @@ const ComparisonSelection = (props: Props) => {
     benchkmarkDropdown = (
       <>
         <Grid>
-          <AddComparisonButton onClick={openBenchmarkModal}>
+          <AddComparisonButton
+            onClick={openBenchmarkModal}
+            className={joyrideClassNames.benchmarkSelection}
+          >
             <div>benchmark:</div>
             <div>{benchmarkName}</div>
           </AddComparisonButton>

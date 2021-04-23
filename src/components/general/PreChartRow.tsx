@@ -236,7 +236,7 @@ const PreChartRow = (props: Props) => {
     );
   }) : null;
   const vizNavigationButtons = vizNavigation && vizNavigation.length ? (
-    <ButtonNavContainer>{vizNavigationButtonElms}</ButtonNavContainer>
+    <ButtonNavContainer className={joyrideClassNames.vizToggle}>{vizNavigationButtonElms}</ButtonNavContainer>
   ) : null;
 
   const searchInGraph = searchInGraphOptions ? (

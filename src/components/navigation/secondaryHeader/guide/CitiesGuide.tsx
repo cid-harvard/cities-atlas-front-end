@@ -11,13 +11,16 @@ export const joyrideClassNames = {
   searchInGraph: 'joyride-element-search-in-graph',
   searchCountryInGraph: 'joyride-element-search-country-in-graph',
   howToRead: 'joyride-element-how-to-read',
+  filterOptions: 'joyride-element-filter-viz-options',
+  vizToggle: 'joyride-element-viz-toggle',
+  benchmarkSelection: 'joyride-element-benchmark-selection',
   compareEconComp: 'joyride-element-compare-econ-comp',
   colorLegend: 'joyride-element-color-legend',
   colorLegendNoFilter: 'joyride-element-color-legend-no-filter',
   guideButton: 'joyride-element-guide-button',
 };
 
-export const steps: Step[] = [
+const steps: Step[] = [
   {
     target: '.' + joyrideClassNames.vizOptions,
     // tslint:disable-next-line:max-line-length
@@ -40,6 +43,13 @@ export const steps: Step[] = [
     placement: 'left-start',
   },
   {
+    target: '.' + joyrideClassNames.vizToggle,
+    // tslint:disable-next-line:max-line-length
+    content: <Text>Click here to toggle between 2 types of visualizations.</Text>,
+    disableBeacon: true,
+    placement: 'left-start',
+  },
+  {
     target: '.' + joyrideClassNames.howToRead,
     // tslint:disable-next-line:max-line-length
     content: <Text>To learn how to interpret a given visualization, click here for a short tutorial.</Text>,
@@ -47,9 +57,23 @@ export const steps: Step[] = [
     placement: 'left-start',
   },
   {
+    target: '.' + joyrideClassNames.filterOptions,
+    // tslint:disable-next-line:max-line-length
+    content: <Text>Click here to customize the data visualization based on various filtering options.</Text>,
+    disableBeacon: true,
+    placement: 'left-start',
+  },
+  {
     target: '.' + joyrideClassNames.compareEconComp,
     // tslint:disable-next-line:max-line-length
     content: <Text>Click here to compare the economic composition of your selected city to that of another individual city or peer group.</Text>,
+    disableBeacon: true,
+    placement: 'left-start',
+  },
+  {
+    target: '.' + joyrideClassNames.benchmarkSelection,
+    // tslint:disable-next-line:max-line-length
+    content: <Text>Don’t forget to select a benchmark to determine the relative presence of an industry or knowledge cluster in a selected city.   Click here to re-generate the visualization using a different benchmark.</Text>,
     disableBeacon: true,
     placement: 'left-start',
   },
@@ -100,7 +124,7 @@ const CitiesGuide = (props: Props) => {
       steps={filteredSteps}
       run={run}
       continuous={true}
-      showProgress={false}
+      showProgress={true}
       spotlightClicks={true}
       locale={
         { back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip' }

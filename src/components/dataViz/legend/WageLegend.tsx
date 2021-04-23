@@ -3,6 +3,7 @@ import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
 import {wageColorRange} from '../../../styling/styleUtils';
 import useFluent from '../../../hooks/useFluent';
+import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -51,7 +52,7 @@ const IntensityLegend = (props: Props) => {
   const getString = useFluent();
 
   return (
-    <Root>
+    <Root className={joyrideClassNames.colorLegendNoFilter}>
       <Content>
         <Labels>
           <div>{getString('global-wages-low')}</div>

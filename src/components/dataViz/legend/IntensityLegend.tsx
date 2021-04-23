@@ -5,6 +5,7 @@ import {intensityColorRange} from '../../../styling/styleUtils';
 import useFluent from '../../../hooks/useFluent';
 import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 import Tooltip from './../../general/Tooltip';
+import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -59,7 +60,7 @@ const IntensityLegend = (props: Props) => {
   const {benchmarkNameShort} = useCurrentBenchmark();
 
   return (
-    <Root>
+    <Root className={joyrideClassNames.colorLegendNoFilter}>
       <Content>
         <Labels>
           <Label>{getString('global-intensity-low')}</Label>

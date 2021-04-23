@@ -18,6 +18,7 @@ import {formatNumber} from '../../../Utils';
 import {useMapContext} from 'react-city-space-mapbox';
 import raw from 'raw.macro';
 import {scaleSymlog} from 'd3-scale';
+import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 
 const ChevronSVG = raw('../../../assets/icons/chevron.svg');
 
@@ -265,7 +266,7 @@ const FilterBar = (props: Props) => {
   const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
     return createPortal((
-      <Root>
+      <Root className={joyrideClassNames.filterOptions}>
         <Title
           onClick={() => setSettingsOpen(curr => !curr)}
         >

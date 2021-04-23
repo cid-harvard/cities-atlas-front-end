@@ -247,7 +247,10 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
 
   return (
     <SearchContainer
-      className={mode === Mode.geo ? joyrideClassNames.searchCountryInGraph : joyrideClassNames.searchInGraph}
+      className={!hidden
+          ? mode === Mode.geo ? joyrideClassNames.searchCountryInGraph : joyrideClassNames.searchInGraph
+          : undefined
+      }
       style={hidden ? {visibility: 'hidden'} : undefined}
     >
       {searchPanel}
