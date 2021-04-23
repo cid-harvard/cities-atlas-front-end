@@ -2,6 +2,7 @@ import React from 'react';
 import Joyride, {CallBackProps, Step} from 'react-joyride';
 import styled from 'styled-components';
 import { primaryColor } from '../../../../styling/styleUtils';
+import FirstTimeModal from './FirstTimeModal';
 
 const Text = styled.div`
   text-align: left;
@@ -103,10 +104,11 @@ const steps: Step[] = [
 interface Props {
   run: boolean;
   onClose: () => void;
+  startGuide: () => void;
 }
 
 const CitiesGuide = (props: Props) => {
-  const {run, onClose} = props;
+  const {run, onClose, startGuide} = props;
   const onChange = (input: CallBackProps) => {
     const {action} = input;
     if (action === 'reset' || action === 'close') {
@@ -120,24 +122,29 @@ const CitiesGuide = (props: Props) => {
   });
 
   return (
-    <Joyride
-      steps={filteredSteps}
-      run={run}
-      continuous={true}
-      showProgress={true}
-      spotlightClicks={true}
-      locale={
-        { back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip' }
-      }
-      styles={{
-        options: {
-          primaryColor,
-          zIndex: 1000,
-        },
-      }}
-      callback={onChange}
-      floaterProps={{disableAnimation: true}}
-    />
+    <>
+      <Joyride
+        steps={filteredSteps}
+        run={run}
+        continuous={true}
+        showProgress={true}
+        spotlightClicks={true}
+        locale={
+          { back: 'Back', close: 'Close', last: 'Finish', next: 'Next', skip: 'Skip' }
+        }
+        styles={{
+          options: {
+            primaryColor,
+            zIndex: 1000,
+          },
+        }}
+        callback={onChange}
+        floaterProps={{disableAnimation: true}}
+      />
+      <FirstTimeModal
+        startGuide={startGuide}
+      />
+    </>
   );
 };
 

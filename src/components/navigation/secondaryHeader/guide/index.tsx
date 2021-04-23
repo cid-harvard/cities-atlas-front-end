@@ -45,6 +45,7 @@ const Guide = () => {
       <CitiesGuide
         run={runTutorial}
         onClose={() => setRunTutorial(false)}
+        startGuide={() => setRunTutorial(true)}
         key={runTutorial.toString()}
       />
     </>
