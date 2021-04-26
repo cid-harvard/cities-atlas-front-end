@@ -12,6 +12,7 @@ import CityProximityLegend from '../legend/CityProximityLegend';
 import FilterBar, {filterBarId} from './FilterBar';
 import {extent} from 'd3-array';
 import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
+import {defaultYear} from '../../../Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 
 const Root = styled.div`
@@ -94,15 +95,13 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
 
   const renderTooltipContent = (node: {id: string, country: string, city: string, fill: string}) => {
     if (data && staticProximityData) {
-      const proximityNode = staticProximityData.cities.find(c => c.partnerId.toString() === node.id.toString());
       return getStandardTooltip({
         title: node.city + ', ' + node.country,
         color: rgba(node.fill, 0.35),
-        rows: node.fill !== 'gray'
-          ? [['Distance:', proximityNode && proximityNode.eucdist ? proximityNode.eucdist.toFixed(2) : '0.00']]
-          : [],
+        rows: [['Year:', defaultYear.toString()]],
         boldColumns: [1],
         hideArrow: true,
+        simple: true,
       });
     }
     return '';

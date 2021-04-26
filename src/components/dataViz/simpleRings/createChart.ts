@@ -9,6 +9,7 @@ import {
 } from '../../../styling/styleUtils';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
+import {defaultYear} from '../../../Utils';
 
 const minExpectedScreenSize = 1020;
 export const defaultNodeRadius = 14;
@@ -233,14 +234,12 @@ const createChart = (input: Input) => {
       .attr('fill', d => d.color ? d.color : 'gray')
       .attr('display', d => d.shown ? 'block' : 'none')
       .on('mousemove', d => {
-        const rows = !d.primary ? [
-          ['Distance:', d.proximity ? d.proximity.toFixed(2) : ''],
-        ] : [];
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name + ', ' + d.country,
           color: rgba(d.color, 0.3),
-          rows,
+          rows: [['Year:', defaultYear.toString()]],
           boldColumns: [1],
+          simple: true,
         });
         tooltipEl.style.display = 'block';
         tooltipEl.style.top = d3.event.pageY + 'px';

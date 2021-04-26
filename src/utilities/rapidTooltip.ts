@@ -9,6 +9,7 @@ interface Input {
   underlineRows?: number[];
   additionalHTML?: string;
   hideArrow?: boolean;
+  simple?: boolean;
 }
 
 export const RapidTooltipRoot = styled.div`
@@ -57,9 +58,13 @@ export const getStandardTooltip = (input: Input) => {
     </div>
   `;
 
+  const titleStyle = input.simple
+    ? `padding-bottom: 0; font-weight: 600;`
+    : `background-color: ${input.color};`;
+
   return `
     <div>
-      <div class="rapid-tooltip-title" style="background-color: ${input.color};">
+      <div class="rapid-tooltip-title" style="${titleStyle}">
         ${input.title}
       </div>
       <div
