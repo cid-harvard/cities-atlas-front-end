@@ -79,8 +79,9 @@ const Chart = (props: Props) => {
           ['Difference', primaryDiffValue, secondaryDiffValue],
         ],
         boldColumns: [1, 2],
+        underlineRows: [0],
         additionalHTML: datum.onClick
-          ? `<div style="padding: 0.35rem; font-style: italic; font-size: 0.5rem; text-align: center;">
+          ? `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
               ${getString('global-click-to-expand-industry')}
             </div>`
           : undefined,

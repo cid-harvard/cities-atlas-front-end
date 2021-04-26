@@ -29,7 +29,7 @@ import {ColorBy, ClusterLevel} from '../../../routing/routes';
 import {scaleSymlog, scaleLinear} from 'd3-scale';
 import {extent} from 'd3-array';
 import {intensityColorRange, educationColorRange, wageColorRange} from '../../../styling/styleUtils';
-import {defaultYear} from '../../../Utils';
+import {defaultYear, formatNumber} from '../../../Utils';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
@@ -273,20 +273,20 @@ const CompositionTreeMap = (props: Props) => {
         if (cluster && clusterWithData && node) {
           const numCompany = clusterWithData.numCompany ? clusterWithData.numCompany : 0;
           const numEmploy = clusterWithData.numEmploy ? clusterWithData.numEmploy : 0;
-          const rcaNumCompany = clusterWithData.rcaNumCompany ? clusterWithData.rcaNumCompany : 0;
-          const rcaNumEmploy = clusterWithData.rcaNumEmploy ? clusterWithData.rcaNumEmploy : 0;
           const value = compositionType === CompositionType.Employees ? numEmploy : numCompany;
-          const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
           const color = clusterColorMap.find(c => cluster.clusterIdTopParent && c.id === cluster.clusterIdTopParent.toString());
           const rows = [
-            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
-            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
-            [getString('global-ui-naics-code') + ':', cluster.clusterId],
             [getString('global-ui-year') + ':', year.toString()],
-            [getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
           ];
+          if (compositionType === CompositionType.Employees) {
+            rows.push([
+              getString('tooltip-number-generic', {value: compositionType}) + ':',
+              numberWithCommas(formatNumber(Math.round(value))),
+            ]);
+          }
           node.innerHTML = getStandardTooltip({
             title: cluster.name ? cluster.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
@@ -306,20 +306,20 @@ const CompositionTreeMap = (props: Props) => {
         if (cluster && clusterWithData && node) {
           const numCompany = clusterWithData.numCompany ? clusterWithData.numCompany : 0;
           const numEmploy = clusterWithData.numEmploy ? clusterWithData.numEmploy : 0;
-          const rcaNumCompany = clusterWithData.rcaNumCompany ? clusterWithData.rcaNumCompany : 0;
-          const rcaNumEmploy = clusterWithData.rcaNumEmploy ? clusterWithData.rcaNumEmploy : 0;
           const value = compositionType === CompositionType.Employees ? numEmploy : numCompany;
-          const rca = (compositionType === CompositionType.Companies ? rcaNumCompany : rcaNumEmploy) as number;
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
           const color = clusterColorMap.find(c => cluster.clusterIdTopParent && c.id === cluster.clusterIdTopParent.toString());
           const rows = [
-            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
-            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
-            [getString('global-ui-naics-code') + ':', cluster.clusterId],
             [getString('global-ui-year') + ':', year.toString()],
-            [getString('tooltip-intensity-generic', {value: compositionType}) + ':', rca.toFixed(3)],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
           ];
+          if (compositionType === CompositionType.Employees) {
+            rows.push([
+              getString('tooltip-number-generic', {value: compositionType}) + ':',
+              numberWithCommas(formatNumber(Math.round(value))),
+            ]);
+          }
           node.innerHTML = getStandardTooltip({
             title: cluster.name ? cluster.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',

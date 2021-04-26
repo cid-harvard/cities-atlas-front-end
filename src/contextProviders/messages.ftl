@@ -37,6 +37,7 @@ global-ui-more = More
 
 global-ui-or = Or
 global-ui-total = Total
+global-ui-estimated-total-employees = Total Estimated Employees
 global-ui-read-chart = How to read this
 
 global-ui-add-comparison = Add Comparison
@@ -220,7 +221,7 @@ cities-single-page-titles-question-6 = Which countries own\nsubsidiaries in my c
 
 tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Establishments
-tooltip-number-generic = Number of { $value }
+tooltip-number-generic = Estimated number of { $value }
 tooltip-share-generic = Share of { $value }
 tooltip-intensity-generic = Specialization of { $value }
 

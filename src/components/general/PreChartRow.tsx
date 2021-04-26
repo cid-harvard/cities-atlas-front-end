@@ -74,7 +74,6 @@ const IndicatorRoot = styled.div`
   margin-left: auto;
   display: flex;
   align-items: center;
-  margin-left: 2rem;
 `;
 
 const SettingsButton = styled(ButtonBase)`

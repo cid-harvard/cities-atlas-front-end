@@ -24,7 +24,7 @@ export const defaultCompositionType: CompositionType = CompositionType.Employees
 
 export interface ClassificationNaicsIndustry {
   naicsId: string;
-  code: string | null;
+  code: string;
   name: string | null;
   level: DigitLevel | null;
   parentId: number | null;

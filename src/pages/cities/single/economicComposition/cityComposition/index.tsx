@@ -51,6 +51,7 @@ const EconomicComposition = (props: Props) => {
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const [hiddenClusters, setHiddenClusters] = useState<ClassificationNaicsCluster['id'][]>([]);
   const {digit_level, cluster_level, composition_type, color_by, aggregation} = useQueryParams();
+  const compositionType= composition_type ? composition_type as CompositionType : defaultCompositionType;
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
 
@@ -100,7 +101,7 @@ const EconomicComposition = (props: Props) => {
           cityName={targetCity && targetCity.name ? targetCity.name : undefined}
           year={defaultYear}
           digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+          compositionType={compositionType}
           hiddenSectors={hiddenSectors}
           treeMapCellsNode={cellsNode as HTMLDivElement}
         />
@@ -161,7 +162,7 @@ const EconomicComposition = (props: Props) => {
       year={defaultYear}
       clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
       colorBy={color_by ? color_by : ColorBy.sector}
-      compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+      compositionType={compositionType}
       highlighted={highlighted}
       clearHighlighted={clearHighlighted}
       hiddenClusters={hiddenClusters}
@@ -173,7 +174,7 @@ const EconomicComposition = (props: Props) => {
       year={defaultYear}
       digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
       colorBy={color_by ? color_by : ColorBy.sector}
-      compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+      compositionType={compositionType}
       highlighted={highlighted}
       clearHighlighted={clearHighlighted}
       hiddenSectors={hiddenSectors}
@@ -187,12 +188,12 @@ const EconomicComposition = (props: Props) => {
         <SideText
           cityId={parseInt(cityId, 10)}
           year={defaultYear}
-          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+          compositionType={compositionType}
         />
         <TreeMapRoot ref={treeMapRef}>
           <PreChartRow
             key={'tree-map-search-' + Boolean(!highlighted && prevHighlighted)}
-            indicator={indicatorContent}
+            indicator={compositionType === CompositionType.Employees ? indicatorContent : undefined}
             searchInGraphOptions={{
               hiddenParents: isClusterTreeMap ? hiddenClusters : hiddenSectors,
               digitLevel: isClusterTreeMap ? null : digit_level ? parseInt(digit_level, 10) : defaultDigitLevel,

@@ -6,6 +6,7 @@ interface Input {
   color: string;
   rows: string[][];
   boldColumns?: number[];
+  underlineRows?: number[];
   additionalHTML?: string;
   hideArrow?: boolean;
 }
@@ -33,14 +34,17 @@ export const getStandardTooltip = (input: Input) => {
   const columnCount = input.rows.length && input.rows[0].length ? input.rows[0].length : 1;
 
   let rows: string = '';
-  input.rows.forEach(r => {
+  input.rows.forEach((r, i) => {
     let row = '';
-    r.forEach((c, i) => {
-      const alignment = i === 0
+    const underline = input.underlineRows && input.underlineRows.includes(i)
+      ? 'border-bottom: solid 1px #333;'
+      : '';
+    r.forEach((c, ii) => {
+      const alignment = ii === 0
         ? 'justify-content: flex-start; text-align: left;'
         : 'justify-content: flex-end; text-align: right;';
-      const style = input.boldColumns && input.boldColumns.includes(i)
-        ? `style="font-weight: 600;${alignment}"` : '';
+      const style = input.boldColumns && input.boldColumns.includes(ii)
+        ? `style="font-weight: 600;${alignment}${underline}"` : '';
       row = row + `<div class="rapid-tooltip-cell" ${style}>${c}</div>`;
     });
     rows = rows + row;

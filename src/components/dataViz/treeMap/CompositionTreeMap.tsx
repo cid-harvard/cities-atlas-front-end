@@ -30,7 +30,7 @@ import {ColorBy} from '../../../routing/routes';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
-import {defaultYear} from '../../../Utils';
+import {defaultYear, formatNumber} from '../../../Utils';
 import {scaleLinear} from 'd3-scale';
 import QuickError from '../../transitionStateComponents/QuickError';
 
@@ -138,12 +138,12 @@ const CompositionTreeMap = (props: Props) => {
     ) {
     indicator.text = (
       <>
-        {getString('global-ui-total') + ': '}<SimpleTextLoading />
+        {getString('global-ui-estimated-total-employees') + ': '}<SimpleTextLoading />
       </>
     );
     output = <LoadingBlock />;
   } else if (error !== undefined) {
-    indicator.text = getString('global-ui-total') + ': ―';
+    indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -151,7 +151,7 @@ const CompositionTreeMap = (props: Props) => {
     );
     console.error(error);
   } else if (industryMap.error !== undefined) {
-    indicator.text = getString('global-ui-total') + ': ―';
+    indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -160,7 +160,7 @@ const CompositionTreeMap = (props: Props) => {
     console.error(industryMap.error);
   } else if (aggregateIndustryDataMap.error !== undefined &&
     (colorBy === ColorBy.education || colorBy === ColorBy.wage)) {
-    indicator.text = getString('global-ui-total') + ': ―';
+    indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -215,7 +215,7 @@ const CompositionTreeMap = (props: Props) => {
       }
     });
     if (!treeMapData.length) {
-      indicator.text = getString('global-ui-total') + ': ―';
+      indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
       output = (
         <LoadingOverlay>
           <SimpleError fluentMessageId={'global-ui-error-no-sectors-selected'} />
@@ -241,11 +241,16 @@ const CompositionTreeMap = (props: Props) => {
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
           const rows = [
-            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
-            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
-            [getString('global-ui-naics-code') + ':', industry.naicsId],
+            [getString('global-ui-naics-code') + ':', industry.code],
             [getString('global-ui-year') + ':', year.toString()],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
           ];
+          if (compositionType === CompositionType.Employees) {
+            rows.push([
+              getString('tooltip-number-generic', {value: compositionType}) + ':',
+              numberWithCommas(formatNumber(Math.round(value))),
+            ]);
+          }
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
@@ -269,11 +274,16 @@ const CompositionTreeMap = (props: Props) => {
           const share = (value / total * 100);
           const shareString = share < 0.01 ? '<0.01%' : share.toFixed(2) + '%';
           const rows = [
-            [getString('tooltip-number-generic', {value: compositionType}) + ':', numberWithCommas(value)],
-            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
-            [getString('global-ui-naics-code') + ':', industry.naicsId],
+            [getString('global-ui-naics-code') + ':', industry.code],
             [getString('global-ui-year') + ':', year.toString()],
+            [getString('tooltip-share-generic', {value: compositionType}) + ':', shareString],
           ];
+          if (compositionType === CompositionType.Employees) {
+            rows.push([
+              getString('tooltip-number-generic', {value: compositionType}) + ':',
+              numberWithCommas(formatNumber(Math.round(value))),
+            ]);
+          }
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
@@ -312,9 +322,9 @@ const CompositionTreeMap = (props: Props) => {
 
       indicator.text = loading ? (
         <>
-          {getString('global-ui-total') + ': '}<SimpleTextLoading />
+          {getString('global-ui-estimated-total-employees') + ': '}<SimpleTextLoading />
         </>
-      ) : `${getString('global-ui-total')}: ${numberWithCommas(total)} ${compositionType.toLowerCase()}`;
+      ) : `${getString('global-ui-estimated-total-employees')}: ${numberWithCommas(formatNumber(Math.round(total)))}`;
       indicator.tooltipContent = getString('glossary-total-shown');
       output = (
         <TreeMapContainer>

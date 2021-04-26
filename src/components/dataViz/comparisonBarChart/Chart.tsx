@@ -137,6 +137,7 @@ const Chart = (props: Props) => {
             ['Difference', primaryDiffValue, secondaryDiffValue],
           ],
           boldColumns: [1, 2],
+          underlineRows: [0],
         });
         node.style.top = mouseCoords.y + 'px';
         node.style.left = mouseCoords.x + 'px';
