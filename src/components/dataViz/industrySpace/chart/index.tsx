@@ -401,7 +401,7 @@ const Chart = (props: Props) => {
               {color: primaryColor, fontWeight: 600}
               : undefined}
           >
-            Low&nbsp;Aggregation
+            High&nbsp;Aggregation
             Knowledge&nbsp;Clusters
           </span>
           <Arrow>{'→'}</Arrow>
@@ -414,7 +414,7 @@ const Chart = (props: Props) => {
               {color: primaryColor, fontWeight: 600}
               : undefined}
           >
-            High&nbsp;Aggregation
+            Low&nbsp;Aggregation
             Knowledge&nbsp;Clusters
           </span>
           <Arrow>{'→'}</Arrow>

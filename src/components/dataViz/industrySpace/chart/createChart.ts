@@ -6,6 +6,7 @@ import {
   wrap,
   ellipsisText,
 } from './Utils';
+import {defaultYear} from '../../../../Utils';
 import {rgba} from 'polished';
 import {LayoutData, lowIntensityNodeColor} from './useLayoutData';
 import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
@@ -358,12 +359,12 @@ const createChart = (input: Input) => {
         const country = data.clusters.countries.find(c => c.clusterId === d.country);
         const rows = [
           ['NAICS Code:', d.code ? d.code : ''],
-          ['Community Level 1:', continent ? continent.name : ''],
-          ['Community Level 2:', country ? country.name : ''],
-          ['Sector:', d.sectorName],
+          ['Year:', defaultYear.toString()],
+          ['High Aggregation<br />Knowledge Cluster:', continent ? continent.name : ''],
+          ['Low Aggregation<br />Knowledge Cluster:', country ? country.name : ''],
         ];
         if (d.rca !== undefined) {
-          rows.push(['RCA:', d.rca.toFixed(3)]);
+          rows.push(['Relative Presence:', d.rca.toFixed(3)]);
         }
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',

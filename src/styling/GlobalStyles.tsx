@@ -88,6 +88,7 @@ const GlobalStyles = createGlobalStyle`
     display: grid;
     grid-gap: 0.5rem;
     padding: 0.5rem;
+    align-items: center;
   }
 
   .rapid-tooltip-cell {
