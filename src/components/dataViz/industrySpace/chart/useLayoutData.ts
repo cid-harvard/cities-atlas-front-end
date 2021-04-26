@@ -27,6 +27,8 @@ interface ContinentCluster {
   clusterId: string;
   name: string;
   polygon: number[][];
+  numEmploy?: number;
+  shareEmploy?: number;
 }
 
 interface CountryCluster extends ContinentCluster {

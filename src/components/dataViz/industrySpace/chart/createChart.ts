@@ -6,7 +6,7 @@ import {
   wrap,
   ellipsisText,
 } from './Utils';
-import {defaultYear} from '../../../../Utils';
+import {defaultYear, formatNumber} from '../../../../Utils';
 import {rgba} from 'polished';
 import {LayoutData, lowIntensityNodeColor} from './useLayoutData';
 import {getStandardTooltip} from '../../../../utilities/rapidTooltip';
@@ -336,7 +336,31 @@ const createChart = (input: Input) => {
       .style('opacity', 1)
       .on('click', d => zoomToShape(d, 3))
       .on('mouseenter', d => setHoveredShape(d))
-      .on('mouseleave', () => setHoveredShape(null));
+      .on('mousemove', d => {
+        const rows = [
+          ['Year:', defaultYear.toString()],
+        ];
+        if (d.numEmploy !== undefined) {
+          rows.push(['Number of Employees:', formatNumber(Math.round(d.numEmploy))]);
+        }
+        if (d.shareEmploy !== undefined) {
+          rows.push(['Share of Employees:', d.shareEmploy + '%']);
+        }
+        tooltipEl.innerHTML = getStandardTooltip({
+          title: d.name ? d.name : '',
+          color: 'gray',
+          rows,
+          boldColumns: [1],
+          simple: true,
+        });
+        tooltipEl.style.display = 'block';
+        tooltipEl.style.top = d3.event.pageY + 'px';
+        tooltipEl.style.left = d3.event.pageX + 'px';
+      })
+      .on('mouseleave', () => {
+        tooltipEl.style.display = 'none';
+        setHoveredShape(null);
+      });
 
   const hoveredShape = g.append('polygon')
     .attr('class', 'industry-cluster-hovered')
@@ -403,7 +427,7 @@ const createChart = (input: Input) => {
       .attr('x', d => xScale(d.center[0]) + margin.left)
       .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 9.5))
       .style('font-size', textAndSpacingSize * 7.5 + 'px')
-      .text('0% of total est.');
+      .text('0% of employees');
 
   const countryLabels = g.append('g')
     .attr('class', 'industry-countries-label-group')
@@ -774,7 +798,7 @@ const createChart = (input: Input) => {
   function update(newData: SuccessResponse, rcaThreshold: number) {
     const {c1Rca, c3Rca, clusterData, naicsRca} = newData;
     const continentsData = clusterData.filter(d => d.level === 1);
-    const totalCompanies = continentsData.reduce((total, c) => c.numCompany ? c.numCompany + total : total, 0);
+    const totalEmployees = continentsData.reduce((total, c) => c.numEmploy ? c.numEmploy + total : total, 0);
 
     const intensityColorScaleContinents = d3.scaleSymlog()
       .domain(d3.extent(c1Rca.map(c => c.rca ? c.rca : 0)) as [number, number])
@@ -792,16 +816,22 @@ const createChart = (input: Input) => {
       } else {
         d.color = intensityColorRange[0];
       }
+      const countDatum = clusterData.find(({clusterId}) =>
+        clusterId !== null && d.clusterId.toString() === clusterId.toString());
+      if (countDatum && countDatum.numEmploy !== null) {
+        d.numEmploy = countDatum.numEmploy;
+        d.shareEmploy = parseFloat((countDatum.numEmploy / totalEmployees * 100).toFixed(1));
+      }
     });
 
     continentValueLabels
       .text(d => {
         const newDatum = clusterData.find(({clusterId}) =>
           clusterId !== null && d.clusterId.toString() === clusterId.toString());
-        if (newDatum && newDatum.numCompany !== null) {
-          return parseFloat((newDatum.numCompany / totalCompanies * 100).toFixed(1)) + '% of total est.';
+        if (newDatum && newDatum.numEmploy !== null) {
+          return parseFloat((newDatum.numEmploy / totalEmployees * 100).toFixed(1)) + '% of employees';
         } else {
-          return '0% of total est.';
+          return '0% of employees';
         }
 
       });

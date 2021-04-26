@@ -31,7 +31,7 @@ const CLUSTER_INTENSITY_QUERY = gql`
     clusterData: cityClusterYearList(cityId: $cityId, year: $year) {
       clusterId
       level
-      numCompany
+      numEmploy
       id
     }
     naicsData: cityIndustryYearList(cityId: $cityId, year: $year, level: $level) {
@@ -79,7 +79,7 @@ const CLUSTER_INTENSITY_QUERY = gql`
 interface ClusterData {
   clusterId: CityClusterYear['clusterId'];
   level: CityClusterYear['level'];
-  numCompany: CityClusterYear['numCompany'];
+  numEmploy: CityClusterYear['numEmploy'];
 }
 
 interface NaicsData {
