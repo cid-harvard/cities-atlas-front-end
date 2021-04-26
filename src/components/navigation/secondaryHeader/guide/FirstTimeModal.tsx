@@ -91,6 +91,7 @@ const Checkbox = styled.input`
 
 const modalVersion = '0_1';
 const localStorageKey = 'localStorageFirstTimeGuideModalKey' + modalVersion;
+let dismissedSinceSession = false;
 
 interface Props {
   startGuide: () => void;
@@ -102,6 +103,7 @@ const FirstTimeModal = ({startGuide}: Props) => {
   const [checked, setChecked] = useState<boolean>(false);
   const closeModal = () => {
     setModalOpen(false);
+    dismissedSinceSession = true;
     if (checked) {
       localStorage.setItem(localStorageKey, '5');
     } else {
@@ -112,11 +114,12 @@ const FirstTimeModal = ({startGuide}: Props) => {
 
   const onStart = () => {
     setModalOpen(false);
+    dismissedSinceSession = true;
     localStorage.setItem(localStorageKey, '5');
     startGuide();
   };
 
-  if (modalOpen) {
+  if (modalOpen && !dismissedSinceSession) {
     return (
       <Modal
         onClose={closeModal}
