@@ -115,7 +115,7 @@ const PSWOTChart = (props: Props) => {
       const rows: string[][] = [];
       if (industry && industry.code) {
         rows.push(
-          ['Code', industry.code],
+          ['NAICS Code', industry.code],
         );
       } else if (datum.id) {
         rows.push(
@@ -124,12 +124,12 @@ const PSWOTChart = (props: Props) => {
       }
       if (datum.x !== undefined) {
         rows.push(
-          ['RCA', parseFloat(datum.x.toFixed(3)).toString() ],
+          ['Relative Presence', parseFloat(datum.x.toFixed(3)).toString() ],
         );
       }
       if (datum.y) {
         rows.push(
-          ['Density', parseFloat(datum.y.toFixed(3)).toString() ],
+          ['Technological Fit', parseFloat(datum.y.toFixed(3)).toString() ],
         );
       }
       node.innerHTML = getStandardTooltip({
