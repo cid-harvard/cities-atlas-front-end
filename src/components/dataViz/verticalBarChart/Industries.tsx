@@ -132,9 +132,9 @@ const Industries = (props: Props) => {
           title: datum.title,
           color: rgba(datum.color, 0.3),
           rows: [
-            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
             [getString('global-ui-naics-code') + ':', datum.id],
             [getString('global-ui-year') + ':', defaultYear.toString()],
+            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
           ],
           boldColumns: [1, 2],
         });

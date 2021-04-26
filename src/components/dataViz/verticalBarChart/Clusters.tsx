@@ -138,8 +138,8 @@ const Clusters = (props: Props) => {
           title: datum.title,
           color: rgba(datum.color, 0.3),
           rows: [
-            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
             [getString('global-ui-year') + ':', defaultYear.toString()],
+            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
           ],
           boldColumns: [1, 2],
         });
@@ -172,10 +172,10 @@ const Clusters = (props: Props) => {
         onRowHover={setHovered}
         numberOfXAxisTicks={numberOfXAxisTicks}
         centerLineValue={scale(1) as number}
-        centerLineLabel={'Expected Specialization'}
-        overMideLineLabel={'Over Specialized'}
-        underMideLineLabel={'Under Specialized'}
-        scrollDownText={'Scroll down to see under specialization'}
+        centerLineLabel={getString('global-specialization-expected')}
+        overMideLineLabel={getString('global-specialization-over')}
+        underMideLineLabel={getString('global-specialization-under')}
+        scrollDownText={getString('global-specialization-scroll')}
       />
       <RapidTooltipRoot ref={tooltipRef} />
     </>
