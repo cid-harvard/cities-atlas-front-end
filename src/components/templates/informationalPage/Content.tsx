@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components/macro';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {
   primaryColor,
   backgroundMedium,
   backgroundDark,
 } from '../../../styling/styleUtils';
+import debounce from 'lodash/debounce';
+import {rootId} from './';
 
 const ContentContainer = styled.div``;
 const NavContainer = styled.div`
@@ -49,6 +51,7 @@ export interface Section {
   route: string;
   active: boolean;
   Component: (props: any) => JSX.Element;
+  ref: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 interface Props {
@@ -57,15 +60,66 @@ interface Props {
 
 const Content = (props: Props) => {
   const {sections} = props;
+  const {replace} = useHistory();
+  const [firstRender, setFirstRender] = useState<boolean>(true);
+
+  useEffect(() => {
+    const node = document.querySelector('#' + rootId);
+    const onScroll = debounce(() => {
+      if (node) {
+        const currentSection = [...sections].reverse().find(({ref}) => {
+          const section = ref.current;
+          if (section && section.offsetTop < node.scrollTop + 200) {
+            return true;
+          } else {
+            return false;
+          }
+        });
+        if (currentSection) {
+          replace(currentSection.route);
+        }
+      }
+    }, 50);
+    if (node) {
+      node.addEventListener('scroll', onScroll);
+    }
+    return () => {
+      if (node) {
+        node.removeEventListener('scroll', onScroll);
+      }
+    };
+  }, [sections, replace]);
+
+  useEffect(() => {
+    if (firstRender) {
+      const currentSection = sections.findIndex(({active}) => active);
+      if (currentSection !== -1 && sections[currentSection]) {
+        const node = sections[currentSection].ref.current;
+        const root = document.querySelector('#' + rootId);
+        if (currentSection === 0 && root) {
+          root.scrollTo({top: 0, behavior: 'smooth'});
+        } else if (node) {
+          node.scrollIntoView({behavior: 'smooth'});
+        }
+      }
+      setFirstRender(false);
+    }
+  }, [sections, firstRender]);
+
   const navLinks: React.ReactElement<any>[] = [];
   const contentSections: React.ReactElement<any>[] = [];
-  sections.forEach(({route, label, active, Component}) => {
+  sections.forEach(({route, label, active, ref, Component}) => {
     navLinks.push(
-      <LinkBase to={route} key={'side-nav-to-' + route} className={active ? 'active' : undefined}>
+      <LinkBase
+        to={route}
+        key={'side-nav-to-' + route}
+        className={active ? 'active' : undefined}
+        onClick={() => setFirstRender(true)}
+      >
         {label}
       </LinkBase>,
     );
-    contentSections.push(<Component key={'component-for-' + route} />);
+    contentSections.push(<div key={'component-for-' + route} ref={ref}><Component /></div>);
   });
   return (
     <>

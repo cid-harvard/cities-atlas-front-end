@@ -8,6 +8,8 @@ import {
 import styled from 'styled-components/macro';
 import Footer from './Footer';
 
+export const rootId = 'infromational-page-root-scroll-id';
+
 const Root = styled(RootBase)`
   overflow: auto;
 `;
@@ -47,7 +49,7 @@ const InformationalPage = (props: Props) => {
     children,
   } = props;
   return (
-    <Root>
+    <Root id={rootId}>
       <Header />
       <Content>
         {children}
