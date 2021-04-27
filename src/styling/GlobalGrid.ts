@@ -86,6 +86,33 @@ export const Root = styled.div`
   }
 `;
 
+// Informational pages are the same as normal Root but without responsive adjustments
+export const InformationalPageRoot = styled.div`
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 10;
+  display: grid;
+  grid-template-rows:
+    [${lines.rows.pageTop} ${lines.rows.preHeaderTop}] auto
+    [${lines.rows.preHeaderBottom} ${lines.rows.headerTop}] auto
+    [${lines.rows.headerBottom} ${lines.rows.secondaryHeaderTop}] auto
+    [${lines.rows.secondaryHeaderBottom} ${lines.rows.preContentTop}] auto
+    [${lines.rows.preContentBottom} ${lines.rows.contentTop}] 1fr
+    [${lines.rows.contentBottom} ${lines.rows.postContentTop}] auto
+    [${lines.rows.postContentBottom} ${lines.rows.footerTop}] auto
+    [${lines.rows.footerBottom} ${lines.rows.postFooterTop}] auto
+    [${lines.rows.postFooterBottom} ${lines.rows.pageBottom}];
+
+  grid-template-columns:
+    [${lines.columns.pageLeft} ${lines.columns.navLeft}] auto
+    [${lines.columns.navRight} ${lines.columns.contentLeft}] 1fr
+    [${lines.columns.contentRight} ${lines.columns.pageRight}];
+  `;
+
 export const PrimaryHeaderContainer = styled.div`
   grid-row: ${lines.rows.headerTop} / ${lines.rows.headerBottom};
   grid-column: ${lines.columns.pageLeft} / ${lines.columns.pageRight};

@@ -31,6 +31,8 @@ function App() {
           <Route exact path={Routes.Landing} component={Landing} />
           <Route path={Routes.CityBase} component={City} />
           <Route path={Routes.AboutBase} component={Informational} />
+          <Route path={Routes.DataBase} component={Informational} />
+          <Route path={Routes.ContactBase} component={Informational} />
           <Route component={Landing} />
         </Switch>
         <OverlayPortal />

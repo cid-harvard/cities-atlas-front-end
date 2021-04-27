@@ -272,11 +272,12 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const {width} = useWindowWidth();
   const matchCity = useRouteMatch(Routes.CityBase);
-  const matchAbout = useRouteMatch(Routes.About);
-  const matchData = useRouteMatch(Routes.Data);
-  const matchContact = useRouteMatch(Routes.Contact);
+  const matchAbout = useRouteMatch(Routes.AboutBase);
+  const matchData = useRouteMatch(Routes.DataBase);
+  const matchContact = useRouteMatch(Routes.ContactBase);
   if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
+    const closeMenu = () => setMobileMenuOpen(false);
     return (
       <Root>
         <StyledLink to={Routes.Landing}>
@@ -303,17 +304,26 @@ const Header = () => {
                 {getString('navigation-city-profiles')}
               </MobileH2>
             </StyledLink>
-            <StyledLink to={Routes.Data}>
+            <StyledLink
+              onClick={closeMenu}
+              to={Routes.DataAbout}
+            >
               <MobileH2 $active={Boolean(matchData)}>
                 {getString('navigation-data')}
               </MobileH2>
             </StyledLink>
-            <StyledLink to={Routes.About}>
+            <StyledLink
+              onClick={closeMenu}
+              to={Routes.AboutBase}
+            >
               <MobileH2 $active={Boolean(matchAbout)}>
                 {getString('navigation-about')}
               </MobileH2>
             </StyledLink>
-            <StyledLink to={Routes.Contact}>
+            <StyledLink
+              onClick={closeMenu}
+              to={Routes.ContactBase}
+            >
               <MobileH2 $active={Boolean(matchContact)}>
                 {getString('navigation-contact')}
               </MobileH2>
@@ -355,17 +365,17 @@ const Header = () => {
               {getString('navigation-city-profiles')}
             </H2>
           </StyledLink>
-          <StyledLink to={Routes.Data}>
+          <StyledLink to={Routes.DataAbout}>
             <H2 $active={Boolean(matchData)}>
               {getString('navigation-data')}
             </H2>
           </StyledLink>
-          <StyledLink to={Routes.About}>
+          <StyledLink to={Routes.AboutBase}>
             <H2 $active={Boolean(matchAbout)}>
               {getString('navigation-about')}
             </H2>
           </StyledLink>
-          <StyledLink to={Routes.Contact}>
+          <StyledLink to={Routes.ContactBase}>
             <H2 $active={Boolean(matchContact)}>
               {getString('navigation-contact')}
             </H2>
