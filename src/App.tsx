@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Landing from './pages/landing';
 import City from './pages/cities/single';
+import Informational from './pages/informational';
 import {Routes} from './routing/routes';
 import './styling/fonts/fonts.css';
 import AppContext, {useWindowWidth} from './contextProviders/appContext';
@@ -29,6 +30,7 @@ function App() {
         <Switch>
           <Route exact path={Routes.Landing} component={Landing} />
           <Route path={Routes.CityBase} component={City} />
+          <Route path={Routes.AboutBase} component={Informational} />
           <Route component={Landing} />
         </Switch>
         <OverlayPortal />

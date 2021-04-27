@@ -8,7 +8,7 @@ import {
   defaultPadding,
 } from '../../../styling/styleUtils';
 import raw from 'raw.macro';
-import {Link} from 'react-router-dom';
+import {Link, useRouteMatch} from 'react-router-dom';
 import {Routes} from '../../../routing/routes';
 import useFluent from '../../../hooks/useFluent';
 import {useWindowWidth} from '../../../contextProviders/appContext';
@@ -271,6 +271,10 @@ const Header = () => {
   const getString = useFluent();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const {width} = useWindowWidth();
+  const matchCity = useRouteMatch(Routes.CityBase);
+  const matchAbout = useRouteMatch(Routes.About);
+  const matchData = useRouteMatch(Routes.Data);
+  const matchContact = useRouteMatch(Routes.Contact);
   if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
     return (
@@ -292,25 +296,25 @@ const Header = () => {
               />
             </StyledLink>
             <StyledLink to={Routes.Landing}>
-              <MobileH2 $active={true}>
+              <MobileH2 $active={Boolean(matchCity)}>
                 <MobileNavIcon
                   dangerouslySetInnerHTML={{__html: cityIconSVG}}
                 />
                 {getString('navigation-city-profiles')}
               </MobileH2>
             </StyledLink>
-            <StyledLink to={'#'}>
-              <MobileH2 $active={false}>
+            <StyledLink to={Routes.Data}>
+              <MobileH2 $active={Boolean(matchData)}>
                 {getString('navigation-data')}
               </MobileH2>
             </StyledLink>
-            <StyledLink to={'#'}>
-              <MobileH2 $active={false}>
+            <StyledLink to={Routes.About}>
+              <MobileH2 $active={Boolean(matchAbout)}>
                 {getString('navigation-about')}
               </MobileH2>
             </StyledLink>
-            <StyledLink to={'#'}>
-              <MobileH2 $active={false}>
+            <StyledLink to={Routes.Contact}>
+              <MobileH2 $active={Boolean(matchContact)}>
                 {getString('navigation-contact')}
               </MobileH2>
             </StyledLink>
@@ -344,25 +348,25 @@ const Header = () => {
         </StyledLink>
         <NavSection>
           <StyledLink to={Routes.Landing}>
-            <H2 $active={true}>
+            <H2 $active={Boolean(matchCity)}>
               <NavIcon
                 dangerouslySetInnerHTML={{__html: cityIconSVG}}
               />
               {getString('navigation-city-profiles')}
             </H2>
           </StyledLink>
-          <StyledLink to={'#'}>
-            <H2 $active={false}>
+          <StyledLink to={Routes.Data}>
+            <H2 $active={Boolean(matchData)}>
               {getString('navigation-data')}
             </H2>
           </StyledLink>
-          <StyledLink to={'#'}>
-            <H2 $active={false}>
+          <StyledLink to={Routes.About}>
+            <H2 $active={Boolean(matchAbout)}>
               {getString('navigation-about')}
             </H2>
           </StyledLink>
-          <StyledLink to={'#'}>
-            <H2 $active={false}>
+          <StyledLink to={Routes.Contact}>
+            <H2 $active={Boolean(matchContact)}>
               {getString('navigation-contact')}
             </H2>
           </StyledLink>

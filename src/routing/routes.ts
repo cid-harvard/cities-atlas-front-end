@@ -14,9 +14,17 @@ export const CityRoutes = {
   CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',
 } as const;
 
+export const InformationalRoutes = {
+  AboutBase: '/about',
+  Data: '/about/data',
+  About: '/about/us',
+  Contact: '/about/contact',
+};
+
 export const Routes = {
   Landing: '/',
   ...CityRoutes,
+  ...InformationalRoutes,
 } as const;
 
 export enum ClusterMode {
