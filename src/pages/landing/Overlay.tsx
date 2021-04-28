@@ -3,6 +3,8 @@ import styled from 'styled-components/macro';
 import {rgba} from 'polished';
 import {
   secondaryFont,
+  primaryColor,
+  primaryHoverColor,
 } from '../../styling/styleUtils';
 import {
   citiesLogoSVG,
@@ -32,13 +34,39 @@ const Content = styled.div`
   display: grid;
   grid-template-areas:
     "gl logo ."
-    "p p p"
-    ". click .";
+    "questions questions questions"
+    "paragraph paragraph paragraph"
+    ". click ."
+    "footer footer footer";
   grid-template-columns: 1fr auto 1fr;
-  grid-row-gap: 1.75rem;
+  grid-row-gap: 1.5rem;
   max-width: 700px;
   max-height: 100%;
   overflow: auto;
+  ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+  }
+  ::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, .3);
+  }
+  ::-webkit-scrollbar-track {
+    background-color: rgba(255, 255, 255, .1);
+  }
+
+  a {
+    color: ${primaryColor};
+
+    &:hover {
+      color: ${primaryHoverColor};
+    }
+  }
+
+  @media (max-height: 700px) {
+    max-width: 600px;
+    grid-template-columns: 0 auto 0;
+  }
 `;
 
 const GrowthLabLogo = styled.div`
@@ -87,12 +115,43 @@ const TitleSubtext = styled.h2`
   text-transform: none;
 `;
 
-const IntroP = styled.div`
-  grid-area: p;
+const IntroQuestions = styled.div`
+  grid-area: questions;
   font-size: 0.875rem;
   line-height: 1.75;
-  padding: 0 3rem 2rem;
+  padding: 0 3rem 0;
   opacity: 0.8;
+
+  @media (max-height: 700px) {
+    padding: 0 0.875rem 0;
+    font-size: 0.8rem;
+  }
+`;
+
+const IntroP = styled.div`
+  grid-area: paragraph;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  padding: 0 3rem clamp(0.5rem, 0.5vh, 2rem);
+  opacity: 0.8;
+
+  @media (max-height: 700px) {
+    padding: 0 0.875rem clamp(0.5rem, 0.5vh, 2rem);
+    font-size: 0.8rem;
+  }
+`;
+
+const IntroFooter = styled.div`
+  grid-area: footer;
+  font-size: 0.875rem;
+  line-height: 1.75;
+  padding: 0 3rem 0.7rem;
+  opacity: 0.8;
+
+  @media (max-height: 700px) {
+    padding: 0 0.875rem 0.7rem;
+    font-size: 0.8rem;
+  }
 `;
 
 const StartButtons = styled.div`
@@ -104,6 +163,10 @@ const StartButtons = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-height: 700px) {
+    font-size: 0.9rem;
+  }
 `;
 
 const PickCityButton = styled.button`
@@ -114,7 +177,7 @@ const PickCityButton = styled.button`
   border: solid 1px #fff;
   background-color: transparent;
   padding: 0.875rem;
-  margin: 1.25rem 0 3rem;
+  margin: 1.25rem 0 clamp(0.75rem, 1vh, 3rem);
   display: flex;
   align-items: center;
 
@@ -139,6 +202,12 @@ const PickCityButton = styled.button`
         fill: #08111e;
       }
     }
+  }
+
+  @media (max-height: 700px) {
+    font-size: 0.9rem;
+    margin: 0.875rem 0 0.75rem;
+    padding: 0.65rem;
   }
 `;
 
@@ -178,13 +247,11 @@ const Overlay = ({onCitySelect}: Props) => {
             aria-label={getString('global-app-name')}
           />
           <TitleSubtext>
-            Growth Lab's City Economy Navigator
+            {getString('landing-overlay-subtitle')}
           </TitleSubtext>
         </CityverseLogo>
-        <IntroP>
-          {/* eslint-disable-next-line */}
-          {'Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur?'}
-        </IntroP>
+        <IntroQuestions dangerouslySetInnerHTML={{__html: getString('landing-overlay-questions')}} />
+        <IntroP>{getString('landing-overlay-p1')}</IntroP>
         <StartButtons>
           To Start
           <PickCityButton onClick={onCitySelect}>
@@ -194,6 +261,7 @@ const Overlay = ({onCitySelect}: Props) => {
             Pick a city
           </PickCityButton>
         </StartButtons>
+        <IntroFooter dangerouslySetInnerHTML={{__html: getString('landing-overlay-footnote')}} />
       </Content>
     </Root>
   );

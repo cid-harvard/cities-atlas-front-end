@@ -212,6 +212,18 @@ landing-page-text-or = or
 landing-page-text-use-the-map = use the map
 landing-page-text-review-the-city = Review the City
 
+landing-overlay-subtitle = The Growth Lab’s Urban Economy Navigator
+landing-overlay-questions =
+  <em>What is the economic composition of my city?</em><br />
+  <em>How does my city compare to cities around the globe?</em><br />
+  <em>Which cities look most like mine?</em><br />
+  <em>What are the technological capabilities that underpin my city’s current economy?</em><br />
+  <em>Which growth and diversification paths does that suggest for the future?</em>
+
+landing-overlay-p1 = Built at the Growth Lab at Harvard University, Cityverse delivers new insights on these questions by placing a city’s technological capabilities and knowhow at the heart of its growth prospects, where the range and nature of existing capabilities strongly influences how future diversification unfolds. Cityverse makes visible what a city is good at today to help understand what it can become tomorrow.
+
+landing-overlay-footnote = <strong>Cityverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.  Get in touch with us <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
+
 cities-single-page-titles-question-1 = What is my city's\neconomic composition?
 cities-single-page-titles-question-2 = What does my city\nspecialize in?
 cities-single-page-titles-question-3 = What cities are similar\nto my city?
