@@ -29,6 +29,7 @@ const GLOBAL_LOCATION_QUERY = gql`
       region: regionId
       regionPopRank
       regionGdppcRank
+      dataFlag
     }
     regions: classificationRegionList {
       regionId
@@ -62,6 +63,7 @@ interface SuccessResponse {
     region: ClassificationCity['regionId'],
     regionPopRank: ClassificationCity['regionPopRank'],
     regionGdppcRank: ClassificationCity['regionGdppcRank'],
+    dataFlag: ClassificationCity['dataFlag'],
   }[];
 }
 

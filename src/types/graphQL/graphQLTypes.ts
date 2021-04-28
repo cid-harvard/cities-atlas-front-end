@@ -52,6 +52,13 @@ export enum DevGroupType {
 
 export type GeoJSONString = string;
 
+export enum DataFlagType {
+  GREEN = 'GREEN',
+  ORANGE = 'ORANGE',
+  YELLOW = 'YELLOW',
+  RED = 'RED',
+}
+
 export interface ClassificationCity {
   cityId: string;
   name: string | null;
@@ -93,6 +100,7 @@ export interface ClassificationCity {
   regionGdppcRank: number | null;
   regionPopRank: number | null;
   geometry: GeoJSONString | null;
+  dataFlag: DataFlagType;
   id: string;
 }
 
