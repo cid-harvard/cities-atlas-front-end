@@ -113,6 +113,7 @@ color-by-proximity-only = Color by option is only available for proximity
 global-formatted-size-by = {
   $type ->
   *[uniform] Uniform
+  [rca] Relative Presence
   [global_companies] Global establishment size
   [global_employees] Global employee size
   [city_companies] City establishment size

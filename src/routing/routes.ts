@@ -48,6 +48,7 @@ export const defaultClusterMode: ClusterMode = ClusterMode.outline;
 
 export enum NodeSizing {
   uniform = 'uniform',
+  rca = 'rca',
   globalCompanies = 'global_companies',
   globalEmployees = 'global_employees',
   cityCompanies = 'city_companies',

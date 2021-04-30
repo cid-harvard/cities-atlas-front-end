@@ -82,12 +82,14 @@ const ClusteredIndustrySpace = (props: Props) => {
           hiddenParents: [], digitLevel: DigitLevel.Six, clusterLevel: null, setHighlighted,
           mode: Mode.naics,
         }}
-        settingsOptions={{compositionType: true, clusterOverlayMode: true, nodeSizing: true, colorBy: {nodes: true},
-        digitLevel: {
-          sixDigitOnlyMessage: getString('glossary-digit-level-disabled-industry-space'),
-        },
-        rcaThreshold: true,
-      }}
+        settingsOptions={{
+          compositionType: true,
+          clusterOverlayMode: true,
+          nodeSizing: {rca: true},
+          colorBy: {nodes: true},
+          digitLevel: { sixDigitOnlyMessage: getString('glossary-digit-level-disabled-industry-space') },
+          rcaThreshold: true,
+        }}
       />
       <Root ref={rootRef}>
         <IndustrySpaceContainer>

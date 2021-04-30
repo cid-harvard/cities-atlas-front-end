@@ -95,7 +95,9 @@ const CurrentSettingsTooltip = (props: Props) => {
   const sizeBy = settingsOptions.nodeSizing !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-node-sizing')}</Subtitle>
-      <em>{params.node_sizing ? params.node_sizing : defaultNodeSizing}</em>
+      <em>
+        {getString('global-formatted-size-by', {type: params.node_sizing ? params.node_sizing : defaultNodeSizing})}
+      </em>
     </Segment>
   ) : null;
 
