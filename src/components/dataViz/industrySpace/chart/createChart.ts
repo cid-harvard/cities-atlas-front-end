@@ -321,7 +321,37 @@ const createChart = (input: Input) => {
       .style('opacity', 1)
       .on('click', d => zoomToShape(d, 5))
       .on('mouseenter', d => setHoveredShape(d))
-      .on('mouseleave', () => setHoveredShape(null));
+      .on('mousemove', d => {
+        const continent = data.clusters.continents.find(c => c.clusterId === d.continent);
+        const rows = [
+          ['Year:', defaultYear.toString()],
+          ['High Aggregation<br />Knowledge Cluster:', continent ? continent.name : ''],
+        ];
+        if (d.numEmploy !== undefined) {
+          rows.push(['Number of Employees:', formatNumber(Math.round(d.numEmploy))]);
+        }
+        if (d.shareEmploy !== undefined) {
+          rows.push(['Share of Employees:', d.shareEmploy + '%']);
+        }
+        tooltipEl.innerHTML = getStandardTooltip({
+          title: d.name ? d.name : '',
+          color: 'gray',
+          rows,
+          boldColumns: [1],
+          simple: true,
+          additionalHTML:
+            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
+              Click to zoom into knowledge cluster
+            </div>`,
+        });
+        tooltipEl.style.display = 'block';
+        tooltipEl.style.top = d3.event.pageY + 'px';
+        tooltipEl.style.left = d3.event.pageX + 'px';
+      })
+      .on('mouseleave', () => {
+        tooltipEl.style.display = 'none';
+        setHoveredShape(null);
+      });
 
   const continents = g.selectAll('.industry-continents')
     .data(data.clusters.continents)
@@ -352,6 +382,10 @@ const createChart = (input: Input) => {
           rows,
           boldColumns: [1],
           simple: true,
+          additionalHTML:
+            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
+              Click to zoom into knowledge cluster
+            </div>`,
         });
         tooltipEl.style.display = 'block';
         tooltipEl.style.top = d3.event.pageY + 'px';
@@ -390,11 +424,18 @@ const createChart = (input: Input) => {
         if (d.rca !== undefined) {
           rows.push(['Relative Presence:', d.rca.toFixed(3)]);
         }
+        const clickText = state.active && state.active.datum && state.active.datum.id === d.id
+          ? 'Click to zoom out'
+          : 'Click to see related industries';
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name ? d.name : '',
           color: rgba(d.industryColor, 0.3),
           rows,
           boldColumns: [1],
+          additionalHTML:
+            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
+              ${clickText}
+            </div>`,
         });
         tooltipEl.style.display = 'block';
         tooltipEl.style.top = d3.event.pageY + 'px';
@@ -709,12 +750,15 @@ const createChart = (input: Input) => {
         .attr('cy', d => yScale(d.y) + margin.top );
 
       continents
-        .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 ? 'auto' : 'none')
+        .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 &&
+          zoomScales.countries.fill(state.zoom) <= 0.01
+          ? 'auto' : 'none')
         .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom)))
         .style('opacity', 1);
 
       countries
-        .style('pointer-events', zoomScales.countries.fill(state.zoom) > 0.01 ? 'auto' : 'none')
+        .style('pointer-events', zoomScales.countries.fill(state.zoom) > 0.01 &&
+          state.zoom < 3.5 ? 'auto' : 'none')
         .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.countries.stroke(state.zoom)))
         .style('opacity', 1);
@@ -843,6 +887,12 @@ const createChart = (input: Input) => {
         d.color = intensityColorScaleCountries(newDatum.rca) as unknown as string;
       } else {
         d.color = intensityColorRange[0];
+      }
+      const countDatum = clusterData.find(({clusterId}) =>
+        clusterId !== null && d.clusterId.toString() === clusterId.toString());
+      if (countDatum && countDatum.numEmploy !== null) {
+        d.numEmploy = countDatum.numEmploy;
+        d.shareEmploy = parseFloat((countDatum.numEmploy / totalEmployees * 100).toFixed(1));
       }
     });
 
