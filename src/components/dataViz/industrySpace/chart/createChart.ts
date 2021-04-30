@@ -680,9 +680,9 @@ const createChart = (input: Input) => {
             : yScale(d.y) + margin.top + Math.max(radius * 2.5, 6.5),
           )
           .style('pointer-events', 'none')
-          .style('font-size', Math.min(4, Math.max(radius * 1.2, 3.6)) + 'px')
-          .text(d => ellipsisText(d.name as string, 30))
-          .call(wrap, Math.max(radius * 14, 32), radius * 2)
+          .style('font-size', Math.min(3.6, Math.max(radius * 0.8, 3.2)) + 'px')
+          .text(d => ellipsisText(d.name as string, 24))
+          .call(wrap, Math.max(radius * 14, 28), radius * 2)
           .style('opacity', 0)
           .transition()
           .delay(500)
