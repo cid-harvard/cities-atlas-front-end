@@ -19,7 +19,7 @@ import {
 } from '../../../../styling/styleUtils';
 import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
 import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
-import {NodeSizing, defaultNodeSizing, ColorBy, ClusterMode} from '../../../../routing/routes';
+import {NodeSizing, ColorBy, ClusterMode} from '../../../../routing/routes';
 import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
 import {
   useAggregateIndustryMap,
@@ -351,10 +351,10 @@ const Chart = (props: Props) => {
   useEffect(() => {
     if (chart.initialized) {
       const newData = !nodeSizing || nodeSizing === NodeSizing.cityCompanies ||
-        nodeSizing === NodeSizing.cityEmployees
+        nodeSizing === NodeSizing.cityEmployees || nodeSizing === NodeSizing.rca
         ? data
         : undefined;
-      chart.updateNodeSize(nodeSizing ? nodeSizing : defaultNodeSizing, newData);
+      chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.rca, newData);
     }
   }, [chart, data, nodeSizing]);
 

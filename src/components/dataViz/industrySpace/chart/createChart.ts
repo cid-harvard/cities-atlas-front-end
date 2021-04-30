@@ -866,16 +866,27 @@ const createChart = (input: Input) => {
     const field = nodeSizing === NodeSizing.cityEmployees ? 'numEmploy' : 'numCompany';
     let radiusScale: undefined | ((val: number) => number);
     if (newData && newData.naicsData) {
-      const allValues = newData.naicsData.map(c => c[field] ? c[field] : 0) as number[];
-      radiusScale = d3.scaleLinear()
-        .domain([0, d3.max(allValues)] as [number, number])
-        .range([ 2.25, 13]);
+      if (nodeSizing === NodeSizing.rca) {
+        const allValues = newData.naicsRca.map(c => c.rca ? c.rca : 0) as number[];
+        radiusScale = d3.scaleSymlog()
+          .domain([0, d3.max(allValues)] as [number, number])
+          .range([ 1.5, 8]);
+      } else {
+        const allValues = newData.naicsData.map(c => c[field] ? c[field] : 0) as number[];
+        radiusScale = d3.scaleLinear()
+          .domain([0, d3.max(allValues)] as [number, number])
+          .range([ 1.75, 12]);
+      }
     }
     nodes.each(d => {
       if (nodeSizing === NodeSizing.globalCompanies) {
         d.radius = data.global.companySizeByScale(d.globalSumNumCompany) * radiusAdjuster;
       } else if (nodeSizing === NodeSizing.globalEmployees) {
         d.radius = data.global.employSizeByScale(d.globalSumNumEmploy) * radiusAdjuster;
+      } else if (radiusScale && newData && newData.naicsRca && nodeSizing === NodeSizing.rca) {
+        const targetNode = newData.naicsRca.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.id);
+        d.radius = targetNode && targetNode.rca
+          ? radiusScale(targetNode.rca as number) : radiusScale(0);
       } else if (radiusScale && newData && newData.naicsData) {
         const targetNode = newData.naicsData.find(dd => dd.naicsId === d.id);
         d.radius = targetNode && targetNode[field]
