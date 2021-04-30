@@ -648,11 +648,13 @@ const Settings = (props: Props) => {
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     const defaultValue = typeof settingsOptions.nodeSizing === 'object' && settingsOptions.nodeSizing.rca
       ? NodeSizing.rca : defaultNodeSizing;
+    const currentValue = typeof settingsOptions.nodeSizing !== 'object' && params.node_sizing === NodeSizing.rca
+      ? defaultValue : params.node_sizing;
     const sizeByRca = typeof settingsOptions.nodeSizing === 'object' && settingsOptions.nodeSizing.rca
       ? (
         <DigitLevelButton
           onClick={() => updateSetting('node_sizing', NodeSizing.rca)}
-          $selected={(!params.node_sizing && defaultValue === NodeSizing.rca) || params.node_sizing === NodeSizing.rca}
+          $selected={(!currentValue && defaultValue === NodeSizing.rca) || currentValue === NodeSizing.rca}
         >
           {getString('global-formatted-size-by', {type: NodeSizing.rca})}
         </DigitLevelButton>
@@ -667,31 +669,31 @@ const Settings = (props: Props) => {
           {sizeByRca}
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.cityEmployees)}
-            $selected={(!params.node_sizing && defaultValue === NodeSizing.cityEmployees) || params.node_sizing === NodeSizing.cityEmployees}
+            $selected={(!currentValue && defaultValue === NodeSizing.cityEmployees) || currentValue === NodeSizing.cityEmployees}
           >
             {getString('global-formatted-size-by', {type: NodeSizing.cityEmployees})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.cityCompanies)}
-            $selected={(!params.node_sizing && defaultValue === NodeSizing.cityCompanies) || params.node_sizing === NodeSizing.cityCompanies}
+            $selected={(!currentValue && defaultValue === NodeSizing.cityCompanies) || currentValue === NodeSizing.cityCompanies}
           >
             {getString('global-formatted-size-by', {type: NodeSizing.cityCompanies})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.uniform)}
-            $selected={(!params.node_sizing && defaultValue === NodeSizing.uniform) || params.node_sizing === NodeSizing.uniform}
+            $selected={(!currentValue && defaultValue === NodeSizing.uniform) || currentValue === NodeSizing.uniform}
           >
             {getString('global-formatted-size-by', {type: NodeSizing.uniform})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.globalEmployees)}
-            $selected={(!params.node_sizing && defaultValue === NodeSizing.globalEmployees) || params.node_sizing === NodeSizing.globalEmployees}
+            $selected={(!currentValue && defaultValue === NodeSizing.globalEmployees) || currentValue === NodeSizing.globalEmployees}
           >
             {getString('global-formatted-size-by', {type: NodeSizing.globalEmployees})}
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.globalCompanies)}
-            $selected={(!params.node_sizing && defaultValue === NodeSizing.globalCompanies) || params.node_sizing === NodeSizing.globalCompanies}
+            $selected={(!currentValue && defaultValue === NodeSizing.globalCompanies) || currentValue === NodeSizing.globalCompanies}
           >
             {getString('global-formatted-size-by', {type: NodeSizing.globalCompanies})}
           </DigitLevelButton>

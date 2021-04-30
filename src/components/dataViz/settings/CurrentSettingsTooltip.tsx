@@ -12,6 +12,7 @@ import {
   ColorBy,
   CityColorBy,
   defaultNodeSizing,
+  NodeSizing,
   defaultCityNodeSizing,
   defaultAggregationMode,
 } from '../../../routing/routes';
@@ -92,11 +93,20 @@ const CurrentSettingsTooltip = (props: Props) => {
     </Segment>
   ) : null;
 
+  let nodeSizingValue: NodeSizing | undefined;
+  if (typeof settingsOptions.nodeSizing !== 'object' && params.node_sizing === NodeSizing.rca) {
+    nodeSizingValue = defaultNodeSizing;
+  } else if (typeof settingsOptions.nodeSizing === 'object' && settingsOptions.nodeSizing.rca &&
+      !params.node_sizing) {
+    nodeSizingValue = NodeSizing.rca;
+  } else {
+    nodeSizingValue = !params.node_sizing ? defaultNodeSizing : params.node_sizing;
+  }
   const sizeBy = settingsOptions.nodeSizing !== undefined ? (
     <Segment>
       <Subtitle>{getString('global-ui-node-sizing')}</Subtitle>
       <em>
-        {getString('global-formatted-size-by', {type: params.node_sizing ? params.node_sizing : defaultNodeSizing})}
+        {getString('global-formatted-size-by', {type: nodeSizingValue})}
       </em>
     </Segment>
   ) : null;

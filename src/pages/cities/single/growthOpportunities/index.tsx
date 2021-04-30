@@ -31,6 +31,7 @@ import {
   AggregationMode,
   defaultAggregationMode,
   defaultNodeSizing,
+  NodeSizing,
 } from '../../../../routing/routes';
 import {
   useHistory,
@@ -54,6 +55,7 @@ const GrowthOppurtunities = () => {
   const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : defaultDigitLevel;
   const clusterLevel = cluster_level ? parseInt(cluster_level, 10) as ClusterLevel : ClusterLevel.C3;
   const compositionType = composition_type ? composition_type as CompositionType : defaultCompositionType;
+  const nodeSizing = node_sizing && node_sizing !== NodeSizing.rca ? node_sizing : defaultNodeSizing;
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -170,7 +172,7 @@ const GrowthOppurtunities = () => {
         setHighlighted={setHighlighted}
         clusterLevel={clusterLevel}
         hiddenClusters={hiddenClusters}
-        nodeSizing={node_sizing ? node_sizing : defaultNodeSizing}
+        nodeSizing={nodeSizing}
         colorBy={color_by ? color_by : ColorBy.sector}
         compositionType={compositionType}
       />
@@ -180,7 +182,7 @@ const GrowthOppurtunities = () => {
         setHighlighted={setHighlighted}
         digitLevel={digitLevel}
         hiddenSectors={hiddenSectors}
-        nodeSizing={node_sizing ? node_sizing : defaultNodeSizing}
+        nodeSizing={nodeSizing}
         colorBy={color_by ? color_by : ColorBy.sector}
         compositionType={compositionType}
       />
