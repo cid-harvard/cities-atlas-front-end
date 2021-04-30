@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components/macro';
 import {baseColor, lightBaseColor} from '../../../styling/styleUtils';
+import {lowIntensityNodeColor} from '../../dataViz/industrySpace/chart/useLayoutData';
 
 const Root = styled.div`
   width: 100%;
@@ -16,7 +17,7 @@ const Root = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
   align-items: center;
-  font-size: clamp(0.65rem, 1vw, 0.85rem);
+  font-size: clamp(0.55rem, 0.95vw, 0.65rem);
   grid-column-gap: 1rem;
   grid-row-gap: 0.5rem;
   box-shadow: 0px -4px 3px 0px rgba(255, 255, 255, 1);
@@ -25,7 +26,7 @@ const Root = styled.div`
 const ColumnBase = styled.div`
   display: grid;
   grid-template-columns: 1.25rem 1fr;
-  align-items: center;
+  grid-column-gap: 0.2rem;
   align-items: center;
 `;
 
@@ -38,7 +39,7 @@ const RightColumn = styled(ColumnBase)`
 
 const Title = styled.h3`
   font-weight: 400;
-  font-size: clamp(0.75rem, 1.15vw, 0.9rem);
+  font-size: clamp(0.65rem, 1vw, 0.75rem);
   color: ${baseColor};
   grid-column: 1 / -1;
   margin: 0;
@@ -50,18 +51,20 @@ const NodeBase = styled.div`
   background-color: ${lightBaseColor};
   border: solid 1px ${lightBaseColor};
   margin: auto;
+  flex-shrink: 0;
 `;
 
 const NodeSmall = styled(NodeBase)`
-  width: 0.4rem;
-  height: 0.4rem;
+  width: 0.25rem;
+  height: 0.25rem;
 `;
 const NodeMedium = styled(NodeBase)`
-  width: 0.65rem;
-  height: 0.65rem;
+  width: 0.5rem;
+  height: 0.5rem;
 `;
 const NodeBlank = styled(NodeMedium)`
-  background-color: #fff;
+  background-color: ${lowIntensityNodeColor};
+  border-color: ${lowIntensityNodeColor};
 `;
 const NodeLarge = styled(NodeBase)`
   width: 1rem;
@@ -107,14 +110,14 @@ const NodeLegend = (props: Props) => {
       <RightColumn style={{gridRow: 2}}>
         <NodeMedium />
         <div>
-          <div>Colored Nodes</div>
+          <div>Colored Nodes:</div>
           <div>{props.colorBy.coloredLabel}</div>
         </div>
       </RightColumn>
       <RightColumn style={{gridRow: 3}}>
         <NodeBlank />
         <div>
-          <div>Grey Nodes</div>
+          <div>Grey Nodes:</div>
           <div>{props.colorBy.greyLabel}</div>
         </div>
       </RightColumn>

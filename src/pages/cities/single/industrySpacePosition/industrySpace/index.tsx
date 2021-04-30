@@ -21,7 +21,7 @@ import StandardSideTextBlock from '../../../../../components/general/StandardSid
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import useFluent from '../../../../../hooks/useFluent';
 import useQueryParams from '../../../../../hooks/useQueryParams';
-import {ClusterMode, defaultClusterMode, ColorBy, defaultNodeSizing, NodeSizing} from '../../../../../routing/routes';
+import {ClusterMode, defaultClusterMode, ColorBy, NodeSizing} from '../../../../../routing/routes';
 import IndustryDistanceTable from './IndustryDistanceTable';
 import {
   useAggregateIndustryMap,
@@ -75,7 +75,7 @@ const IndustrySpacePosition = (props: Props) => {
     );
   }
 
-  const nodeSizing = node_sizing ? node_sizing : defaultNodeSizing;
+  const nodeSizing = node_sizing ? node_sizing : NodeSizing.rca;
   let nodeSizingTitle: string | undefined;
   let nodeSizingMinText: string | undefined;
   let nodeSizingMaxText: string | undefined;
@@ -98,6 +98,11 @@ const IndustrySpacePosition = (props: Props) => {
       const [min, max] = extent(rcaData.naicsData.map(d => d.numEmploy).filter(d => d !== null) as number []);
       nodeSizingMinText = formatNumberLong(min ? min : 0);
       nodeSizingMaxText = formatNumberLong(max ? max : 0);
+    } else if (nodeSizing === NodeSizing.rca && rcaData) {
+      nodeSizingTitle = 'Node Size by Relative Presence';
+      const [min, max] = extent(rcaData.naicsRca.map(d => d.rca).filter(d => d !== null) as number []);
+      nodeSizingMinText = Math.floor(min ? min : 0) + 'x expected presence';
+      nodeSizingMaxText = Math.ceil(max ? max : 0) + 'x expected presence';
     }
   }
 
