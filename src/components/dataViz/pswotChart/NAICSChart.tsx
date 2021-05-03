@@ -240,8 +240,11 @@ const PSWOTChart = (props: Props) => {
       colorScale = () => undefined;
     }
 
-    let highlightError = Boolean(highlighted && !naicsRca.find(
-      d => d.naicsId !== null && d.naicsId.toString() === highlighted.toString()));
+    let highlightError = Boolean(
+      highlighted &&
+      (!naicsRca.find(d => d.naicsId !== null && d.naicsId.toString() === highlighted.toString()) ||
+      (industries.data[highlighted] && !industries.data[highlighted].tradable)),
+    );
 
     naicsRca.forEach(n => {
       const industry = n.naicsId ? industries.data[n.naicsId] : undefined;
