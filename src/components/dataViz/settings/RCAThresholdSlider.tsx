@@ -13,7 +13,8 @@ const slideThumbClassName = 'react-slider-thumb-class';
 const slideTrackClassName = 'react-slider-track-class';
 
 const Root = styled.div`
-  width: 60%;
+  width: 100%;
+  margin: 0.875rem 0 2rem;
 `;
 const SliderContainer = styled.div`
   width: 100%;

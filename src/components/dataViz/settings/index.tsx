@@ -224,7 +224,6 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   background-color: transparent;
   padding: 0.45rem 0;
   display: flex;
-  flex-wrap: wrap;
   position: relative;
   margin: 0;
 
@@ -243,6 +242,7 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   }
 
   &:before {
+    flex-shrink: 0;
     content: '';
     display: block;
     width: 0.85rem;
@@ -257,6 +257,7 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
   }
 
   &:after {
+    flex-shrink: 0;
     content: '';
     width: 0.5rem;
     border-right: solid 1px ${backgroundDark};
@@ -270,8 +271,11 @@ const DigitLevelButton = styled.button<{$selected: boolean}>`
     top: 0.7rem;
   }
 
-  &:last-child:after {
-    bottom: 0.7rem;
+  &:last-child {
+    align-items: flex-end;
+    &:after {
+      bottom: 0.7rem;
+    }
   }
 
   @media ${breakPoints.medium} {
@@ -488,42 +492,42 @@ const Settings = (props: Props) => {
             $selected={(!params.digit_level && defaultValue === DigitLevel.Sector) ||
                     (params.digit_level === DigitLevel.Sector.toString())}
           >
-            {DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}
+            <span>{DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Two)}
             $selected={(!params.digit_level && defaultValue === DigitLevel.Two) ||
                     (params.digit_level === DigitLevel.Two.toString())}
           >
-            {DigitLevel.Two}-{getString('global-ui-digit-level')}
+            <span>{DigitLevel.Two}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Three)}
             $selected={(!params.digit_level && defaultValue === DigitLevel.Three) ||
                     (params.digit_level === DigitLevel.Three.toString())}
           >
-            {DigitLevel.Three}-{getString('global-ui-digit-level')}
+            <span>{DigitLevel.Three}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Four)}
             $selected={(!params.digit_level && defaultValue === DigitLevel.Four) ||
                     (params.digit_level === DigitLevel.Four.toString())}
           >
-            {DigitLevel.Four}-{getString('global-ui-digit-level')}
+            <span>{DigitLevel.Four}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Five)}
             $selected={(!params.digit_level && defaultValue === DigitLevel.Five) ||
                     (params.digit_level === DigitLevel.Five.toString())}
           >
-            {DigitLevel.Five}-{getString('global-ui-digit-level')}
+            <span>{DigitLevel.Five}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Six)}
             $selected={(!params.digit_level && defaultValue === DigitLevel.Six) ||
                     (params.digit_level === DigitLevel.Six.toString())}
           >
-            {DigitLevel.Six}-{getString('global-ui-digit-level')}
+            <span>{DigitLevel.Six}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
@@ -563,7 +567,7 @@ const Settings = (props: Props) => {
               theme={TooltipTheme.Dark}
               cursor={disabledOptions.includes(ClusterLevel.C1) ? 'default' : 'pointer'}
             >
-              {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C1})}
+              <span>{getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C1})}</span>
             </Tooltip>
           </DigitLevelButton>
           <DigitLevelButton
@@ -582,7 +586,7 @@ const Settings = (props: Props) => {
               theme={TooltipTheme.Dark}
               cursor={disabledOptions.includes(ClusterLevel.C3) ? 'default' : 'pointer'}
             >
-              {getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C3})}
+              <span>{getString('global-ui-cluster-aggregation-level', {cluster: 'cluster_' + ClusterLevel.C3})}</span>
             </Tooltip>
           </DigitLevelButton>
         </InputContainer>
@@ -612,7 +616,7 @@ const Settings = (props: Props) => {
               params.cluster_overlay === ClusterMode.outline
             }
           >
-            {upperFirst(ClusterMode.outline)}
+            <span>{upperFirst(ClusterMode.outline)}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('cluster_overlay', ClusterMode.overlay)}
@@ -620,7 +624,7 @@ const Settings = (props: Props) => {
               params.cluster_overlay === ClusterMode.overlay
             }
           >
-            {upperFirst(ClusterMode.overlay)}
+            <span>{upperFirst(ClusterMode.overlay)}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('cluster_overlay', ClusterMode.none)}
@@ -628,7 +632,7 @@ const Settings = (props: Props) => {
               params.cluster_overlay === ClusterMode.none
             }
           >
-            {upperFirst(ClusterMode.none)}
+            <span>{upperFirst(ClusterMode.none)}</span>
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
@@ -656,7 +660,7 @@ const Settings = (props: Props) => {
           onClick={() => updateSetting('node_sizing', NodeSizing.rca)}
           $selected={(!currentValue && defaultValue === NodeSizing.rca) || currentValue === NodeSizing.rca}
         >
-          {getString('global-formatted-size-by', {type: NodeSizing.rca})}
+          <span>{getString('global-formatted-size-by', {type: NodeSizing.rca})}</span>
         </DigitLevelButton>
       ) : null;
     nodeSizingOptions = (
@@ -671,31 +675,31 @@ const Settings = (props: Props) => {
             onClick={() => updateSetting('node_sizing', NodeSizing.cityEmployees)}
             $selected={(!currentValue && defaultValue === NodeSizing.cityEmployees) || currentValue === NodeSizing.cityEmployees}
           >
-            {getString('global-formatted-size-by', {type: NodeSizing.cityEmployees})}
+            <span>{getString('global-formatted-size-by', {type: NodeSizing.cityEmployees})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.cityCompanies)}
             $selected={(!currentValue && defaultValue === NodeSizing.cityCompanies) || currentValue === NodeSizing.cityCompanies}
           >
-            {getString('global-formatted-size-by', {type: NodeSizing.cityCompanies})}
+            <span>{getString('global-formatted-size-by', {type: NodeSizing.cityCompanies})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.uniform)}
             $selected={(!currentValue && defaultValue === NodeSizing.uniform) || currentValue === NodeSizing.uniform}
           >
-            {getString('global-formatted-size-by', {type: NodeSizing.uniform})}
+            <span>{getString('global-formatted-size-by', {type: NodeSizing.uniform})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.globalEmployees)}
             $selected={(!currentValue && defaultValue === NodeSizing.globalEmployees) || currentValue === NodeSizing.globalEmployees}
           >
-            {getString('global-formatted-size-by', {type: NodeSizing.globalEmployees})}
+            <span>{getString('global-formatted-size-by', {type: NodeSizing.globalEmployees})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('node_sizing', NodeSizing.globalCompanies)}
             $selected={(!currentValue && defaultValue === NodeSizing.globalCompanies) || currentValue === NodeSizing.globalCompanies}
           >
-            {getString('global-formatted-size-by', {type: NodeSizing.globalCompanies})}
+            <span>{getString('global-formatted-size-by', {type: NodeSizing.globalCompanies})}</span>
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
@@ -713,7 +717,8 @@ const Settings = (props: Props) => {
       ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     const labelText = typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
       ? getString('global-ui-node-color-by') : getString('global-ui-color-by');
-    const defaultColorByText = settingsOptions.clusterLevel !== undefined ? 'Cluster' : 'Sector';
+    const defaultColorByText = settingsOptions.clusterLevel !== undefined
+      ? 'Knowledge Cluster (High aggregation)' : 'Industry groups (Sector level)';
     const defaultIsSelected = !params.color_by || params.color_by === ColorBy.sector;
     const rcaThreshold = settingsOptions.rcaThreshold && defaultIsSelected ? (
       <RCAThresholdSlider
@@ -733,19 +738,19 @@ const Settings = (props: Props) => {
             onClick={!defaultIsSelected ? () => updateSetting('color_by', ColorBy.sector) : undefined}
             $selected={defaultIsSelected}
           >
-            {defaultColorByText}{rcaThreshold}
+            <div>{defaultColorByText}{rcaThreshold}</div>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('color_by', ColorBy.education)}
             $selected={params.color_by === ColorBy.education}
           >
-            {getString('global-formatted-color-by', {type: ColorBy.education})}
+            <span>{getString('global-formatted-color-by', {type: ColorBy.education})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('color_by', ColorBy.wage)}
             $selected={params.color_by === ColorBy.wage}
           >
-            {getString('global-formatted-color-by', {type: ColorBy.wage})}
+            <span>{getString('global-formatted-color-by', {type: ColorBy.wage})}</span>
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
@@ -799,19 +804,19 @@ const Settings = (props: Props) => {
             onClick={() => updateSetting('city_node_sizing', CityNodeSizing.population)}
             $selected={(!params.city_node_sizing && defaultCityNodeSizing === CityNodeSizing.population) || params.city_node_sizing === CityNodeSizing.population}
           >
-            {getString('global-formatted-size-by', {type: CityNodeSizing.population})}
+            <span>{getString('global-formatted-size-by', {type: CityNodeSizing.population})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('city_node_sizing', CityNodeSizing.gdpPpp)}
             $selected={(!params.city_node_sizing && defaultCityNodeSizing === CityNodeSizing.gdpPpp) || params.city_node_sizing === CityNodeSizing.gdpPpp}
           >
-            {getString('global-formatted-size-by', {type: CityNodeSizing.gdpPpp})}
+            <span>{getString('global-formatted-size-by', {type: CityNodeSizing.gdpPpp})}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('city_node_sizing', CityNodeSizing.uniform)}
             $selected={(!params.city_node_sizing && defaultCityNodeSizing === CityNodeSizing.uniform) || params.city_node_sizing === CityNodeSizing.uniform}
           >
-            {getString('global-formatted-size-by', {type: CityNodeSizing.uniform})}
+            <span>{getString('global-formatted-size-by', {type: CityNodeSizing.uniform})}</span>
           </DigitLevelButton>
         </InputContainer>
       </SettingGrid>
