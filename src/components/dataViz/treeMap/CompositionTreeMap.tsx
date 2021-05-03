@@ -290,7 +290,7 @@ const CompositionTreeMap = (props: Props) => {
             rows,
             boldColumns: [1, 2],
           }) + `
-           <div style="position:absolute;top: 2px;right:2px;">×</div>
+           <div style="position:absolute;top: -5px;right:2px;font-size:1.1rem;">×</div>
           `;
           node.style.position = 'absolute';
           node.style.pointerEvents = 'all';
