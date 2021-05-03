@@ -300,8 +300,8 @@ pswot-axis-labels-bottom = Relative Presence
 pswot-axis-labels-bottom-left = Smaller than peer(s)
 pswot-axis-labels-bottom-right = Larger than peer(s)
 
-pswot-average-line-text = Relative Presence = 1x
-pswot-zero-axis-label = Relative Presence = 0x
+pswot-average-line-text = Relative Presence = 1×
+pswot-zero-axis-label = Relative Presence = 0×
 
 city-filter-title-open = Open Filter Cities Options
 city-filter-title-close = Close Filter Cities Options
