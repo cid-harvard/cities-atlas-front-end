@@ -49,6 +49,7 @@ global-ui-benchmark-about = What a city specializes in is relative. By selecting
 global-ui-add-benchmark = Add Benchmark
 global-ui-remove-benchmark = Remove Benchmark
 global-benchmark-selected = Selected Benchmark
+global-benchmarked-by = relative presence benchmarked by
 
 global-ui-city-city-benchmark-warning = City to City Benchmarking is not reliable in this visualization
 

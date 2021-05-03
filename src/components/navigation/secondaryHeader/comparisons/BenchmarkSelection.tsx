@@ -123,7 +123,7 @@ const ComparisonSelection = (props: Props) => {
             onClick={openBenchmarkModal}
             className={joyrideClassNames.benchmarkSelection}
           >
-            <div>benchmark:</div>
+            <div>{getString('global-benchmarked-by')}:</div>
             <div>{benchmarkName}</div>
           </AddComparisonButton>
           {error}
