@@ -340,7 +340,7 @@ const createChart = (input: Input) => {
           boldColumns: [1],
           simple: true,
           additionalHTML:
-            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
+            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.7rem; text-align: center;">
               Click to zoom into knowledge cluster
             </div>`,
         });
@@ -383,7 +383,7 @@ const createChart = (input: Input) => {
           boldColumns: [1],
           simple: true,
           additionalHTML:
-            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
+            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.7rem; text-align: center;">
               Click to zoom into knowledge cluster
             </div>`,
         });
@@ -433,7 +433,7 @@ const createChart = (input: Input) => {
           rows,
           boldColumns: [1],
           additionalHTML:
-            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.65rem; text-align: center;">
+            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.7rem; text-align: center;">
               ${clickText}
             </div>`,
         });

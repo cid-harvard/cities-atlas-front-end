@@ -38,7 +38,7 @@ export const getStandardTooltip = (input: Input) => {
   input.rows.forEach((r, i) => {
     let row = '';
     const underline = input.underlineRows && input.underlineRows.includes(i)
-      ? 'border-bottom: solid 1px #333;'
+      ? 'border-bottom: solid 1px #333;margin-top:auto;'
       : '';
     r.forEach((c, ii) => {
       const alignment = ii === 0
