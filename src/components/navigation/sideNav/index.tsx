@@ -301,9 +301,10 @@ const ExpandButton = styled.div`
   transform: rotate(180deg);
   padding: 0.4rem 0.2rem;
   text-transform: uppercase;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   font-family: ${secondaryFont};
   cursor: pointer;
+  letter-spacing: 1px
 `;
 
 const ExtendArrow = styled.span`
