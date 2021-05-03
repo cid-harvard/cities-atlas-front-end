@@ -240,8 +240,11 @@ const PSWOTChart = (props: Props) => {
       colorScale = () => undefined;
     }
 
-    let highlightError = Boolean(highlighted && !clusterRca.find(
-      d => d.clusterId !== null && d.clusterId.toString() === highlighted.toString()));
+    const highlightError = Boolean(
+      highlighted &&
+      (!clusterRca.find(d => d.clusterId !== null && d.clusterId.toString() === highlighted.toString()) ||
+      (clusters.data[highlighted] && !clusters.data[highlighted].tradable)),
+    );
 
     clusterRca.forEach(n => {
       const cluster = n.clusterId ? clusters.data[n.clusterId] : undefined;
@@ -297,9 +300,6 @@ const PSWOTChart = (props: Props) => {
           onMouseMove: setHovered,
           onMouseLeave: removeHovered,
         });
-        highlightError =
-          highlightError || (highlightCluster && highlightCluster.clusterId === clusterId && x === 0 && y < 1)
-          ? true : false;
       }
     });
 

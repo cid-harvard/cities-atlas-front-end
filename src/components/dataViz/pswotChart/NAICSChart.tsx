@@ -241,7 +241,7 @@ const PSWOTChart = (props: Props) => {
       colorScale = () => undefined;
     }
 
-    let highlightError = Boolean(
+    const highlightError = Boolean(
       highlighted &&
       (!naicsRca.find(d => d.naicsId !== null && d.naicsId.toString() === highlighted.toString()) ||
       (industries.data[highlighted] && !industries.data[highlighted].tradable)),
@@ -300,9 +300,6 @@ const PSWOTChart = (props: Props) => {
           onMouseMove: setHovered,
           onMouseLeave: removeHovered,
         });
-        highlightError =
-          highlightError || (highlightIndustry && highlightIndustry.naicsId === naicsId && x === 0 && y < 1)
-          ? true : false;
       }
     });
 
