@@ -128,11 +128,15 @@ export const fadeInAnimation = css`
 export const BasicLabel = styled.div`
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  text-shadow: 1px 1px 0 #fff, -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;
+`;
+
+export const BasicLabelBackground = styled.span`
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 0.075rem 0.175rem;
 `;
 
 export const SearchContainerDark = styled.div`

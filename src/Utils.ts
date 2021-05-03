@@ -42,3 +42,21 @@ export const formatNumberLong = (n: number) => {
   }
   return n.toString();
 };
+
+function gcd(a: number, b: number): number {
+  return (b) ? gcd(b, a % b) : a;
+}
+
+export const decimalToFraction = function (decimal: number) {
+  let top: number | string    = decimal.toString().replace(/\d+[.]/, '');
+  const bottom: number  = Math.pow(10, top.length);
+  if (decimal > 1) {
+    top  = +top + Math.floor(decimal) * bottom;
+  }
+  const x = gcd(top as number, bottom);
+  return {
+    top    : (top as number / x),
+    bottom  : (bottom / x),
+    display  : (top as number / x) + ':' + (bottom / x),
+  };
+};

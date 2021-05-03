@@ -65,13 +65,19 @@ const BottomAxisRoot = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  padding-left: clamp(75px, 300px, 15%);
+  padding-left: clamp(120px, 300px, 29%);
 
-  @media (max-width: 1090px) {
+  @media (max-width: 1225px) {
     padding-left: 0;
+    justify-content: flex-end;
   }
   @media (max-width: 990px) {
     grid-template-columns: 1 / -1;
+  }
+
+  @media (max-width: 920px) {
+    padding-left: clamp(120px, 300px, 29%);
+    justify-content: center;
   }
 `;
 
@@ -94,7 +100,7 @@ const AxisLabelLeft = styled(AxisLabelBase)`
     margin-right: 0.75rem;
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 920px) {
     display: none;
   }
 `;
@@ -107,7 +113,7 @@ const AxisLabelRight = styled(AxisLabelBase)`
     margin-left: 0.75rem;
   }
 
-  @media (max-width: 860px) {
+  @media (max-width: 920px) {
     display: none;
   }
 `;

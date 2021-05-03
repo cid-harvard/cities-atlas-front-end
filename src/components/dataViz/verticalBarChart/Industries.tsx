@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import {scaleLog} from 'd3-scale';
 import {
   BasicLabel,
+  BasicLabelBackground,
   sectorColorMap,
   educationColorRange,
   wageColorRange,
@@ -23,7 +24,7 @@ import useFluent from '../../../hooks/useFluent';
 import QuickError from '../../transitionStateComponents/QuickError';
 import {rgba} from 'polished';
 import Tooltip from './../../general/Tooltip';
-import {defaultYear} from '../../../Utils';
+import {defaultYear, decimalToFraction} from '../../../Utils';
 import {tickMarksForMinMax} from './getNiceLogValues';
 import {scaleLinear} from 'd3-scale';
 import {
@@ -88,7 +89,21 @@ const Industries = (props: Props) => {
   if (min >= 1) {
     min = 0.1;
   }
-  const scale = scaleLog()
+  let scale = scaleLog()
+    .domain([min, max])
+    .range([ 0, 100 ])
+    .nice();
+
+  min = parseFloat(scale.invert(0).toFixed(5));
+  max = parseFloat(scale.invert(100).toFixed(5));
+
+  if (max.toString().length > min.toString().length - 1) {
+    min = 1 / max;
+  } else if (max.toString().length < min.toString().length - 1) {
+    max = 1 / min;
+  }
+
+  scale = scaleLog()
     .domain([min, max])
     .range([ 0, 100 ])
     .nice();
@@ -120,7 +135,13 @@ const Industries = (props: Props) => {
     };
   });
   const formatValue = (value: number) => {
-    return parseFloat(scale.invert(value).toFixed(5));
+    const scaledValue = parseFloat(scale.invert(value).toFixed(5));
+    if (scaledValue >= 1) {
+      return scaledValue + '×';
+    } else {
+      const {top, bottom} = decimalToFraction(scaledValue);
+      return <><sup>{top}</sup>&frasl;<sub>{bottom}</sub>×</>;
+    }
   };
 
   const setHovered = (e: RowHoverEvent | undefined) => {
@@ -157,7 +178,9 @@ const Industries = (props: Props) => {
 
   const axisLabel = (
     <BasicLabel>
-      {getString('global-intensity')}: {benchmarkNameShort}
+      <BasicLabelBackground>
+        {getString('global-intensity')}: {benchmarkNameShort}
+      </BasicLabelBackground>
       <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
         <Tooltip
           explanation={getString('global-intensity-about')}
