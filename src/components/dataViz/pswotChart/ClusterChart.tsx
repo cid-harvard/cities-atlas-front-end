@@ -23,6 +23,7 @@ import {
   clusterColorMap,
   educationColorRange,
   wageColorRange,
+  primaryColorDark,
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
@@ -345,7 +346,7 @@ const PSWOTChart = (props: Props) => {
               bottomRight: getString('pswot-axis-labels-bottom-right'),
             }}
             axisLabelColor={'#333'}
-            quadrantLabelColor={'#f69c7c'}
+            quadrantLabelColor={primaryColorDark}
             onQuadrantLabelMouseMove={setHovered}
             onQuadrantLabelMouseLeave={removeHovered}
           />

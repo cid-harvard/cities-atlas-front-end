@@ -253,6 +253,12 @@ const SearchContainer = styled.div`
     }
   }
 
+  .react-panel-search-list-item-container {
+    strong {
+      color: ${primaryColor};
+    }
+  }
+
   .react-panel-search-list-item-container.react-panel-search-list-no-results {
     color: #fff;
   }

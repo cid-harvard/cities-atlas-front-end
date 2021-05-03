@@ -10,6 +10,7 @@ export const hoverBackgroundColor = '#f3f3f3'; // really light gray color for us
 
 export const primaryColor = '#f89570'; // orange
 export const primaryHoverColor = '#ef8963'; // slightly dark orange
+export const primaryColorDark = '#f56b39'; // dark orange
 export const primaryColorLight = '#fdd4c7'; // light orange
 export const secondaryColor = '#3b848d'; // blue/teal
 export const tertiaryColor = '#cfbc3c'; // yellow
@@ -239,6 +240,12 @@ export const SearchContainerDark = styled.div`
     }
   }
 
+  .react-panel-search-list-item-container {
+    strong {
+      color: ${primaryColorDark};
+    }
+  }
+
   .react-panel-search-list-no-results {
     color: #fff;
   }
@@ -289,6 +296,12 @@ export const SearchContainerLight = styled.div`
     border-left: solid 1px ${lightBaseColor};
     border-right: solid 1px ${lightBaseColor};
     border-bottom: solid 1px ${lightBaseColor};
+  }
+
+  .react-panel-search-list-item-container {
+    strong {
+      color: ${primaryColorDark};
+    }
   }
 
   .react-panel-search-current-tier-title,
