@@ -26,6 +26,7 @@ export const StyledPopup = styled(Popup)`
     color: #fff;
     font-family: ${secondaryFont};
     pointer-events: none;
+    box-shadow: 0px 0px 2px 1px rgb(0 0 0 / 50%);
   }
 
   .mapboxgl-popup-tip {
