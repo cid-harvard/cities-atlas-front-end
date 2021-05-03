@@ -78,8 +78,9 @@ const useLayoutData = (): Output => {
     const allLatCoords: number[] = [];
     const allLngCoords: number[] = [];
 
-    const filteredResponseCities = responseData.cities
-      .filter(city => CITIES_UMAPJSON_RAW.find(umap => umap.ID_HDC_G0.toString() === city.cityId.toString()));
+    const filteredResponseCities = responseData.cities;
+    // const filteredResponseCities = responseData.cities
+      // .filter(city => CITIES_UMAPJSON_RAW.find(umap => umap.ID_HDC_G0.toString() === city.cityId.toString()));
 
     const filteredUMapCities = CITIES_UMAPJSON_RAW
       .filter(umap => responseData.cities.find(city => umap.ID_HDC_G0.toString() === city.cityId.toString()));

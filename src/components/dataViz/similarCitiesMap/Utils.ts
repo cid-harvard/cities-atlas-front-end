@@ -63,7 +63,6 @@ export const createProximityScale = (values: number[]) => {
     }
     i += inc;
   }
-  thresholdValues.pop();
   thresholdValues.shift();
   const scale: (val: number) => string = scaleThreshold()
     .domain(thresholdValues)
