@@ -89,12 +89,12 @@ const IndustrySpacePosition = (props: Props) => {
       nodeSizingMinText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.minSumNumEmploy);
       nodeSizingMaxText = formatNumberLong(aggregateIndustryDataMap.data.globalMinMax.maxSumNumEmploy);
     } if (nodeSizing === NodeSizing.cityCompanies && rcaData) {
-      nodeSizingTitle = 'Node Size by Number of Establishments';
+      nodeSizingTitle = 'Node Size by Number of Establishments in City';
       const [min, max] = extent(rcaData.naicsData.map(d => d.numCompany).filter(d => d !== null) as number []);
       nodeSizingMinText = formatNumberLong(min ? min : 0);
       nodeSizingMaxText = formatNumberLong(max ? max : 0);
     } else if (nodeSizing === NodeSizing.cityEmployees && rcaData) {
-      nodeSizingTitle = 'Node Size by Number of Employees';
+      nodeSizingTitle = 'Node Size by Number of Employees in City';
       const [min, max] = extent(rcaData.naicsData.map(d => d.numEmploy).filter(d => d !== null) as number []);
       nodeSizingMinText = formatNumberLong(min ? min : 0);
       nodeSizingMaxText = formatNumberLong(max ? max : 0);
