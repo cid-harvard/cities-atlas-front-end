@@ -358,9 +358,9 @@ const CompositionTreeMap = (props: Props) => {
 
       indicator.text = loading ? (
         <>
-          {getString('global-ui-total') + ': '}<SimpleTextLoading />
+          {getString('global-ui-estimated-total-employees') + ': '}<SimpleTextLoading />
         </>
-      ) : `${getString('global-ui-total')}: ${numberWithCommas(total)} ${compositionType.toLowerCase()}`;
+      ) : `${getString('global-ui-estimated-total-employees')}: ${numberWithCommas(formatNumber(Math.round(total)))}`;
       indicator.tooltipContent = getString('glossary-total-shown');
       output = (
         <TreeMapContainer>
