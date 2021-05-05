@@ -11,15 +11,25 @@ const GLOBAL_CLUSTER_QUERY = gql`
       parentId
       clusterIdTopParent
       level
-      name
+      name: shortName
       tradable
       id
     }
   }
 `;
 
+interface Cluster {
+  clusterId: ClassificationNaicsCluster['clusterId'];
+  parentId: ClassificationNaicsCluster['parentId'];
+  clusterIdTopParent: ClassificationNaicsCluster['clusterIdTopParent'];
+  level: ClassificationNaicsCluster['level'];
+  name: ClassificationNaicsCluster['name'];
+  tradable: ClassificationNaicsCluster['tradable'];
+  id: ClassificationNaicsCluster['id'];
+}
+
 interface SuccessResponse {
-  clusters: ClassificationNaicsCluster[];
+  clusters: Cluster[];
 }
 
 const useGlobalClusterData = () => useQuery<SuccessResponse, never>(GLOBAL_CLUSTER_QUERY);
@@ -50,7 +60,7 @@ export const useGlobalClusterHierarchicalTreeData = () => {
 };
 
 interface ClusterMap {
-  [id: string]: ClassificationNaicsCluster;
+  [id: string]: Cluster;
 }
 
 const clusterDataToMap = (data: SuccessResponse | undefined) => {

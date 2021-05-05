@@ -2,6 +2,9 @@ import {useEffect, useState} from 'react';
 import {
   useGlobalIndustryMap,
 } from '../../../../hooks/useGlobalIndustriesData';
+import {
+  useGlobalClusterMap,
+} from '../../../../hooks/useGlobalClusterData';
 import LAYOUT_DATA from './data/layout_data.json';
 import {
   ClassificationNaicsIndustry,
@@ -92,6 +95,7 @@ const useLayoutData = ():Output => {
   });
 
   const {loading, error, data: industryData} = useGlobalIndustryMap();
+  const {loading: clusterLoading, error: clusterError, data: clusterData} = useGlobalClusterMap();
 
   const {
     loading: loadingIndustryMapData,
@@ -102,8 +106,11 @@ const useLayoutData = ():Output => {
     if (!output.data) {
       if (error) {
         setOutput({loading: false, error, data: undefined});
-      } else if (industryData && !loading && industryMapData && !loadingIndustryMapData) {
-
+      } else if (clusterError) {
+        setOutput({loading: false, error: clusterError, data: undefined});
+      } else if (industryData && !loading && industryMapData && !loadingIndustryMapData &&
+        !clusterLoading && clusterData)
+      {
         const {globalMinMax, industries} = industryMapData;
         const minCompanySizeBy = globalMinMax && globalMinMax.minSumNumCompany ? globalMinMax.minSumNumCompany : 0.001;
         const maxCompanySizeBy = globalMinMax && globalMinMax.maxSumNumCompany ? globalMinMax.maxSumNumCompany : 1;
@@ -125,7 +132,18 @@ const useLayoutData = ():Output => {
           .range(wageColorRange as any) as any;
 
         const data: Output['data'] = {
-          clusters: LAYOUT_DATA.clusters,
+          clusters: {
+            continents: LAYOUT_DATA.clusters.continents.map(c => {
+              const cluster = clusterData[c.clusterId.toString()];
+              const name = cluster && cluster.name ? cluster.name : '---';
+              return {...c, name };
+            }),
+            countries: LAYOUT_DATA.clusters.countries.map(c => {
+              const cluster = clusterData[c.clusterId.toString()];
+              const name = cluster && cluster.name ? cluster.name : '---';
+              return {...c, name };
+            }),
+          },
           nodes: LAYOUT_DATA.nodes.map(n => {
             const industry = industryData[n.id.toString()];
             const parent = industryData[industry.naicsIdTopParent.toString()];
@@ -157,7 +175,10 @@ const useLayoutData = ():Output => {
         setOutput({loading: false, error: undefined, data});
       }
     }
-  }, [output, loading, error, industryData, industryMapData, loadingIndustryMapData]);
+  }, [
+    output, loading, error, industryData, industryMapData, loadingIndustryMapData,
+    clusterLoading, clusterError,clusterData,
+  ]);
 
   return output;
 };

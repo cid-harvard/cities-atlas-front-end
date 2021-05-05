@@ -178,8 +178,8 @@ global-naics-sector-name-8 = Trade & transportation
 global-cluster-c1-name-1 = Basic Materials
 global-cluster-c1-name-2 = Manufacturing
 global-cluster-c1-name-3 = Food
-global-cluster-c1-name-4 = Household Retail
-global-cluster-c1-name-5 = Basic Services
+global-cluster-c1-name-4 = Durables
+global-cluster-c1-name-5 = Logistics
 global-cluster-c1-name-6 = Services
 global-cluster-c1-name-7 = Finance
 
