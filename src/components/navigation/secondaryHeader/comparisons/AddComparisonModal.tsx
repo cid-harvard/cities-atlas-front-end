@@ -287,7 +287,7 @@ const AddComparisonModal = (props: Props) => {
     variables: {
       cityId: cityId !== null ? parseInt(cityId, 10) : 0,
   } });
-  let intialSelected: Datum | null | RegionGroup | PeerGroup = null;
+  let intialSelected: Datum | null | RegionGroup | PeerGroup = PeerGroup.GlobalPopulation;
   if (field === 'benchmark' && benchmark) {
     if (isValidPeerGroup(benchmark)) {
       intialSelected = benchmark as PeerGroup;
