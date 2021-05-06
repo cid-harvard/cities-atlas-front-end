@@ -3,9 +3,11 @@ import BasicModal from '../../../standardModal/BasicModal';
 import styled from 'styled-components/macro';
 import {
   secondaryFont,
+  primaryFont,
   SearchContainerDark,
   backgroundDark,
   radioButtonCss,
+  primaryColor,
 } from '../../../../styling/styleUtils';
 import useFluent from '../../../../hooks/useFluent';
 import PanelSearch, {Datum} from 'react-panel-search';
@@ -102,7 +104,7 @@ const Grid = styled.div`
   }
 
   .react-panel-search-search-bar-input {
-    background-color: #454a4f;
+    background-color: ${backgroundDark};
   }
 
   .react-panel-search-highlighted-item {
@@ -110,7 +112,7 @@ const Grid = styled.div`
   }
 
   .react-panel-search-search-results {
-    background-color: #454a4f;
+    background-color: ${backgroundDark};
   }
 `;
 
@@ -121,8 +123,8 @@ const GlobalVRegionalGrid = styled.div`
 `;
 
 const GroupContainer = styled.ul`
-  border: solid 1px #fff;
-  padding: 0.5rem;
+  border-top: solid 1px #fff;
+  padding: 0;
   margin: 0;
 `;
 
@@ -130,6 +132,7 @@ const ContainerTitle = styled.h3`
   color: #fff;
   font-weight: 400;
   margin-bottom: 0.4rem;
+  font-family: ${primaryFont};
 `;
 
 const Or = styled.div`
@@ -139,11 +142,13 @@ const Or = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: ${primaryFont};
 
   &:before,
   &:after {
     content: '';
-    height: 5rem;
+    height: auto;
+    flex-grow: 1;
     width: 0;
     border-right: solid 2px #fff;
   }
@@ -219,13 +224,15 @@ const ContinueButton = styled.button`
 
 const GroupsList = styled.ul`
   padding: 0;
+  margin: 0;
 `;
 
 const GroupItem = styled.li`
   margin-bottom: 0.5rem;
   display: block;
   list-style: none;
-  font-size: 0.875rem;
+  font-size: 1rem;
+  font-family: ${primaryFont};
 `;
 
 const GroupRadio = styled.div`
@@ -233,18 +240,33 @@ const GroupRadio = styled.div`
   cursor: pointer;
   padding: 0.5rem 0.25rem;
 
+  small {
+    color: #b9c4ce;
+  }
+
   &:hover {
     background-color: #fff;
+
+    small, em {
+      color: inherit;
+    }
   }
 
   &:before {
     margin-right: 16px;
   }
+
 `;
 const AboutText = styled.p`
   color: #fff;
   padding: 0 1.5rem;
   margin: 0 0 1rem;
+  font-family: ${primaryFont};
+`;
+
+const Recommended = styled.em`
+  font-size: smaller;
+  color: ${primaryColor};
 `;
 
 interface Props {
@@ -366,6 +388,10 @@ const AddComparisonModal = (props: Props) => {
                           {getString('global-text-similar-population')}
                           <br />
                           {getCount(PeerGroupCountFields.globalPop)}
+                          <br />
+                          <Recommended>
+                            *{getString('global-ui-recommended')}
+                          </Recommended>
                         </div>
                       </GroupRadio>
                     </GroupItem>

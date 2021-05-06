@@ -1,5 +1,6 @@
 import styled, {keyframes, css} from 'styled-components/macro';
 import {breakPoints, breakPointValues} from './GlobalGrid';
+import {rgba} from 'polished';
 
 export const baseColor = '#333333'; // dark gray/black color for text
 export const lightBaseColor = '#7c7c7c'; // light gray color for subtitles and contextual information
@@ -159,7 +160,7 @@ export const SearchContainerDark = styled.div`
   .react-panel-search-search-bar-input {
     text-transform: uppercase;
     font-size: 0.85rem;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: ${rgba(backgroundDark, 0.85)};
     color: #fff;
     border: solid 1px #fff;
     padding-top: 1rem;
@@ -201,7 +202,7 @@ export const SearchContainerDark = styled.div`
   }
 
   .react-panel-search-search-results {
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: ${rgba(backgroundDark, 0.85)};
     border: solid 1px #fff;
 
     ::-webkit-scrollbar-thumb {

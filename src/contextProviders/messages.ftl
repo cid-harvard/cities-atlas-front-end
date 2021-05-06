@@ -34,6 +34,7 @@ global-ui-settings-option-na = Option is not available
 global-ui-close = Close
 global-ui-continue = Continue
 global-ui-more = More
+global-ui-recommended = Recommended
 
 global-ui-or = Or
 global-ui-total = Total
