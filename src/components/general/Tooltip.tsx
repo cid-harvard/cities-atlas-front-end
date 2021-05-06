@@ -24,8 +24,8 @@ const flipArrowClassName = 'tooltip-arrow-flip-side-class';
 //#region Styling
 const Root = styled.span`
   cursor: help;
-  width: 1rem;
-  height: 1rem;
+  width: 0.7rem;
+  height: 0.7rem;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -35,8 +35,8 @@ const Root = styled.span`
 
 const MoreInformationI = styled.span`
   display: inline-block;
-  width: 1rem;
-  height: 1rem;
+  width: 0.7rem;
+  height: 0.7rem;
   line-height: 0;
 
   svg {
