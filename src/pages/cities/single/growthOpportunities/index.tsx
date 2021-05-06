@@ -47,6 +47,8 @@ import useClusterMap from '../../../../hooks/useClusterMap';
 import PreChartRow from '../../../../components/general/PreChartRow';
 import {Mode} from '../../../../components/general/searchIndustryInGraphDropdown';
 import PSWOTTable from '../../../../components/dataViz/pswotTable';
+import NodeLegendIndustries from './NodeLegendIndustries';
+import NodeLegendClusters from './NodeLegendClusters';
 
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
@@ -188,6 +190,18 @@ const GrowthOppurtunities = () => {
       />
   );
 
+  const nodeLegend = isClusterMode ? (
+      <NodeLegendClusters
+        clusterLevel={clusterLevel}
+        nodeSizing={nodeSizing}
+      />
+  ) : (
+      <NodeLegendIndustries
+        digitLevel={digitLevel}
+        nodeSizing={nodeSizing}
+      />
+  );
+
   const pswotChartWithSettings = (
     <>
       <PreChartRow
@@ -252,6 +266,14 @@ const GrowthOppurtunities = () => {
           <ContentTitle>What are the Growth Opportunities in my City?</ContentTitle>
           {/* eslint-disable-next-line */}
           <ContentParagraph>{'Building on all these measures, we can rank industries not only by their relative size in <City>, but by their predicted future growth. These measures can help analysts make sense not only of <City>\'s economic strengths and weaknesses, but to assess growth opportunities and contraction threats. <City>\'s strengths concentrate in sector <Sec>, while its weaknesses concentrate in <Sec>. <City> has great opportunities in <Sec>, but faces threats in <Sec>.'}</ContentParagraph>
+          <Switch>
+            <Route path={CityRoutes.CityGrowthOpportunitiesTable}
+              render={() => (<></>)}
+            />
+            <Route path={CityRoutes.CityGrowthOpportunities}
+              render={() => (<>{nodeLegend}</>)}
+            />
+          </Switch>
         </StandardSideTextBlock>
         <Switch>
           <Route path={CityRoutes.CityGrowthOpportunitiesTable}
