@@ -1,10 +1,10 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components/macro';
 import {
   primaryColor,
-  primaryHoverColor,
-  ButtonBase,
+  // primaryHoverColor,
+  // ButtonBase,
   backgroundDark,
   backgroundMedium,
   baseColor,
@@ -68,19 +68,19 @@ const ExpandBox = styled.div`
   padding-right: 1rem;
 `;
 
-const ShrinkBox = styled.div`
-  flex-shrink: 1;
-  margin-top: 1.6rem;
-`;
+// const ShrinkBox = styled.div`
+//   flex-shrink: 1;
+//   margin-top: 1.6rem;
+// `;
 
-const UpdateButton = styled(ButtonBase)`
-  background-color: ${primaryColor};
-  color: #fff;
+// const UpdateButton = styled(ButtonBase)`
+//   background-color: ${primaryColor};
+//   color: #fff;
 
-  &:hover {
-    background-color: ${primaryHoverColor};
-  }
-`;
+//   &:hover {
+//     background-color: ${primaryHoverColor};
+//   }
+// `;
 
 
 const slideRootClassName = 'react-slider-root-class';
@@ -216,8 +216,10 @@ interface FilterValues {
 
 interface Props {
   node: HTMLDivElement | null;
-  populationRange: [number, number];
-  gdppcRange: [number, number];
+  populationMin: number;
+  populationMax: number;
+  gdppcMin: number;
+  gdppcMax: number;
   regions: {label: string, value: string}[];
   setFilterValues: (value: FilterValues) => void;
   currentCity: {city: string, population: number, gdppc: number} | undefined;
@@ -230,7 +232,10 @@ interface ThumbState {
 }
 
 const FilterBar = (props: Props) => {
-  const {populationRange, gdppcRange, regions, setFilterValues, currentCity} = props;
+  const {
+    populationMin, populationMax, gdppcMin, gdppcMax,
+    regions, setFilterValues, currentCity,
+  } = props;
   const mapContext = useMapContext();
   const getString = useFluent();
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
@@ -238,21 +243,32 @@ const FilterBar = (props: Props) => {
   const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>([0, 100]);
   const [minMaxGdppc, setMinMaxGdppc] = useState<[number, number]>([0 , 100]);
 
-  const gdpLogScale = scaleSymlog().domain(gdppcRange).range([0, 100]);
-  const popLogScale = scaleSymlog().domain(populationRange).range([0, 100]);
+  const gdpLogScale = useCallback(
+    scaleSymlog().domain([gdppcMin, gdppcMax]).range([0, 100]),
+    [gdppcMin, gdppcMax],
+  );
+  const popLogScale = useCallback(
+    scaleSymlog().domain([populationMin, populationMax]).range([0, 100]),
+    [populationMin, populationMax],
+  );
 
   const currentGdpPercent = currentCity ? gdpLogScale(currentCity.gdppc) : 0;
   const currentPopPercent = currentCity ? popLogScale(currentCity.population) : 0;
   const currentCityName = currentCity ? currentCity.city : '';
 
-  const onUpdateClick = () => {
+  useEffect(() => {
     if (mapContext.intialized) {
       const convertedGdpPpc = minMaxGdppc.map(n => gdpLogScale.invert(n)) as [number, number];
       const convertedPop = minMaxPopulation.map(n => popLogScale.invert(n)) as [number, number];
       mapContext.setFilterParamaters(convertedPop, convertedGdpPpc, selectedRegionIds);
       setFilterValues({minMaxPopulation: convertedPop, minMaxGdppc: convertedGdpPpc, selectedRegionIds});
     }
-  };
+  }, [
+    mapContext, popLogScale, gdpLogScale,
+    gdppcMin, gdppcMax, populationMin, populationMax,
+    minMaxPopulation, minMaxGdppc,
+    selectedRegionIds, setFilterValues,
+  ]);
 
   const thumbRender = (type: 'gdp' | 'pop') => (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => {
     const scale = type === 'pop' ? popLogScale.invert : gdpLogScale.invert;
@@ -330,11 +346,6 @@ const FilterBar = (props: Props) => {
               />
             </SelectBoxContainer>
           </ExpandBox>
-          <ShrinkBox>
-            <UpdateButton onClick={onUpdateClick}>
-              {getString('city-filter-update')}
-            </UpdateButton>
-          </ShrinkBox>
         </Settings>
       </Root>
     ), node);

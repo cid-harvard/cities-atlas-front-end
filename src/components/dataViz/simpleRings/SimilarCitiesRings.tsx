@@ -55,14 +55,17 @@ const SimpleRings = (props: Props) => {
     const node = rootRef.current;
     if (node) {
       setTimeout(() => {
-        const {width, height} = node.getBoundingClientRect();
-        setDimensions({width, height});
+        const nodeAtTimeout = rootRef.current;
+        if (nodeAtTimeout) {
+          const {width, height} = nodeAtTimeout.getBoundingClientRect();
+          setDimensions({width, height});
+        }
       }, 0);
     }
   }, [rootRef, windowDimensions]);
 
   return (
-    <Root ref={rootRef} key={chartKey}>
+    <Root id={'ROOT_RINGS'} ref={rootRef} key={chartKey}>
       <RingsContainer>
         <Chart
           width={dimensions ? dimensions.width : 0}

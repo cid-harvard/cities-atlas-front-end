@@ -143,8 +143,10 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
     filterBar = (
       <FilterBar
         node={filterBarRef.current}
-        populationRange={populationRange}
-        gdppcRange={gdppcRange}
+        populationMin={populationRange[0]}
+        populationMax={populationRange[1]}
+        gdppcMin={gdppcRange[0]}
+        gdppcMax={gdppcRange[1]}
         regions={regions}
         setFilterValues={setFilterValues}
         currentCity={currentCity}
