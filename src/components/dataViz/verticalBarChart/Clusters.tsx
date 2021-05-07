@@ -16,6 +16,8 @@ import {
   intensityColorRange,
   educationColorRange,
   wageColorRange,
+  Mult,
+  FractionMult,
 } from '../../../styling/styleUtils';
 import {ClusterLevel, ColorBy} from '../../../routing/routes';
 import {
@@ -142,10 +144,10 @@ const Clusters = (props: Props) => {
   const formatValue = (value: number) => {
     const scaledValue = parseFloat(scale.invert(value).toFixed(5));
     if (scaledValue >= 1) {
-      return scaledValue + '×';
+      return <>{scaledValue}<Mult>×</Mult></>;
     } else {
       const {top, bottom} = decimalToFraction(scaledValue);
-      return <><sup>{top}</sup>&frasl;<sub>{bottom}</sub>×</>;
+      return <><sup>{top}</sup>&frasl;<sub>{bottom}</sub><FractionMult>×</FractionMult></>;
     }
   };
 

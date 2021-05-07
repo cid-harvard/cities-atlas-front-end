@@ -464,3 +464,12 @@ export const ButtonBase = styled.button`
     }
   }
 `;
+
+export const Mult = styled.span`
+  position: relative;
+  bottom: -0.2em;
+`;
+export const FractionMult = styled.span`
+  position: relative;
+  bottom: -0.5em;
+`;

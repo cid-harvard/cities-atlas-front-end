@@ -6,6 +6,8 @@ import {
   sectorColorMap,
   educationColorRange,
   wageColorRange,
+  Mult,
+  FractionMult,
 } from '../../../styling/styleUtils';
 import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
@@ -137,10 +139,10 @@ const Industries = (props: Props) => {
   const formatValue = (value: number) => {
     const scaledValue = parseFloat(scale.invert(value).toFixed(5));
     if (scaledValue >= 1) {
-      return scaledValue + '×';
+      return <>{scaledValue}<Mult>×</Mult></>;
     } else {
       const {top, bottom} = decimalToFraction(scaledValue);
-      return <><sup>{top}</sup>&frasl;<sub>{bottom}</sub>×</>;
+      return <><sup>{top}</sup>&frasl;<sub>{bottom}</sub><FractionMult>×</FractionMult></>;
     }
   };
 
