@@ -1,10 +1,8 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useState, useEffect, useCallback, useMemo} from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components/macro';
 import {
   primaryColor,
-  // primaryHoverColor,
-  // ButtonBase,
   backgroundDark,
   backgroundMedium,
   baseColor,
@@ -67,21 +65,6 @@ const ExpandBox = styled.div`
   flex-grow: 1;
   padding-right: 1rem;
 `;
-
-// const ShrinkBox = styled.div`
-//   flex-shrink: 1;
-//   margin-top: 1.6rem;
-// `;
-
-// const UpdateButton = styled(ButtonBase)`
-//   background-color: ${primaryColor};
-//   color: #fff;
-
-//   &:hover {
-//     background-color: ${primaryHoverColor};
-//   }
-// `;
-
 
 const slideRootClassName = 'react-slider-root-class';
 const slideThumbClassName = 'react-slider-thumb-class';
@@ -253,8 +236,24 @@ const FilterBar = (props: Props) => {
   );
 
   const currentGdpPercent = currentCity ? gdpLogScale(currentCity.gdppc) : 0;
-  const currentPopPercent = currentCity ? popLogScale(currentCity.population) : 0;
+  const currentPopPercent = useMemo(
+    () => currentCity ? popLogScale(currentCity.population) : 0,
+    [currentCity, popLogScale],
+  );
   const currentCityName = currentCity ? currentCity.city : '';
+
+  useEffect(() => {
+    const rawPopulation = popLogScale.invert(currentPopPercent);
+    let defaultMinPop = popLogScale(rawPopulation / 2);
+    if (defaultMinPop < 0) {
+      defaultMinPop = 0;
+    }
+    let defaultMaxPop = popLogScale(rawPopulation * 2);
+    if (defaultMaxPop > 100) {
+      defaultMaxPop = 100;
+    }
+    setMinMaxPopulation([defaultMinPop, defaultMaxPop]);
+  }, [currentPopPercent, popLogScale]);
 
   useEffect(() => {
     if (mapContext.intialized) {
@@ -305,7 +304,7 @@ const FilterBar = (props: Props) => {
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
-                defaultValue={[0, 100]}
+                value={minMaxPopulation}
                 renderThumb={thumbRender('pop')}
                 max={100}
                 min={0}
