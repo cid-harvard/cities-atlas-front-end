@@ -29,6 +29,7 @@ import {
 } from '../../../hooks/useAggregateIndustriesData';
 import {rgba} from 'polished';
 import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
+import LoadingBlock from '../../transitionStateComponents/VizLoadingBlock';
 
 interface Props {
   data: SuccessResponse['c3Rca'] | SuccessResponse['c1Rca'];
@@ -47,6 +48,11 @@ const Clusters = (props: Props) => {
   const aggregateIndustryDataMap = useAggregateIndustryMap({
     level: DigitLevel.Six, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10),
   });
+
+  if ((colorBy === ColorBy.education && aggregateIndustryDataMap.loading) ||
+      (colorBy === ColorBy.wage && aggregateIndustryDataMap.loading)) {
+    return <LoadingBlock />;
+  }
 
   const filteredClusterRCA = data.filter(d => {
     const cluster = d.clusterId !== null ? clusterMap.data[d.clusterId] : undefined;

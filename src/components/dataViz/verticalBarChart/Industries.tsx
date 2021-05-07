@@ -33,6 +33,7 @@ import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
 import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
+import LoadingBlock from '../../transitionStateComponents/VizLoadingBlock';
 
 interface Props {
   data: SuccessResponse['naicsRca'];
@@ -74,6 +75,11 @@ const Industries = (props: Props) => {
 
   const [highlightError, setHighlightError] = useState<boolean>(false);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
+
+  if ((colorBy === ColorBy.education && aggregateIndustryDataMap.loading) ||
+      (colorBy === ColorBy.wage && aggregateIndustryDataMap.loading)) {
+    return <LoadingBlock />;
+  }
 
   const filteredIndustryRCA = data.filter(d => {
     const industry = d.naicsId !== null ? industryMap.data[d.naicsId] : undefined;
