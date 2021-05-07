@@ -20,11 +20,13 @@ const Root = styled.div`
   height: 100%;
   display: grid;
   grid-template-rows: 1fr auto auto;
+  border: solid 1px ${lightBorderColor};
+  border-bottom: none;
 `;
 
 const Table = styled.div`
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: auto auto;
 `;
 
 const Subtitle = styled.div`
@@ -66,7 +68,8 @@ const MiniMapContainer = styled.div`
   position: sticky;
   bottom: 0;
   margin-top: auto;
-  border: solid 1px ${lightBorderColor};
+  border-top: solid 1px ${lightBorderColor};
+  border-bottom: solid 1px ${lightBorderColor};
 `;
 
 interface Props {
@@ -109,7 +112,7 @@ const IndustryDistanceTable = (props: Props) => {
   } else if (layout.data !== undefined && industryData !== undefined) {
     const node = layout.data.nodes.find(n => n.id === id);
     if (node) {
-      const edges = node.edges.map(({trg, proximity}) => {
+      const edges = node.edges.map(({trg}) => {
         const industry = industryData[trg];
         if (industry) {
           const parent = industryData[industry.naicsIdTopParent];
@@ -140,16 +143,6 @@ const IndustryDistanceTable = (props: Props) => {
               >
                 {parent ? parent.name : ''}
               </TableCell>
-              <TableCell
-                style={{
-                  backgroundColor: hovered === industry.naicsId ? rgba(color, 0.4) : undefined,
-                }}
-                onMouseEnter={onMouseEnter}
-                onMouseLeave={clearHovered}
-                onClick={onMouseClick}
-              >
-                {parseFloat(proximity.toFixed(4))}
-              </TableCell>
             </React.Fragment>
           );
         } else {
@@ -166,9 +159,6 @@ const IndustryDistanceTable = (props: Props) => {
                 </HeaderCell>
                 <HeaderCell style={{top: titleHeight}}>
                   {getString('global-ui-sector')}
-                </HeaderCell>
-                <HeaderCell style={{top: titleHeight}}>
-                  {getString('global-ui-proximity')}
                 </HeaderCell>
                 {edges}
               </Table>
