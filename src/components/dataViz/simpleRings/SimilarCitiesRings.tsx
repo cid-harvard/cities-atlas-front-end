@@ -30,13 +30,14 @@ const RingsContainer = styled.div`
 
 interface Props {
   selectedRegionIds: string[];
+  selectedCountryIds: string[];
   minMaxPopulation: [number, number];
   minMaxGdppc: [number, number];
   tooltipNode: HTMLDivElement | null;
 }
 
 const SimpleRings = (props: Props) => {
-  const {selectedRegionIds, minMaxPopulation, minMaxGdppc, tooltipNode} = props;
+  const {selectedRegionIds, selectedCountryIds, minMaxPopulation, minMaxGdppc, tooltipNode} = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -45,9 +46,9 @@ const SimpleRings = (props: Props) => {
   const chartKey = dimensions
     ? cityId + 'industry-space-sized-to-container-key' +
         dimensions.width.toString() + dimensions.height.toString() + city_node_sizing
-          + JSON.stringify({selectedRegionIds, minMaxPopulation, minMaxGdppc})
+          + JSON.stringify({selectedRegionIds, selectedCountryIds, minMaxPopulation, minMaxGdppc})
     : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing
-      + JSON.stringify({selectedRegionIds, minMaxPopulation, minMaxGdppc});
+      + JSON.stringify({selectedRegionIds, selectedCountryIds, minMaxPopulation, minMaxGdppc});
 
   const {data} = useProximityData();
 
@@ -65,13 +66,14 @@ const SimpleRings = (props: Props) => {
   }, [rootRef, windowDimensions]);
 
   return (
-    <Root id={'ROOT_RINGS'} ref={rootRef} key={chartKey}>
+    <Root ref={rootRef} key={chartKey}>
       <RingsContainer>
         <Chart
           width={dimensions ? dimensions.width : 0}
           height={dimensions ? dimensions.height : 0}
           data={data}
           selectedRegionIds={selectedRegionIds}
+          selectedCountryIds={selectedCountryIds}
           minMaxPopulation={minMaxPopulation}
           minMaxGdppc={minMaxGdppc}
           tooltipNode={tooltipNode}

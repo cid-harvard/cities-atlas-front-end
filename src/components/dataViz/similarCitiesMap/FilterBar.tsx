@@ -154,6 +154,10 @@ const SelectBoxContainer = styled.div`
       }
     }
   }
+  .item-renderer {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 const CityMark = styled.div`
@@ -183,16 +187,17 @@ const CityName = styled.div`
   position: absolute;
 `;
 
-function selectBoxValueRenderer(selected: any, allOptions: any) {
+const selectBoxValueRenderer = (type: 'Countries' | 'Regions') => (selected: any, allOptions: any) => {
   if (selected.length === 0 || selected.length === allOptions.length) {
-    return 'All Regions';
+    return 'All ' + type;
   }
 
-  return selected.length === 1 ? selected.label : `${selected.length} Regions Selected`;
-}
+  return selected.length === 1 ? selected.label : `${selected.length} ${type} Selected`;
+};
 
 interface FilterValues {
   selectedRegionIds:  string[];
+  selectedCountryIds:  string[];
   minMaxPopulation: [number, number];
   minMaxGdppc: [number, number];
 }
@@ -204,6 +209,7 @@ interface Props {
   gdppcMin: number;
   gdppcMax: number;
   regions: {label: string, value: string}[];
+  countries: {label: string, value: string, regionId: string}[];
   setFilterValues: (value: FilterValues) => void;
   currentCity: {city: string, population: number, gdppc: number} | undefined;
 }
@@ -217,12 +223,13 @@ interface ThumbState {
 const FilterBar = (props: Props) => {
   const {
     populationMin, populationMax, gdppcMin, gdppcMax,
-    regions, setFilterValues, currentCity,
+    regions, setFilterValues, currentCity, countries,
   } = props;
   const mapContext = useMapContext();
   const getString = useFluent();
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
+  const [selectedCountryIds, setSelectedCountryIds] = useState<string[]>([]);
   const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>([0, 100]);
   const [minMaxGdppc, setMinMaxGdppc] = useState<[number, number]>([0 , 100]);
 
@@ -259,14 +266,17 @@ const FilterBar = (props: Props) => {
     if (mapContext.intialized) {
       const convertedGdpPpc = minMaxGdppc.map(n => gdpLogScale.invert(n)) as [number, number];
       const convertedPop = minMaxPopulation.map(n => popLogScale.invert(n)) as [number, number];
-      mapContext.setFilterParamaters(convertedPop, convertedGdpPpc, selectedRegionIds);
-      setFilterValues({minMaxPopulation: convertedPop, minMaxGdppc: convertedGdpPpc, selectedRegionIds});
+      mapContext.setFilterParamaters(convertedPop, convertedGdpPpc, selectedRegionIds, selectedCountryIds);
+      setFilterValues({
+        minMaxPopulation: convertedPop,
+        minMaxGdppc: convertedGdpPpc,
+        selectedRegionIds, selectedCountryIds});
     }
   }, [
     mapContext, popLogScale, gdpLogScale,
     gdppcMin, gdppcMax, populationMin, populationMax,
     minMaxPopulation, minMaxGdppc,
-    selectedRegionIds, setFilterValues,
+    selectedRegionIds, setFilterValues, selectedCountryIds,
   ]);
 
   const thumbRender = (type: 'gdp' | 'pop') => (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => {
@@ -280,6 +290,7 @@ const FilterBar = (props: Props) => {
 
   const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
+    const countryOptions = countries.filter(d => !selectedRegionIds.length || selectedRegionIds.includes(d.regionId));
     return createPortal((
       <Root className={joyrideClassNames.filterOptions}>
         <Title
@@ -339,9 +350,19 @@ const FilterBar = (props: Props) => {
                 options={regions}
                 selected={selectedRegionIds}
                 onSelectedChanged={(s: string[]) => setSelectedRegionIds(s)}
-                valueRenderer={selectBoxValueRenderer}
-                hasSelectAll={false}
+                valueRenderer={selectBoxValueRenderer('Regions')}
                 disableSearch={true}
+              />
+            </SelectBoxContainer>
+          </ExpandBox>
+          <ExpandBox>
+            {getString('city-filter-countries')}
+            <SelectBoxContainer>
+              <MultiSelect
+                options={countryOptions}
+                selected={selectedCountryIds}
+                onSelectedChanged={(s: string[]) => setSelectedCountryIds(s)}
+                valueRenderer={selectBoxValueRenderer('Countries')}
               />
             </SelectBoxContainer>
           </ExpandBox>

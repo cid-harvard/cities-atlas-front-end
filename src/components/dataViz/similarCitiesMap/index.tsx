@@ -68,6 +68,7 @@ let staticProximityData: SuccessResponse | undefined;
 
 interface FilterValues {
   selectedRegionIds:  string[];
+  selectedCountryIds:  string[];
   minMaxPopulation: [number, number];
   minMaxGdppc: [number, number];
 }
@@ -114,6 +115,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
       <RingsContainer>
         <SimilarCitiesRings
           selectedRegionIds={filterValues.selectedRegionIds}
+          selectedCountryIds={filterValues.selectedCountryIds}
           minMaxPopulation={filterValues.minMaxPopulation}
           minMaxGdppc={filterValues.minMaxGdppc}
           tooltipNode={tooltipRef.current}
@@ -140,6 +142,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
     const populationRange = extent(allPopulations) as [number, number];
     const gdppcRange = extent(allGdppc) as [number, number];
     const regions = data.regions;
+    const countries = data.countries;
     filterBar = (
       <FilterBar
         node={filterBarRef.current}
@@ -148,6 +151,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         gdppcMin={gdppcRange[0]}
         gdppcMax={gdppcRange[1]}
         regions={regions}
+        countries={countries}
         setFilterValues={setFilterValues}
         currentCity={currentCity}
       />
@@ -157,6 +161,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         <RingsContainer>
           <SimilarCitiesRings
             selectedRegionIds={[]}
+            selectedCountryIds={[]}
             minMaxPopulation={populationRange}
             minMaxGdppc={gdppcRange}
             tooltipNode={tooltipRef.current}

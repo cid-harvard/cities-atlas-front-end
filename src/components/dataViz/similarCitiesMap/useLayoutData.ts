@@ -9,6 +9,7 @@ import {
   ClassificationRegion,
 } from '../../../types/graphQL/graphQLTypes';
 import uniqBy from 'lodash/uniqBy';
+import orderBy from 'lodash/orderBy';
 
 export const defaultRadius = 20;
 
@@ -17,6 +18,7 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
     countries: classificationCountryList {
       countryId
       nameShortEn
+      regionId
       id
     }
     cities: classificationCityList {
@@ -41,6 +43,7 @@ interface SuccessResponse {
   countries: {
     countryId: ClassificationCountry['countryId'],
     nameShortEn: ClassificationCountry['nameShortEn'],
+    regionId: ClassificationCountry['regionId'],
     id: ClassificationCountry['id'],
   }[];
   cities: {
@@ -67,6 +70,7 @@ interface Output {
     cityGeoJson: any;
     cityUMapJson: any;
     regions: {label: string, value: string}[];
+    countries: {label: string, value: string, regionId: string}[];
   } | undefined;
 }
 
@@ -85,8 +89,10 @@ const useLayoutData = (): Output => {
     const filteredUMapCities = CITIES_UMAPJSON_RAW
       .filter(umap => responseData.cities.find(city => umap.ID_HDC_G0.toString() === city.cityId.toString()));
 
-    const regions = uniqBy(responseData.regions, 'regionId').map(r => ({label: r.regionName, value: r.regionId}));
+    const regions = uniqBy(responseData.regions, 'regionId')
+      .map(r => ({label: r.regionName, value: r.regionId}));
 
+    const countries: {label: string, value: string, regionId: string}[] = [];
     const cityGeoJson = featureCollection(filteredResponseCities.map(city => {
       const {name, centroidLat, centroidLon, cityId, countryId, population, gdppc} = city;
       const coordinates: [number, number] = centroidLat && centroidLon ? [centroidLon, centroidLat] : [0, 0];
@@ -97,9 +103,17 @@ const useLayoutData = (): Output => {
         allLngCoords.push(centroidLon);
       }
       const targetCountry = responseData.countries.find(country => countryId !== null && country.countryId === countryId.toString());
+      if (targetCountry && !countries.find(country => countryId !== null && country.value === countryId.toString())) {
+        countries.push({
+          label: targetCountry.nameShortEn ? targetCountry.nameShortEn : '',
+          value: targetCountry.countryId,
+          regionId: targetCountry.regionId !== null ? targetCountry.regionId.toString() : '',
+        });
+      }
       return point(coordinates, {
         id: cityId,
         country: targetCountry ? targetCountry.nameShortEn : '',
+        countryId: targetCountry ? targetCountry.countryId.toString() : '',
         city: name,
         fill: 'gray',
         radius: defaultRadius,
@@ -138,7 +152,7 @@ const useLayoutData = (): Output => {
       });
     }));
 
-    data = {cityGeoJson, cityUMapJson, regions};
+    data = {cityGeoJson, cityUMapJson, regions, countries: orderBy(countries, ['label'])};
   }
 
 

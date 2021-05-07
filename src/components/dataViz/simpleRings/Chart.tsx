@@ -27,6 +27,7 @@ interface Props {
   height: number;
   data: SuccessResponse | undefined;
   selectedRegionIds: string[];
+  selectedCountryIds: string[];
   minMaxPopulation: [number, number];
   minMaxGdppc: [number, number];
   tooltipNode: HTMLDivElement | null;
@@ -35,7 +36,7 @@ interface Props {
 const Chart = (props: Props) => {
   const {
     width, height, data, minMaxPopulation, minMaxGdppc, selectedRegionIds,
-    tooltipNode,
+    tooltipNode, selectedCountryIds,
   } = props;
 
   const cityId = useCurrentCityId();
@@ -80,7 +81,10 @@ const Chart = (props: Props) => {
           const shown =
             population >= minPop && population <= maxPop &&
             gdppc >= minGdppc && gdppc <= maxGdppc &&
-            (!selectedRegionIds.length || (region !== null && selectedRegionIds.includes(region))) ? true : false;
+            (!selectedRegionIds.length || (region !== null && selectedRegionIds.includes(region))) &&
+            (!selectedCountryIds.length ||
+              (country !== null && country !== undefined && selectedCountryIds.includes(country.countryId)))
+                ? true : false;
           return {
             primary: c.partnerId === cityId,
             id: c.partnerId,
@@ -125,7 +129,7 @@ const Chart = (props: Props) => {
       }
     }
   }, [chartRef, chart, width, height, data, cityId, cityData, city_node_sizing,
-      minMaxPopulation, minMaxGdppc, selectedRegionIds, tooltipNode]);
+      minMaxPopulation, minMaxGdppc, selectedRegionIds, tooltipNode, selectedCountryIds]);
 
   return (
     <>
