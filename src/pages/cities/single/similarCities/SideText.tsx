@@ -33,7 +33,7 @@ const SideText = (props: Props) => {
     const cityName = city.name ? city.name : '';
 
     const locationsData = locations.data;
-    const topCity = orderBy(proximity.data.cities, ['proximity'], ['desc']).slice(0, 3).map(d => {
+    const topCity = orderBy(proximity.data.cities, ['eucdist'], ['asc']).slice(0, 3).map(d => {
       const partnerCity = locationsData.cities.find(c => c.cityId === d.partnerId);
       return partnerCity ? partnerCity.name : '';
     });
