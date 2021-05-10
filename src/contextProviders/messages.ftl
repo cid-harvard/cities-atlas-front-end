@@ -10,9 +10,11 @@ navigation-contact = Contact
 global-app-name = Cityverse
 
 global-ui-loading-cities = Loading cities
-global-ui-select-a-city-name = Select a city
+global-ui-select-a-city-name = A city
 global-ui-select-a-group = Select an existing group
-global-ui-select-peer-group = Select a peer group
+global-ui-select-peer-group = A Peer Group
+global-ui-select-benchmark-group = Select benchmark peers
+global-ui-select-benchmark-city = Select a benchmark city
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
 global-ui-selected-industry = Selected industry
@@ -44,8 +46,9 @@ global-ui-read-chart = How to read this
 global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison
 global-ui-compare-title = Compare { $name } with
-global-ui-benchmark-title = Choose a benchmarking measure for city specialization
-global-ui-benchmark-about = What a city specializes in is relative. By selecting a benchmark, you can determine whether your city possess a higher intensity in an industry versus other cities.
+global-ui-benchmark-title = Select a benchmark to generate the visualization
+global-ui-benchmark-about = Whether an industry has a small or large presence in a city is a relative concept.  For example, manufacturing has a relatively large presence in Detroit, when compared to some of its regional peers. But when compared to Hangzhou, China, manufacturing has a relatively small presence in Detroit.  Thus, by selecting a city or peer group as a benchmark, Cityverse can calculate the <strong>relative presence</strong> of an industry in a city, based on the selected benchmark.
+global-ui-benchmark-about-alt-1 = Whether an industry presents an opportunity in a city is a relative concept.  For example, manufacturing is considered a stronger fit in Calgary, when compared to some of its regional peers. Thus, by selecting a city or peer group as a benchmark, Cityverse can calculate whether an industry is an opportunity in a city, based on the selected benchmark.
 
 global-ui-add-benchmark = Add Benchmark
 global-ui-remove-benchmark = Remove Benchmark

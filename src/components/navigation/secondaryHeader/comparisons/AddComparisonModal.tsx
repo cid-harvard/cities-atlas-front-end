@@ -15,6 +15,8 @@ import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import useGlobalLocationData from '../../../../hooks/useGlobalLocationData';
 import {
   useHistory,
+  Route,
+  Switch,
 } from 'react-router-dom';
 import queryString from 'query-string';
 import useQueryParams from '../../../../hooks/useQueryParams';
@@ -23,6 +25,7 @@ import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywo
 import {TooltipTheme} from '../../../general/Tooltip';
 import {PeerGroup, isValidPeerGroup, CityPeerGroupCounts} from '../../../../types/graphQL/graphQLTypes';
 import { useQuery, gql } from '@apollo/client';
+import {CityRoutes} from '../../../../routing/routes';
 
 const PEER_GROUP_CITY_COUNT = gql`
   query GetPeerGroupCityCounts($cityId: Int!) {
@@ -80,6 +83,12 @@ const H1 = styled.h1`
   text-align: center;
   margin-top: 2rem;
   margin-bottom: 2rem;
+
+  @media (max-width: 900px), (max-height: 700px) {
+    font-size: 1.5rem;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 `;
 
 const Label = styled.label`
@@ -133,6 +142,10 @@ const ContainerTitle = styled.h3`
   font-weight: 400;
   margin-bottom: 0.4rem;
   font-family: ${primaryFont};
+
+  @media (max-width: 900px), (max-height: 700px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const Or = styled.div`
@@ -159,6 +172,10 @@ const Or = styled.div`
 
   &:after {
     margin-top: 0.5rem;
+  }
+
+  @media (max-width: 900px), (max-height: 700px) {
+    font-size: 1.1rem;
   }
 
   @media (max-width: ${mobileWidth}px) {
@@ -220,6 +237,10 @@ const ContinueButton = styled.button`
     color: rgba(255, 255, 255, 0.5);
     border-color: rgba(255, 255, 255, 0.5);
   }
+
+  @media (max-width: 900px), (max-height: 700px) {
+    font-size: 1rem;
+  }
 `;
 
 const GroupsList = styled.ul`
@@ -233,6 +254,10 @@ const GroupItem = styled.li`
   list-style: none;
   font-size: 1rem;
   font-family: ${primaryFont};
+
+  @media (max-width: 900px), (max-height: 700px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const GroupRadio = styled.div`
@@ -262,6 +287,10 @@ const AboutText = styled.p`
   padding: 0 1.5rem;
   margin: 0 0 1rem;
   font-family: ${primaryFont};
+
+  @media (max-width: 900px), (max-height: 700px) {
+    font-size: 0.8rem;
+  }
 `;
 
 const Recommended = styled.em`
@@ -348,11 +377,28 @@ const AddComparisonModal = (props: Props) => {
     ? getString('global-ui-benchmark-title')
     : getString('global-ui-compare-title', {name});
 
+  const selectPeerTitle = field === 'benchmark'
+    ? getString('global-ui-select-benchmark-group')
+    : getString('global-ui-select-peer-group');
+
+  const selectCityTitle = field === 'benchmark'
+    ? getString('global-ui-select-benchmark-city')
+    : getString('global-ui-select-a-city-name');
+
   const about = field === 'benchmark'
     ? (
-      <AboutText>
-        {getString('global-ui-benchmark-about')}
-      </AboutText>
+      <Switch>
+        <Route path={CityRoutes.CityGrowthOpportunities} render={() => (
+          <AboutText
+            dangerouslySetInnerHTML={{__html: getString('global-ui-benchmark-about-alt-1')}}
+          />
+        )} />
+        <Route render={() => (
+          <AboutText
+            dangerouslySetInnerHTML={{__html: getString('global-ui-benchmark-about')}}
+          />
+        )} />
+      </Switch>
     ) : null;
 
   const getCount = (f: PeerGroupCountFields) => {
@@ -373,7 +419,7 @@ const AddComparisonModal = (props: Props) => {
         <SearchContainerDark>
           <Grid>
           <div>
-            <LabelUnderline>{getString('global-ui-select-peer-group')}</LabelUnderline>
+            <LabelUnderline>{selectPeerTitle}</LabelUnderline>
             {worldOption}
             <GlobalVRegionalGrid>
               <div>
@@ -478,7 +524,7 @@ const AddComparisonModal = (props: Props) => {
             </div>
             <Or>{getString('global-ui-or')}</Or>
             <div>
-              <Label>{getString('global-ui-select-a-city-name')}</Label>
+              <Label>{selectCityTitle}</Label>
               <PanelSearch
                 data={data.filter(({id}) => id !== cityId)}
                 topLevelTitle={getString('global-text-countries')}
@@ -490,7 +536,7 @@ const AddComparisonModal = (props: Props) => {
                 maxResults={500}
                 selectedValue={typeof selected === 'object' ? selected : null}
                 onSelect={selectCity}
-                focusOnRender={true}
+                focusOnRender={window.innerHeight > 800}
                 matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
               />
             </div>
