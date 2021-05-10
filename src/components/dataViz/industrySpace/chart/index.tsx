@@ -98,6 +98,7 @@ const Root = styled.div`
     .industry-node-hovered,
     .industry-nodes-label-group,
     .industry-continents-label,
+    .industry-continents-cluster-label,
     .industry-continents-value-label,
     .industry-countries-label-group {
       pointer-events: none;
@@ -107,6 +108,7 @@ const Root = styled.div`
 
     /* Label styling */
     .industry-continents-label,
+    .industry-continents-cluster-label,
     .industry-continents-value-label,
     .industry-countries-label,
     .industry-nodes-label,
@@ -119,6 +121,7 @@ const Root = styled.div`
     }
 
     .industry-continents-label,
+    .industry-continents-cluster-label,
     .industry-continents-value-label {
       stroke: #efefef;
       stroke-width: 2.5px;
@@ -162,6 +165,7 @@ const Root = styled.div`
       .industry-continents,
       .industry-countries,
       .industry-continents-label,
+      .industry-continents-cluster-label,
       .industry-continents-value-label,
       .industry-countries-label {
         display: none !important;

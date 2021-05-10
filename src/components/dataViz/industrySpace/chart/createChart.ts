@@ -334,7 +334,7 @@ const createChart = (input: Input) => {
           rows.push(['Share of Employees:', d.shareEmploy + '%']);
         }
         tooltipEl.innerHTML = getStandardTooltip({
-          title: d.name ? d.name : '',
+          title: 'Knowledge Cluster: ' + (d.name ? d.name : ''),
           color: 'gray',
           rows,
           boldColumns: [1],
@@ -377,7 +377,7 @@ const createChart = (input: Input) => {
           rows.push(['Share of Employees:', d.shareEmploy + '%']);
         }
         tooltipEl.innerHTML = getStandardTooltip({
-          title: d.name ? d.name : '',
+          title: 'Knowledge Cluster: ' + (d.name ? d.name : ''),
           color: 'gray',
           rows,
           boldColumns: [1],
@@ -461,12 +461,21 @@ const createChart = (input: Input) => {
       .style('font-size', textAndSpacingSize * 9.5 + 'px')
       .text(d => d.name);
 
+  const continentClusterLineLabels = g.selectAll('.industry-continents-cluster-label')
+    .data(data.clusters.continents)
+    .enter().append('text')
+      .attr('class', 'industry-continents-cluster-label')
+      .attr('x', d => xScale(d.center[0]) + margin.left)
+      .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 9.5))
+      .style('font-size', textAndSpacingSize * 9.5 + 'px')
+      .text('Cluster');
+
   const continentValueLabels = g.selectAll('.industry-continents-value-label')
     .data(data.clusters.continents)
     .enter().append('text')
       .attr('class', 'industry-continents-value-label')
       .attr('x', d => xScale(d.center[0]) + margin.left)
-      .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 9.5))
+      .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 20))
       .style('font-size', textAndSpacingSize * 7.5 + 'px')
       .text('0% of employees');
 
@@ -705,6 +714,8 @@ const createChart = (input: Input) => {
 
       continentLabels
         .style('display', 'none');
+      continentClusterLineLabels
+        .style('display', 'none');
       continentValueLabels
         .style('display', 'none');
 
@@ -764,6 +775,9 @@ const createChart = (input: Input) => {
         .style('opacity', 1);
 
       continentLabels
+        .style('opacity', zoomScales.continent.label(state.zoom))
+        .style('display', 'block');
+      continentClusterLineLabels
         .style('opacity', zoomScales.continent.label(state.zoom))
         .style('display', 'block');
       continentValueLabels
