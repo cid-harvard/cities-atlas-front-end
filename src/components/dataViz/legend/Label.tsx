@@ -21,6 +21,7 @@ const Button = styled.button`
   align-items: center;
   margin: 0.1rem;
   text-transform: uppercase;
+  font-size: 0.65rem;
   font-size: clamp(0.5rem, 0.75vw, 0.75rem);
   font-family: ${primaryFont};
   background-color: #fff;
@@ -37,8 +38,10 @@ const Button = styled.button`
 `;
 
 const Block = styled.div<{$checked: boolean}>`
-  width: clamp(0.5rem, 1vw, 1.2rem);;
-  height: clamp(0.5rem, 1vw, 1.2rem);;
+  width: 0.75rem;
+  height: 0.75rem;
+  width: clamp(0.5rem, 1vw, 1.2rem);
+  height: clamp(0.5rem, 1vw, 1.2rem);
   margin-right: 0.2rem;
   position: relative;
   flex-shrink: 0;

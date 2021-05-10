@@ -17,6 +17,7 @@ const Root = styled.div`
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto auto;
   align-items: center;
+  font-size: 0.55rem;
   font-size: clamp(0.55rem, 0.95vw, 0.65rem);
   grid-column-gap: 1rem;
   grid-row-gap: 0.5rem;
@@ -39,6 +40,7 @@ const RightColumn = styled(ColumnBase)`
 
 const Title = styled.h3`
   font-weight: 400;
+  font-size: 0.65rem;
   font-size: clamp(0.65rem, 1vw, 0.75rem);
   color: ${baseColor};
   grid-column: 1 / -1;

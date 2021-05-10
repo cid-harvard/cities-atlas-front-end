@@ -104,6 +104,7 @@ const H2 = styled.h2<{$active: boolean}>`
   display: flex;
   align-items: flex-end;
   margin: 0;
+  font-size: 0.8rem;
   font-size: clamp(0.8rem, 1.75vw, 1.15rem);
   color: #fff;
   line-height: 1;
@@ -157,7 +158,9 @@ const MobileH2 = styled(H2)`
 `;
 
 const NavIcon = styled.div`
+  width: 0.95rem;
   width: clamp(0.95rem, 1.9vw, 1.45rem);
+  height: 0.95rem;
   height: clamp(0.95rem, 1.9vw, 1.45rem);
   margin-right: 0.45rem;
   line-height: 0;

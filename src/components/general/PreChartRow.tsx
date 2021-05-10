@@ -50,6 +50,7 @@ const RowBase = styled.div`
 
 const LeftColumn = styled(RowBase)`
   grid-row: 1;
+  font-size: 0.75rem;
   font-size: clamp(0.75rem, 1.5vw, 1rem);
   text-align: right;
   font-size: 0.85rem;
@@ -86,6 +87,7 @@ const NavButton = styled(ButtonBase)`
   border: solid 1px ${backgroundDark};
   flex-shrink: 1;
   text-align: center;
+  margin-left: 0.5rem;
   margin-left: clamp(0.5rem, 1vw, 2rem);
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;

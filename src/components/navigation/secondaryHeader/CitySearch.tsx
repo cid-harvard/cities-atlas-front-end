@@ -42,6 +42,7 @@ const Root = styled.div`
 `;
 
 const SearchContainer = styled.div`
+  width: 200px;
   width: clamp(200px, 25vw, 300px);
 
   @media (max-width: 500px) {
@@ -54,6 +55,7 @@ const LoadingContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 200px;
   width: clamp(200px, 25vw, 300px);
 
   @media (max-width: 500px) {

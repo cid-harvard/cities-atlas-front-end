@@ -132,10 +132,12 @@ const IntroP = styled.div`
   grid-area: paragraph;
   font-size: 0.875rem;
   line-height: 1.75;
+  padding: 0 3rem 0.5rem;
   padding: 0 3rem clamp(0.5rem, 0.5vh, 2rem);
   opacity: 0.8;
 
   @media (max-height: 700px) {
+    padding: 0 0.875rem 0.5rem;
     padding: 0 0.875rem clamp(0.5rem, 0.5vh, 2rem);
     font-size: 0.8rem;
   }
@@ -177,6 +179,7 @@ const PickCityButton = styled.button`
   border: solid 1px #fff;
   background-color: transparent;
   padding: 0.875rem;
+  margin: 1.25rem 0 0.75rem;
   margin: 1.25rem 0 clamp(0.75rem, 1vh, 3rem);
   display: flex;
   align-items: center;

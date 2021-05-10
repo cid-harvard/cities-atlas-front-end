@@ -84,6 +84,7 @@ const BreadCrumbList = styled.ul`
 const breadCrumbFontSize = 'clamp(0.55rem, 0.9vw, 0.85rem)';
 
 const BreadCrumb = styled.li`
+  font-size: 0.6rem;
   font-size: ${breadCrumbFontSize};
   max-width: 20%;
   padding-right: 2rem;
@@ -96,6 +97,7 @@ const BreadCrumbLink = styled.button`
   border: none;
   background-color: transparent;
   padding: 0;
+  font-size: 0.6rem;
   font-size: ${breadCrumbFontSize};
   font-family: ${secondaryFont};
   color: rgb(78, 140, 141);

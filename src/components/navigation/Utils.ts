@@ -15,6 +15,7 @@ export const UtilityBarButtonBase = styled.button`
   padding: 0 0.35rem;
   color: ${baseColor};
   background-color: transparent;
+  font-size: 0.55rem;
   font-size: clamp(0.5rem, 1vw, 0.65rem);
   font-family: ${secondaryFont};
   text-transform: uppercase;

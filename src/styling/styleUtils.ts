@@ -437,12 +437,16 @@ export const ButtonBase = styled.button`
   letter-spacing: -0.3px;
   display: flex;
   align-items: center;
+  font-size: 0.75rem;
   font-size: clamp(0.75rem, 1.1vw, 0.9rem);
+  padding: 0.25rem;
   padding: clamp(0.25rem, 0.4vw, 0.5rem);
   flex-shrink: 0;
 
   span {
+    width: 0.65rem;
     width: clamp(0.65rem, 1.5vw, 0.85rem);
+    height: 0.65rem;
     height: clamp(0.65rem, 1.5vw, 0.85rem);
     display: inline-block;
     line-height: 0;

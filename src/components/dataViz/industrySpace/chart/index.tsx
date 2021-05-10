@@ -244,6 +244,7 @@ const BreadCrumb = styled.button`
   text-align: center;
   font-family: ${secondaryFont};
   text-transform: uppercase;
+  font-size: 0.6rem;
   font-size: clamp(0.6rem, 0.7vw, 0.875rem);
   background-color: transparent;
 `;
