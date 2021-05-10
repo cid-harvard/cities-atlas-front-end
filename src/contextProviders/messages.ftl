@@ -304,6 +304,7 @@ pswot-axis-labels-bottom-right = Larger than peer(s)
 
 pswot-average-line-text = Relative Presence = 1x
 pswot-zero-axis-label = Presence = 0
+pswot-y-average-line-text = Technological Fit = 0
 
 city-filter-title-open = Open Filter Cities Options
 city-filter-title-close = Close Filter Cities Options

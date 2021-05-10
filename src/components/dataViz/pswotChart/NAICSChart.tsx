@@ -337,6 +337,7 @@ const PSWOTChart = (props: Props) => {
               V: '#edf6f4',
             }}
             zeroAxisLabel={getString('pswot-zero-axis-label')}
+            yLineText={getString('pswot-y-average-line-text')}
             axisLabels={{
               left: getString('pswot-axis-labels-left'),
               leftUp: dimensions.height > 500 ? getString('pswot-axis-labels-left-up') : '',
