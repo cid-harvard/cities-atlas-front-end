@@ -5,6 +5,10 @@ import {
   ContentContainer,
   breakPoints,
 } from '../../../styling/GlobalGrid';
+import {
+  primaryColor,
+  primaryHoverColor,
+} from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import Footer from './Footer';
 
@@ -24,6 +28,14 @@ const Content = styled(ContentContainer)`
   box-sizing: border-box;
   margin: 0 auto;
   position: relative;
+
+  p a {
+    color: ${primaryColor};
+
+    &:hover {
+      color: ${primaryHoverColor};
+    }
+  }
 
   @media (max-width: 760px) {
     grid-template-columns: auto 8rem;

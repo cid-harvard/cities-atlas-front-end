@@ -9,10 +9,6 @@ import {
 import debounce from 'lodash/debounce';
 import {rootId} from './';
 
-const ContentContainer = styled.div``;
-const NavContainer = styled.div`
-`;
-
 const StickyContainer = styled.div`
   position: sticky;
   top: 1rem;
@@ -123,14 +119,14 @@ const Content = (props: Props) => {
   });
   return (
     <>
-      <ContentContainer>
+      <div>
         {contentSections}
-      </ContentContainer>
-      <NavContainer>
+      </div>
+      <div>
         <StickyContainer>
           {navLinks}
         </StickyContainer>
-      </NavContainer>
+      </div>
     </>
   );
 };
