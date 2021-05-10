@@ -260,7 +260,7 @@ const PSWOTTable = (props: Props) => {
                 <SortContent
                   onClick={() => toggleSort(SortField.name)}
                 >
-                  <div>Name</div>
+                  <div>{getString('global-name')}</div>
                   <SortArrowsBase
                     className={sortField === SortField.name ? activeClass : undefined}
                     dangerouslySetInnerHTML={{__html: sortArrows}}
@@ -270,7 +270,7 @@ const PSWOTTable = (props: Props) => {
                   <TextFilter
                     initialQuery={filterText}
                     setSearchQuery={setFilterText}
-                    placeholder={'Filter name'}
+                    placeholder={getString('global-filter-name')}
                   />
                 </FilterContent>
               </CellContent>
@@ -280,7 +280,7 @@ const PSWOTTable = (props: Props) => {
                 <SortContent
                   onClick={() => toggleSort(SortField.rca)}
                 >
-                  <div>Relative Advantage</div>
+                  <div>{getString('pswot-axis-labels-bottom')}</div>
                   <SortArrowsBase
                     className={sortField === SortField.rca ? activeClass : undefined}
                     dangerouslySetInnerHTML={{__html: sortArrows}}
@@ -289,13 +289,16 @@ const PSWOTTable = (props: Props) => {
                 <FilterContent>
                   <ColumnFilterBox
                     allOptions={[
+                      {label: 'Very High', value: 'Very High'},
                       {label: 'High', value: 'High'},
-                      {label: 'Neutral', value: 'Neutral'},
+                      {label: 'Expected', value: 'Expected'},
                       {label: 'Low', value: 'Low'},
+                      {label: 'Very Low', value: 'Very Low'},
+                      {label: 'None', value: 'None'},
                     ]}
                     selectedOptions={[]}
                     setSelectedOptions={() => null}
-                    title={'RCA Values'}
+                    title={getString('pswot-axis-labels-bottom')}
                   />
                 </FilterContent>
               </CellContent>
@@ -305,7 +308,7 @@ const PSWOTTable = (props: Props) => {
                 <SortContent
                   onClick={() => toggleSort(SortField.density)}
                 >
-                  <div>Predicted Growth</div>
+                  <div>{getString('pswot-axis-labels-left')}</div>
                   <SortArrowsBase
                     className={sortField === SortField.density ? activeClass : undefined}
                     dangerouslySetInnerHTML={{__html: sortArrows}}
@@ -314,13 +317,15 @@ const PSWOTTable = (props: Props) => {
                 <FilterContent>
                   <ColumnFilterBox
                     allOptions={[
+                      {label: 'Very High', value: 'Very High'},
                       {label: 'High', value: 'High'},
-                      {label: 'Neutral', value: 'Neutral'},
+                      {label: 'Expected', value: 'Expected'},
                       {label: 'Low', value: 'Low'},
+                      {label: 'Very Low', value: 'Very Low'},
                     ]}
                     selectedOptions={[]}
                     setSelectedOptions={() => null}
-                    title={'Growth Values'}
+                    title={getString('pswot-axis-labels-left')}
                   />
                 </FilterContent>
               </CellContent>
@@ -330,7 +335,7 @@ const PSWOTTable = (props: Props) => {
                 <SortContent
                   onClick={() => toggleSort(SortField.quadrant)}
                 >
-                  <div>Assigned category</div>
+                  <div>{getString('pswot-table-assigned-category')}</div>
                   <SortArrowsBase
                     className={sortField === SortField.quadrant ? activeClass : undefined}
                     dangerouslySetInnerHTML={{__html: sortArrows}}
@@ -341,7 +346,7 @@ const PSWOTTable = (props: Props) => {
                     allOptions={quadrantOptionsArray}
                     selectedOptions={filterdQuadrants}
                     setSelectedOptions={setFilteredQuadrants as any}
-                    title={'Categories'}
+                    title={getString('pswot-table-categories')}
                   />
                 </FilterContent>
               </CellContent>

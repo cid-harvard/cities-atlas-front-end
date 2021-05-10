@@ -60,8 +60,8 @@ const PSWOTTable = (props: Props) => {
         const datum: RowDatum = {
           id: d.clusterId,
           name: d.name ? d.name : '',
-          density,
-          rca,
+          density: parseFloat(density.toFixed(4)),
+          rca: parseFloat(rca.toFixed(4)),
           quadrant,
           color: parent ? parent.color : 'gray',
         };

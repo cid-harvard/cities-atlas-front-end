@@ -306,6 +306,12 @@ pswot-average-line-text = Relative Presence = 1x
 pswot-zero-axis-label = Presence = 0
 pswot-y-average-line-text = Technological Fit = 0
 
+pswot-table-assigned-category = Assigned category
+pswot-table-categories = Categories
+
+global-name = Name
+global-filter-name = Filter name
+
 city-filter-title-open = Open Filter Cities Options
 city-filter-title-close = Close Filter Cities Options
 city-filter-regions = Regions Filter
