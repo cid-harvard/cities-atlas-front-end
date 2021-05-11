@@ -5,8 +5,6 @@ import {ZoomLevel, NodeAction} from '../../../../../components/dataViz/industryS
 import {defaultYear, formatNumberLong} from '../../../../../Utils';
 import {
   ContentGrid,
-  ContentParagraph,
-  ContentTitle,
 } from '../../../../../styling/styleUtils';
 import {
   defaultCompositionType,
@@ -28,6 +26,7 @@ import {
 } from '../../../../../hooks/useAggregateIndustriesData';
 import useRCAData from '../../../../../components/dataViz/industrySpace/chart/useRCAData';
 import {extent} from 'd3-array';
+import SideText from './SideText';
 
 interface Props {
   cityId: string;
@@ -122,10 +121,7 @@ const IndustrySpacePosition = (props: Props) => {
   };
 
   const sideContent = highlighted === undefined ? (
-    <StandardSideTextBlock>
-      <ContentTitle>What is my city's position in the Industry Space?</ContentTitle>
-      {/* eslint-disable-next-line */}
-      <ContentParagraph>{'The Industry Space maps the technological relatedness between all industries. This map is informative, as industries similar to those in which a city is specialized  on are more likely to grow. <City> is <position quality> positioned to access many new industries. The best opportunities are in the <Community>, <Community> and <Community> communities. Some industries likely to emerge and grow in the city include <Ind>, <Ind>, and <Ind>.'}</ContentParagraph>
+    <SideText>
         <NodeLegend
           sizeBy={nodeSizingMinText && nodeSizingMaxText && nodeSizingTitle ? {
               title: nodeSizingTitle,
@@ -144,7 +140,7 @@ const IndustrySpacePosition = (props: Props) => {
             } : null
           }
         />
-    </StandardSideTextBlock>
+    </SideText>
   ) : (
     <StandardSideTextBlock clearStyles={true}>
       <IndustryDistanceTable

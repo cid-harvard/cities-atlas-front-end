@@ -373,6 +373,19 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
 city-similarity-title = What cities are similar to { $name }?
 city-similarity-para-1 = We can assess the similarity between the economies of different cities in the world by looking at whether they are competitive in the same industries. This similarity helps select cities that may have similar development opportunities and challenges, or that may give a sense of what industries are feasible in a city like yours.
 
+industry-space-title = What is { $name-plural } position in the industry space?
+industry-space-para-1 = The Industry Space showcases the technological relatedness between all industries, shown as dots in this visualization, and groups them into knowledge clusters. Industries that are near each other typically require similar know-how. The size of the dots shows the relative presence in comparison to {
+  $benchmark-type ->
+  *[benchmark_city_name] { $benchmark-type }
+  [global_pop] global peers by similar population
+  [global_income] global peers by similar income per capita
+  [global_eucdist] global peers by similar economic structure
+  [regional_pop] regional peers by similar population
+  [regional_income] regional peers by similar income per capita
+  [regional_eucdist] regional peers by similar economic structure
+  [region] all regional peers
+} of each industry in { $name }. Thereby, we obtain a bird’s eye view of the economic composition of { $name } in terms of the knowledge clusters in which it excels.
+
 contact-us-title = Get in Touch
 contact-us-para-1 = <strong>Cityverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.
 contact-us-para-2 = To get in touch, <a href="mailto:growthlabtools@hks.harvard.edu">email</a> us here or find us on <a href="https://twitter.com/HarvardGrwthLab" target="_blank">Twitter</a> and <a href="https://www.facebook.com/HarvardCID/" target="_blank">Facebook</a>.
