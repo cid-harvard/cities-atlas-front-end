@@ -20,8 +20,7 @@ const Root = styled.div`
   height: 100%;
   display: grid;
   grid-template-rows: 1fr auto auto;
-  border: solid 1px ${lightBorderColor};
-  border-bottom: none;
+  border-left: solid 1px ${lightBorderColor};
 `;
 
 const Table = styled.div`
@@ -54,6 +53,7 @@ const NameCell = styled(TableCell)`
 `;
 
 const HeaderCell = styled(Subtitle)`
+  border-top: solid 1px ${lightBorderColor};
   border-bottom: solid 1px ${lightBorderColor};
   position: sticky;
   top: 0;
@@ -63,13 +63,20 @@ const HeaderCell = styled(Subtitle)`
 
 const MiniMapContainer = styled.div`
   width: 100%;
-  height: 100px;
+  height: auto;
   box-sizing: border-box;
   position: sticky;
   bottom: 0;
   margin-top: auto;
+  margin-left: -1px;
   border-top: solid 1px ${lightBorderColor};
   border-bottom: solid 1px ${lightBorderColor};
+  border-left: solid 1px ${lightBorderColor};
+  background-color: #fff;
+`;
+const NodeLegenedContainer = styled.div`
+  padding-left: 0.75rem;
+  padding-right: 0.25rem;
 `;
 
 interface Props {
@@ -77,11 +84,12 @@ interface Props {
   hovered: string | undefined;
   setHovered: (value: string | undefined) => void;
   setHighlighted: (value: string | undefined) => void;
+  children: React.ReactNode;
 }
 
 const IndustryDistanceTable = (props: Props) => {
   const {
-    id, hovered, setHovered, setHighlighted,
+    id, hovered, setHovered, setHighlighted, children,
   } = props;
 
   const getString = useFluent();
@@ -167,6 +175,9 @@ const IndustryDistanceTable = (props: Props) => {
               <MiniMap
                 highlighted={id}
               />
+              <NodeLegenedContainer>
+                {children}
+              </NodeLegenedContainer>
             </MiniMapContainer>
           </Root>
         </>

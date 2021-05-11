@@ -148,7 +148,26 @@ const IndustrySpacePosition = (props: Props) => {
         hovered={hovered}
         setHovered={setHovered}
         setHighlighted={onTableSelect}
-      />
+      >
+        <NodeLegend
+          sizeBy={nodeSizingMinText && nodeSizingMaxText && nodeSizingTitle ? {
+              title: nodeSizingTitle,
+              minLabel: nodeSizingMinText,
+              maxLabel: nodeSizingMaxText,
+            } : null
+          }
+          colorBy={(zoomLevel === ZoomLevel.Node ||
+                    clusterOverlayMode === ClusterMode.none ||
+                    clusterOverlayMode === ClusterMode.outline
+                  ) && (!color_by || color_by === ColorBy.sector)
+                  && !aggregateIndustryDataMap.loading
+            ? {
+              coloredLabel: getString('global-intensity-high'),
+              greyLabel: getString('global-intensity-low'),
+            } : null
+          }
+        />
+      </IndustryDistanceTable>
     </StandardSideTextBlock>
   );
 

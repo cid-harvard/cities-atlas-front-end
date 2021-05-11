@@ -5,7 +5,7 @@ import Chart from './chart/miniMap';
 
 const Root = styled.div`
   width: 100%;
-  height: 100%;
+  height: 100px;
   position: relative;
   background-color: #fff;
   box-sizing: border-box;
