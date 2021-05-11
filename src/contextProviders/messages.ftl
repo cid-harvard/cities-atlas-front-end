@@ -371,7 +371,7 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
 }
 
 city-similarity-title = What cities are similar to { $name }?
-city-similarity-para-1 = We can assess the similarity between the economies of different cities in the World by looking at whether they are competitive in the same industries. This similarity is informative because it can reveal industries that are prevalent in economically similar cities, but have yet to be developed in { $name }. The cities in the World that are most economically similar to { $name } are { $top-city-1 }, { $top-city-2 } and { $top-city-3 }.
+city-similarity-para-1 = We can assess the similarity between the economies of different cities in the world by looking at whether they are competitive in the same industries. This similarity helps select cities that may have similar development opportunities and challenges, or that may give a sense of what industries are feasible in a city like yours.
 
 contact-us-title = Get in Touch
 contact-us-para-1 = <strong>Cityverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.
