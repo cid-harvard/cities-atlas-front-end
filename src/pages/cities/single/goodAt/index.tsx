@@ -6,8 +6,6 @@ import React, {useState} from 'react';
 import {
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
-  CompositionType,
-  defaultCompositionType,
 } from '../../../../types/graphQL/graphQLTypes';
 import {
   ContentGrid,
@@ -34,7 +32,7 @@ import SideText from './SideText';
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
-  const {cluster_level, digit_level, color_by, aggregation, composition_type} = useQueryParams();
+  const {cluster_level, digit_level, color_by, aggregation} = useQueryParams();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -118,10 +116,7 @@ const CityGoodAt = () => {
     <DefaultContentWrapper>
 
       <ContentGrid>
-        <SideText
-          compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-          isCluster={Boolean(isClusterView)}
-        />
+        <SideText />
         <RCABarChart
           isClusterView={Boolean(isClusterView)}
           highlighted={highlighted}

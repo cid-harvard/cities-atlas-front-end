@@ -95,10 +95,10 @@ global-formatted-peer-groups = {
   $type ->
   *[global_pop] Global Peers by Similar Population
   [global_income] Global Peers by Similar Income per capita
-  [global_eucdist] Global Peers by by similar economic structure
+  [global_eucdist] Global Peers by similar economic structure
   [regional_pop] Regional Peers by Similar Population
   [regional_income] Regional Peers by Similar Income per capita
-  [regional_eucdist] Regional Peers by by similar economic structure
+  [regional_eucdist] Regional Peers by similar economic structure
   [region] All Regional Peers
 }
 
@@ -328,24 +328,47 @@ economic-composition-para-1 = { $name } has a population of { $population } peop
 economic-composition-para-2 = The largest sector in { $name } consists of { $largest-sector } industries, accounting for { $largest-sector-share-percent }% of { $composition-type } in the city. A prime example is { $largest-3-digit-industry-in-sector }, providing { $largest-3-digit-industry-in-sector-share-percent }% of the city’s employment. Similarly, it shows a large presence in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).
 
 good-at-title = What does { $name } specialize in?
-good-at-para-1 = Considering the aggregated share of { $composition-type } of each industry in all {
+good-at-para-1 = This graph contrasts the industrial composition of { $name } to {
   $benchmark-type ->
-  *[global_pop] global peers by similar population
+  *[benchmark_city_name] { $benchmark-type }
+  [global_pop] global peers by similar population
   [global_income] global peers by similar income per capita
-  [global_eucdist] global peers by by similar economic structure
+  [global_eucdist] global peers by similar economic structure
   [regional_pop] regional peers by similar population
   [regional_income] regional peers by similar income per capita
-  [regional_eucdist] regional peers by by similar economic structure
-  [region] regional peers
-}, we can assess which industries in { $name } concentrate a higher share of { $composition-type }, implying that the city displays a relative advantage. { $name } display the strongest relative advantage in { $node-1st }, { $node-2nd } and { $node-3rd }. Overall, { $name } shows a stronger advantage in the { $highest-top-level } {
-  $sector-or-cluster ->
-  *[sector] sector
-  [cluster] knowledge cluster
-}. At the opposite end, { $name } is relatively lower presence in industries in the { $lowest-top-level } {
-  $sector-or-cluster ->
-  *[sector] sector
-  [cluster] knowledge cluster
-}.
+  [regional_eucdist] regional peers by similar economic structure
+  [region] all regional peers
+}. For each industry, it looks at whether the industry accounts for a larger or a smaller share of overall employment in { $name } than in {
+  $benchmark-type ->
+  *[benchmark_city_name] { $benchmark-type }
+  [global_pop] global peers by similar population
+  [global_income] global peers by similar income per capita
+  [global_eucdist] global peers by similar economic structure
+  [regional_pop] regional peers by similar population
+  [regional_income] regional peers by similar income per capita
+  [regional_eucdist] regional peers by similar economic structure
+  [region] all regional peers
+}. If bars run to the right, the industries are, in relative terms, more important employers in { $name } than in {
+  $benchmark-type ->
+  *[benchmark_city_name] { $benchmark-type }
+  [global_pop] global peers by similar population
+  [global_income] global peers by similar income per capita
+  [global_eucdist] global peers by similar economic structure
+  [regional_pop] regional peers by similar population
+  [regional_income] regional peers by similar income per capita
+  [regional_eucdist] regional peers by similar economic structure
+  [region] all regional peers
+}. If bars run to the left, the opposite is true. The length of the bar shows how many times larger or smaller the industry’s employment share is in { $name } than in {
+  $benchmark-type ->
+  *[benchmark_city_name] { $benchmark-type }
+  [global_pop] global peers by similar population
+  [global_income] global peers by similar income per capita
+  [global_eucdist] global peers by similar economic structure
+  [regional_pop] regional peers by similar population
+  [regional_income] regional peers by similar income per capita
+  [regional_eucdist] regional peers by similar economic structure
+  [region] all regional peers
+}
 
 city-similarity-title = What cities are similar to { $name }?
 city-similarity-para-1 = We can assess the similarity between the economies of different cities in the World by looking at whether they are competitive in the same industries. This similarity is informative because it can reveal industries that are prevalent in economically similar cities, but have yet to be developed in { $name }. The cities in the World that are most economically similar to { $name } are { $top-city-1 }, { $top-city-2 } and { $top-city-3 }.
