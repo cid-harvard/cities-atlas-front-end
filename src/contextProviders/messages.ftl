@@ -385,6 +385,20 @@ industry-space-para-1 = The Industry Space showcases the technological relatedne
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
 } of each industry in { $name }. Thereby, we obtain a bird’s eye view of the economic composition of { $name } in terms of the knowledge clusters in which it excels.
+industry-space-para-2 = { $name-plural } position in the Industry Space, helps understand which diversification paths may be available to the city, as industries close to those that are already well-developed in { $name } are likely candidates for growth.
+
+growth-opportunities-title = What are the growth opportunities in { $name }?
+growth-opportunities-para-1 = Building on all these measures, we can rank industries not only by their relative presence in { $name }, but by their relative technological fit to { $name-plural } productive structure. These measures can help analysts understand how { $name-plural } economic strengths and weakness compare to those of {
+  $benchmark-type ->
+  *[benchmark_city_name] { $benchmark-type }
+  [global_pop] global peers by similar population
+  [global_income] global peers by similar income per capita
+  [global_eucdist] global peers by similar economic structure
+  [regional_pop] regional peers by similar population
+  [regional_income] regional peers by similar income per capita
+  [regional_eucdist] regional peers by similar economic structure
+  [region] all regional peers
+}. Additionally, it can help identify industries that are surprisingly large (or small) in { $name }.
 
 contact-us-title = Get in Touch
 contact-us-para-1 = <strong>Cityverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.

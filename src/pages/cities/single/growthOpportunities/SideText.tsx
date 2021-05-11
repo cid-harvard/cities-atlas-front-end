@@ -1,16 +1,16 @@
 import React from 'react';
-import StandardSideTextBlock from '../../../../../components/general/StandardSideTextBlock';
+import StandardSideTextBlock from '../../../../components/general/StandardSideTextBlock';
 import {
   ContentParagraph,
   ContentTitle,
-} from '../../../../../styling/styleUtils';
-import useFluent, {possessive} from '../../../../../hooks/useFluent';
-import useCurrentCity from '../../../../../hooks/useCurrentCity';
-import StandardSideTextLoading from '../../../../../components/transitionStateComponents/StandardSideTextLoading';
+} from '../../../../styling/styleUtils';
+import useFluent, {possessive} from '../../../../hooks/useFluent';
+import useCurrentCity from '../../../../hooks/useCurrentCity';
+import StandardSideTextLoading from '../../../../components/transitionStateComponents/StandardSideTextLoading';
 import {
   isValidPeerGroup,
-} from '../../../../../types/graphQL/graphQLTypes';
-import useCurrentBenchmark from '../../../../../hooks/useCurrentBenchmark';
+} from '../../../../types/graphQL/graphQLTypes';
+import useCurrentBenchmark from '../../../../hooks/useCurrentBenchmark';
 
 const SideText = ({children}:{children: React.ReactNode}) => {
   const getString = useFluent();
@@ -22,23 +22,19 @@ const SideText = ({children}:{children: React.ReactNode}) => {
   } else if (city) {
     const cityName = city.name ? city.name : '';
     const cityNamePlural = possessive([cityName]);
-    const title = getString('industry-space-title', {
-      'name-plural': cityNamePlural,
-    });
-    const para1 = getString('industry-space-para-1', {
+    const title = getString('growth-opportunities-title', {
       'name': cityName,
+    });
+    const para1 = getString('growth-opportunities-para-1', {
+      'name': cityName,
+      'name-plural': cityNamePlural,
       'benchmark-type': benchmarkType,
-    });
-    const para2 = getString('industry-space-para-2', {
-      'name': cityName,
-      'name-plural': cityNamePlural,
     });
 
     return (
       <StandardSideTextBlock>
         <ContentTitle>{title}</ContentTitle>
         <ContentParagraph>{para1}</ContentParagraph>
-        <ContentParagraph>{para2}</ContentParagraph>
         {children}
       </StandardSideTextBlock>
     );
