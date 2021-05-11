@@ -323,9 +323,9 @@ city-filter-update = Update Cities
 
 economic-composition-title = What is { $name-plural } economic composition?
 
-economic-composition-para-1 = { $name } is a { $income-level } income level city in { $country }. As of { $pop-year }, the population of { $name } was { $population } people and in 2020 its estimated GDP per capita was ${ $gdppc }. It is the { $region-size-rank } largest city and { $region-wealth-rank } richest city in { $region-name }.
+economic-composition-para-1 = { $name } has a population of { $population } people ({ $pop-year }) and an estimated GDP per capita of ${ $gdppc } (2020).  Out of the { $region-city-count } cities covered in { $region-name }, { $name } ranks as the { $region-size-rank } most populated, and displays the { $region-wealth-rank } highest GDP per capita. { $name-plural } labor force consists of about { $num-employ } workers.
 
-economic-composition-para-2 = { $name-plural } economy is concentrated in { $largest-sector } industries ({ $largest-sector-share-percent }% of all { $composition-type }) such as { $largest-3-digit-industry-in-sector } ({ $largest-3-digit-industry-in-sector-share-percent }%). Similarly, it shows a high participation in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).
+economic-composition-para-2 = The largest sector in { $name } consists of { $largest-sector } industries, accounting for { $largest-sector-share-percent }% of { $composition-type } in the city. A prime example is { $largest-3-digit-industry-in-sector }, providing { $largest-3-digit-industry-in-sector-share-percent }% of the city’s employment. Similarly, it shows a large presence in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).
 
 good-at-title = What does { $name } specialize in?
 good-at-para-1 = Considering the aggregated share of { $composition-type } of each industry in all {

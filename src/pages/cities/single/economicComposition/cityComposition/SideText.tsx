@@ -13,8 +13,22 @@ import {useEconomicCompositionQuery} from '../../../../../components/dataViz/tre
 import {
   useGlobalIndustryMap,
 } from '../../../../../hooks/useGlobalIndustriesData';
-import {DigitLevel, CompositionType} from '../../../../../types/graphQL/graphQLTypes';
+import {DigitLevel, CompositionType, CityPeerGroupCounts} from '../../../../../types/graphQL/graphQLTypes';
 import orderBy from 'lodash/orderBy';
+import { useQuery, gql } from '@apollo/client';
+
+const ADDITIONAL_ECON_COMP_DATA = gql`
+  query GetPeerGroupCityCounts($cityId: Int!) {
+    cityPeerGroupCounts(cityId: $cityId) {
+      region
+    }
+  }
+`;
+
+interface SuccessResponse {
+  cityPeerGroupCounts: {region: CityPeerGroupCounts['region']};
+}
+
 
 interface Props {
   year: number;
@@ -34,9 +48,13 @@ const SideText = ({year, cityId, compositionType}: Props) => {
   const locations = useGlobalLocationData();
   const composition = useEconomicCompositionQuery({year, cityId});
   const industryMap = useGlobalIndustryMap();
-  if (loading || locations.loading || composition.loading) {
+  const additional = useQuery<SuccessResponse, {cityId: number}>(ADDITIONAL_ECON_COMP_DATA, {
+    variables: {cityId} });
+  if (loading || locations.loading || composition.loading || additional.loading) {
     return <StandardSideTextLoading />;
-  } else if (city && locations.data && composition.data && composition.data.industries.length) {
+  } else if (city && locations.data && composition.data && composition.data.industries.length &&
+    additional.data
+  ) {
     const cityName = city.name ? city.name : '';
     const cityNamePlural = possessive([cityName]);
     const {countries, regions} = locations.data;
@@ -45,6 +63,7 @@ const SideText = ({year, cityId, compositionType}: Props) => {
     const region = regions.find(d => city.region !== null && d.regionId === city.region.toString());
 
     let total = 0;
+    let totalEmploy = 0;
     const allSectors: IndustryDatum[] = [];
     const allDigitThreeIndustries: IndustryDatum[] = [];
     industries.forEach(({naicsId, numCompany, numEmploy}) => {
@@ -62,6 +81,7 @@ const SideText = ({year, cityId, compositionType}: Props) => {
       }
       if (industry && industry.level === DigitLevel.Sector) {
         total = compositionType === CompositionType.Companies ? total + companies : total + employees;
+        totalEmploy = totalEmploy + employees;
         const {name, naicsIdTopParent} = industry;
         allSectors.push({
           count,
@@ -92,6 +112,7 @@ const SideText = ({year, cityId, compositionType}: Props) => {
     });
     const para1 = getString('economic-composition-para-1', {
       'name': cityName,
+      'name-plural': cityNamePlural,
       'income-level': getString('global-formatted-income-class', {type: city.incomeClass}),
       'country': country ? country.nameShortEn : '',
       'pop-year': '2015',
@@ -100,10 +121,12 @@ const SideText = ({year, cityId, compositionType}: Props) => {
       'region-size-rank': ordinalNumber([city.regionPopRank ? city.regionPopRank : 0]),
       'region-wealth-rank': ordinalNumber([city.regionGdppcRank ? city.regionGdppcRank : 0]),
       'region-name': region ? region.regionName : '',
+      'region-city-count': additional.data.cityPeerGroupCounts.region,
+      'num-employ': formatNumberLong(totalEmploy),
     });
 
     const para2 = getString('economic-composition-para-2', {
-      'name-plural': cityNamePlural,
+      'name': cityName,
       'largest-sector': largestSector.name,
       'largest-sector-share-percent': parseFloat((largestSector.count / total * 100).toFixed(2)),
       'composition-type': compositionType,
