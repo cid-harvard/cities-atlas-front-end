@@ -16,6 +16,7 @@ import {
 import {DigitLevel, CompositionType, CityPeerGroupCounts} from '../../../../../types/graphQL/graphQLTypes';
 import orderBy from 'lodash/orderBy';
 import { useQuery, gql } from '@apollo/client';
+import Helmet from 'react-helmet';
 
 const ADDITIONAL_ECON_COMP_DATA = gql`
   query GetPeerGroupCityCounts($cityId: Int!) {
@@ -142,6 +143,10 @@ const SideText = ({year, cityId, compositionType}: Props) => {
 
     return (
       <StandardSideTextBlock>
+        <Helmet>
+          <title>{title + ' | ' + getString('meta-data-title-default-suffix')}</title>
+          <meta property='og:title' content={title + ' | ' + getString('meta-data-title-default-suffix')} />
+        </Helmet>
         <ContentTitle>{title}</ContentTitle>
         <ContentParagraph>{para1}</ContentParagraph>
         <ContentParagraph>{para2}</ContentParagraph>

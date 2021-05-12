@@ -1,4 +1,5 @@
-meta-data-title-default = Cityverse | Harvard Growth Lab
+meta-data-title-default = Metroverse | Harvard Growth Lab
+meta-data-title-default-suffix = Metroverse at the Harvard Growth Lab
 
 navigation-pick-a-city = Pick a city
 navigation-city-profiles = City Profiles
@@ -7,7 +8,7 @@ navigation-data = Data
 navigation-about = About
 navigation-contact = Contact
 
-global-app-name = Cityverse
+global-app-name = Metroverse
 
 global-ui-loading-cities = Loading cities
 global-ui-select-a-city-name = A city
@@ -47,8 +48,8 @@ global-ui-add-comparison = Add Comparison
 global-ui-remove-comparison = Remove Comparison
 global-ui-compare-title = Compare { $name } with
 global-ui-benchmark-title = Select a benchmark to generate the visualization
-global-ui-benchmark-about = Whether an industry has a small or large presence in a city is a relative concept.  For example, manufacturing has a relatively large presence in Detroit, when compared to some of its regional peers. But when compared to Hangzhou, China, manufacturing has a relatively small presence in Detroit.  Thus, by selecting a city or peer group as a benchmark, Cityverse can calculate the <strong>relative presence</strong> of an industry in a city, based on the selected benchmark.
-global-ui-benchmark-about-alt-1 = Whether an industry presents an opportunity in a city is a relative concept.  For example, manufacturing is considered a stronger fit in Calgary, when compared to some of its regional peers. Thus, by selecting a city or peer group as a benchmark, Cityverse can calculate whether an industry is an opportunity in a city, based on the selected benchmark.
+global-ui-benchmark-about = Whether an industry has a small or large presence in a city is a relative concept.  For example, manufacturing has a relatively large presence in Detroit, when compared to some of its regional peers. But when compared to Hangzhou, China, manufacturing has a relatively small presence in Detroit.  Thus, by selecting a city or peer group as a benchmark, Metroverse can calculate the <strong>relative presence</strong> of an industry in a city, based on the selected benchmark.
+global-ui-benchmark-about-alt-1 = Whether an industry presents an opportunity in a city is a relative concept.  For example, manufacturing is considered a stronger fit in Calgary, when compared to some of its regional peers. Thus, by selecting a city or peer group as a benchmark, Metroverse can calculate whether an industry is an opportunity in a city, based on the selected benchmark.
 
 global-ui-add-benchmark = Add Benchmark
 global-ui-remove-benchmark = Remove Benchmark
@@ -226,7 +227,7 @@ data-disclaimer-orange-desc = Due to limited, delayed, or inaccurate reporting, 
 data-disclaimer-red-title = severely biased
 data-disclaimer-red-desc = Due to limited, delayed, or inaccurate reporting, as well as a limited and potentially severely biased sample, <strong>data for this city may contain a significant degree of error</strong>.  Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this country reflect best estimates based on large samples of economic establishments and calls for careful consideration before using.
 
-data-disclaimer-data-page-lead-up = More information on Cityverse data can be found on the
+data-disclaimer-data-page-lead-up = More information on Metroverse data can be found on the
 data-disclaimer-data-page-link-text = Data page
 data-disclaimer-contact = You can help improve our data by sending suggestions or reporting errors <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
 
@@ -242,9 +243,9 @@ landing-overlay-questions =
   <em>What are the technological capabilities that underpin my city’s current economy?</em><br />
   <em>Which growth and diversification paths does that suggest for the future?</em>
 
-landing-overlay-p1 = Built at the Growth Lab at Harvard University, Cityverse delivers new insights on these questions by placing a city’s technological capabilities and knowhow at the heart of its growth prospects, where the range and nature of existing capabilities strongly influences how future diversification unfolds. Cityverse makes visible what a city is good at today to help understand what it can become tomorrow.
+landing-overlay-p1 = Built at the Growth Lab at Harvard University, Metroverse delivers new insights on these questions by placing a city’s technological capabilities and knowhow at the heart of its growth prospects, where the range and nature of existing capabilities strongly influences how future diversification unfolds. Metroverse makes visible what a city is good at today to help understand what it can become tomorrow.
 
-landing-overlay-footnote = <strong>Cityverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.  Get in touch with us <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
+landing-overlay-footnote = <strong>Metroverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.  Get in touch with us <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
 
 cities-single-page-titles-question-1 = What is my city's\neconomic composition?
 cities-single-page-titles-question-2 = What does my city\nspecialize in?
@@ -401,5 +402,5 @@ growth-opportunities-para-1 = Building on all these measures, we can rank indust
 }. Additionally, it can help identify industries that are surprisingly large (or small) in { $name }.
 
 contact-us-title = Get in Touch
-contact-us-para-1 = <strong>Cityverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.
+contact-us-para-1 = <strong>Metroverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.
 contact-us-para-2 = To get in touch, <a href="mailto:growthlabtools@hks.harvard.edu">email</a> us here or find us on <a href="https://twitter.com/HarvardGrwthLab" target="_blank">Twitter</a> and <a href="https://www.facebook.com/HarvardCID/" target="_blank">Facebook</a>.

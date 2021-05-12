@@ -6,8 +6,11 @@ import DataCleaning from './DataCleaning';
 import DataUpdates from './DataUpdates';
 import DataClassifications from './DataClassifications';
 import {useRouteMatch} from 'react-router-dom';
+import Helmet from 'react-helmet';
+import useFluent from '../../../hooks/useFluent';
 
 const Data = () => {
+  const getString = useFluent();
   const sections: Section[] = [
     {
       label: 'About the Data',
@@ -40,9 +43,15 @@ const Data = () => {
   ];
 
   return (
-    <Content
-      sections={sections}
-    />
+    <>
+      <Helmet>
+        <title>{'Data | ' + getString('meta-data-title-default-suffix')}</title>
+        <meta property='og:title' content={'Data | ' + getString('meta-data-title-default-suffix')} />
+      </Helmet>
+      <Content
+        sections={sections}
+      />
+    </>
   );
 };
 

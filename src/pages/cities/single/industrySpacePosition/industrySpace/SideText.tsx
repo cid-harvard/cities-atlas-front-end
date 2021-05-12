@@ -11,6 +11,7 @@ import {
   isValidPeerGroup,
 } from '../../../../../types/graphQL/graphQLTypes';
 import useCurrentBenchmark from '../../../../../hooks/useCurrentBenchmark';
+import Helmet from 'react-helmet';
 
 const SideText = ({children}:{children: React.ReactNode}) => {
   const getString = useFluent();
@@ -36,6 +37,10 @@ const SideText = ({children}:{children: React.ReactNode}) => {
 
     return (
       <StandardSideTextBlock>
+        <Helmet>
+          <title>{title + ' | ' + getString('meta-data-title-default-suffix')}</title>
+          <meta property='og:title' content={title + ' | ' + getString('meta-data-title-default-suffix')} />
+        </Helmet>
         <ContentTitle>{title}</ContentTitle>
         <ContentParagraph>{para1}</ContentParagraph>
         <ContentParagraph>{para2}</ContentParagraph>

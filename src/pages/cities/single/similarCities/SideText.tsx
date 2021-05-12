@@ -8,6 +8,7 @@ import useFluent from '../../../../hooks/useFluent';
 import useCurrentCity from '../../../../hooks/useCurrentCity';
 import StandardSideTextLoading from '../../../../components/transitionStateComponents/StandardSideTextLoading';
 import NodeLegend from '../../../../components/dataViz/legend/NodeLegend';
+import Helmet from 'react-helmet';
 
 interface Props {
   nodeSizingMinText: string | undefined;
@@ -34,6 +35,10 @@ const SideText = (props: Props) => {
 
     return (
       <StandardSideTextBlock>
+        <Helmet>
+          <title>{title + ' | ' + getString('meta-data-title-default-suffix')}</title>
+          <meta property='og:title' content={title + ' | ' + getString('meta-data-title-default-suffix')} />
+        </Helmet>
         <ContentTitle>{title}</ContentTitle>
         <ContentParagraph>{para1}</ContentParagraph>
         <NodeLegend
