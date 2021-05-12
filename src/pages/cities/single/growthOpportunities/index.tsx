@@ -30,6 +30,7 @@ import {
   defaultNodeSizing,
   NodeSizing,
 } from '../../../../routing/routes';
+import TrackedRoute from '../../../../routing/TrackedRoute';
 import {
   useHistory,
   Switch,
@@ -271,10 +272,10 @@ const GrowthOppurtunities = () => {
           </Switch>
         </SideText>
         <Switch>
-          <Route path={CityRoutes.CityGrowthOpportunitiesTable}
+          <TrackedRoute path={CityRoutes.CityGrowthOpportunitiesTable}
             render={() => (<>{pswotTable}</>)}
           />
-          <Route path={CityRoutes.CityGrowthOpportunities}
+          <TrackedRoute path={CityRoutes.CityGrowthOpportunities}
             render={() => (<>{pswotChartWithSettings}</>)}
           />
         </Switch>

@@ -22,6 +22,7 @@ import {RegionGroup} from '../../../../../components/dataViz/comparisonBarChart/
 import useSectorMap from '../../../../../hooks/useSectorMap';
 import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import {createRoute} from '../../../../../routing/Utils';
+import TrackedRoute from '../../../../../routing/TrackedRoute';
 import {CityRoutes, cityIdParam} from '../../../../../routing/routes';
 import DownloadTopShares from './DownloadTopShares';
 import {
@@ -125,7 +126,7 @@ const CompositionComparison = (props: Props) => {
     <>
       <ContentGrid>
         <Switch>
-          <Route path={CityRoutes.CityEconomicCompositionIndustryCompare}
+          <TrackedRoute path={CityRoutes.CityEconomicCompositionIndustryCompare}
             render={() => (
               <IndustryZoomableBarChart
                 primaryCity={parseInt(primaryCity, 10)}
@@ -140,7 +141,7 @@ const CompositionComparison = (props: Props) => {
               />
             )}
           />
-          <Route path={CityRoutes.CityEconomicComposition}
+          <TrackedRoute path={CityRoutes.CityEconomicComposition}
             render={() => (
               <TopIndustryComparisonBarChart
                 primaryCity={parseInt(primaryCity, 10)}

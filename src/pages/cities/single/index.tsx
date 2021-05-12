@@ -5,7 +5,6 @@ import GoodAt from './goodAt';
 import IndustrySpacePosition from './industrySpacePosition';
 import GrowthOpportunities from './growthOpportunities';
 import {
-  Route,
   Switch,
   useHistory,
   matchPath,
@@ -15,6 +14,7 @@ import {createRoute} from '../../../routing/Utils';
 import InnerPage from '../../../components/templates/InnerPage';
 import useFluent from '../../../hooks/useFluent';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
+import TrackedRoute from '../../../routing/TrackedRoute';
 
 const City = () => {
   const getString = useFluent();
@@ -92,11 +92,11 @@ const City = () => {
       baseLinkData={baseLinkData}
     >
       <Switch>
-        <Route path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
-        <Route path={CityRoutes.CitySimilarCities} component={SimilarCities} />
-        <Route path={CityRoutes.CityGoodAt} component={GoodAt} />
-        <Route path={CityRoutes.CityIndustrySpacePosition} component={IndustrySpacePosition} />
-        <Route path={CityRoutes.CityGrowthOpportunities} component={GrowthOpportunities} />
+        <TrackedRoute path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
+        <TrackedRoute path={CityRoutes.CitySimilarCities} component={SimilarCities} />
+        <TrackedRoute path={CityRoutes.CityGoodAt} component={GoodAt} />
+        <TrackedRoute path={CityRoutes.CityIndustrySpacePosition} component={IndustrySpacePosition} />
+        <TrackedRoute path={CityRoutes.CityGrowthOpportunities} component={GrowthOpportunities} />
       </Switch>
     </InnerPage>
   );

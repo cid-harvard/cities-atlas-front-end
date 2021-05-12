@@ -40,6 +40,7 @@
     "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",
     "react-fast-charts": "^1.1.51",
+    "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",
     "react-indiana-drag-scroll": "^2.0.1",
     "react-joyride": "^2.3.0",

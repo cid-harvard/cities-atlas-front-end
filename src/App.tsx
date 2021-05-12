@@ -13,6 +13,10 @@ import './styling/fonts/fonts.css';
 import AppContext, {useWindowWidth} from './contextProviders/appContext';
 import {OverlayPortal} from './components/standardModal';
 import useFluent from './hooks/useFluent';
+import ReactGA from 'react-ga';
+import TrackedRoute from './routing/TrackedRoute';
+
+ReactGA.initialize('UA-41291966-12', {debug: false});
 
 function App() {
   const windowDimensions = useWindowWidth();
@@ -28,12 +32,12 @@ function App() {
       <GlobalStyles />
       <AppContext.Provider value={{windowDimensions}}>
         <Switch>
-          <Route exact path={Routes.Landing} component={Landing} />
+          <TrackedRoute exact path={Routes.Landing} component={Landing} />
           <Route path={Routes.CityBase} component={City} />
-          <Route path={Routes.AboutBase} component={Informational} />
-          <Route path={Routes.DataBase} component={Informational} />
-          <Route path={Routes.ContactBase} component={Informational} />
-          <Route component={Landing} />
+          <TrackedRoute path={Routes.AboutBase} component={Informational} />
+          <TrackedRoute path={Routes.DataBase} component={Informational} />
+          <TrackedRoute path={Routes.ContactBase} component={Informational} />
+          <TrackedRoute component={Landing} />
         </Switch>
         <OverlayPortal />
       </AppContext.Provider>
