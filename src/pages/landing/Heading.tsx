@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from 'styled-components/macro';
 import {
+  primaryFont,
   secondaryFont,
   primaryColor,
 } from '../../styling/styleUtils';
@@ -10,6 +11,7 @@ import {
   cityIconSVG,
 } from '../../components/navigation/header';
 import useFluent from '../../hooks/useFluent';
+import BasicModal from '../../components/standardModal/BasicModal';
 
 const mapPanSVG = raw('../../assets/icons/map-pan.svg');
 
@@ -132,8 +134,61 @@ const MapPanIcon = styled.span`
   }
 `;
 
+const WhatIsACityLink = styled.button`
+  pointer-events: all;
+  margin: 0 auto 1.1rem;
+  display: block;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-family: ${primaryFont};
+  font-size: 1rem;
+  width: 100%;
+
+  @media (min-width: 990px) {
+    width: 85%;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const ModalContent = styled.div`
+  background-color: #08111e;
+  padding: 3rem 1.75rem 1.75rem;
+
+  strong {
+    color: ${primaryColor};
+    font-weight: 400;
+  }
+
+  a {
+    color: #fff;
+  }
+`;
+
 const Heading = () => {
   const getString = useFluent();
+  const [cityModalOpen, setCityModalOpen] = useState<boolean>(false);
+  const openModal = () => setCityModalOpen(true);
+  const closeModal = () => setCityModalOpen(false);
+  const modal = cityModalOpen ? (
+    <BasicModal
+      width={'400px'}
+      height={'auto'}
+      onClose={closeModal}
+    >
+      <ModalContent>
+        <p
+          dangerouslySetInnerHTML={{__html: getString('landing-page-text-what-is-city-para-1')}}
+        />
+        <p
+          dangerouslySetInnerHTML={{__html: getString('landing-page-text-what-is-city-para-2')}}
+        />
+      </ModalContent>
+    </BasicModal>
+  ) : null;
   return (
     <Root>
       <Logo
@@ -156,6 +211,10 @@ const Heading = () => {
           {getString('landing-page-text-use-the-map')}
         </UseMapText>
       </Description>
+      <WhatIsACityLink onClick={openModal}>
+        {getString('landing-page-text-what-is-city-link')}
+      </WhatIsACityLink>
+      {modal}
     </Root>
   );
 };
