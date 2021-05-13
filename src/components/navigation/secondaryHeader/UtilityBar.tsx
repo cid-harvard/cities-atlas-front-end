@@ -17,8 +17,8 @@ import {
 import screenfull from 'screenfull';
 import Tooltip, {TooltipPosition} from '../../general/Tooltip';
 import Guide from './guide';
+import Share from './share';
 
-const shareIconSvg = raw('../../../assets/icons/share.svg');
 const expandIconSvg = raw('../../../assets/icons/expand.svg');
 const collapseIconSvg = raw('../../../assets/icons/collapse.svg');
 const downloadImageIconSvg = raw('../../../assets/icons/image-download.svg');
@@ -138,24 +138,7 @@ const UtilityBar = (props: Props) => {
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
     content = createPortal((
       <>
-        <Tooltip
-          explanation={windowDimensions.width < mediumSmallBreakpoint &&
-            windowDimensions.width > columnsToRowsBreakpoint
-            ? <TooltipContent>{getString('global-ui-share')}</TooltipContent>
-            : null
-          }
-          cursor='pointer'
-          tooltipPosition={TooltipPosition.Bottom}
-        >
-          <UtilityBarButtonBase>
-            <SvgBase
-              dangerouslySetInnerHTML={{__html: shareIconSvg}}
-            />
-            <Text>
-              {getString('global-ui-share')}
-            </Text>
-          </UtilityBarButtonBase>
-        </Tooltip>
+        <Share />
         <Tooltip
           explanation={windowDimensions.width < mediumSmallBreakpoint &&
             windowDimensions.width > columnsToRowsBreakpoint
