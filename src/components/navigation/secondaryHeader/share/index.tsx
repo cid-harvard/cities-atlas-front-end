@@ -18,7 +18,7 @@ const shareIconSvg = raw('../../../../assets/icons/share.svg');
 const Share = () => {
   const windowDimensions = useWindowWidth();
   const getString = useFluent();
-  const [modalOpen, setModalOpen] = useState<boolean>(true);
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
   const openModal = () => setModalOpen(true);
   const closeModal = () => setModalOpen(false);
   const modal = modalOpen ? (
