@@ -133,12 +133,12 @@ const useLayoutData = (): Output => {
     const minMaxLat = extent(allLatCoords) as [number, number];
     const yToLatScale = scaleLinear()
       .domain(extent(uMapYCoords) as [number, number])
-      .range([minMaxLat[0] * 1.65, minMaxLat[1] * 1.2]);
+      .range([minMaxLat[0] * 1.65, minMaxLat[1] * 1.2]) as ((val: number) => number);
 
     const minMaxLng = extent(allLngCoords) as [number, number];
     const xToLngScale = scaleLinear()
       .domain(extent(uMapXCoords) as [number, number])
-      .range([minMaxLng[0] * 0.9, minMaxLng[1] * 1]);
+      .range([minMaxLng[0] * 0.9, minMaxLng[1] * 1]) as ((val: number) => number);
 
     const cityUMapJson = featureCollection(filteredUMapCities.map(n => {
       const {x, y, ID_HDC_G0: id, CTR_MN_NM: country, UC_NM_MN: city } = n;

@@ -237,7 +237,7 @@ const Tooltip = (props: Props) => {
   const onMouseEnter = (e: React.MouseEvent<HTMLSpanElement>) => {
     setCoords({top: e.clientY, left: e.clientX});
     if (delay) {
-      timeout = setTimeout(() => setIsTooltipShown(true), delay);
+      timeout = setTimeout(() => setIsTooltipShown(true), delay) as any;
     } else {
       setIsTooltipShown(true);
     }

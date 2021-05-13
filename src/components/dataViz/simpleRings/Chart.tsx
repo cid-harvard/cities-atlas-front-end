@@ -58,9 +58,13 @@ const Chart = (props: Props) => {
         let radiusScale: (value: number) => number;
         const nodeSizing = city_node_sizing ? city_node_sizing : defaultCityNodeSizing;
         if (nodeSizing === CityNodeSizing.population) {
-          radiusScale = getPopulationScale(cityData.data, defaultNodeRadius * 0.45, defaultNodeRadius * 1.25);
+          radiusScale =
+            getPopulationScale(
+              cityData.data, defaultNodeRadius * 0.45, defaultNodeRadius * 1.25) as ((val: number) => number);
         } else if (nodeSizing === CityNodeSizing.gdpPpp) {
-          radiusScale = getGdpPppScale(cityData.data, defaultNodeRadius * 0.45, defaultNodeRadius * 1.25);
+          radiusScale =
+            getGdpPppScale(
+              cityData.data, defaultNodeRadius * 0.45, defaultNodeRadius * 1.25) as ((val: number) => number);
         } else {
           radiusScale = (_unused: any) => defaultNodeRadius;
         }

@@ -116,13 +116,13 @@ const useLayoutData = ():Output => {
         const maxCompanySizeBy = globalMinMax && globalMinMax.maxSumNumCompany ? globalMinMax.maxSumNumCompany : 1;
         const companySizeByScale = scaleLinear()
           .domain([minCompanySizeBy, maxCompanySizeBy])
-          .range([ 3, 15]);
+          .range([ 3, 15]) as ((val: number) => number);
 
         const minEmploySizeBy = globalMinMax && globalMinMax.minSumNumEmploy ? globalMinMax.minSumNumEmploy : 0.001;
         const maxEmploySizeBy = globalMinMax && globalMinMax.maxSumNumEmploy ? globalMinMax.maxSumNumEmploy : 1;
         const employSizeByScale = scaleLinear()
           .domain([minEmploySizeBy, maxEmploySizeBy])
-          .range([ 3, 15]);
+          .range([ 3, 15]) as ((val: number) => number);
 
         const educationColorScale = scaleLinear()
           .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])

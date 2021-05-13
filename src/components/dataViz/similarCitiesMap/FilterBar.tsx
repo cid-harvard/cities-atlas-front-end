@@ -250,12 +250,12 @@ const FilterBar = (props: Props) => {
   const currentCityName = currentCity ? currentCity.city : '';
 
   useEffect(() => {
-    const rawPopulation = popLogScale.invert(currentPopPercent);
-    let defaultMinPop = popLogScale(rawPopulation / 2);
+    const rawPopulation = popLogScale.invert(currentPopPercent as number);
+    let defaultMinPop = popLogScale(rawPopulation / 2) as number;
     if (defaultMinPop < 0) {
       defaultMinPop = 0;
     }
-    let defaultMaxPop = popLogScale(rawPopulation * 2);
+    let defaultMaxPop = popLogScale(rawPopulation * 2) as number;
     if (defaultMaxPop > 100) {
       defaultMaxPop = 100;
     }

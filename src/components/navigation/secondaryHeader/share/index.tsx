@@ -47,6 +47,6 @@ const Share = () => {
       {modal}
     </>
   );
-}
+};
 
 export default Share;

@@ -231,8 +231,8 @@ const createChart = (input: Input) => {
     clearActive(true, NodeAction.SoftReset);
 
     const {translate, scale} = getBounds(
-      [xScale(d.x) + margin.left],
-      [yScale(d.y) + margin.top],
+      [xScale(d.x) as number + margin.left],
+      [yScale(d.y) as number + margin.top],
       width, height, outerWidth, outerHeight, 7,
     );
 
@@ -314,7 +314,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-countries')
       .attr('points', d =>
         d.polygon.map(([xCoord, yCoord]) =>
-          [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
+          [xScale(xCoord) as number + margin.left, yScale(yCoord) as number + margin.top].join(',')).join(' '),
       )
       .attr('fill', d => rgba(d.color, 0))
       .attr('stroke', rgba('#efefef', 0))
@@ -359,7 +359,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-continents')
       .attr('points', d =>
         d.polygon.map(([xCoord, yCoord]: [number, number]) =>
-          [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
+          [xScale(xCoord) as number + margin.left, yScale(yCoord) as number + margin.top].join(',')).join(' '),
       )
       .attr('fill', d => rgba(d.color, 0))
       .attr('stroke', rgba('#efefef', 1))
@@ -405,8 +405,8 @@ const createChart = (input: Input) => {
     .data(data.nodes)
     .enter().append('circle')
       .attr('class', 'industry-node')
-      .attr('cx', d => xScale(d.x) + margin.left )
-      .attr('cy', d => yScale(d.y) + margin.top )
+      .attr('cx', d => xScale(d.x) as number + margin.left )
+      .attr('cy', d => yScale(d.y) as number + margin.top )
       .attr('r', d => d.radius ? d.radius : radius)
       .attr('fill', '#fff')
       .style('opacity', nodeOpacity)
@@ -456,8 +456,8 @@ const createChart = (input: Input) => {
     .data(data.clusters.continents)
     .enter().append('text')
       .attr('class', 'industry-continents-label')
-      .attr('x', d => xScale(d.center[0]) + margin.left)
-      .attr('y', d => yScale(d.center[1]) + margin.top)
+      .attr('x', d => xScale(d.center[0]) as number + margin.left)
+      .attr('y', d => yScale(d.center[1]) as number + margin.top)
       .style('font-size', textAndSpacingSize * 9.5 + 'px')
       .text(d => d.name);
 
@@ -465,8 +465,8 @@ const createChart = (input: Input) => {
     .data(data.clusters.continents)
     .enter().append('text')
       .attr('class', 'industry-continents-cluster-label')
-      .attr('x', d => xScale(d.center[0]) + margin.left)
-      .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 9.5))
+      .attr('x', d => xScale(d.center[0]) as number + margin.left)
+      .attr('y', d => yScale(d.center[1]) as number + margin.top + (textAndSpacingSize * 9.5))
       .style('font-size', textAndSpacingSize * 9.5 + 'px')
       .text('Cluster');
 
@@ -474,8 +474,8 @@ const createChart = (input: Input) => {
     .data(data.clusters.continents)
     .enter().append('text')
       .attr('class', 'industry-continents-value-label')
-      .attr('x', d => xScale(d.center[0]) + margin.left)
-      .attr('y', d => yScale(d.center[1]) + margin.top + (textAndSpacingSize * 20))
+      .attr('x', d => xScale(d.center[0]) as number + margin.left)
+      .attr('y', d => yScale(d.center[1]) as number + margin.top + (textAndSpacingSize * 20))
       .style('font-size', textAndSpacingSize * 7.5 + 'px')
       .text('0% of employees');
 
@@ -487,8 +487,8 @@ const createChart = (input: Input) => {
     .data(data.clusters.countries)
     .enter().append('text')
       .attr('class', 'industry-countries-label')
-      .attr('x', d => xScale(d.center[0]) + margin.left)
-      .attr('y', d => yScale(d.center[1]) + margin.top)
+      .attr('x', d => xScale(d.center[0]) as number + margin.left)
+      .attr('y', d => yScale(d.center[1]) as number + margin.top)
       .style('font-size', textAndSpacingSize * 4 + 'px')
       .text(d => d.name);
 
@@ -499,8 +499,8 @@ const createChart = (input: Input) => {
     // .data(data.nodes)
     // .enter().append('text')
       // .attr('class', 'industry-nodes-label')
-      // .attr('x', d => xScale(d.x) + margin.left)
-      // .attr('y', d => yScale(d.y) + margin.top + (radius * 1.45))
+      // .attr('x', d => xScale(d.x) as number + margin.left)
+      // .attr('y', d => yScale(d.y) as number + margin.top + (radius * 1.45))
       // .style('font-size', textAndSpacingSize * 1 + 'px')
       // .style('font-size', textAndSpacingSize * 0.55 + 'px')
       // .text(d => ellipsisText(d.name as string, 20));
@@ -526,8 +526,8 @@ const createChart = (input: Input) => {
     state.active.element = d3.select(this).classed('active', true);
     state.active.datum = d;
 
-    const centerX = d.adjustedCoords ? d.adjustedCoords.x : xScale(d.x) + margin.left;
-    const centerY = d.adjustedCoords ? d.adjustedCoords.y : yScale(d.y) + margin.top;
+    const centerX = d.adjustedCoords ? d.adjustedCoords.x : xScale(d.x) as number + margin.left;
+    const centerY = d.adjustedCoords ? d.adjustedCoords.y : yScale(d.y) as number + margin.top;
     const allXValues = [centerX];
     const allYValues = [centerY];
     for (let i = 0; i < 15; i++) {
@@ -585,8 +585,8 @@ const createChart = (input: Input) => {
     const allXValues: number[] = [];
     const allYValues: number[] = [];
     d.polygon.forEach(([xValue, yValue]: [number, number]) => {
-      allXValues.push(xScale(xValue) + margin.left);
-      allYValues.push(yScale(yValue) + margin.top);
+      allXValues.push(xScale(xValue) as number + margin.left);
+      allYValues.push(yScale(yValue) as number + margin.top);
     });
 
     const {translate, scale} = getBounds(allXValues, allYValues, outerWidth, outerHeight, outerWidth, outerHeight, maxZoomAllowed);
@@ -600,9 +600,9 @@ const createChart = (input: Input) => {
     if (state.active) {
       const edgeData = state.active.datum.edges.map(({trg}: {trg: string}) => data.nodes.find(({id}) => id === trg));
       const centerX = state.active.datum.adjustedCoords ?
-        state.active.datum.adjustedCoords.x : xScale(state.active.datum.x) + margin.left;
+        state.active.datum.adjustedCoords.x : xScale(state.active.datum.x) as number + margin.left;
       const centerY = state.active.datum.adjustedCoords ?
-        state.active.datum.adjustedCoords.y : yScale(state.active.datum.y) + margin.top;
+        state.active.datum.adjustedCoords.y : yScale(state.active.datum.y) as number + margin.top;
 
       outerRing
         .attr('cx', centerX)
@@ -661,8 +661,8 @@ const createChart = (input: Input) => {
         .transition()
         .ease(d3.easeCircleInOut)
         .duration(500)
-        .attr('cx', d => (d as any).adjustedCoords ? (d as any).adjustedCoords.x : xScale((d as any).x) + margin.left)
-        .attr('cy', d => (d as any).adjustedCoords ? (d as any).adjustedCoords.y : yScale((d as any).y) + margin.top);
+        .attr('cx', d => (d as any).adjustedCoords ? (d as any).adjustedCoords.x : xScale((d as any).x) as number + margin.left)
+        .attr('cy', d => (d as any).adjustedCoords ? (d as any).adjustedCoords.y : yScale((d as any).y) as number + margin.top);
 
       g.selectAll('.industry-ring-label')
         .data(data.nodes.filter(d => d.id === state.active.datum.id ||
@@ -683,10 +683,10 @@ const createChart = (input: Input) => {
         })
         .enter().append('text')
           .attr('class', 'industry-ring-label')
-          .attr('x', (d: any) => d.adjustedCoords ? d.adjustedCoords.x : xScale(d.x) + margin.left)
+          .attr('x', (d: any) => d.adjustedCoords ? d.adjustedCoords.x : xScale(d.x) as number + margin.left)
           .attr('y', (d: any) => d.adjustedCoords ?
             d.adjustedCoords.y + Math.max(radius * 2.5, 6.5)
-            : yScale(d.y) + margin.top + Math.max(radius * 2.5, 6.5),
+            : yScale(d.y) as number + margin.top + Math.max(radius * 2.5, 6.5),
           )
           .style('pointer-events', 'none')
           .style('font-size', Math.min(3.6, Math.max(radius * 0.8, 3.2)) + 'px')
@@ -757,42 +757,42 @@ const createChart = (input: Input) => {
             return 500;
           }
         })
-        .attr('cx', d => xScale(d.x) + margin.left )
-        .attr('cy', d => yScale(d.y) + margin.top );
+        .attr('cx', d => xScale(d.x) as number + margin.left )
+        .attr('cy', d => yScale(d.y) as number + margin.top );
 
       continents
-        .style('pointer-events', zoomScales.continent.fill(state.zoom) > 0.1 &&
-          zoomScales.countries.fill(state.zoom) <= 0.01
+        .style('pointer-events', zoomScales.continent.fill(state.zoom) as number > 0.1 &&
+          zoomScales.countries.fill(state.zoom) as number <= 0.01
           ? 'auto' : 'none')
-        .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom)))
+        .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom) as number))
         .style('opacity', 1);
 
       countries
-        .style('pointer-events', zoomScales.countries.fill(state.zoom) > 0.01 &&
+        .style('pointer-events', zoomScales.countries.fill(state.zoom) as number > 0.01 &&
           state.zoom < 3.5 ? 'auto' : 'none')
         .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
-        .attr('stroke', rgba('#efefef', zoomScales.countries.stroke(state.zoom)))
+        .attr('stroke', rgba('#efefef', zoomScales.countries.stroke(state.zoom) as number))
         .style('opacity', 1);
 
       continentLabels
-        .style('opacity', zoomScales.continent.label(state.zoom))
+        .style('opacity', zoomScales.continent.label(state.zoom) as number)
         .style('display', 'block');
       continentClusterLineLabels
-        .style('opacity', zoomScales.continent.label(state.zoom))
+        .style('opacity', zoomScales.continent.label(state.zoom) as number)
         .style('display', 'block');
       continentValueLabels
-        .style('opacity', zoomScales.continent.label(state.zoom))
+        .style('opacity', zoomScales.continent.label(state.zoom) as number)
         .style('display', 'block');
 
       countryLabels
-        .style('opacity', zoomScales.countries.label(state.zoom))
+        .style('opacity', zoomScales.countries.label(state.zoom) as number)
         .style('display', 'block');
 
       if (state.zoom > 3.5) {
       // if (state.zoom > 8) {
         nodeLabels
           .style('opacity', 1)
-          // .style('opacity', zoomScales.nodes.label(state.zoom))
+          // .style('opacity', zoomScales.nodes.label(state.zoom) as number)
           .style('display', 'block');
       } else {
         nodeLabels
@@ -828,7 +828,7 @@ const createChart = (input: Input) => {
       if (state.hoveredShape) {
         hoveredShape
           .attr('points', state.hoveredShape.polygon.map(([xCoord, yCoord]: [number, number]) =>
-            [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' ') )
+            [xScale(xCoord) as number + margin.left, yScale(yCoord) as number + margin.top].join(',')).join(' ') )
           .attr('fill', 'none')
           // .attr('stroke', '#efefef')
           // .attr('stroke-width', 4)
@@ -839,8 +839,8 @@ const createChart = (input: Input) => {
       }
       if (state.hoveredNode) {
         hoveredNode
-          .attr('cx', xScale(state.hoveredNode.x) + margin.left )
-          .attr('cy', yScale(state.hoveredNode.y) + margin.top )
+          .attr('cx', xScale(state.hoveredNode.x) as number + margin.left )
+          .attr('cy', yScale(state.hoveredNode.y) as number + margin.top )
           .attr('fill', state.hoveredNode.color)
           .attr('r', state.hoveredNode.radius ? state.hoveredNode.radius : radius)
           .attr('stroke', state.zoom < 3.5 ? '#efefef' : '#333')
@@ -934,12 +934,12 @@ const createChart = (input: Input) => {
         const allValues = newData.naicsRca.map(c => c.rca ? c.rca : 0) as number[];
         radiusScale = d3.scaleSymlog()
           .domain([0, d3.max(allValues)] as [number, number])
-          .range([ 1.5, 8]);
+          .range([ 1.5, 8]) as ((val: number) => number);
       } else {
         const allValues = newData.naicsData.map(c => c[field] ? c[field] : 0) as number[];
         radiusScale = d3.scaleLinear()
           .domain([0, d3.max(allValues)] as [number, number])
-          .range([ 1.75, 12]);
+          .range([ 1.75, 12]) as ((val: number) => number);
       }
     }
     nodes.each(d => {

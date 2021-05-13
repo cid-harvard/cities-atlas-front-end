@@ -44,7 +44,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-continents')
       .attr('points', d =>
         d.polygon.map(([xCoord, yCoord]: [number, number]) =>
-          [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
+          [xScale(xCoord) as number + margin.left, yScale(yCoord) as number + margin.top].join(',')).join(' '),
       )
       .attr('fill', d => d.color)
       .attr('stroke', rgba('#efefef', 1))
@@ -56,7 +56,7 @@ const createChart = (input: Input) => {
       .attr('class', 'industry-countries')
       .attr('points', d =>
         d.polygon.map(([xCoord, yCoord]) =>
-          [xScale(xCoord) + margin.left, yScale(yCoord) + margin.top].join(',')).join(' '),
+          [xScale(xCoord) as number + margin.left, yScale(yCoord) as number + margin.top].join(',')).join(' '),
       )
       .attr('fill', 'none')
       .attr('stroke', rgba('#efefef', 0.5))
@@ -74,8 +74,8 @@ const createChart = (input: Input) => {
       node
         .style('display', 'block')
         .attr('fill', targetNode.industryColor)
-        .attr('cx', xScale(targetNode.x) + margin.left )
-        .attr('cy', yScale(targetNode.y) + margin.top );
+        .attr('cx', xScale(targetNode.x) as number + margin.left )
+        .attr('cy', yScale(targetNode.y) as number + margin.top );
     }
   }
 
