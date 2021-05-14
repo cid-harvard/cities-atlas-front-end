@@ -428,12 +428,10 @@ const Settings = (props: Props) => {
     const InputContainer = settingsOptions.aggregationMode === true
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = settingsOptions.aggregationMode === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.aggregationMode === true
-      ? getString('glossary-cluster-vs-naics') : getString('glossary-cluster-vs-naics');
     aggregationMode = (
       <SettingGrid>
         <Tooltip
-          explanation={tooltipText}
+          explanation={getString('glossary-cluster-vs-naics')}
         />
         <LabelContainer>{getString('global-ui-aggregation-mode')}</LabelContainer>
         <InputContainer>
@@ -540,14 +538,12 @@ const Settings = (props: Props) => {
     const InputContainer = settingsOptions.clusterLevel !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = settingsOptions.clusterLevel !== false ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.clusterLevel !== false
-      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     const disabledOptions = typeof settingsOptions.clusterLevel === 'object' &&
       settingsOptions.clusterLevel.disabledOptions ? settingsOptions.clusterLevel.disabledOptions : [];
     clusterLevelOptions = (
       <SettingGrid>
         <Tooltip
-          explanation={tooltipText}
+          explanation={getString('glossary-cluster-level')}
         />
         <LabelContainer>{getString('global-ui-cluster-level')}</LabelContainer>
         <InputContainer>
@@ -648,8 +644,6 @@ const Settings = (props: Props) => {
     const InputContainer = nodeSizingActive === true
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = nodeSizingActive === true ? Label : DisabledLabel;
-    const tooltipText = nodeSizingActive === true
-      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     const defaultValue = typeof settingsOptions.nodeSizing === 'object' && settingsOptions.nodeSizing.rca
       ? NodeSizing.rca : defaultNodeSizing;
     const currentValue = typeof settingsOptions.nodeSizing !== 'object' && params.node_sizing === NodeSizing.rca
@@ -666,7 +660,7 @@ const Settings = (props: Props) => {
     nodeSizingOptions = (
       <SettingGrid>
         <Tooltip
-          explanation={tooltipText}
+          explanation={getString('glossary-node-sizing')}
         />
         <LabelContainer>{getString('global-ui-node-sizing')}</LabelContainer>
         <InputContainer>
@@ -713,8 +707,8 @@ const Settings = (props: Props) => {
     const InputContainer = settingsOptions.colorBy !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = settingsOptions.colorBy !== false ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.colorBy !== false
-      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
+    const tooltipText = typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
+      ? getString('glossary-color-nodes-by') : getString('glossary-color-by');
     const labelText = typeof settingsOptions.colorBy === 'object' && settingsOptions.colorBy.nodes
       ? getString('global-ui-node-color-by') : getString('global-ui-color-by');
     const defaultColorByText = settingsOptions.clusterLevel !== undefined
@@ -764,12 +758,10 @@ const Settings = (props: Props) => {
     const InputContainer = settingsOptions.cityColorBy !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = settingsOptions.cityColorBy !== false ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.cityColorBy !== false
-      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     cityColorByOptions = (
       <SettingGrid>
         <Tooltip
-          explanation={tooltipText}
+          explanation={getString('glossary-city-color-by')}
         />
         <LabelContainer>{getString('global-ui-node-color-by')}</LabelContainer>
         <InputContainer>
@@ -791,12 +783,10 @@ const Settings = (props: Props) => {
     const InputContainer = settingsOptions.cityNodeSizing === true
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = settingsOptions.cityNodeSizing === true ? Label : DisabledLabel;
-    const tooltipText = settingsOptions.cityNodeSizing === true
-      ? getString('glossary-digit-level') : getString('glossary-digit-level-disabled');
     cityNodeSizingOptions = (
       <SettingGrid>
         <Tooltip
-          explanation={tooltipText}
+          explanation={getString('glossary-city-node-sizing')}
         />
         <LabelContainer>{getString('global-ui-node-sizing')}</LabelContainer>
         <InputContainer>

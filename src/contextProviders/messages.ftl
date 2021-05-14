@@ -271,16 +271,22 @@ cities-top-10-comparison-chart-expand = Click to see all industries
 cities-top-10-comparison-chart-collapse = Show only top industries
 cities-top-10-comparison-chart-axis-title = Difference in Share
 
-glossary-total-shown = About the total
-glossary-composition = About the composition type
+glossary-total-shown = Source: Dun & Bradstreet, 2020
+glossary-composition = Generate the visualization based on estimated number of employees or estimated number of establishements.  Source: Dun & Bradstreet, 2020
 glossary-composition-disabled = The composition type is disabled for this visualization
-glossary-digit-level = About digit levels
+glossary-digit-level = Visualize NAICS industries at various levels of detail
 glossary-digit-level-disabled = Digit levels are disabled for this visualization
 glossary-digit-level-disabled-industry-space = Industry Space is only available at the 6-digit level
 glossary-digit-level-disabled-swot = SWOT Analysis is only available at the 6-digit level
-glossary-cluster-vs-naics = Knowledge clusters group industries that require similar know-how. They help assess what a city’s capability base is, how this differs from other cities and what latent development opportunities it holds.
-glossary-cluster-overlay = About cluster overlay
+glossary-cluster-vs-naics = Visualize the data by 1 of 2 aggregation methods: NAICS industry groups or Knowledge Clusters. Knowledge Clusters group industries based on their shared technological or productive capabilities.
+glossary-cluster-overlay = Knowledge Clusters group industries based on their shared technological or productive capabilities.  Choose "Outline", "Overlay" or "None" to see Knowledge Clusters at various levels of intensity.
 glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for this visualization
+glossary-cluster-level = Visualize Knowledge Clusters at various levels of detail 
+glossary-node-sizing = Change the size of industry nodes based on different variables
+glossary-city-node-sizing = Change the size of city nodes based on different variables
+glossary-color-nodes-by = Change the color of industry nodes based on different variables
+glossary-color-by = Change the color of industries or Knowledge Clusters based on different variables
+glossary-city-color-by = Change the color of city nodes based on different variables
 
 axis-text-percent-total-value = % of Total { $value }
 
