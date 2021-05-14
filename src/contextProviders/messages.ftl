@@ -194,12 +194,13 @@ global-click-to-expand-industry = Click to expand industry
 
 global-intensity = Relative Presence
 global-intensity-about = Helps you determine whether your city possess a higher presence in an industry versus your chosen benchmarking cities.
+global-intensity-bar-graph-about = Right and left graph bars show the presence of an industry or knowledge cluster in selected city, compared to the selected benchmark.
 global-intensity-low = Low Relative Presence
 global-intensity-lower = Lower Relative Presence
 global-intensity-high = High Relative Presence
 global-intensity-higher = Higher Relative Presence
 
-global-specialization-expected = Expected Relative Presence
+global-specialization-expected = Relative Presence = 1x
 global-specialization-over = High Relative Presence
 global-specialization-under = Low Relative Presence
 global-specialization-scroll = Scroll down to see low relative presence 

@@ -184,7 +184,7 @@ const Clusters = (props: Props) => {
       {getString('global-intensity')}: {benchmarkNameShort}
       <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
         <Tooltip
-          explanation={getString('global-intensity-about')}
+          explanation={getString('global-intensity-bar-graph-about')}
         />
       </span>
     </BasicLabel>
