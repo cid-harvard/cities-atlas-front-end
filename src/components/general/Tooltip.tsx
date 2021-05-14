@@ -163,7 +163,9 @@ interface Props {
 }
 
 const Tooltip = (props: Props) => {
-  const {explanation, children, cursor, theme, tooltipPosition, overrideStyles, delay} = props;
+  const {
+    explanation, children, cursor, theme, tooltipPosition, overrideStyles, delay,
+  } = props;
   const rootEl = useRef<HTMLDivElement | null>(null);
   const tooltipEl = useRef<HTMLDivElement | null>(null);
   const overlayPortalContainerNodeRef = useRef<HTMLElement | null>(null);

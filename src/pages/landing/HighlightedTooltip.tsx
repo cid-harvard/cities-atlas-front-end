@@ -14,6 +14,7 @@ import {
   secondaryFont,
 } from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
+import Tooltip from '../../components/general/Tooltip';
 
 const bounceRight = keyframes`
   0%,
@@ -93,6 +94,20 @@ const CloseTooltipButton = styled.button`
   pointer-events: all;
 `;
 
+const HoverTooltipContainer = styled.div`
+  pointer-events: all;
+
+  && svg {
+    circle {
+      fill: #fff;
+    }
+
+    path {
+      fill: ${secondaryColor};
+    }
+  }
+`;
+
 interface Props {
   highlighted: ExtendedSearchDatum;
   closePopup: () => void;
@@ -116,9 +131,18 @@ const HighlightedTooltip = (props: Props) => {
         {highlighted.title}
       </TootltipTitle>
       <TootlipContent>
-        {getString('global-text-population')} (2015): {numberWithCommas(highlighted.population)}
-        <br />
-        {getString('global-text-gdp-per-capita')} (2015): ${numberWithCommas(highlighted.gdp.toFixed(2))}
+        <HoverTooltipContainer>
+          <Tooltip
+            explanation={getString('global-text-population-about')}
+          />
+          {getString('global-text-population')} (2015): {numberWithCommas(highlighted.population)}
+        </HoverTooltipContainer>
+        <HoverTooltipContainer>
+          <Tooltip
+            explanation={getString('global-text-gdp-per-capita-about')}
+          />
+          {getString('global-text-gdp-per-capita')} (2015): ${numberWithCommas(highlighted.gdp.toFixed(2))}
+        </HoverTooltipContainer>
       </TootlipContent>
       <ReviewCityButton
         ref={anchorRef}
