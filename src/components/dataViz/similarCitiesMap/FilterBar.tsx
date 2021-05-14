@@ -17,6 +17,7 @@ import {useMapContext} from 'react-city-space-mapbox';
 import raw from 'raw.macro';
 import {scaleSymlog} from 'd3-scale';
 import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
+import Tooltip from '../../general/Tooltip';
 
 const ChevronSVG = raw('../../../assets/icons/chevron.svg');
 
@@ -304,7 +305,12 @@ const FilterBar = (props: Props) => {
         </Title>
         <Settings style={{display: settingsOpen ? undefined : 'none'}}>
           <ExpandBox>
-            {getString('global-text-population')}
+            <div>
+              <Tooltip
+                explanation={getString('global-text-population-about')}
+              />
+              {getString('global-text-population')}
+            </div>
             <SliderContainer>
               <CityMark style={{left: currentPopPercent + '%'}}>
                 <CityName>
@@ -324,7 +330,12 @@ const FilterBar = (props: Props) => {
             </SliderContainer>
           </ExpandBox>
           <ExpandBox>
-            {getString('global-text-gdp-per-capita')}
+            <div>
+              <Tooltip
+                explanation={getString('global-text-gdp-per-capita-about')}
+              />
+              {getString('global-text-gdp-per-capita')}
+            </div>
             <SliderContainer>
               <CityMark style={{left: currentGdpPercent + '%'}}>
                 <CityName>
