@@ -322,6 +322,8 @@ pswot-axis-labels-bottom-right = Larger than peer(s)
 pswot-average-line-text = Relative Presence = 1
 pswot-zero-axis-label = Presence = 0
 pswot-y-average-line-text = Technological Fit = 0
+x-axis-average-about = Presence of industry or knowledge cluster in selected city is equal to that in selected peer(s)
+y-axis-average-about = Technological fit of industry or knowledge cluster in selected city is equal to that in selected peer(s)
 
 pswot-table-assigned-category = Assigned category
 pswot-table-categories = Categories

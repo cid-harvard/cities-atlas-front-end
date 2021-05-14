@@ -51,6 +51,15 @@ export const getStandardTooltip = (input: Input) => {
     rows = rows + row;
   });
 
+  const grid = rows.length ? `
+    <div
+      class="rapid-tooltip-subsection-grid"
+      style="display: grid; grid-template-columns: repeat(${columnCount}, auto);"
+    >
+      ${rows}
+    </div>
+  ` : '';
+
   const additionalContent = input.additionalHTML ? `<div>${input.additionalHTML}</div>` : '';
   const arrow = input.hideArrow ? '' : `
     <div class="rapid-tooltip-arrow-container ${arrowContainerClassName}">
@@ -67,12 +76,7 @@ export const getStandardTooltip = (input: Input) => {
       <div class="rapid-tooltip-title" style="${titleStyle}">
         ${input.title}
       </div>
-      <div
-        class="rapid-tooltip-subsection-grid"
-        style="display: grid; grid-template-columns: repeat(${columnCount}, auto);"
-      >
-        ${rows}
-      </div>
+      ${grid}
       ${additionalContent}
     </div>
     ${arrow}

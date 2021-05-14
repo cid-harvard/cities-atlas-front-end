@@ -114,14 +114,19 @@ const PSWOTChart = (props: Props) => {
     const industry = industries && industries.data && datum.id ? industries.data[datum.id] : undefined;
     if (node) {
       const rows: string[][] = [];
+      let simple = false;
       if (industry && industry.code) {
         rows.push(
           ['NAICS Code', industry.code],
         );
       } else if (datum.id) {
-        rows.push(
-          [getString('pswot-quadrant-tooltips-' + datum.id.toLowerCase())],
-        );
+        if (!datum.id.includes('axis')) {
+          rows.push(
+            [getString('pswot-quadrant-tooltips-' + datum.id.toLowerCase())],
+          );
+        } else {
+          simple = true;
+        }
       }
       if (datum.x !== undefined) {
         rows.push(
@@ -133,11 +138,15 @@ const PSWOTChart = (props: Props) => {
           ['Technological Fit', parseFloat(datum.y.toFixed(3)).toString() ],
         );
       }
+      const title = simple ? `
+        <span style="font-weight:400;">${getString(datum.id + '-about')}</span>
+      ` : datum.label;
       node.innerHTML = getStandardTooltip({
-        title: datum.label,
+        title,
         color: datum.fill ? rgba(datum.fill, 0.5) : rgba('#f69c7c', 0.5),
         rows,
         boldColumns: [1],
+        simple,
       });
       node.style.top = coords.y + 'px';
       node.style.left = coords.x + 'px';
