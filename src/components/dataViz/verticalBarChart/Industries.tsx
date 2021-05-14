@@ -8,6 +8,7 @@ import {
   wageColorRange,
   Mult,
   FractionMult,
+  PointerActiveContainer,
 } from '../../../styling/styleUtils';
 import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
@@ -197,6 +198,15 @@ const Industries = (props: Props) => {
     </BasicLabel>
   );
 
+  const centerLineLabel = (
+    <PointerActiveContainer>
+      <Tooltip
+        explanation={getString('global-specialization-expected-about')}
+      />
+      {getString('global-specialization-expected')}
+    </PointerActiveContainer>
+  );
+
   return (
     <>
       <VerticalBarChart
@@ -208,7 +218,7 @@ const Industries = (props: Props) => {
         onHighlightError={() => setHighlightError(true)}
         numberOfXAxisTicks={numberOfXAxisTicks}
         centerLineValue={scale(1) as number}
-        centerLineLabel={getString('global-specialization-expected')}
+        centerLineLabel={centerLineLabel}
         overMideLineLabel={getString('global-specialization-over')}
         underMideLineLabel={getString('global-specialization-under')}
         scrollDownText={getString('global-specialization-scroll')}

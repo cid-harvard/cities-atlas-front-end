@@ -200,7 +200,8 @@ global-intensity-lower = Lower Relative Presence
 global-intensity-high = High Relative Presence
 global-intensity-higher = Higher Relative Presence
 
-global-specialization-expected = Relative Presence = 1x
+global-specialization-expected = Relative Presence = 1
+global-specialization-expected-about = Presence of industry or knowledge cluster in selected city is equal to that in selected peer(s)
 global-specialization-over = High Relative Presence
 global-specialization-under = Low Relative Presence
 global-specialization-scroll = Scroll down to see low relative presence 
@@ -318,7 +319,7 @@ pswot-axis-labels-bottom = Relative Presence
 pswot-axis-labels-bottom-left = Smaller than peer(s)
 pswot-axis-labels-bottom-right = Larger than peer(s)
 
-pswot-average-line-text = Relative Presence = 1x
+pswot-average-line-text = Relative Presence = 1
 pswot-zero-axis-label = Presence = 0
 pswot-y-average-line-text = Technological Fit = 0
 

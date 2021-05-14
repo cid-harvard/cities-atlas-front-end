@@ -477,3 +477,7 @@ export const FractionMult = styled.span`
   position: relative;
   bottom: -0.5em;
 `;
+
+export const PointerActiveContainer = styled.div`
+  pointer-events: all;
+`;

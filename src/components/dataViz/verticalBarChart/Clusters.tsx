@@ -18,6 +18,7 @@ import {
   wageColorRange,
   Mult,
   FractionMult,
+  PointerActiveContainer,
 } from '../../../styling/styleUtils';
 import {ClusterLevel, ColorBy} from '../../../routing/routes';
 import {
@@ -190,6 +191,15 @@ const Clusters = (props: Props) => {
     </BasicLabel>
   );
 
+  const centerLineLabel = (
+    <PointerActiveContainer>
+      <Tooltip
+        explanation={getString('global-specialization-expected-about')}
+      />
+      {getString('global-specialization-expected')}
+    </PointerActiveContainer>
+  );
+
   return (
     <>
       <VerticalBarChart
@@ -200,7 +210,7 @@ const Clusters = (props: Props) => {
         onRowHover={setHovered}
         numberOfXAxisTicks={numberOfXAxisTicks}
         centerLineValue={scale(1) as number}
-        centerLineLabel={getString('global-specialization-expected')}
+        centerLineLabel={centerLineLabel}
         overMideLineLabel={getString('global-specialization-over')}
         underMideLineLabel={getString('global-specialization-under')}
         scrollDownText={getString('global-specialization-scroll')}
