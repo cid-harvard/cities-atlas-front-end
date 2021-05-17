@@ -1,5 +1,6 @@
 import {
   CityPartner,
+  CityPartnerEucDistScale,
 } from '../../../types/graphQL/graphQLTypes';
 import { useQuery, gql } from '@apollo/client';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
@@ -12,6 +13,10 @@ const GET_SIMILAR_CITIES_PROXIMITY_QUERY = gql`
       eucdist
       id
     }
+    cityPartnerEucdistScale {
+      minGlobalEucdist
+      maxGlobalEucdist
+    }
   }
 `;
 
@@ -22,6 +27,7 @@ export interface SuccessResponse {
     eucdist: CityPartner['eucdist'];
     id: CityPartner['id'];
   }[];
+  cityPartnerEucdistScale: CityPartnerEucDistScale;
 }
 
 const useProximityData = () => {

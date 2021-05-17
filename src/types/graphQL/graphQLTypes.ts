@@ -327,3 +327,8 @@ export interface CityPeerGroupCounts {
   region: number;
   subregion: number;
 }
+
+export interface CityPartnerEucDistScale {
+  minGlobalEucdist: number;
+  maxGlobalEucdist: number;
+}

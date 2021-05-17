@@ -48,12 +48,15 @@ const MapOptionsAndSettings = (props: Props) => {
 
   useEffect(() => {
     if (mapContext.intialized && proximityData && cityId) {
-      const allValues: number[] = [];
-      proximityData.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
-      const colorScale = createProximityScale([...allValues]);
+      // const allValues: number[] = [];
+      // proximityData.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
+      const colorScale = createProximityScale([
+        proximityData.cityPartnerEucdistScale.minGlobalEucdist,
+        proximityData.cityPartnerEucdistScale.maxGlobalEucdist,
+      ]);
       const proximityColorMap = proximityData.cities.map(({partnerId, eucdist}) => ({
         id: partnerId,
-        color: colorScale(eucdist ? eucdist : allValues[allValues.length - 1]),
+        color: colorScale(eucdist ? eucdist : 0),
       }));
       proximityColorMap.push({id: cityId, color: 'gray'});
       mapContext.setColors(proximityColorMap);

@@ -68,9 +68,13 @@ const Chart = (props: Props) => {
         } else {
           radiusScale = (_unused: any) => defaultNodeRadius;
         }
-        const allValues: number[] = [];
-        data.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
-        const colorScale = createProximityScale([...allValues]);
+        // const allValues: number[] = [];
+        // data.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
+        // const colorScale = createProximityScale([...allValues]);
+        const colorScale = createProximityScale([
+          data.cityPartnerEucdistScale.minGlobalEucdist,
+          data.cityPartnerEucdistScale.maxGlobalEucdist,
+        ]);
         const nodes = orderBy(data.cities, ['eucdist'], ['asc']).map(c => {
           const city = cityData.data ? cityData.data.cities.find(cc => cc.cityId === c.partnerId) : undefined;
           const country = cityData.data && city && city.countryId
@@ -94,8 +98,8 @@ const Chart = (props: Props) => {
             id: c.partnerId,
             name: city && city.name ? city.name : c.partnerId,
             country: country && country.nameShortEn ? country.nameShortEn : '',
-            color: colorScale(c.eucdist ? c.eucdist : allValues[allValues.length - 1]),
-            proximity: c.eucdist ? c.eucdist : allValues[allValues.length - 1],
+            color: colorScale(c.eucdist ? c.eucdist : 0),
+            proximity: c.eucdist ? c.eucdist : 0,
             radius: radiusScale(radius),
             shown: c.partnerId === cityId || shown,
           };
