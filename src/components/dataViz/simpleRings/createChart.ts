@@ -10,6 +10,7 @@ import {
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import {defaultYear} from '../../../Utils';
+import {ordinalNumber} from '../../../hooks/useFluent';
 
 const minExpectedScreenSize = 1020;
 export const defaultNodeRadius = 14;
@@ -234,10 +235,23 @@ const createChart = (input: Input) => {
       .attr('fill', d => d.color ? d.color : 'gray')
       .attr('display', d => d.shown ? 'block' : 'none')
       .on('mousemove', d => {
+        const rankInFiltered = filtered.findIndex(dd => dd.id === d.id) + 1;
+        const rankInAll = data.nodes.findIndex(dd => dd.id === d.id) + 1;
+        const rows = [['Year:', defaultYear.toString()]];
+        if (rankInFiltered > 0) {
+          rows.push(
+            [
+              'Similarity rank,<br />filtered cities only:',
+              ordinalNumber([rankInFiltered]) + ' of ' + filtered.length],
+            [
+              'Similarity rank,<br />all Metroverse cities:',
+              ordinalNumber([rankInAll]) + ' of ' + data.nodes.length],
+          );
+        }
         tooltipEl.innerHTML = getStandardTooltip({
           title: d.name + ', ' + d.country,
           color: rgba(d.color, 0.3),
-          rows: [['Year:', defaultYear.toString()]],
+          rows,
           boldColumns: [1],
           simple: true,
         });
