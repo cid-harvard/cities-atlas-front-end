@@ -156,7 +156,7 @@ global-text-beta = Beta
 
 global-text-countries = Countries
 global-text-population = Population
-global-text-population-about = About the Population
+global-text-population-about = Source: GHS Urban Centre Database from the European Commission’s Joint Research Centre (2015)
 global-text-gdp-per-capita = GDP per Capita
 global-text-gdp-per-capita-about = The Growth Lab uses samples from the OECD and Brookings GDP per capita data to train a machine learning model.  Our model then predicts city GDP per capita based on its industrial composition, a global GDP grid and country-level information.
 global-text-industries = Industries
