@@ -235,6 +235,7 @@ const createChart = (input: Input) => {
       .attr('fill', d => d.color ? d.color : 'gray')
       .attr('display', d => d.shown ? 'block' : 'none')
       .on('mousemove', d => {
+        // add one to the rank to account for 0 start arrays
         const rankInFiltered = filtered.findIndex(dd => dd.id === d.id) + 1;
         const rankInAll = data.nodes.findIndex(dd => dd.id === d.id) + 1;
         const rows = [['Year:', defaultYear.toString()]];
@@ -242,10 +243,12 @@ const createChart = (input: Input) => {
           rows.push(
             [
               'Similarity rank,<br />filtered cities only:',
+              // the current city has already been deducted from the count
               ordinalNumber([rankInFiltered]) + ' of ' + filtered.length],
             [
               'Similarity rank,<br />all Metroverse cities:',
-              ordinalNumber([rankInAll]) + ' of ' + data.nodes.length],
+              // subtract one to not include the current city
+              ordinalNumber([rankInAll]) + ' of ' + (data.nodes.length - 1)],
           );
         }
         tooltipEl.innerHTML = getStandardTooltip({

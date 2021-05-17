@@ -14,6 +14,7 @@ import {extent} from 'd3-array';
 import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {defaultYear} from '../../../Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
+import {ordinalNumber} from '../../../hooks/useFluent';
 
 const Root = styled.div`
   width: 100%;
@@ -65,6 +66,7 @@ const FilterBarContainer = styled.div`
 `;
 
 let staticProximityData: SuccessResponse | undefined;
+let staticFilterValues: FilterValues | undefined;
 
 interface FilterValues {
   selectedRegionIds:  string[];
@@ -88,18 +90,58 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
   }, [proximityData]);
 
   useEffect(() => {
+    staticFilterValues = filterValues;
+  }, [filterValues]);
+
+  useEffect(() => {
     // hack needed to handle issues with mapbox and d3 rendering contexts
     // initial showRings state should be opposite of what is desired, and flip
     // it here
     setShowRings(true);
   }, [timeStamp]);
 
-  const renderTooltipContent = (node: {id: string, country: string, city: string, fill: string}) => {
+  const renderTooltipContent =
+    (node: {id: string, country: string, city: string, fill: string}) => {
     if (data && staticProximityData) {
+      const filtered = data.cityGeoJson.features.filter(({properties: d}: any) => {
+        const shown =
+          d.id !== cityId &&
+          (staticFilterValues === undefined || (
+          d.population >= staticFilterValues.minMaxPopulation[0] &&
+          d.population <= staticFilterValues.minMaxPopulation[1] &&
+          d.gdppc >= staticFilterValues.minMaxGdppc[0] &&
+          d.gdppc <= staticFilterValues.minMaxGdppc[1] &&
+          (!staticFilterValues.selectedRegionIds.length ||
+            (d.region !== null && staticFilterValues.selectedRegionIds.includes(d.region))) &&
+          (!staticFilterValues.selectedCountryIds.length ||
+            (d.country !== null && d.country !== undefined &&
+              staticFilterValues.selectedCountryIds.includes(d.country.countryId)))
+            ))
+              ? true : false;
+        return shown;
+      });
+      // add one to the rank to account for 0 start arrays
+      const rankInFiltered =
+        filtered.findIndex((dd: any) => dd.properties.id === node.id) + 1;
+      const rankInAll =
+        data.cityGeoJson.features.findIndex((dd: any) => dd.properties.id === node.id) + 1;
+      const rows = [['Year:', defaultYear.toString()]];
+      if (rankInFiltered > 0) {
+        rows.push(
+          [
+            'Similarity rank,<br />filtered cities only:',
+            // the current city has already been deducted from the count
+            ordinalNumber([rankInFiltered]) + ' of ' + filtered.length],
+          [
+            'Similarity rank,<br />all Metroverse cities:',
+            // subtract one to not include the current city
+            ordinalNumber([rankInAll]) + ' of ' + (data.cityGeoJson.features.length - 1)],
+        );
+      }
       return getStandardTooltip({
         title: node.city + ', ' + node.country,
         color: rgba(node.fill, 0.35),
-        rows: [['Year:', defaultYear.toString()]],
+        rows,
         boldColumns: [1],
         hideArrow: true,
         simple: true,
