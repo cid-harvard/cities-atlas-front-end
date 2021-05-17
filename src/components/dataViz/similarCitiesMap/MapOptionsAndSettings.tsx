@@ -56,7 +56,7 @@ const MapOptionsAndSettings = (props: Props) => {
       ]);
       const proximityColorMap = proximityData.cities.map(({partnerId, eucdist}) => ({
         id: partnerId,
-        color: colorScale(eucdist ? eucdist : 0),
+        color: colorScale(eucdist ? eucdist : 100),
       }));
       proximityColorMap.push({id: cityId, color: 'gray'});
       mapContext.setColors(proximityColorMap);

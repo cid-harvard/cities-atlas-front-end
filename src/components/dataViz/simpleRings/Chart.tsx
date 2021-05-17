@@ -68,9 +68,6 @@ const Chart = (props: Props) => {
         } else {
           radiusScale = (_unused: any) => defaultNodeRadius;
         }
-        // const allValues: number[] = [];
-        // data.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
-        // const colorScale = createProximityScale([...allValues]);
         const colorScale = createProximityScale([
           data.cityPartnerEucdistScale.minGlobalEucdist,
           data.cityPartnerEucdistScale.maxGlobalEucdist,
@@ -98,8 +95,8 @@ const Chart = (props: Props) => {
             id: c.partnerId,
             name: city && city.name ? city.name : c.partnerId,
             country: country && country.nameShortEn ? country.nameShortEn : '',
-            color: colorScale(c.eucdist ? c.eucdist : 0),
-            proximity: c.eucdist ? c.eucdist : 0,
+            color: colorScale(c.eucdist ? c.eucdist : 100),
+            proximity: c.eucdist ? c.eucdist : 100,
             radius: radiusScale(radius),
             shown: c.partnerId === cityId || shown,
           };
