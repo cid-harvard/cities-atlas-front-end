@@ -15,6 +15,7 @@ import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {defaultYear} from '../../../Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import {ordinalNumber} from '../../../hooks/useFluent';
+import orderBy from 'lodash/orderBy';
 
 const Root = styled.div`
   width: 100%;
@@ -67,6 +68,7 @@ const FilterBarContainer = styled.div`
 
 let staticProximityData: SuccessResponse | undefined;
 let staticFilterValues: FilterValues | undefined;
+let staticCityId: string | null;
 
 interface FilterValues {
   selectedRegionIds:  string[];
@@ -87,11 +89,15 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
 
   useEffect(() => {
     staticProximityData = proximityData;
-  }, [proximityData]);
+  }, [proximityData, cityId]);
 
   useEffect(() => {
     staticFilterValues = filterValues;
-  }, [filterValues]);
+  }, [filterValues, cityId]);
+
+  useEffect(() => {
+    staticCityId = cityId;
+  }, [cityId]);
 
   useEffect(() => {
     // hack needed to handle issues with mapbox and d3 rendering contexts
@@ -103,19 +109,29 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
   const renderTooltipContent =
     (node: {id: string, country: string, city: string, fill: string}) => {
     if (data && staticProximityData) {
-      const filtered = data.cityGeoJson.features.filter(({properties: d}: any) => {
+      const sorted = orderBy(data.cityGeoJson.features, (d: any) => {
+        const proximityDatum = (staticProximityData as SuccessResponse).cities.find(
+          dd => dd.partnerId === d.properties.id);
+        if (proximityDatum) {
+          return proximityDatum.eucdist;
+        } else {
+          return 100;
+        }
+      });
+
+      const filtered = sorted.filter(({properties: d}: any) => {
         const shown =
-          d.id !== cityId &&
+          d.id !== staticCityId &&
           (staticFilterValues === undefined || (
           d.population >= staticFilterValues.minMaxPopulation[0] &&
           d.population <= staticFilterValues.minMaxPopulation[1] &&
           d.gdppc >= staticFilterValues.minMaxGdppc[0] &&
           d.gdppc <= staticFilterValues.minMaxGdppc[1] &&
           (!staticFilterValues.selectedRegionIds.length ||
-            (d.region !== null && staticFilterValues.selectedRegionIds.includes(d.region))) &&
+            (d.region !== null && staticFilterValues.selectedRegionIds.includes(d.region.toString()))) &&
           (!staticFilterValues.selectedCountryIds.length ||
-            (d.country !== null && d.country !== undefined &&
-              staticFilterValues.selectedCountryIds.includes(d.country.countryId)))
+            (d.countryId !== null && d.countryId !== undefined &&
+              staticFilterValues.selectedCountryIds.includes(d.countryId)))
             ))
               ? true : false;
         return shown;
@@ -124,7 +140,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
       const rankInFiltered =
         filtered.findIndex((dd: any) => dd.properties.id === node.id) + 1;
       const rankInAll =
-        data.cityGeoJson.features.findIndex((dd: any) => dd.properties.id === node.id) + 1;
+        sorted.findIndex((dd: any) => dd.properties.id === node.id) + 1;
       const rows = [['Year:', defaultYear.toString()]];
       if (rankInFiltered > 0) {
         rows.push(
@@ -135,19 +151,21 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
           [
             'Similarity rank,<br />all Metroverse cities:',
             // subtract one to not include the current city
-            ordinalNumber([rankInAll]) + ' of ' + (data.cityGeoJson.features.length - 1)],
+            ordinalNumber([rankInAll]) + ' of ' + (sorted.length - 1)],
         );
       }
-      return getStandardTooltip({
-        title: node.city + ', ' + node.country,
-        color: rgba(node.fill, 0.35),
-        rows,
-        boldColumns: [1],
-        hideArrow: true,
-        simple: true,
-      });
+      if (rankInFiltered > 0 || node.id === staticCityId) {
+        return getStandardTooltip({
+          title: node.city + ', ' + node.country,
+          color: rgba(node.fill, 0.35),
+          rows,
+          boldColumns: [1],
+          hideArrow: true,
+          simple: true,
+        });
+      } else  return null;
     }
-    return '';
+    return null;
   };
 
   let rings: React.ReactElement<any> | null = null;
