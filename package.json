@@ -33,7 +33,7 @@
     "query-string": "^6.13.6",
     "raw.macro": "^0.4.2",
     "react": "^16.13.1",
-    "react-canvas-treemap": "^1.0.4",
+    "react-canvas-treemap": "^1.0.6",
     "react-city-space-mapbox": "^1.0.9",
     "react-comparison-bar-chart": "^1.1.9",
     "react-compound-slider": "^3.3.1",

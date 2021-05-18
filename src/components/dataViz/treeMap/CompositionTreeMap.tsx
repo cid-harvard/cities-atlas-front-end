@@ -326,6 +326,10 @@ const CompositionTreeMap = (props: Props) => {
         </>
       ) : `${getString('global-ui-estimated-total-employees')}: ${numberWithCommas(formatNumber(Math.round(total)))}`;
       indicator.tooltipContent = getString('glossary-total-shown');
+      const fallbackTitle =
+        'Treemap displaying the economic composition of the selected city ' +
+        'based on the number of ' + compositionType + ' found within the city. ' +
+        'The top values are as follows: ';
       output = (
         <TreeMapContainer>
           <Tooltip
@@ -343,6 +347,7 @@ const CompositionTreeMap = (props: Props) => {
                 onCellClick={noop}
                 onMouseOverCell={onHover}
                 onMouseLeaveChart={noop}
+                fallbackTitle={fallbackTitle}
               />
             </ErrorBoundary>
           </Tooltip>
