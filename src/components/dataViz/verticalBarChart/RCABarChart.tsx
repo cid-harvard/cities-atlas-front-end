@@ -123,7 +123,7 @@ const AxisLabelRight = styled(AxisLabelBase)`
 const AxisLabelHigh = styled(AxisLabelBase)`
   margin-left: 3rem;
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     margin-left: 1rem;
   }
 `;

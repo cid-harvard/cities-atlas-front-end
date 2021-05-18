@@ -25,7 +25,7 @@ const Root = styled.div`
   color: #fff;
   height: 100%;
 
-  @media screen and (max-height: 700px) {
+  @media screen and (max-height: 800px) {
     overflow: visible;
   }
 `;

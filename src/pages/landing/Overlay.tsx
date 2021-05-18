@@ -63,7 +63,7 @@ const Content = styled.div`
     }
   }
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     max-width: 600px;
     grid-template-columns: 0 auto 0;
   }
@@ -122,7 +122,7 @@ const IntroQuestions = styled.div`
   padding: 0 3rem 0;
   opacity: 0.8;
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     padding: 0 0.875rem 0;
     font-size: 0.8rem;
   }
@@ -136,7 +136,7 @@ const IntroP = styled.div`
   padding: 0 3rem clamp(0.5rem, 0.5vh, 2rem);
   opacity: 0.8;
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     padding: 0 0.875rem 0.5rem;
     padding: 0 0.875rem clamp(0.5rem, 0.5vh, 2rem);
     font-size: 0.8rem;
@@ -150,7 +150,7 @@ const IntroFooter = styled.div`
   padding: 0 3rem 0.7rem;
   opacity: 0.8;
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     padding: 0 0.875rem 0.7rem;
     font-size: 0.8rem;
   }
@@ -166,7 +166,7 @@ const StartButtons = styled.div`
   flex-direction: column;
   align-items: center;
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     font-size: 0.9rem;
   }
 `;
@@ -207,7 +207,7 @@ const PickCityButton = styled.button`
     }
   }
 
-  @media (max-height: 700px) {
+  @media (max-height: 800px) {
     font-size: 0.9rem;
     margin: 0.875rem 0 0.75rem;
     padding: 0.65rem;

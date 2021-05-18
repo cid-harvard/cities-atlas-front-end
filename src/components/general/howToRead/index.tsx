@@ -52,7 +52,7 @@ const Root = styled.div`
     width: 550px;
   }
 
-  @media screen and (max-height: 700px) {
+  @media screen and (max-height: 800px) {
     overflow: visible;
   }
 `;

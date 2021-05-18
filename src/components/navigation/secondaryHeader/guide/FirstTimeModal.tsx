@@ -37,7 +37,7 @@ const Root = styled.div`
     width: auto;
   }
 
-  @media screen and (max-height: 700px) {
+  @media screen and (max-height: 800px) {
     overflow: visible;
   }
 `;

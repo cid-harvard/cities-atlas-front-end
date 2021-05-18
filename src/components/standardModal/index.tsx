@@ -54,7 +54,7 @@ const Container = styled.div<{dimensions: Dimensions}>`
   max-width: ${({dimensions: {width}}) => width};
   height: ${({dimensions: {height}}) => height};
 
-  @media screen and (max-width: ${mobileWidth}px), screen and (max-height: 700px) {
+  @media screen and (max-width: ${mobileWidth}px), screen and (max-height: 800px) {
     max-height: calc(100vh - 4rem);
     max-width: calc(100vw - 4rem);
     margin: auto;
@@ -77,7 +77,7 @@ const Content = styled.div`
     background-color: rgba(0, 0, 0, .1);
   }
 
-  @media screen and (max-width: ${mobileWidth}px), screen and (max-height: 700px) {
+  @media screen and (max-width: ${mobileWidth}px), screen and (max-height: 800px) {
     overflow: visible;
   }
 `;

@@ -78,7 +78,7 @@ const Root = styled.div`
   max-width: 100%;
   box-sizing: border-box;
 
-  @media screen and (max-height: 700px) {
+  @media screen and (max-height: 800px) {
     overflow: visible;
     padding: 1rem;
   }

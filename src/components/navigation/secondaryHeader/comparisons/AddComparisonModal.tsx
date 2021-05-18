@@ -70,7 +70,7 @@ const Root = styled.div`
   justify-content: flex-start;
   box-sizing: border-box;
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     width: 100%;
     max-height: initial;
     padding: 1rem;
@@ -84,7 +84,7 @@ const H1 = styled.h1`
   margin-top: 2rem;
   margin-bottom: 2rem;
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     font-size: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -143,7 +143,7 @@ const ContainerTitle = styled.h3`
   margin-bottom: 0.4rem;
   font-family: ${primaryFont};
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     font-size: 1.1rem;
   }
 `;
@@ -174,7 +174,7 @@ const Or = styled.div`
     margin-top: 0.5rem;
   }
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     font-size: 1.1rem;
   }
 
@@ -238,7 +238,7 @@ const ContinueButton = styled.button`
     border-color: rgba(255, 255, 255, 0.5);
   }
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     font-size: 1rem;
   }
 `;
@@ -255,7 +255,7 @@ const GroupItem = styled.li`
   font-size: 1rem;
   font-family: ${primaryFont};
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     font-size: 0.8rem;
   }
 `;
@@ -288,7 +288,7 @@ const AboutText = styled.p`
   margin: 0 0 1rem;
   font-family: ${primaryFont};
 
-  @media (max-width: 900px), (max-height: 700px) {
+  @media (max-width: 900px), (max-height: 800px) {
     font-size: 0.8rem;
   }
 `;
