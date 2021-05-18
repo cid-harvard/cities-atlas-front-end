@@ -321,6 +321,7 @@ const PSWOTChart = (props: Props) => {
           <PSwotPlot
             id={'react-pswot-plot-demo'}
             data={sortedData}
+            chartTitle={'SWOT Scatterplot also showing Possible Entrants'}
             averageLineText={getString('pswot-average-line-text')}
             quadrantLabels={{
               I: getString('pswot-quadrant-labels-i'),
