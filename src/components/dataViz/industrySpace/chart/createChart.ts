@@ -324,7 +324,14 @@ const createChart = (input: Input) => {
       .attr('fill', d => rgba(d.color, 0))
       .attr('stroke', rgba('#efefef', 0))
       .style('opacity', 1)
-      .on('click', d => zoomToShape(d, 5))
+      .on('click', d => {
+        if (state.zoom > 1.5) {
+          zoomToShape(d, 5);
+        } else {
+          const continent = data.clusters.continents.find(c => c.clusterId === d.continent);
+          zoomToShape(continent, 5);
+        }
+      })
       .on('mouseenter', d => setHoveredShape(d))
       .on('mousemove', d => {
         const continent = data.clusters.continents.find(c => c.clusterId === d.continent);
@@ -369,37 +376,38 @@ const createChart = (input: Input) => {
       .attr('fill', d => rgba(d.color, 0))
       .attr('stroke', rgba('#efefef', 1))
       .style('opacity', 1)
-      .on('click', d => zoomToShape(d, 3))
-      .on('mouseenter', d => setHoveredShape(d))
-      .on('mousemove', d => {
-        const rows = [
-          ['Year:', defaultYear.toString()],
-        ];
-        if (d.numEmploy !== undefined) {
-          rows.push(['Number of Employees:', formatNumber(Math.round(d.numEmploy))]);
-        }
-        if (d.shareEmploy !== undefined) {
-          rows.push(['Share of Employees:', d.shareEmploy + '%']);
-        }
-        tooltipEl.innerHTML = getStandardTooltip({
-          title: 'Knowledge Cluster: ' + (d.name ? d.name : ''),
-          color: 'gray',
-          rows,
-          boldColumns: [1],
-          simple: true,
-          additionalHTML:
-            `<div style="padding: 0.35rem; font-style: italic; font-size: 0.7rem; text-align: center;">
-              Click to zoom into knowledge cluster
-            </div>`,
-        });
-        tooltipEl.style.display = 'block';
-        tooltipEl.style.top = d3.event.pageY + 'px';
-        tooltipEl.style.left = d3.event.pageX + 'px';
-      })
-      .on('mouseleave', () => {
-        tooltipEl.style.display = 'none';
-        setHoveredShape(null);
-      });
+      .style('pointer-events', 'none');
+      // .on('click', d => zoomToShape(d, 3))
+      // .on('mouseenter', d => setHoveredShape(d))
+      // .on('mousemove', d => {
+      //   const rows = [
+      //     ['Year:', defaultYear.toString()],
+      //   ];
+      //   if (d.numEmploy !== undefined) {
+      //     rows.push(['Number of Employees:', formatNumber(Math.round(d.numEmploy))]);
+      //   }
+      //   if (d.shareEmploy !== undefined) {
+      //     rows.push(['Share of Employees:', d.shareEmploy + '%']);
+      //   }
+      //   tooltipEl.innerHTML = getStandardTooltip({
+      //     title: 'Knowledge Cluster: ' + (d.name ? d.name : ''),
+      //     color: 'gray',
+      //     rows,
+      //     boldColumns: [1],
+      //     simple: true,
+      //     additionalHTML:
+      //       `<div style="padding: 0.35rem; font-style: italic; font-size: 0.7rem; text-align: center;">
+      //         Click to zoom into knowledge cluster
+      //       </div>`,
+      //   });
+      //   tooltipEl.style.display = 'block';
+      //   tooltipEl.style.top = d3.event.pageY + 'px';
+      //   tooltipEl.style.left = d3.event.pageX + 'px';
+      // })
+      // .on('mouseleave', () => {
+      //   tooltipEl.style.display = 'none';
+      //   setHoveredShape(null);
+      // });
 
   const hoveredShape = g.append('polygon')
     .attr('class', 'industry-cluster-hovered')
@@ -704,7 +712,7 @@ const createChart = (input: Input) => {
           .style('opacity', 1);
 
       continents
-        .style('pointer-events', 'none')
+        // .style('pointer-events', 'none')
         .style('opacity', 0);
 
       countries
@@ -742,7 +750,6 @@ const createChart = (input: Input) => {
         .each((d: any) => d.adjustedCoords = undefined)
         .attr('class', 'industry-edge-node')
         .style('display', 'block')
-        .style('pointer-events', state.zoom > 2.25  ? 'auto' : 'none')
         .style('opacity', () => {
           if (state.zoom < 2.5) {
             return 0.5;
@@ -765,16 +772,8 @@ const createChart = (input: Input) => {
         .attr('cx', d => xScale(d.x) as number + margin.left )
         .attr('cy', d => yScale(d.y) as number + margin.top );
 
-      continents
-        .style('pointer-events', zoomScales.continent.fill(state.zoom) as number > 0.1 &&
-          zoomScales.countries.fill(state.zoom) as number <= 0.01
-          ? 'auto' : 'none')
-        .attr('stroke', rgba('#efefef', zoomScales.continent.stroke(state.zoom) as number))
-        .style('opacity', 1);
-
       countries
-        .style('pointer-events', zoomScales.countries.fill(state.zoom) as number > 0.01 &&
-          state.zoom < 3.5 ? 'auto' : 'none')
+        .style('pointer-events', 'auto')
         .attr('fill', d => state.zoom < 3.5 ? d.color : rgba(d.color, 0))
         .attr('stroke', rgba('#efefef', zoomScales.countries.stroke(state.zoom) as number))
         .style('opacity', 1);
@@ -794,10 +793,8 @@ const createChart = (input: Input) => {
         .style('display', 'block');
 
       if (state.zoom > 3.5) {
-      // if (state.zoom > 8) {
         nodeLabels
           .style('opacity', 1)
-          // .style('opacity', zoomScales.nodes.label(state.zoom) as number)
           .style('display', 'block');
       } else {
         nodeLabels
@@ -835,8 +832,6 @@ const createChart = (input: Input) => {
           .attr('points', state.hoveredShape.polygon.map(([xCoord, yCoord]: [number, number]) =>
             [xScale(xCoord) as number + margin.left, yScale(yCoord) as number + margin.top].join(',')).join(' ') )
           .attr('fill', 'none')
-          // .attr('stroke', '#efefef')
-          // .attr('stroke-width', 4)
           .style('display', 'block');
       } else {
         hoveredShape
