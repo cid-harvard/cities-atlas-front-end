@@ -1,6 +1,6 @@
 {
-  "short_name": "Cityverse",
-  "name": "Cityverse by The Growth Lab at Harvard's Center For International Development",
+  "short_name": "Metroverse",
+  "name": "Metroverse | Harvard Growth Lab",
   "icons": [
     {
       "src": "favicon.svg",
@@ -20,6 +20,6 @@
   ],
   "start_url": ".",
   "display": "standalone",
-  "theme_color": "#e6e7e8",
-  "background_color": "#e6e7e8"
+  "theme_color": "#2e353f",
+  "background_color": "#2e353f"
 }

@@ -10,7 +10,7 @@ const About = () => {
         <title>{'About | ' + getString('meta-data-title-default-suffix')}</title>
         <meta property='og:title' content={'About | ' + getString('meta-data-title-default-suffix')} />
       </Helmet>
-      About the Cityverse
+      About the Metroverse
     </div>
   );
 };

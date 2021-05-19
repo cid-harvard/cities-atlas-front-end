@@ -278,7 +278,7 @@ const StandardFooter = () => {
             <Link to={Routes.Landing}>
               <CityverseLogo
                 src={CityverseLogoSVG}
-                alt={'The Growth Lab\'s Cityverse'}
+                alt={'The Growth Lab\'s Metroverse'}
               />
             </Link>
             <Subtitle>
