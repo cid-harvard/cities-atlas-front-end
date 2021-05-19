@@ -3,8 +3,10 @@ import styled, {keyframes} from 'styled-components/macro';
 import {
   UtilityBarButtonBase,
   mediumSmallBreakpoint,
+  columnsToRowsBreakpoint,
   SvgBase,
   Text,
+  TooltipContent,
 } from '../../navigation/Utils';
 import raw from 'raw.macro';
 import {
@@ -19,6 +21,8 @@ import {DataFlagType} from '../../../types/graphQL/graphQLTypes';
 import Modal from '../../standardModal';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../../routing/routes';
+import Tooltip, {TooltipPosition} from '../../general/Tooltip';
+import {useWindowWidth} from '../../../contextProviders/appContext';
 
 const dataIconSvg = raw('../../../assets/icons/disclaimer.svg');
 
@@ -125,6 +129,7 @@ const DataDisclaimer = () => {
   const getString = useFluent();
   const currentCity = useCurrentCity();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const windowDimensions = useWindowWidth();
 
   let flagColor: string = baseColor;
   let alertTitle: string = '';
@@ -178,17 +183,28 @@ const DataDisclaimer = () => {
 
   return (
     <>
-      <UtilityBarButtonBase
-        onClick={() => setModalOpen(true)}
+
+      <Tooltip
+        explanation={windowDimensions.width < mediumSmallBreakpoint &&
+          windowDimensions.width > columnsToRowsBreakpoint
+          ? <TooltipContent>{getString('global-ui-data-disclaimer')}</TooltipContent>
+          : null
+        }
+        cursor='pointer'
+        tooltipPosition={TooltipPosition.Bottom}
       >
-        <DisclaimerSvg
-          dangerouslySetInnerHTML={{__html: dataIconSvg}}
-          $flagColor={flagColor}
-        />
-        <Text style={{color: flagColor}}>
-          {getString('global-ui-data-disclaimer')}
-        </Text>
-      </UtilityBarButtonBase>
+        <UtilityBarButtonBase
+          onClick={() => setModalOpen(true)}
+        >
+          <DisclaimerSvg
+            dangerouslySetInnerHTML={{__html: dataIconSvg}}
+            $flagColor={flagColor}
+          />
+          <Text style={{color: flagColor}}>
+            {getString('global-ui-data-disclaimer')}
+          </Text>
+        </UtilityBarButtonBase>
+      </Tooltip>
       {modal}
     </>
   );

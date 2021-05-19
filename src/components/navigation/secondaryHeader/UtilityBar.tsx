@@ -164,17 +164,7 @@ const UtilityBar = (props: Props) => {
         <Guide />
         {downloadImageButton}
         {downloadDataButton}
-        <Tooltip
-          explanation={windowDimensions.width < mediumSmallBreakpoint &&
-            windowDimensions.width > columnsToRowsBreakpoint
-            ? <TooltipContent>{getString('global-ui-data-disclaimer')}</TooltipContent>
-            : null
-          }
-          cursor='pointer'
-          tooltipPosition={TooltipPosition.Bottom}
-        >
-          <DataDisclaimer />
-        </Tooltip>
+        <DataDisclaimer />
       </>
     ), secondaryHeaderUtilityBarContainerNodeRef.current);
   } else {
