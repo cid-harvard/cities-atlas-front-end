@@ -232,6 +232,7 @@ const BreadCrumbContainer = styled.div`
   @media (max-width: 950px) {
     justify-content: flex-end;
   }
+
 `;
 
 const BreadCrumb = styled.button`
@@ -247,6 +248,14 @@ const BreadCrumb = styled.button`
   font-size: 0.6rem;
   font-size: clamp(0.6rem, 0.7vw, 0.875rem);
   background-color: transparent;
+
+  @media (max-width: 830px) {
+    font-size: 0.5rem;
+  }
+
+  @media (max-width: 390px) {
+    display: none;
+  }
 `;
 
 const Arrow = styled.span`
