@@ -69,8 +69,10 @@ const Chart = (props: Props) => {
           radiusScale = (_unused: any) => defaultNodeRadius;
         }
         const colorScale = createProximityScale([
-          data.cityPartnerEucdistScale.minGlobalEucdist,
-          data.cityPartnerEucdistScale.maxGlobalEucdist,
+          data.cityPartnerEucdistScale.p20GlobalEucdist,
+          data.cityPartnerEucdistScale.p40GlobalEucdist,
+          data.cityPartnerEucdistScale.p60GlobalEucdist,
+          data.cityPartnerEucdistScale.p80GlobalEucdist,
         ]);
         const nodes = orderBy(data.cities, ['eucdist'], ['asc']).map(c => {
           const city = cityData.data ? cityData.data.cities.find(cc => cc.cityId === c.partnerId) : undefined;

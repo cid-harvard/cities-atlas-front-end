@@ -15,6 +15,10 @@ const GET_SIMILAR_CITIES_PROXIMITY_QUERY = gql`
     }
     cityPartnerEucdistScale {
       minGlobalEucdist
+      p20GlobalEucdist
+      p40GlobalEucdist
+      p60GlobalEucdist
+      p80GlobalEucdist
       maxGlobalEucdist
     }
   }

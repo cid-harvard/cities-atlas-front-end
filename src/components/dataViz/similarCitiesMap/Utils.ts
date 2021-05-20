@@ -51,16 +51,16 @@ export const proximityColors = [
    '#2E8CB9',
 ];
 
-export const createProximityScale = (values: [number, number]) => {
-  const increment = (values[1] - values[0]) / 5;
-  const thresholdValues = [
-    values[0] + increment,
-    values[0] + (increment * 2),
-    values[0] + (increment * 3),
-    values[0] + (increment * 4),
-  ];
+export const createProximityScale = (values: [number, number, number, number]) => {
+  // const increment = (values[1] - values[0]) / 5;
+  // const thresholdValues = [
+  //   values[0] + increment,
+  //   values[0] + (increment * 2),
+  //   values[0] + (increment * 3),
+  //   values[0] + (increment * 4),
+  // ];
   const scale: (val: number) => string = scaleThreshold()
-    .domain(thresholdValues)
+    .domain(values)
     .range(proximityColors as any[]) as any;
   return scale;
 };

@@ -51,8 +51,10 @@ const MapOptionsAndSettings = (props: Props) => {
       // const allValues: number[] = [];
       // proximityData.cities.forEach(d => d && d.eucdist !== null ? allValues.push(d.eucdist) : false);
       const colorScale = createProximityScale([
-        proximityData.cityPartnerEucdistScale.minGlobalEucdist,
-        proximityData.cityPartnerEucdistScale.maxGlobalEucdist,
+        proximityData.cityPartnerEucdistScale.p20GlobalEucdist,
+        proximityData.cityPartnerEucdistScale.p40GlobalEucdist,
+        proximityData.cityPartnerEucdistScale.p60GlobalEucdist,
+        proximityData.cityPartnerEucdistScale.p80GlobalEucdist,
       ]);
       const proximityColorMap = proximityData.cities.map(({partnerId, eucdist}) => ({
         id: partnerId,

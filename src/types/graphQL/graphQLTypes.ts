@@ -330,5 +330,9 @@ export interface CityPeerGroupCounts {
 
 export interface CityPartnerEucDistScale {
   minGlobalEucdist: number;
+  p20GlobalEucdist: number;
+  p40GlobalEucdist: number;
+  p60GlobalEucdist: number;
+  p80GlobalEucdist: number;
   maxGlobalEucdist: number;
 }
