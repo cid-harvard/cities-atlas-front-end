@@ -85,6 +85,7 @@ interface Props {
   selectedOptions: string[];
   setSelectedOptions: (s: string[]) => void;
   title: string;
+  multipleAsValuesText?: boolean;
 }
 
 const ColumnFilterBox = (props: Props) => {
@@ -94,13 +95,15 @@ const ColumnFilterBox = (props: Props) => {
   } = props;
 
 
-function selectBoxValueRenderer(selected: any) {
-  if (selected.length === 0) {
-    return `Filter ${title}`;
-  } else if (selected.length === allOptions.length) {
-    return `All ${title} selected`;
-  }
-    return selected.length === 1 ? selected.label : `${selected.length} ${title} Selected`;
+  function selectBoxValueRenderer(selected: any) {
+    if (selected.length === 0) {
+      return `Filter ${title}`;
+    } else if (selected.length === allOptions.length) {
+      return `All ${title} selected`;
+    } else if (props.multipleAsValuesText) {
+      return selected.length === 1 ? selected.label : `${selected.length} values selected`;
+    }
+    return selected.length === 1 ? selected.label : `${selected.length} ${title} selected`;
   }
 
   return (

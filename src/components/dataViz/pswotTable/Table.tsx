@@ -17,6 +17,10 @@ import ColumnFilterBox from './ColumnFilterBox';
 import TextFilter from './TextFilter';
 import QuickError from '../../transitionStateComponents/QuickError';
 import useFluent from '../../../hooks/useFluent';
+import useRcaAndDensityOptions, {
+  rcaOptions,
+  densityOptions,
+} from './useRcaAndDensityOptions';
 
 const sortArrows = raw('../../../assets/icons/sort-arrows.svg');
 
@@ -185,8 +189,11 @@ const PSWOTTable = (props: Props) => {
   const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ascending);
   const [filterText, setFilterText] = useState<string>('');
   const [filterdQuadrants, setFilteredQuadrants] = useState<Quadrant[]>([]);
+  const [filterdRCA, setFilteredRCA] = useState<string[]>([]);
+  const [filterdDensity, setFilteredDensity] = useState<string[]>([]);
   const [highlightError, setHighlightError] = useState<boolean>(false);
   const getString = useFluent();
+  const {match} = useRcaAndDensityOptions();
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
@@ -230,6 +237,12 @@ const PSWOTTable = (props: Props) => {
             return false;
           }
           if (filterText.length && !d.name.toLowerCase().includes(filterText.toLowerCase())) {
+            return false;
+          }
+          if (!match(d.rca, 'rca', filterdRCA)) {
+            return false;
+          }
+          if (!match(d.density, 'density', filterdDensity)) {
             return false;
           }
           return true;
@@ -288,17 +301,11 @@ const PSWOTTable = (props: Props) => {
                 </SortContent>
                 <FilterContent>
                   <ColumnFilterBox
-                    allOptions={[
-                      {label: 'Very High', value: 'Very High'},
-                      {label: 'High', value: 'High'},
-                      {label: 'Expected', value: 'Expected'},
-                      {label: 'Low', value: 'Low'},
-                      {label: 'Very Low', value: 'Very Low'},
-                      {label: 'None', value: 'None'},
-                    ]}
-                    selectedOptions={[]}
-                    setSelectedOptions={() => null}
+                    allOptions={rcaOptions}
+                    selectedOptions={filterdRCA}
+                    setSelectedOptions={setFilteredRCA as any}
                     title={getString('pswot-axis-labels-bottom')}
+                    multipleAsValuesText={true}
                   />
                 </FilterContent>
               </CellContent>
@@ -316,16 +323,11 @@ const PSWOTTable = (props: Props) => {
                 </SortContent>
                 <FilterContent>
                   <ColumnFilterBox
-                    allOptions={[
-                      {label: 'Very High', value: 'Very High'},
-                      {label: 'High', value: 'High'},
-                      {label: 'Expected', value: 'Expected'},
-                      {label: 'Low', value: 'Low'},
-                      {label: 'Very Low', value: 'Very Low'},
-                    ]}
-                    selectedOptions={[]}
-                    setSelectedOptions={() => null}
+                    allOptions={densityOptions}
+                    selectedOptions={filterdDensity}
+                    setSelectedOptions={setFilteredDensity as any}
                     title={getString('pswot-axis-labels-left')}
+                    multipleAsValuesText={true}
                   />
                 </FilterContent>
               </CellContent>
