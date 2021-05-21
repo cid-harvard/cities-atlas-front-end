@@ -20,6 +20,7 @@ import useFluent from '../../../hooks/useFluent';
 import useRcaAndDensityOptions, {
   rcaOptions,
   densityOptions,
+  formatNumber,
 } from './useRcaAndDensityOptions';
 
 const sortArrows = raw('../../../assets/icons/sort-arrows.svg');
@@ -253,8 +254,8 @@ const PSWOTTable = (props: Props) => {
               key={'table-row-' + d.id}
               id={d.id}
               name={d.name}
-              density={d.density}
-              rca={d.rca}
+              density={formatNumber(d.density)}
+              rca={formatNumber(d.rca)}
               quadrant={d.quadrant}
               color={d.color}
               highlighted={highlighted}

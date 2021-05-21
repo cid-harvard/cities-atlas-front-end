@@ -29,6 +29,20 @@ export const densityOptions = [
   {label: 'Very Low', value: 'Very Low'},
 ];
 
+export const formatNumber = (value: number) => {
+  if (value > 1 || value < -1) {
+    return parseFloat(value.toFixed(2));
+  } else if (value === 0) {
+    return value;
+  } else {
+    const numberOfZerosAfterDecimal = Math.abs(Math.floor( Math.log10(Math.abs(value)) + 1));
+    // console.log(value);
+    // console.log(numberOfZerosAfterDecimal);
+    // return parseFloat(value.toFixed(2));
+    return parseFloat(value.toFixed(numberOfZerosAfterDecimal + 2));
+  }
+};
+
 const useRcaAndDensityOptions = () => {
   const {composition_type, digit_level, cluster_level, aggregation} = useQueryParams();
   const compositionType = composition_type ? composition_type as CompositionType : defaultCompositionType;
