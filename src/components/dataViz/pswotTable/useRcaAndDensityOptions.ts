@@ -13,7 +13,7 @@ import {
   defaultAggregationMode,
 } from '../../../routing/routes';
 
-export const rcaOptions = [
+const RCA_OPTIONS_BASE = [
   {label: 'Very High', value: 'Very High'},
   {label: 'High', value: 'High'},
   {label: 'Expected', value: 'Expected'},
@@ -21,7 +21,7 @@ export const rcaOptions = [
   {label: 'Very Low', value: 'Very Low'},
   {label: 'None', value: 'None'},
 ];
-export const densityOptions = [
+const DENSITY_OPTIONS_BASE = [
   {label: 'Very High', value: 'Very High'},
   {label: 'High', value: 'High'},
   {label: 'Expected', value: 'Expected'},
@@ -49,25 +49,28 @@ const useRcaAndDensityOptions = () => {
   const aggregationType = aggregation ? aggregation as AggregationMode : defaultAggregationMode;
   const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : defaultDigitLevel;
   const clusterLevel = cluster_level ? cluster_level as ClusterLevel : defaultClusterLevel;
-  const match = (value: number, metric: 'rca' | 'density', values: string[]) => {
-    const threshold = THRESHOLD_DATA.find(d => {
-      if (d.metric === metric) {
-        if ((compositionType === CompositionType.Companies && d.var === 'company') ||
-            (compositionType === CompositionType.Employees && d.var === 'employ')) {
-          if (aggregationType === AggregationMode.industries && d.classification === 'naics') {
-            if (d.level === digitLevel) {
-              return true;
-            }
+  const findThreshold = (metric: 'rca' | 'density') => THRESHOLD_DATA.find(d => {
+    if (d.metric === metric) {
+      if ((compositionType === CompositionType.Companies && d.var === 'company') ||
+          (compositionType === CompositionType.Employees && d.var === 'employ')) {
+        if (aggregationType === AggregationMode.industries && d.classification === 'naics') {
+          if (d.level === digitLevel) {
+            return true;
           }
-          if (aggregationType === AggregationMode.cluster && d.classification === 'cluster') {
-            if (d.level.toString() === clusterLevel) {
-              return true;
-            }
+        }
+        if (aggregationType === AggregationMode.cluster && d.classification === 'cluster') {
+          if (d.level.toString() === clusterLevel) {
+            return true;
           }
         }
       }
-      return false;
-    });
+    }
+    return false;
+  });
+  const rcaThreshold = findThreshold('rca');
+  const densityThreshold = findThreshold('density');
+  const match = (value: number, metric: 'rca' | 'density', values: string[]) => {
+    const threshold = metric === 'density' ? densityThreshold : rcaThreshold;
     if (!values.length) {
       return true;
     }
@@ -93,7 +96,7 @@ const useRcaAndDensityOptions = () => {
         }
       }
       if (values.includes('Very Low')) {
-        if (value > 0 && value <= threshold.low_split) {
+        if ((metric === 'density' || value > 0) && value <= threshold.low_split) {
           return true;
         }
       }
@@ -105,7 +108,69 @@ const useRcaAndDensityOptions = () => {
     }
     return false;
   };
-  return {match};
+  const rcaOptions = RCA_OPTIONS_BASE.map(d => {
+    let label: string = d.label;
+    if (rcaThreshold) {
+      if (d.value === 'Very High') {
+        label = label +
+          ` (n ≥ ${formatNumber(rcaThreshold.high_split)})`;
+      }
+      if (d.value === 'High') {
+        label = label +
+          ` (n > ${formatNumber(rcaThreshold.expected_high)} & n < ${formatNumber(rcaThreshold.high_split)})`;
+      }
+      if (d.value === 'Expected') {
+        label = label +
+          ` (n ≥ ${formatNumber(rcaThreshold.expected_low)} & n ≤ ${formatNumber(rcaThreshold.expected_high)})`;
+      }
+      if (d.value === 'Low') {
+        label = label +
+          ` (n < ${formatNumber(rcaThreshold.expected_low)} & n > ${formatNumber(rcaThreshold.low_split)})`;
+      }
+      if (d.value === 'Very Low') {
+        label = label +
+          ` (n ≤ ${formatNumber(rcaThreshold.low_split)} & n > 0)`;
+      }
+      if (d.value === 'None') {
+        label = label +
+          ` (n = 0)`;
+      }
+    }
+    return {
+      label,
+      value: d.value,
+    };
+  });
+  const densityOptions = DENSITY_OPTIONS_BASE.map(d => {
+    let label: string = d.label;
+    if (rcaThreshold) {
+      if (d.value === 'Very High') {
+        label = label +
+          ` (n ≥ ${formatNumber(rcaThreshold.high_split)})`;
+      }
+      if (d.value === 'High') {
+        label = label +
+          ` (n > ${formatNumber(rcaThreshold.expected_high)} & n < ${formatNumber(rcaThreshold.high_split)})`;
+      }
+      if (d.value === 'Expected') {
+        label = label +
+          ` (n ≥ ${formatNumber(rcaThreshold.expected_low)} & n ≤ ${formatNumber(rcaThreshold.expected_high)})`;
+      }
+      if (d.value === 'Low') {
+        label = label +
+          ` (n < ${formatNumber(rcaThreshold.expected_low)} & n > ${formatNumber(rcaThreshold.low_split)})`;
+      }
+      if (d.value === 'Very Low') {
+        label = label +
+          ` (n ≤ ${formatNumber(rcaThreshold.low_split)})`;
+      }
+    }
+    return {
+      label,
+      value: d.value,
+    };
+  });
+  return {match, rcaOptions, densityOptions};
 };
 
 export default useRcaAndDensityOptions;

@@ -18,8 +18,6 @@ import TextFilter from './TextFilter';
 import QuickError from '../../transitionStateComponents/QuickError';
 import useFluent from '../../../hooks/useFluent';
 import useRcaAndDensityOptions, {
-  rcaOptions,
-  densityOptions,
   formatNumber,
 } from './useRcaAndDensityOptions';
 
@@ -194,7 +192,7 @@ const PSWOTTable = (props: Props) => {
   const [filterdDensity, setFilteredDensity] = useState<string[]>([]);
   const [highlightError, setHighlightError] = useState<boolean>(false);
   const getString = useFluent();
-  const {match} = useRcaAndDensityOptions();
+  const {match, rcaOptions, densityOptions} = useRcaAndDensityOptions();
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
