@@ -262,6 +262,7 @@ export interface NaicsRcaCalculation {
   rca: number | null;
   rcaLb: number | null;
   rcaUb: number | null;
+  comparableIndustry: boolean;
 }
 
 export interface ClusterRcaCalculation {
@@ -272,6 +273,7 @@ export interface ClusterRcaCalculation {
   rca: number | null;
   rcaLb: number | null;
   rcaUb: number | null;
+  comparableIndustry: boolean;
 }
 
 export interface NaicsPeerEconStruct {

@@ -48,6 +48,7 @@ const NODE_RCA_QUERY = gql`
     ) {
       naicsId
       rca
+      comparableIndustry
     }
     naicsData: cityIndustryYearList(cityId: $cityId, year: $year, level: $level) {
       naicsId
@@ -72,6 +73,7 @@ interface NaicsData {
 
 interface NaicsRca {
   naicsId: NaicsRcaCalculation['naicsId'];
+  comparableIndustry: NaicsRcaCalculation['comparableIndustry'];
   rca: NaicsRcaCalculation['rca'];
 }
 

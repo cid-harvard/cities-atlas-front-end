@@ -263,7 +263,7 @@ const PSWOTChart = (props: Props) => {
       const tradable = industry && industry.tradable ? true : false;
       const sector = sectorColorMap.find(c => industry && c.id === industry.naicsIdTopParent.toString());
       const datum = naicsDensity.find(nn => n.naicsId !== null && nn.naicsId.toString() === n.naicsId.toString());
-      if (sector && datum && !hiddenSectors.includes(sector.id) && tradable) {
+      if (sector && datum && !hiddenSectors.includes(sector.id) && tradable && n.comparableIndustry) {
         const x = n.rca !== null ? n.rca : 0;
         let densityKey: 'densityCompany' | 'densityEmploy';
         if (compositionType === CompositionType.Companies ||

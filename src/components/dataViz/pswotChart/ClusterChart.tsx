@@ -254,7 +254,7 @@ const PSWOTChart = (props: Props) => {
       const clusterColor = clusterColorMap.find(c => cluster && cluster.clusterIdTopParent &&
         c.id === cluster.clusterIdTopParent.toString());
       const datum = clusterDensity.find(nn => n.clusterId !== null && nn.clusterId.toString() === n.clusterId.toString());
-      if (clusterColor && datum && !hiddenClusters.includes(clusterColor.id) && tradable) {
+      if (clusterColor && datum && !hiddenClusters.includes(clusterColor.id) && tradable && n.comparableIndustry) {
         const x = n.rca !== null ? n.rca : 0;
         let densityKey: 'densityCompany' | 'densityEmploy';
         if (compositionType === CompositionType.Companies ||

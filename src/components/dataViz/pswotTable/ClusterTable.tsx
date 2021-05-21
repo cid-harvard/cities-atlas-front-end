@@ -40,8 +40,13 @@ const PSWOTTable = (props: Props) => {
   if (rcaData.data !== undefined && clusters && clusters.data) {
     const {clusterRca, clusterDensity} = rcaData.data;
     data = clusters.data.clusters
-      .filter(d => d.level === clusterLevel &&
-        !hiddenClusters.includes(d.clusterIdTopParent !== null ? d.clusterIdTopParent.toString() : ''))
+      .filter(d => {
+        const rcaDatum = clusterRca.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
+        return (d.level === clusterLevel &&
+          !hiddenClusters.includes(d.clusterIdTopParent !== null ? d.clusterIdTopParent.toString() : '')
+          && d.tradable && rcaDatum && rcaDatum.comparableIndustry
+        );
+      })
       .map(d => {
         const rcaDatum = clusterRca.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
         const densityDatum = clusterDensity.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);

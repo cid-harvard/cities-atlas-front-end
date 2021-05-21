@@ -48,6 +48,7 @@ const CLUSTER_RCA_QUERY = gql`
     ) {
       clusterId
       rca
+      comparableIndustry
     }
     clusterData: cityClusterYearList(cityId: $cityId, year: $year) {
       clusterId
@@ -68,6 +69,7 @@ interface ClusterDensity {
 interface ClusterRca {
   clusterId: ClusterRcaCalculation['clusterId'];
   rca: ClusterRcaCalculation['rca'];
+  comparableIndustry: ClusterRcaCalculation['comparableIndustry'];
 }
 
 interface ClusterData {

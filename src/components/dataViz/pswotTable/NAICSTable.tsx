@@ -41,7 +41,13 @@ const PSWOTTable = (props: Props) => {
   if (rcaData.data !== undefined && industries && industries.data) {
     const {naicsRca, naicsDensity} = rcaData.data;
     data = industries.data.industries
-      .filter(d => d.level === digitLevel && !hiddenSectors.includes(d.naicsIdTopParent.toString()))
+      .filter(d => {
+        const rcaDatum = naicsRca.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
+        return (
+          d.level === digitLevel && !hiddenSectors.includes(d.naicsIdTopParent.toString()) &&
+          d.tradable && rcaDatum && rcaDatum.comparableIndustry
+        );
+      })
       .map(d => {
         const rcaDatum = naicsRca.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
         const densityDatum = naicsDensity.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
