@@ -89,6 +89,9 @@ const EconomicComposition = (props: Props) => {
   const globalLocationData = useGlobalLocationData();
   const getString = useFluent();
 
+  const isClusterTreeMap =
+    (!aggregation && defaultAggregationMode === AggregationMode.cluster) || (aggregation === AggregationMode.cluster);
+
   let download: React.ReactElement<any> | null;
   if (activeDownload === DownloadType.Image && treeMapRef.current) {
     const cellsNode = treeMapRef.current.querySelector('div.react-canvas-tree-map-masterContainer');
@@ -101,7 +104,11 @@ const EconomicComposition = (props: Props) => {
           cityName={targetCity && targetCity.name ? targetCity.name : undefined}
           year={defaultYear}
           digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+          clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
+          aggregationMode={isClusterTreeMap ? AggregationMode.cluster : AggregationMode.industries}
+          colorBy={color_by ? color_by : ColorBy.sector}
           compositionType={compositionType}
+          hiddenClusters={hiddenClusters}
           hiddenSectors={hiddenSectors}
           treeMapCellsNode={cellsNode as HTMLDivElement}
         />
@@ -113,9 +120,6 @@ const EconomicComposition = (props: Props) => {
   } else {
     download = null;
   }
-
-  const isClusterTreeMap =
-    (!aggregation && defaultAggregationMode === AggregationMode.cluster) || (aggregation === AggregationMode.cluster);
 
   let legend: React.ReactElement<any> | null;
   if (color_by === ColorBy.education) {

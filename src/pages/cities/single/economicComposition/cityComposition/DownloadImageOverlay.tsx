@@ -2,14 +2,32 @@ import React, {useEffect} from 'react';
 import {
   useEconomicCompositionQuery,
 } from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
+import {
+  useClusterCompositionQuery,
+} from '../../../../../components/dataViz/treeMap/ClusterCompositionTreeMap';
 import LoadingBlock from '../../../../../components/transitionStateComponents/VizLoadingBlock';
 import {transformData, Inputs} from 'react-canvas-treemap';
 import {
   useGlobalIndustryMap,
 } from '../../../../../hooks/useGlobalIndustriesData';
-import {DigitLevel, CompositionType} from '../../../../../types/graphQL/graphQLTypes';
-import {sectorColorMap, FullPageOverlay} from '../../../../../styling/styleUtils';
+import {
+  useGlobalClusterMap,
+} from '../../../../../hooks/useGlobalClusterData';
+import {
+  DigitLevel,
+  CompositionType,
+} from '../../../../../types/graphQL/graphQLTypes';
+import {
+  sectorColorMap,
+  clusterColorMap,
+  FullPageOverlay,
+} from '../../../../../styling/styleUtils';
 import html2canvas from 'html2canvas';
+import {
+  AggregationMode,
+  ColorBy,
+  ClusterLevel,
+} from '../../../../../routing/routes';
 
 interface Props {
   cityId: number;
@@ -17,48 +35,79 @@ interface Props {
   year: number;
   onClose: () => void;
   compositionType: CompositionType;
+  aggregationMode: AggregationMode;
   hiddenSectors: string[];
+  hiddenClusters: string[];
   digitLevel: DigitLevel;
+  clusterLevel: ClusterLevel;
+  colorBy: ColorBy;
   treeMapCellsNode: HTMLDivElement;
 }
 
 export default (props: Props) => {
   const {
     cityId, year, onClose, compositionType, hiddenSectors, digitLevel, treeMapCellsNode,
-    cityName,
+    cityName, hiddenClusters, aggregationMode, clusterLevel,
   } = props;
 
-  const {error, data} = useEconomicCompositionQuery({cityId, year});
+  const industryResponse = useEconomicCompositionQuery({cityId, year});
+  const clusterResponse = useClusterCompositionQuery({cityId, year});
   const industryMap = useGlobalIndustryMap();
+  const clusterMap = useGlobalClusterMap();
 
   useEffect(() => {
-    if (data !== undefined && !industryMap.loading && !industryMap.error) {
+    if (industryResponse.data !== undefined && !industryMap.loading && !industryMap.error &&
+        clusterResponse.data !== undefined && !clusterMap.loading && !clusterMap.error
+      ) {
       const boundingRect = treeMapCellsNode.getBoundingClientRect();
       const width = boundingRect.width * 2;
       const height = boundingRect.height * 2;
-      const {industries} = data;
       const treeMapData: Inputs['data'] = [];
-      industries.forEach(({naicsId, numCompany, numEmploy}) => {
-        const industry = industryMap.data[naicsId];
-        if (industry && industry.level === digitLevel) {
-          const {name, naicsIdTopParent} = industry;
-          if (!hiddenSectors.includes(naicsIdTopParent.toString())) {
-            const companies = numCompany ? numCompany : 0;
-            const employees = numEmploy ? numEmploy : 0;
-            treeMapData.push({
-              id: naicsId,
-              value: compositionType === CompositionType.Companies ? companies : employees,
-              title: name ? name : '',
-              topLevelParentId: naicsIdTopParent.toString(),
-            });
+      let colorMap: {id: string, color: string}[];
+      if (aggregationMode === AggregationMode.cluster) {
+        const {clusters} = clusterResponse.data;
+        colorMap = clusterColorMap;
+        clusters.forEach(({clusterId, numCompany, numEmploy}) => {
+          const cluster = clusterMap.data[clusterId];
+          if (cluster && cluster.level !== null && cluster.level.toString() === clusterLevel) {
+            const {name, clusterIdTopParent} = cluster;
+            if (!hiddenClusters.includes((clusterIdTopParent as number).toString())) {
+              const companies = numCompany ? numCompany : 0;
+              const employees = numEmploy ? numEmploy : 0;
+              treeMapData.push({
+                id: clusterId,
+                value: compositionType === CompositionType.Companies ? companies : employees,
+                title: name ? name : '',
+                topLevelParentId: (clusterIdTopParent as number).toString(),
+              });
+            }
           }
-        }
-      });
+        });
+      } else {
+        const {industries} = industryResponse.data;
+        colorMap = sectorColorMap;
+        industries.forEach(({naicsId, numCompany, numEmploy}) => {
+          const industry = industryMap.data[naicsId];
+          if (industry && industry.level === digitLevel) {
+            const {name, naicsIdTopParent} = industry;
+            if (!hiddenSectors.includes(naicsIdTopParent.toString())) {
+              const companies = numCompany ? numCompany : 0;
+              const employees = numEmploy ? numEmploy : 0;
+              treeMapData.push({
+                id: naicsId,
+                value: compositionType === CompositionType.Companies ? companies : employees,
+                title: name ? name : '',
+                topLevelParentId: naicsIdTopParent.toString(),
+              });
+            }
+          }
+        });
+      }
       const transformed = transformData({
         data: treeMapData,
         width,
         height,
-        colorMap: sectorColorMap,
+        colorMap,
       });
       const canvas = document.createElement('canvas');
       canvas.width = width;
@@ -95,12 +144,29 @@ export default (props: Props) => {
       }
     }
   }, [
-    data, industryMap, onClose, compositionType, digitLevel, hiddenSectors, treeMapCellsNode, cityName,
+    aggregationMode,
+    industryResponse,
+    clusterResponse,
+    industryMap,
+    clusterMap,
+    onClose,
+    compositionType,
+    digitLevel,
+    clusterLevel,
+    hiddenSectors,
+    hiddenClusters,
+    treeMapCellsNode,
+    cityName,
     year,
   ]);
 
-  if (error) {
-    console.error(error);
+  if (industryResponse.error) {
+    console.error(industryResponse.error);
+    onClose();
+  }
+
+  if (clusterResponse.error) {
+    console.error(clusterResponse.error);
     onClose();
   }
 
