@@ -128,13 +128,13 @@ const Chart = (props: Props) => {
           title: datum.title,
           color: rgba(datum.color, 0.3),
           rows: [
-            ['', primaryCityName, secondaryCityName],
+            ['', secondaryCityName, primaryCityName],
             [
               getString('tooltip-text-share-of', {value: compositionType}),
-              primaryValueText,
               secondaryValueText,
+              primaryValueText,
             ],
-            ['Difference', primaryDiffValue, secondaryDiffValue],
+            ['Difference', secondaryDiffValue, primaryDiffValue],
           ],
           boldColumns: [1, 2],
           underlineRows: [0],
@@ -181,7 +181,7 @@ const Chart = (props: Props) => {
         onRowHover={setHovered}
         highlighted={highlighted}
         onHighlightError={() => setHighlightError(true)}
-        layout={Layout.Right}
+        layout={Layout.Left}
       />
       <RapidTooltipRoot ref={tooltipRef} />
       {highlightErrorPopup}
