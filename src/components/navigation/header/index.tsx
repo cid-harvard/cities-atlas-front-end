@@ -373,7 +373,7 @@ const Header = () => {
               {getString('navigation-data')}
             </H2>
           </StyledLink>
-          <StyledLink to={Routes.AboutBase}>
+          <StyledLink to={Routes.AboutWhatIs}>
             <H2 $active={Boolean(matchAbout)}>
               {getString('navigation-about')}
             </H2>

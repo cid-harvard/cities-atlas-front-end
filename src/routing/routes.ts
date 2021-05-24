@@ -16,6 +16,11 @@ export const CityRoutes = {
 
 export const AboutRoutes = {
   AboutBase: '/about',
+  AboutWhatIs: '/about/what-is-metroverse',
+  AboutTeam: '/about/team',
+  AboutPilotUserGroup: '/about/pilot-user-group',
+  AboutResearch: '/about/research',
+  AboutGrowthLab: '/about/growth-lab',
 };
 
 export const DataRoutes = {
