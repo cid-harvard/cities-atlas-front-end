@@ -16,6 +16,7 @@ import {defaultYear} from '../../../Utils';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import {ordinalNumber} from '../../../hooks/useFluent';
 import orderBy from 'lodash/orderBy';
+import upperFirst from 'lodash/upperFirst';
 
 const Root = styled.div`
   width: 100%;
@@ -201,7 +202,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
 
     const populationRange = extent(allPopulations) as [number, number];
     const gdppcRange = extent(allGdppc) as [number, number];
-    const regions = data.regions;
+    const regions = data.regions.map(d => ({...d, label: upperFirst(d.label)}));
     const countries = data.countries;
     filterBar = (
       <FilterBar
