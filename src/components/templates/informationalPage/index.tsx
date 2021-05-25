@@ -6,8 +6,10 @@ import {
   breakPoints,
 } from '../../../styling/GlobalGrid';
 import {
-  primaryColor,
+  primaryColorDark,
   primaryHoverColor,
+  lightBaseColor,
+  baseColor,
 } from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import Footer from './Footer';
@@ -29,12 +31,35 @@ const Content = styled(ContentContainer)`
   margin: 0 auto;
   position: relative;
 
-  p a {
-    color: ${primaryColor};
+  h3 {
+    color: ${baseColor};
+  }
+
+  h4 {
+    color: ${lightBaseColor};
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+  }
+
+  p a, h4 a {
+    color: ${primaryColorDark};
 
     &:hover {
       color: ${primaryHoverColor};
     }
+  }
+
+  li {
+    margin-bottom: 0.5rem;
+  }
+
+  cite {
+    display: block;
+    margin: 2.5rem 0 1rem;
+    font-style: normal;
+    padding-left: 0.875rem;
+    border-left: solid 1px #dfdfdf;
+    color: ${lightBaseColor};
   }
 
   @media (max-width: 760px) {

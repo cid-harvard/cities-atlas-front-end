@@ -419,3 +419,194 @@ growth-opportunities-para-1 = Building on all these measures, we can rank indust
 contact-us-title = Get in Touch
 contact-us-para-1 = <strong>Metroverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.
 contact-us-para-2 = To get in touch, <a href="mailto:growthlabtools@hks.harvard.edu">email</a> us here or find us on <a href="https://twitter.com/HarvardGrwthLab" target="_blank">Twitter</a> and <a href="https://www.facebook.com/HarvardCID/" target="_blank">Facebook</a>.
+
+
+about-what-is-title = What is Metroverse?
+about-what-is-html =
+  <p>
+      Metroverse is an urban economy navigator built at the <a target="_blank" href="https://growthlab.cid.harvard.edu/">Growth Lab</a> at Harvard University.  It is based on over a decade of research on how economies grow and diversify and offers a detailed look into the specialization patterns of cities. 
+  </p>
+  <p>
+    As a dynamic resource, the tool is continually evolving with new data and features to help answer questions such as: 
+  </p>
+  <ul>
+    <li><em>What is the economic composition of my city?</em></li>
+    <li><em>How does my city compare to cities around the globe?</em></li>
+    <li><em>Which cities look most like mine?</em></li>
+    <li><em>What are the technological capabilities that underpin my city&rsquo;s current economy?</em></li>
+    <li><em>Which growth and diversification paths does that suggest for the future?</em></li>
+  </ul>
+  <p>As city leaders, job seekers, investors and researchers grapple with 21st century urbanization challenges, the answer to these questions are fundamental to understanding the potential of a city.</p>
+  <p>
+    Metroverse delivers new insights on these questions by placing a city&rsquo;s technological capabilities and knowhow at the heart of its growth prospects, where the range and nature of existing capabilities strongly influences how future diversification unfolds.  makes visible what a city is good at today to help understand what it can become tomorrow.
+  </p>
+  <p>
+    <strong>Metroverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for over 1000 cities worldwide.  Get in touch with us <a target="_blank" href="mailto:growthlabtools@hks.harvard.edu">here</a>.
+  </p>
+
+
+about-team-title = The Team
+about-team-html =
+  <p>
+    Metroverse is the result of an interdisciplinary collaboration between the Growth Lab&rsquo;s Digital Development &amp; Design Team, researchers and staff.  
+  </p>
+  <p>
+    The Metroverse founding team includes:
+  </p>
+  <h3>Digital  Development &amp; Design</h3>
+  <h4>
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/annie-white">Annie White</a>, Senior Product Manager
+  </h4>
+  <p>
+    Annie oversees the software development and design aspects of Metroverse.  She established and led the 1-year prototype development plan beginning with a collaborative discovery phase through to launch.  Annie also facilitates internal and external stakeholder engagement related to Metroverse.
+  </p>
+  <h4>
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/brendan-leonard">Brendan Leonard</a>, Back-End &amp; Data Developer
+  </h4>
+  <p>
+    Brendan manages the API and database systems of Metroverse. He works alongside the research team to oversee the technical architecture for processing data into reliable structures and performing efficient calculations. Brendan also conducts research for experimental platform features and administers the cloud-based server infrastructure of Metroverse.
+  </p>
+  <h4><a target="_blank" href="https://soeltz.com/">Kyle Soeltz</a>, Front-End Software Engineer</h4>
+  <p>
+    Kyle is responsible for the front-end development of Metroverse. He architects and implements data-driven interfaces and visualizations with an emphasis on responsiveness, accessibility, code reusability and modern best-practices. Kyle also handles the integration of SEO and analytics tools, collaborates with research, design, and data counterparts, and builds rapid prototypes for testing new ideas.  
+  </p>
+  <h4><a target="_blank" href="http://www.niltuzcu.net/">Nil Tuzcu</a>, Information Designer </h4>
+  <p>
+    Nil is responsible for the overall design and user experience of the Metroverse. She leads the information design strategies, visual narrative flows, user experience studies and user tests.
+  </p>
+  <h3>Academic Research</h3>
+  <h4>
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/frank-neffke">Frank Neffke</a>, Research Director
+  </h4>
+  <p>
+    Frank is responsible for the original conception of Metroverse.  Since its conception he has supervised the research agenda and the design of the tool&rsquo;s analytical and policy framework.  
+  </p>
+  <h4>
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/yang-li">Yang Li</a>, Postdoctoral Fellow
+  </h4>
+  <p>
+    Yang leads the cleaning, aggregation, harmonization and analysis of Metroverse data. He constructs and tests Metroverse metrics and variables, particularly the structure and visual layouts of industry space and city similarity.
+  </p>
+  <h3>Applied Research</h3>
+  <h4>
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/douglas-barrios">Douglas Barrios</a>, Senior Manager &ndash; Applied Research Projects
+  </h4>
+  <p>
+    Douglas has led applied research initiatives focused on enabling long-term growth and economic diversification for half-a-dozen subnational entities. This work has informed the user-facing narrative and the applicability of the policy framework found in Metroverse. Douglas also participates in stakeholder outreach initiatives related to Metroverse.
+  </p>
+  <h4>
+    <a target="_blank" href="https://scholar.harvard.edu/josemorales-arilla/home">Jos&eacute; Ram&oacute;n Morales-Arilla</a>, Doctoral Fellow
+  </h4>
+  <p>
+    Jos&eacute; co-authored the user-facing narrative of Metroverse, providing perspectives from his previous work on subnational economic complexity visualization tools. He also helped to develop Metroverse&#39;s policy framework and to advance Metroverse&#39;s feature testing and validation.
+  </p>
+
+
+about-pilot-user-group-title = The Pilot User Group
+about-pilot-user-group-html =
+  <p>
+    To build the Metroverse prototype, the Growth Lab worked in coordination with <a target="_blank" href="https://citypossible.com/">Mastercard City Possible</a>, the <a target="_blank" href="https://www.cityleadership.harvard.edu/">Bloomberg Harvard City Leadership Initiative</a> and the <a target="_blank" href="https://www.iadb.org/en">Inter-American Development Bank</a> to convene a 15-person Pilot User Group composed of city leaders across the world. By engaging with this group throughout the development process, we were able to gather valuable insights that influenced how we designed the tool, helping to ensure that it is useful for a diverse set of urban planners, policymakers and data analysts.    
+  </p>
+  <p>
+    The Growth Lab is grateful to the members of 2020-2021 Pilot User Group: 
+  </p>
+  <ul>
+    <li>
+      <strong>Diego Andres Arcias (Washington, D.C.)</strong>: Housing and Urban Development Sector Specialist, IDB 
+    </li>
+    <li>
+      <strong>Michelle Barnett (Tulsa)</strong>: Deputy Chief of Economic Development, City of Tulsa 
+    </li>
+    <li>
+      <strong>Paraskevi Bessa-Rodrigues (Novo Hamburgo)</strong>: Municipal Secretary of Economic Development
+    </li>
+    <li>
+      <strong>Court Ellington (Calgary)</strong>: Vice President Research and Strategy
+    </li>
+    <li>
+      <strong>Eric Anthony Johnson (Dallas): </strong> Chief of Economic Development, Housing &amp; Neighborhood Services
+    </li>
+    <li>
+      <strong>Jeff Seymour (Oklahoma City)</strong>: Executive Vice-President, Economic Development
+    </li>
+    <li>
+      <strong>Barbara Leslie (Oakland): </strong>President &amp; CEO of Oakland Metro Chamber of Commerce
+    </li>
+    <li>
+      <strong>M&ocirc;nica M&aacute;ximo (Curitiba)</strong>: Coordinator for the Department of Research, Monitoring and Evaluation of Urban Policies at the IPPUC
+    </li>
+    <li>
+      <strong>Alberto Paranhos (Curitiba): </strong>Advisor to the President of the Institute of Research and Urban Planning
+    </li>
+    <li>
+      <strong>Juliet Passmore (Dublin)</strong>: Economist, Economic Development Office
+    </li>
+    <li>
+      <strong>Eva Pereira (Los Angeles)</strong>: Deputy Chief Data Officer
+    </li>
+    <li>
+      <strong>Raquel Taminato (Campo Grande)</strong>: Chief of GIS at the Urban and Environmental Planning Agency
+    </li>
+    <li>
+      <strong>Andrea Thorbury (Belfast)</strong>: Data Specialist
+    </li>
+    <li>
+      <strong>Jos&eacute; Julio Rodrigues Vieira (Belo Horizonte)</strong>: Sub-secretary of Urban Planning
+    </li>
+    <li>
+      <strong>Mark Zientek (Albuquerque)</strong>:  Workforce Development Liaison 
+    </li>
+  </ul>
+
+
+about-research-title = The Research
+about-research-html =
+  <p>
+    The methodologies behind Metroverse were developed over the course of the past decade and build on the methodologies in the Growth Lab&rsquo;s <a target="_blank" href="https://atlas.cid.harvard.edu/">Atlas of Economic Complexity</a>. 
+  </p>
+  <p>
+    In future versions of Metroverse, we are planning to give a detailed description of these methodologies. For now, if you are interested in some of the research that inspired Metroverse, you can have a look at the following publications:
+  </p>
+  <cite>
+    Hidalgo, C.A., Klinger, B., Barab&aacute;si, A.L. and Hausmann, R., 2007. The product space conditions the development of nations. <em>Science, 317</em>(5837), pp.482-487.
+  </cite>
+  <p>
+    This paper introduces the notion of a Product Space - a concept that is analogous to Metroverse&rsquo;s Industry Space -  and how it can be used to predict how national economies diversify.
+  </p>
+  <cite>
+    Neffke, F., Henning, M. and Boschma, R., 2011. How do regions diversify over time? Industry relatedness and the development of new growth paths in regions. <em>Economic geography, 87</em>(3), pp.237-265.
+  </cite>
+  <p>
+    This paper introduces the Industry Space. Apart from some minor details in implementation, it shows how we can construct industry spaces from information on how firms combine different economic activities in one and the same establishment.
+  </p>
+  <cite>
+    Neffke, F., Hartog, M., Boschma, R. and Henning, M., 2018. Agents of structural change: The role of firms and entrepreneurs in regional diversification. <em>Economic Geography, 94</em>(1), pp.23-48.
+  </cite>
+  <p>
+    This paper shows how industry spaces can help understand transformative change in local economies.
+  </p>
+  <cite>
+    Diodato, D., Neffke, F. and O&rsquo;Clery, N., 2018. Why do industries co-agglomerate? How Marshallian externalities differ by industry and have evolved over time. <em>Journal of Urban Economics, 106</em>, pp.1-26.
+  </cite>
+  <p>
+    This paper explores the notion of an industry space in greater detail.
+  </p>
+  <cite>
+    Neffke, F. and Henning, M., 2013. Skill relatedness and firm diversification. <em>Strategic Management Journal, 34</em>(3), pp.297-316.
+  </cite>
+  <p>
+    This paper discusses the notion of industrial relatedness and the different ways in which it can be measured.
+  </p>
+  <p>
+    For more information on Metroverse&rsquo;s underlying research, please contact <a target="_blank" href="mailto:frank_neffke@hks.harvard.edu">Frank Neffke</a>. 
+  </p>
+
+about-growth-lab-title = The Growth Lab
+about-growth-lab-html =
+  <p>
+    Led by <a target="_blank" href="https://www.hks.harvard.edu/faculty/ricardo-hausmann">Ricardo Hausmann</a>, the <a target="_blank" href="https://growthlab.cid.harvard.edu/">Growth Lab</a> at Harvard&#39;s Center for International Development works to understand the dynamics of growth and to translate those insights into more effective policy making around the world. 
+  </p>
+  <p>
+    For more information on the Growth Lab, find us on <a target="_blank" href="http://www.facebook.com/HarvardCID">Facebook</a> and <a target="_blank" href="https://twitter.com/HarvardGrwthLab">Twitter</a> or subscribe to our quarterly <a target="_blank" href="https://hksexeced.tfaforms.net/f/subscribe?s%3Da1n6g000000nJnxAAE">newsletter</a>. For media inquiries, please contact <a target="_blank" href="mailto:chuck_mckenney@hks.harvard.edu">Chuck McKenney</a>.
+  </p>
+
