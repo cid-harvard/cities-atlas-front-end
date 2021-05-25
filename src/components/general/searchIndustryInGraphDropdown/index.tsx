@@ -103,6 +103,8 @@ const SearchContainer = styled(SearchContainerLight)`
     flex-shrink: 1;
     height: 100%;
     align-items: center;
+    position: relative;
+    min-width: 30px;
   }
 `;
 
