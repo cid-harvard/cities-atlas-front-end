@@ -131,11 +131,7 @@ const createChart = (input: Input) => {
   const svg = d3.select(rootEl).append('svg')
     .attr('width',  outerWidth)
     .attr('height', outerHeight)
-    .attr('aria-labelledby', 'industry-space-title');
-
-  svg.append('title')
-    .text('Industry Space Visualization')
-    .attr('id', 'industry-space-title');
+    .attr('alt', 'Industry Space Visualization');
 
   const xScale = d3.scaleLinear()                // interpolator for X axis -- inner plot region
     .domain(d3.extent(data.nodes, ({x}) => x) as [number, number])
