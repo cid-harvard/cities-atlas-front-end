@@ -134,33 +134,37 @@ const UtilityBar = (props: Props) => {
     }
   };
 
+  const expandButton = screenfull.isEnabled ? (
+    <Tooltip
+      explanation={windowDimensions.width < mediumSmallBreakpoint &&
+        windowDimensions.width > columnsToRowsBreakpoint
+        ? (<TooltipContent>
+            {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
+           </TooltipContent>)
+        : null
+      }
+      cursor='pointer'
+      tooltipPosition={TooltipPosition.Bottom}
+    >
+      <UtilityBarButtonBase
+        onClick={onFullScreenClick}
+      >
+        <SvgBase
+          dangerouslySetInnerHTML={{__html: !isFullscreen ? expandIconSvg : collapseIconSvg}}
+        />
+        <Text>
+          {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
+        </Text>
+      </UtilityBarButtonBase>
+    </Tooltip>
+  ) : null;
+
   let content: React.ReactElement<any> | null;
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
     content = createPortal((
       <>
         <Share />
-        <Tooltip
-          explanation={windowDimensions.width < mediumSmallBreakpoint &&
-            windowDimensions.width > columnsToRowsBreakpoint
-            ? (<TooltipContent>
-                {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
-               </TooltipContent>)
-            : null
-          }
-          cursor='pointer'
-          tooltipPosition={TooltipPosition.Bottom}
-        >
-          <UtilityBarButtonBase
-            onClick={onFullScreenClick}
-          >
-            <SvgBase
-              dangerouslySetInnerHTML={{__html: !isFullscreen ? expandIconSvg : collapseIconSvg}}
-            />
-            <Text>
-              {!isFullscreen ? getString('global-ui-expand') : getString('global-ui-exit')}
-            </Text>
-          </UtilityBarButtonBase>
-        </Tooltip>
+        {expandButton}
         <Guide />
         {downloadImageButton}
         {downloadDataButton}
