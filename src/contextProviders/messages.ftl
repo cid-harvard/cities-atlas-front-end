@@ -438,7 +438,7 @@ about-what-is-html =
   </ul>
   <p>As city leaders, job seekers, investors and researchers grapple with 21st century urbanization challenges, the answer to these questions are fundamental to understanding the potential of a city.</p>
   <p>
-    Metroverse delivers new insights on these questions by placing a city&rsquo;s technological capabilities and knowhow at the heart of its growth prospects, where the range and nature of existing capabilities strongly influences how future diversification unfolds.  makes visible what a city is good at today to help understand what it can become tomorrow.
+    Metroverse delivers new insights on these questions by placing a city&rsquo;s technological capabilities and knowhow at the heart of its growth prospects, where the range and nature of existing capabilities strongly influences how future diversification unfolds. Metroverse makes visible what a city is good at today to help understand what it can become tomorrow.
   </p>
   <p>
     <strong>Metroverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for over 1000 cities worldwide.  Get in touch with us <a target="_blank" href="mailto:growthlabtools@hks.harvard.edu">here</a>.
