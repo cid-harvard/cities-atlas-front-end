@@ -35,12 +35,17 @@ export const ContactRoutes = {
   ContactBase: '/contact',
 };
 
+export const FaqRoutes = {
+  FaqBase: '/faq',
+};
+
 export const Routes = {
   Landing: '/',
   ...CityRoutes,
   ...AboutRoutes,
   ...DataRoutes,
   ...ContactRoutes,
+  ...FaqRoutes,
 } as const;
 
 export enum ClusterMode {

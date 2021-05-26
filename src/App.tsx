@@ -37,6 +37,7 @@ function App() {
           <TrackedRoute path={Routes.AboutBase} component={Informational} />
           <TrackedRoute path={Routes.DataBase} component={Informational} />
           <TrackedRoute path={Routes.ContactBase} component={Informational} />
+          <TrackedRoute path={Routes.FaqBase} component={Informational} />
           <TrackedRoute component={Landing} />
         </Switch>
         <OverlayPortal />

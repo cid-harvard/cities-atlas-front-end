@@ -278,6 +278,7 @@ const Header = () => {
   const matchAbout = useRouteMatch(Routes.AboutBase);
   const matchData = useRouteMatch(Routes.DataBase);
   const matchContact = useRouteMatch(Routes.ContactBase);
+  const matchFaq = useRouteMatch(Routes.FaqBase);
   if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
     const closeMenu = () => setMobileMenuOpen(false);
@@ -317,10 +318,18 @@ const Header = () => {
             </StyledLink>
             <StyledLink
               onClick={closeMenu}
-              to={Routes.AboutBase}
+              to={Routes.AboutWhatIs}
             >
               <MobileH2 $active={Boolean(matchAbout)}>
                 {getString('navigation-about')}
+              </MobileH2>
+            </StyledLink>
+            <StyledLink
+              onClick={closeMenu}
+              to={Routes.FaqBase}
+            >
+              <MobileH2 $active={Boolean(matchFaq)}>
+                {getString('navigation-faq')}
               </MobileH2>
             </StyledLink>
             <StyledLink
@@ -376,6 +385,11 @@ const Header = () => {
           <StyledLink to={Routes.AboutWhatIs}>
             <H2 $active={Boolean(matchAbout)}>
               {getString('navigation-about')}
+            </H2>
+          </StyledLink>
+          <StyledLink to={Routes.FaqBase}>
+            <H2 $active={Boolean(matchFaq)}>
+              {getString('navigation-faq')}
             </H2>
           </StyledLink>
           <StyledLink to={Routes.ContactBase}>

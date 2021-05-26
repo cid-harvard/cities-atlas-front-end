@@ -7,6 +7,7 @@ navigation-industry-profiles = Industry Profiles
 navigation-data = Data
 navigation-about = About
 navigation-contact = Contact
+navigation-faq = FAQ
 
 global-app-name = Metroverse
 
@@ -610,3 +611,4 @@ about-growth-lab-html =
     For more information on the Growth Lab, find us on <a target="_blank" href="http://www.facebook.com/HarvardCID">Facebook</a> and <a target="_blank" href="https://twitter.com/HarvardGrwthLab">Twitter</a> or subscribe to our quarterly <a target="_blank" href="https://hksexeced.tfaforms.net/f/subscribe?s%3Da1n6g000000nJnxAAE">newsletter</a>. For media inquiries, please contact <a target="_blank" href="mailto:chuck_mckenney@hks.harvard.edu">Chuck McKenney</a>.
   </p>
 
+faq-title = FAQ

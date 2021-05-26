@@ -298,6 +298,9 @@ const StandardFooter = () => {
             <StyledInternalLink to={Routes.ContactBase}>
               Contact
             </StyledInternalLink>
+            <StyledInternalLink to={Routes.FaqBase}>
+              FAQ
+            </StyledInternalLink>
           </InternalLinksColumn>
           <ExternalLinksColumn>
             <StyledExternalLink href={'https://hksexeced.tfaforms.net/f/subscribe?s=a1n6g000000nJnxAAE'}>
