@@ -55,7 +55,7 @@ const Content = styled(ContentContainer)`
 
   cite {
     display: block;
-    margin: 2.5rem 0 1rem;
+    margin: 2rem 0 2rem;
     font-style: normal;
     padding-left: 0.875rem;
     border-left: solid 1px #dfdfdf;

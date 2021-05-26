@@ -612,3 +612,150 @@ about-growth-lab-html =
   </p>
 
 faq-title = FAQ
+faq-list-Q1-q = What is Metroverse?
+faq-list-Q1-a =
+  <p>
+    Metroverse is the <a target="_blank" href="https://growthlab.cid.harvard.edu/">Growth Lab’s</a> urban economy navigator. It is based on over a decade of research on how economies grow and diversify and offers a detailed look into the specialization patterns of cities. To decide whether an economic activity is particularly large in a city, you invariably need to ask “large compared to whom?”. The answer to this question will differ from one user to the other. Therefore, Metroverse is set up to be comparison-centric. Already, Metroverse offers up to 7 different comparator groups, as well as the option to choose any single city as a comparator. Because we believe that you as a user should be able to define what is the right comparison for your city, we plan to keep increasing this flexibility in defining comparator groups.
+  </p>
+  <p>
+    Although Metroverse can generate millions of customizable visualizations, it is not just a visualization tool. Metroverse helps analyze the economies of cities through the lens of <strong>Economic Complexity Analysis</strong>. Economic Complexity Analysis asks what we can learn about a city’s knowledge base by looking at the industries in which it is active. 
+  </p>
+  <p>
+    The basic idea is that the know-how that a city can access is revealed in the mix of activities it supports. A better understanding of this knowledge base is not just useful to describe the city, but also to get an idea of how the city may develop in the future. This notion goes back to the works of Jane Jacobs (1969)<sup>1</sup>, who so aptly observed that cities do not grow by doing more of the same better, but by expanding into new activities. 
+  </p>
+  <p>
+    However, Jacobs also pointed out that new activities typically do not emerge out of nowhere, but are deeply linked to the city’s past. Therefore, to understand what the future may hold for a city, it is important to understand the diversification potential that is embedded in its current industrial structure. Although the visualizations that Metroverse produces do not require any knowledge of Economic Complexity Analysis, they were developed to make this analysis accessible to anyone who wants to apply it. We hope that by playing around with the industry space and SWOT analysis, users will quickly become familiar with the logics behind Economic Complexity Analysis. 
+  </p>
+  <p>
+    <sup>1</sup><small>Jacobs, J., 1969. The economy of cities. Vintage Books: A Division of Random House.</small>
+  </p>
+
+faq-list-Q2-q = Why does my city look strange on the map?
+faq-list-Q2-a =
+  <p>
+    What are the boundaries of a city? This depends on whom you ask. Statistical offices often rely on city definitions that reflect the borders between areas that are run by different local administrations, such as municipalities or counties. However, economic interactions typically don’t mind crossing administrative boundaries. Therefore, Metroverse uses boundaries that reflect economic, not administrative realities. 
+  </p>
+  <p>
+    To make sure that what we call a city is comparable across countries in the world, we chose city boundaries that were originally determined by the <a target="_blank" href="https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php">Joint Research Center of the European Union</a>. These boundaries are based on aerial images and follow the built environment of a city. That is, they aim to put borders where the buildings of a city stop. More information on this dataset can be found here:
+  </p>
+  <cite>
+    Florczyk, Aneta J., et al. "GHS Urban Centre Database 2015, multitemporal and multidimensional attributes, R2019A." Luxembourg: European Commission, Joint Research Centre (JRC) (2019).
+  </cite>
+  <p>
+    In later versions of Metroverse, we aim to give you the flexibility to choose different types of city definitions, such as so-called functional areas or administrative regions.
+  </p>
+
+faq-list-Q3-q = How do I use this tool to inform policy in my city?
+faq-list-Q3-a =
+  <p>
+    Metroverse helps you quickly understand what a city does and how it compares to other cities. Because you can choose your own benchmark, we provide a lot of flexibility so that you can decide yourself what comparison makes most sense to you. However, we also offer a recommendation: cities with more or less the same size. This means that we believe that it makes sense to compare metropoles like New York City, Tokyo, Buenos Aires, Shanghai or Bengaluru to other large cities and not to small towns and vice versa.  
+  </p>
+  <p>
+    Metroverse provides a window on a city’s economy in terms of the industries or sectors that are defined in the North American Industry Classification System (NAICS). However, you can also look at a  city’s economy through the lens of Metroverse’s knowledge clusters<sup>1</sup>. Knowledge clusters help understand the knowledge base of a city, as well as its diversification potential. Although knowledge clusters feature throughout Metroverse, they are most prominent in the Industry Space and the SWOT visualizations. The Industry Space groups industries that are closely related, such that these industries tend to be close to one another in this space. As a consequence, you can quickly see in which knowledge fields a city has a strong specialization, but also  where it has virtually no competencies. 
+  </p>
+  <p>
+    Policymakers should also look to a city’s “adjacent possible” industries<sup>2</sup>. These are the industries that are not yet strongly developed in the city but that are surrounded by industries that are. The adjacent possible reveals the part of the Industry Space into which your city should be able to diversify and grow. 
+  </p>
+  <p>
+    <em>But if those industries were so easy to develop in the city, why hasn’t this happened yet?</em> From the perspective of this question, the adjacent possible represents anomalies: these should be economic activities that your city should have been good at, but isn’t. Knowing which those industries are may help you get an idea of what is missing in your city. Is the adjacent possible full of industries that require an airport? Or is it connected to a specific type of skill set? In these cases, growth may require investments in physical or knowledge infrastructure. Therefore, another way to use the adjacent possible is to ask targeted questions about constraints to your city’s development. If you want to learn more about identifying binding constraints to growth, you may find the policy analysis framework of <a target="_blank" href="https://growthlab.cid.harvard.edu/publications/policy-area/growth-diagnostics">Growth Diagnostics</a> an interesting starting point.
+  </p>
+  <p>
+    The SWOT analysis offers an alternative view of a city’s industry mix. It plots industries along two axes: relative presence and relative technological fit. Industries that lie along the 45-degree line of this plot are about as large as you would expect them to be, given the ecosystem of related industries that the city hosts. The off-diagonal quadrants show which industries deviate from these expectations. 
+  </p>
+  <p>
+    In the upper-left quadrant, industries are smaller than we would have thought given the ecosystem of related industries in the city. This quadrant describes the adjacent possible: we would expect these industries either to grow or to be held back by something in the city that may be worth examining further. The lower-right quadrant, instead, shows industries that are larger than we would have expected, given their ecosystem of related industries in the city. These industries could be poised to disappear (which is why we label them “threats”). However, they could also point to hidden strengths of the city or to industries that are still building a local ecosystem around them. 
+  </p>
+  <p>
+    From this discussion, it is clear that Metroverse does not give a straightforward answer to the question of which industries should be attracted to the city.  Rather, it helps to answer this question, by showing what a city is good at and what we would have expected the city to be good at, given its productive capabilities.
+  </p>
+  <p>
+    <sup>1</sup><small>Users may already be familiar with the notion of clusters as developed by Harvard Business School professor Michael E. Porter. Although similar, Metroverse’s knowledge clusters are created in a different way and reflect a different philosophy of economic growth, namely the philosophy behind Economic Complexity Analysis.</small>
+    <br />
+    <sup>2</sup><small>The term “adjacent possible” was originally used by Stuart Kauffman to describe the evolution of biological systems. However, it also turns out to be a useful way to look at the evolution of man-made systems, such as technology (see, for instance, Loreto et al. 2014) or, as we do here, a local economy.
+    <br />Reference: F., Loreto, V., Servedio, V.D.P. and Strogatz,S.H., 2014. The dynamics of correlated novelties. Scientific reports, 4(1), pp.1-8.</small>
+  </p>
+
+faq-list-Q4-q = Where can I learn more about the methodologies behind Metroverse?
+faq-list-Q4-a =
+  <p>
+    The methodologies behind Metroverse were developed over the course of the past decade and build on the methodologies in the Growth Lab’s <a target="_blank" href="https://atlas.cid.harvard.edu/">Atlas of Economic Complexity</a>. In future versions of Metroverse, we are planning to give a detailed description of these methodologies. For now, if you are interested in some of the research that inspired Metroverse, you can have a look at the following publications:
+  </p>
+  <cite>
+    Hidalgo, C.A., Klinger, B., Barab&aacute;si, A.L. and Hausmann, R., 2007. The product space conditions the development of nations. <em>Science, 317</em>(5837), pp.482-487.
+  </cite>
+  <p>
+    This paper introduces the notion of a Product Space - a concept that is analogous to Metroverse’s Industry Space -  and how it can be used to predict how national economies diversify.
+  </p>
+  <cite>
+    Neffke, F., Henning, M. and Boschma, R., 2011. How do regions diversify over time? Industry relatedness and the development of new growth paths in regions. <em>Economic geography, 87</em>(3), pp.237-265.
+  </cite>
+  <p>
+    This paper introduces the Industry Space. Apart from some minor details in implementation, it shows how we can construct industry spaces from information on how firms combine different economic activities in one and the same establishment.
+  </p>
+  <cite>
+    Neffke, F., Hartog, M., Boschma, R. and Henning, M., 2018. Agents of structural change: The role of firms and entrepreneurs in regional diversification. <em>Economic Geography, 94</em>(1), pp.23-48.
+  </cite>
+  <p>
+    This paper shows how industry spaces can help understand transformative change in local economies.
+  </p>
+  <cite>
+    Diodato, D., Neffke, F. and O&rsquo;Clery, N., 2018. Why do industries co-agglomerate? How Marshallian externalities differ by industry and have evolved over time. <em>Journal of Urban Economics, 106</em>, pp.1-26.
+  </cite>
+  <p>
+    This paper explores the notion of an industry space in greater detail.
+  </p>
+  <cite>
+    Neffke, F. and Henning, M., 2013. Skill relatedness and firm diversification. <em>Strategic Management Journal, 34</em>(3), pp.297-316.
+  </cite>
+  <p>
+    This paper discusses the notion of industrial relatedness and the different ways in which it can be measured.
+  </p>
+
+faq-list-Q5-q = Where do you get your data?
+faq-list-Q5-a =
+  <p>
+    The data are derived from Dun and Bradstreet’s World Base for the year 2020. These data record information for over a hundred million establishments around the globe. Our team cleaned and aggregated these data into the database that powers Metroverse.
+  </p>
+
+faq-list-Q6-q = How often is Metroverse updated?
+faq-list-Q6-a = 
+  <p>
+    We are planning to extend the database behind Metroverse such that it allows tracking a city’s development path over time. We expect that we will be updating Metroverse at least once a year.
+  </p>
+
+faq-list-Q7-q = Can I reuse or reprint data and visualizations?
+faq-list-Q7-a =
+  <p>
+    Metroverse is a free, public resource intended to advance the understanding of urban economic growth. We encourage collaboration on and sharing of Metroverse concepts, visualizations and data.
+  </p>
+  <p>
+    When referring to concepts, visualizations and data from Metroverse, please cite the following reference(s):
+  </p>
+  <cite>
+    The Growth Lab at Harvard University.  Metroverse, 2020:
+    <br /><a href="https://metroverse.cid.harvard.edu/">https://metroverse.cid.harvard.edu/</a>
+  </cite>
+
+faq-list-Q8-q = Why doesn't Metroverse data match data sources in my city?
+faq-list-Q8-a =
+  <p>
+    The data in Metroverse are our current best estimates of the industrial profiles of urban economies around the globe. However, these data may contain imperfections, because we only cover economic activities in establishments that are registered in Dun and Bradstreet’s World Base. Activities that are part of the informal sector and therefore often not registered are unlikely to be covered. Moreover, the data are more complete in some countries than in others and they may be updated at different frequencies. Our team has cleaned the dataset using a variety of algorithms and then checked its representivity against official datasources. Based on these checks, we provide data disclaimers that disclose how confident we are about the quality of our estimates in each city.
+  </p>
+  <p>
+    Apart from data related issues, Metroverse’s estimates of the sizes of industries in a city may also differ because of the way we define these cities and industries in Metroverse. Definitions may not match the definitions of your local statistical office. For instance, industries are classified according to the North American Industry Classification System, which is typically used in North America, but not elsewhere. However, it is precisely these common definitions that make sure that we can compare cities anywhere in the world. Similarly, the city boundaries used in Metroverse aim to make cities comparable across different countries (see FAQ question 2 for more information on city boundaries). Because of this, if data in Metroverse and other data about your city do not match, this does not mean that either is incorrect. They may just use slightly different definitions of what belongs to the city and what an industry is.
+  </p>
+
+faq-list-Q9-q = Why are some cities missing from Metroverse?
+faq-list-Q9-a =
+  <p>
+    Unfortunately, not all cities are covered equally well in the underlying database of Metroverse. Metroverse’s current selection of cities reflects a trade-off between showing data for as many cities as possible and ensuring that the data that we show are likely to be reasonably reliable. We will keep working on expanding the range of cities, but may also be forced to remove some. 
+  </p>
+  <p>
+    You can help us with this by telling us when you believe Metroverse’s data contain mistakes or when you can help us find datasets for a city that is not currently in Metroverse so that we can evaluate the quality of our data for that city.
+  </p>
+
+faq-list-Q10-q = I found an error.  How do I report it?
+faq-list-Q10-a =
+  <p>
+    Metroverse is a prototype tool with exciting updates and improvements planned. We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets.  Get in touch with us <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
+  </p>
