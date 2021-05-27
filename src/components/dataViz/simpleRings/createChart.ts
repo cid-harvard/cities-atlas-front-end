@@ -155,11 +155,7 @@ const createChart = (input: Input) => {
   const svg = d3.select(rootEl).append('svg')
   .attr('width',  outerWidth)
   .attr('height', outerHeight)
-  .attr('aria-labelledby', 'similar-city-rings-title');
-
-  svg.append('title')
-    .text('Similar Cities to Selected City Visualization')
-    .attr('id', 'similar-city-rings-title');
+  .attr('alt', 'Similar Cities to Selected City Visualization');
 
   const g = svg.append('g');
 
