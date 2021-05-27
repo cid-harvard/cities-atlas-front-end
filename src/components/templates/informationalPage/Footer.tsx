@@ -304,6 +304,12 @@ const StandardFooter = () => {
               Newsletter
             </StyledExternalLink>
             <StyledExternalLink
+              href='https://growthlab.app/'
+              target='_blank' rel='noopener noreferrer'
+            >
+              Viz Hub
+            </StyledExternalLink>
+            <StyledExternalLink
               href='https://growthlab.cid.harvard.edu/'
               target='_blank' rel='noopener noreferrer'
             >
