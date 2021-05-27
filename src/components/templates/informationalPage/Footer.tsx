@@ -289,9 +289,6 @@ const StandardFooter = () => {
             <StyledInternalLink to={Routes.Landing}>
               City Profiles
             </StyledInternalLink>
-            <StyledInternalLink to={Routes.DataAbout}>
-              Data
-            </StyledInternalLink>
             <StyledInternalLink to={Routes.AboutBase}>
               About
             </StyledInternalLink>

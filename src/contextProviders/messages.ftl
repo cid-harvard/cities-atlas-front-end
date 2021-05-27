@@ -233,7 +233,7 @@ data-disclaimer-red-title = severely biased
 data-disclaimer-red-desc = Due to limited, delayed, or inaccurate reporting, as well as a limited and potentially severely biased sample, <strong>data for this city may contain a significant degree of error</strong>.  Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this country reflect best estimates based on large samples of economic establishments and calls for careful consideration before using.
 
 data-disclaimer-data-page-lead-up = More information on Metroverse data can be found on the
-data-disclaimer-data-page-link-text = Data page
+data-disclaimer-data-page-link-text = FAQ page
 data-disclaimer-contact = You can help improve our data by sending suggestions or reporting errors <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
 
 landing-page-text-or = or

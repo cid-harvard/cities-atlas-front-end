@@ -276,7 +276,6 @@ const Header = () => {
   const {width} = useWindowWidth();
   const matchCity = useRouteMatch(Routes.CityBase);
   const matchAbout = useRouteMatch(Routes.AboutBase);
-  const matchData = useRouteMatch(Routes.DataBase);
   const matchContact = useRouteMatch(Routes.ContactBase);
   const matchFaq = useRouteMatch(Routes.FaqBase);
   if (width <= 800) {
@@ -306,14 +305,6 @@ const Header = () => {
                   dangerouslySetInnerHTML={{__html: cityIconSVG}}
                 />
                 {getString('navigation-city-profiles')}
-              </MobileH2>
-            </StyledLink>
-            <StyledLink
-              onClick={closeMenu}
-              to={Routes.DataAbout}
-            >
-              <MobileH2 $active={Boolean(matchData)}>
-                {getString('navigation-data')}
               </MobileH2>
             </StyledLink>
             <StyledLink
@@ -375,11 +366,6 @@ const Header = () => {
                 dangerouslySetInnerHTML={{__html: cityIconSVG}}
               />
               {getString('navigation-city-profiles')}
-            </H2>
-          </StyledLink>
-          <StyledLink to={Routes.DataAbout}>
-            <H2 $active={Boolean(matchData)}>
-              {getString('navigation-data')}
             </H2>
           </StyledLink>
           <StyledLink to={Routes.AboutWhatIs}>

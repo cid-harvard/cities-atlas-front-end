@@ -173,7 +173,7 @@ const DataDisclaimer = () => {
         <Para>
           {getString('data-disclaimer-data-page-lead-up')}
           &nbsp;
-          <Link to={Routes.DataAbout}>{getString('data-disclaimer-data-page-link-text')}</Link>
+          <Link to={Routes.FaqBase}>{getString('data-disclaimer-data-page-link-text')}</Link>
         </Para>
         <Para dangerouslySetInnerHTML={{__html: getString('data-disclaimer-contact')}} />
         <CloseButton onClick={() => setModalOpen(false)}>✕</CloseButton>

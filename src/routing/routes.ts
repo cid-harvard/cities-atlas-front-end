@@ -23,14 +23,6 @@ export const AboutRoutes = {
   AboutGrowthLab: '/about/growth-lab',
 };
 
-export const DataRoutes = {
-  DataBase: '/data',
-  DataAbout: '/data/about',
-  DataCleaning: '/data/cleaning',
-  DataUpdates: '/data/updates',
-  DataClassifications: '/data/classifications',
-};
-
 export const ContactRoutes = {
   ContactBase: '/contact',
 };
@@ -43,7 +35,6 @@ export const Routes = {
   Landing: '/',
   ...CityRoutes,
   ...AboutRoutes,
-  ...DataRoutes,
   ...ContactRoutes,
   ...FaqRoutes,
 } as const;
