@@ -44,13 +44,13 @@ export const sectorColorMap = [
 ];
 
 export const clusterColorMap = [
-  {id: '1', color: '#BB968A'},
-  {id: '2', color: '#449DBC'},
-  {id: '3', color: '#91E045'},
-  {id: '4', color: '#FF9C34'},
-  {id: '5', color: '#A746C2'},
-  {id: '6', color: '#D6443C'},
-  {id: '7', color: '#FFCD56'},
+  {id: '1', color: '#999932'}, // Basic Materials
+  {id: '2', color: '#485999'}, // Manufacturing
+  {id: '3', color: '#37AF98'}, // Food
+  {id: '4', color: '#65CEE0'}, // Durables
+  {id: '5', color: '#873261'}, // Logistics
+  {id: '6', color: '#B76274'}, // Services
+  {id: '7', color: '#DDCC77'}, // Finance
 ];
 
 export const intensityColorRange =[

@@ -244,7 +244,7 @@ const CompositionTreeMap = (props: Props) => {
           treeMapData.push({
             id: clusterId,
             value,
-            title: name ? name : '',
+            title: name ? name + clusterIdTopParent : '',
             topLevelParentId: clusterIdTopParent ? clusterIdTopParent.toString() : clusterId.toString(),
             fill,
           });
