@@ -340,7 +340,7 @@ city-filter-update = Update Cities
 
 economic-composition-title = What is { $name-plural } economic composition?
 
-economic-composition-para-1 = { $name } has a population of { $population } people ({ $pop-year }) and an estimated GDP per capita of ${ $gdppc } (2020).  Out of the { $region-city-count } cities covered in { $region-name }, { $name } ranks as the { $region-size-rank } most populated, and displays the { $region-wealth-rank } highest GDP per capita. { $name-plural } labor force consists of about { $num-employ } workers.
+economic-composition-para-1 = { $name } has a population of { $population } people ({ $pop-year }) and an estimated GDP per capita of ${ $gdppc }.  Out of the { $region-city-count } cities covered in { $region-name }, { $name } ranks as the { $region-size-rank } most populated, and displays the { $region-wealth-rank } highest GDP per capita. { $name-plural } labor force consists of about { $num-employ } workers.
 
 economic-composition-para-2 = The largest sector in { $name } consists of { $largest-sector } industries, accounting for { $largest-sector-share-percent }% of { $composition-type } in the city. A prime example is { $largest-3-digit-industry-in-sector }, providing { $largest-3-digit-industry-in-sector-share-percent }% of the city’s employment. Similarly, it shows a large presence in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).
 

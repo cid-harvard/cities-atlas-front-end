@@ -143,7 +143,7 @@ const HighlightedTooltip = (props: Props) => {
           <Tooltip
             explanation={getString('global-text-gdp-per-capita-about')}
           />
-          {getString('global-text-gdp-per-capita')} (2015): ${
+          {getString('global-text-gdp-per-capita')}: ${
             numberWithCommas(Math.round(highlighted.gdp / 10) * 10)
           }
         </HoverTooltipContainer>
