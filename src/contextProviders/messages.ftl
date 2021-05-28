@@ -522,7 +522,7 @@ about-pilot-user-group-html =
       <strong>Paraskevi Bessa-Rodrigues (Novo Hamburgo)</strong>: Municipal Secretary of Economic Development
     </li>
     <li>
-      <strong>Court Ellington (Calgary)</strong>: Vice President Research and Strategy
+      <strong>Court Ellingson (Calgary)</strong>: Vice President Research and Strategy
     </li>
     <li>
       <strong>Eric Anthony Johnson (Dallas): </strong> Chief of Economic Development, Housing &amp; Neighborhood Services
@@ -549,7 +549,7 @@ about-pilot-user-group-html =
       <strong>Raquel Taminato (Campo Grande)</strong>: Chief of GIS at the Urban and Environmental Planning Agency
     </li>
     <li>
-      <strong>Andrea Thorbury (Belfast)</strong>: Data Specialist
+      <strong>Andrea Thornbury (Belfast)</strong>: Data Specialist
     </li>
     <li>
       <strong>Jos&eacute; Julio Rodrigues Vieira (Belo Horizonte)</strong>: Sub-secretary of Urban Planning
