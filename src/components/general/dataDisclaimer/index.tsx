@@ -137,19 +137,19 @@ const DataDisclaimer = () => {
   if (currentCity && currentCity.city) {
     const {dataFlag} = currentCity.city;
     if (dataFlag === DataFlagType.GREEN) {
-      flagColor = '#008000';
+      flagColor = '#137737';
       alertTitle = getString('data-disclaimer-green-title');
       description = getString('data-disclaimer-green-desc');
     } else if (dataFlag === DataFlagType.YELLOW) {
-      flagColor = '#d69316';
+      flagColor = '#71670F';
       alertTitle = getString('data-disclaimer-yellow-title');
       description = getString('data-disclaimer-yellow-desc');
     } else if (dataFlag === DataFlagType.ORANGE) {
-      flagColor = '#e66219';
+      flagColor = '#9A561A';
       alertTitle = getString('data-disclaimer-orange-title');
       description = getString('data-disclaimer-orange-desc');
     } else if (dataFlag === DataFlagType.RED) {
-      flagColor = '#e42020';
+      flagColor = '#B70808';
       alertTitle = getString('data-disclaimer-red-title');
       description = getString('data-disclaimer-red-desc');
     }
