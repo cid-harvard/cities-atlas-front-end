@@ -46,6 +46,7 @@ const VizContainer = styled.div`
   .react-comparison-bar-chart-title {
     h2 {
       text-transform: none;
+      font-weight: 600;
     }
   }
 `;
