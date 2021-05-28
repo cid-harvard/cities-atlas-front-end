@@ -513,7 +513,7 @@ about-pilot-user-group-html =
   </p>
   <ul>
     <li>
-      <strong>Diego Andres Arcias (Washington, D.C.)</strong>: Housing and Urban Development Sector Specialist, IDB 
+      <strong>Diego Andres Arcia (Washington, D.C.)</strong>: Housing and Urban Development Sector Specialist, IDB 
     </li>
     <li>
       <strong>Michelle Barnett (Tulsa)</strong>: Deputy Chief of Economic Development, City of Tulsa 
