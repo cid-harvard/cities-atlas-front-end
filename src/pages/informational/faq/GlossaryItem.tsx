@@ -41,12 +41,6 @@ const Definition = styled.dd`
 `;
 
 const Paragraph = styled.p`
-  font-size: 1rem;
-  line-height: 1.5;
-  color: rgb(102, 102, 102);
-  font-weight: 400;
-  margin-top: 0;
-  margin-bottom: 0;
   padding: 1rem;
   border-top: 1px solid ${borderColor};
 `;
