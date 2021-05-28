@@ -129,7 +129,7 @@ const FirstTimeModal = ({startGuide}: Props) => {
         <Root>
           <Logo src={CityverseLogoURL} />
           <Text>
-            Get to know the lay of the land
+            Learn the Metroverse basics
           </Text>
           <StartGuideButton onClick={onStart}>
             Follow our step-by-step guide
