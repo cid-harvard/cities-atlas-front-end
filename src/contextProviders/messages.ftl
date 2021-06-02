@@ -636,7 +636,7 @@ faq-list-Q2-a =
     What are the boundaries of a city? This depends on whom you ask. Statistical offices often rely on city definitions that reflect the borders between areas that are run by different local administrations, such as municipalities or counties. However, economic interactions typically don’t mind crossing administrative boundaries. Therefore, Metroverse uses boundaries that reflect economic, not administrative realities. 
   </p>
   <p>
-    To make sure that what we call a city is comparable across countries in the world, we chose city boundaries that were originally determined by the <a target="_blank" href="https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php">Joint Research Center of the European Union</a>. These boundaries are based on aerial images and follow the built environment of a city. That is, they aim to put borders where the buildings of a city stop. More information on this dataset can be found here:
+    To make sure that what we call a city is comparable across countries in the world, we chose city boundaries that were originally determined by the <a target="_blank" href="https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php">Joint Research Center of the European Union</a>. These boundaries are based on satellite images and an estimated population grid. They follow the inhabited and built environment of a city. That is, they aim to put borders where the buildings and population of a city stop. More information on this dataset can be found here:
   </p>
   <cite>
     Florczyk, Aneta J., et al. "GHS Urban Centre Database 2015, multitemporal and multidimensional attributes, R2019A." Luxembourg: European Commission, Joint Research Centre (JRC) (2019).
