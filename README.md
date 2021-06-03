@@ -8,28 +8,28 @@ License - [Attribution-NonCommercial-ShareAlike 4.0 International](https://creat
 
 
 ## Table of Contents
-- [Getting Started](#gettingstarted)
-- [Primary Technologies](#primarytechnologies)
+- [Getting Started](#getting-started)
+- [Primary Technologies](#primary-technologies)
 - [Deployments](#deployments)
-- [Style Guide](#styleguide)
-- [Utilities and Global Styling](#utilitiesandglobalstyling)
-    - [Utility Functions](#utilityfunctions)
-    - [Global Styling](#globalstyling)
-- [Custom NPM packages](#customnpmpackages)
-    - [react-canvas-treemap](#reactcanvastreemap)
-    - [react-city-space-mapbox](#reactcityspacemapbox)
-    - [react-comparison-bar-chart](#reactcomparisonbarchart)
-    - [react-fast-charts](#reactfastcharts)
-    - [react-panel-search](#reactpanelsearch)
-    - [react-pswot-plot](#reactpswotplot)
-    - [react-vertical-bar-chart](#reactverticalbarchart)
-- [App Sections](#appsections)
-    - [Landing Page](#landingpage)
-    - [Informational Pages](#informationalpages)
-    - [City Profiles](#cityprofiles)
+- [Style Guide](#style-guide)
+- [Utilities and Global Styling](#utilities-and-global-styling)
+    - [Utility Functions](#utility-functions)
+    - [Global Styling](#global-styling)
+- [Custom NPM packages](#custom-npm-packages)
+    - [react-canvas-treemap](#react-canvas-treemap)
+    - [react-city-space-mapbox](#react-city-space-mapbox)
+    - [react-comparison-bar-chart](#react-comparison-bar-chart)
+    - [react-fast-charts](#react-fast-charts)
+    - [react-panel-search](#react-panel-search)
+    - [react-pswot-plot](#react-pswot-plot)
+    - [react-vertical-bar-chart](#react-vertical-bar-chart)
+- [App Sections](#app-sections)
+    - [Landing Page](#landing-page)
+    - [Informational Pages](#informational-pages)
+    - [City Profiles](#city-profiles)
 
 
-<a name="gettingstarted"/>
+<a name="getting-started"/>
 
 ## Getting started
 
@@ -58,7 +58,7 @@ As you work on projects on this repo, make sure to run
 
 before pushing any code to make sure it keeps consistent standards.
 
-<a name="primarytechnologies"/>
+<a name="primary-technologies"/>
 
 ## Primary Technologies
 
@@ -69,7 +69,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<a name="#deployments"/>
+<a name="deployments"/>
 
 ## Deployments
 
@@ -80,7 +80,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<a name="#styleguide"/>
+<a name="style-guide"/>
 
 ## Style Guide
 
@@ -91,7 +91,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<a name="#utilitiesandglobalstyling"/>
+<a name="utilities-and-global-styling"/>
 
 ## Utilities and Global Styling
 
@@ -102,7 +102,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<a name="#utilityfunctions"/>
+<a name="utility-functions"/>
 
 ### Utility Functions
 
@@ -111,7 +111,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#globalstyling"/>
+<a name="global-styling"/>
 
 ### Global Styling
 
@@ -120,7 +120,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#customnpmpackages"/>
+<a name="custom-npm-packages"/>
 
 ## Custom NPM packages
 
@@ -131,7 +131,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<a name="#reactcanvastreemap"/>
+<a name="react-canvas-treemap"/>
 
 ### react-canvas-treemap
 
@@ -140,7 +140,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#reactcityspacemapbox"/>
+<a name="react-city-space-mapbox"/>
 
 ### react-city-space-mapbox
 
@@ -149,7 +149,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#reactcomparisonbarchart"/>
+<a name="react-comparison-bar-chart"/>
 
 ### react-comparison-bar-chart
 
@@ -158,7 +158,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#reactfastcharts"/>
+<a name="react-fast-charts"/>
 
 ### react-fast-charts
 
@@ -167,7 +167,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#reactpanelsearch"/>
+<a name="react-panel-search"/>
 
 ### react-panel-search
 
@@ -176,7 +176,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#reactpswotplot"/>
+<a name="react-pswot-plot"/>
 
 ### react-pswot-plot
 
@@ -185,7 +185,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#reactverticalbarchart"/>
+<a name="react-vertical-bar-chart"/>
 
 ### react-vertical-bar-chart
 
@@ -194,7 +194,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#appsections"/>
+<a name="app-sections"/>
 
 ## App Sections
 
@@ -205,7 +205,7 @@ consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
 cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
 proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-<a name="#landingpage"/>
+<a name="landing-page"/>
 
 ### Landing Page
 
@@ -214,7 +214,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#informationalpages"/>
+<a name="informational-pages"/>
 
 ### Informational Pages
 
@@ -223,7 +223,7 @@ tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
 consequat.
 
-<a name="#cityprofiles"/>
+<a name="city-profiles"/>
 
 ### City Profiles
 
