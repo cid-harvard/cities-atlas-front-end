@@ -188,6 +188,29 @@ const CityName = styled.div`
   position: absolute;
 `;
 
+const ResetSettingsBtn = styled.button`
+  max-width: min-content;
+  text-transform: uppercase;
+  font-size: 0.5rem;
+  font-weight: 600;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 36px;
+  margin-top: auto;
+  color: ${baseColor};
+  background-color: ${backgroundMedium};
+  transition: outline 0.1s ease-in-out;
+  outline: solid 0px ${backgroundMedium};
+  padding: 0 0.25rem;
+
+  &:hover,
+  &:focus {
+    outline: solid 2px ${backgroundMedium};
+  }
+`;
+
 const selectBoxValueRenderer = (type: 'Countries' | 'Regions') => (selected: any, allOptions: any) => {
   if (selected.length === 0 || selected.length === allOptions.length) {
     return 'All ' + type;
@@ -250,7 +273,7 @@ const FilterBar = (props: Props) => {
   );
   const currentCityName = currentCity ? currentCity.city : '';
 
-  useEffect(() => {
+  const setDefaultPopulation = useCallback(() => {
     const rawPopulation = popLogScale.invert(currentPopPercent as number);
     let defaultMinPop = popLogScale(rawPopulation / 2) as number;
     if (defaultMinPop < 0) {
@@ -261,7 +284,19 @@ const FilterBar = (props: Props) => {
       defaultMaxPop = 100;
     }
     setMinMaxPopulation([defaultMinPop, defaultMaxPop]);
+
   }, [currentPopPercent, popLogScale]);
+
+  useEffect(() => {
+    setDefaultPopulation();
+  }, [setDefaultPopulation]);
+
+  const resetSettings = () => {
+    setSelectedRegionIds([]);
+    setSelectedCountryIds([]);
+    setMinMaxGdppc([0 , 100]);
+    setDefaultPopulation();
+  };
 
   useEffect(() => {
     if (mapContext.intialized) {
@@ -346,7 +381,7 @@ const FilterBar = (props: Props) => {
                 className={slideRootClassName}
                 thumbClassName={slideThumbClassName}
                 trackClassName={slideTrackClassName}
-                defaultValue={[0, 100]}
+                value={minMaxGdppc}
                 renderThumb={thumbRender('gdp')}
                 max={100}
                 min={0}
@@ -377,6 +412,9 @@ const FilterBar = (props: Props) => {
               />
             </SelectBoxContainer>
           </ExpandBox>
+          <ResetSettingsBtn onClick={resetSettings}>
+            {getString('global-ui-options-reset')}
+          </ResetSettingsBtn>
         </Settings>
       </Root>
     ), node);

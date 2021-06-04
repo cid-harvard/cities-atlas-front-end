@@ -60,6 +60,7 @@ global-benchmarked-by = relative presence benchmarked by
 global-ui-city-city-benchmark-warning = City to City Benchmarking is not reliable in this visualization
 
 global-ui-settings-reset = Default Settings
+global-ui-options-reset = Reset Options
 global-ui-current-settings = Current settings
 global-ui-change-settings = Click to change settings
 
