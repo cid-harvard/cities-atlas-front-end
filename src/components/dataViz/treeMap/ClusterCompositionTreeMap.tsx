@@ -192,28 +192,6 @@ const CompositionTreeMap = (props: Props) => {
 
     const minMax = extent(allRCAValues) as [number, number];
 
-    let colorScale: (val: number) => string | undefined;
-    if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
-      colorScale = scaleLinear()
-                    .domain([
-                      aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
-                      aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
-                    ])
-                    .range(educationColorRange as any) as any;
-    } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
-      colorScale = scaleLinear()
-                    .domain([
-                      aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
-                      aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
-                    ])
-                    .range(wageColorRange as any) as any;
-    } else {
-      // colorScale = () => undefined;
-      colorScale = scaleSymlog()
-        .domain(minMax)
-        .range(intensityColorRange as any) as unknown as (value: number) => string;
-    }
-
     let total = 0;
     clusters.forEach(({clusterId, numCompany, numEmploy}) => {
       const cluster = clusterMap.data[clusterId];
@@ -224,33 +202,63 @@ const CompositionTreeMap = (props: Props) => {
           const employees = numEmploy ? numEmploy : 0;
           total = compositionType === CompositionType.Companies ? total + companies : total + employees;
           const value = compositionType === CompositionType.Companies ? companies : employees;
-          let fill: string | undefined;
-          const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[clusterId];
-          if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
-            if (clusterIndustryDatum) {
-              fill = colorScale(clusterIndustryDatum.yearsEducation) as string;
-            } else {
-              fill = 'gray';
-            }
-          } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
-            if (clusterIndustryDatum) {
-              fill = colorScale(clusterIndustryDatum.hourlyWage) as string;
-            } else {
-              fill = 'gray';
-            }
-          } else {
-            fill = undefined;
-          }
           treeMapData.push({
             id: clusterId,
             value,
             title: name ? name : '',
             topLevelParentId: clusterIdTopParent ? clusterIdTopParent.toString() : clusterId.toString(),
-            fill,
           });
         }
       }
     });
+
+
+    let colorScale: (val: number) => string | undefined;
+    if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      0, treeMapData.length,
+                      // aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
+                      // aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
+                    ])
+                    .range(educationColorRange as any) as any;
+    } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      0, treeMapData.length,
+                      // aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
+                      // aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
+                    ])
+                    .range(wageColorRange as any) as any;
+    } else {
+      // colorScale = () => undefined;
+      colorScale = scaleSymlog()
+        .domain(minMax)
+        .range(intensityColorRange as any) as unknown as (value: number) => string;
+    }
+    for(const i in treeMapData) {
+      if (treeMapData[i] !== undefined) {
+        let fill: string | undefined;
+        const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[treeMapData[i].id];
+        if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+          if (clusterIndustryDatum) {
+            fill = colorScale(clusterIndustryDatum.yearsEducationRank) as string;
+          } else {
+            fill = 'gray';
+          }
+        } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+          if (clusterIndustryDatum) {
+            fill = colorScale(clusterIndustryDatum.hourlyWageRank) as string;
+          } else {
+            fill = 'gray';
+          }
+        } else {
+          fill = undefined;
+        }
+        treeMapData[i].fill = fill;
+      }
+    }
+
     if (!treeMapData.length) {
       indicator.text = getString('global-ui-total') + ': ―';
       output = (
@@ -287,6 +295,14 @@ const CompositionTreeMap = (props: Props) => {
               numberWithCommas(formatNumber(Math.round(value))),
             ]);
           }
+          if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+            const target = aggregateIndustryDataMap.data.clusters[cluster.clusterId];
+            const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+            rows.push([
+              getString('global-formatted-color-by', {type: colorBy}),
+              (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
+            ]);
+          }
           node.innerHTML = getStandardTooltip({
             title: cluster.name ? cluster.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
@@ -318,6 +334,14 @@ const CompositionTreeMap = (props: Props) => {
             rows.push([
               getString('tooltip-number-generic', {value: compositionType}) + ':',
               numberWithCommas(formatNumber(Math.round(value))),
+            ]);
+          }
+          if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+            const target = aggregateIndustryDataMap.data.clusters[cluster.clusterId];
+            const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+            rows.push([
+              getString('global-formatted-color-by', {type: colorBy}),
+              (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
             ]);
           }
           node.innerHTML = getStandardTooltip({

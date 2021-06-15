@@ -9,6 +9,7 @@ import {
   GlobalIndustryAgg,
 } from '../types/graphQL/graphQLTypes';
 import {extent} from 'd3-array';
+import orderBy from 'lodash/orderBy';
 
 const GLOBAL_INDUSTRIES_QUERY = gql`
   query GetAggregateIndustryData($level: Int!, $clusterLevel: Int!, $year: Int!, $cityId: Int!) {
@@ -134,12 +135,16 @@ export interface IndustryMap {
     [id: string]: IndustryDatum & {
       yearsEducation: ClusterIndustry['yearsEducation'];
       hourlyWage: ClusterIndustry['hourlyWage'];
+      yearsEducationRank: number;
+      hourlyWageRank: number;
     };
   };
   clusters: {
     [id: string]: ClusterDatum & {
       yearsEducation: NaicsIndustry['yearsEducation'];
       hourlyWage: NaicsIndustry['hourlyWage'];
+      yearsEducationRank: number;
+      hourlyWageRank: number;
     };
   };
 }
@@ -180,16 +185,20 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
   if (data !== undefined) {
     const {aggregateData, averageData, clusterAverageData, aggregateClusterData} = data;
     const filteredAverageData = averageData.filter(d => d.level === level);
+    const averagesOrderedByYearsEducation = orderBy(filteredAverageData, ['yearsEducation'], ['asc']);
+    const averagesOrderedByHourlyWage = orderBy(filteredAverageData, ['hourlyWage'], ['asc']);
     aggregateData.forEach(d => {
-      const averages = filteredAverageData.find(dd => {
-        return dd.naicsId.toString() === d.naicsId.toString();
-      });
+      const averages = filteredAverageData.find(dd => dd.naicsId.toString() === d.naicsId.toString());
       const yearsEducation = averages && averages.yearsEducation ? averages.yearsEducation : 0;
       const hourlyWage = averages && averages.hourlyWage ? averages.hourlyWage : 0;
+      const yearsEducationRank = averagesOrderedByYearsEducation.findIndex(dd => dd.naicsId.toString() === d.naicsId.toString());
+      const hourlyWageRank = averagesOrderedByHourlyWage.findIndex(dd => dd.naicsId.toString() === d.naicsId.toString());
       response.industries[d.naicsId] = {
         ...d,
         yearsEducation,
         hourlyWage,
+        yearsEducationRank,
+        hourlyWageRank,
       };
     });
     {
@@ -210,16 +219,20 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
     }
 
     const filteredAverageClusterData = clusterAverageData.filter(d => d.level === clusterLevel);
+    const averageClustersOrderedByYearsEducation = orderBy(filteredAverageClusterData, ['yearsEducation'], ['asc']);
+    const averageClustersOrderedByHourlyWage = orderBy(filteredAverageClusterData, ['hourlyWage'], ['asc']);
     aggregateClusterData.forEach(d => {
-      const averages = filteredAverageClusterData.find(dd => {
-        return dd.clusterId.toString() === d.clusterId.toString();
-      });
+      const averages = filteredAverageClusterData.find(dd => dd.clusterId.toString() === d.clusterId.toString());
       const yearsEducation = averages && averages.yearsEducation ? averages.yearsEducation : 0;
       const hourlyWage = averages && averages.hourlyWage ? averages.hourlyWage : 0;
+      const yearsEducationRank = averageClustersOrderedByYearsEducation.findIndex(dd => dd.clusterId.toString() === d.clusterId.toString());
+      const hourlyWageRank = averageClustersOrderedByHourlyWage.findIndex(dd => dd.clusterId.toString() === d.clusterId.toString());
       response.clusters[d.clusterId] = {
         ...d,
         yearsEducation,
         hourlyWage,
+        yearsEducationRank,
+        hourlyWageRank,
       };
     });
 

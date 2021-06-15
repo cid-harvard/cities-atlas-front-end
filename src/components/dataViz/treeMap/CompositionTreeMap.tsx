@@ -170,24 +170,6 @@ const CompositionTreeMap = (props: Props) => {
   } else if (dataToUse !== undefined) {
     const {industries} = dataToUse;
     const treeMapData: Inputs['data'] = [];
-    let colorScale: (val: number) => string | undefined;
-    if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
-      colorScale = scaleLinear()
-                    .domain([
-                      aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
-                      aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
-                    ])
-                    .range(educationColorRange as any) as any;
-    } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
-      colorScale = scaleLinear()
-                    .domain([
-                      aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
-                      aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
-                    ])
-                    .range(wageColorRange as any) as any;
-    } else {
-      colorScale = () => undefined;
-    }
     let total = 0;
     industries.forEach(({naicsId, numCompany, numEmploy}) => {
       const industry = industryMap.data[naicsId];
@@ -198,22 +180,46 @@ const CompositionTreeMap = (props: Props) => {
           const employees = numEmploy ? numEmploy : 0;
           total = compositionType === CompositionType.Companies ? total + companies : total + employees;
           const value = compositionType === CompositionType.Companies ? companies : employees;
-          let fill: string | undefined;
-          if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
-            const target = aggregateIndustryDataMap.data.industries[naicsId];
-            const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
-            fill = colorScale(targetValue);
-          }
           treeMapData.push({
             id: naicsId,
             value,
             title: name ? name : '',
             topLevelParentId: naicsIdTopParent.toString(),
-            fill,
           });
         }
       }
     });
+    let colorScale: (val: number) => string | undefined;
+    if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      0, treeMapData.length,
+                      // aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
+                      // aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
+                    ])
+                    .range(educationColorRange as any) as any;
+    } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+      colorScale = scaleLinear()
+                    .domain([
+                      0, treeMapData.length,
+                      // aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
+                      // aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
+                    ])
+                    .range(wageColorRange as any) as any;
+    } else {
+      colorScale = () => undefined;
+    }
+    for(const i in treeMapData) {
+      if (treeMapData[i] !== undefined) {
+        let fill: string | undefined;
+        if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+          const target = aggregateIndustryDataMap.data.industries[treeMapData[i].id];
+          const targetValue = colorBy === ColorBy.education ? target.yearsEducationRank : target.hourlyWageRank;
+          fill = colorScale(targetValue);
+        }
+        treeMapData[i].fill = fill;
+      }
+    }
     if (!treeMapData.length) {
       indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
       output = (
@@ -251,6 +257,14 @@ const CompositionTreeMap = (props: Props) => {
               numberWithCommas(formatNumber(Math.round(value))),
             ]);
           }
+          if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+            const target = aggregateIndustryDataMap.data.industries[industry.naicsId];
+            const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+            rows.push([
+              getString('global-formatted-color-by', {type: colorBy}),
+              (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
+            ]);
+          }
           node.innerHTML = getStandardTooltip({
             title: industry.name ? industry.name : '',
             color: color ? rgba(color.color, 0.3) : '#fff',
@@ -282,6 +296,14 @@ const CompositionTreeMap = (props: Props) => {
             rows.push([
               getString('tooltip-number-generic', {value: compositionType}) + ':',
               numberWithCommas(formatNumber(Math.round(value))),
+            ]);
+          }
+          if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+            const target = aggregateIndustryDataMap.data.industries[industry.naicsId];
+            const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+            rows.push([
+              getString('global-formatted-color-by', {type: colorBy}),
+              (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
             ]);
           }
           node.innerHTML = getStandardTooltip({
