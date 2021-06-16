@@ -24,6 +24,7 @@ const Root = styled.div`
   animation-iteration-count: 1;
   color: #fff;
   height: 100%;
+  box-sizing: border-box;
 
   @media screen and (max-height: 800px) {
     overflow: visible;

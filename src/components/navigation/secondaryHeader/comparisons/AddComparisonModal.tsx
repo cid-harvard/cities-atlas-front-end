@@ -63,19 +63,22 @@ const Root = styled.div`
   color: #fff;
   width: 800px;
   max-width: 100%;
-  height: 800px;
+  height: 750px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   box-sizing: border-box;
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     width: 100%;
+    height: auto;
     max-height: initial;
     padding: 1rem;
   }
 `;
+
+const benchmarkButtonClassName = 'benchmark-open-modal-button-class-name';
 
 const H1 = styled.h1`
   text-transform: uppercase;
@@ -84,10 +87,19 @@ const H1 = styled.h1`
   margin-top: 2rem;
   margin-bottom: 2rem;
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     font-size: 1.5rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
+  }
+
+  &.${benchmarkButtonClassName}:before {
+    font-size: 1.45em;
+    content: '⇅';
+    top: 0.15rem;
+    position: relative;
+    line-height: 0;
+    margin-right: 0.65rem;
   }
 `;
 
@@ -143,7 +155,7 @@ const ContainerTitle = styled.h3`
   margin-bottom: 0.4rem;
   font-family: ${primaryFont};
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     font-size: 1.1rem;
   }
 `;
@@ -174,7 +186,7 @@ const Or = styled.div`
     margin-top: 0.5rem;
   }
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     font-size: 1.1rem;
   }
 
@@ -205,13 +217,18 @@ const ContinueButtonContainer = styled.div`
   margin-top: auto;
   display: flex;
   justify-content: flex-end;
-  padding: 2rem 1rem 1rem;
+  padding: 0 1rem 1rem;
   position: sticky;
   bottom: 0;
   pointer-events: none;
 
   @media (max-width: 750px) {
     position: relative;
+    padding-top: 1rem;
+  }
+
+  @media (max-height: 800px) {
+    margin-top: 0;
   }
 `;
 
@@ -238,7 +255,7 @@ const ContinueButton = styled.button`
     border-color: rgba(255, 255, 255, 0.5);
   }
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     font-size: 1rem;
   }
 `;
@@ -255,7 +272,7 @@ const GroupItem = styled.li`
   font-size: 1rem;
   font-family: ${primaryFont};
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     font-size: 0.8rem;
   }
 `;
@@ -288,7 +305,7 @@ const AboutText = styled.p`
   margin: 0 0 1rem;
   font-family: ${primaryFont};
 
-  @media (max-width: 900px), (max-height: 800px) {
+  @media (max-width: 990px), (max-height: 800px) {
     font-size: 0.8rem;
   }
 `;
@@ -412,7 +429,10 @@ const AddComparisonModal = (props: Props) => {
   return (
     <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'inherit'}>
       <Root>
-        <H1 style={field === 'compare_city' ? {marginBottom: '4rem'} : undefined}>
+        <H1
+          style={field === 'compare_city' ? {marginBottom: '4rem'} : undefined}
+          className={field === 'compare_city' ? undefined : benchmarkButtonClassName}
+        >
           {title}:
         </H1>
         {about}
@@ -536,7 +556,7 @@ const AddComparisonModal = (props: Props) => {
                 maxResults={500}
                 selectedValue={typeof selected === 'object' ? selected : null}
                 onSelect={selectCity}
-                focusOnRender={window.innerHeight > 800}
+                focusOnRender={window.innerHeight > 800 && window.innerWidth > 990}
                 matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
               />
             </div>
