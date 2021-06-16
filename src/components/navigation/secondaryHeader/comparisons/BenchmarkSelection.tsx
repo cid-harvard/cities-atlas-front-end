@@ -4,6 +4,7 @@ import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryCompa
 import {
   baseColor,
   errorColor,
+  medGray,
 } from '../../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import {Datum} from 'react-panel-search';
@@ -31,9 +32,10 @@ const AddComparisonButton = styled(ButtonBase)`
   font-size: 0.8rem;
   border: none;
   padding: 0 0.5rem 0 1.45rem;
-  color: ${baseColor};
+  color: #fff;
+  background-color: ${medGray};
   outline: none;
-  max-width: 100%;
+  max-width: min-content;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -53,11 +55,11 @@ const AddComparisonButton = styled(ButtonBase)`
   }
 
   &:hover, &:focus {
-    background-color: #fff;
+    background-color: ${baseColor};
   }
 
   &:active {
-    color: ${baseColor};
+    color: #fff;
   }
 `;
 

@@ -18,6 +18,7 @@ export const tertiaryColor = '#cfbc3c'; // yellow
 
 export const backgroundMedium = '#e6e7e8'; // dark blue gray
 export const backgroundDark = '#2e353f'; // dark blue gray
+export const medGray = '#4d565e';
 
 export const linkColor = '#6accc2';
 

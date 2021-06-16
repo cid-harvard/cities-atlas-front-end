@@ -3,9 +3,9 @@ import AddComparisonModal from './AddComparisonModal';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import queryString from 'query-string';
 import {
-  lightBaseColor,
   errorColor,
   baseColor,
+  medGray,
 } from '../../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywordFormatter';
@@ -43,9 +43,9 @@ const ButtonBase = styled.button`
 
 const AddComparisonButton = styled(ButtonBase)`
   font-size: 0.75rem;
-  border: dashed 1px ${lightBaseColor};
   padding: 0.4rem 0.5rem 0.4rem 1.65rem;
-  color: ${baseColor};
+  color: #fff;
+  background-color: ${medGray};
   outline: none;
 
   &:before {
@@ -56,11 +56,11 @@ const AddComparisonButton = styled(ButtonBase)`
   }
 
   &:hover, &:focus {
-    background-color: #fff;
+    background-color: ${baseColor};
   }
 
   &:active {
-    color: ${baseColor};
+    color: #fff;
   }
 `;
 
