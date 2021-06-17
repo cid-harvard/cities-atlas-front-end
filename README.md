@@ -161,25 +161,16 @@ The Metroverse web application is broken up into three distinct sections. Each s
 
 ### Landing Page
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The logic for the landing page of the Metroverse is found at `src/landing`. It handles all of the code for the initial landing page map and pop-up.
 
 <a name="informational-pages"/>
 
 ### Informational Pages
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The logic for the informational pages of the Metroverse can be found at `src/informational`. Informational pages are classified as all pages that contain static information about the app, such as the `About` page or `Contact` page. All of the routing information is found within the index file of the directory, and properly name sub-directories contain the logic for the individual pages.
 
 <a name="city-profiles"/>
 
 ### City Profiles
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The logic for the city profile pages of the Metroverse can be found at `src/cities/single`. The City Profile pages are classified as all pages that make up the dynamic content of the City Profiles aspect of the app. All of the routing information is found within the index file of the directory, and properly name sub-directories contain the logic for the individual pages.
