@@ -87,19 +87,21 @@ There are a number of utility functions, global variables, and global components
 
 ### Utility Functions
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+There are two top level sources for utility functions. The first is found at `src/Utils.ts` which includes one-off functions that are used throughout the app as well as global variables such as the default year currently in use for API calls. Please familiarize yourself with the functions and values stored in this file.
+
+The other source of global utility functions is within the folder `src/utilities`. This folder is where more complex utility patterns live. An example within here is the `rapidTooltip.ts`. This file is used for creating consistent logic and styling of tooltips in data visualizations that handle their own state outside of React. This pattern is most commonly seen in D3 based visualizations that are passed a `ref` object to render tooltips into. This optimizes these tooltips for performance as they are able to respond directly to D3's internal state management instead of having to also pass through React's state management.
+
+Additional `Util.ts` files can be found throughout the app within various directories. They generally house logic that are utilized throughout that specific component, hook, or page. It is important to familiarize yourself with the Util file associated with the component you are working on as it may already include some of the logic you are looking to implement.
 
 <a name="global-styling"/>
 
 ### Global Styling
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The Metroverse uses the [`styled-components`](https://styled-components.com/docs) library to do most of it's styling work. While the majority of styles are defined at the component level (as is the advantage of using a CSS-in-JS approach), there are some styles defined at a global level as well as numerous style variables and basic components that are easily available throughout the app.
+
+Within the `src/styling` directory you can find the `GlobalGrid.ts` and `GlobalStyles.tsx` files. These respectively control the global layout and global styling found throughout the app.
+
+The other main file found in this directory is `styleUtils.ts`. This file contains all of the global color, font, and sizing variables as well as many basic components like buttons, titles, and labels. Please familiarize yourself with the contents of this file to prevent code duplication and speed up the development process.
 
 <a name="custom-npm-packages"/>
 
