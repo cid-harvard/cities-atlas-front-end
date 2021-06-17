@@ -12,6 +12,7 @@ import {
 } from '../../../routing/routes';
 import {scaleLinear} from 'd3-scale';
 import {extent} from 'd3-array';
+import mapboxgl from 'mapbox-gl';
 
 interface Props {
   showRings: boolean;
@@ -31,6 +32,12 @@ const MapOptionsAndSettings = (props: Props) => {
   const {city_node_sizing} = useQueryParams();
 
   const {data: proximityData} = useProximityData();
+
+  useEffect(() => {
+    if (mapContext.intialized) {
+      mapContext.map.addControl(new mapboxgl.NavigationControl());
+    }
+  }, [mapContext]);
 
   useEffect(() => {
     if (mapContext.intialized && data && cityId) {

@@ -17,6 +17,11 @@ import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import {ordinalNumber} from '../../../hooks/useFluent';
 import orderBy from 'lodash/orderBy';
 import upperFirst from 'lodash/upperFirst';
+import {
+  backgroundDark,
+  secondaryFont,
+  lightBorderColor,
+} from '../../../styling/styleUtils';
 
 const Root = styled.div`
   width: 100%;
@@ -36,6 +41,56 @@ const MapContainer = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
+
+  .mapboxgl-control-container {
+    .mapboxgl-ctrl-group:not(:empty) {
+      background: none;
+      box-shadow: none;
+      margin-top: 2rem;
+    }
+    .mapboxgl-ctrl-zoom-in,
+    .mapboxgl-ctrl-zoom-out,
+    .mapboxgl-ctrl-compass {
+      width: 75px;
+      height: 18px;
+      color: ${backgroundDark};
+      text-transform: uppercase;
+      font-family: ${secondaryFont};
+      letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      border: solid 1px ${lightBorderColor};
+      background-color: #fff;
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.1rem 0.4rem;
+      margin-bottom: 0.45rem;
+
+      &:hover {
+        background-color: ${backgroundDark};
+        color: #fff;
+      }
+
+      span {
+        display: none;
+      }
+    }
+    .mapboxgl-ctrl-zoom-in {
+      &::after {
+        text-align: center;
+        content: '+ Zoom In';
+      }
+    }
+    .mapboxgl-ctrl-zoom-out {
+      &:after {
+        text-align: center;
+        content: '- Zoom Out';
+      }
+    }
+    .mapboxgl-ctrl-compass {
+      display: none;
+    }
+  }
 `;
 
 const Map = styled.div`
