@@ -113,64 +113,43 @@ The Metroverse utilizes a number of custom NPM packages that have been specifica
 
 ### react-canvas-treemap
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-canvas-treemap`](https://www.npmjs.com/package/react-canvas-treemap) is a canvas based treemap originally designed for the [Atlas of International Complexity](https://atlas.cid.harvard.edu/) and later ported into its own npm module for use in other projects such as the Metroverse. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-canvas-treemap) for documentation or for any development changes that need to be made to this visualization.
 
 <a name="react-city-space-mapbox"/>
 
 ### react-city-space-mapbox
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-city-space-mapbox`](https://www.npmjs.com/package/react-city-space-mapbox) is a dynamic Mapbox-based visualization that allows toggling of the Growth Lab "City Space" and the true geographic centers of each city. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-city-space-mapbox) for documentation or for any development changes that need to be made to this visualization.
 
 <a name="react-comparison-bar-chart"/>
 
 ### react-comparison-bar-chart
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-comparison-bar-chart`](https://www.npmjs.com/package/react-comparison-bar-chart) is a vertical bar chart that allows the positive/negative comparison between two sets of data of the same categories. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-comparison-bar-chart) for documentation or for any development changes that need to be made to this visualization.
 
 <a name="react-fast-charts"/>
 
 ### react-fast-charts
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-fast-charts`](https://www.npmjs.com/package/react-fast-charts) package is a collection of React-D3 visualizations used throughout the Growth Lab's projects. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-fast-charts) for documentation or for any development changes that need to be made to its visualizations.
 
 <a name="react-panel-search"/>
 
 ### react-panel-search
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-panel-search`](https://www.npmjs.com/package/react-panel-search) is the package that contains the logic for the nested search bars found throughout the Metroverse. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-panel-search) for documentation or for any development changes that need to be made to this component.
 
 <a name="react-pswot-plot"/>
 
 ### react-pswot-plot
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-pswot-plot`](https://www.npmjs.com/package/react-pswot-plot) is a traditional SWOT chart but with the additional of a "Potential" quadrant in the form of Beeswarm plot. It displays all of the data where the x-axis value is equal to zero. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-pswot-plot) for documentation or for any development changes that need to be made to this visualization.
 
 <a name="react-vertical-bar-chart"/>
 
 ### react-vertical-bar-chart
 
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-consequat.
+The [`react-vertical-bar-chart`](https://www.npmjs.com/package/react-vertical-bar-chart) is a scroll-able bar chart that allows for the visual comparison of a large number of categories without overloading the screen. Please refer to its own [GitHub repo](https://www.npmjs.com/package/react-vertical-bar-chart) for documentation or for any development changes that need to be made to this visualization.
 
 <a name="app-sections"/>
 
