@@ -746,10 +746,16 @@ faq-list-Q8-a =
     Apart from data related issues, Metroverse’s estimates of the sizes of industries in a city may also differ because of the way we define these cities and industries in Metroverse. Definitions may not match the definitions of your local statistical office. For instance, industries are classified according to the North American Industry Classification System, which is typically used in North America, but not elsewhere. However, it is precisely these common definitions that make sure that we can compare cities anywhere in the world. Similarly, the city boundaries used in Metroverse aim to make cities comparable across different countries (see FAQ question 2 for more information on city boundaries). Because of this, if data in Metroverse and other data about your city do not match, this does not mean that either is incorrect. They may just use slightly different definitions of what belongs to the city and what an industry is.
   </p>
 
-faq-list-Q9-q = Why are some cities missing from Metroverse?
+faq-list-Q9-q = Why is my city missing in Metroverse?
 faq-list-Q9-a =
   <p>
-    Unfortunately, not all cities are covered equally well in the underlying database of Metroverse. Metroverse’s current selection of cities reflects a trade-off between showing data for as many cities as possible and ensuring that the data that we show are likely to be reasonably reliable. We will keep working on expanding the range of cities, but may also be forced to remove some. 
+    Unfortunately, not all cities are covered equally well in the underlying database of Metroverse. Metroverse’s current selection of cities reflects a trade-off between showing data for as many cities as possible and ensuring that the data that we show are likely to be reasonably reliable.
+  </p>
+  <p>
+    <strong>Cities presently included in Metroverse have a population greater than 100,000 people, over 10,000 economic establishments and sufficient data disclosure and quality.</strong>
+  </p>
+  <p>
+    We will keep working on expanding the range of cities, but may also be forced to remove some.
   </p>
   <p>
     You can help us with this by telling us when you believe Metroverse’s data contain mistakes or when you can help us find datasets for a city that is not currently in Metroverse so that we can evaluate the quality of our data for that city.
