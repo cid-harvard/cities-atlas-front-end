@@ -193,17 +193,15 @@ const CompositionTreeMap = (props: Props) => {
     if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
       colorScale = scaleLinear()
                     .domain([
-                      0, treeMapData.length,
-                      // aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
-                      // aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
+                      aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
+                      aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
                     ])
                     .range(educationColorRange as any) as any;
     } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
       colorScale = scaleLinear()
                     .domain([
-                      0, treeMapData.length,
-                      // aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
-                      // aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
+                      aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
+                      aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
                     ])
                     .range(wageColorRange as any) as any;
     } else {
