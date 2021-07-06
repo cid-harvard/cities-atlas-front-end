@@ -32,7 +32,7 @@ const Content = styled.div`
 const Bar = styled.div`
   width: 100%;
   height: 0.6rem;
-  background: linear-gradient(90deg, ${educationColorRange[0]} 0%, ${educationColorRange[1]} 100%);
+  background: linear-gradient(90deg, ${educationColorRange[0]} 0%, ${educationColorRange[1]} 50%, ${educationColorRange[2]} 100%);
 `;
 
 const Labels = styled.div`

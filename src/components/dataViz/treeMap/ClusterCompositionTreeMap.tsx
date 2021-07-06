@@ -218,6 +218,7 @@ const CompositionTreeMap = (props: Props) => {
       colorScale = scaleLinear()
                     .domain([
                       aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
+                      aggregateIndustryDataMap.data.globalMinMax.meanYearsEducation,
                       aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
                     ])
                     .range(educationColorRange as any) as any;
@@ -225,6 +226,7 @@ const CompositionTreeMap = (props: Props) => {
       colorScale = scaleLinear()
                     .domain([
                       aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
+                      aggregateIndustryDataMap.data.globalMinMax.meanHourlyWage,
                       aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
                     ])
                     .range(wageColorRange as any) as any;

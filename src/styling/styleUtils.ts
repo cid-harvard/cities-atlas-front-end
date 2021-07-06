@@ -60,13 +60,15 @@ export const intensityColorRange =[
 ];
 
 export const educationColorRange =[
-  '#bdf4e8',
-  '#199a7c',
+  '#5aad60',
+  '#eaebcc',
+  '#986faa',
 ];
 
 export const wageColorRange =[
-  '#ebd9ed',
-  '#8a4593',
+  '#4a7ab7',
+  '#eaebcc',
+  '#dc3d2d',
 ];
 
 export const primaryFont = "'Source Sans Pro', sans-serif";

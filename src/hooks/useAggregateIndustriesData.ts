@@ -113,8 +113,10 @@ export interface IndustryMap {
     minAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     maxAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     minYearsEducation: NaicsIndustry['yearsEducation'];
+    meanYearsEducation: NaicsIndustry['yearsEducation'];
     maxYearsEducation: NaicsIndustry['yearsEducation'];
     minHourlyWage: NaicsIndustry['hourlyWage'];
+    meanHourlyWage: NaicsIndustry['hourlyWage'];
     maxHourlyWage: NaicsIndustry['hourlyWage'];
   };
   clusterMinMax: {
@@ -166,6 +168,8 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       maxYearsEducation: 0,
       minHourlyWage: 0,
       maxHourlyWage: 0,
+      meanHourlyWage: 0,
+      meanYearsEducation: 0,
     },
     clusterMinMax: {
       minSumNumCompany: 0,
@@ -190,12 +194,12 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       const [minSumNumEmploy, maxSumNumEmploy] = extent(aggregateData.map(d => d.sumNumEmploy)) as [number, number];
       const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateData.map(d => d.avgNumCompany)) as [number, number];
       const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateData.map(d => d.avgNumEmploy)) as [number, number];
-      const [minYearsEducation, maxYearsEducation] = extent(
-        filterOutliers(filteredAverageData.map(d => d.yearsEducation)),
-      ) as [number, number];
-      const [minHourlyWage, maxHourlyWage] = extent(
-        filterOutliers(filteredAverageData.map(d => d.hourlyWage)),
-      ) as [number, number];
+      const yearsEducationNoOutliers = filterOutliers(filteredAverageData.map(d => d.yearsEducation));
+      const meanYearsEducation = yearsEducationNoOutliers[Math.round(yearsEducationNoOutliers.length / 2)];
+      const [minYearsEducation, maxYearsEducation] = extent(yearsEducationNoOutliers) as [number, number];
+      const hourlyWageNoOutliers = filterOutliers(filteredAverageData.map(d => d.hourlyWage));
+      const [minHourlyWage, maxHourlyWage] = extent(hourlyWageNoOutliers) as [number, number];
+      const meanHourlyWage = hourlyWageNoOutliers[Math.round(hourlyWageNoOutliers.length / 2)];
       response.globalMinMax = {
         minSumNumCompany, maxSumNumCompany,
         minSumNumEmploy, maxSumNumEmploy,
@@ -203,6 +207,7 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
         minAvgNumEmploy, maxAvgNumEmploy,
         minYearsEducation, maxYearsEducation,
         minHourlyWage, maxHourlyWage,
+        meanYearsEducation, meanHourlyWage,
       };
     }
     aggregateData.forEach(d => {
