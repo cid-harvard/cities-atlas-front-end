@@ -119,6 +119,26 @@ const PSWOTChart = (props: Props) => {
         rows.push(
           ['NAICS Code', industry.code],
         );
+        if (datum.x !== undefined) {
+          rows.push(
+            ['Relative Presence', parseFloat(datum.x.toFixed(3)).toString() ],
+          );
+        }
+        if (datum.y) {
+          rows.push(
+            ['Technological Fit', parseFloat(datum.y.toFixed(3)).toString() ],
+          );
+        }
+        if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage)
+              && aggregateIndustryDataMap.data) {
+          const target = aggregateIndustryDataMap.data.industries[industry.naicsId];
+          const targetValue = colorBy === ColorBy.education
+            ? target.yearsEducation : target.hourlyWage;
+          rows.push([
+            getString('global-formatted-color-by', {type: colorBy}),
+            (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
+          ]);
+        }
       } else if (datum.id) {
         if (!datum.id.includes('axis')) {
           rows.push(
@@ -127,16 +147,6 @@ const PSWOTChart = (props: Props) => {
         } else {
           simple = true;
         }
-      }
-      if (datum.x !== undefined) {
-        rows.push(
-          ['Relative Presence', parseFloat(datum.x.toFixed(3)).toString() ],
-        );
-      }
-      if (datum.y) {
-        rows.push(
-          ['Technological Fit', parseFloat(datum.y.toFixed(3)).toString() ],
-        );
       }
       const title = simple ? `
         <span style="font-weight:400;">${getString(datum.id + '-about')}</span>
@@ -237,14 +247,14 @@ const PSWOTChart = (props: Props) => {
     }
     let colorScale: (value: number) => string | undefined;
     if (colorBy === ColorBy.education) {
-      const {minYearsEducation, maxYearsEducation} = globalMinMax;
+      const {minYearsEducation, meanYearsEducation, maxYearsEducation} = globalMinMax;
       colorScale = scaleLinear()
-        .domain([minYearsEducation, maxYearsEducation])
+        .domain([minYearsEducation, meanYearsEducation, maxYearsEducation])
         .range(educationColorRange as any) as any;
     } else if (colorBy === ColorBy.wage) {
-      const {minHourlyWage, maxHourlyWage} = globalMinMax;
+      const {minHourlyWage, meanHourlyWage, maxHourlyWage} = globalMinMax;
       colorScale = scaleLinear()
-        .domain([minHourlyWage, maxHourlyWage])
+        .domain([minHourlyWage, meanHourlyWage, maxHourlyWage])
         .range(wageColorRange as any) as any;
     } else {
       colorScale = () => undefined;
@@ -291,9 +301,9 @@ const PSWOTChart = (props: Props) => {
 
         let fill: string | undefined;
         if (colorBy === ColorBy.education) {
-          fill = colorScale(industryGlobalData ? industryGlobalData.yearsEducation : 0);
+          fill = colorScale(industryGlobalData ? industryGlobalData.yearsEducationRank : 0);
         } else if (colorBy === ColorBy.wage) {
-          fill = colorScale(industryGlobalData ? industryGlobalData.hourlyWage : 0);
+          fill = colorScale(industryGlobalData ? industryGlobalData.hourlyWageRank : 0);
         } else {
           fill = sector ? rgba(sector.color, 0.7) : undefined;
         }

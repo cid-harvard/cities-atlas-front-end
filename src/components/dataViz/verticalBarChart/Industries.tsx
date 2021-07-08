@@ -60,6 +60,7 @@ const Industries = (props: Props) => {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
+                    aggregateIndustryDataMap.data.globalMinMax.meanYearsEducation,
                     aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
                   ])
                   .range(educationColorRange as any) as any;
@@ -67,6 +68,7 @@ const Industries = (props: Props) => {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
+                    aggregateIndustryDataMap.data.globalMinMax.meanHourlyWage,
                     aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
                   ])
                   .range(wageColorRange as any) as any;
@@ -126,7 +128,8 @@ const Industries = (props: Props) => {
     if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
       const target = d.naicsId !== null ? aggregateIndustryDataMap.data.industries[d.naicsId] : undefined;
       if (target) {
-        const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+        const targetValue = colorBy === ColorBy.education
+          ? target.yearsEducationRank : target.hourlyWageRank;
         color = colorScale(targetValue);
       } else {
         color = 'lightgray';
@@ -158,14 +161,23 @@ const Industries = (props: Props) => {
     if (node) {
       if (e && e.datum) {
         const {datum, mouseCoords} = e;
+        const rows = [
+          [getString('global-ui-naics-code') + ':', datum.id],
+          [getString('global-ui-year') + ':', defaultYear.toString()],
+          [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
+        ];
+        if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+          const target = aggregateIndustryDataMap.data.industries[datum.id];
+          const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+          rows.push([
+            getString('global-formatted-color-by', {type: colorBy}),
+            (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
+          ]);
+        }
         node.innerHTML = getStandardTooltip({
           title: datum.title,
           color: rgba(datum.color, 0.3),
-          rows: [
-            [getString('global-ui-naics-code') + ':', datum.id],
-            [getString('global-ui-year') + ':', defaultYear.toString()],
-            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
-          ],
+          rows,
           boldColumns: [1, 2],
         });
         node.style.top = mouseCoords.y + 'px';

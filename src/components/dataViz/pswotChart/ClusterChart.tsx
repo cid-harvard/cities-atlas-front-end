@@ -115,11 +115,6 @@ const PSWOTChart = (props: Props) => {
     const cluster = clusters && clusters.data && datum.id ? clusters.data[datum.id] : undefined;
     if (node) {
       const rows: string[][] = [];
-      if (datum.id && (!cluster || cluster.clusterId === null || cluster.clusterId === undefined)) {
-        rows.push(
-          [getString('pswot-cluster-quadrant-tooltips-' + datum.id.toLowerCase())],
-        );
-      }
       if (datum.x !== undefined) {
         rows.push(
           ['Relative Presence', parseFloat(datum.x.toFixed(3)).toString() ],
@@ -129,6 +124,22 @@ const PSWOTChart = (props: Props) => {
         rows.push(
           ['Technological Fit', parseFloat(datum.y.toFixed(3)).toString() ],
         );
+      }
+      if (datum.id && (!cluster || cluster.clusterId === null || cluster.clusterId === undefined)) {
+        rows.push(
+          [getString('pswot-cluster-quadrant-tooltips-' + datum.id.toLowerCase())],
+        );
+      } else if (cluster && cluster.clusterId) {
+        if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage)
+              && aggregateIndustryDataMap.data) {
+          const target = aggregateIndustryDataMap.data.clusters[cluster.clusterId];
+          const targetValue = colorBy === ColorBy.education
+            ? target.yearsEducation : target.hourlyWage;
+          rows.push([
+            getString('global-formatted-color-by', {type: colorBy}),
+            (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
+          ]);
+        }
       }
       node.innerHTML = getStandardTooltip({
         title: datum.label,
@@ -227,14 +238,14 @@ const PSWOTChart = (props: Props) => {
 
     let colorScale: (value: number) => string | undefined;
     if (colorBy === ColorBy.education) {
-      const {minYearsEducation, maxYearsEducation} = clusterMinMax;
+      const {minYearsEducation, meanYearsEducation, maxYearsEducation} = clusterMinMax;
       colorScale = scaleLinear()
-        .domain([minYearsEducation, maxYearsEducation])
+        .domain([minYearsEducation, meanYearsEducation, maxYearsEducation])
         .range(educationColorRange as any) as any;
     } else if (colorBy === ColorBy.wage) {
-      const {minHourlyWage, maxHourlyWage} = clusterMinMax;
+      const {minHourlyWage, meanHourlyWage, maxHourlyWage} = clusterMinMax;
       colorScale = scaleLinear()
-        .domain([minHourlyWage, maxHourlyWage])
+        .domain([minHourlyWage, meanHourlyWage, maxHourlyWage])
         .range(wageColorRange as any) as any;
     } else {
       colorScale = () => undefined;
@@ -282,9 +293,9 @@ const PSWOTChart = (props: Props) => {
 
         let fill: string | undefined;
         if (colorBy === ColorBy.education) {
-          fill = colorScale(clusterGlobalData ? clusterGlobalData.yearsEducation : 0);
+          fill = colorScale(clusterGlobalData ? clusterGlobalData.yearsEducationRank : 0);
         } else if (colorBy === ColorBy.wage) {
-          fill = colorScale(clusterGlobalData ? clusterGlobalData.hourlyWage : 0);
+          fill = colorScale(clusterGlobalData ? clusterGlobalData.hourlyWageRank : 0);
         } else {
           fill = clusterColor ? rgba(clusterColor.color, 0.7) : undefined;
         }

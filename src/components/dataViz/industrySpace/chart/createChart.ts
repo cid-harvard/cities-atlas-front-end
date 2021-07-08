@@ -99,6 +99,7 @@ interface State {
   hoveredShape: any | null;
   hoveredNode: any | null;
   externalHoveredId: string | undefined;
+  colorBy: ColorBy | undefined;
 }
 
 const defaultNodeRadius = 4.5;
@@ -118,7 +119,6 @@ const createChart = (input: Input) => {
   const textAndSpacingSize = 3 * radiusAdjuster;
   const radius = defaultNodeRadius * radiusAdjuster;
 
-
   const state: State = {
     zoom: 1,
     zoomLevel: ZoomLevel.Cluster1,
@@ -126,6 +126,7 @@ const createChart = (input: Input) => {
     hoveredShape: null,
     hoveredNode: null,
     externalHoveredId: undefined,
+    colorBy: undefined,
   };
 
   const svg = d3.select(rootEl).append('svg')
@@ -432,6 +433,12 @@ const createChart = (input: Input) => {
         ];
         if (d.rca !== undefined) {
           rows.push(['Relative Presence:', d.rca.toFixed(3)]);
+        }
+        if (state.colorBy === ColorBy.wage) {
+          rows.push(['Hourly wage (U.S. average):', '$' + d.hourlyWage.toFixed(2)]);
+        }
+        if (state.colorBy === ColorBy.education) {
+          rows.push(['Years of education (U.S. average):', d.yearsEducation.toFixed(2)]);
         }
         const clickText = state.active && state.active.datum && state.active.datum.id === d.id
           ? 'Click to zoom out'
@@ -969,7 +976,7 @@ const createChart = (input: Input) => {
       }
     })
     .style('--true-fill-color', d => d.color);
-
+    state.colorBy = colorBy;
     render(true);
   }
 

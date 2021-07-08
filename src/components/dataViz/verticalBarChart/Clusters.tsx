@@ -101,6 +101,7 @@ const Clusters = (props: Props) => {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
+                    aggregateIndustryDataMap.data.clusterMinMax.meanYearsEducation,
                     aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
                   ])
                   .range(educationColorRange as any) as any;
@@ -108,6 +109,7 @@ const Clusters = (props: Props) => {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
+                    aggregateIndustryDataMap.data.clusterMinMax.meanHourlyWage,
                     aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
                   ])
                   .range(wageColorRange as any) as any;
@@ -126,13 +128,13 @@ const Clusters = (props: Props) => {
       ? aggregateIndustryDataMap.data.clusters[d.clusterId] : undefined;
     if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
       if (clusterIndustryDatum) {
-        color = colorScale(clusterIndustryDatum.yearsEducation) as string;
+        color = colorScale(clusterIndustryDatum.yearsEducationRank) as string;
       } else {
         color = 'gray';
       }
     } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
       if (clusterIndustryDatum) {
-        color = colorScale(clusterIndustryDatum.hourlyWage) as string;
+        color = colorScale(clusterIndustryDatum.hourlyWageRank) as string;
       } else {
         color = 'gray';
       }
@@ -163,13 +165,22 @@ const Clusters = (props: Props) => {
     if (node) {
       if (e && e.datum) {
         const {datum, mouseCoords} = e;
+        const rows = [
+          [getString('global-ui-year') + ':', defaultYear.toString()],
+          [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
+        ];
+        if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+          const target = aggregateIndustryDataMap.data.clusters[datum.id];
+          const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+          rows.push([
+            getString('global-formatted-color-by', {type: colorBy}),
+            (colorBy === ColorBy.wage ? '$' : '') + targetValue.toFixed(2),
+          ]);
+        }
         node.innerHTML = getStandardTooltip({
           title: datum.title,
           color: rgba(datum.color, 0.3),
-          rows: [
-            [getString('global-ui-year') + ':', defaultYear.toString()],
-            [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
-          ],
+          rows,
           boldColumns: [1, 2],
         });
         node.style.top = mouseCoords.y + 'px';

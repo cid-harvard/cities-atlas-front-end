@@ -125,10 +125,18 @@ const useLayoutData = ():Output => {
           .range([ 3, 15]) as ((val: number) => number);
 
         const educationColorScale = scaleLinear()
-          .domain([globalMinMax.minYearsEducation,globalMinMax.maxYearsEducation])
+          .domain([
+            globalMinMax.minYearsEducation,
+            globalMinMax.meanYearsEducation,
+            globalMinMax.maxYearsEducation,
+          ])
           .range(educationColorRange as any) as any;
         const wageColorScale = scaleLinear()
-          .domain([globalMinMax.minHourlyWage,globalMinMax.maxHourlyWage])
+          .domain([
+            globalMinMax.minHourlyWage,
+            globalMinMax.meanHourlyWage,
+            globalMinMax.maxHourlyWage,
+          ])
           .range(wageColorRange as any) as any;
 
         const data: Output['data'] = {
@@ -149,8 +157,10 @@ const useLayoutData = ():Output => {
             const parent = industryData[industry.naicsIdTopParent.toString()];
             const parentIndustry = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
             const globalIndustry = industries[industry.naicsId];
-            const yearsEducation = globalIndustry ? globalIndustry.yearsEducation : 0;
-            const hourlyWage = globalIndustry ? globalIndustry.hourlyWage : 0;
+            const yearsEducation = globalIndustry ? globalIndustry.yearsEducationRank : 0;
+            const hourlyWage = globalIndustry ? globalIndustry.hourlyWageRank : 0;
+            const yearsEducationRank = globalIndustry ? globalIndustry.yearsEducationRank : 0;
+            const hourlyWageRank = globalIndustry ? globalIndustry.hourlyWageRank : 0;
             return {
               ...n,
               id: industry.naicsId,
@@ -164,8 +174,8 @@ const useLayoutData = ():Output => {
               globalSumNumEmploy: globalIndustry ? globalIndustry.sumNumEmploy : 0,
               yearsEducation,
               hourlyWage,
-              educationColor: educationColorScale(yearsEducation),
-              wageColor: wageColorScale(hourlyWage),
+              educationColor: educationColorScale(yearsEducationRank),
+              wageColor: wageColorScale(hourlyWageRank),
             };
           }),
           global: {
