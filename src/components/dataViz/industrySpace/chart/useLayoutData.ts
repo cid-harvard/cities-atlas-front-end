@@ -127,14 +127,14 @@ const useLayoutData = ():Output => {
         const educationColorScale = scaleLinear()
           .domain([
             globalMinMax.minYearsEducation,
-            globalMinMax.meanYearsEducation,
+            globalMinMax.medianYearsEducation,
             globalMinMax.maxYearsEducation,
           ])
           .range(educationColorRange as any) as any;
         const wageColorScale = scaleLinear()
           .domain([
             globalMinMax.minHourlyWage,
-            globalMinMax.meanHourlyWage,
+            globalMinMax.medianHourlyWage,
             globalMinMax.maxHourlyWage,
           ])
           .range(wageColorRange as any) as any;

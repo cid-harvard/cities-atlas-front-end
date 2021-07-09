@@ -247,14 +247,14 @@ const PSWOTChart = (props: Props) => {
     }
     let colorScale: (value: number) => string | undefined;
     if (colorBy === ColorBy.education) {
-      const {minYearsEducation, meanYearsEducation, maxYearsEducation} = globalMinMax;
+      const {minYearsEducation, medianYearsEducation, maxYearsEducation} = globalMinMax;
       colorScale = scaleLinear()
-        .domain([minYearsEducation, meanYearsEducation, maxYearsEducation])
+        .domain([minYearsEducation, medianYearsEducation, maxYearsEducation])
         .range(educationColorRange as any) as any;
     } else if (colorBy === ColorBy.wage) {
-      const {minHourlyWage, meanHourlyWage, maxHourlyWage} = globalMinMax;
+      const {minHourlyWage, medianHourlyWage, maxHourlyWage} = globalMinMax;
       colorScale = scaleLinear()
-        .domain([minHourlyWage, meanHourlyWage, maxHourlyWage])
+        .domain([minHourlyWage, medianHourlyWage, maxHourlyWage])
         .range(wageColorRange as any) as any;
     } else {
       colorScale = () => undefined;

@@ -85,7 +85,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
-                          aggregateIndustryDataMap.data.clusterMinMax.meanYearsEducation,
+                          aggregateIndustryDataMap.data.clusterMinMax.medianYearsEducation,
                           aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
                         ])
                         .range(educationColorRange as any) as any;
@@ -93,7 +93,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
-                          aggregateIndustryDataMap.data.clusterMinMax.meanHourlyWage,
+                          aggregateIndustryDataMap.data.clusterMinMax.medianHourlyWage,
                           aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
                         ])
                         .range(wageColorRange as any) as any;
@@ -141,7 +141,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
-                          aggregateIndustryDataMap.data.globalMinMax.meanYearsEducation,
+                          aggregateIndustryDataMap.data.globalMinMax.medianYearsEducation,
                           aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
                         ])
                         .range(educationColorRange as any) as any;
@@ -149,7 +149,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
-                          aggregateIndustryDataMap.data.globalMinMax.meanHourlyWage,
+                          aggregateIndustryDataMap.data.globalMinMax.medianHourlyWage,
                           aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
                         ])
                         .range(wageColorRange as any) as any;

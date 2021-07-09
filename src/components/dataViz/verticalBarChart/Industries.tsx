@@ -60,7 +60,7 @@ const Industries = (props: Props) => {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
-                    aggregateIndustryDataMap.data.globalMinMax.meanYearsEducation,
+                    aggregateIndustryDataMap.data.globalMinMax.medianYearsEducation,
                     aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
                   ])
                   .range(educationColorRange as any) as any;
@@ -68,7 +68,7 @@ const Industries = (props: Props) => {
     colorScale = scaleLinear()
                   .domain([
                     aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
-                    aggregateIndustryDataMap.data.globalMinMax.meanHourlyWage,
+                    aggregateIndustryDataMap.data.globalMinMax.medianHourlyWage,
                     aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
                   ])
                   .range(wageColorRange as any) as any;

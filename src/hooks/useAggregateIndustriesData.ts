@@ -10,6 +10,7 @@ import {
 } from '../types/graphQL/graphQLTypes';
 import {extent} from 'd3-array';
 import {filterOutliers} from '../Utils';
+import sortBy from 'lodash/sortBy';
 
 const GLOBAL_INDUSTRIES_QUERY = gql`
   query GetAggregateIndustryData($level: Int!, $clusterLevel: Int!, $year: Int!, $cityId: Int!) {
@@ -113,10 +114,10 @@ export interface IndustryMap {
     minAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     maxAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     minYearsEducation: NaicsIndustry['yearsEducation'];
-    meanYearsEducation: NaicsIndustry['yearsEducation'];
+    medianYearsEducation: NaicsIndustry['yearsEducation'];
     maxYearsEducation: NaicsIndustry['yearsEducation'];
     minHourlyWage: NaicsIndustry['hourlyWage'];
-    meanHourlyWage: NaicsIndustry['hourlyWage'];
+    medianHourlyWage: NaicsIndustry['hourlyWage'];
     maxHourlyWage: NaicsIndustry['hourlyWage'];
   };
   clusterMinMax: {
@@ -130,9 +131,9 @@ export interface IndustryMap {
     maxAvgNumEmploy: GlobalIndustryAgg['avgNumEmploy'];
     minYearsEducation: ClusterIndustry['yearsEducation'];
     maxYearsEducation: ClusterIndustry['yearsEducation'];
-    meanYearsEducation: ClusterIndustry['yearsEducation'];
+    medianYearsEducation: ClusterIndustry['yearsEducation'];
     minHourlyWage: ClusterIndustry['hourlyWage'];
-    meanHourlyWage: ClusterIndustry['hourlyWage'];
+    medianHourlyWage: ClusterIndustry['hourlyWage'];
     maxHourlyWage: ClusterIndustry['hourlyWage'];
   };
   industries: {
@@ -170,8 +171,8 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       maxYearsEducation: 0,
       minHourlyWage: 0,
       maxHourlyWage: 0,
-      meanHourlyWage: 0,
-      meanYearsEducation: 0,
+      medianHourlyWage: 0,
+      medianYearsEducation: 0,
     },
     clusterMinMax: {
       minSumNumCompany: 0,
@@ -186,8 +187,8 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       maxYearsEducation: 0,
       minHourlyWage: 0,
       maxHourlyWage: 0,
-      meanHourlyWage: 0,
-      meanYearsEducation: 0,
+      medianHourlyWage: 0,
+      medianYearsEducation: 0,
     },
   };
   if (data !== undefined) {
@@ -199,11 +200,13 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateData.map(d => d.avgNumCompany)) as [number, number];
       const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateData.map(d => d.avgNumEmploy)) as [number, number];
       const yearsEducationNoOutliers = filterOutliers(filteredAverageData.map(d => d.yearsEducation));
-      const meanYearsEducation = yearsEducationNoOutliers[Math.round(yearsEducationNoOutliers.length / 2)];
+      const medianYearsEducation =
+        sortBy(filteredAverageData, ['yearsEducation'])[Math.round(filteredAverageData.length / 2)].yearsEducation;
       const [minYearsEducation, maxYearsEducation] = extent(yearsEducationNoOutliers) as [number, number];
       const hourlyWageNoOutliers = filterOutliers(filteredAverageData.map(d => d.hourlyWage));
       const [minHourlyWage, maxHourlyWage] = extent(hourlyWageNoOutliers) as [number, number];
-      const meanHourlyWage = hourlyWageNoOutliers[Math.round(hourlyWageNoOutliers.length / 2)];
+      const medianHourlyWage =
+        sortBy(filteredAverageData, ['hourlyWage'])[Math.round(filteredAverageData.length / 2)].hourlyWage;
       response.globalMinMax = {
         minSumNumCompany, maxSumNumCompany,
         minSumNumEmploy, maxSumNumEmploy,
@@ -211,7 +214,7 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
         minAvgNumEmploy, maxAvgNumEmploy,
         minYearsEducation, maxYearsEducation,
         minHourlyWage, maxHourlyWage,
-        meanYearsEducation, meanHourlyWage,
+        medianYearsEducation, medianHourlyWage,
       };
     }
     aggregateData.forEach(d => {
@@ -245,11 +248,13 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
       const [minAvgNumCompany, maxAvgNumCompany] = extent(aggregateClusterData.map(d => d.avgNumCompany)) as [number, number];
       const [minAvgNumEmploy, maxAvgNumEmploy] = extent(aggregateClusterData.map(d => d.avgNumEmploy)) as [number, number];
       const yearsEducationNoOutliers = filterOutliers(filteredAverageClusterData.map(d => d.yearsEducation));
-      const meanYearsEducation = yearsEducationNoOutliers[Math.round(yearsEducationNoOutliers.length / 2)];
+      const medianYearsEducation =
+        sortBy(filteredAverageClusterData, ['yearsEducation'])[Math.round(filteredAverageClusterData.length / 2)].yearsEducation;
       const [minYearsEducation, maxYearsEducation] = extent(yearsEducationNoOutliers) as [number, number];
       const hourlyWageNoOutliers = filterOutliers(filteredAverageClusterData.map(d => d.hourlyWage));
       const [minHourlyWage, maxHourlyWage] = extent(hourlyWageNoOutliers) as [number, number];
-      const meanHourlyWage = hourlyWageNoOutliers[Math.round(hourlyWageNoOutliers.length / 2)];
+      const medianHourlyWage =
+        sortBy(filteredAverageClusterData, ['hourlyWage'])[Math.round(filteredAverageClusterData.length / 2)].hourlyWage;
       response.clusterMinMax = {
         minSumNumCompany, maxSumNumCompany,
         minSumNumEmploy, maxSumNumEmploy,
@@ -257,7 +262,7 @@ const industryDataToMap = (data: SuccessResponse | undefined, level: DigitLevel,
         minAvgNumEmploy, maxAvgNumEmploy,
         minYearsEducation, maxYearsEducation,
         minHourlyWage, maxHourlyWage,
-        meanYearsEducation, meanHourlyWage,
+        medianYearsEducation, medianHourlyWage,
       };
     }
     aggregateClusterData.forEach(d => {
