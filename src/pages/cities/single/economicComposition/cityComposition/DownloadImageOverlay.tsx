@@ -85,6 +85,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.clusterMinMax.minYearsEducation,
+                          aggregateIndustryDataMap.data.clusterMinMax.meanYearsEducation,
                           aggregateIndustryDataMap.data.clusterMinMax.maxYearsEducation,
                         ])
                         .range(educationColorRange as any) as any;
@@ -92,6 +93,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.clusterMinMax.minHourlyWage,
+                          aggregateIndustryDataMap.data.clusterMinMax.meanHourlyWage,
                           aggregateIndustryDataMap.data.clusterMinMax.maxHourlyWage,
                         ])
                         .range(wageColorRange as any) as any;
@@ -109,13 +111,13 @@ export default (props: Props) => {
               const clusterIndustryDatum = aggregateIndustryDataMap.data.clusters[clusterId];
               if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
                 if (clusterIndustryDatum) {
-                  fill = colorScale(clusterIndustryDatum.yearsEducation) as string;
+                  fill = colorScale(clusterIndustryDatum.yearsEducationRank) as string;
                 } else {
                   fill = 'gray';
                 }
               } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
                 if (clusterIndustryDatum) {
-                  fill = colorScale(clusterIndustryDatum.hourlyWage) as string;
+                  fill = colorScale(clusterIndustryDatum.hourlyWageRank) as string;
                 } else {
                   fill = 'gray';
                 }
@@ -139,6 +141,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.globalMinMax.minYearsEducation,
+                          aggregateIndustryDataMap.data.globalMinMax.meanYearsEducation,
                           aggregateIndustryDataMap.data.globalMinMax.maxYearsEducation,
                         ])
                         .range(educationColorRange as any) as any;
@@ -146,6 +149,7 @@ export default (props: Props) => {
           colorScale = scaleLinear()
                         .domain([
                           aggregateIndustryDataMap.data.globalMinMax.minHourlyWage,
+                          aggregateIndustryDataMap.data.globalMinMax.meanHourlyWage,
                           aggregateIndustryDataMap.data.globalMinMax.maxHourlyWage,
                         ])
                         .range(wageColorRange as any) as any;
@@ -162,7 +166,7 @@ export default (props: Props) => {
               let fill: string | undefined;
               if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
                 const target = aggregateIndustryDataMap.data.industries[naicsId];
-                const targetValue = colorBy === ColorBy.education ? target.yearsEducation : target.hourlyWage;
+                const targetValue = colorBy === ColorBy.education ? target.yearsEducationRank : target.hourlyWageRank;
                 fill = colorScale(targetValue);
               }
               treeMapData.push({
