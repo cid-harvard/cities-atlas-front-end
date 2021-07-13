@@ -8,6 +8,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "@typeform/embed-react": "^1.0.7",
     "@types/d3": "^5.7.2",
     "@types/fluent": "^0.11.3",
     "@types/fluent-react": "^0.8.3",

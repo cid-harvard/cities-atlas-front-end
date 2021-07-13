@@ -4,6 +4,7 @@ import {
   lightBaseColor,
   semiBoldFontBoldWeight,
   primaryFont,
+  backgroundDark,
 } from './styleUtils';
 
 const GlobalStyles = createGlobalStyle`
@@ -144,6 +145,75 @@ const GlobalStyles = createGlobalStyle`
       font-size: 0.7rem;
       line-height: 1.4;
       color: #333;
+    }
+  }
+
+  /*******
+    TYPEFORM CUSTOM STYLES
+  *******/
+  .typeform-popover {
+    &.open {
+      bottom: 1.5rem;
+      right: 0.5rem;
+    }
+    .typeform-popover-button {
+      width: auto;
+      height: 1.25rem;
+      bottom: 0;
+      right: 0.5rem;
+      border-radius: 0;
+      background-color: ${backgroundDark} !important;
+    }
+
+    .typeform-popover-button-icon {
+      svg {
+        display: none;
+      }
+
+      text-transform: uppercase;
+      font-family: ${primaryFont};
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+
+      &:before {
+        content: "Help us improve Metroverse";
+        font-size: 0.75rem;
+        margin-right: 0.5rem;
+      }
+
+      .typeform-spinner {
+        top: auto;
+        left: auto;
+        width: 1rem;
+        height: 1rem;
+        position: relative;
+        margin: 0;
+      }
+
+    }
+
+    @media (min-width: 1385px) {
+      .typeform-popover-button {
+        height: 1.75rem;
+      }
+
+      .typeform-popover-button-icon {
+        &:before {
+          font-size: 0.875rem;
+        }
+      }
+    }
+
+    &:not(.open) {
+      .typeform-popover-button-icon:not([data-testid="spinner-icon"]):after {
+        content: '';
+          border: solid white;
+          border-width: 0 2px 2px 0;
+          display: inline-block;
+          transform: rotate(-135deg) translate(-1px, -3px);
+          padding: 3px;
+      }
     }
   }
 `;
