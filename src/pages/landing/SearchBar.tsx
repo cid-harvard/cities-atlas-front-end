@@ -13,12 +13,13 @@ interface Props {
   onPanelHover: (val: ExtendedSearchDatum | null) => void;
   onTraverseLevel: (val: ExtendedSearchDatum, direction: 'asc' | 'desc') => void;
   highlighted: ExtendedSearchDatum | null;
+  focusOnRender: boolean;
 }
 
 const SearchBar = (props: Props) => {
   const {
     data, setHighlighted, onPanelHover, onTraverseLevel,
-    highlighted,
+    highlighted, focusOnRender,
   } = props;
   const getString = useFluent();
   return (
@@ -33,7 +34,7 @@ const SearchBar = (props: Props) => {
       defaultPlaceholderText={getString('global-ui-type-a-city-name')}
       showCount={true}
       resultsIdentation={1.75}
-      focusOnRender={true}
+      focusOnRender={focusOnRender}
       matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
     />
   );

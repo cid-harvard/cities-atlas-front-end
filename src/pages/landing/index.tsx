@@ -31,6 +31,7 @@ import SimpleLoader from '../../components/transitionStateComponents/SimpleLoade
 import SimpleError from '../../components/transitionStateComponents/SimpleError';
 import SearchBar from './SearchBar';
 import useFluent from '../../hooks/useFluent';
+import useQueryParams from '../../hooks/useQueryParams';
 import Overlay from './Overlay';
 
 const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
@@ -281,6 +282,7 @@ const LoadingContainer = styled.div`
 const Landing = () => {
   const {loading, error, data} = useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
   const getString = useFluent();
+  const {country} = useQueryParams();
 
   const [mapData, setMapData] = useState<MapData>({
     searchData: [],
@@ -290,7 +292,7 @@ const Landing = () => {
       features: [],
     },
   });
-  const [overlayOn, setOverlayOn] = useState<boolean>(true);
+  const [overlayOn, setOverlayOn] = useState<boolean>(country === undefined);
   const closeOverlay = () => setOverlayOn(false);
   const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(null);
   const [highlightedCountry, setHighlightedCountry] = useState<ExtendedSearchDatum | null>(null);
@@ -320,6 +322,14 @@ const Landing = () => {
       });
     }
   }, [highlightedCountry, mapData]);
+
+  useEffect(() => {
+    if (country !== undefined && mapData.searchData) {
+      const targetCountry = mapData.searchData.find(d => (d.id + '') === (country + ''));
+      setHighlightedCountry(targetCountry ? targetCountry : null);
+      setHighlighted(targetCountry ? targetCountry : null);
+    }
+  }, [country, mapData]);
 
   useEffect(() => {
     if (data !== undefined) {
@@ -579,6 +589,7 @@ const Landing = () => {
         onPanelHover={onPanelHover}
         onTraverseLevel={onTraverseLevel}
         highlighted={highlighted}
+        focusOnRender={country === undefined}
       />
     );
   } else {
