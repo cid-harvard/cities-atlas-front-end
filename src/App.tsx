@@ -15,6 +15,7 @@ import {OverlayPortal} from './components/standardModal';
 import useFluent from './hooks/useFluent';
 import ReactGA from 'react-ga';
 import TrackedRoute from './routing/TrackedRoute';
+import SurveyWidget from './components/analytics/SurveyWidget';
 
 ReactGA.initialize('UA-41291966-12', {debug: false});
 
@@ -40,6 +41,7 @@ function App() {
           <TrackedRoute component={Landing} />
         </Switch>
         <OverlayPortal />
+        <SurveyWidget />
       </AppContext.Provider>
     </>
   );
