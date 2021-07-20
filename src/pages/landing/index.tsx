@@ -589,7 +589,7 @@ const Landing = () => {
         onPanelHover={onPanelHover}
         onTraverseLevel={onTraverseLevel}
         highlighted={highlighted}
-        focusOnRender={country === undefined}
+        focusOnRender={true}
       />
     );
   } else {
