@@ -325,7 +325,7 @@ const Landing = () => {
 
   useEffect(() => {
     if (country !== undefined && mapData.searchData) {
-      const targetCountry = mapData.searchData.find(d => (d.id + '') === (country + ''));
+      const targetCountry = mapData.searchData.find(d => (d.id + '') === (country + '') && d.level === '0');
       setHighlightedCountry(targetCountry ? targetCountry : null);
       setHighlighted(targetCountry ? targetCountry : null);
     }
