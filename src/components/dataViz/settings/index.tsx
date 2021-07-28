@@ -39,6 +39,7 @@ import raw from 'raw.macro';
 import Tooltip, {TooltipTheme} from '../../general/Tooltip';
 import upperFirst from 'lodash/upperFirst';
 import RCAThresholdSlider from './RCAThresholdSlider';
+import googleAnalyticsEvent from '../../analytics/googleAnalyticsEvent';
 
 const gearIcon = raw('../../../assets/icons/settings.svg');
 
@@ -333,6 +334,7 @@ const Settings = (props: Props) => {
   const updateSetting = (param: string, value: string | number) => {
     const query = queryString.stringify({...params, [param]: value});
     const newUrl = query ? history.location.pathname + '?' + query : history.location.pathname;
+    googleAnalyticsEvent('Viz Options', param, `${value}`);
     history.push(newUrl);
   };
 
