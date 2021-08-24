@@ -478,7 +478,7 @@ about-team-html =
   </p>
   <h3>Academic Research</h3>
   <h4>
-    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/frank-neffke">Frank Neffke</a>, Research Director
+    <span class="team-member-name">Frank Neffke</span>, Group Leader at Science of <a href="https://www.csh.ac.at/researcher/frank-neffke/" target="_blank">Cities Complexity Science Hub Vienna</a> and Research Director at <a target="_blank" href="https://growthlab.cid.harvard.edu/people/frank-neffke">Growth Lab</a> at Harvard Kennedy School
   </h4>
   <p>
     Frank is responsible for the original conception of Metroverse.  Since its conception he has supervised the research agenda and the design of the tool&rsquo;s analytical and policy framework.  
