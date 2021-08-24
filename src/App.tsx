@@ -6,7 +6,7 @@ import {
   Switch,
 } from 'react-router-dom';
 import Landing from './pages/landing';
-import City from './pages/cities/single';
+import City from './pages/cities/profiles';
 import Informational from './pages/informational';
 import {Routes} from './routing/routes';
 import './styling/fonts/fonts.css';
