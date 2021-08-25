@@ -435,10 +435,10 @@ const createChart = (input: Input) => {
           rows.push(['Relative Presence:', d.rca.toFixed(3)]);
         }
         if (state.colorBy === ColorBy.wage) {
-          rows.push(['Hourly wage (U.S. average):', '$' + d.hourlyWage.toFixed(2)]);
+          rows.push(['Hourly wage (based on U.S. average):', '$' + d.hourlyWage.toFixed(2)]);
         }
         if (state.colorBy === ColorBy.education) {
-          rows.push(['Years of education (U.S. average):', d.yearsEducation.toFixed(2)]);
+          rows.push(['Years of education (based on U.S. average):', d.yearsEducation.toFixed(2)]);
         }
         const clickText = state.active && state.active.datum && state.active.datum.id === d.id
           ? 'Click to zoom out'
