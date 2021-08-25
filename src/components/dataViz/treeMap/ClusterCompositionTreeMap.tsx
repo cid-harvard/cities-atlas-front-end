@@ -382,9 +382,10 @@ const CompositionTreeMap = (props: Props) => {
 
       indicator.text = loading ? (
         <>
-          {getString('global-ui-estimated-total-employees') + ': '}<SimpleTextLoading />
+          {getString('global-ui-sample-size') + ': '}<SimpleTextLoading />
         </>
-      ) : `${getString('global-ui-estimated-total-employees')}: ${numberWithCommas(formatNumber(Math.round(total)))}`;
+      ) : `${getString('global-ui-sample-size')}: ${numberWithCommas(formatNumber(Math.round(total)))} `
+          + getString('global-ui-estimated-total-employees');
       indicator.tooltipContent = getString('glossary-total-shown');
       const fallbackTitle =
         'Treemap displaying the economic composition of the selected city ' +

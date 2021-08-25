@@ -138,12 +138,12 @@ const CompositionTreeMap = (props: Props) => {
     ) {
     indicator.text = (
       <>
-        {getString('global-ui-estimated-total-employees') + ': '}<SimpleTextLoading />
+        {getString('global-ui-sample-size') + ': '}<SimpleTextLoading />
       </>
     );
     output = <LoadingBlock />;
   } else if (error !== undefined) {
-    indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
+    indicator.text = getString('global-ui-sample-size') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -151,7 +151,7 @@ const CompositionTreeMap = (props: Props) => {
     );
     console.error(error);
   } else if (industryMap.error !== undefined) {
-    indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
+    indicator.text = getString('global-ui-sample-size') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -160,7 +160,7 @@ const CompositionTreeMap = (props: Props) => {
     console.error(industryMap.error);
   } else if (aggregateIndustryDataMap.error !== undefined &&
     (colorBy === ColorBy.education || colorBy === ColorBy.wage)) {
-    indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
+    indicator.text = getString('global-ui-sample-size') + ': ―';
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -221,7 +221,7 @@ const CompositionTreeMap = (props: Props) => {
       }
     }
     if (!treeMapData.length) {
-      indicator.text = getString('global-ui-estimated-total-employees') + ': ―';
+      indicator.text = getString('global-ui-sample-size') + ': ―';
       output = (
         <LoadingOverlay>
           <SimpleError fluentMessageId={'global-ui-error-no-sectors-selected'} />
@@ -344,9 +344,10 @@ const CompositionTreeMap = (props: Props) => {
 
       indicator.text = loading ? (
         <>
-          {getString('global-ui-estimated-total-employees') + ': '}<SimpleTextLoading />
+          {getString('global-ui-sample-size') + ': '}<SimpleTextLoading />
         </>
-      ) : `${getString('global-ui-estimated-total-employees')}: ${numberWithCommas(formatNumber(Math.round(total)))}`;
+      ) : `${getString('global-ui-sample-size')}: ${numberWithCommas(formatNumber(Math.round(total)))} ` +
+        getString('global-ui-estimated-total-employees');
       indicator.tooltipContent = getString('glossary-total-shown');
       const fallbackTitle =
         'Treemap displaying the economic composition of the selected city ' +

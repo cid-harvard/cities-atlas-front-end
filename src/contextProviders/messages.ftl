@@ -42,7 +42,8 @@ global-ui-recommended = Recommended
 
 global-ui-or = Or
 global-ui-total = Total
-global-ui-estimated-total-employees = Total Estimated Employees
+global-ui-sample-size = Total Sample Size
+global-ui-estimated-total-employees = Employees
 global-ui-read-chart = How to read this
 
 global-ui-add-comparison = Add Comparison
