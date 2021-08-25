@@ -45,7 +45,7 @@ const Root = styled.div`
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 4rem 1fr 2rem;
+  grid-template-rows: 4rem 2rem 1fr;
 
   @media ${breakPoints.small} {
     grid-row: 3;
@@ -55,7 +55,7 @@ const Root = styled.div`
 
 const SizingContainer = styled.div`
   width: 100%;
-  grid-row: 2;
+  grid-row: 3;
 `;
 
 const VizContainer = styled.div`
@@ -358,9 +358,6 @@ const IndustryZoomableBarChart = (props: Props) => {
           {topLevelBreadCrumb}
           {breadCrumbs}
         </BreadCrumbList>
-        <SizingContainer ref={rootRef}>
-          {output}
-        </SizingContainer>
         <PrimarySecondaryLegend>
           <LegendItem>
             <LegendText>
@@ -375,6 +372,9 @@ const IndustryZoomableBarChart = (props: Props) => {
             </LegendText>
           </LegendItem>
         </PrimarySecondaryLegend>
+        <SizingContainer ref={rootRef}>
+          {output}
+        </SizingContainer>
       </Root>
     </>
   );
