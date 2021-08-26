@@ -209,8 +209,8 @@ global-specialization-over = High Relative Presence
 global-specialization-under = Low Relative Presence
 global-specialization-scroll = Scroll down to see low relative presence 
 
-global-similarity-low = Least Similar
-global-similarity-high = Most Similar
+global-similarity-low = Less Similar
+global-similarity-high = More Similar
 global-your-city = City, Country
 
 global-education-low = Low Education
