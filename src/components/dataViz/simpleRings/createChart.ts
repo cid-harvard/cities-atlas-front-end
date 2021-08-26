@@ -1,6 +1,7 @@
 import svgPathReverse from 'svg-path-reverse';
 import {
   drawPoint,
+  Ring,
   ellipsisText,
 } from '../industrySpace/chart/Utils';
 import * as d3 from 'd3';
@@ -120,6 +121,7 @@ const createChart = (input: Input) => {
         innerCircleLength,
         centerX,
         centerY,
+        Ring.Inner,
       );
       return {
         ...d,
@@ -142,6 +144,7 @@ const createChart = (input: Input) => {
         mediumNodesDatum.length,
         centerX,
         centerY,
+        Ring.Outer,
       );
       return {
         ...d,

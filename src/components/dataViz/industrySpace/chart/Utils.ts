@@ -28,12 +28,61 @@ export const getAspectRatio = (aspect: Ratio, actual: Ratio, buffer: number) => 
   };
 };
 
+export enum Ring {
+  Inner = 'inner',
+  Outer = 'outer',
+}
+const nodeOffsetMap: {count: number, offset: number, ring: Ring}[] = [
+  {
+    count: 9,
+    offset: -3,
+    ring: Ring.Inner,
+  },
+  {
+    count: 4,
+    offset: -2,
+    ring: Ring.Inner,
+  },
+  {
+    count: 3,
+    offset: -1.5,
+    ring: Ring.Inner,
+  },
+  {
+    count: 2,
+    offset: -1,
+    ring: Ring.Inner,
+  },
+  {
+    count: 9,
+    offset: -2,
+    ring: Ring.Outer,
+  },
+  {
+    count: 4,
+    offset: -1,
+    ring: Ring.Outer,
+  },
+  {
+    count: 3,
+    offset: -0.5,
+    ring: Ring.Outer,
+  },
+  {
+    count: 2,
+    offset: 0,
+    ring: Ring.Outer,
+  },
+];
+
 export function drawPoint(
   r: number, currentPoint: number, totalPoints: number, centerX: number, centerY: number,
+  ring?: Ring,
 ) {
-
+  const offsetObj = ring && nodeOffsetMap.find(d => d.ring === ring && d.count <= totalPoints);
+  const offset = offsetObj ? offsetObj.offset : 0;
   const theta = ((Math.PI*2) / totalPoints);
-  const angle = (theta * currentPoint);
+  const angle = (theta * (currentPoint + offset));
 
   const x = (r * Math.cos(angle) + centerX);
   const y = (r * Math.sin(angle) + centerY);
