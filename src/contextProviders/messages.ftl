@@ -734,8 +734,7 @@ faq-list-Q7-a =
     When referring to concepts, visualizations and data from Metroverse, please cite the following reference(s):
   </p>
   <cite>
-    The Growth Lab at Harvard University.  Metroverse, 2020:
-    <br /><a href="https://metroverse.cid.harvard.edu/">https://metroverse.cid.harvard.edu/</a>
+    Neffke, F; Li, Y; White, A; Leonard, B; Tuzcu, N; Soeltz-Szoets, W.K.; Barrios, D.; Morales Arilla, JR, Hausmann, R.  Metroverse, 2020: <a href="https://metroverse.cid.harvard.edu/">https://metroverse.cid.harvard.edu/</a>
   </cite>
 
 faq-list-Q8-q = Why doesn't Metroverse data match data sources in my city?
