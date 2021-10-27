@@ -35,8 +35,8 @@ function App() {
       <AppContext.Provider value={{windowDimensions}}>
         <Switch>
           <TrackedRoute exact path={Routes.Landing} component={Landing} />
-          <Route path={Routes.CityBase} component={City} />
           <Route path={Routes.CitySimilarCities} component={SimilarCities} />
+          <Route path={Routes.CityBase} component={City} />
           <TrackedRoute path={Routes.AboutBase} component={Informational} />
           <TrackedRoute path={Routes.ContactBase} component={Informational} />
           <TrackedRoute path={Routes.FaqBase} component={Informational} />
