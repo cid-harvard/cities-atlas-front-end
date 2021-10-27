@@ -5,13 +5,14 @@ export const cityIdParam = 'cityId';
 
 export const CityRoutes = {
   CityBase: '/city/:cityId',
+  CityOverview: '/city/:cityId/overview',
   CityEconomicComposition: '/city/:cityId/economic-composition',
   CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
-  CitySimilarCities: '/city/:cityId/similar-cities',
   CityGoodAt: '/city/:cityId/good-at',
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
   CityGrowthOpportunities: '/city/:cityId/growth-opportunities',
   CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',
+  CitySimilarCities: '/similar-cities/:cityId',
 } as const;
 
 export const AboutRoutes = {

@@ -3,6 +3,7 @@ meta-data-title-default-suffix = Metroverse at the Harvard Growth Lab
 
 navigation-pick-a-city = Pick a city
 navigation-city-profiles = City Profiles
+navigation-city-similarity = City Similarity
 navigation-industry-profiles = Industry Profiles
 navigation-data = Data
 navigation-about = About

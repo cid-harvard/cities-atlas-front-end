@@ -10,7 +10,9 @@ import {
 import raw from 'raw.macro';
 import {Link, useRouteMatch} from 'react-router-dom';
 import {Routes} from '../../../routing/routes';
+import { createRoute } from '../../../routing/Utils';
 import useFluent from '../../../hooks/useFluent';
+import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import {useWindowWidth} from '../../../contextProviders/appContext';
 
 export const citiesLogoSVG = raw('../../../assets/icons/cities-logo.svg');
@@ -275,9 +277,12 @@ const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
   const {width} = useWindowWidth();
   const matchCity = useRouteMatch(Routes.CityBase);
+  const matchSimilarCities = useRouteMatch(Routes.CitySimilarCities);
   const matchAbout = useRouteMatch(Routes.AboutBase);
   const matchContact = useRouteMatch(Routes.ContactBase);
   const matchFaq = useRouteMatch(Routes.FaqBase);
+  const currentCityId = useCurrentCityId();
+  const similarCitiesRoute = currentCityId ? createRoute.city(Routes.CitySimilarCities, currentCityId) : Routes.CitySimilarCities;
   if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
     const closeMenu = () => setMobileMenuOpen(false);
@@ -305,6 +310,14 @@ const Header = () => {
                   dangerouslySetInnerHTML={{__html: cityIconSVG}}
                 />
                 {getString('navigation-city-profiles')}
+              </MobileH2>
+            </StyledLink>
+            <StyledLink
+              onClick={closeMenu}
+              to={similarCitiesRoute}
+            >
+              <MobileH2 $active={Boolean(matchSimilarCities)}>
+                {getString('navigation-city-similarity')}
               </MobileH2>
             </StyledLink>
             <StyledLink
@@ -366,6 +379,11 @@ const Header = () => {
                 dangerouslySetInnerHTML={{__html: cityIconSVG}}
               />
               {getString('navigation-city-profiles')}
+            </H2>
+          </StyledLink>
+          <StyledLink to={similarCitiesRoute}>
+            <H2 $active={Boolean(matchSimilarCities)}>
+              {getString('navigation-city-similarity')}
             </H2>
           </StyledLink>
           <StyledLink to={Routes.AboutWhatIs}>
