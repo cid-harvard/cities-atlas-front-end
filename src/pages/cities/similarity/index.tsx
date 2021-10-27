@@ -1,9 +1,12 @@
 import React from 'react';
+import InformationalPage from '../../../components/templates/informationalPage';
 
-const SimilarCities = () => {
+const SimilarCity = () => {
   return (
-    <h1>SimilarCities</h1>
+    <InformationalPage contentFull={true}>
+      <h1>SimilarCity</h1>
+    </InformationalPage>
   );
 };
 
-export default SimilarCities;
+export default SimilarCity;

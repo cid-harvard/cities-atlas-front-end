@@ -30,11 +30,6 @@ const Root = styled(PrimaryHeaderContainer)`
   box-sizing: border-box;
   pointer-events: auto;
 
-  @media (max-height: 850px) {
-    padding-top: 0.2rem;
-    border-bottom: solid 2px ${primaryColor};
-  }
-
   @media (max-width: 800px) {
     min-height: 4rem;
     padding-right: 1rem;
@@ -65,13 +60,6 @@ const Logo = styled.h1`
   @media (max-width: 850px) {
     width: 7.5rem;
     margin: 0 1.75rem 0 1rem;
-  }
-
-
-  @media (max-height: 850px) {
-    width: 6.5rem;
-    height: 1rem;
-    margin: -0.5rem 0 0 0.5rem;
   }
 
   @media (max-width: 800px) {
@@ -135,19 +123,6 @@ const H2 = styled.h2<{$active: boolean}>`
     font-size: 0.85rem;
   }
 
-  @media (max-height: 850px) {
-    font-size: 0.85rem;
-    padding: 0 0.5rem 0.5rem;
-    &:after {
-      height: ${({$active}) => $active ? '0.25rem' : 0};
-    }
-    &:hover {
-      &:after {
-        height: 0.25rem;
-      }
-    }
-  }
-
   @media (max-width: 800px) {
     padding: 0 0.5rem 1.05rem;
   }
@@ -181,11 +156,6 @@ const NavIcon = styled.div`
     rect {
       fill: #fff;
     }
-  }
-
-  @media (max-height: 850px) {
-    width: 0.85rem;
-    height: 0.85rem;
   }
 
   @media (max-width: 800px) {

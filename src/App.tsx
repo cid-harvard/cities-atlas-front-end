@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom';
 import Landing from './pages/landing';
 import City from './pages/cities/profiles';
+import SimilarCities from './pages/cities/similarity';
 import Informational from './pages/informational';
 import {Routes} from './routing/routes';
 import './styling/fonts/fonts.css';
@@ -35,6 +36,7 @@ function App() {
         <Switch>
           <TrackedRoute exact path={Routes.Landing} component={Landing} />
           <Route path={Routes.CityBase} component={City} />
+          <Route path={Routes.CitySimilarCities} component={SimilarCities} />
           <TrackedRoute path={Routes.AboutBase} component={Informational} />
           <TrackedRoute path={Routes.ContactBase} component={Informational} />
           <TrackedRoute path={Routes.FaqBase} component={Informational} />

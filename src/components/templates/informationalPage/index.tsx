@@ -20,7 +20,7 @@ const Root = styled(RootBase)`
   overflow: auto;
 `;
 
-const Content = styled(ContentContainer)`
+const ContentStandard = styled(ContentContainer)`
   display: grid;
   padding: 1rem;
   grid-template-columns: auto 15rem;
@@ -77,14 +77,23 @@ const Content = styled(ContentContainer)`
   }
 `;
 
+const ContentFull = styled(ContentContainer)`
+  padding: 1rem;
+  width: 100%;
+  position: relative;
+  box-sizing: border-box;
+`;
+
 interface Props {
   children: React.ReactNode;
+  contentFull?: boolean;
 }
 
 const InformationalPage = (props: Props) => {
   const {
-    children,
+    children, contentFull,
   } = props;
+  const Content = contentFull ? ContentFull : ContentStandard;
   return (
     <Root id={rootId}>
       <Header />
