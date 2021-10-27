@@ -12,7 +12,7 @@ export const CityRoutes = {
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
   CityGrowthOpportunities: '/city/:cityId/growth-opportunities',
   CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',
-  CitySimilarCities: '/similar-cities/:cityId',
+  CitySimilarCities: '/city/:cityId/similar-cities',
 } as const;
 
 export const AboutRoutes = {

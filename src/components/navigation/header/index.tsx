@@ -253,6 +253,7 @@ const Header = () => {
   const matchFaq = useRouteMatch(Routes.FaqBase);
   const currentCityId = useCurrentCityId();
   const similarCitiesRoute = currentCityId ? createRoute.city(Routes.CitySimilarCities, currentCityId) : Routes.CitySimilarCities;
+  const profileCitiesOverviewRoute = currentCityId ? createRoute.city(Routes.CityEconomicComposition, currentCityId) : Routes.CityBase;
   if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
     const closeMenu = () => setMobileMenuOpen(false);
@@ -274,8 +275,8 @@ const Header = () => {
                 dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
               />
             </StyledLink>
-            <StyledLink to={Routes.Landing}>
-              <MobileH2 $active={Boolean(matchCity)}>
+            <StyledLink to={profileCitiesOverviewRoute}>
+              <MobileH2 $active={Boolean(matchCity && !matchSimilarCities)}>
                 <MobileNavIcon
                   dangerouslySetInnerHTML={{__html: cityIconSVG}}
                 />
@@ -343,8 +344,8 @@ const Header = () => {
           />
         </StyledLink>
         <NavSection>
-          <StyledLink to={Routes.Landing}>
-            <H2 $active={Boolean(matchCity)}>
+          <StyledLink to={profileCitiesOverviewRoute}>
+            <H2 $active={Boolean(matchCity && !matchSimilarCities)}>
               <NavIcon
                 dangerouslySetInnerHTML={{__html: cityIconSVG}}
               />
