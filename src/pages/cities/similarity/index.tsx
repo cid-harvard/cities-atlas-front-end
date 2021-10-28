@@ -1,10 +1,11 @@
 import React from 'react';
 import InformationalPage from '../../../components/templates/informationalPage';
+import SimilarCities from './similarCities';
 
 const SimilarCity = () => {
   return (
     <InformationalPage contentFull={true}>
-      <h1>SimilarCity</h1>
+      <SimilarCities />
     </InformationalPage>
   );
 };

@@ -115,6 +115,34 @@ export const ContentGrid = styled.div`
   }
 `;
 
+export const ContentScrollGrid = styled.div`
+  box-sizing: border-box;
+  display: grid;
+  width: 100%;
+  min-height: 100%;
+  grid-template-columns: 21rem 1fr;
+  grid-column-gap: 2rem;
+
+  @media screen and (max-width: 1350px) {
+    grid-template-columns: 17.5rem 1fr;
+    grid-column-gap: 1rem;
+  }
+
+  @media screen and (max-width: ${breakPointValues.width.medium}px) {
+    grid-template-columns: 14.5rem 1fr;
+    grid-column-gap: 1rem;
+  }
+
+  @media screen and (max-width: ${breakPointValues.width.mediumSmall}px) {
+    grid-template-columns: 11rem 1fr;
+  }
+
+  @media ${breakPoints.small} {
+    grid-template-rows: auto auto;
+    grid-template-columns: 1fr;
+  }
+`;
+
 const fadeIn = keyframes`
   from {
     opacity: 0;
