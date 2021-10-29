@@ -63,7 +63,11 @@ const LoadingContainer = styled.div`
   }
 `;
 
-const SecondaryHeader = () => {
+interface Props {
+  searchContainerWidth?: string;
+}
+
+const CitySearch = ({ searchContainerWidth }: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const history = useHistory();
@@ -73,14 +77,18 @@ const SecondaryHeader = () => {
   let output: React.ReactElement<any> | null;
   if (loading) {
     output = (
-      <LoadingContainer>
+      <LoadingContainer
+        style={searchContainerWidth ? { width: searchContainerWidth } : undefined}
+      >
         <SimpleLoader />
       </LoadingContainer>
     );
   } else if (error !== undefined) {
     console.error(error);
     output = (
-      <LoadingContainer>
+      <LoadingContainer
+        style={searchContainerWidth ? { width: searchContainerWidth } : undefined}
+      >
         <SimpleError />
       </LoadingContainer>
     );
@@ -102,7 +110,9 @@ const SecondaryHeader = () => {
 
     output = (
       <>
-        <SearchContainer>
+        <SearchContainer
+          style={searchContainerWidth ? { width: searchContainerWidth } : undefined}
+        >
           <PanelSearch
             data={dataWithoutCurrentComparisonOrBenchmark}
             topLevelTitle={getString('global-text-countries')}
@@ -134,4 +144,4 @@ const SecondaryHeader = () => {
   );
 };
 
-export default SecondaryHeader;
+export default CitySearch;

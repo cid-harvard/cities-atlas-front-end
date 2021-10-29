@@ -128,15 +128,6 @@ export const ContentScrollGrid = styled.div`
     grid-column-gap: 1rem;
   }
 
-  @media screen and (max-width: ${breakPointValues.width.medium}px) {
-    grid-template-columns: 14.5rem 1fr;
-    grid-column-gap: 1rem;
-  }
-
-  @media screen and (max-width: ${breakPointValues.width.mediumSmall}px) {
-    grid-template-columns: 11rem 1fr;
-  }
-
   @media ${breakPoints.small} {
     grid-template-rows: auto auto;
     grid-template-columns: 1fr;
