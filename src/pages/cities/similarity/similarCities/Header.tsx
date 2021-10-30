@@ -24,7 +24,7 @@ const Header = () => {
       </Root>
     );
   }
-  
+
 };
 
 export default Header;

@@ -1,58 +1,19 @@
-import React, {useCallback, useState} from 'react';
-import PreChartRow, {VizNavItem} from '../../../components/general/PreChartRow';
+import React from 'react';
+import PreChartRow from '../../../components/general/PreChartRow';
 import {Mode} from '../../../components/general/searchIndustryInGraphDropdown';
-import {MapState, MapMode} from 'react-city-space-mapbox';
+import {MapState} from 'react-city-space-mapbox';
 import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
 
 interface Props {
   mapContext: MapState;
-  showRings: boolean;
-  setShowRings: (value: boolean) => void;
 }
 
 const SettingsRow = (props: Props) => {
-  const {mapContext, showRings, setShowRings} = props;
-  const [view, setView] = useState<MapMode>(MapMode.GEO);
+  const {mapContext} = props;
   const {data} = useGlobalLocationData();
 
-  const onGeoMapClick = useCallback(() => {
-    if (mapContext.intialized && view !== MapMode.GEO) {
-      mapContext.setToGeoMap();
-    }
-    setView(MapMode.GEO);
-    setShowRings(false);
-  }, [mapContext, view, setShowRings]);
-
-  // const onUMapClick = useCallback(() => {
-  //   if (mapContext.intialized && view !== MapMode.UMAP) {
-  //     mapContext.setToUMap();
-  //   }
-  //   setView(MapMode.UMAP);
-  //   setShowRings(false);
-  // }, [mapContext, view, setShowRings]);
-
-  const onShowRingsClick = useCallback(() => {
-    setShowRings(true);
-  }, [setShowRings]);
-
-  const vizNavigation: VizNavItem[] = [
-    {
-      label: 'Similarity Ring',
-      active: showRings,
-      onClick: onShowRingsClick,
-    }, {
-    //   label: 'Clusters',
-    //   active: view === MapMode.UMAP && !showRings,
-    //   onClick: onUMapClick,
-    // }, {
-      label: 'Similarity Map',
-      active: view === MapMode.GEO && !showRings,
-      onClick: onGeoMapClick,
-    },
-  ];
-
   const setHighlighted = (id: string | undefined) => {
-    if (mapContext.intialized && view === MapMode.GEO && data && id !== undefined) {
+    if (mapContext.intialized && data && id !== undefined) {
       const city = data.cities.find(c => c.cityId === id);
       if (city && city.centroidLon && city.centroidLat) {
         mapContext.map.flyTo({
@@ -65,7 +26,6 @@ const SettingsRow = (props: Props) => {
 
   return (
     <PreChartRow
-      vizNavigation={vizNavigation}
       settingsOptions={{
         cityColorBy: true,
         cityNodeSizing: true,
@@ -76,7 +36,6 @@ const SettingsRow = (props: Props) => {
         digitLevel: null,
         clusterLevel: null,
         mode: Mode.geo,
-        hidden: showRings,
       }}
     />
   );

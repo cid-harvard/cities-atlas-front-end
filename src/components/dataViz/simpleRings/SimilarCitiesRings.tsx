@@ -17,13 +17,11 @@ const fadeIn = keyframes`
 `;
 const Root = styled.div`
   width: 100%;
-  height: 100%;
+  height: 450px;
+  height: clamp(300px, 70vh, 800px);
 `;
 
 const RingsContainer = styled.div`
-  position: absolute;
-  top: 1rem;
-  left: 0;
   opacity: 0;
   animation: ${fadeIn} 0.2s ease-in-out 1 forwards;
 `;

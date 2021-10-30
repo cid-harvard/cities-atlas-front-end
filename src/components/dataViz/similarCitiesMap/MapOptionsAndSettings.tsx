@@ -14,17 +14,9 @@ import {scaleLinear} from 'd3-scale';
 import {extent} from 'd3-array';
 import mapboxgl from 'mapbox-gl';
 
-interface Props {
-  showRings: boolean;
-  setShowRings: (value: boolean) => void;
-  timeStamp: number | string;
-}
-
 let previousCityId: string | undefined;
-let previousTimeStamp: number | string | undefined;
 
-const MapOptionsAndSettings = (props: Props) => {
-  const {showRings, setShowRings, timeStamp} = props;
+const MapOptionsAndSettings = () => {
   const mapContext = useMapContext();
 
   const {data} = useLayoutData();
@@ -36,6 +28,7 @@ const MapOptionsAndSettings = (props: Props) => {
   useEffect(() => {
     if (mapContext.intialized) {
       mapContext.map.addControl(new mapboxgl.NavigationControl());
+      mapContext.map.scrollZoom.disable();
     }
   }, [mapContext]);
 
@@ -43,15 +36,14 @@ const MapOptionsAndSettings = (props: Props) => {
     if (mapContext.intialized && data && cityId) {
       const currentCityFeature = data.cityGeoJson.features.find(({properties}: {properties: {id: number}}) => properties.id.toString() === cityId);
       if (currentCityFeature) {
-        if (cityId !== previousCityId || timeStamp !== previousTimeStamp) {
+        if (cityId !== previousCityId) {
           previousCityId = cityId;
-          previousTimeStamp = timeStamp;
           mapContext.setNewCenter(currentCityFeature.geometry.coordinates);
         }
         mapContext.setHighlighted(cityId);
       }
     }
-  }, [mapContext, data, cityId, timeStamp]);
+  }, [mapContext, data, cityId]);
 
   useEffect(() => {
     if (mapContext.intialized && proximityData && cityId) {
@@ -110,8 +102,6 @@ const MapOptionsAndSettings = (props: Props) => {
   return (
     <SettingsRow
       mapContext={mapContext}
-      showRings={showRings}
-      setShowRings={setShowRings}
     />
   );
 };

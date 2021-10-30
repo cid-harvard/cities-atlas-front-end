@@ -9,7 +9,7 @@ import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
 import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
 import CityProximityLegend from '../legend/CityProximityLegend';
-import FilterBar, {filterBarId} from './FilterBar';
+import FilterBar from './FilterBar';
 import {extent} from 'd3-array';
 import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import {defaultYear} from '../../../Utils';
@@ -94,32 +94,17 @@ const MapContainer = styled.div`
 `;
 
 const Map = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
-  height: 100%;
+  height: 450px;
+  height: clamp(300px, 70vh, 800px);
 `;
 
 const RingsContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
   width: 100%;
-  height: 100%;
+  height: 450px;
+  height: clamp(300px, 70vh, 800px);
   background-color: #fff;
   z-index: 5;
-`;
-
-const FilterBarContainer = styled.div`
-  position: absolute;
-  z-index: 6;
-  width: 100%;
-  top: 0;
 `;
 
 let staticProximityData: SuccessResponse | undefined;
@@ -135,7 +120,6 @@ interface FilterValues {
 
 const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const filterBarRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
@@ -226,7 +210,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
 
   let rings: React.ReactElement<any> | null = null;
   let filterBar: React.ReactElement<any> | null;
-  if (showRings && filterValues) {
+  if (filterValues) {
     rings = (
       <RingsContainer>
         <SimilarCitiesRings
@@ -261,7 +245,6 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
     const countries = data.countries;
     filterBar = (
       <FilterBar
-        node={filterBarRef.current}
         // adjust min max values so that all other values fall within them
         populationMin={Math.floor(populationRange[0]) - 1000}
         populationMax={Math.ceil(populationRange[1]) + 100000}
@@ -273,7 +256,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         currentCity={currentCity}
       />
     );
-    if (showRings && !filterValues) {
+    if (!filterValues) {
       rings = (
         <RingsContainer>
           <SimilarCitiesRings
@@ -293,7 +276,6 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
   return (
     <>
       <Root>
-        <FilterBarContainer ref={filterBarRef} id={filterBarId} />
         <MapContainer>
           <Map ref={rootRef} />
           {rings}
@@ -307,11 +289,7 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         cityUMapJson={data ? data.cityUMapJson : undefined}
         getPopupHTMLContent={renderTooltipContent}
       >
-        <MapOptionsAndSettings
-          showRings={showRings}
-          setShowRings={setShowRings}
-          timeStamp={timeStamp}
-        />
+        <MapOptionsAndSettings />
         {filterBar}
       </CitySpaceMap>
       <CityProximityLegend isRings={showRings} />

@@ -13,7 +13,6 @@ import Visualizations from './Visualizations';
 
 const SimilarCities = () => {
   const cityId = useCurrentCityId();
-  // const [timeStamp] = useState<number>(new Date().getTime());
 
   if (cityId === null) {
     return (

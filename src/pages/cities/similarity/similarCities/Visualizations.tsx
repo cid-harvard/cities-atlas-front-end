@@ -7,6 +7,7 @@ import {
   secondaryFont,
   SearchContainerLight,
 } from '../../../../styling/styleUtils';
+import SimilarCitiesMap from '../../../../components/dataViz/similarCitiesMap';
 
 const Root = styled.div`
   grid-column: 2;
@@ -43,6 +44,7 @@ const Visualizations = () => {
         />
       </SearchContainer>
       <p>{getString('city-similarity-para-1')}</p>
+      <SimilarCitiesMap timeStamp={'string'} />
     </Root>
   );
 };

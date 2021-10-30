@@ -4,7 +4,6 @@ import styled from 'styled-components/macro';
 import {
   primaryColor,
   backgroundDark,
-  backgroundMedium,
   baseColor,
   primaryFont,
   lightBaseColor,
@@ -14,57 +13,28 @@ import ReactSlider from 'react-slider';
 import MultiSelect from '@khanacademy/react-multi-select';
 import {formatNumber} from '../../../Utils';
 import {useMapContext} from 'react-city-space-mapbox';
-import raw from 'raw.macro';
 import {scaleSymlog} from 'd3-scale';
 import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 import Tooltip from '../../general/Tooltip';
 
-const ChevronSVG = raw('../../../assets/icons/chevron.svg');
-
 export const filterBarId = 'similar-cities-filter-bar-id';
 
-const Root = styled.div`
-  background-color: rgba(255, 255, 255, 0.85);
-`;
-
-const Title = styled.h3`
-  color: ${primaryColor};
-  text-transform: uppercase;
-  margin: 0;
-  padding: 0.2rem 0.75rem;
-  font-size: 0.875rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-`;
-
-const TitleText = styled.span`
-  margin-right: 0.5rem;
-`;
-
-const Arrow = styled.span`
-  width: 0.7rem;
-  height: 1rem;
-  display: inline-block;
-
-  svg {
-    width: 100%;
-    height: 100%;
-
-    polyline {
-      stroke: ${primaryColor};
-    }
-  }
-`;
+const medGray = '#9DA0A4';
 
 const Settings = styled.div`
   padding: 0.35rem 0.75rem 1rem;
   display: flex;
+  flex-direction: column;
 `;
 
 const ExpandBox = styled.div`
   flex-grow: 1;
-  padding-right: 1rem;
+  margin-bottom: 1rem;
+`;
+
+const Title = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 const slideRootClassName = 'react-slider-root-class';
@@ -74,6 +44,7 @@ const slideTrackClassName = 'react-slider-track-class';
 const SliderContainer = styled.div`
   margin-top: 1.5rem;
   position: relative;
+  height: 2.5rem;
 
   .${slideThumbClassName} {
     background-color: ${primaryColor};
@@ -98,7 +69,7 @@ const SliderContainer = styled.div`
     margin-top: 0.25rem;
   }
   .${slideTrackClassName}-0 {
-    background-color: ${backgroundMedium};
+    background-color: ${medGray};
     height: 0.5rem;
   }
   .${slideTrackClassName}-1 {
@@ -106,7 +77,7 @@ const SliderContainer = styled.div`
     height: 0.5rem;
   }
   .${slideTrackClassName}-2 {
-    background-color: ${backgroundMedium};
+    background-color: ${medGray};
     height: 0.5rem;
   }
 `;
@@ -122,6 +93,7 @@ const SelectBoxContainer = styled.div`
         border-radius: 0 !important;
         border-color: ${backgroundDark} !important;
         color: ${baseColor} !important;
+        background-color: transparent !important;
         ::placeholder, span {
           color: ${baseColor} !important;
           opacity: 1;
@@ -142,7 +114,7 @@ const SelectBoxContainer = styled.div`
           color: ${baseColor} !important;
 
           &:hover {
-            background-color: ${backgroundMedium} !important;
+            background-color: ${medGray} !important;
           }
         }
       }
@@ -190,24 +162,24 @@ const CityName = styled.div`
 
 const ResetSettingsBtn = styled.button`
   max-width: min-content;
+  white-space: nowrap;
   text-transform: uppercase;
-  font-size: 0.5rem;
+  font-size: 0.6rem;
   font-weight: 600;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 36px;
-  margin-top: auto;
+  margin-top: 1rem;
   color: ${baseColor};
-  background-color: ${backgroundMedium};
+  background-color: ${medGray};
   transition: outline 0.1s ease-in-out;
-  outline: solid 0px ${backgroundMedium};
-  padding: 0 0.25rem;
+  outline: solid 0px ${medGray};
+  padding: 0.6rem 1rem;
 
   &:hover,
   &:focus {
-    outline: solid 2px ${backgroundMedium};
+    outline: solid 2px ${medGray};
   }
 `;
 
@@ -227,7 +199,6 @@ interface FilterValues {
 }
 
 interface Props {
-  node: HTMLDivElement | null;
   populationMin: number;
   populationMax: number;
   gdppcMin: number;
@@ -251,7 +222,6 @@ const FilterBar = (props: Props) => {
   } = props;
   const mapContext = useMapContext();
   const getString = useFluent();
-  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [selectedRegionIds, setSelectedRegionIds] = useState<string[]>([]);
   const [selectedCountryIds, setSelectedCountryIds] = useState<string[]>([]);
   const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>([0, 100]);
@@ -324,28 +294,19 @@ const FilterBar = (props: Props) => {
     return <small {...p}><span>{$}{formatted}</span></small>;
   };
 
-  const node = props.node ? props.node : document.getElementById(filterBarId) as HTMLDivElement | null;
+  const node = document.getElementById(filterBarId) as HTMLDivElement | null;
   if (node) {
     const countryOptions = countries.filter(d => !selectedRegionIds.length || selectedRegionIds.includes(d.regionId));
     return createPortal((
-      <Root className={joyrideClassNames.filterOptions}>
-        <Title
-          onClick={() => setSettingsOpen(curr => !curr)}
-        >
-          <TitleText>{getString(settingsOpen ? 'city-filter-title-close' : 'city-filter-title-open')}</TitleText>
-          <Arrow
-            style={{transform: settingsOpen ? 'rotate(180deg)' : undefined}}
-            dangerouslySetInnerHTML={{__html: ChevronSVG}}
-          />
-        </Title>
-        <Settings style={{display: settingsOpen ? undefined : 'none'}}>
+      <div className={joyrideClassNames.filterOptions}>
+        <Settings>
           <ExpandBox>
-            <div>
+            <Title>
+              {getString('global-text-population')}
               <Tooltip
                 explanation={getString('global-text-population-about')}
               />
-              {getString('global-text-population')}
-            </div>
+            </Title>
             <SliderContainer>
               <CityMark style={{left: currentPopPercent + '%'}}>
                 <CityName>
@@ -365,12 +326,12 @@ const FilterBar = (props: Props) => {
             </SliderContainer>
           </ExpandBox>
           <ExpandBox>
-            <div>
+            <Title>
+              {getString('global-text-gdp-per-capita')}
               <Tooltip
                 explanation={getString('global-text-gdp-per-capita-about')}
               />
-              {getString('global-text-gdp-per-capita')}
-            </div>
+            </Title>
             <SliderContainer>
               <CityMark style={{left: currentGdpPercent + '%'}}>
                 <CityName>
@@ -391,7 +352,7 @@ const FilterBar = (props: Props) => {
           </ExpandBox>
           <ExpandBox>
             {getString('city-filter-regions')}
-            <SelectBoxContainer>
+            <SelectBoxContainer style={{zIndex: 20}}>
               <MultiSelect
                 options={regions}
                 selected={selectedRegionIds}
@@ -416,7 +377,7 @@ const FilterBar = (props: Props) => {
             {getString('global-ui-options-reset')}
           </ResetSettingsBtn>
         </Settings>
-      </Root>
+      </div>
     ), node);
   }
 
