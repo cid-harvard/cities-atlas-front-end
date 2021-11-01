@@ -7,11 +7,14 @@ import useCurrentCity from '../../../hooks/useCurrentCity';
 import ArrowSVG from '../../../assets/icons/arrow.svg';
 import TextLoading from '../../transitionStateComponents/SimpleTextLoading';
 import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
+import UtilityBar from '../../navigation/secondaryHeader/UtilityBar';
+import { backgroundMedium } from '../../../styling/styleUtils';
 
 const RootBase = styled.div`
   grid-row: 3;
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
+  margin-bottom: 3rem;
 
   @media ${breakPoints.small} {
     grid-row: 4;
@@ -77,6 +80,14 @@ const Circle = styled.div`
   border-radius: 1000px;
 `;
 
+const Utilities = styled.div`
+  display: flex;
+  align-items: center;
+  padding: 0.3rem 0.2rem;
+  margin: 0 1rem;
+  background-color: ${backgroundMedium};
+`;
+
 interface Props {
   fullWidth?: boolean;
   isRings: boolean;
@@ -123,6 +134,11 @@ const IntensityLegend = (props: Props) => {
           <Segment style={{backgroundColor: proximityColors[1]}} />
           <Segment style={{backgroundColor: proximityColors[0]}} />
         </Bar>
+      </Content>
+      <Content>
+        <Utilities>
+          <UtilityBar returnInline={true} hideGuide={true} />
+        </Utilities>
       </Content>
     </Root>
   );

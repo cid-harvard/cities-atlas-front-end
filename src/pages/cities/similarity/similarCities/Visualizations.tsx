@@ -44,7 +44,7 @@ const Visualizations = () => {
         />
       </SearchContainer>
       <p>{getString('city-similarity-para-1')}</p>
-      <SimilarCitiesMap timeStamp={'string'} />
+      <SimilarCitiesMap />
     </Root>
   );
 };

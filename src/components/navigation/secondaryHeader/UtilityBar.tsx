@@ -49,11 +49,14 @@ export enum DownloadType {
 interface Props {
   onDownloadImageButtonClick?: () => void;
   onDownloadDataButtonClick?: () => void;
+  returnInline?: boolean;
+  hideGuide?: boolean;
 }
 
 const UtilityBar = (props: Props) => {
   const {
     onDownloadImageButtonClick, onDownloadDataButtonClick,
+    returnInline, hideGuide,
   } = props;
   const getString = useFluent();
 
@@ -159,23 +162,28 @@ const UtilityBar = (props: Props) => {
     </Tooltip>
   ) : null;
 
-  let content: React.ReactElement<any> | null;
+  const guide = hideGuide ? null : <Guide />;
+
+  const content = (
+    <>
+      <Share />
+      {expandButton}
+      {guide}
+      {downloadImageButton}
+      {downloadDataButton}
+      <DataDisclaimer />
+    </>
+  );
+  let output: React.ReactElement<any> | null;
   if (isUtilityBarRendered === true && secondaryHeaderUtilityBarContainerNodeRef.current !== null) {
-    content = createPortal((
-      <>
-        <Share />
-        {expandButton}
-        <Guide />
-        {downloadImageButton}
-        {downloadDataButton}
-        <DataDisclaimer />
-      </>
-    ), secondaryHeaderUtilityBarContainerNodeRef.current);
+    output = createPortal(content, secondaryHeaderUtilityBarContainerNodeRef.current);
+  } else if (returnInline) {
+    output = content;
   } else {
-    content = null;
+    output = null;
   }
 
-  return content;
+  return output;
 };
 
 export default UtilityBar;

@@ -118,12 +118,11 @@ interface FilterValues {
   minMaxGdppc: [number, number];
 }
 
-const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
+const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const {data} = useLayoutData();
   const {data: proximityData} = useProximityData();
-  const [showRings, setShowRings] = useState<boolean>(false);
   const [filterValues, setFilterValues] = useState<FilterValues | undefined>(undefined);
   const cityId = useCurrentCityId();
 
@@ -138,13 +137,6 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
   useEffect(() => {
     staticCityId = cityId;
   }, [cityId]);
-
-  useEffect(() => {
-    // hack needed to handle issues with mapbox and d3 rendering contexts
-    // initial showRings state should be opposite of what is desired, and flip
-    // it here
-    setShowRings(true);
-  }, [timeStamp]);
 
   const renderTooltipContent =
     (node: {id: string, country: string, city: string, fill: string}) => {
@@ -278,7 +270,9 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
       <Root>
         <MapContainer>
           <Map ref={rootRef} />
+          <CityProximityLegend isRings={false} />
           {rings}
+          <CityProximityLegend isRings={true} />
         </MapContainer>
       </Root>
       <CitySpaceMap
@@ -292,7 +286,6 @@ const SimilarCitiesMap = ({timeStamp}: {timeStamp: number | string}) => {
         <MapOptionsAndSettings />
         {filterBar}
       </CitySpaceMap>
-      <CityProximityLegend isRings={showRings} />
       <RapidTooltipRoot ref={tooltipRef} />
     </>
   );

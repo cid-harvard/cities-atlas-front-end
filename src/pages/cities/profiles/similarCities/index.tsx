@@ -2,7 +2,7 @@ import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
-import React, {useState} from 'react';
+import React from 'react';
 import {
   ContentGrid,
 } from '../../../../styling/styleUtils';
@@ -19,7 +19,6 @@ const SimilarCities = () => {
   const cityId = useCurrentCityId();
   const {city_node_sizing} = useQueryParams();
   const {data} = useLayoutData();
-  const [timeStamp] = useState<number>(new Date().getTime());
 
   if (cityId === null) {
     return (
@@ -60,7 +59,7 @@ const SimilarCities = () => {
           nodeSizingMinText={nodeSizingMinText}
           nodeSizingMaxText={nodeSizingMaxText}
         />
-        <SimilarCitiesMap timeStamp={timeStamp} />
+        <SimilarCitiesMap />
       </ContentGrid>
       <UtiltyBar />
     </DefaultContentWrapper>
