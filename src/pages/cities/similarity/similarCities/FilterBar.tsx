@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import { lightBorderColor } from '../../../../styling/styleUtils';
+import { baseColor, lightBorderColor, secondaryFont } from '../../../../styling/styleUtils';
 import { filterBarId } from '../../../../components/dataViz/similarCitiesMap/FilterBar';
+import Settings from './Settings';
+import useFluent from '../../../../hooks/useFluent';
 
 const Root = styled.div`
   grid-column: 1;
@@ -14,7 +16,7 @@ const Content = styled.div`
   height: 100vh;
   padding: 0 1rem 2rem 0;
   box-sizing: border-box;
-  `;
+`;
 
   const ScrollContainer = styled.div`
   height: 100%;
@@ -22,12 +24,27 @@ const Content = styled.div`
   background-color: ${lightBorderColor};
 `;
 
+const Divider = styled.div`
+  margin: 0.75rem;
+  border-top: solid 1px ${baseColor};
+`;
+
+const SectionTitle = styled.h2`
+  padding: 0 0.75rem;
+  font-family: ${secondaryFont};
+`;
+
 const FilterBar = () => {
+  const getString = useFluent();
   return (
     <Root>
       <Content>
         <ScrollContainer>
+          <SectionTitle>{getString('city-filter-title')}</SectionTitle>
           <div id={filterBarId} />
+          <Divider />
+          <SectionTitle>{getString('global-ui-node-size')}</SectionTitle>
+          <Settings />
         </ScrollContainer>
       </Content>
     </Root>

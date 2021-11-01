@@ -72,6 +72,7 @@ global-ui-reset-clusters = Show all clusters
 global-ui-numbers-based-on = Visualization based on numbers of
 global-ui-detail-level = Industry Groups Digit Level
 global-ui-cluster-level = Knowledge Cluster Level
+global-ui-node-size = Node Size
 global-ui-node-sizing = Size Nodes By
 global-ui-node-color-by = Color Nodes By
 global-ui-color-by = Color By
@@ -167,7 +168,7 @@ global-text-industries = Industries
 global-text-industry-groups = Industry Groups
 
 global-text-world = World
-global-text-similar-cities = Similar Cites
+global-text-similar-cities = Similar Cities
 
 global-text-global-peers = Top Global Peers
 global-text-regional-peers = Top Regional Peers
@@ -335,6 +336,7 @@ pswot-table-categories = Categories
 global-name = Name
 global-filter-name = Filter name
 
+city-filter-title = Filter Cities
 city-filter-title-open = Open Filter Cities Options
 city-filter-title-close = Close Filter Cities Options
 city-filter-regions = Regions Filter
