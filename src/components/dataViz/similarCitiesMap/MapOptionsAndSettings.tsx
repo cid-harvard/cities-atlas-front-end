@@ -1,9 +1,8 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import {useMapContext} from 'react-city-space-mapbox';
 import useLayoutData, {defaultRadius} from './useLayoutData';
 import useCurrentCityId from '../../../hooks/useCurrentCityId';
 import {createProximityScale} from './Utils';
-import SettingsRow from './SettingsRow';
 import useProximityData from './useProximityData';
 import useQueryParams from '../../../hooks/useQueryParams';
 import {
@@ -99,11 +98,7 @@ const MapOptionsAndSettings = () => {
     }
   }, [mapContext, data, city_node_sizing, cityId]);
 
-  return (
-    <SettingsRow
-      mapContext={mapContext}
-    />
-  );
+  return null;
 };
 
 export default MapOptionsAndSettings;

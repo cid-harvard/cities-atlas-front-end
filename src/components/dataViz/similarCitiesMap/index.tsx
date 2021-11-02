@@ -3,6 +3,7 @@ import CitySpaceMap from 'react-city-space-mapbox';
 import useLayoutData from './useLayoutData';
 import styled from 'styled-components/macro';
 import {breakPoints} from '../../../styling/GlobalGrid';
+import MapOptionsAndSettings from './MapOptionsAndSettings';
 import {getStandardTooltip} from '../../../utilities/rapidTooltip';
 import {rgba} from 'polished';
 import useProximityData, {SuccessResponse} from './useProximityData';
@@ -282,6 +283,7 @@ const SimilarCitiesMap = () => {
         cityUMapJson={data ? data.cityUMapJson : undefined}
         getPopupHTMLContent={renderTooltipContent}
       >
+        <MapOptionsAndSettings />
         {filterBar}
       </CitySpaceMap>
       <RapidTooltipRoot ref={tooltipRef} />
