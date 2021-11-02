@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import useFluent from '../../../../hooks/useFluent';
-import { CityNodeSizing } from '../../../../routing/routes';
+import { CityNodeSizing, defaultCityNodeSizing } from '../../../../routing/routes';
 import { baseColor, primaryFont } from '../../../../styling/styleUtils';
 import queryString from 'query-string';
 import useQueryParams from '../../../../hooks/useQueryParams';
@@ -52,6 +52,7 @@ const Settings = () => {
   const getString = useFluent();
   const params = useQueryParams();
   const history = useHistory();
+  const nodeSizing = params.city_node_sizing ? params.city_node_sizing : defaultCityNodeSizing;
 
   const updateSetting = (param: string, value: string | number) => {
     const query = queryString.stringify({ ...params, [param]: value });
@@ -67,7 +68,7 @@ const Settings = () => {
   return (
     <Root>
       <SelectRoot>
-        <Select onChange={onChange}>
+        <Select onChange={onChange} value={nodeSizing}>
           <option value={CityNodeSizing.population}>{getString('global-formatted-size-by', {type: CityNodeSizing.population})}</option>
           <option value={CityNodeSizing.gdpPpp}>{getString('global-formatted-size-by', {type: CityNodeSizing.gdpPpp})}</option>
           <option value={CityNodeSizing.uniform}>{getString('global-formatted-size-by', {type: CityNodeSizing.uniform})}</option>

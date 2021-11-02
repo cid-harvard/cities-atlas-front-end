@@ -4,6 +4,7 @@ import { baseColor, lightBorderColor, secondaryFont } from '../../../../styling/
 import { filterBarId } from '../../../../components/dataViz/similarCitiesMap/FilterBar';
 import Settings from './Settings';
 import useFluent from '../../../../hooks/useFluent';
+import NodeSizeLegend from './NodeSizeLegend';
 
 const Root = styled.div`
   grid-column: 1;
@@ -45,6 +46,7 @@ const FilterBar = () => {
           <Divider />
           <SectionTitle>{getString('global-ui-node-size')}</SectionTitle>
           <Settings />
+          <NodeSizeLegend />
         </ScrollContainer>
       </Content>
     </Root>
