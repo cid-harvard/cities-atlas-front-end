@@ -26,10 +26,6 @@ const SettingsRow = (props: Props) => {
 
   return (
     <PreChartRow
-      settingsOptions={{
-        cityColorBy: true,
-        cityNodeSizing: true,
-      }}
       searchInGraphOptions={{
         hiddenParents: [],
         setHighlighted,

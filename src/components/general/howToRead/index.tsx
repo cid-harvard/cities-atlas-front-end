@@ -14,7 +14,6 @@ import {
 import Modal from '../../standardModal';
 import TreemapPNG from './static/treemap.png';
 import GoodAtPNG from './static/relative_presence.png';
-import SimilarCityPNG from './static/similar_city.png';
 import IndustrySpacePNG from './static/industry_space.png';
 import SwotPNG from './static/swot.png';
 
@@ -85,7 +84,6 @@ const HowToRead = () => {
   const {compare_city} = useQueryParams();
   const isTreemap = useRouteMatch(Routes.CityEconomicComposition);
   const isGoodAt = useRouteMatch(Routes.CityGoodAt);
-  const isSimilarCities = useRouteMatch(Routes.CitySimilarCities);
   const isIndustrySpace = useRouteMatch(Routes.CityIndustrySpacePosition);
   const isSwot = useRouteMatch(Routes.CityGrowthOpportunities);
 
@@ -95,9 +93,6 @@ const HowToRead = () => {
   }
   else if (isGoodAt && isGoodAt.isExact) {
     source = GoodAtPNG;
-  }
-  else if (isSimilarCities && isSimilarCities.isExact) {
-    source = SimilarCityPNG;
   }
   else if (isIndustrySpace && isIndustrySpace.isExact) {
     source = IndustrySpacePNG;
