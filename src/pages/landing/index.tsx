@@ -292,7 +292,8 @@ const Landing = () => {
       features: [],
     },
   });
-  const [overlayOn, setOverlayOn] = useState<boolean>(country === undefined);
+  const [overlayOn, setOverlayOn] = useState<boolean>(false);
+  // const [overlayOn, setOverlayOn] = useState<boolean>(country === undefined);
   const closeOverlay = () => setOverlayOn(false);
   const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(null);
   const [highlightedCountry, setHighlightedCountry] = useState<ExtendedSearchDatum | null>(null);

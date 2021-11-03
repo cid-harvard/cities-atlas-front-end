@@ -4,8 +4,7 @@ import {
   StyledPopup,
   TootltipTitle,
 } from './Utils';
-import styled, {keyframes} from 'styled-components/macro';
-import {numberWithCommas} from '../../Utils';
+import styled from 'styled-components/macro';
 import {Link} from 'react-router-dom';
 import {CityRoutes} from '../../routing/routes';
 import {createRoute} from '../../routing/Utils';
@@ -14,50 +13,26 @@ import {
   secondaryFont,
 } from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
-import Tooltip from '../../components/general/Tooltip';
 
-const bounceRight = keyframes`
-  0%,
-  20%,
-  50%,
-  80%,
-  100% {
-    left: 0;
-  }
-
-  40% {
-    left: 0.7rem;
-  }
-
-  60% {
-    left: 0.3rem;
-  }
-`;
-
-const bounceDuration = '1'; // in seconds
-
-
-const TootlipContent = styled.p`
-  color: #fff;
-  font-size: 0.85rem;
-  text-align: center;
-  margin: 1rem 0;
-  line-height: 1.7;
+const Title = styled(TootltipTitle)`
+  padding-bottom: 0.75rem;
+  border-bottom: solid 1px #fff;
+  margin: 0 0 1.25rem;
 `;
 
 const ReviewCityButton = styled(Link)`
   font-family: ${secondaryFont};
   text-transform: uppercase;
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   display: block;
-  width: 100%;
-  padding: 0.7rem;
+  width: 14rem;
+  margin: 1rem auto 0;
+  padding: 0.5rem;
   display: block;
   box-sizing: border-box;
-  background-color: #fff;
   text-align: center;
-  color: ${secondaryColor};
-  border: none;
+  border: solid 1px #fff;
+  color: #fff;
   box-shadow: none;
   transition: all 0.2s ease;
   transform-origin: top;
@@ -65,20 +40,9 @@ const ReviewCityButton = styled(Link)`
   text-decoration: none;
 
   &:hover {
-    transform: scale(1.1);
-
-    span {
-      animation: ${bounceRight} ${bounceDuration}s ease-in-out infinite;
-    }
+    background-color: #fff;
+    color: ${secondaryColor};
   }
-`;
-
-const Arrow = styled.span`
-  font-family: Verdana, sans-serif;
-  font-size: 1.5rem;
-  line-height: 0;
-  position: relative;
-  top: 0.2rem;
 `;
 
 const CloseTooltipButton = styled.button`
@@ -92,20 +56,6 @@ const CloseTooltipButton = styled.button`
   border: none;
   box-shadow: none;
   pointer-events: all;
-`;
-
-const HoverTooltipContainer = styled.div`
-  pointer-events: all;
-
-  && svg {
-    circle {
-      fill: #fff;
-    }
-
-    path {
-      fill: ${secondaryColor};
-    }
-  }
 `;
 
 interface Props {
@@ -127,32 +77,19 @@ const HighlightedTooltip = (props: Props) => {
     <StyledPopup
       coordinates={highlighted.center}
     >
-      <TootltipTitle>
+      <Title>
         {highlighted.title}
-      </TootltipTitle>
-      <TootlipContent>
-        <HoverTooltipContainer>
-          <Tooltip
-            explanation={getString('global-text-population-about')}
-          />
-          {getString('global-text-population')} (2015): {
-            numberWithCommas(Math.ceil(highlighted.population / 100) * 100)
-          }
-        </HoverTooltipContainer>
-        <HoverTooltipContainer>
-          <Tooltip
-            explanation={getString('global-text-gdp-per-capita-about')}
-          />
-          {getString('global-text-gdp-per-capita')}: ${
-            numberWithCommas(Math.round(highlighted.gdp / 10) * 10)
-          }
-        </HoverTooltipContainer>
-      </TootlipContent>
+      </Title>
       <ReviewCityButton
         ref={anchorRef}
         to={createRoute.city(CityRoutes.CityBase, highlighted.id.toString())}
       >
-        {getString('landing-page-text-review-the-city')} <Arrow>→</Arrow>
+        {getString('landing-page-text-review-the-city')}
+      </ReviewCityButton>
+      <ReviewCityButton
+        to={createRoute.city(CityRoutes.CitySimilarCities, highlighted.id.toString())}
+      >
+        {getString('landing-page-text-review-similar-cities')}
       </ReviewCityButton>
       <CloseTooltipButton onClick={closePopup}>×</CloseTooltipButton>
     </StyledPopup>
