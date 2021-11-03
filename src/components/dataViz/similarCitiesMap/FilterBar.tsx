@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback, useMemo} from 'react';
+import React, {useState, useEffect, useCallback, useMemo, useRef} from 'react';
 import { createPortal } from 'react-dom';
 import styled from 'styled-components/macro';
 import {
@@ -227,6 +227,9 @@ const FilterBar = (props: Props) => {
   const [minMaxPopulation, setMinMaxPopulation] = useState<[number, number]>([0, 100]);
   const [minMaxGdppc, setMinMaxGdppc] = useState<[number, number]>([0 , 100]);
 
+  const cityPopTitle = useRef<HTMLDivElement | null>(null);
+  const cityGdpTitle = useRef<HTMLDivElement | null>(null);
+
   const gdpLogScale = useCallback(
     scaleSymlog().domain([gdppcMin, gdppcMax]).range([0, 100]),
     [gdppcMin, gdppcMax],
@@ -236,7 +239,10 @@ const FilterBar = (props: Props) => {
     [populationMin, populationMax],
   );
 
-  const currentGdpPercent = currentCity ? gdpLogScale(currentCity.gdppc) : 0;
+  const currentGdpPercent = useMemo(
+    () => currentCity ? gdpLogScale(currentCity.gdppc) : 0,
+    [currentCity, gdpLogScale],
+  );
   const currentPopPercent = useMemo(
     () => currentCity ? popLogScale(currentCity.population) : 0,
     [currentCity, popLogScale],
@@ -256,6 +262,42 @@ const FilterBar = (props: Props) => {
     setMinMaxPopulation([defaultMinPop, defaultMaxPop]);
 
   }, [currentPopPercent, popLogScale]);
+
+  useEffect(() => {
+    const titleNode = cityPopTitle.current;
+    const container = document.getElementById(filterBarId);
+    if (titleNode && container) {
+      const boundingRect = titleNode.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      if (boundingRect.left < 0) {
+        titleNode.style.left = '0px';
+      } else if (boundingRect.right > containerRect.width) {
+        titleNode.style.right = '0px';
+        titleNode.style.left = 'auto';
+      } else {
+        titleNode.style.left = '';
+        titleNode.style.right = '';
+      }
+    }
+  }, [cityPopTitle, currentPopPercent]);
+
+  useEffect(() => {
+    const titleNode = cityGdpTitle.current;
+    const container = document.getElementById(filterBarId);
+    if (titleNode && container) {
+      const boundingRect = titleNode.getBoundingClientRect();
+      const containerRect = container.getBoundingClientRect();
+      if (boundingRect.left < 0) {
+        titleNode.style.left = '0px';
+      } else if (boundingRect.right > containerRect.width) {
+        titleNode.style.right = '0px';
+        titleNode.style.left = 'auto';
+      } else {
+        titleNode.style.left = '';
+        titleNode.style.right = '';
+      }
+    }
+  }, [cityGdpTitle, currentGdpPercent]);
 
   useEffect(() => {
     setDefaultPopulation();
@@ -309,7 +351,7 @@ const FilterBar = (props: Props) => {
             </Title>
             <SliderContainer>
               <CityMark style={{left: currentPopPercent + '%'}}>
-                <CityName>
+                <CityName ref={cityPopTitle}>
                   {currentCityName}
                 </CityName>
               </CityMark>
@@ -334,7 +376,7 @@ const FilterBar = (props: Props) => {
             </Title>
             <SliderContainer>
               <CityMark style={{left: currentGdpPercent + '%'}}>
-                <CityName>
+                <CityName ref={cityGdpTitle}>
                   {currentCityName}
                 </CityName>
               </CityMark>

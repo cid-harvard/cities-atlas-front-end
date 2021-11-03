@@ -5,10 +5,15 @@ import { filterBarId } from '../../../../components/dataViz/similarCitiesMap/Fil
 import Settings from './Settings';
 import useFluent from '../../../../hooks/useFluent';
 import NodeSizeLegend from './NodeSizeLegend';
+import { breakPoints } from '../../../../styling/GlobalGrid';
 
 const Root = styled.div`
   grid-column: 1;
   position: relative;
+
+  @media ${breakPoints.small} {
+    grid-row: 3;
+  }
 `;
 
 const Content = styled.div`
@@ -17,6 +22,10 @@ const Content = styled.div`
   height: 100vh;
   padding: 0 1rem 2rem 0;
   box-sizing: border-box;
+
+  @media ${breakPoints.small} {
+    height: auto;
+  }
 `;
 
   const ScrollContainer = styled.div`
