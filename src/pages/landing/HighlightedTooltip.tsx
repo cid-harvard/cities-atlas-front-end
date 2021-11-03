@@ -13,6 +13,7 @@ import {
   secondaryFont,
 } from '../../styling/styleUtils';
 import useFluent from '../../hooks/useFluent';
+import googleAnalyticsEvent from '../../components/analytics/googleAnalyticsEvent';
 
 const Title = styled(TootltipTitle)`
   padding-bottom: 0.75rem;
@@ -63,6 +64,11 @@ interface Props {
   closePopup: () => void;
 }
 
+enum Action {
+  Profiles = 'Clicked City Profiles',
+  Similarity = 'Clicked City Similarity',
+}
+
 const HighlightedTooltip = (props: Props) => {
   const {highlighted, closePopup} = props;
   const getString = useFluent();
@@ -73,6 +79,7 @@ const HighlightedTooltip = (props: Props) => {
       node.focus();
     }
   }, [anchorRef]);
+  const triggerGoogleAnalyticsEvent = (action: Action) => () => googleAnalyticsEvent('Landing Page Map', action, `for ${highlighted.title}`);
   return (
     <StyledPopup
       coordinates={highlighted.center}
@@ -83,11 +90,13 @@ const HighlightedTooltip = (props: Props) => {
       <ReviewCityButton
         ref={anchorRef}
         to={createRoute.city(CityRoutes.CityBase, highlighted.id.toString())}
+        onClick={triggerGoogleAnalyticsEvent(Action.Profiles)}
       >
         {getString('landing-page-text-review-the-city')}
       </ReviewCityButton>
       <ReviewCityButton
         to={createRoute.city(CityRoutes.CitySimilarCities, highlighted.id.toString())}
+        onClick={triggerGoogleAnalyticsEvent(Action.Similarity)}
       >
         {getString('landing-page-text-review-similar-cities')}
       </ReviewCityButton>
