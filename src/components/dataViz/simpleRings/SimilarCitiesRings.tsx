@@ -24,6 +24,14 @@ const Root = styled.div`
 const RingsContainer = styled.div`
   opacity: 0;
   animation: ${fadeIn} 0.2s ease-in-out 1 forwards;
+
+  div {
+    max-width: 100%;
+
+    svg {
+      max-width: 100%;
+    }
+  }
 `;
 
 interface Props {

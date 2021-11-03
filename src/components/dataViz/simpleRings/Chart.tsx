@@ -142,7 +142,7 @@ const Chart = (props: Props) => {
     <>
       <div
         ref={chartRef}
-        style={{width, height}}
+        style={{height}}
       />
     </>
   );
