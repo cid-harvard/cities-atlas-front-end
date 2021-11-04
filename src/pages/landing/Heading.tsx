@@ -134,23 +134,31 @@ const MapPanIcon = styled.span`
   }
 `;
 
-const WhatIsACityLink = styled.button`
-  pointer-events: all;
+const WhatIsACityLinkContainer = styled.div`
   margin: 0 auto 1.1rem;
   display: block;
-  background-color: transparent;
-  border: none;
-  color: #fff;
-  font-family: ${primaryFont};
-  font-size: 1rem;
   width: 100%;
 
   @media (min-width: 990px) {
     width: 85%;
   }
+`;
+
+const WhatIsACityLink = styled.button`
+  pointer-events: all;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-family: ${primaryFont};
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  border: solid 1px #fff;
+  background-color: rgba(0,0,0,0.85);
+  text-transform: uppercase;
 
   &:hover {
-    text-decoration: underline;
+    background-color: #fff;
+    color: #08111e;
   }
 `;
 
@@ -211,9 +219,11 @@ const Heading = () => {
           {getString('landing-page-text-use-the-map')}
         </UseMapText>
       </Description>
-      <WhatIsACityLink onClick={openModal}>
-        {getString('landing-page-text-what-is-city-link')}
-      </WhatIsACityLink>
+      <WhatIsACityLinkContainer>
+        <WhatIsACityLink onClick={openModal}>
+          {getString('landing-page-text-what-is-city-link')}
+        </WhatIsACityLink>
+      </WhatIsACityLinkContainer>
       {modal}
     </Root>
   );
