@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import EconomicComposition from './economicComposition';
-import SimilarCities from './similarCities';
+import Overview from './overview';
 import GoodAt from './goodAt';
 import IndustrySpacePosition from './industrySpacePosition';
 import GrowthOpportunities from './growthOpportunities';
@@ -26,14 +26,14 @@ const City = () => {
   useEffect(() => {
     // If route is blank, default to first slide
     if (match && match.isExact && match.params[cityIdParam]) {
-      history.replace(createRoute.city(CityRoutes.CityEconomicComposition, match.params[cityIdParam]));
+      history.replace(createRoute.city(CityRoutes.CityOverview, match.params[cityIdParam]));
     }
   }, [history, match]);
 
   const baseLinkData = cityId !== null ? [
     {
       label: getStringWithNewLines('cities-single-page-titles-question-1'),
-      url: createRoute.city(CityRoutes.CityEconomicComposition, cityId),
+      url: createRoute.city(CityRoutes.CityOverview, cityId),
       removeParams: [
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
@@ -44,11 +44,10 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-2'),
-      url: createRoute.city(CityRoutes.CityGoodAt, cityId),
+      url: createRoute.city(CityRoutes.CityEconomicComposition, cityId),
       removeParams: [
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
-        'cluster_level' as keyof GlobalQueryParams,
         'city_node_sizing' as keyof GlobalQueryParams,
         'city_color_by' as keyof GlobalQueryParams,
         'rca_threshold' as keyof GlobalQueryParams,
@@ -56,13 +55,13 @@ const City = () => {
     },
     {
       label: getStringWithNewLines('cities-single-page-titles-question-3'),
-      url: createRoute.city(CityRoutes.CitySimilarCities, cityId),
+      url: createRoute.city(CityRoutes.CityGoodAt, cityId),
       removeParams: [
         'cluster_overlay' as keyof GlobalQueryParams,
         'node_sizing' as keyof GlobalQueryParams,
-        'digit_level' as keyof GlobalQueryParams,
         'cluster_level' as keyof GlobalQueryParams,
-        'color_by' as keyof GlobalQueryParams,
+        'city_node_sizing' as keyof GlobalQueryParams,
+        'city_color_by' as keyof GlobalQueryParams,
         'rca_threshold' as keyof GlobalQueryParams,
       ],
     },
@@ -92,8 +91,8 @@ const City = () => {
       baseLinkData={baseLinkData}
     >
       <Switch>
+        <TrackedRoute path={CityRoutes.CityOverview} component={Overview} />
         <TrackedRoute path={CityRoutes.CityEconomicComposition} component={EconomicComposition} />
-        <TrackedRoute path={CityRoutes.CitySimilarCities} component={SimilarCities} />
         <TrackedRoute path={CityRoutes.CityGoodAt} component={GoodAt} />
         <TrackedRoute path={CityRoutes.CityIndustrySpacePosition} component={IndustrySpacePosition} />
         <TrackedRoute path={CityRoutes.CityGrowthOpportunities} component={GrowthOpportunities} />

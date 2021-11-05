@@ -253,7 +253,7 @@ const Header = () => {
   const matchFaq = useRouteMatch(Routes.FaqBase);
   const currentCityId = useCurrentCityId();
   const similarCitiesRoute = currentCityId ? createRoute.city(Routes.CitySimilarCities, currentCityId) : Routes.CitySimilarCities;
-  const profileCitiesOverviewRoute = currentCityId ? createRoute.city(Routes.CityEconomicComposition, currentCityId) : Routes.CityBase;
+  const profileCitiesOverviewRoute = currentCityId ? createRoute.city(Routes.CityBase, currentCityId) : Routes.CityBase;
   if (width <= 800) {
     const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
     const closeMenu = () => setMobileMenuOpen(false);

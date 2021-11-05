@@ -260,12 +260,11 @@ landing-overlay-p1 = Built at the Growth Lab at Harvard University, Metroverse d
 
 landing-overlay-footnote = <strong>Metroverse is a prototype tool with exciting updates and improvements planned.</strong> We welcome your feedback on our data visualizations, our scientific research, and high-resolution datasets for hundreds of cities worldwide.  Get in touch with us <a href="mailto:growthlabtools@hks.harvard.edu">here</a>.
 
-cities-single-page-titles-question-1 = What is my city's\neconomic composition?
-cities-single-page-titles-question-2 = What does my city\nspecialize in?
-cities-single-page-titles-question-3 = What cities are similar\nto my city?
+cities-single-page-titles-question-1 = City Overview
+cities-single-page-titles-question-2 = What is my city's\neconomic composition?
+cities-single-page-titles-question-3 = What does my city\nspecialize in?
 cities-single-page-titles-question-4 = What is my city's position\nin the Industry Space?
 cities-single-page-titles-question-5 = What are the growth\nopportunities?
-cities-single-page-titles-question-6 = Which countries own\nsubsidiaries in my city?
 
 tooltip-number-employees = Number of Employees
 tooltip-number-companies = Number of Establishments
