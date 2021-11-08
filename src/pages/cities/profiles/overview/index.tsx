@@ -1,12 +1,49 @@
-import { DefaultContentWrapper } from '../../../../styling/GlobalGrid';
+import { breakPoints, DefaultContentWrapper } from '../../../../styling/GlobalGrid';
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import { LoadingOverlay } from '../../../../components/transitionStateComponents/VizLoadingBlock';
 import React from 'react';
-import {
-  ContentGrid,
-} from '../../../../styling/styleUtils';
 import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import styled from 'styled-components';
+
+const Root = styled.div`
+  padding: 1.5rem 0.75rem 2.5rem;
+  box-sizing: border-box;
+  display: grid;
+  width: 100%;
+  min-height: 100%;
+  grid-template-rows: auto auto;
+  grid-template-columns: 1fr 1.25fr;
+  grid-template-areas:
+            "widgets widgets"
+            "map concepts";
+  gap: 1.5rem;
+
+  @media ${breakPoints.small} {
+    grid-template-rows: auto auto auto;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+              "widgets"
+              "map"
+              "concepts";
+  }
+`;
+
+const ContentBlock = styled.div`
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, 0.25);
+`;
+
+const WidgetContainer = styled(ContentBlock)`
+  grid-area: widgets;
+`;
+
+const MapContainer = styled(ContentBlock)`
+  grid-area: map;
+`;
+
+const ConceptsContainer = styled(ContentBlock)`
+  grid-area: concepts;
+`;
 
 const SimilarCities = () => {
   const cityId = useCurrentCityId();
@@ -23,10 +60,11 @@ const SimilarCities = () => {
 
   return (
     <DefaultContentWrapper>
-
-      <ContentGrid>
-        <h1>Overview</h1>
-      </ContentGrid>
+      <Root>
+        <WidgetContainer>Widgets</WidgetContainer>
+        <MapContainer>Map</MapContainer>
+        <ConceptsContainer>Concepts</ConceptsContainer>
+      </Root>
       <UtiltyBar />
     </DefaultContentWrapper>
   );
