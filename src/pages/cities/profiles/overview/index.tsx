@@ -6,6 +6,7 @@ import React from 'react';
 import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import styled from 'styled-components';
 import Widgets from './widgets';
+import Concepts from './concepts';
 
 const Root = styled.div`
   padding: 1.5rem 0.75rem 2.5rem;
@@ -53,6 +54,7 @@ const MapContainer = styled(ContentBlock)`
 
 const ConceptsContainer = styled(ContentBlock)`
   grid-area: concepts;
+  position: relative;
 `;
 
 const SimilarCities = () => {
@@ -75,7 +77,9 @@ const SimilarCities = () => {
           <Widgets />
         </WidgetContainer>
         <MapContainer>Map</MapContainer>
-        <ConceptsContainer>Concepts</ConceptsContainer>
+        <ConceptsContainer>
+          <Concepts />
+        </ConceptsContainer>
       </Root>
       <UtiltyBar />
     </DefaultContentWrapper>

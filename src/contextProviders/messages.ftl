@@ -295,6 +295,8 @@ glossary-color-nodes-by = Change the color of industry nodes based on different 
 glossary-color-by = Change the color of industries or Knowledge Clusters based on different variables
 glossary-city-color-by = Change the color of city nodes based on different variables
 
+
+
 axis-text-percent-total-value = % of Total { $value }
 
 tooltip-text-share-of = Share of { $value }
@@ -354,6 +356,20 @@ city-overview-top-similar-cities = Top Similar Cities
 city-overview-top-filtered-results = filtered results
 
 city-overview-benchmark-disclaimer = Based on employment share and recommended benchmark of top global peers by similar population
+
+city-overview-metroverse-concepts = Metroverse Concepts
+
+city-overview-relative-presence-title = Relative Presence (specialization metric)
+city-overview-relative-presence-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+
+city-overview-knowledge-cluster-title = Knowledge Cluster
+city-overview-knowledge-cluster-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+
+city-overview-industry-space-title = Industry Space
+city-overview-industry-space-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+
+city-overview-city-similarity-title = City Similarity
+city-overview-city-similarity-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
 
 economic-composition-title = What is { $name-plural } economic composition?
 
