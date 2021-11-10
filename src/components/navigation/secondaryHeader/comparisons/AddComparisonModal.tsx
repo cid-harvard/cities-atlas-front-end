@@ -42,6 +42,12 @@ const PEER_GROUP_CITY_COUNT = gql`
   }
 `;
 
+export const usePeerGroupCityCount = (cityId: string | null) => useQuery<SuccessResponse, { cityId: number }>(PEER_GROUP_CITY_COUNT, {
+  variables: {
+    cityId: cityId !== null ? parseInt(cityId, 10) : 0,
+  },
+});
+
 enum PeerGroupCountFields {
   globalPop = 'globalPop',
   globalIncome = 'globalIncome',
@@ -329,10 +335,7 @@ const AddComparisonModal = (props: Props) => {
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
   const { compare_city, benchmark, ...otherParams } = useQueryParams();
-  const {data: counts} = useQuery<SuccessResponse, {cityId: number}>(PEER_GROUP_CITY_COUNT, {
-    variables: {
-      cityId: cityId !== null ? parseInt(cityId, 10) : 0,
-  } });
+  const { data: counts } = usePeerGroupCityCount(cityId);
   let intialSelected: Datum | null | RegionGroup | PeerGroup = PeerGroup.GlobalPopulation;
   if (field === 'benchmark' && benchmark) {
     if (isValidPeerGroup(benchmark)) {

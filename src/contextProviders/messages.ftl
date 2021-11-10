@@ -343,6 +343,18 @@ city-filter-regions = Regions Filter
 city-filter-countries = Countries Filter
 city-filter-update = Update Cities
 
+city-overview-ranking-title = Out of the { $city-peer-group-counts-region } cities<br />covered in { $region-name }
+city-overview-ranking-pop = { $value } most populated
+city-overview-ranking-gdp = { $value } highest gdp per capita
+city-overview-data-quality = Data Quality
+
+city-overview-top-specialized-industries = Top Specialized Industries
+city-overview-top-knowledge-clusters = Top Knowledge Clusters
+city-overview-top-similar-cities = Top Similar Cities
+city-overview-top-filtered-results = filtered results
+
+city-overview-benchmark-disclaimer = Based on employment share and recommended benchmark of top global peers by similar population
+
 economic-composition-title = What is { $name-plural } economic composition?
 
 economic-composition-para-1 = { $name } has a population of { $population } people ({ $pop-year }) and an estimated GDP per capita of ${ $gdppc }.  Out of the { $region-city-count } cities covered in { $region-name }, { $name } ranks as the { $region-size-rank } most populated, and displays the { $region-wealth-rank } highest GDP per capita. { $name-plural } labor force consists of about { $num-employ } workers.

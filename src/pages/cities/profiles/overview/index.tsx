@@ -5,6 +5,7 @@ import { LoadingOverlay } from '../../../../components/transitionStateComponents
 import React from 'react';
 import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import styled from 'styled-components';
+import Widgets from './widgets';
 
 const Root = styled.div`
   padding: 1.5rem 0.75rem 2.5rem;
@@ -12,12 +13,16 @@ const Root = styled.div`
   display: grid;
   width: 100%;
   min-height: 100%;
-  grid-template-rows: auto auto;
+  grid-template-rows: auto 1fr;
   grid-template-columns: 1fr 1.25fr;
   grid-template-areas:
             "widgets widgets"
             "map concepts";
   gap: 1.5rem;
+
+  @media (max-height: 750px) {
+    gap: 0.75rem;
+  }
 
   @media ${breakPoints.small} {
     grid-template-rows: auto auto auto;
@@ -35,6 +40,11 @@ const ContentBlock = styled.div`
 
 const WidgetContainer = styled(ContentBlock)`
   grid-area: widgets;
+  padding: 1rem;
+
+  @media (max-height: 750px) {
+    padding: 0.5rem 0.25rem;
+  }
 `;
 
 const MapContainer = styled(ContentBlock)`
@@ -61,7 +71,9 @@ const SimilarCities = () => {
   return (
     <DefaultContentWrapper>
       <Root>
-        <WidgetContainer>Widgets</WidgetContainer>
+        <WidgetContainer>
+          <Widgets />
+        </WidgetContainer>
         <MapContainer>Map</MapContainer>
         <ConceptsContainer>Concepts</ConceptsContainer>
       </Root>

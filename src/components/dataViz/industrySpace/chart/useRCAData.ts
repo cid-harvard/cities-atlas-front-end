@@ -115,7 +115,7 @@ interface Variables {
   variable: 'employ' | 'company';
 }
 
-const useClusterIntensityQuery = (variables: Variables) =>
+export const useClusterIntensityQuery = (variables: Variables) =>
   useQuery<SuccessResponse, Variables>(CLUSTER_INTENSITY_QUERY, { variables });
 
 const useRCAData = (level: DigitLevel) => {
