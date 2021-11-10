@@ -10,6 +10,7 @@ import { Icon, ListItem, TitleBase, ValueBase, WrappableText, YearText } from '.
 import Tooltip from '../../../../../../components/general/Tooltip';
 import TopIndustriesSVG from '../../../../../../assets/icons/topindustries.svg';
 import TopClustersSVG from '../../../../../../assets/icons/topknowledgecluster.svg';
+import SimpleTextLoading from '../../../../../../components/transitionStateComponents/SimpleTextLoading';
 
 interface Props {
   cityId: string;
@@ -28,17 +29,23 @@ const TopRCA = ({ cityId }: Props) => {
   const clusters = useGlobalClusterData();
   const industries = useGlobalIndustriesData();
 
+  let topIndustriesElement: React.ReactElement<any> | null;
+  let topClustersElement: React.ReactElement<any> | null;
   if (loading || clusters.loading || industries.loading) {
-    return null;
+    topIndustriesElement = <SimpleTextLoading />;
+    topClustersElement = <SimpleTextLoading />;
   } else if (error) {
     console.error(error);
-    return null;
+    topIndustriesElement = null;
+    topClustersElement = null;
   } else if (clusters.error) {
     console.error(clusters.error);
-    return null;
+    topIndustriesElement = null;
+    topClustersElement = null;
   } else if (industries.error) {
     console.error(industries.error);
-    return null;
+    topIndustriesElement = null;
+    topClustersElement = null;
   } else if (data && clusters.data && industries.data) {
     const {c1Rca, naicsRca} = data;
 
@@ -53,6 +60,7 @@ const TopRCA = ({ cityId }: Props) => {
           </ListItem>
         );
       });
+    topIndustriesElement = <>{topIndustries}</>;
 
     const clustersGreaterThan1 = c1Rca.filter(d => d.rca && d.rca >= 1);
     const topClusters = orderBy(clustersGreaterThan1 ? clustersGreaterThan1 : c1Rca, ['rca'], ['desc'])
@@ -65,48 +73,51 @@ const TopRCA = ({ cityId }: Props) => {
           </ListItem>
         );
       });
+    topClustersElement = <>{topClusters}</>;
 
-    return (
-      <>
-        <div>
-          <TitleBase>
-            <Icon src={TopIndustriesSVG} />
-            <WrappableText>
-              {getString('city-overview-top-specialized-industries')}*
-            </WrappableText>
-            <YearText>
-              {defaultYear}
-              <Tooltip
-                explanation={getString('city-overview-top-specialized-industries')}
-              />
-            </YearText>
-          </TitleBase>
-          <ValueBase>
-            {topIndustries}
-          </ValueBase>
-        </div>
-        <div>
-          <TitleBase>
-            <Icon src={TopClustersSVG} />
-            <WrappableText>
-              {getString('city-overview-top-knowledge-clusters')}*
-            </WrappableText>
-            <YearText>
-              {defaultYear}
-              <Tooltip
-                explanation={getString('city-overview-top-knowledge-clusters')}
-              />
-            </YearText>
-          </TitleBase>
-          <ValueBase>
-            {topClusters}
-          </ValueBase>
-        </div>
-      </>
-    );
   } else {
-    return null;
+    topIndustriesElement = null;
+    topClustersElement = null;
   }
+
+  return (
+    <>
+      <div>
+        <TitleBase>
+          <Icon src={TopIndustriesSVG} />
+          <WrappableText>
+            {getString('city-overview-top-specialized-industries')}*
+          </WrappableText>
+          <YearText>
+            {defaultYear}
+            <Tooltip
+              explanation={getString('city-overview-top-specialized-industries')}
+            />
+          </YearText>
+        </TitleBase>
+        <ValueBase>
+          {topIndustriesElement}
+        </ValueBase>
+      </div>
+      <div>
+        <TitleBase>
+          <Icon src={TopClustersSVG} />
+          <WrappableText>
+            {getString('city-overview-top-knowledge-clusters')}*
+          </WrappableText>
+          <YearText>
+            {defaultYear}
+            <Tooltip
+              explanation={getString('city-overview-top-knowledge-clusters')}
+            />
+          </YearText>
+        </TitleBase>
+        <ValueBase>
+          {topClustersElement}
+        </ValueBase>
+      </div>
+    </>
+  );
 };
 
 export default TopRCA;

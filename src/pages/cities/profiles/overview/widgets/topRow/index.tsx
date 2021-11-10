@@ -12,6 +12,7 @@ import useFluent, { ordinalNumber } from '../../../../../../hooks/useFluent';
 import { DataFlagType } from '../../../../../../types/graphQL/graphQLTypes';
 import styled from 'styled-components';
 import Tooltip from '../../../../../../components/general/Tooltip';
+import SimpleTextLoading from '../../../../../../components/transitionStateComponents/SimpleTextLoading';
 
 const DataLegend = styled.div`
   margin-right: 0.2rem;
@@ -40,20 +41,30 @@ const TopRow = () => {
   const globalLocations = useGlobalLocationData();
   const getString = useFluent();
 
+  let population: React.ReactElement<any> | null;
+  let gdppc: React.ReactElement<any> | null;
+  let cityPeerGroupCountsRegion: string | number = '---';
+  let regionName: string = '---';
+  let flagColor: React.ReactElement<any> | null = null;
+  let alertTitle: string = '---';
+  let description: string = '---';
+  let regionPopRank: string = '---';
+  let regionGdppcRank: string = '---';
   if (loading || cityLoading || globalLocations.loading) {
-    return null;
+    population = <SimpleTextLoading />;
+    gdppc = <SimpleTextLoading />;
   } else if (error) {
     console.error(error);
-    return null;
+    population = <>---</>;
+    gdppc = <>---</>;
   } else if (globalLocations.error) {
     console.error(globalLocations.error);
-    return null;
+    population = <>---</>;
+    gdppc = <>---</>;
   } else if (data && city && globalLocations.data) {
-    const regionName = globalLocations.data.regions.find(d => d.regionId === city.region + '');
-
-    let flagColor: React.ReactElement<any> | null = null;
-    let alertTitle: string = '';
-    let description: string = '';
+    const region = globalLocations.data.regions.find(d => d.regionId === city.region + '');
+    regionName = region && region.regionName ? region.regionName : '';
+    cityPeerGroupCountsRegion = data.cityPeerGroupCounts.region;
     const dataFlag = city.dataFlag;
     if (dataFlag === DataFlagType.GREEN) {
       flagColor = (
@@ -100,76 +111,84 @@ const TopRow = () => {
       alertTitle = getString('data-disclaimer-red-title');
       description = getString('data-disclaimer-red-desc');
     }
-    return (
-      <>
-        <div>
-          <TitleBase>
-            <Icon src={PopulationSVG} />
-            {getString('global-text-population')}
-            <YearText>
-              2015
-            </YearText>
-          </TitleBase>
-          <ValueBase>
-            {formatNumberLong(city.population ? city.population : 0)}
-          </ValueBase>
-        </div>
-        <div>
-          <TitleBase>
-            <Icon src={GdpPerCapitaSVG} />
-            {getString('global-text-gdp-per-capita')}
-            <YearText>
-              2015
-              <Tooltip
-                explanation={getString('global-text-gdp-per-capita-about')}
-              />
-            </YearText>
-          </TitleBase>
-          <ValueBase>
-            ${numberWithCommas(city.gdppc ? Math.round(city.gdppc) : 0)}
-          </ValueBase>
-        </div>
-        <div>
-          <TitleSmall>
-            <Icon src={RankingSVG} />
-            <div dangerouslySetInnerHTML={{ __html: getString('city-overview-ranking-title', {
-              'city-peer-group-counts-region': data.cityPeerGroupCounts.region,
-              'region-name': regionName?.regionName,
-            })}} />
-            <YearText>
-              {defaultYear}
-            </YearText>
-          </TitleSmall>
-          <ValueBase>
-            <ListItem>
-              {getString('city-overview-ranking-pop', { value: ordinalNumber([city.regionPopRank ? city.regionPopRank : 0]).toUpperCase()})}
-            </ListItem>
-            <ListItem>
-              {getString('city-overview-ranking-gdp', { value: ordinalNumber([city.regionGdppcRank ? city.regionGdppcRank : 0]).toUpperCase() })}
-            </ListItem>
-          </ValueBase>
-        </div>
-        <div>
-          <TitleBase>
-            <Icon src={DataReliabilitySVG} />
-            {getString('city-overview-data-quality')}
-            <YearText>
-              {defaultYear}
-              <Tooltip
-                explanation={<div dangerouslySetInnerHTML={{ __html: description }} />}
-              />
-            </YearText>
-          </TitleBase>
-          <ValueBase>
-            {flagColor}
-            {alertTitle}
-          </ValueBase>
-        </div>
-      </>
-    );
+    population = <>{formatNumberLong(city.population ? city.population : 0)}</>;
+    gdppc = <>${numberWithCommas(city.gdppc ? Math.round(city.gdppc) : 0)}</>;
+    regionPopRank = ordinalNumber([city.regionPopRank ? city.regionPopRank : 0]).toUpperCase();
+    regionGdppcRank = ordinalNumber([city.regionGdppcRank ? city.regionGdppcRank : 0]).toUpperCase();
   } else {
-    return null;
+    population = <>---</>;
+    gdppc = <>---</>;
   }
+
+  return (
+    <>
+      <div>
+        <TitleBase>
+          <Icon src={PopulationSVG} />
+          {getString('global-text-population')}
+          <YearText>
+            2015
+          </YearText>
+        </TitleBase>
+        <ValueBase>
+          {population}
+        </ValueBase>
+      </div>
+      <div>
+        <TitleBase>
+          <Icon src={GdpPerCapitaSVG} />
+          {getString('global-text-gdp-per-capita')}
+          <YearText>
+            2015
+            <Tooltip
+              explanation={getString('global-text-gdp-per-capita-about')}
+            />
+          </YearText>
+        </TitleBase>
+        <ValueBase>
+          {gdppc}
+        </ValueBase>
+      </div>
+      <div>
+        <TitleSmall>
+          <Icon src={RankingSVG} />
+          <div dangerouslySetInnerHTML={{
+            __html: getString('city-overview-ranking-title', {
+              'city-peer-group-counts-region': cityPeerGroupCountsRegion,
+              'region-name': regionName,
+            }),
+          }} />
+          <YearText>
+            {defaultYear}
+          </YearText>
+        </TitleSmall>
+        <ValueBase>
+          <ListItem>
+            {getString('city-overview-ranking-pop', { value: regionPopRank })}
+          </ListItem>
+          <ListItem>
+            {getString('city-overview-ranking-gdp', { value: regionGdppcRank })}
+          </ListItem>
+        </ValueBase>
+      </div>
+      <div>
+        <TitleBase>
+          <Icon src={DataReliabilitySVG} />
+          {getString('city-overview-data-quality')}
+          <YearText>
+            {defaultYear}
+            <Tooltip
+              explanation={<div dangerouslySetInnerHTML={{ __html: description }} />}
+            />
+          </YearText>
+        </TitleBase>
+        <ValueBase>
+          {flagColor}
+          {alertTitle}
+        </ValueBase>
+      </div>
+    </>
+  );
 };
 
 export default TopRow;

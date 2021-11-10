@@ -8,20 +8,22 @@ import useGlobalLocationData from '../../../../../../hooks/useGlobalLocationData
 import { defaultYear } from '../../../../../../Utils';
 import { Icon, ListItem, TitleBase, ValueBase, YearText } from '../styleUtils';
 import TopCitiesSVG from '../../../../../../assets/icons/topsimilarcities.svg';
+import SimpleTextLoading from '../../../../../../components/transitionStateComponents/SimpleTextLoading';
 
 const TopCities = () => {
   const getString = useFluent();
   const {loading, error, data} = useProximityData();
   const globalLocations = useGlobalLocationData();
   const currentCity = useCurrentCity();
+  let topCitiesElement: React.ReactElement<any> | null;
   if (loading || globalLocations.loading || currentCity.loading) {
-    return null;
+    topCitiesElement = <SimpleTextLoading />;
   } else if (error) {
     console.error(error);
-    return null;
+    topCitiesElement = null;
   } else if (globalLocations.error) {
     console.error(globalLocations.error);
-    return null;
+    topCitiesElement = null;
   } else if (data && globalLocations.data && currentCity.city) {
     const minPop = currentCity.city.population ? currentCity.city.population / 2 : 0;
     const maxPop = currentCity.city.population ? currentCity.city.population * 2 : 0;
@@ -39,31 +41,32 @@ const TopCities = () => {
           </ListItem>
         );
       });
-    return (
-      <div>
-
-        <TitleBase>
-          <Icon src={TopCitiesSVG} />
-          <div>
-            {getString('city-overview-top-similar-cities')}
-            <br />
-            <small>({getString('city-overview-top-filtered-results')})</small>
-          </div>
-          <YearText>
-            {defaultYear}
-            <Tooltip
-              explanation={getString('city-overview-top-similar-cities')}
-            />
-          </YearText>
-        </TitleBase>
-        <ValueBase>
-          {topLocations}
-        </ValueBase>
-      </div>
-    );
+    topCitiesElement = <>{topLocations}</>;
   } else {
-    return null;
+    topCitiesElement = null;
   }
+  return (
+    <div>
+
+      <TitleBase>
+        <Icon src={TopCitiesSVG} />
+        <div>
+          {getString('city-overview-top-similar-cities')}
+          <br />
+          <small>({getString('city-overview-top-filtered-results')})</small>
+        </div>
+        <YearText>
+          {defaultYear}
+          <Tooltip
+            explanation={getString('city-overview-top-similar-cities')}
+          />
+        </YearText>
+      </TitleBase>
+      <ValueBase>
+        {topCitiesElement}
+      </ValueBase>
+    </div>
+  );
 };
 
 export default TopCities;
