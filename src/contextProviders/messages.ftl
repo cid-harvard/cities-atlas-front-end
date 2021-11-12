@@ -371,6 +371,9 @@ city-overview-industry-space-desc = Lorem ipsum dolor sit amet, consectetur adip
 city-overview-city-similarity-title = City Similarity
 city-overview-city-similarity-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
 
+city-overview-map-source = Source: <a href="https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php" target="_blank" rel="noopener noreferrer">GHS Urban Centre Database</a>
+city-overview-more-info = Click to learn how we define city boundaries
+
 economic-composition-title = What is { $name-plural } economic composition?
 
 economic-composition-para-1 = { $name } has a population of { $population } people ({ $pop-year }) and an estimated GDP per capita of ${ $gdppc }.  Out of the { $region-city-count } cities covered in { $region-name }, { $name } ranks as the { $region-size-rank } most populated, and displays the { $region-wealth-rank } highest GDP per capita. { $name-plural } labor force consists of about { $num-employ } workers.

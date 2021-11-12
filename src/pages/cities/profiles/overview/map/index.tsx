@@ -1,17 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components/macro';
 import { useGlobalLocationGeometry } from '../../../../landing';
 import useCurrentCityId from '../../../../../hooks/useCurrentCityId';
 import CityMap, { BoundsConfig } from './CityMap';
 import { Coordinate, getBounds } from '../../../../../components/map/Utils';
 import { ExtendedSearchDatum } from '../../../../landing/Utils';
-import { backgroundDark, lightBorderColor, secondaryFont } from '../../../../../styling/styleUtils';
+import { backgroundDark, backgroundMedium, baseColor, lightBorderColor, secondaryFont } from '../../../../../styling/styleUtils';
+import { breakPoints } from '../../../../../styling/GlobalGrid';
+import useFluent from '../../../../../hooks/useFluent';
+import BasicModal from '../../../../../components/standardModal/BasicModal';
+import { ModalContent } from '../../../../landing/Heading';
+
+const footnoteHeight = '3.5rem';
 
 const Root = styled.div`
   width: 100%;
   height: 100%;
+  padding-bottom: ${footnoteHeight};
+  box-sizing: border-box;
   position: relative;
-  background-color: #08111e;
+  background-color: ${backgroundMedium};
+
+  @media ${breakPoints.small} {
+    min-height: 70vh;
+  }
 
   .mapboxgl-control-container {
     .mapboxgl-ctrl-group:not(:empty) {
@@ -64,9 +76,44 @@ const Root = styled.div`
   }
 `;
 
+const Footnote = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: ${footnoteHeight};
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.1rem 0.5rem;
+  box-sizing: border-box;
+`;
+
+const SourceAttr = styled.small`
+  font-style: italic;
+  font-size: 0.7rem;
+  opacity: 0.9;
+  margin-bottom: 0.4rem;
+
+  a {
+    color: ${baseColor};
+  }
+`;
+
+const MoreInfoBtn = styled.button`
+  background-color: transparent;
+  text-decoration: underline;
+  padding: 0;
+  border: none;
+  opacity: 0.9;
+`;
+
 const MapRoot = () => {
   const { loading, error, data } = useGlobalLocationGeometry();
   const currentCityId = useCurrentCityId();
+  const getString = useFluent();
+  const [cityModalOpen, setCityModalOpen] = useState<boolean>(false);
 
   let fitBounds: BoundsConfig = { bounds: getBounds([]), padding: { top: 0, bottom: 0, left: 0, right: 0 } };
 
@@ -101,11 +148,30 @@ const MapRoot = () => {
         highlighted = searchDatum;
         fitBounds = {
           bounds: getBounds(highlighted.coordinates),
-          padding: { top: 150, bottom: 150, left: 150, right: 150 },
+          padding: { top: window.innerHeight * 0.05, bottom: window.innerHeight * 0.05, left: window.innerWidth * 0.05, right: window.innerWidth * 0.05 },
         };
       }
     });
   }
+
+  const openModal = () => setCityModalOpen(true);
+  const closeModal = () => setCityModalOpen(false);
+  const modal = cityModalOpen ? (
+    <BasicModal
+      width={'400px'}
+      height={'auto'}
+      onClose={closeModal}
+    >
+      <ModalContent>
+        <p
+          dangerouslySetInnerHTML={{ __html: getString('landing-page-text-what-is-city-para-1') }}
+        />
+        <p
+          dangerouslySetInnerHTML={{ __html: getString('landing-page-text-what-is-city-para-2') }}
+        />
+      </ModalContent>
+    </BasicModal>
+  ) : null;
 
   return (
     <Root>
@@ -116,6 +182,11 @@ const MapRoot = () => {
         currentCityId={currentCityId}
         fitBounds={fitBounds}
       />
+      <Footnote>
+        <SourceAttr dangerouslySetInnerHTML={{ __html: getString('city-overview-map-source')}} />
+        <MoreInfoBtn onClick={openModal}>{getString('city-overview-more-info')}</MoreInfoBtn>
+      </Footnote>
+      {modal}
     </Root>
   );
 

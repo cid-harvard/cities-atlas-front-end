@@ -78,7 +78,7 @@ const SimilarCities = () => {
           <Widgets />
         </WidgetContainer>
         <MapContainer>
-          <Map key={new Date().getTime()} />
+          <Map />
         </MapContainer>
         <ConceptsContainer>
           <Concepts />

@@ -162,7 +162,7 @@ const WhatIsACityLink = styled.button`
   }
 `;
 
-const ModalContent = styled.div`
+export const ModalContent = styled.div`
   background-color: #08111e;
   padding: 3rem 1.75rem 1.75rem;
 
