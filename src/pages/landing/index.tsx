@@ -56,7 +56,7 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
   }
 `;
 
-interface SuccessResponse {
+export interface SuccessResponse {
   countries: {
     countryId: ClassificationCountry['countryId'],
     nameShortEn: ClassificationCountry['nameShortEn'],
@@ -75,6 +75,8 @@ interface SuccessResponse {
     id: ClassificationCity['id'],
   }[];
 }
+
+export const useGlobalLocationGeometry = () => useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
 
 interface ClusterFeatures {
   type: 'Feature';
@@ -280,7 +282,7 @@ const LoadingContainer = styled.div`
 `;
 
 const Landing = () => {
-  const {loading, error, data} = useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
+  const {loading, error, data} = useGlobalLocationGeometry();
   const getString = useFluent();
   const {country} = useQueryParams();
 

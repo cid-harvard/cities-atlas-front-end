@@ -7,6 +7,7 @@ import UtiltyBar from '../../../../components/navigation/secondaryHeader/Utility
 import styled from 'styled-components';
 import Widgets from './widgets';
 import Concepts from './concepts';
+import Map from './map';
 
 const Root = styled.div`
   padding: 1.5rem 0.75rem 2.5rem;
@@ -76,7 +77,9 @@ const SimilarCities = () => {
         <WidgetContainer>
           <Widgets />
         </WidgetContainer>
-        <MapContainer>Map</MapContainer>
+        <MapContainer>
+          <Map key={new Date().getTime()} />
+        </MapContainer>
         <ConceptsContainer>
           <Concepts />
         </ConceptsContainer>
