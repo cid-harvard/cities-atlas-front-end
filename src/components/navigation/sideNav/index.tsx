@@ -10,6 +10,7 @@ import {
   primaryColor,
   primaryColorLight,
   lightBorderColor,
+  backgroundDark,
 } from '../../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import {
@@ -43,8 +44,13 @@ const Container = styled(NavigationContainer)`
   }
 `;
 
+const rootWidth = {
+ default: 240, // in px
+ medium: 205, // in px
+};
+
 const Root = styled.div`
-  width: 240px;
+  width: ${rootWidth.default}px;
   position: relative;
   padding-top: 1rem;
   margin: auto;
@@ -73,7 +79,7 @@ const Root = styled.div`
   }
 
   @media ${breakPoints.medium} {
-    width: 205px;
+    width: ${rootWidth.medium}px;
 
     svg {
       height: 280px;
@@ -316,12 +322,42 @@ const ExtendArrow = styled.span`
   cursor: pointer;
 `;
 
+const Tooltip = styled.div`
+  position: fixed;
+  transform: translate(120px, -50%);
+  background-color: ${backgroundDark};
+  color: #fff;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  z-index: 100;
+  pointer-events: all;
+  max-width: 170px;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.4rem;
+    margin: auto;
+    width: 0;
+    height: 0;
+    border-top: 0.4rem solid transparent;
+    border-bottom: 0.4rem solid transparent;
+
+    border-right:0.4rem solid ${backgroundDark};
+  }
+
+`;
+
 interface LinkDatum {
   label: string;
   url: string;
   top: number;
+  absoluteTop: number;
   left: number;
   beta?: boolean;
+  tooltipText?: React.ReactNode;
   removeParams?: (keyof GlobalQueryParams)[];
 }
 
@@ -332,6 +368,7 @@ export interface Props {
     label: string,
     url: string,
     beta?: boolean,
+    tooltipText?: React.ReactNode;
     removeParams?: (keyof GlobalQueryParams)[],
   }[];
 }
@@ -360,7 +397,7 @@ const SideNavigation = ({baseLinkData, collapsed, setCollapsed}: SideNavProps) =
 
   useEffect(() => {
     if (collapsed) {
-      setLinkData(baseLinkData.map(l => ({...l, top: 0, left: 0})));
+      setLinkData(baseLinkData.map(l => ({...l, top: 0, left: 0, absoluteTop: 0})));
     } else {
       const refArray = [circle_0, circle_1, circle_2, circle_3, circle_4];
       const pageScrollTop = document.documentElement.scrollTop || document.body.scrollTop;
@@ -371,12 +408,14 @@ const SideNavigation = ({baseLinkData, collapsed, setCollapsed}: SideNavProps) =
         const node = ref.current;
         if (node) {
           const {top, left} = node.getBoundingClientRect();
-          newLinkDatum.push({...baseLinkData[i], top: top + offset, left});
+          newLinkDatum.push({...baseLinkData[i], top: top + offset, left, absoluteTop: top});
         }
       });
       setLinkData([...newLinkDatum]);
     }
   }, [rootRef, circle_0, circle_1, circle_2, circle_3, circle_4, baseLinkData, windowDimensions, collapsed, mobileMenuOpen]);
+
+  const tooltips: React.ReactElement[] = [];
 
   const links = linkData.map((d, i) => {
     const match = matchPath(history.location.pathname, baseLinkData[i].url);
@@ -395,18 +434,29 @@ const SideNavigation = ({baseLinkData, collapsed, setCollapsed}: SideNavProps) =
     } else {
       url = url + history.location.search;
     }
+    if (d.tooltipText && !mobileMenuOpen && !collapsed) {
+      tooltips.push(
+        <Tooltip
+          style={{ top: d.absoluteTop, left: d.left }}
+        >
+          {d.tooltipText}
+        </Tooltip>,
+      );
+    }
     const LinkRoot = mobileMenuOpen || !collapsed ? NavLink : CollapsedLink;
     return (
-      <LinkRoot
-        to={url}
-        key={d.label + d.url}
-        style={{top: d.top, left: d.left}}
-        className={className}
-        onClick={() => mobileMenu ? setMobileMenuOpen(false) : null}
-      >
-        {d.label}
-        {beta}
-      </LinkRoot>
+      <>
+        <LinkRoot
+          to={url}
+          key={d.label + d.url}
+          style={{top: d.top, left: d.left}}
+          className={className}
+          onClick={() => mobileMenu ? setMobileMenuOpen(false) : null}
+        >
+          {d.label}
+          {beta}
+        </LinkRoot>
+      </>
     );
   });
 
@@ -470,13 +520,16 @@ const SideNavigation = ({baseLinkData, collapsed, setCollapsed}: SideNavProps) =
   );
 
   return (
-    <Container
-      onMouseEnter={() => setContainerHovered(true)}
-      onMouseLeave={() => setContainerHovered(false)}
-    >
-      {mobileMenu}
-      {menu}
-    </Container>
+    <>
+      <Container
+        onMouseEnter={() => setContainerHovered(true)}
+        onMouseLeave={() => setContainerHovered(false)}
+      >
+        {mobileMenu}
+        {menu}
+      </Container>
+      {tooltips}
+    </>
   );
 };
 
