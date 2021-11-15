@@ -5,7 +5,6 @@ import useFluent from '../../../hooks/useFluent';
 import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
 import {useRouteMatch} from 'react-router-dom';
 import {Routes} from '../../../routing/routes';
-import useQueryParams from '../../../hooks/useQueryParams';
 import styled, {keyframes} from 'styled-components/macro';
 import {
   baseColor,
@@ -81,14 +80,13 @@ const HowToRead = () => {
 
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const {compare_city} = useQueryParams();
   const isTreemap = useRouteMatch(Routes.CityEconomicComposition);
   const isGoodAt = useRouteMatch(Routes.CityGoodAt);
   const isIndustrySpace = useRouteMatch(Routes.CityIndustrySpacePosition);
   const isSwot = useRouteMatch(Routes.CityGrowthOpportunities);
 
   let source: string | undefined;
-  if (isTreemap && isTreemap.isExact && !compare_city) {
+  if (isTreemap && isTreemap.isExact) {
     source = TreemapPNG;
   }
   else if (isGoodAt && isGoodAt.isExact) {

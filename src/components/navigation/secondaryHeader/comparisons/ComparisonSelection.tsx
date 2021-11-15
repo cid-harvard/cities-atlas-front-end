@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import AddComparisonModal from './AddComparisonModal';
+import AddComparisonModal, {ComparisonType} from './AddComparisonModal';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import queryString from 'query-string';
 import {
@@ -101,11 +101,11 @@ const ComparisonSelection = (props: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const history = useHistory();
-  const { compare_city, ...otherParams } = useQueryParams();
+  const { benchmark, ...otherParams } = useQueryParams();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   let compareDropdown: React.ReactElement<any>;
-  if (compare_city === undefined) {
+  if (benchmark === undefined) {
     compareDropdown = (
       <div>
         <AddComparisonButton
@@ -119,7 +119,7 @@ const ComparisonSelection = (props: Props) => {
   } else {
     const onSelectComparison = (d: Datum | null) => {
       if (d) {
-        const query = queryString.stringify({...otherParams, compare_city: d.id});
+        const query = queryString.stringify({...otherParams, benchmark: d.id});
         const newUrl = query ? history.location.pathname + '?' + query : history.location.pathname;
         history.push(newUrl);
       }
@@ -194,7 +194,7 @@ const ComparisonSelection = (props: Props) => {
             showCount={true}
             resultsIdentation={1.75}
             neverEmpty={true}
-            selectedValue={comparisonData.find(({id}) => id === compare_city)}
+            selectedValue={comparisonData.find(({id}) => id === benchmark)}
             onSelect={onSelectComparison}
             maxResults={500}
             matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
@@ -216,7 +216,7 @@ const ComparisonSelection = (props: Props) => {
     <AddComparisonModal
       closeModal={closeModal}
       data={data}
-      field={'compare_city'}
+      comparisonType={ComparisonType.Absolute}
     />
   ) : null;
 

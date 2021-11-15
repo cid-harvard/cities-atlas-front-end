@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import AddComparisonModal from './AddComparisonModal';
+import AddComparisonModal, {ComparisonType} from './AddComparisonModal';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import {
   baseColor,
@@ -143,7 +143,7 @@ const ComparisonSelection = (props: Props) => {
     <AddComparisonModal
       closeModal={closeModal}
       data={data}
-      field={'benchmark'}
+      comparisonType={ComparisonType.Relative}
     />
   ) : null;
 

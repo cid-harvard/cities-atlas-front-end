@@ -96,7 +96,6 @@ export const defaultColorBy: ColorBy = ColorBy.sector;
 export interface GlobalQueryParams {
   country: string | undefined;
   benchmark: string | undefined;
-  compare_city: string | undefined;
   digit_level: string | undefined;
   composition_type: CompositionType | undefined;
   aggregation: AggregationMode | undefined;

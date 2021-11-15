@@ -8,7 +8,7 @@ import SimpleError from '../../../../components/transitionStateComponents/Simple
 import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
 
 const EconomicComposition = () => {
-  const { compare_city } = useQueryParams();
+  const { benchmark } = useQueryParams();
   const cityId = useCurrentCityId();
 
   if (cityId === null) {
@@ -21,14 +21,14 @@ const EconomicComposition = () => {
     );
   }
 
-  const output = compare_city === undefined ? (
+  const output = benchmark === undefined ? (
     <CityComposition
       cityId={cityId}
     />
   ) : (
     <Comparison
       primaryCity={cityId}
-      secondaryCity={compare_city}
+      secondaryCity={benchmark}
     />
   );
 

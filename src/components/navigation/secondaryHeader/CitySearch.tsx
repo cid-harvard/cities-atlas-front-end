@@ -71,7 +71,7 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const history = useHistory();
-  const { compare_city, benchmark } = useQueryParams();
+  const { benchmark } = useQueryParams();
 
   const {loading, error, data} = useGlobalLocationHierarchicalTreeData();
   let output: React.ReactElement<any> | null;
@@ -105,8 +105,8 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
       }
     };
 
-    const dataWithoutCurrentComparisonOrBenchmark = compare_city !== undefined || benchmark !== undefined
-      ? data.filter(({id}) => id !== compare_city && id !== benchmark) : data;
+    const dataWithoutCurrentComparisonOrBenchmark = benchmark !== undefined
+      ? data.filter(({id}) => id !== benchmark) : data;
 
     output = (
       <>

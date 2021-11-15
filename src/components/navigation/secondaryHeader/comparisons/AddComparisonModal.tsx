@@ -321,30 +321,31 @@ const Recommended = styled.em`
   color: ${primaryColor};
 `;
 
+export const defaultBenchmark = PeerGroup.GlobalPopulation;
+
+export enum ComparisonType {
+  Relative = 'relative', // RCA
+  Absolute = 'absolute', // Econ composition
+}
+
 interface Props {
   closeModal: (value: string | undefined) => void;
   data: Datum[];
-  field: 'benchmark' | 'compare_city';
+  comparisonType: ComparisonType;
 }
 
 const AddComparisonModal = (props: Props) => {
-  const {closeModal, data, field} = props;
+  const { closeModal, data, comparisonType} = props;
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const continueButtonRef = useRef<HTMLButtonElement | null>(null);
   const {data: globalData} = useGlobalLocationData();
   const history = useHistory();
-  const { compare_city, benchmark, ...otherParams } = useQueryParams();
+  const { benchmark, ...otherParams } = useQueryParams();
   const { data: counts } = usePeerGroupCityCount(cityId);
-  let intialSelected: Datum | null | RegionGroup | PeerGroup = PeerGroup.GlobalPopulation;
-  if (field === 'benchmark' && benchmark) {
-    if (isValidPeerGroup(benchmark)) {
-      intialSelected = benchmark as PeerGroup;
-    }
-  } else if (field === 'compare_city' && compare_city) {
-    if (compare_city === RegionGroup.World || isValidPeerGroup(compare_city)) {
-      intialSelected = compare_city as RegionGroup || PeerGroup;
-    }
+  let intialSelected: Datum | null | RegionGroup | PeerGroup = defaultBenchmark;
+  if (isValidPeerGroup(benchmark) || benchmark === RegionGroup.World) {
+    intialSelected = benchmark as PeerGroup;
   }
   const [selected, setSelected] = useState<Datum | null | RegionGroup | PeerGroup>(intialSelected);
 
@@ -363,49 +364,36 @@ const AddComparisonModal = (props: Props) => {
 
   const onContinue = () => {
     if (selected && typeof selected === 'object') {
-      const query = queryString.stringify({...otherParams, compare_city, benchmark, [field]: selected.id});
+      const query = queryString.stringify({...otherParams, benchmark: selected.id});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal(selected.id.toString());
     } else if (typeof selected === 'string') {
-      const query = queryString.stringify({...otherParams, compare_city, benchmark, [field]: selected});
+      const query = queryString.stringify({...otherParams, benchmark: selected});
       const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
       history.push(newUrl);
       closeModal(RegionGroup.World);
     }
   };
 
-  const prevValue = field === 'benchmark' ? benchmark : compare_city;
-  const closeModalWithoutConfirming = prevValue === undefined && field === 'benchmark'
-    ? undefined
+  const prevValue = benchmark;
+  const closeModalWithoutConfirming = prevValue === undefined
+    ? () => closeModal(defaultBenchmark)
     : () => closeModal(prevValue);
 
-  const worldOption = field === 'compare_city' ? (
-    <GroupsList>
-      <GroupItem>
-        <GroupRadio
-          onClick={() => setSelected(RegionGroup.World)}
-          $checked={selected === RegionGroup.World}
-        >
-          {getString('global-text-world')}
-        </GroupRadio>
-      </GroupItem>
-    </GroupsList>
-  ) : null;
-
-  const title = field === 'benchmark'
+  const title = comparisonType === ComparisonType.Relative
     ? getString('global-ui-benchmark-title')
     : getString('global-ui-compare-title', {name});
 
-  const selectPeerTitle = field === 'benchmark'
+  const selectPeerTitle = comparisonType === ComparisonType.Relative
     ? getString('global-ui-select-benchmark-group')
     : getString('global-ui-select-peer-group');
 
-  const selectCityTitle = field === 'benchmark'
+  const selectCityTitle = comparisonType === ComparisonType.Relative
     ? getString('global-ui-select-benchmark-city')
     : getString('global-ui-select-a-city-name');
 
-  const about = field === 'benchmark'
+  const about = comparisonType === ComparisonType.Relative
     ? (
       <Switch>
         <Route path={CityRoutes.CityGrowthOpportunities} render={() => (
@@ -433,8 +421,8 @@ const AddComparisonModal = (props: Props) => {
     <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'inherit'}>
       <Root>
         <H1
-          style={field === 'compare_city' ? {marginBottom: '4rem'} : undefined}
-          className={field === 'compare_city' ? undefined : benchmarkButtonClassName}
+          style={comparisonType === ComparisonType.Absolute ? {marginBottom: '4rem'} : undefined}
+          className={comparisonType === ComparisonType.Absolute ? undefined : benchmarkButtonClassName}
         >
           {title}:
         </H1>
@@ -443,7 +431,16 @@ const AddComparisonModal = (props: Props) => {
           <Grid>
           <div>
             <LabelUnderline>{selectPeerTitle}</LabelUnderline>
-            {worldOption}
+            <GroupsList>
+              <GroupItem>
+                <GroupRadio
+                  onClick={() => setSelected(RegionGroup.World)}
+                  $checked={selected === RegionGroup.World}
+                >
+                  {getString('global-text-world')}
+                </GroupRadio>
+              </GroupItem>
+            </GroupsList>
             <GlobalVRegionalGrid>
               <div>
                 <ContainerTitle>{getString('global-text-global-peers')}</ContainerTitle>
