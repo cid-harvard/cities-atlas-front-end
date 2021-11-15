@@ -24,6 +24,7 @@ import useRCAData, {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import Industries from './Industries';
 import Clusters from './Clusters';
 import {
+  CityRoutes,
   ColorBy,
 } from '../../../routing/routes';
 import useFluent from '../../../hooks/useFluent';
@@ -32,6 +33,9 @@ import {Mode} from '../../general/searchIndustryInGraphDropdown';
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 import BenchmarkLegend from '../legend/BenchmarkLegend';
 import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
+import { useHistory } from 'react-router-dom';
+import { createRoute } from '../../../routing/Utils';
+import useCurrentCityId from '../../../hooks/useCurrentCityId';
 
 const Root = styled.div`
   width: 100%;
@@ -49,7 +53,7 @@ const Root = styled.div`
   }
 `;
 
-const LeftAxisRoot = styled.div`
+export const LeftAxisRoot = styled.div`
   grid-row: 1;
   grid-column: 1;
   white-space: nowrap;
@@ -60,7 +64,7 @@ const LeftAxisRoot = styled.div`
   pointer-events: none;
 `;
 
-const BottomAxisRoot = styled.div`
+export const BottomAxisRoot = styled.div`
   grid-row: 2;
   grid-column: 2;
   white-space: nowrap;
@@ -86,13 +90,13 @@ const BottomAxisRoot = styled.div`
   }
 `;
 
-const BenchmarkRoot = styled(BottomAxisRoot)`
+export const BenchmarkRoot = styled(BottomAxisRoot)`
   grid-row: 3;
   justify-content: center;
   white-space: normal;
 `;
 
-const AxisLabelBase = styled.div`
+export const AxisLabelBase = styled.div`
   font-weight: 600;
   font-size: 0.75rem;
   color: ${baseColor};
@@ -107,7 +111,7 @@ const AxisLabelBase = styled.div`
   }
 `;
 
-const AxisLabelLeft = styled(AxisLabelBase)`
+export const AxisLabelLeft = styled(AxisLabelBase)`
   margin-right: 1rem;
   font-weight: 400;
 
@@ -120,7 +124,7 @@ const AxisLabelLeft = styled(AxisLabelBase)`
   }
 `;
 
-const AxisLabelRight = styled(AxisLabelBase)`
+export const AxisLabelRight = styled(AxisLabelBase)`
   margin-left: 1rem;
   font-weight: 400;
 
@@ -183,6 +187,8 @@ const RCABarChart = (props: Props) => {
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const {loading, error, data} = useRCAData(digitLevel);
+  const history = useHistory();
+  const cityId = useCurrentCityId();
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -256,6 +262,13 @@ const RCABarChart = (props: Props) => {
     output = null;
   }
 
+  const onButtonClick = (value: Highlighted) => {
+    if (value === Highlighted.absolute && cityId !== null) {
+      const route = createRoute.city(CityRoutes.CityGoodAtAbsolutePresence, cityId);
+      history.push(route + history.location.search);
+    }
+  };
+
   return (
     <>
       <PreChartRow
@@ -286,6 +299,7 @@ const RCABarChart = (props: Props) => {
               togglePresence={true}
               highlight={Highlighted.relative}
               showArrows={true}
+              onButtonClick={onButtonClick}
             />
           </AxisLabelBase>
           <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>

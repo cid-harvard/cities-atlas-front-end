@@ -20,6 +20,7 @@ import styled from 'styled-components/macro';
 import {
   sectorColorMap,
   secondaryFont,
+  baseColor,
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
@@ -37,19 +38,67 @@ import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
 import useFluent from '../../../hooks/useFluent';
 import Chart, {Group} from './Chart';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
+import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
+import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
+import BenchmarkLegend from '../legend/BenchmarkLegend';
+import { CityRoutes } from '../../../routing/routes';
+import { createRoute } from '../../../routing/Utils';
+import { useHistory } from 'react-router-dom';
 
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 4rem 2rem 1fr;
+  grid-template-rows: 4rem 2rem 1fr 3rem auto;
 
   @media ${breakPoints.small} {
     grid-row: 3;
     grid-column: 1;
+  }
+`;
+
+const BottomAxisRoot = styled.div`
+  grid-row: 4;
+  grid-column: 1;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+
+  @media (max-width: 1225px) {
+    justify-content: flex-end;
+  }
+  @media (max-width: 990px) {
+    grid-template-columns: 1 / -1;
+  }
+
+  @media (max-width: 920px) {
+    justify-content: center;
+  }
+`;
+
+const BenchmarkRoot = styled(BottomAxisRoot)`
+  grid-row: 5;
+  justify-content: center;
+  white-space: normal;
+`;
+
+const AxisLabelBase = styled.div`
+  font-weight: 600;
+  font-size: 0.75rem;
+  color: ${baseColor};
+  text-transform: uppercase;
+
+  @media (max-width: 1000px) {
+    font-size: 0.6rem;
+  }
+
+  @media (max-height: 600px) {
+    font-size: 0.65rem;
   }
 `;
 
@@ -153,18 +202,18 @@ interface Props {
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   vizNavigation: VizNavItem[];
-  triggerImageDownload: undefined | (() => void);
 }
 
 const IndustryZoomableBarChart = (props: Props) => {
   const {
     primaryCity, comparison, year, compositionType, highlighted,
-    hiddenSectors, setHighlighted, vizNavigation, triggerImageDownload,
+    hiddenSectors, setHighlighted, vizNavigation,
   } = props;
 
   const {loading, error, data} = useComparisonQuery({
     primaryCity, comparison, year,
   });
+  const history = useHistory();
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
@@ -294,7 +343,6 @@ const IndustryZoomableBarChart = (props: Props) => {
             loading={loading}
             primaryName={primaryCityName}
             secondaryName={secondaryCityName}
-            triggerImageDownload={triggerImageDownload}
           />
         </ErrorBoundary>
         {loadingOverlay}
@@ -340,6 +388,13 @@ const IndustryZoomableBarChart = (props: Props) => {
     </BreadCrumb>
   );
 
+  const onButtonClick = (value: Highlighted) => {
+    if (value === Highlighted.relative) {
+      const route = createRoute.city(CityRoutes.CityGoodAt, primaryCity + '');
+      history.push(route + history.location.search);
+    }
+  };
+
   return (
     <>
       <PreChartRow
@@ -372,6 +427,22 @@ const IndustryZoomableBarChart = (props: Props) => {
             </LegendText>
           </LegendItem>
         </PrimarySecondaryLegend>
+
+        <BottomAxisRoot>
+          <AxisLabelBase>
+            <PresenceToggle
+              togglePresence={true}
+              highlight={Highlighted.absolute}
+              showArrows={false}
+              onButtonClick={onButtonClick}
+            />
+          </AxisLabelBase>
+        </BottomAxisRoot>
+        <BenchmarkRoot>
+          <BenchmarkLegend
+            comparisonType={ComparisonType.Absolute}
+          />
+        </BenchmarkRoot>
         <SizingContainer ref={rootRef}>
           {output}
         </SizingContainer>

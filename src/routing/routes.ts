@@ -9,6 +9,8 @@ export const CityRoutes = {
   CityEconomicComposition: '/city/:cityId/economic-composition',
   CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
   CityGoodAt: '/city/:cityId/good-at',
+  CityGoodAtAbsolutePresence: '/city/:cityId/good-at/absolute',
+  CityGoodAtAbsolutePresenceComparison: '/city/:cityId/good-at/absolute/comparison',
   CityIndustrySpacePosition: '/city/:cityId/industry-position',
   CityGrowthOpportunities: '/city/:cityId/growth-opportunities',
   CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',

@@ -47,9 +47,9 @@ interface Props {
   showArrows?: boolean;
 }
 
-const BenchmarkLegend = (props: Props) => {
+const PresenceToggle = (props: Props) => {
   const {
-    togglePresence, highlight, showArrows,
+    togglePresence, highlight, showArrows, onButtonClick,
   } = props;
   const getString = useFluent();
   const highlightedStyles: React.CSSProperties = {
@@ -61,7 +61,10 @@ const BenchmarkLegend = (props: Props) => {
       <Tooltip
         explanation={getString('global-ui-relative-presence')}
       >
-        <ToggleButton style={highlight === Highlighted.relative ? highlightedStyles : undefined}>
+        <ToggleButton
+          style={highlight === Highlighted.relative ? highlightedStyles : undefined}
+          onClick={onButtonClick ? () => onButtonClick(Highlighted.relative) : undefined}
+        >
           <Tooltip
             explanation={getString('global-ui-relative-presence')}
           />
@@ -71,7 +74,10 @@ const BenchmarkLegend = (props: Props) => {
       <Tooltip
         explanation={getString('global-ui-absolute-presence')}
       >
-        <ToggleButton style={highlight === Highlighted.absolute ? highlightedStyles : undefined}>
+        <ToggleButton
+          style={highlight === Highlighted.absolute ? highlightedStyles : undefined}
+          onClick={onButtonClick ? () => onButtonClick(Highlighted.absolute) : undefined}
+        >
           <Tooltip
             explanation={getString('global-ui-absolute-presence')}
           />
@@ -105,4 +111,4 @@ const BenchmarkLegend = (props: Props) => {
   );
 };
 
-export default BenchmarkLegend;
+export default PresenceToggle;

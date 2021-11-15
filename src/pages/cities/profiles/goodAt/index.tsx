@@ -24,15 +24,21 @@ import {
   defaultColorBy,
   AggregationMode,
   defaultAggregationMode,
+  CityRoutes,
 } from '../../../../routing/routes';
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
 import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
 import SideText from './SideText';
+import { Switch } from 'react-router-dom';
+import TrackedRoute from '../../../../routing/TrackedRoute';
+import AbsolutePresence from './absolutePresence';
+import useCurrentBenchmark from '../../../../hooks/useCurrentBenchmark';
 
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
 
   const {cluster_level, digit_level, color_by, aggregation} = useQueryParams();
+  const {benchmark} = useCurrentBenchmark();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
@@ -114,19 +120,31 @@ const CityGoodAt = () => {
 
   return (
     <DefaultContentWrapper>
-
       <ContentGrid>
         <SideText />
-        <RCABarChart
-          isClusterView={Boolean(isClusterView)}
-          highlighted={highlighted}
-          setHighlighted={setHighlighted}
-          hiddenSectors={hiddenSectors}
-          hiddenClusters={hiddenClusters}
-          clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
-          digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-          colorBy={color_by ? color_by : defaultColorBy}
-        />
+        <Switch>
+          <TrackedRoute path={CityRoutes.CityGoodAtAbsolutePresence}
+            render={() => (
+              <AbsolutePresence
+                primaryCity={cityId}
+                secondaryCity={benchmark}
+                hiddenSectors={hiddenSectors}
+              />
+            )} />
+          <TrackedRoute path={CityRoutes.CityGoodAt}
+            render={() => (
+              <RCABarChart
+                isClusterView={Boolean(isClusterView)}
+                highlighted={highlighted}
+                setHighlighted={setHighlighted}
+                hiddenSectors={hiddenSectors}
+                hiddenClusters={hiddenClusters}
+                clusterLevel={cluster_level ? cluster_level : defaultClusterLevel}
+                digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+                colorBy={color_by ? color_by : defaultColorBy}
+              />
+            )} />
+        </Switch>
         {legend}
       </ContentGrid>
       <UtiltyBar />

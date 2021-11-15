@@ -24,18 +24,48 @@ import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizL
 import Chart, {FilteredDatum} from './Chart';
 import {useComparisonQuery, SuccessResponse, RegionGroup} from './cityIndustryComparisonQuery';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
+import {
+  BottomAxisRoot,
+  BenchmarkRoot,
+  AxisLabelLeft,
+  AxisLabelRight,
+  AxisLabelBase,
+} from '../verticalBarChart/RCABarChart';
+import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
+import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
+import BenchmarkLegend from '../legend/BenchmarkLegend';
+import { CityRoutes } from '../../../routing/routes';
+import { createRoute } from '../../../routing/Utils';
+import { useHistory } from 'react-router-dom';
+import useFluent from '../../../hooks/useFluent';
 
 const Root = styled.div`
   width: 100%;
   height: 100%;
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 2;
   position: relative;
+  display: grid;
+  grid-template-rows: 1fr 3rem auto;
+  grid-template-columns: 3.5rem 1fr;
 
   @media ${breakPoints.small} {
     grid-row: 3;
     grid-column: 1;
   }
+
+  @media ${breakPoints.small} {
+    grid-row: 3;
+    grid-column: 1;
+  }
+`;
+
+const VizRoot = styled.div`
+  width: 100%;
+  height: 100%;
+  position: relative;
+  grid-column: 2;
+  grid-row: 1;
 `;
 
 const VizContainer = styled.div`
@@ -63,8 +93,6 @@ interface Props {
   vizNavigation: VizNavItem[];
 }
 
-
-
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, comparison, year, digitLevel, compositionType, hiddenSectors,
@@ -73,6 +101,8 @@ const TopIndustryComparisonBarChart = (props: Props) => {
 
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
+  const getString = useFluent();
+  const history = useHistory();
   const {loading, error, data} = useComparisonQuery({primaryCity, comparison, year});
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
@@ -164,7 +194,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     } else {
       const loadingOverlay = loading ? <LoadingBlock /> : null;
       output = (
-        <VizContainer style={{height: dimensions.height}}>
+        <VizContainer>
             <ErrorBoundary>
               <Chart
                 key={dimensions.height.toString() + dimensions.width.toString()}
@@ -186,6 +216,13 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     output = null;
   }
 
+  const onButtonClick = (value: Highlighted) => {
+    if (value === Highlighted.relative) {
+      const route = createRoute.city(CityRoutes.CityGoodAt, primaryCity + '');
+      history.push(route + history.location.search);
+    }
+  };
+
   return (
     <>
       <PreChartRow
@@ -197,7 +234,26 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         vizNavigation={vizNavigation}
       />
       <Root ref={rootRef}>
-        {output}
+        <BottomAxisRoot>
+          <AxisLabelLeft>{getString('pswot-axis-labels-bottom-left')}</AxisLabelLeft>
+          <AxisLabelBase>
+            <PresenceToggle
+              togglePresence={true}
+              highlight={Highlighted.absolute}
+              showArrows={true}
+              onButtonClick={onButtonClick}
+            />
+          </AxisLabelBase>
+          <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
+        </BottomAxisRoot>
+        <BenchmarkRoot>
+          <BenchmarkLegend
+            comparisonType={ComparisonType.Absolute}
+          />
+        </BenchmarkRoot>
+        <VizRoot>
+          {output}
+        </VizRoot>
       </Root>
     </>
   );

@@ -27,7 +27,7 @@ const useCurrentBenchmark = () => {
   return {
     benchmarkName,
     benchmarkNameShort,
-    benchmark: benchmark as string | undefined | PeerGroup,
+    benchmark: benchmark as string | PeerGroup,
   };
 };
 
