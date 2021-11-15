@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 import useFluent from '../../../hooks/useFluent';
 import { benchmarkColor } from '../../../styling/styleUtils';
 import BenchmarkSVG from '../../../assets/icons/benchmark_comparator.svg';
+import AddComparisonModal, { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
+import { useGlobalLocationHierarchicalTreeData } from '../../../hooks/useGlobalLocationData';
 
 const rotate = keyframes`
   0% {
@@ -65,18 +67,46 @@ const Icon = styled.img`
   margin-right: 0.25rem;
 `;
 
-const BenchmarkLegend = () => {
+interface Props {
+  comparisonType: ComparisonType;
+}
+
+const BenchmarkLegend = (props: Props) => {
+  const { comparisonType } = props;
   const getString = useFluent();
-  const { benchmarkName } = useCurrentBenchmark();
+  const { benchmark, benchmarkName } = useCurrentBenchmark();
+  const [modalOpen, setModalOpen] = useState<boolean>(benchmark === undefined);
+  const { data } = useGlobalLocationHierarchicalTreeData();
+  const openBenchmarkModal = () => setModalOpen(true);
+
+  const closeModal = (newBenchmark: string | undefined) => {
+    if (newBenchmark !== undefined) {
+      setModalOpen(false);
+    }
+  };
+  const benchmarkModal = modalOpen ? (
+    <AddComparisonModal
+      closeModal={closeModal}
+      data={data}
+      comparisonType={comparisonType}
+    />
+  ) : null;
+
+  const text = comparisonType === ComparisonType.Relative
+    ? getString('global-ui-change-benchmark')
+    : getString('global-ui-change-comparator');
 
   return (
-    <Root>
-      <Title>
-        <Icon src={BenchmarkSVG} />
-        {getString('global-ui-change-benchmark')}
-      </Title>
-      ({benchmarkName})
-    </Root>
+    <>
+      <Root onClick={openBenchmarkModal}>
+        <Title>
+          <Icon src={BenchmarkSVG} />
+          {text}
+        </Title>
+        ({benchmarkName})
+      </Root>
+      {benchmarkModal}
+    </>
   );
 };
 

@@ -148,6 +148,7 @@ global-ui-relative-presence = Relative Presence
 global-ui-absolute-presence = Absolute Presence
 
 global-ui-change-benchmark = Change Benchmark
+global-ui-change-comparator = Change Comparator
 
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector

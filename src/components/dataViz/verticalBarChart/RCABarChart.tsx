@@ -31,6 +31,7 @@ import {ClusterLevel} from '../../../routing/routes';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 import BenchmarkLegend from '../legend/BenchmarkLegend';
+import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
 
 const Root = styled.div`
   width: 100%;
@@ -290,7 +291,9 @@ const RCABarChart = (props: Props) => {
           <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
         </BottomAxisRoot>
         <BenchmarkRoot>
-          <BenchmarkLegend />
+          <BenchmarkLegend
+            comparisonType={ComparisonType.Relative}
+          />
         </BenchmarkRoot>
         <VizRoot ref={rootRef}>
           {output}
