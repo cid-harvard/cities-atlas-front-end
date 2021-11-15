@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import AddComparisonModal, {ComparisonType} from './AddComparisonModal';
+import AddComparisonModal, {ComparisonType, defaultBenchmark} from './AddComparisonModal';
 import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import {
   baseColor,
@@ -83,7 +83,8 @@ const ComparisonSelection = (props: Props) => {
   const {data} = props;
   const getString = useFluent();
   const cityId = useCurrentCityId();
-  const { benchmark } = useQueryParams();
+  const params = useQueryParams();
+  const benchmark = params.benchmark ? params.benchmark : defaultBenchmark;
   const [modalOpen, setModalOpen] = useState<boolean>(benchmark === undefined);
   const {location} = useHistory();
 
