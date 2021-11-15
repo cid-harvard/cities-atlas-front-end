@@ -142,6 +142,9 @@ global-formatted-income-class = {
   *[OTHER] other
 }
 
+global-ui-relative-presence = Relative Presence
+global-ui-absolute-presence = Absolute Presence
+
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector
 global-ui-proximity = Proximity

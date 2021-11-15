@@ -29,6 +29,7 @@ import {
 import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
+import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 
 const Root = styled.div`
   width: 100%;
@@ -37,7 +38,7 @@ const Root = styled.div`
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 1fr 2rem;
+  grid-template-rows: 1fr 6rem;
   grid-template-columns: 3.5rem 1fr;
 
   @media ${breakPoints.small} {
@@ -268,7 +269,13 @@ const RCABarChart = (props: Props) => {
         </LeftAxisRoot>
         <BottomAxisRoot>
           <AxisLabelLeft>{getString('pswot-axis-labels-bottom-left')}</AxisLabelLeft>
-          <AxisLabelBase>← {getString('pswot-axis-labels-bottom')} →</AxisLabelBase>
+          <AxisLabelBase>
+            <PresenceToggle
+              togglePresence={true}
+              highlight={Highlighted.relative}
+              showArrows={true}
+            />
+          </AxisLabelBase>
           <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
         </BottomAxisRoot>
         <VizRoot ref={rootRef}>

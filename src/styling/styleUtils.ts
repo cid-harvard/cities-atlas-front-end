@@ -20,6 +20,8 @@ export const backgroundMedium = '#e6e7e8'; // dark blue gray
 export const backgroundDark = '#2e353f'; // dark blue gray
 export const medGray = '#4d565e';
 
+export const benchmarkColor = ' #32a58f'; // greenish blue
+
 export const linkColor = '#6accc2';
 
 export const errorColor = '#f43a16'; // reddish color
