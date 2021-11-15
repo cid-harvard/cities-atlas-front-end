@@ -19,13 +19,7 @@ import {
   cityIdParam,
 } from '../../../routing/routes';
 import {ValueOfCityRoutes, createRoute} from '../../../routing/Utils';
-import ComparisonSelection from './comparisons/ComparisonSelection';
-import BenchmarkSelection from './comparisons/BenchmarkSelection';
 import {TooltipTheme} from '../../general/Tooltip';
-import {
-  Route,
-  Switch,
-} from 'react-router-dom';
 import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 
 const Root = styled.div`
@@ -127,13 +121,6 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
             matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
           />
         </SearchContainer>
-
-        <Switch>
-          <Route path={CityRoutes.CityEconomicComposition} render={() => <ComparisonSelection data={data} />} />
-          <Route path={CityRoutes.CityGoodAt} render={() => <BenchmarkSelection data={data} />} />
-          <Route path={CityRoutes.CityIndustrySpacePosition} render={() => <BenchmarkSelection data={data} />} />
-          <Route path={CityRoutes.CityGrowthOpportunities} render={() => <BenchmarkSelection data={data} />} />
-        </Switch>
       </>
     );
   } else {
