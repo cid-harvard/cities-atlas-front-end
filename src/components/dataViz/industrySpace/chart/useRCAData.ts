@@ -13,6 +13,7 @@ import {
 import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import {defaultYear} from '../../../../Utils';
 import useQueryParams from '../../../../hooks/useQueryParams';
+import useCurrentBenchmark from '../../../../hooks/useCurrentBenchmark';
 
 export enum RegionGroup {
   World = 'world',
@@ -120,7 +121,8 @@ export const useClusterIntensityQuery = (variables: Variables) =>
 
 const useRCAData = (level: DigitLevel) => {
   const cityId = useCurrentCityId();
-  const { benchmark, composition_type } = useQueryParams();
+  const { composition_type } = useQueryParams();
+  const {benchmark} = useCurrentBenchmark();
 
 
   const defaultCompositionVariable = defaultCompositionType === CompositionType.Companies ? 'company' : 'employ';

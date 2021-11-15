@@ -1,16 +1,17 @@
 import React, {useState, useRef} from 'react';
 import {scaleLog} from 'd3-scale';
 import {
-  BasicLabel,
-  BasicLabelBackground,
   sectorColorMap,
   educationColorRange,
   wageColorRange,
   Mult,
   FractionMult,
-  PointerActiveContainer,
 } from '../../../styling/styleUtils';
-import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
+import ComparisonBarChart, {
+  RowHoverEvent,
+  BarDatum,
+  Direction,
+} from 'react-comparison-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
   useGlobalIndustryMap,
@@ -26,14 +27,12 @@ import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTool
 import useFluent from '../../../hooks/useFluent';
 import QuickError from '../../transitionStateComponents/QuickError';
 import {rgba} from 'polished';
-import Tooltip from './../../general/Tooltip';
 import {defaultYear, decimalToFraction} from '../../../Utils';
 import {tickMarksForMinMax} from './getNiceLogValues';
 import {scaleLinear} from 'd3-scale';
 import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
-import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 import LoadingBlock from '../../transitionStateComponents/VizLoadingBlock';
 
 interface Props {
@@ -53,7 +52,6 @@ const Industries = (props: Props) => {
   const industryMap = useGlobalIndustryMap();
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
   const getString = useFluent();
-  const { benchmarkNameShort } = useCurrentBenchmark();
 
   let colorScale: (val: number) => string;
   if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
@@ -122,7 +120,20 @@ const Industries = (props: Props) => {
     parseFloat(scale.invert(0).toFixed(5)),
     parseFloat(scale.invert(100).toFixed(5)),
   );
-  const industryData = filteredIndustryRCA.map(d => {
+
+  const highPresenceScale = scaleLog()
+    .domain([1, max])
+    .range([0, 100])
+    .nice();
+
+  const lowPresenceScale = scaleLog()
+    .domain([1, min])
+    .range([0, 100])
+    .nice();
+
+  const highPresenceData: BarDatum[] = [];
+  const lowPresenceData: BarDatum[] = [];
+  filteredIndustryRCA.forEach(d => {
     const industry = d.naicsId !== null ? industryMap.data[d.naicsId] : undefined;
     let color: string;
     if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
@@ -139,15 +150,28 @@ const Industries = (props: Props) => {
         ? sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString()) : undefined;
       color = colorDatum ? colorDatum.color : 'lightgray';
     }
-    return {
+    let value: number = 0;
+    if (d.rca && d.rca < 1) {
+      value = lowPresenceScale(d.rca) as number;
+    } else if (d.rca && d.rca >= 1) {
+      value = highPresenceScale(d.rca) as number;
+    }
+    // const value = d.rca ? scale(d.rca as number) as number : 0;
+    const datum: BarDatum = {
       id: d.naicsId !== null ? d.naicsId.toString() : '',
       title: industry && industry.name ? industry.name : '',
-      value: d.rca ? scale(d.rca as number) as number : 0,
+      value,
       color,
     };
+    if (d.rca && d.rca >= 1) {
+      highPresenceData.push(datum);
+    } else {
+      lowPresenceData.push(datum);
+    }
   });
-  const formatValue = (value: number) => {
-    const scaledValue = parseFloat(scale.invert(value).toFixed(5));
+  const formatValue = (value: number, direction: Direction) => {
+    const scaleToUse = direction === Direction.Over ? highPresenceScale : lowPresenceScale;
+    const scaledValue = parseFloat(scaleToUse.invert(value).toFixed(5));
     if (scaledValue >= 1) {
       return <>{scaledValue}<Mult>×</Mult></>;
     } else {
@@ -161,10 +185,11 @@ const Industries = (props: Props) => {
     if (node) {
       if (e && e.datum) {
         const {datum, mouseCoords} = e;
+        const industry = filteredIndustryRCA.find(d => d.naicsId && d.naicsId.toString() === datum.id);
         const rows = [
           [getString('global-ui-naics-code') + ':', datum.id],
           [getString('global-ui-year') + ':', defaultYear.toString()],
-          [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
+          [getString('global-intensity') + ':', industry && industry.rca ? industry.rca.toFixed(3) : '0.000'],
         ];
         if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
           const target = aggregateIndustryDataMap.data.industries[datum.id];
@@ -197,43 +222,21 @@ const Industries = (props: Props) => {
     </QuickError>
   ) : null;
 
-  const axisLabel = (
-    <BasicLabel>
-      <BasicLabelBackground>
-        {getString('global-intensity')}: {benchmarkNameShort}
-      </BasicLabelBackground>
-      <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
-        <Tooltip
-          explanation={getString('global-intensity-bar-graph-about')}
-        />
-      </span>
-    </BasicLabel>
-  );
-
-  const centerLineLabel = (
-    <PointerActiveContainer>
-      <Tooltip
-        explanation={getString('global-specialization-expected-about')}
-      />
-      {getString('global-specialization-expected')}
-    </PointerActiveContainer>
-  );
-
   return (
     <>
-      <VerticalBarChart
-        data={industryData}
-        axisLabel={axisLabel}
+      <ComparisonBarChart
+        primaryData={highPresenceData}
+        secondaryData={lowPresenceData}
         formatValue={formatValue}
         highlighted={highlighted}
         onRowHover={setHovered}
         onHighlightError={() => setHighlightError(true)}
+        nValuesToShow={10}
         numberOfXAxisTicks={numberOfXAxisTicks}
-        centerLineValue={scale(1) as number}
-        centerLineLabel={centerLineLabel}
-        overMideLineLabel={getString('global-specialization-over')}
-        underMideLineLabel={getString('global-specialization-under')}
-        scrollDownText={getString('global-specialization-scroll')}
+        expandCollapseText={{
+          toExpand: getString('cities-top-10-comparison-chart-expand'),
+          toCollapse: getString('cities-top-10-comparison-chart-collapse'),
+        }}
       />
       <RapidTooltipRoot ref={tooltipRef} />
       {highlightErrorPopup}

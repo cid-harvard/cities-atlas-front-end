@@ -65,8 +65,8 @@ const BottomAxisRoot = styled.div`
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  padding-left: 29%;
-  padding-left: clamp(120px, 300px, 29%);
+  padding-left: 15%;
+  padding-left: clamp(75px, 300px, 15%);
 
   @media (max-width: 1225px) {
     padding-left: 0;
@@ -77,8 +77,8 @@ const BottomAxisRoot = styled.div`
   }
 
   @media (max-width: 920px) {
-    padding-left: 29%;
-    padding-left: clamp(120px, 300px, 29%);
+    padding-left: 15%;
+    padding-left: clamp(75px, 300px, 15%);
     justify-content: center;
   }
 `;

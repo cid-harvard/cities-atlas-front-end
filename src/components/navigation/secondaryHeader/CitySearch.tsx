@@ -21,12 +21,12 @@ import {
 import {ValueOfCityRoutes, createRoute} from '../../../routing/Utils';
 import ComparisonSelection from './comparisons/ComparisonSelection';
 import BenchmarkSelection from './comparisons/BenchmarkSelection';
-import useQueryParams from '../../../hooks/useQueryParams';
 import {TooltipTheme} from '../../general/Tooltip';
 import {
   Route,
   Switch,
 } from 'react-router-dom';
+import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 
 const Root = styled.div`
   display: grid;
@@ -71,7 +71,7 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const history = useHistory();
-  const { benchmark } = useQueryParams();
+  const { benchmark } = useCurrentBenchmark();
 
   const {loading, error, data} = useGlobalLocationHierarchicalTreeData();
   let output: React.ReactElement<any> | null;

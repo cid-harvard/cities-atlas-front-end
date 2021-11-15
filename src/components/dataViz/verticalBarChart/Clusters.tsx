@@ -1,6 +1,10 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import {scaleLog, scaleLinear} from 'd3-scale';
-import VerticalBarChart, {RowHoverEvent} from 'react-vertical-bar-chart';
+import ComparisonBarChart, {
+  RowHoverEvent,
+  BarDatum,
+  Direction,
+} from 'react-comparison-bar-chart';
 import {SuccessResponse} from '../industrySpace/chart/useRCAData';
 import {
   DigitLevel,
@@ -8,17 +12,14 @@ import {
 } from '../../../types/graphQL/graphQLTypes';
 import {getStandardTooltip, RapidTooltipRoot} from '../../../utilities/rapidTooltip';
 import useFluent from '../../../hooks/useFluent';
-import Tooltip from './../../general/Tooltip';
 import {defaultYear, decimalToFraction} from '../../../Utils';
 import {
-  BasicLabel,
   clusterColorMap,
   intensityColorRange,
   educationColorRange,
   wageColorRange,
   Mult,
   FractionMult,
-  PointerActiveContainer,
 } from '../../../styling/styleUtils';
 import {ClusterLevel, ColorBy} from '../../../routing/routes';
 import {
@@ -29,8 +30,8 @@ import {
   useAggregateIndustryMap,
 } from '../../../hooks/useAggregateIndustriesData';
 import {rgba} from 'polished';
-import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 import LoadingBlock from '../../transitionStateComponents/VizLoadingBlock';
+import QuickError from '../../transitionStateComponents/QuickError';
 
 interface Props {
   data: SuccessResponse['c3Rca'] | SuccessResponse['c1Rca'];
@@ -42,10 +43,10 @@ interface Props {
 
 const Clusters = (props: Props) => {
   const {data, clusterLevel, colorBy, hiddenClusters, highlighted} = props;
+  const [highlightError, setHighlightError] = useState<boolean>(false);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
   const getString = useFluent();
   const clusterMap = useGlobalClusterMap();
-  const { benchmarkNameShort } = useCurrentBenchmark();
   const aggregateIndustryDataMap = useAggregateIndustryMap({
     level: DigitLevel.Six, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10),
   });
@@ -120,7 +121,19 @@ const Clusters = (props: Props) => {
       .nice() as any;
   }
 
-  const clusterData = filteredClusterRCA.map(d => {
+  const highPresenceScale = scaleLog()
+    .domain([1, max])
+    .range([0, 100])
+    .nice();
+
+  const lowPresenceScale = scaleLog()
+    .domain([1, min])
+    .range([0, 100])
+    .nice();
+
+  const highPresenceData: BarDatum[] = [];
+  const lowPresenceData: BarDatum[] = [];
+  filteredClusterRCA.forEach(d => {
     const cluster = d.clusterId !== null ? clusterMap.data[d.clusterId] : undefined;
     const title = cluster && cluster.name !== null ? cluster.name : '';
     let color: string;
@@ -143,15 +156,28 @@ const Clusters = (props: Props) => {
         .find(s => cluster && cluster.clusterIdTopParent && s.id === cluster.clusterIdTopParent.toString());
       color = colorDatum ? colorDatum.color : 'lightgray';
     }
-    return {
+    let value: number = 0;
+    if (d.rca && d.rca < 1) {
+      value = lowPresenceScale(d.rca) as number;
+    } else if (d.rca && d.rca >= 1) {
+      value = highPresenceScale(d.rca) as number;
+    }
+    // const value = d.rca ? scale(d.rca as number) as number : 0;
+    const datum: BarDatum = {
       id: d.clusterId !== null ? d.clusterId.toString() : '',
       title,
-      value: d.rca ? scale(d.rca as number) as number : 0,
+      value,
       color,
     };
+    if (d.rca && d.rca >= 1) {
+      highPresenceData.push(datum);
+    } else {
+      lowPresenceData.push(datum);
+    }
   });
-  const formatValue = (value: number) => {
-    const scaledValue = parseFloat(scale.invert(value).toFixed(5));
+  const formatValue = (value: number, direction: Direction) => {
+    const scaleToUse = direction === Direction.Over ? highPresenceScale : lowPresenceScale;
+    const scaledValue = parseFloat(scaleToUse.invert(value).toFixed(5));
     if (scaledValue >= 1) {
       return <>{scaledValue}<Mult>×</Mult></>;
     } else {
@@ -165,9 +191,10 @@ const Clusters = (props: Props) => {
     if (node) {
       if (e && e.datum) {
         const {datum, mouseCoords} = e;
+        const cluster = filteredClusterRCA.find(d => d.clusterId && d.clusterId.toString() === datum.id);
         const rows = [
           [getString('global-ui-year') + ':', defaultYear.toString()],
-          [getString('global-intensity') + ':', scale.invert(datum.value).toFixed(3)],
+          [getString('global-intensity') + ':', cluster && cluster.rca ? cluster.rca.toFixed(3) : '0.000'],
         ];
         if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
           const target = aggregateIndustryDataMap.data.clusters[datum.id];
@@ -191,42 +218,33 @@ const Clusters = (props: Props) => {
       }
     }
   };
-  const axisLabel = (
-    <BasicLabel>
-      {getString('global-intensity')}: {benchmarkNameShort}
-      <span style={{pointerEvents: 'all', marginTop: '0.2rem'}}>
-        <Tooltip
-          explanation={getString('global-intensity-bar-graph-about')}
-        />
-      </span>
-    </BasicLabel>
-  );
 
-  const centerLineLabel = (
-    <PointerActiveContainer>
-      <Tooltip
-        explanation={getString('global-specialization-expected-about')}
-      />
-      {getString('global-specialization-expected')}
-    </PointerActiveContainer>
-  );
+  const highlightErrorPopup = highlightError ? (
+    <QuickError
+      closeError={() => setHighlightError(false)}
+    >
+      {getString('global-ui-error-industry-not-in-data-set')}
+    </QuickError>
+  ) : null;
 
   return (
     <>
-      <VerticalBarChart
-        data={clusterData}
-        axisLabel={axisLabel}
-        highlighted={highlighted}
+      <ComparisonBarChart
+        primaryData={highPresenceData}
+        secondaryData={lowPresenceData}
         formatValue={formatValue}
+        highlighted={highlighted}
         onRowHover={setHovered}
+        onHighlightError={() => setHighlightError(true)}
+        nValuesToShow={10}
         numberOfXAxisTicks={numberOfXAxisTicks}
-        centerLineValue={scale(1) as number}
-        centerLineLabel={centerLineLabel}
-        overMideLineLabel={getString('global-specialization-over')}
-        underMideLineLabel={getString('global-specialization-under')}
-        scrollDownText={getString('global-specialization-scroll')}
+        expandCollapseText={{
+          toExpand: getString('cities-top-10-comparison-chart-expand-clusters'),
+          toCollapse: getString('cities-top-10-comparison-chart-collapse-clusters'),
+        }}
       />
       <RapidTooltipRoot ref={tooltipRef} />
+      {highlightErrorPopup}
     </>
   );
 };

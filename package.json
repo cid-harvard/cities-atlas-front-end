@@ -36,7 +36,7 @@
     "react": "^16.13.1",
     "react-canvas-treemap": "^1.0.6",
     "react-city-space-mapbox": "^1.0.9",
-    "react-comparison-bar-chart": "^1.2.0",
+    "react-comparison-bar-chart": "^1.2.2",
     "react-compound-slider": "^3.3.1",
     "react-csv": "^2.0.3",
     "react-dom": "^16.13.1",

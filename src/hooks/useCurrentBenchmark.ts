@@ -2,9 +2,11 @@ import useQueryParams from './useQueryParams';
 import useGlobalLocationData from './useGlobalLocationData';
 import {PeerGroup, isValidPeerGroup} from '../types/graphQL/graphQLTypes';
 import useFluent from '../hooks/useFluent';
+import { defaultBenchmark } from '../components/navigation/secondaryHeader/comparisons/AddComparisonModal';
 
 const useCurrentBenchmark = () => {
-  const {benchmark} = useQueryParams();
+  const params = useQueryParams();
+  const benchmark = params.benchmark ? params.benchmark : defaultBenchmark;
   const getString = useFluent();
   const {data} = useGlobalLocationData();
 

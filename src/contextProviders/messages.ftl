@@ -276,6 +276,8 @@ cities-top-10-comparison-chart-title = Positive { $name } Share (%)
 cities-top-10-comparison-chart-title-count-text = (Top { $count })
 cities-top-10-comparison-chart-expand = Click to see all industries
 cities-top-10-comparison-chart-collapse = Show only top industries
+cities-top-10-comparison-chart-expand-clusters = Click to see all clusters
+cities-top-10-comparison-chart-collapse-clusters = Show only top clusters
 cities-top-10-comparison-chart-axis-title = Difference in Share
 
 glossary-total-shown = Source: Dun & Bradstreet, 2020
