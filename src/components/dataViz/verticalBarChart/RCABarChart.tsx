@@ -30,6 +30,7 @@ import useFluent from '../../../hooks/useFluent';
 import {ClusterLevel} from '../../../routing/routes';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
+import BenchmarkLegend from '../legend/BenchmarkLegend';
 
 const Root = styled.div`
   width: 100%;
@@ -38,7 +39,7 @@ const Root = styled.div`
   grid-row: 2;
   position: relative;
   display: grid;
-  grid-template-rows: 1fr 6rem;
+  grid-template-rows: 1fr 3rem auto;
   grid-template-columns: 3.5rem 1fr;
 
   @media ${breakPoints.small} {
@@ -84,11 +85,21 @@ const BottomAxisRoot = styled.div`
   }
 `;
 
+const BenchmarkRoot = styled(BottomAxisRoot)`
+  grid-row: 3;
+  justify-content: center;
+  white-space: normal;
+`;
+
 const AxisLabelBase = styled.div`
   font-weight: 600;
   font-size: 0.75rem;
   color: ${baseColor};
   text-transform: uppercase;
+
+  @media (max-width: 1000px) {
+    font-size: 0.6rem;
+  }
 
   @media (max-height: 600px) {
     font-size: 0.65rem;
@@ -96,7 +107,7 @@ const AxisLabelBase = styled.div`
 `;
 
 const AxisLabelLeft = styled(AxisLabelBase)`
-  margin-right: 2rem;
+  margin-right: 1rem;
   font-weight: 400;
 
   @media (max-width: 990px) {
@@ -109,7 +120,7 @@ const AxisLabelLeft = styled(AxisLabelBase)`
 `;
 
 const AxisLabelRight = styled(AxisLabelBase)`
-  margin-left: 2rem;
+  margin-left: 1rem;
   font-weight: 400;
 
   @media (max-width: 990px) {
@@ -278,6 +289,9 @@ const RCABarChart = (props: Props) => {
           </AxisLabelBase>
           <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
         </BottomAxisRoot>
+        <BenchmarkRoot>
+          <BenchmarkLegend />
+        </BenchmarkRoot>
         <VizRoot ref={rootRef}>
           {output}
         </VizRoot>

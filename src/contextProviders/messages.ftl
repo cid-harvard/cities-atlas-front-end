@@ -106,6 +106,7 @@ global-formatted-peer-groups = {
   [regional_income] Regional peers by similar population and income per capita
   [regional_eucdist] Regional peers by similar economic structure
   [region] All regional peers
+  [world] World
 }
 
 global-formatted-peer-groups-short = {
@@ -117,6 +118,7 @@ global-formatted-peer-groups-short = {
   [regional_income] Peer Group
   [regional_eucdist] Peer Group
   [region] Peer Group
+  [world] World
 }
 
 color-by-proximity-only = Color by option is only available for proximity
@@ -144,6 +146,8 @@ global-formatted-income-class = {
 
 global-ui-relative-presence = Relative Presence
 global-ui-absolute-presence = Absolute Presence
+
+global-ui-change-benchmark = Change Benchmark
 
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector
@@ -399,6 +403,7 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
+  [world] the world
 }. For each industry, it looks at whether the industry accounts for a larger or a smaller share of overall employment in { $name } than in {
   $benchmark-type ->
   *[benchmark_city_name] { $benchmark-type }
@@ -409,6 +414,7 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
+  [world] the world
 }. If bars run to the right, the industries are, in relative terms, more important employers in { $name } than in {
   $benchmark-type ->
   *[benchmark_city_name] { $benchmark-type }
@@ -419,6 +425,7 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
+  [world] the world
 }. If bars run to the left, the opposite is true. The length of the bar shows how many times larger or smaller the industry’s employment share is in { $name } than in {
   $benchmark-type ->
   *[benchmark_city_name] { $benchmark-type }
@@ -429,6 +436,7 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
+  [world] the world
 }
 
 city-similarity-title = What cities are similar to { $name }?
@@ -445,6 +453,7 @@ industry-space-para-1 = The Industry Space showcases the technological relatedne
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
+  [world] the world
 } of each industry in { $name }. Thereby, we obtain a bird’s eye view of the economic composition of { $name } in terms of the knowledge clusters in which it excels.
 industry-space-para-2 = { $name-plural } position in the Industry Space, helps understand which diversification paths may be available to the city, as industries close to those that are already well-developed in { $name } are likely candidates for growth.
 
@@ -459,6 +468,7 @@ growth-opportunities-para-1 = Building on all these measures, we can rank indust
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
+  [world] the world
 }. Additionally, it can help identify industries that are surprisingly large (or small) in { $name }.
 
 contact-us-title = Get in Touch

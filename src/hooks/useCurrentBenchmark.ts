@@ -3,6 +3,7 @@ import useGlobalLocationData from './useGlobalLocationData';
 import {PeerGroup, isValidPeerGroup} from '../types/graphQL/graphQLTypes';
 import useFluent from '../hooks/useFluent';
 import { defaultBenchmark } from '../components/navigation/secondaryHeader/comparisons/AddComparisonModal';
+import { RegionGroup } from '../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 
 const useCurrentBenchmark = () => {
   const params = useQueryParams();
@@ -18,7 +19,7 @@ const useCurrentBenchmark = () => {
     ? selectedValue.name + (country ? ', ' + country.nameShortEn : '')
     : '---';
   let benchmarkNameShort = selectedValue ? selectedValue.name : '---';
-  if (isValidPeerGroup(benchmark)) {
+  if (isValidPeerGroup(benchmark) || benchmark === RegionGroup.World) {
     benchmarkName = getString('global-formatted-peer-groups', {type: benchmark});
     benchmarkNameShort = getString('global-formatted-peer-groups-short', {type: benchmark});
   }
