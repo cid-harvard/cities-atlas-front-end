@@ -13,6 +13,8 @@ import ClusterTable from './ClusterTable';
 import {
   AggregationMode,
 } from '../../../routing/routes';
+import PresenceToggle from '../legend/PresenceToggle';
+import BenchmarkLegend from '../legend/BenchmarkLegend';
 
 const Root = styled.div`
   position: relative;
@@ -27,6 +29,28 @@ const ScrollRoot = styled(ScrollContainer)`
   right: 0;
   left: 0;
   cursor: move;
+  padding-bottom: 90px;
+`;
+
+const BenchmarkLegendRoot = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 100;
+`;
+
+const BenchmarkLegendContent = styled.div`
+  pointer-events: all;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.5rem;
 `;
 
 interface Props {
@@ -69,6 +93,12 @@ const PSWOTTable = (props: Props) => {
       <ScrollRoot hideScrollbars={false}>
         {table}
       </ScrollRoot>
+      <BenchmarkLegendRoot>
+        <BenchmarkLegendContent>
+          <PresenceToggle />
+          <BenchmarkLegend />
+        </BenchmarkLegendContent>
+      </BenchmarkLegendRoot>
     </Root>
   );
 };
