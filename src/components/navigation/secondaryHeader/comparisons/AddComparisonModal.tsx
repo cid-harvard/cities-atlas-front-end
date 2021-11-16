@@ -26,6 +26,7 @@ import {TooltipTheme} from '../../../general/Tooltip';
 import {PeerGroup, isValidPeerGroup, CityPeerGroupCounts} from '../../../../types/graphQL/graphQLTypes';
 import { useQuery, gql } from '@apollo/client';
 import {CityRoutes} from '../../../../routing/routes';
+import BenchmarkSVG from '../../../../assets/icons/benchmark_comparator.svg';
 
 const PEER_GROUP_CITY_COUNT = gql`
   query GetPeerGroupCityCounts($cityId: Int!) {
@@ -98,15 +99,14 @@ const H1 = styled.h1`
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
+`;
 
-  &.${benchmarkButtonClassName}:before {
-    font-size: 1.45em;
-    content: '⇅';
-    top: 0.15rem;
+const Icon = styled.img`
+    width: 2.5rem;
+    height: 2.5rem;
     position: relative;
-    line-height: 0;
-    margin-right: 0.65rem;
-  }
+    top: 0.75rem;
+    margin-right: 1rem;
 `;
 
 const Label = styled.label`
@@ -424,6 +424,7 @@ const AddComparisonModal = (props: Props) => {
           style={comparisonType === ComparisonType.Absolute ? {marginBottom: '4rem'} : undefined}
           className={comparisonType === ComparisonType.Absolute ? undefined : benchmarkButtonClassName}
         >
+          <Icon src={BenchmarkSVG} />
           {title}:
         </H1>
         {about}
