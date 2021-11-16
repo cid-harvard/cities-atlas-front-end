@@ -120,6 +120,7 @@ const CityGoodAt = () => {
 
   const clusterLevel = cluster_level ? cluster_level : defaultClusterLevel;
   const digitLevel = digit_level ? parseInt(digit_level, 10) : defaultDigitLevel;
+  const colorBy = color_by ? color_by : defaultColorBy;
 
   return (
     <DefaultContentWrapper>
@@ -135,6 +136,7 @@ const CityGoodAt = () => {
                 clusterLevel={clusterLevel}
                 isClusterView={isClusterView}
                 hiddenClusters={hiddenClusters}
+                colorBy={colorBy}
               />
             )} />
           <TrackedRoute path={CityRoutes.CityGoodAt}
@@ -147,7 +149,7 @@ const CityGoodAt = () => {
                 hiddenClusters={hiddenClusters}
                 clusterLevel={clusterLevel}
                 digitLevel={digitLevel}
-                colorBy={color_by ? color_by : defaultColorBy}
+                colorBy={colorBy}
               />
             )} />
         </Switch>

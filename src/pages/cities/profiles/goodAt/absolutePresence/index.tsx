@@ -17,7 +17,7 @@ import useQueryParams from '../../../../../hooks/useQueryParams';
 import { RegionGroup } from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
 import { createRoute } from '../../../../../routing/Utils';
 import TrackedRoute from '../../../../../routing/TrackedRoute';
-import { CityRoutes, cityIdParam } from '../../../../../routing/routes';
+import { CityRoutes, cityIdParam, ColorBy } from '../../../../../routing/routes';
 import {
   useHistory,
   Switch,
@@ -31,12 +31,14 @@ interface Props {
   clusterLevel: ClusterLevel;
   isClusterView: boolean;
   hiddenClusters: ClassificationNaicsCluster['id'][];
+  colorBy: ColorBy;
 }
 
 const CompositionComparison = (props: Props) => {
   const {
     primaryCity, secondaryCity, hiddenSectors,
     clusterLevel, isClusterView, hiddenClusters,
+    colorBy,
   } = props;
 
   const { digit_level, composition_type } = useQueryParams();
@@ -113,6 +115,7 @@ const CompositionComparison = (props: Props) => {
               clusterLevel={clusterLevel}
               isClusterView={isClusterView}
               hiddenClusters={hiddenClusters}
+              colorBy={colorBy}
             />
           )}
         />

@@ -19,7 +19,9 @@ import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import {
   clusterColorMap,
+  educationColorRange,
   sectorColorMap,
+  wageColorRange,
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
 import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
@@ -36,11 +38,14 @@ import {
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
 import BenchmarkLegend from '../legend/BenchmarkLegend';
-import { AggregationMode, CityRoutes, ClusterLevel } from '../../../routing/routes';
+import { AggregationMode, CityRoutes, ClusterLevel, ColorBy } from '../../../routing/routes';
 import { createRoute } from '../../../routing/Utils';
 import { useHistory } from 'react-router-dom';
 import useFluent from '../../../hooks/useFluent';
 import { useGlobalClusterMap } from '../../../hooks/useGlobalClusterData';
+import { scaleLinear } from 'd3-scale';
+import { useAggregateIndustryMap } from '../../../hooks/useAggregateIndustriesData';
+import { defaultYear } from '../../../Utils';
 
 const Root = styled.div`
   width: 100%;
@@ -97,18 +102,22 @@ interface Props {
   clusterLevel: ClusterLevel;
   isClusterView: boolean;
   hiddenClusters: ClassificationNaicsCluster['id'][];
+  colorBy: ColorBy;
 }
 
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, comparison, year, digitLevel, compositionType, hiddenSectors,
     highlighted, setHighlighted, vizNavigation, clusterLevel, isClusterView,
-    hiddenClusters,
+    hiddenClusters, colorBy,
   } = props;
 
 
   const industryMap = useGlobalIndustryMap();
   const clusterMap = useGlobalClusterMap();
+  const aggregateIndustryDataMap = useAggregateIndustryMap({ level: digitLevel, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10) });
+  const aggregateData = isClusterView ? aggregateIndustryDataMap.data.clusters : aggregateIndustryDataMap.data.industries;
+  const globalAggregateData = isClusterView ? aggregateIndustryDataMap.data.clusterMinMax : aggregateIndustryDataMap.data.globalMinMax;
   const industryOrClusterMap = isClusterView ? clusterMap : industryMap;
   const parentField = isClusterView ? 'clusterIdTopParent' : 'naicsIdTopParent';
   const colorMap = isClusterView ? clusterColorMap : sectorColorMap;
@@ -132,6 +141,27 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       setDimensions({width, height});
     }
   }, [rootRef, windowDimensions]);
+
+  let colorScale: (val: number) => string;
+  if (colorBy === ColorBy.education && aggregateIndustryDataMap.data !== undefined) {
+    colorScale = scaleLinear()
+      .domain([
+        globalAggregateData.minYearsEducation,
+        globalAggregateData.medianYearsEducation,
+        globalAggregateData.maxYearsEducation,
+      ])
+      .range(educationColorRange as any) as any;
+  } else if (colorBy === ColorBy.wage && aggregateIndustryDataMap.data !== undefined) {
+    colorScale = scaleLinear()
+      .domain([
+        globalAggregateData.minHourlyWage,
+        globalAggregateData.medianHourlyWage,
+        globalAggregateData.maxHourlyWage,
+      ])
+      .range(wageColorRange as any) as any;
+  } else {
+    colorScale = () => 'lightgray';
+  }
 
   const prevData = usePrevious(data);
   let dataToUse: SuccessResponse | undefined;
@@ -169,18 +199,32 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       const industry = industryOrClusterMap.data[industryId];
       if (industry && (industry.level + '') === (level + '')) {
         const {name} = industry;
+        let color: string;
+        if ((colorBy === ColorBy.education || colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+          const target = industryId !== null ? aggregateData[industryId + ''] : undefined;
+          if (target) {
+            const targetValue = colorBy === ColorBy.education
+              ? target.yearsEducationRank : target.hourlyWageRank;
+            color = colorScale(targetValue);
+          } else {
+            color = 'lightgray';
+          }
+        } else {
+          const colorDatum = industry
+            ? colorMap.find(s => s.id === (industry as any)[parentField].toString()) : undefined;
+          color = colorDatum ? colorDatum.color : 'lightgray';
+        }
         const topParent = (industry as any)[parentField];
-        const colorDatum = colorMap.find(s => s.id === topParent.toString());
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         primaryTotal = compositionType === CompositionType.Companies ? primaryTotal + companies : primaryTotal + employees;
-        if (!hiddenIndustriesOrClusters.includes(topParent.toString()) && colorDatum) {
+        if (!hiddenIndustriesOrClusters.includes(topParent.toString())) {
           filteredPrimaryData.push({
             id: industryId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
             topParent: topParent.toString(),
-            color: colorDatum.color,
+            color,
           });
         }
       }
@@ -189,19 +233,33 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     secondaryCityIndustries.forEach(({ industryId, numCompany, numEmploy}) => {
       const industry = industryOrClusterMap.data[industryId];
       if (industry && (industry.level + '') === (level + '')) {
-        const {name} = industry;
+        const { name } = industry;
+        let color: string;
+        if ((colorBy === ColorBy.education || colorBy === ColorBy.wage) && aggregateIndustryDataMap.data) {
+          const target = industryId !== null ? aggregateData[industryId + ''] : undefined;
+          if (target) {
+            const targetValue = colorBy === ColorBy.education
+              ? target.yearsEducationRank : target.hourlyWageRank;
+            color = colorScale(targetValue);
+          } else {
+            color = 'lightgray';
+          }
+        } else {
+          const colorDatum = industry
+            ? colorMap.find(s => s.id === (industry as any)[parentField].toString()) : undefined;
+          color = colorDatum ? colorDatum.color : 'lightgray';
+        }
         const topParent = (industry as any)[parentField];
-        const colorDatum = colorMap.find(s => s.id === topParent.toString());
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         secondaryTotal = compositionType === CompositionType.Companies ? secondaryTotal + companies : secondaryTotal + employees;
-        if (!hiddenIndustriesOrClusters.includes(topParent.toString()) && colorDatum) {
+        if (!hiddenIndustriesOrClusters.includes(topParent.toString())) {
           filteredSecondaryData.push({
             id: industryId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
             topParent: topParent.toString(),
-            color: colorDatum.color,
+            color,
           });
         }
       }
