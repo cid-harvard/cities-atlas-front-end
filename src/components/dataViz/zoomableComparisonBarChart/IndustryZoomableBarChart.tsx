@@ -291,8 +291,10 @@ const IndustryZoomableBarChart = (props: Props) => {
     const {
       primaryCityIndustries, secondaryCityIndustries,
     } = dataToUse;
-    const highlightedParent = highlightIndustry && highlightIndustry.level === DigitLevel.Six
-      ? highlightIndustry.parentId : highlighted;
+    const highlightedParent =
+      (highlightIndustry && highlightIndustry.level === DigitLevel.Six) ||
+      (isClusterView && highlightIndustry && highlightIndustry.level + '' === ClusterLevel.C3)
+        ? highlightIndustry.parentId : highlighted;
     const primaryTotal = primaryCityIndustries.reduce((total, {industryId, numCompany, numEmploy}) => {
       const industry = industryOrClusterMap.data[industryId];
       if (industry && industry.parentId === null) {
