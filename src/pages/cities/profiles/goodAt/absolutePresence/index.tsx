@@ -93,6 +93,8 @@ const CompositionComparison = (props: Props) => {
               compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
               hiddenSectors={hiddenSectors}
               vizNavigation={vizNavigation}
+              isClusterView={isClusterView}
+              hiddenClusters={hiddenClusters}
             />
           )}
         />
