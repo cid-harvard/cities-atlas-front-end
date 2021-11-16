@@ -41,11 +41,12 @@ import BenchmarkLegend from '../legend/BenchmarkLegend';
 import { AggregationMode, CityRoutes, ClusterLevel, ColorBy } from '../../../routing/routes';
 import { createRoute } from '../../../routing/Utils';
 import { useHistory } from 'react-router-dom';
-import useFluent from '../../../hooks/useFluent';
+import useFluent, { plural, possessive } from '../../../hooks/useFluent';
 import { useGlobalClusterMap } from '../../../hooks/useGlobalClusterData';
 import { scaleLinear } from 'd3-scale';
 import { useAggregateIndustryMap } from '../../../hooks/useAggregateIndustriesData';
 import { defaultYear } from '../../../Utils';
+import useCurrentCity from '../../../hooks/useCurrentCity';
 
 const Root = styled.div`
   width: 100%;
@@ -112,7 +113,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     hiddenClusters, colorBy,
   } = props;
 
-
+  const currentCity = useCurrentCity();
   const industryMap = useGlobalIndustryMap();
   const clusterMap = useGlobalClusterMap();
   const aggregateIndustryDataMap = useAggregateIndustryMap({ level: digitLevel, year: defaultYear, clusterLevel: parseInt(clusterLevel, 10) });
@@ -285,6 +286,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
                 secondaryCityId={comparison}
                 highlighted={highlighted}
                 compositionType={compositionType}
+                isClusterView={isClusterView}
               />
             </ErrorBoundary>
           {loadingOverlay}
@@ -301,6 +303,17 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       history.push(route + history.location.search);
     }
   };
+
+  const cityName = currentCity && currentCity.city && currentCity.city.name ? currentCity.city.name : '---';
+
+  const textLeft = getString('cities-top-10-comparison-chart-title', {
+    name: 'Peer\'s',
+    other: plural(cityName),
+  });
+  const textRight = getString('cities-top-10-comparison-chart-title', {
+    name: possessive([cityName]),
+    other: 'Peers',
+  });
 
   return (
     <>
@@ -323,7 +336,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       />
       <Root ref={rootRef}>
         <BottomAxisRoot>
-          <AxisLabelLeft>{getString('pswot-axis-labels-bottom-left')}</AxisLabelLeft>
+          <AxisLabelLeft
+            dangerouslySetInnerHTML={{__html: textLeft }}
+            style={{whiteSpace: 'normal'}}
+          />
           <AxisLabelBase>
             <PresenceToggle
               togglePresence={true}
@@ -332,7 +348,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
               onButtonClick={onButtonClick}
             />
           </AxisLabelBase>
-          <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
+          <AxisLabelRight
+            dangerouslySetInnerHTML={{__html: textRight }}
+            style={{whiteSpace: 'normal'}}
+          />
         </BottomAxisRoot>
         <BenchmarkRoot>
           <BenchmarkLegend

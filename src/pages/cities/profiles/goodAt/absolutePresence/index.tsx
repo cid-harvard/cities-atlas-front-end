@@ -49,7 +49,7 @@ const CompositionComparison = (props: Props) => {
   );
   const vizNavigation = [
     {
-      label: 'Top 10 Share Differences',
+      label: 'Bar Graph',
       active: !!(!isIndustryComparison || !isIndustryComparison.isExact),
       onClick: () => {
         setHighlighted(undefined);
@@ -60,7 +60,7 @@ const CompositionComparison = (props: Props) => {
       },
     },
     {
-      label: 'Compare Industries',
+      label: 'Nested Bar Graph',
       active: !!(isIndustryComparison && isIndustryComparison.isExact),
       onClick: () => {
         setHighlighted(undefined);

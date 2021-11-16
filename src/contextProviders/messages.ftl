@@ -270,7 +270,7 @@ landing-overlay-footnote = <strong>Metroverse is a prototype tool with exciting 
 
 cities-single-page-titles-question-1 = City Overview
 cities-single-page-titles-question-2 = What is my city's\neconomic composition?
-cities-single-page-titles-question-3 = What does my city\nspecialize in?
+cities-single-page-titles-question-3 = How does my city's\neconomic composition\ncompare to its peer(s)?
 cities-single-page-titles-question-4 = What is my city's position\nin the Industry Space?
 cities-single-page-titles-question-5 = What are the growth\nopportunities?
 
@@ -280,7 +280,7 @@ tooltip-number-generic = Estimated number of { $value }
 tooltip-share-generic = Share of { $value }
 tooltip-intensity-generic = Specialization of { $value }
 
-cities-top-10-comparison-chart-title = Positive { $name } Share (%)
+cities-top-10-comparison-chart-title = { $name } share larger than { $other } (%)
 cities-top-10-comparison-chart-title-count-text = (Top { $count })
 cities-top-10-comparison-chart-expand = Click to see all industries
 cities-top-10-comparison-chart-collapse = Show only top industries

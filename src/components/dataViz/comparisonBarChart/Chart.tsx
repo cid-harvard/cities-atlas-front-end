@@ -38,6 +38,7 @@ interface Props {
   secondaryCityId: number | RegionGroup | PeerGroup;
   highlighted: string | undefined;
   compositionType: CompositionType;
+  isClusterView: boolean;
 }
 
 const Chart = (props: Props) => {
@@ -46,6 +47,7 @@ const Chart = (props: Props) => {
     primaryTotal, secondaryTotal,
     primaryCityId, secondaryCityId,
     highlighted, compositionType,
+    isClusterView,
   } = props;
 
   const tooltipRef = useRef<HTMLDivElement | null>(null);
@@ -148,11 +150,6 @@ const Chart = (props: Props) => {
     }
   };
 
-  const titleFormatter = (label: string, count: number, max: number) => {
-    const countText = count === max ? '' : getString('cities-top-10-comparison-chart-title-count-text', {count});
-    return getString('cities-top-10-comparison-chart-title', {name: label}) + ' ' + countText;
-  };
-
   const highlightErrorPopup = highlightError ? (
     <QuickError
       closeError={() => setHighlightError(false)}
@@ -161,6 +158,14 @@ const Chart = (props: Props) => {
     </QuickError>
   ) : null;
 
+  const expandCollapseText = {
+    toExpand: isClusterView
+      ? getString('cities-top-10-comparison-chart-expand-clusters')
+      : getString('cities-top-10-comparison-chart-expand'),
+    toCollapse: isClusterView
+      ? getString('cities-top-10-comparison-chart-collapse-clusters')
+      : getString('cities-top-10-comparison-chart-collapse'),
+  };
   return (
     <>
       <ComparisonBarChart
@@ -168,15 +173,7 @@ const Chart = (props: Props) => {
         secondaryData={secondaryData}
         nValuesToShow={10}
         formatValue={formatAxisValue}
-        titles={{
-          primary: primaryCityName,
-          secondary: secondaryCityName,
-          format: titleFormatter,
-        }}
-        expandCollapseText={{
-          toExpand: getString('cities-top-10-comparison-chart-expand'),
-          toCollapse: getString('cities-top-10-comparison-chart-collapse'),
-        }}
+        expandCollapseText={expandCollapseText}
         axisLabel={getString('cities-top-10-comparison-chart-axis-title')}
         onRowHover={setHovered}
         highlighted={highlighted}

@@ -13,6 +13,15 @@ export const possessive = ([word]: [string]): string => {
   }
 };
 
+export const plural = (word: string): string => {
+  const lastCharacter = word[word.length - 1];
+  if (lastCharacter === 's') {
+    return word + '';
+  } else {
+    return word + 's';
+  }
+};
+
 // Taken from https://stackoverflow.com/a/13627586
 const ordinalSuffix = ([input]: [number]): string => {
   const j = input % 10, k = input % 100;
