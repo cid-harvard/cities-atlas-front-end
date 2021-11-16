@@ -22,7 +22,7 @@ export interface FilteredDatum {
   title: string;
   value: number;
   color: string;
-  naicsIdTopParent: CityIndustryYear['naicsId'];
+  topParent: CityIndustryYear['naicsId'];
 }
 
 const formatAxisValue = (value: number) => {

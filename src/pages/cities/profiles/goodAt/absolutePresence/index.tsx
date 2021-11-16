@@ -10,6 +10,8 @@ import {
   defaultDigitLevel,
   isValidPeerGroup,
   PeerGroup,
+  ClassificationNaicsCluster,
+  ClusterLevel,
 } from '../../../../../types/graphQL/graphQLTypes';
 import useQueryParams from '../../../../../hooks/useQueryParams';
 import { RegionGroup } from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
@@ -26,11 +28,15 @@ interface Props {
   primaryCity: string;
   secondaryCity: string;
   hiddenSectors: string[];
+  clusterLevel: ClusterLevel;
+  isClusterView: boolean;
+  hiddenClusters: ClassificationNaicsCluster['id'][];
 }
 
 const CompositionComparison = (props: Props) => {
   const {
     primaryCity, secondaryCity, hiddenSectors,
+    clusterLevel, isClusterView, hiddenClusters,
   } = props;
 
   const { digit_level, composition_type } = useQueryParams();
@@ -102,6 +108,9 @@ const CompositionComparison = (props: Props) => {
               compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
               hiddenSectors={hiddenSectors}
               vizNavigation={vizNavigation}
+              clusterLevel={clusterLevel}
+              isClusterView={isClusterView}
+              hiddenClusters={hiddenClusters}
             />
           )}
         />

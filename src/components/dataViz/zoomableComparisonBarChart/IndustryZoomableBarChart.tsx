@@ -41,7 +41,7 @@ import {Mode} from '../../general/searchIndustryInGraphDropdown';
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
 import BenchmarkLegend from '../legend/BenchmarkLegend';
-import { CityRoutes } from '../../../routing/routes';
+import { AggregationMode, CityRoutes } from '../../../routing/routes';
 import { createRoute } from '../../../routing/Utils';
 import { useHistory } from 'react-router-dom';
 
@@ -212,6 +212,7 @@ const IndustryZoomableBarChart = (props: Props) => {
 
   const {loading, error, data} = useComparisonQuery({
     primaryCity, comparison, year,
+    aggregation: AggregationMode.industries,
   });
   const history = useHistory();
   const industryMap = useGlobalIndustryMap();
@@ -279,8 +280,8 @@ const IndustryZoomableBarChart = (props: Props) => {
     } = dataToUse;
     const highlightedParent = highlightIndustry && highlightIndustry.level === DigitLevel.Six
       ? highlightIndustry.parentId : highlighted;
-    const primaryTotal = primaryCityIndustries.reduce((total, {naicsId, numCompany, numEmploy}) => {
-      const industry = industryMap.data[naicsId];
+    const primaryTotal = primaryCityIndustries.reduce((total, {industryId, numCompany, numEmploy}) => {
+      const industry = industryMap.data[industryId];
       if (industry && industry.parentId === null) {
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
@@ -290,8 +291,8 @@ const IndustryZoomableBarChart = (props: Props) => {
         return total;
       }
     }, 0);
-    const secondaryTotal = secondaryCityIndustries.reduce((total, {naicsId, numCompany, numEmploy}) => {
-      const industry = industryMap.data[naicsId];
+    const secondaryTotal = secondaryCityIndustries.reduce((total, {industryId, numCompany, numEmploy}) => {
+      const industry = industryMap.data[industryId];
       if (industry && industry.parentId === null) {
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
@@ -302,8 +303,8 @@ const IndustryZoomableBarChart = (props: Props) => {
       }
     }, 0);
     const barChartData: ClusterBarChartDatum[] = [];
-    [...primaryCityIndustries, ...secondaryCityIndustries].forEach(({naicsId, numCompany, numEmploy}, i) => {
-      const industry = industryMap.data[naicsId];
+    [...primaryCityIndustries, ...secondaryCityIndustries].forEach(({industryId, numCompany, numEmploy}, i) => {
+      const industry = industryMap.data[industryId];
       if (
           industry && industry.name && industry.parentId === highlightedParent &&
           !hiddenSectors.includes(industry.naicsIdTopParent.toString())
@@ -326,7 +327,7 @@ const IndustryZoomableBarChart = (props: Props) => {
           y: value / total * 100,
           fill,
           onClick: industry.level !== DigitLevel.Six
-            ? () => setHighlighted(naicsId) : undefined,
+            ? () => setHighlighted(industryId) : undefined,
         });
       }
     });

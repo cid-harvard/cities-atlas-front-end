@@ -4,6 +4,7 @@ import {
   ClassificationNaicsIndustry,
   CompositionType,
   PeerGroup,
+  ClassificationNaicsCluster,
 } from '../../../types/graphQL/graphQLTypes';
 import {
   useGlobalIndustryMap,
@@ -17,6 +18,7 @@ import PreChartRow, {VizNavItem} from '../../../components/general/PreChartRow';
 import ErrorBoundary from '../ErrorBoundary';
 import styled from 'styled-components/macro';
 import {
+  clusterColorMap,
   sectorColorMap,
 } from '../../../styling/styleUtils';
 import SimpleError from '../../transitionStateComponents/SimpleError';
@@ -34,10 +36,11 @@ import {
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
 import BenchmarkLegend from '../legend/BenchmarkLegend';
-import { CityRoutes } from '../../../routing/routes';
+import { AggregationMode, CityRoutes, ClusterLevel } from '../../../routing/routes';
 import { createRoute } from '../../../routing/Utils';
 import { useHistory } from 'react-router-dom';
 import useFluent from '../../../hooks/useFluent';
+import { useGlobalClusterMap } from '../../../hooks/useGlobalClusterData';
 
 const Root = styled.div`
   width: 100%;
@@ -91,19 +94,35 @@ interface Props {
   compositionType: CompositionType;
   hiddenSectors: ClassificationNaicsIndustry['id'][];
   vizNavigation: VizNavItem[];
+  clusterLevel: ClusterLevel;
+  isClusterView: boolean;
+  hiddenClusters: ClassificationNaicsCluster['id'][];
 }
 
 const TopIndustryComparisonBarChart = (props: Props) => {
   const {
     primaryCity, comparison, year, digitLevel, compositionType, hiddenSectors,
-    highlighted, setHighlighted, vizNavigation,
+    highlighted, setHighlighted, vizNavigation, clusterLevel, isClusterView,
+    hiddenClusters,
   } = props;
 
+
   const industryMap = useGlobalIndustryMap();
+  const clusterMap = useGlobalClusterMap();
+  const industryOrClusterMap = isClusterView ? clusterMap : industryMap;
+  const parentField = isClusterView ? 'clusterIdTopParent' : 'naicsIdTopParent';
+  const colorMap = isClusterView ? clusterColorMap : sectorColorMap;
+  const level = isClusterView ? clusterLevel : digitLevel;
+  const hiddenIndustriesOrClusters = isClusterView ? hiddenClusters : hiddenSectors;
   const windowDimensions = useWindowWidth();
   const getString = useFluent();
   const history = useHistory();
-  const {loading, error, data} = useComparisonQuery({primaryCity, comparison, year});
+  const {loading, error, data} = useComparisonQuery({
+    primaryCity,
+    comparison,
+    year,
+    aggregation: isClusterView ? AggregationMode.cluster : AggregationMode.industries,
+  });
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
   useEffect(() => {
@@ -125,7 +144,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   }
 
   let output: React.ReactElement<any> | null;
-  if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (industryOrClusterMap.loading || !dimensions || (loading && prevData === undefined)) {
     output = <LoadingBlock />;
   } else if (error !== undefined) {
     output = (
@@ -134,7 +153,7 @@ const TopIndustryComparisonBarChart = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(error);
-  }  else if (industryMap.error !== undefined) {
+  }  else if (industryOrClusterMap.error !== undefined) {
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -146,40 +165,42 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     let primaryTotal = 0;
     let secondaryTotal = 0;
     const filteredPrimaryData: FilteredDatum[] = [];
-    primaryCityIndustries.forEach(({naicsId, numCompany, numEmploy}) => {
-      const industry = industryMap.data[naicsId];
-      if (industry && industry.level === digitLevel) {
-        const {name, naicsIdTopParent} = industry;
-        const colorDatum = sectorColorMap.find(s => s.id === naicsIdTopParent.toString());
+    primaryCityIndustries.forEach(({ industryId, numCompany, numEmploy}) => {
+      const industry = industryOrClusterMap.data[industryId];
+      if (industry && (industry.level + '') === (level + '')) {
+        const {name} = industry;
+        const topParent = (industry as any)[parentField];
+        const colorDatum = colorMap.find(s => s.id === topParent.toString());
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         primaryTotal = compositionType === CompositionType.Companies ? primaryTotal + companies : primaryTotal + employees;
-        if (!hiddenSectors.includes(naicsIdTopParent.toString()) && colorDatum) {
+        if (!hiddenIndustriesOrClusters.includes(topParent.toString()) && colorDatum) {
           filteredPrimaryData.push({
-            id: naicsId,
+            id: industryId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
-            naicsIdTopParent: naicsIdTopParent.toString(),
+            topParent: topParent.toString(),
             color: colorDatum.color,
           });
         }
       }
     });
     const filteredSecondaryData: FilteredDatum[] = [];
-    secondaryCityIndustries.forEach(({naicsId, numCompany, numEmploy}) => {
-      const industry = industryMap.data[naicsId];
-      if (industry && industry.level === digitLevel) {
-        const {name, naicsIdTopParent} = industry;
-        const colorDatum = sectorColorMap.find(s => s.id === naicsIdTopParent.toString());
+    secondaryCityIndustries.forEach(({ industryId, numCompany, numEmploy}) => {
+      const industry = industryOrClusterMap.data[industryId];
+      if (industry && (industry.level + '') === (level + '')) {
+        const {name} = industry;
+        const topParent = (industry as any)[parentField];
+        const colorDatum = colorMap.find(s => s.id === topParent.toString());
         const companies = numCompany ? numCompany : 0;
         const employees = numEmploy ? numEmploy : 0;
         secondaryTotal = compositionType === CompositionType.Companies ? secondaryTotal + companies : secondaryTotal + employees;
-        if (!hiddenSectors.includes(naicsIdTopParent.toString()) && colorDatum) {
+        if (!hiddenIndustriesOrClusters.includes(topParent.toString()) && colorDatum) {
           filteredSecondaryData.push({
-            id: naicsId,
+            id: industryId,
             value: compositionType === CompositionType.Companies ? companies : employees,
             title: name ? name : '',
-            naicsIdTopParent: naicsIdTopParent.toString(),
+            topParent: topParent.toString(),
             color: colorDatum.color,
           });
         }
@@ -227,10 +248,19 @@ const TopIndustryComparisonBarChart = (props: Props) => {
     <>
       <PreChartRow
         searchInGraphOptions={{
-          hiddenParents: hiddenSectors, digitLevel, setHighlighted, clusterLevel: null,
-          mode: Mode.naics,
+          hiddenParents: isClusterView ? hiddenClusters : hiddenSectors,
+          digitLevel,
+          clusterLevel,
+          setHighlighted,
+          mode: isClusterView ? Mode.cluster : Mode.naics,
         }}
-        settingsOptions={{compositionType: true, digitLevel: true}}
+        settingsOptions={{
+          compositionType: true,
+          clusterLevel: isClusterView ? true : undefined,
+          digitLevel: isClusterView ? undefined : true,
+          colorBy: true,
+          aggregationMode: true,
+        }}
         vizNavigation={vizNavigation}
       />
       <Root ref={rootRef}>
