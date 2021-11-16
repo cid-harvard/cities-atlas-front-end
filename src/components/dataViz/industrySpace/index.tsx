@@ -12,6 +12,8 @@ import {ZoomLevel, NodeAction} from './chart/createChart';
 import {NodeSizing, ColorBy, ClusterMode} from '../../../routing/routes';
 import useFluent from '../../../hooks/useFluent';
 import {Mode} from '../../general/searchIndustryInGraphDropdown';
+import PresenceToggle from '../legend/PresenceToggle';
+import BenchmarkLegend from '../legend/BenchmarkLegend';
 
 const Root = styled.div`
   width: 100%;
@@ -30,6 +32,28 @@ const IndustrySpaceContainer = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+`;
+
+const BenchmarkLegendRoot = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 100;
+`;
+
+const BenchmarkLegendContent = styled.div`
+  background-color: rgba(255, 255, 255, 0.75);
+  pointer-events: all;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 0.5rem;
 `;
 
 interface Props {
@@ -108,7 +132,13 @@ const ClusteredIndustrySpace = (props: Props) => {
             zoomLevel={zoomLevel}
             rcaThreshold={rcaThreshold}
           />
-      </IndustrySpaceContainer>
+        </IndustrySpaceContainer>
+        <BenchmarkLegendRoot>
+          <BenchmarkLegendContent>
+            <PresenceToggle />
+            <BenchmarkLegend />
+          </BenchmarkLegendContent>
+        </BenchmarkLegendRoot>
       </Root>
     </>
   );

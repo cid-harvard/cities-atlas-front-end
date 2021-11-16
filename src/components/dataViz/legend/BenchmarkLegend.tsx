@@ -68,11 +68,11 @@ const Icon = styled.img`
 `;
 
 interface Props {
-  comparisonType: ComparisonType;
+  comparisonType?: ComparisonType;
 }
 
 const BenchmarkLegend = (props: Props) => {
-  const { comparisonType } = props;
+  const comparisonType = props.comparisonType ? props.comparisonType : ComparisonType.Relative;
   const getString = useFluent();
   const { benchmark, benchmarkName } = useCurrentBenchmark();
   const [modalOpen, setModalOpen] = useState<boolean>(benchmark === undefined);
