@@ -445,18 +445,16 @@ const SideNavigation = ({baseLinkData, collapsed, setCollapsed}: SideNavProps) =
     }
     const LinkRoot = mobileMenuOpen || !collapsed ? NavLink : CollapsedLink;
     return (
-      <>
-        <LinkRoot
-          to={url}
-          key={d.label + d.url}
-          style={{top: d.top, left: d.left}}
-          className={className}
-          onClick={() => mobileMenu ? setMobileMenuOpen(false) : null}
-        >
-          {d.label}
-          {beta}
-        </LinkRoot>
-      </>
+      <LinkRoot
+        to={url}
+        key={d.label + d.url}
+        style={{top: d.top, left: d.left}}
+        className={className}
+        onClick={() => mobileMenu ? setMobileMenuOpen(false) : null}
+      >
+        {d.label}
+        {beta}
+      </LinkRoot>
     );
   });
 
