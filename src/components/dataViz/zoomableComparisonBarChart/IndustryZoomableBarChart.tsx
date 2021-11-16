@@ -426,7 +426,6 @@ const IndustryZoomableBarChart = (props: Props) => {
         }}
         settingsOptions={{
           compositionType: true,
-          colorBy: true,
           aggregationMode: true,
         }}
         vizNavigation={vizNavigation}

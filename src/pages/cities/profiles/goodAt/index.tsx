@@ -25,6 +25,7 @@ import {
   AggregationMode,
   defaultAggregationMode,
   CityRoutes,
+  Routes,
 } from '../../../../routing/routes';
 import RCABarChart from '../../../../components/dataViz/verticalBarChart/RCABarChart';
 import {defaultDigitLevel} from '../../../../types/graphQL/graphQLTypes';
@@ -33,6 +34,7 @@ import { Switch } from 'react-router-dom';
 import TrackedRoute from '../../../../routing/TrackedRoute';
 import AbsolutePresence from './absolutePresence';
 import useCurrentBenchmark from '../../../../hooks/useCurrentBenchmark';
+import { useRouteMatch } from 'react-router-dom';
 
 const CityGoodAt = () => {
   const cityId = useCurrentCityId();
@@ -41,6 +43,7 @@ const CityGoodAt = () => {
   const {benchmark} = useCurrentBenchmark();
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
+  const matchZoomableBarChart = useRouteMatch(Routes.CityGoodAtAbsolutePresenceComparison);
   const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
   const [hiddenClusters, setHiddenClusters] = useState<ClassificationNaicsCluster['id'][]>([]);
   const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
@@ -80,11 +83,11 @@ const CityGoodAt = () => {
   }
 
   let legend: React.ReactElement<any> | null;
-  if (color_by === ColorBy.education) {
+  if (color_by === ColorBy.education && !matchZoomableBarChart) {
     legend = (
       <EducationLegend />
     );
-  } else if (color_by === ColorBy.wage) {
+  } else if (color_by === ColorBy.wage && !matchZoomableBarChart) {
     legend = (
       <WageLegend />
     );
