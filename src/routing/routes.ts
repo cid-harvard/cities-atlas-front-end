@@ -7,7 +7,6 @@ export const CityRoutes = {
   CityBase: '/city/:cityId',
   CityOverview: '/city/:cityId/overview',
   CityEconomicComposition: '/city/:cityId/economic-composition',
-  CityEconomicCompositionIndustryCompare: '/city/:cityId/economic-composition/compare-industries',
   CityGoodAt: '/city/:cityId/good-at',
   CityGoodAtAbsolutePresence: '/city/:cityId/good-at/absolute',
   CityGoodAtAbsolutePresenceComparison: '/city/:cityId/good-at/absolute/comparison',
