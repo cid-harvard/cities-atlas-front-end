@@ -41,6 +41,9 @@ import {defaultYear} from '../../../Utils';
 import {scaleLinear} from 'd3-scale';
 import orderBy from 'lodash/orderBy';
 import QuickError from '../../transitionStateComponents/QuickError';
+import BenchmarkAxisLegend from './BenchmarkAxisLegend';
+
+const benchmarkLegendBuffer = 35;
 
 const Root = styled.div`
   width: 100%;
@@ -327,7 +330,7 @@ const PSWOTChart = (props: Props) => {
     ) : null;
 
     output = (
-      <VizContainer style={{height: dimensions.height}}>
+      <VizContainer style={{ height: dimensions.height - benchmarkLegendBuffer }}>
         <ErrorBoundary>
           <PSwotPlot
             id={'react-pswot-plot-demo'}
@@ -354,9 +357,7 @@ const PSWOTChart = (props: Props) => {
               left: getString('pswot-axis-labels-left'),
               leftUp: dimensions.height > 400 ? getString('pswot-axis-labels-left-up') : '',
               leftDown: dimensions.height > 400 ? getString('pswot-axis-labels-left-down') : '',
-              bottom: getString('pswot-axis-labels-bottom'),
-              bottomLeft: getString('pswot-axis-labels-bottom-left'),
-              bottomRight: getString('pswot-axis-labels-bottom-right'),
+              bottom: '-',
             }}
             axisLabelColor={'#333'}
             quadrantLabelColor={primaryColorDark}
@@ -364,6 +365,7 @@ const PSWOTChart = (props: Props) => {
             onQuadrantLabelMouseLeave={removeHovered}
           />
         </ErrorBoundary>
+        <BenchmarkAxisLegend />
         {loadingOverlay}
         {highlightErrorPopup}
       </VizContainer>
