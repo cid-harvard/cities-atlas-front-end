@@ -58,7 +58,7 @@ const TopCities = () => {
         <YearText>
           {defaultYear}
           <Tooltip
-            explanation={getString('city-overview-top-similar-cities')}
+            explanation={getString('city-overview-top-similar-cities-tooltip')}
           />
         </YearText>
       </TitleBase>

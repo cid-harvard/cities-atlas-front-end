@@ -86,12 +86,12 @@ const TopRCA = ({ cityId }: Props) => {
         <TitleBase>
           <Icon src={TopIndustriesSVG} />
           <WrappableText>
-            {getString('city-overview-top-specialized-industries')}*
+            {getString('city-overview-top-specialized-industries')}**
           </WrappableText>
           <YearText>
             {defaultYear}
             <Tooltip
-              explanation={getString('city-overview-top-specialized-industries')}
+              explanation={getString('city-overview-top-specialized-industries-tooltip')}
             />
           </YearText>
         </TitleBase>
@@ -108,7 +108,7 @@ const TopRCA = ({ cityId }: Props) => {
           <YearText>
             {defaultYear}
             <Tooltip
-              explanation={getString('city-overview-top-knowledge-clusters')}
+              explanation={getString('city-overview-top-knowledge-clusters-tooltip')}
             />
           </YearText>
         </TitleBase>

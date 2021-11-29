@@ -355,31 +355,35 @@ city-filter-regions = Regions Filter
 city-filter-countries = Countries Filter
 city-filter-update = Update Cities
 
-city-overview-ranking-title = Out of the { $city-peer-group-counts-region } cities<br />covered in { $region-name }
+city-overview-ranking-title = Ranking
 city-overview-ranking-pop = { $value } most populated
 city-overview-ranking-gdp = { $value } highest gdp per capita
 city-overview-data-quality = Data Quality
 
 city-overview-top-specialized-industries = Top Specialized Industries
+city-overview-top-specialized-industries-tooltip = The top 2 industries that account for the largest share of overall employment in a selected city, based on total employment share and the Metroverse recommended benchmark of top global peers by similar population
 city-overview-top-knowledge-clusters = Top Knowledge Clusters
+city-overview-top-knowledge-clusters-tooltip = Knowledge Clusters are a set of industries grouped by their technological relatedness and shared productive capabilities.  Knowledge Clusters help reveal the knowledge base of a city.
 city-overview-top-similar-cities = Top Similar Cities
+city-overview-top-similar-cities-tooltip = The 3 most similar cities - within Metroverse’s coverage - based on whether they are competitive in the same industries.
 city-overview-top-filtered-results = filtered results
 
 city-overview-benchmark-disclaimer = Based on employment share and recommended benchmark of top global peers by similar population
+city-overview-ranking-disclaimer = Out of the { $city-peer-group-counts-region } cities covered in { $region-name }
 
 city-overview-metroverse-concepts = Metroverse Concepts
 
 city-overview-relative-presence-title = Relative Presence (specialization metric)
-city-overview-relative-presence-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+city-overview-relative-presence-desc = A measure of whether an  industry accounts for a larger or a smaller share of overall employment in a selected city.  In Metroverse, the relative presence of an industry depends on the selected benchmark city or set of cities. 
 
 city-overview-knowledge-cluster-title = Knowledge Cluster
-city-overview-knowledge-cluster-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+city-overview-knowledge-cluster-desc = A set of industries grouped by their technological relatedness.  Industries in the same Knowledge Cluster typically share similar know-how or productive capabilities.  Knowledge clusters help reveal the knowledge base of a city, as well as its diversification potential.
 
 city-overview-industry-space-title = Industry Space
-city-overview-industry-space-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+city-overview-industry-space-desc = A unique data visualization that depicts the technological relatedness between industries and in which of these industries a selected city has an outsized presence. Industries that are near each other in the Industry Space typically require similar know-how and can be grouped into Knowledge Clusters.  The Industry Space also helps to define which diversification paths may be available to a city, as industries close to those that are already well-developed are likely candidates for growth.
 
 city-overview-city-similarity-title = City Similarity
-city-overview-city-similarity-desc = Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure.
+city-overview-city-similarity-desc = A set of Metroverse cities that are similar to the selected city, based on whether they are competitive in the same industries.  In Metroverse, a set of similar cities can be changed by adjusting population, GDP per capita and regional filters.
 
 city-overview-map-source = Source: <a href="https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php" target="_blank" rel="noopener noreferrer">GHS Urban Centre Database</a>
 city-overview-more-info = Click to learn how we define city boundaries

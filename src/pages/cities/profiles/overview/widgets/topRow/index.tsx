@@ -1,8 +1,7 @@
 import React from 'react';
 import { usePeerGroupCityCount } from '../../../../../../components/navigation/secondaryHeader/comparisons/AddComparisonModal';
 import useCurrentCity from '../../../../../../hooks/useCurrentCity';
-import useGlobalLocationData from '../../../../../../hooks/useGlobalLocationData';
-import { TitleBase, YearText, Icon, ValueBase, ListItem, TitleSmall } from '../styleUtils';
+import { TitleBase, YearText, Icon, ValueBase, ListItem } from '../styleUtils';
 import PopulationSVG from '../../../../../../assets/icons/population.svg';
 import RankingSVG from '../../../../../../assets/icons/ranking.svg';
 import GdpPerCapitaSVG from '../../../../../../assets/icons/gdppercapita.svg';
@@ -38,33 +37,23 @@ const LargeDot = styled.div`
 const TopRow = () => {
   const {loading: cityLoading, city} = useCurrentCity();
   const { loading, error, data } = usePeerGroupCityCount(city && city.cityId ? city.cityId : null);
-  const globalLocations = useGlobalLocationData();
   const getString = useFluent();
 
   let population: React.ReactElement<any> | null;
   let gdppc: React.ReactElement<any> | null;
-  let cityPeerGroupCountsRegion: string | number = '---';
-  let regionName: string = '---';
   let flagColor: React.ReactElement<any> | null = null;
   let alertTitle: string = '---';
   let description: string = '---';
   let regionPopRank: string = '---';
   let regionGdppcRank: string = '---';
-  if (loading || cityLoading || globalLocations.loading) {
+  if (loading || cityLoading) {
     population = <SimpleTextLoading />;
     gdppc = <SimpleTextLoading />;
   } else if (error) {
     console.error(error);
     population = <>---</>;
     gdppc = <>---</>;
-  } else if (globalLocations.error) {
-    console.error(globalLocations.error);
-    population = <>---</>;
-    gdppc = <>---</>;
-  } else if (data && city && globalLocations.data) {
-    const region = globalLocations.data.regions.find(d => d.regionId === city.region + '');
-    regionName = region && region.regionName ? region.regionName : '';
-    cityPeerGroupCountsRegion = data.cityPeerGroupCounts.region;
+  } else if (data && city) {
     const dataFlag = city.dataFlag;
     if (dataFlag === DataFlagType.GREEN) {
       flagColor = (
@@ -150,18 +139,13 @@ const TopRow = () => {
         </ValueBase>
       </div>
       <div>
-        <TitleSmall>
+        <TitleBase>
           <Icon src={RankingSVG} />
-          <div dangerouslySetInnerHTML={{
-            __html: getString('city-overview-ranking-title', {
-              'city-peer-group-counts-region': cityPeerGroupCountsRegion,
-              'region-name': regionName,
-            }),
-          }} />
+          {getString('city-overview-ranking-title')}*
           <YearText>
             {defaultYear}
           </YearText>
-        </TitleSmall>
+        </TitleBase>
         <ValueBase>
           <ListItem>
             {getString('city-overview-ranking-pop', { value: regionPopRank })}
