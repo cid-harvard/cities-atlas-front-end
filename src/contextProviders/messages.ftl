@@ -17,7 +17,7 @@ global-ui-select-a-city-name = A city
 global-ui-select-a-group = Select an existing group
 global-ui-select-peer-group = A Peer Group
 global-ui-select-benchmark-group = Select benchmark peers
-global-ui-select-benchmark-city = Select a benchmark city
+global-ui-select-benchmark-city = City-to-City Benchmarks
 global-ui-type-a-city-name = Type a city name
 global-ui-type-an-industry = Type an industry name
 global-ui-selected-industry = Selected industry
@@ -105,8 +105,8 @@ global-formatted-peer-groups = {
   [regional_pop] Regional peers by similar population
   [regional_income] Regional peers by similar population and income per capita
   [regional_eucdist] Regional peers by similar economic structure
-  [region] All regional peers
-  [world] World
+  [region] All Metroverse Cities - Regional
+  [world] All Metroverse Cities - Global
 }
 
 global-formatted-peer-groups-short = {
@@ -118,7 +118,7 @@ global-formatted-peer-groups-short = {
   [regional_income] Peer Group
   [regional_eucdist] Peer Group
   [region] Peer Group
-  [world] World
+  [world] Peer Group
 }
 
 color-by-proximity-only = Color by option is only available for proximity
@@ -178,12 +178,12 @@ global-text-industry-groups = Industry Groups
 global-text-world = World
 global-text-similar-cities = Similar Cities
 
-global-text-global-peers = Top Global Peers
-global-text-regional-peers = Top Regional Peers
-global-text-similar-population = by similar population
-global-text-similar-income = by similar population and income per capita
-global-text-similar-proximity = by similar economic structure
-global-text-all-regional-peers = all regional peers
+global-text-global-peers = Global Benchmarks
+global-text-regional-peers = Regional Benchmarks
+global-text-similar-population = Peers by similar population
+global-text-similar-income = Peers by similar population and income per capita
+global-text-similar-proximity = Peers by similar economic structure
+global-text-all-regional-peers = All Metroverse Cities
 
 global-naics-sector-name-0 = Construction
 global-naics-sector-name-1 = Education & health
