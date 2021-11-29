@@ -1,11 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
-import { baseColor, lightBorderColor, secondaryFont } from '../../../../styling/styleUtils';
+import { baseColor, lightBorderColor, SearchContainerLight, secondaryFont } from '../../../../styling/styleUtils';
 import { filterBarId } from '../../../../components/dataViz/similarCitiesMap/FilterBar';
 import Settings from './Settings';
 import useFluent from '../../../../hooks/useFluent';
 import NodeSizeLegend from './NodeSizeLegend';
 import { breakPoints } from '../../../../styling/GlobalGrid';
+import CitySearch from '../../../../components/navigation/secondaryHeader/CitySearch';
 
 const Root = styled.div`
   grid-column: 1;
@@ -44,10 +45,31 @@ const SectionTitle = styled.h2`
   font-family: ${secondaryFont};
 `;
 
+const SearchContainer = styled(SearchContainerLight)`
+  width: calc(100% - 1rem);
+  font-family: ${secondaryFont};
+  margin-bottom: 1.5rem;
+
+  .react-panel-search-search-bar-input {
+    padding: 0.7rem 1rem;
+    font-size: 1rem;
+  }
+
+  .react-panel-search-search-bar-search-icon {
+    display: none;
+  }
+
+`;
+
 const FilterBar = () => {
   const getString = useFluent();
   return (
     <Root>
+      <SearchContainer>
+        <CitySearch
+          searchContainerWidth={'clamp(200px, 100vw, 100%)'}
+        />
+      </SearchContainer>
       <Content>
         <ScrollContainer>
           <SectionTitle>{getString('city-filter-title')}</SectionTitle>

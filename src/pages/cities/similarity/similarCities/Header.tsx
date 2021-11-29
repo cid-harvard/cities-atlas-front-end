@@ -8,19 +8,23 @@ const Root = styled.div`
   grid-column: 1 / -1;
 `;
 
+const H1 = styled.h1`
+  margin-top: 0;
+`;
+
 const Header = () => {
   const {loading, city} = useCurrentCity();
   const getString = useFluent();
   if (loading) {
     return (
       <Root>
-        <h1><SimpleTextLoading /></h1>
+        <H1><SimpleTextLoading /></H1>
       </Root>
     );
   } else {
     return (
       <Root>
-        <h1>{city?.name} {getString('global-text-similar-cities')}</h1>
+        <H1>{city?.name} {getString('global-text-similar-cities')}</H1>
       </Root>
     );
   }

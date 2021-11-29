@@ -24,7 +24,7 @@ import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
 
 const Root = styled.div`
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto;
   grid-gap: 1rem;
   height: 100%;
   align-items: center;
