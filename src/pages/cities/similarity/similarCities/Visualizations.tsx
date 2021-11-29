@@ -18,7 +18,7 @@ const Visualizations = () => {
   return (
     <Root>
       <Header />
-      <p>{getString('city-similarity-para-1')}</p>
+      <p dangerouslySetInnerHTML={{ __html: getString('city-similarity-para-1')}} />
       <SimilarCitiesMap />
     </Root>
   );

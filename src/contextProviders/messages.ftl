@@ -3,7 +3,7 @@ meta-data-title-default-suffix = Metroverse at the Harvard Growth Lab
 
 navigation-pick-a-city = Pick a city
 navigation-city-profiles = City Profiles
-navigation-city-similarity = City Similarity
+navigation-city-similarity = Similar Cities
 navigation-industry-profiles = Industry Profiles
 navigation-data = Data
 navigation-about = About
@@ -440,8 +440,8 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
   [world] the world
 }
 
-city-similarity-title = What cities are similar to { $name }?
-city-similarity-para-1 = We can assess the similarity between the economies of different cities in the world by looking at whether they are competitive in the same industries. This similarity helps select cities that may have similar development opportunities and challenges, or that may give a sense of what industries are feasible in a city like yours.
+city-similarity-title = Which Cities are Most Similar to { $name }?
+city-similarity-para-1 = Metroverse assesses the similarity between urban economies by calculating whether they are competitive in the same industries. This can reveal ‘sister’ cities that have similar development opportunities and challenges, or may provide a sense of which industries are feasible in a city like yours. <strong>Explore city similarity by world map or focused ring chart below.</strong>
 
 industry-space-title = What is { $name-plural } position in the industry space?
 industry-space-para-1 = The Industry Space showcases the technological relatedness between all industries, shown as dots in this visualization, and groups them into knowledge clusters. Industries that are near each other typically require similar know-how. The size of the dots shows the relative presence in comparison to {

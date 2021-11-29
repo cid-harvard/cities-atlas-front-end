@@ -24,7 +24,7 @@ const Header = () => {
   } else {
     return (
       <Root>
-        <H1>{city?.name} {getString('global-text-similar-cities')}</H1>
+        <H1>{getString('city-similarity-title', {name: city?.name})}</H1>
       </Root>
     );
   }
