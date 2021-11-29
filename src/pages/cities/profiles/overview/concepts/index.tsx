@@ -26,8 +26,8 @@ const Title = styled.h1`
   margin: 0 0 1rem;
   text-transform: uppercase;
 
-  @media (max-width: 920px) {
-    font-size: 1.5rem;
+  @media (max-width: 920px), (max-height: 800px) {
+    font-size: 1.25rem;
   }
 `;
 
@@ -36,10 +36,18 @@ const SectionHeader = styled.h2`
   color: ${primaryColor};
   font-family: ${secondaryFont};
   margin-bottom: 0.2rem;
+
+  @media (max-width: 920px), (max-height: 800px) {
+    font-size: 0.85rem;
+  }
 `;
 
 const Section = styled.div`
   font-size: 0.85rem;
+
+  @media (max-width: 920px), (max-height: 800px) {
+    font-size: 0.75rem;
+  }
 `;
 
 const Concepts = () => {

@@ -12,6 +12,7 @@ import BasicModal from '../../../../../components/standardModal/BasicModal';
 import { ModalContent } from '../../../../landing/Heading';
 
 const footnoteHeight = '3.5rem';
+const footnoteHeightSmall = '1.75rem';
 
 const Root = styled.div`
   width: 100%;
@@ -20,6 +21,10 @@ const Root = styled.div`
   box-sizing: border-box;
   position: relative;
   background-color: ${backgroundMedium};
+
+  @media (max-width: 920px), (max-height: 800px) {
+    padding-bottom: ${footnoteHeightSmall};
+  }
 
   @media ${breakPoints.small} {
     min-height: 70vh;
@@ -88,6 +93,14 @@ const Footnote = styled.div`
   justify-content: center;
   padding: 0.1rem 0.5rem;
   box-sizing: border-box;
+
+  @media (max-width: 920px), (max-height: 800px) {
+    height: ${footnoteHeightSmall};
+    padding: 0.1rem;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 `;
 
 const SourceAttr = styled.small`
@@ -99,6 +112,12 @@ const SourceAttr = styled.small`
   a {
     color: ${baseColor};
   }
+
+  @media (max-width: 920px), (max-height: 800px) {
+    font-size: 0.6rem;
+    margin-bottom: 0;
+    margin-right: 0.15rem;
+  }
 `;
 
 const MoreInfoBtn = styled.button`
@@ -107,6 +126,10 @@ const MoreInfoBtn = styled.button`
   padding: 0;
   border: none;
   opacity: 0.9;
+
+  @media (max-width: 920px), (max-height: 800px) {
+    font-size: 0.6rem;
+  }
 `;
 
 const MapRoot = () => {

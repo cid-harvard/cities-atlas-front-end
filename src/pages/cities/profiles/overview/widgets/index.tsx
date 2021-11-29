@@ -15,7 +15,7 @@ const Root = styled.div`
   grid-template-rows: auto 1fr auto;
   gap: 1rem;
 
-  @media (max-width: 1200px) {
+  @media (max-width: 1200px), (max-height: 800px) {
     gap: 0.5rem;
   }
 `;

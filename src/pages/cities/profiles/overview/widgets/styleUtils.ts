@@ -10,26 +10,30 @@ const breakPoints = {
 export const TitleBase = styled.h2`
   background-color: ${backgroundMedium};
   font-family: ${secondaryFont};
-  font-size: 1rem;
+  font-size: 0.9rem;
   margin: 0 0.25rem 0.25rem;
-  padding: 0.5rem;
+  padding: 0.5rem 0 0.5rem 0.35rem;
   height: 1.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   white-space: nowrap;
 
+  @media (max-height: 800px) {
+    font-size: .85rem;
+    padding: 0.25rem 0 0.25rem 0.15rem;
+  }
+
   @media ${breakPoints.medium} {
-    font-size: .95rem;
+    font-size: .85rem;
+    padding: 0.25rem 0 0.25rem 0.15rem;
     height: auto;
-    padding: 0.25rem;
     white-space: initial;
-    flex-direction: column;
     text-align: center;
   }
 
   @media ${breakPoints.small} {
-    font-size: .85rem;
+    font-size: .75rem;
     height: auto;
     white-space: initial;
     flex-direction: column;
@@ -44,15 +48,6 @@ export const WrappableText = styled.div`
   white-space: normal;
 `;
 
-export const TitleSmall = styled(TitleBase)`
-  font-size: 0.7rem;
-  white-space: nowrap;
-
-  @media ${breakPoints.medium} {
-    font-size: .65rem;
-  }
-`;
-
 export const YearText = styled.small`
   color: ${primaryColor};
   font-size: 0.7rem;
@@ -60,6 +55,7 @@ export const YearText = styled.small`
   font-weight: 600;
   display: inline-block;
   padding: 0.5rem;
+  white-space: nowrap;
 
   @media ${breakPoints.medium} {
     font-size: .65rem;
@@ -67,11 +63,11 @@ export const YearText = styled.small`
 `;
 
 export const Icon = styled.img`
-  width: 1.25rem;
+  width: 1.75rem;
   margin-right: 0.5rem;
 
-  @media ${breakPoints.medium}, (max-height: 800px) {
-    width: .75rem;
+  @media (max-height: 800px) {
+    width: 1rem;
   }
 
   @media ${breakPoints.small} {

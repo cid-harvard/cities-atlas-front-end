@@ -21,15 +21,15 @@ const DataLegend = styled.div`
 `;
 
 const SmallDot = styled.div`
-  width: .5rem;
-  height: .5rem;
+  width: .45rem;
+  height: .45rem;
   border-radius: 1000px;
-  margin-right: 0.075rem;
+  margin-right: 0.2rem;
 `;
 
 const LargeDot = styled.div`
-  width: 1rem;
-  height: 1rem;
+  width: 0.9rem;
+  height: 0.9rem;
   border-radius: 1000px;
   margin-right: 0.075rem;
 `;
