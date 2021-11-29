@@ -14,7 +14,7 @@ const RootBase = styled.div`
   grid-row: 3;
   display: grid;
   grid-template-columns: auto 1fr auto;
-  margin-bottom: 3rem;
+  margin: 1.5rem 0;
 
   @media ${breakPoints.small} {
     grid-row: 4;

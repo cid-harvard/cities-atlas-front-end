@@ -269,8 +269,8 @@ const SimilarCitiesMap = () => {
     <>
       <Root>
         <MapContainer>
-          <Map ref={rootRef} />
           <CityProximityLegend isRings={false} />
+          <Map ref={rootRef} />
           {rings}
           <CityProximityLegend isRings={true} />
         </MapContainer>
