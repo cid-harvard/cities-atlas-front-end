@@ -95,7 +95,7 @@ const steps: Step[] = [
   {
     target: '.' + joyrideClassNames.guideButton,
     // tslint:disable-next-line:max-line-length
-    content: <Text>You can always find this tutorial here if you need to see it again.</Text>,
+    content: <Text>You can find this tutorial here if you need to see it again.</Text>,
     disableBeacon: true,
     placement: 'bottom-start',
   },

@@ -84,7 +84,7 @@ const SimilarCities = () => {
           <Concepts />
         </ConceptsContainer>
       </Root>
-      <UtiltyBar />
+      <UtiltyBar hideGuide={true} />
     </DefaultContentWrapper>
   );
 };
