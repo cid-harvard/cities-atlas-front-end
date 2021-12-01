@@ -174,7 +174,6 @@ const Chart = (props: Props) => {
         nValuesToShow={10}
         formatValue={formatAxisValue}
         expandCollapseText={expandCollapseText}
-        axisLabel={getString('cities-top-10-comparison-chart-axis-title')}
         onRowHover={setHovered}
         highlighted={highlighted}
         onHighlightError={() => setHighlightError(true)}
