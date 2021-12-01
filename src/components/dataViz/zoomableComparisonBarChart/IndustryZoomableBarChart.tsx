@@ -427,6 +427,8 @@ const IndustryZoomableBarChart = (props: Props) => {
         settingsOptions={{
           compositionType: true,
           aggregationMode: true,
+          digitLevel: isClusterView ? undefined : false,
+          clusterLevel: isClusterView ? false : undefined,
         }}
         vizNavigation={vizNavigation}
       />

@@ -489,43 +489,43 @@ const Settings = (props: Props) => {
         <InputContainer>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Sector)}
-            $selected={(!params.digit_level && defaultValue === DigitLevel.Sector) ||
-                    (params.digit_level === DigitLevel.Sector.toString())}
+            $selected={settingsOptions.digitLevel !== false && ((!params.digit_level && defaultValue === DigitLevel.Sector) ||
+                    (params.digit_level === DigitLevel.Sector.toString()))}
           >
             <span>{DigitLevel.Sector}-{getString('global-ui-digit-level')} / {getString('global-ui-sector-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Two)}
-            $selected={(!params.digit_level && defaultValue === DigitLevel.Two) ||
-                    (params.digit_level === DigitLevel.Two.toString())}
+            $selected={settingsOptions.digitLevel !== false && ((!params.digit_level && defaultValue === DigitLevel.Two) ||
+                    (params.digit_level === DigitLevel.Two.toString()))}
           >
             <span>{DigitLevel.Two}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Three)}
-            $selected={(!params.digit_level && defaultValue === DigitLevel.Three) ||
-                    (params.digit_level === DigitLevel.Three.toString())}
+            $selected={settingsOptions.digitLevel !== false && ((!params.digit_level && defaultValue === DigitLevel.Three) ||
+                    (params.digit_level === DigitLevel.Three.toString()))}
           >
             <span>{DigitLevel.Three}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Four)}
-            $selected={(!params.digit_level && defaultValue === DigitLevel.Four) ||
-                    (params.digit_level === DigitLevel.Four.toString())}
+            $selected={settingsOptions.digitLevel !== false && ((!params.digit_level && defaultValue === DigitLevel.Four) ||
+                    (params.digit_level === DigitLevel.Four.toString()))}
           >
             <span>{DigitLevel.Four}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Five)}
-            $selected={(!params.digit_level && defaultValue === DigitLevel.Five) ||
-                    (params.digit_level === DigitLevel.Five.toString())}
+            $selected={settingsOptions.digitLevel !== false && ((!params.digit_level && defaultValue === DigitLevel.Five) ||
+                    (params.digit_level === DigitLevel.Five.toString()))}
           >
             <span>{DigitLevel.Five}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
           <DigitLevelButton
             onClick={() => updateSetting('digit_level', DigitLevel.Six)}
-            $selected={(!params.digit_level && defaultValue === DigitLevel.Six) ||
-                    (params.digit_level === DigitLevel.Six.toString())}
+            $selected={settingsOptions.digitLevel !== false && ((!params.digit_level && defaultValue === DigitLevel.Six) ||
+                    (params.digit_level === DigitLevel.Six.toString()))}
           >
             <span>{DigitLevel.Six}-{getString('global-ui-digit-level')}</span>
           </DigitLevelButton>
@@ -540,12 +540,14 @@ const Settings = (props: Props) => {
     const InputContainer = settingsOptions.clusterLevel !== false
       ? SettingsInputContainer : DisabledSettingsInputContainer;
     const LabelContainer = settingsOptions.clusterLevel !== false ? Label : DisabledLabel;
+    const tooltipText = settingsOptions.clusterLevel !== false
+      ? getString('glossary-cluster-level') : getString('glossary-cluster-level-disabled');
     const disabledOptions = typeof settingsOptions.clusterLevel === 'object' &&
       settingsOptions.clusterLevel.disabledOptions ? settingsOptions.clusterLevel.disabledOptions : [];
     clusterLevelOptions = (
       <SettingGrid>
         <Tooltip
-          explanation={getString('glossary-cluster-level')}
+          explanation={tooltipText}
         />
         <LabelContainer>{getString('global-ui-cluster-level')}</LabelContainer>
         <InputContainer>
@@ -553,8 +555,8 @@ const Settings = (props: Props) => {
             onClick={!disabledOptions.includes(ClusterLevel.C1) ?
               () => updateSetting('cluster_level', ClusterLevel.C1) : undefined}
             className={disabledOptions.includes(ClusterLevel.C1) ? 'disabled-option' : undefined}
-            $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C1) ||
-              params.cluster_level === ClusterLevel.C1
+            $selected={settingsOptions.clusterLevel !== false && ((!params.cluster_level && defaultClusterLevel === ClusterLevel.C1) ||
+              params.cluster_level === ClusterLevel.C1)
             }
           >
             <Tooltip
@@ -572,8 +574,8 @@ const Settings = (props: Props) => {
             onClick={!disabledOptions.includes(ClusterLevel.C3) ?
               () => updateSetting('cluster_level', ClusterLevel.C3) : undefined}
             className={disabledOptions.includes(ClusterLevel.C3) ? 'disabled-option' : undefined}
-            $selected={(!params.cluster_level && defaultClusterLevel === ClusterLevel.C3) ||
-              params.cluster_level === ClusterLevel.C3
+            $selected={settingsOptions.clusterLevel !== false && ((!params.cluster_level && defaultClusterLevel === ClusterLevel.C3) ||
+              params.cluster_level === ClusterLevel.C3)
             }
           >
             <Tooltip

@@ -299,6 +299,7 @@ glossary-cluster-vs-naics = Visualize the data by 1 of 2 aggregation methods: NA
 glossary-cluster-overlay = Knowledge Clusters group industries based on their shared technological or productive capabilities.  Choose "Outline", "Overlay" or "None" to see Knowledge Clusters at various levels of intensity.
 glossary-cluster-overlay-disabled = Toggling cluster overlay is disabled for this visualization
 glossary-cluster-level = Visualize Knowledge Clusters at various levels of detail 
+glossary-cluster-level-disabled = Knowledge Cluster Levels are disabled for this visualization
 glossary-node-sizing = Change the size of industry nodes based on different variables
 glossary-city-node-sizing = Change the size of city nodes based on different variables
 glossary-color-nodes-by = Change the color of industry nodes based on different variables
