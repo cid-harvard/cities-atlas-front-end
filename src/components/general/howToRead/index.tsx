@@ -12,7 +12,6 @@ import {
 } from '../../../styling/styleUtils';
 import Modal from '../../standardModal';
 import TreemapPNG from './static/treemap.png';
-import GoodAtPNG from './static/relative_presence.png';
 import IndustrySpacePNG from './static/industry_space.png';
 import SwotPNG from './static/swot.png';
 
@@ -81,21 +80,15 @@ const HowToRead = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const isTreemap = useRouteMatch(Routes.CityEconomicComposition);
-  const isGoodAt = useRouteMatch(Routes.CityGoodAt);
   const isIndustrySpace = useRouteMatch(Routes.CityIndustrySpacePosition);
   const isSwot = useRouteMatch(Routes.CityGrowthOpportunities);
 
   let source: string | undefined;
   if (isTreemap && isTreemap.isExact) {
     source = TreemapPNG;
-  }
-  else if (isGoodAt && isGoodAt.isExact) {
-    source = GoodAtPNG;
-  }
-  else if (isIndustrySpace && isIndustrySpace.isExact) {
+  } else if (isIndustrySpace && isIndustrySpace.isExact) {
     source = IndustrySpacePNG;
-  }
-  else if (isSwot && isSwot.isExact) {
+  } else if (isSwot && isSwot.isExact) {
     source = SwotPNG;
   }
 
