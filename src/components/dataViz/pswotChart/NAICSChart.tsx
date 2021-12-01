@@ -366,9 +366,6 @@ const PSWOTChart = (props: Props) => {
               leftUp: dimensions.height > 500 ? getString('pswot-axis-labels-left-up') : '',
               leftDown: dimensions.height > 500 ? getString('pswot-axis-labels-left-down') : '',
               bottom: '-',
-              // bottom: getString('pswot-axis-labels-bottom'),
-              // bottomLeft: dimensions.width > 500 ? getString('pswot-axis-labels-bottom-left') : '',
-              // bottomRight: dimensions.width > 500 ? getString('pswot-axis-labels-bottom-right') : '',
             }}
             axisLabelColor={'#333'}
             quadrantLabelColor={primaryColorDark}

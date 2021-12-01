@@ -118,6 +118,7 @@ const PSWOTChart = (props: Props) => {
     const cluster = clusters && clusters.data && datum.id ? clusters.data[datum.id] : undefined;
     if (node) {
       const rows: string[][] = [];
+      let simple = false;
       if (datum.x !== undefined) {
         rows.push(
           ['Relative Presence', parseFloat(datum.x.toFixed(3)).toString() ],
@@ -129,9 +130,13 @@ const PSWOTChart = (props: Props) => {
         );
       }
       if (datum.id && (!cluster || cluster.clusterId === null || cluster.clusterId === undefined)) {
-        rows.push(
-          [getString('pswot-cluster-quadrant-tooltips-' + datum.id.toLowerCase())],
-        );
+        if (!datum.id.includes('axis')) {
+          rows.push(
+            [getString('pswot-cluster-quadrant-tooltips-' + datum.id.toLowerCase())],
+          );
+        } else {
+          simple = true;
+        }
       } else if (cluster && cluster.clusterId) {
         if ((colorBy === ColorBy.education|| colorBy === ColorBy.wage)
               && aggregateIndustryDataMap.data) {
@@ -144,11 +149,15 @@ const PSWOTChart = (props: Props) => {
           ]);
         }
       }
+      const title = simple ? `
+        <span style="font-weight:400;">${getString(datum.id + '-about')}</span>
+      ` : datum.label;
       node.innerHTML = getStandardTooltip({
-        title: datum.label,
+        title,
         color: datum.fill ? rgba(datum.fill, 0.5) : '#f69c7c',
         rows,
         boldColumns: [1],
+        simple,
       });
       node.style.top = coords.y + 'px';
       node.style.left = coords.x + 'px';
