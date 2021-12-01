@@ -63,28 +63,35 @@ interface ClusterMap {
   [id: string]: Cluster;
 }
 
-const clusterDataToMap = (data: SuccessResponse | undefined) => {
+const clusterDataToMap = (data: SuccessResponse | undefined, skipLevel2?: boolean) => {
   const response: ClusterMap = {};
   if (data !== undefined) {
     const {clusters} = data;
     clusters.forEach(({id, clusterId, name, level, parentId, clusterIdTopParent, tradable}) => {
-      response[clusterId] = {
-        id,
-        clusterId,
-        name,
-        level,
-        parentId,
-        tradable,
-        clusterIdTopParent,
-      };
+      if (!skipLevel2 || level !== 2) {
+        response[clusterId] = {
+          id,
+          clusterId,
+          name,
+          level,
+          parentId: skipLevel2 && parentId !== null ? clusterIdTopParent : parentId,
+          tradable,
+          clusterIdTopParent,
+        };
+      }
     });
   }
   return response;
 };
 
-export const useGlobalClusterMap = () => {
+interface Options {
+  skipLevel2?: boolean;
+}
+
+export const useGlobalClusterMap = (options?: Options) => {
+  const skipLevel2 = options && options.skipLevel2 ? true : false;
   const {loading, error, data: responseData} = useGlobalClusterData();
-  const data = clusterDataToMap(responseData);
+  const data = clusterDataToMap(responseData, skipLevel2);
   return {loading, error, data};
 };
 

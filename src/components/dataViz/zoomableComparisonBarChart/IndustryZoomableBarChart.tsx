@@ -219,7 +219,7 @@ const IndustryZoomableBarChart = (props: Props) => {
   });
   const history = useHistory();
   const industryMap = useGlobalIndustryMap();
-  const clusterMap = useGlobalClusterMap();
+  const clusterMap = useGlobalClusterMap({skipLevel2: true});
   const industryOrClusterMap = isClusterView ? clusterMap : industryMap;
   const parentField = isClusterView ? 'clusterIdTopParent' : 'naicsIdTopParent';
   const idField = isClusterView ? 'clusterId' : 'naicsId';
