@@ -34,6 +34,8 @@ import {
   AxisLabelLeft,
   AxisLabelRight,
   AxisLabelBase,
+  LeftAxisRoot,
+  AxisLabelHigh,
 } from '../verticalBarChart/RCABarChart';
 import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
 import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
@@ -41,7 +43,7 @@ import BenchmarkLegend from '../legend/BenchmarkLegend';
 import { AggregationMode, CityRoutes, ClusterLevel, ColorBy } from '../../../routing/routes';
 import { createRoute } from '../../../routing/Utils';
 import { useHistory } from 'react-router-dom';
-import useFluent, { plural, possessive } from '../../../hooks/useFluent';
+import useFluent, { possessive } from '../../../hooks/useFluent';
 import { useGlobalClusterMap } from '../../../hooks/useGlobalClusterData';
 import { scaleLinear } from 'd3-scale';
 import { useAggregateIndustryMap } from '../../../hooks/useAggregateIndustriesData';
@@ -307,12 +309,12 @@ const TopIndustryComparisonBarChart = (props: Props) => {
   const cityName = currentCity && currentCity.city && currentCity.city.name ? currentCity.city.name : '---';
 
   const textLeft = getString('cities-top-10-comparison-chart-title', {
-    name: 'Peer\'s',
-    other: plural(cityName),
+    name: 'Peers\'',
+    other: possessive([cityName]),
   });
   const textRight = getString('cities-top-10-comparison-chart-title', {
     name: possessive([cityName]),
-    other: 'Peers',
+    other: 'Peers\'',
   });
 
   return (
@@ -335,6 +337,10 @@ const TopIndustryComparisonBarChart = (props: Props) => {
         vizNavigation={vizNavigation}
       />
       <Root ref={rootRef}>
+        <LeftAxisRoot>
+          <AxisLabelBase>← {getString('global-absolute-presence-lower')}</AxisLabelBase>
+          <AxisLabelHigh>{getString('global-absolute-presence-higher')} →</AxisLabelHigh>
+        </LeftAxisRoot>
         <BottomAxisRoot>
           <AxisLabelLeft
             dangerouslySetInnerHTML={{__html: textLeft }}

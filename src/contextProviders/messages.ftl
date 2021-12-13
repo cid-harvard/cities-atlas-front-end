@@ -147,8 +147,8 @@ global-formatted-income-class = {
 global-ui-relative-presence = Relative Presence
 global-ui-absolute-presence = Absolute Presence
 
-global-ui-change-benchmark = Change Benchmark
-global-ui-change-comparator = Change Comparator
+global-ui-change-benchmark = Change Peer Group
+global-ui-change-comparator = Change Peer Group
 
 global-ui-related-industry = Related Industry
 global-ui-sector = Sector
@@ -212,6 +212,8 @@ global-intensity-low = Low Relative Presence
 global-intensity-lower = Lower Relative Presence
 global-intensity-high = High Relative Presence
 global-intensity-higher = Higher Relative Presence
+global-absolute-presence-lower = Lower Absolute Presence
+global-absolute-presence-higher = Higher Absolute Presence
 
 global-specialization-expected = Relative Presence = 1
 global-specialization-expected-about = Presence of industry or knowledge cluster in selected city is equal to that in selected peer(s)
@@ -336,6 +338,9 @@ pswot-axis-labels-left-down = Weaker than peer(s)
 pswot-axis-labels-bottom = Relative Presence
 pswot-axis-labels-bottom-left = Smaller than peer(s)
 pswot-axis-labels-bottom-right = Larger than peer(s)
+
+relative-presence-axis-labels-bottom-left = Industries Smaller<br />than peer(s)
+relative-presence-axis-labels-bottom-right = Industries Larger<br />than peer(s)
 
 pswot-average-line-text = Relative Presence = 1
 pswot-zero-axis-label = Presence = 0

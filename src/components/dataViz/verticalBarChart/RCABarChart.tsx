@@ -137,7 +137,7 @@ export const AxisLabelRight = styled(AxisLabelBase)`
   }
 `;
 
-const AxisLabelHigh = styled(AxisLabelBase)`
+export const AxisLabelHigh = styled(AxisLabelBase)`
   margin-left: 3rem;
 
   @media (max-height: 800px) {
@@ -293,7 +293,7 @@ const RCABarChart = (props: Props) => {
           <AxisLabelHigh>{getString('global-intensity-higher')} →</AxisLabelHigh>
         </LeftAxisRoot>
         <BottomAxisRoot>
-          <AxisLabelLeft>{getString('pswot-axis-labels-bottom-left')}</AxisLabelLeft>
+          <AxisLabelLeft dangerouslySetInnerHTML={{__html: getString('relative-presence-axis-labels-bottom-left')}} />
           <AxisLabelBase>
             <PresenceToggle
               togglePresence={true}
@@ -302,7 +302,7 @@ const RCABarChart = (props: Props) => {
               onButtonClick={onButtonClick}
             />
           </AxisLabelBase>
-          <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
+          <AxisLabelRight dangerouslySetInnerHTML={{__html: getString('relative-presence-axis-labels-bottom-right')}} />
         </BottomAxisRoot>
         <BenchmarkRoot>
           <BenchmarkLegend
