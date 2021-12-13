@@ -12,6 +12,7 @@ const GLOBAL_LOCATION_QUERY = gql`
   query GetGlobalLocationData {
     countries: classificationCountryList {
       countryId
+      code
       nameShortEn
       id
     }
@@ -41,6 +42,7 @@ const GLOBAL_LOCATION_QUERY = gql`
 interface SuccessResponse {
   countries: {
     countryId: ClassificationCountry['countryId'],
+    code: ClassificationCountry['code'],
     nameShortEn: ClassificationCountry['nameShortEn'],
     id: ClassificationCountry['id'],
   }[];

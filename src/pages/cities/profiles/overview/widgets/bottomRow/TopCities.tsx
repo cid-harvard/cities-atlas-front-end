@@ -36,7 +36,7 @@ const TopCities = () => {
       .slice(0, 3)
       .map(d => {
         const country = globalLocations.data?.countries.find(cntry => cntry.countryId === d.city?.countryId + '');
-        const countryText = country ? ', ' + country.nameShortEn : '';
+        const countryText = country ? ', ' + country.code : '';
         return (
           <ListItem key={d.city?.cityId}>
             {d.city?.name?.toUpperCase()}{countryText.toUpperCase()}
