@@ -103,7 +103,7 @@ const TopRCA = ({ cityId }: Props) => {
         <TitleBase>
           <Icon src={TopClustersSVG} />
           <WrappableText>
-            {getString('city-overview-top-knowledge-clusters')}*
+            {getString('city-overview-top-knowledge-clusters')}**
           </WrappableText>
           <YearText>
             {defaultYear}

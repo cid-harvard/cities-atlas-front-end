@@ -52,8 +52,6 @@ const TopCities = () => {
         <Icon src={TopCitiesSVG} />
         <div>
           {getString('city-overview-top-similar-cities')}
-          <br />
-          <small>({getString('city-overview-top-filtered-results')})</small>
         </div>
         <YearText>
           {defaultYear}

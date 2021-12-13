@@ -250,8 +250,8 @@ data-disclaimer-contact = You can help improve our data by sending suggestions o
 
 landing-page-text-or = or
 landing-page-text-use-the-map = use the map
-landing-page-text-review-the-city = Review City Profile
-landing-page-text-review-similar-cities = Review Similar Cities
+landing-page-text-review-the-city = Explore City Profile
+landing-page-text-review-similar-cities = Explore Similar Cities
 landing-page-text-what-is-city-link = Learn about city boundaries and datasets
 landing-page-text-what-is-city-para-1 = <strong>How do we define city boundaries?</strong> To define city boundaries, Metroverse uses spatial entities called “urban centres”. Urban Centres are defined by specific thresholds on resident population and built-up surface share in a 1x1 km uniform global grid. While this methodology has the benefit of defining cities consistently, across geographical locations and over time, it may result in boundaries that are slightly different than administrative city boundaries.
 landing-page-text-what-is-city-para-2 = Source: <em><a href="https://ghsl.jrc.ec.europa.eu/ghs_stat_ucdb2015mt_r2019a.php" target="_blank">GHS Urban Centre Database</a> from the European Commission’s Joint Research Centre.<em>
@@ -365,7 +365,7 @@ city-overview-top-specialized-industries = Top Specialized Industries
 city-overview-top-specialized-industries-tooltip = The top 2 industries that account for the largest share of overall employment in a selected city, based on total employment share and the Metroverse recommended benchmark of top global peers by similar population
 city-overview-top-knowledge-clusters = Top Knowledge Clusters
 city-overview-top-knowledge-clusters-tooltip = Knowledge Clusters are a set of industries grouped by their technological relatedness and shared productive capabilities.  Knowledge Clusters help reveal the knowledge base of a city.
-city-overview-top-similar-cities = Top Similar Cities
+city-overview-top-similar-cities = Selected Similar Cities
 city-overview-top-similar-cities-tooltip = The 3 most similar cities - within Metroverse’s coverage - based on whether they are competitive in the same industries.
 city-overview-top-filtered-results = filtered results
 
