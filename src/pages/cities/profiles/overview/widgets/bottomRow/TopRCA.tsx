@@ -11,6 +11,15 @@ import Tooltip from '../../../../../../components/general/Tooltip';
 import TopIndustriesSVG from '../../../../../../assets/icons/topindustries.svg';
 import TopClustersSVG from '../../../../../../assets/icons/topknowledgecluster.svg';
 import SimpleTextLoading from '../../../../../../components/transitionStateComponents/SimpleTextLoading';
+import styled from 'styled-components';
+import { breakPoints } from '../../../../../../styling/GlobalGrid';
+
+const Cell = styled.div`
+  max-width: 380px;
+  @media ${breakPoints.small} {
+    max-width: 100%;
+  }
+`;
 
 interface Props {
   cityId: string;
@@ -21,7 +30,7 @@ const TopRCA = ({ cityId }: Props) => {
   const { loading, error, data } = useClusterIntensityQuery({
     cityId: cityId !== null ? parseInt(cityId, 10) : null,
     year: defaultYear,
-    level: DigitLevel.Sector,
+    level: DigitLevel.Four,
     peerGroup: PeerGroup.GlobalPopulation,
     partnerCityIds: [],
     variable: 'employ',
@@ -47,7 +56,7 @@ const TopRCA = ({ cityId }: Props) => {
     topIndustriesElement = null;
     topClustersElement = null;
   } else if (data && clusters.data && industries.data) {
-    const {c1Rca, naicsRca} = data;
+    const {c3Rca, naicsRca} = data;
 
     const industriesGreaterThan1 = naicsRca.filter(d => d.rca && d.rca >= 1);
     const topIndustries = orderBy(industriesGreaterThan1 ? industriesGreaterThan1 : naicsRca, ['rca'], ['desc'])
@@ -62,8 +71,8 @@ const TopRCA = ({ cityId }: Props) => {
       });
     topIndustriesElement = <>{topIndustries}</>;
 
-    const clustersGreaterThan1 = c1Rca.filter(d => d.rca && d.rca >= 1);
-    const topClusters = orderBy(clustersGreaterThan1 ? clustersGreaterThan1 : c1Rca, ['rca'], ['desc'])
+    const clustersGreaterThan1 = c3Rca.filter(d => d.rca && d.rca >= 1);
+    const topClusters = orderBy(clustersGreaterThan1 ? clustersGreaterThan1 : c3Rca, ['rca'], ['desc'])
       .slice(0, clustersGreaterThan1 ? 3 : 1)
       .map(d => {
         const cluster = clusters.data?.clusters.find(dd => dd.clusterId === d.clusterId + '');
@@ -82,7 +91,7 @@ const TopRCA = ({ cityId }: Props) => {
 
   return (
     <>
-      <div>
+      <Cell>
         <TitleBase>
           <Icon src={TopIndustriesSVG} />
           <WrappableText>
@@ -98,8 +107,8 @@ const TopRCA = ({ cityId }: Props) => {
         <ValueBase>
           {topIndustriesElement}
         </ValueBase>
-      </div>
-      <div>
+      </Cell>
+      <Cell>
         <TitleBase>
           <Icon src={TopClustersSVG} />
           <WrappableText>
@@ -115,7 +124,7 @@ const TopRCA = ({ cityId }: Props) => {
         <ValueBase>
           {topClustersElement}
         </ValueBase>
-      </div>
+      </Cell>
     </>
   );
 };
