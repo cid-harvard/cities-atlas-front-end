@@ -35,9 +35,11 @@ const TopCities = () => {
       .filter(d => d.partnerId !== currentCity.city?.cityId && d.city?.population && d.city.population > minPop && d.city.population < maxPop)
       .slice(0, 3)
       .map(d => {
+        const country = globalLocations.data?.countries.find(cntry => cntry.countryId === d.city?.countryId + '');
+        const countryText = country ? ', ' + country.nameShortEn : '';
         return (
           <ListItem key={d.city?.cityId}>
-            {d.city?.name?.toUpperCase()}
+            {d.city?.name?.toUpperCase()}{countryText.toUpperCase()}
           </ListItem>
         );
       });
