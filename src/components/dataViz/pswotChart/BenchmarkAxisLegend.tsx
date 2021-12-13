@@ -85,19 +85,26 @@ const BenchmarkAxisLegend = () => {
   const windowDimensions = useWindowWidth();
   const getString = useFluent();
   useLayoutEffect(() => {
-    setTimeout(() => {
-      const bottomLabelNode: SVGTSpanElement | null = document.querySelector('.pswot-plot-bottom-label');
-      const rootNode = rootRef.current;
-      if (bottomLabelNode && rootNode) {
-        const { top, left } = bottomLabelNode.getBoundingClientRect();
-        bottomLabelNode.style.opacity = '0';
-        rootNode.style.left = left + 'px';
-        rootNode.style.top = top + 'px';
-        if (window.innerWidth <= 943) {
-          rootNode.style.right = '0px';
+    const setAxisPosition = (attempts: number) => {
+      setTimeout(() => {
+        const bottomLabelNode: SVGTSpanElement | null = document.querySelector('.pswot-plot-bottom-label');
+        const rootNode = rootRef.current;
+        if (bottomLabelNode && rootNode) {
+          const { top, left } = bottomLabelNode.getBoundingClientRect();
+          bottomLabelNode.style.opacity = '0';
+          rootNode.style.left = left + 'px';
+          rootNode.style.top = top + 'px';
+          if (window.innerWidth <= 943) {
+            rootNode.style.right = '0px';
+          }
+        } else {
+          if (attempts < 10) {
+            setAxisPosition(attempts++);
+          }
         }
-      }
-    }, 0);
+      }, 0);
+    };
+    setAxisPosition(1);
   }, [rootRef, windowDimensions]);
 
   return (
