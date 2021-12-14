@@ -128,32 +128,39 @@ const CityGoodAt = () => {
   return (
     <DefaultContentWrapper>
       <ContentGrid>
-        <SideText />
         <Switch>
           <TrackedRoute path={CityRoutes.CityGoodAtAbsolutePresence}
             render={() => (
-              <AbsolutePresence
-                primaryCity={cityId}
-                secondaryCity={benchmark}
-                hiddenSectors={hiddenSectors}
-                clusterLevel={clusterLevel}
-                isClusterView={isClusterView}
-                hiddenClusters={hiddenClusters}
-                colorBy={colorBy}
-              />
+              <>
+                <AbsolutePresence
+                  primaryCity={cityId}
+                  secondaryCity={benchmark}
+                  hiddenSectors={hiddenSectors}
+                  clusterLevel={clusterLevel}
+                  isClusterView={isClusterView}
+                  hiddenClusters={hiddenClusters}
+                  colorBy={colorBy}
+                />
+              </>
             )} />
           <TrackedRoute path={CityRoutes.CityGoodAt}
             render={() => (
-              <RCABarChart
-                isClusterView={Boolean(isClusterView)}
-                highlighted={highlighted}
-                setHighlighted={setHighlighted}
-                hiddenSectors={hiddenSectors}
-                hiddenClusters={hiddenClusters}
-                clusterLevel={clusterLevel}
-                digitLevel={digitLevel}
-                colorBy={colorBy}
-              />
+              <>
+                <SideText
+                  isClusterView={Boolean(isClusterView)}
+                  prefix={'relative-presence'}
+                />
+                <RCABarChart
+                  isClusterView={Boolean(isClusterView)}
+                  highlighted={highlighted}
+                  setHighlighted={setHighlighted}
+                  hiddenSectors={hiddenSectors}
+                  hiddenClusters={hiddenClusters}
+                  clusterLevel={clusterLevel}
+                  digitLevel={digitLevel}
+                  colorBy={colorBy}
+                />
+              </>
             )} />
         </Switch>
         {legend}

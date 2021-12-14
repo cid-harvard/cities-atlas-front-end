@@ -403,8 +403,7 @@ economic-composition-para-1 = { $name } has a population of { $population } peop
 
 economic-composition-para-2 = The largest sector in { $name } consists of { $largest-sector } industries, accounting for { $largest-sector-share-percent }% of { $composition-type } in the city. A prime example is { $largest-3-digit-industry-in-sector }, providing { $largest-3-digit-industry-in-sector-share-percent }% of the city’s employment. Similarly, it shows a large presence in { $second-largest-sector } ({ $second-largest-sector-share-percent }%), in industries such as { $second-largest-3-digit-industry-in-sector } ({ $second-largest-3-digit-industry-in-sector-share-percent }%).
 
-good-at-title = What does { $name } specialize in?
-good-at-para-1 = This graph contrasts the industrial composition of { $name } to {
+good-at-benchmark = {
   $benchmark-type ->
   *[benchmark_city_name] { $benchmark-type }
   [global_pop] global peers by similar population
@@ -414,41 +413,46 @@ good-at-para-1 = This graph contrasts the industrial composition of { $name } to
   [regional_income] regional peers by similar population and income per capita
   [regional_eucdist] regional peers by similar economic structure
   [region] all regional peers
-  [world] the world
-}. For each industry, it looks at whether the industry accounts for a larger or a smaller share of overall employment in { $name } than in {
-  $benchmark-type ->
-  *[benchmark_city_name] { $benchmark-type }
-  [global_pop] global peers by similar population
-  [global_income] global peers by similar population and income per capita
-  [global_eucdist] global peers by similar economic structure
-  [regional_pop] regional peers by similar population
-  [regional_income] regional peers by similar population and income per capita
-  [regional_eucdist] regional peers by similar economic structure
-  [region] all regional peers
-  [world] the world
-}. If bars run to the right, the industries are, in relative terms, more important employers in { $name } than in {
-  $benchmark-type ->
-  *[benchmark_city_name] { $benchmark-type }
-  [global_pop] global peers by similar population
-  [global_income] global peers by similar population and income per capita
-  [global_eucdist] global peers by similar economic structure
-  [regional_pop] regional peers by similar population
-  [regional_income] regional peers by similar population and income per capita
-  [regional_eucdist] regional peers by similar economic structure
-  [region] all regional peers
-  [world] the world
-}. If bars run to the left, the opposite is true. The length of the bar shows how many times larger or smaller the industry’s employment share is in { $name } than in {
-  $benchmark-type ->
-  *[benchmark_city_name] { $benchmark-type }
-  [global_pop] global peers by similar population
-  [global_income] global peers by similar population and income per capita
-  [global_eucdist] global peers by similar economic structure
-  [regional_pop] regional peers by similar population
-  [regional_income] regional peers by similar population and income per capita
-  [regional_eucdist] regional peers by similar economic structure
-  [region] all regional peers
-  [world] the world
+  [world] all world peers
 }
+
+good-at-its = {
+  $benchmark-type ->
+  *[benchmark_city_name] {""}
+  [global_pop] its
+  [global_income] its
+  [global_eucdist] its
+  [regional_pop] its
+  [regional_income] its
+  [regional_eucdist] its
+}
+
+good-at-the = {
+  $benchmark-type ->
+  *[benchmark_city_name] {""}
+  [global_pop] the
+  [global_income] the
+  [global_eucdist] the
+  [regional_pop] the
+  [regional_income] the
+  [regional_eucdist] the
+}
+
+good-at-title = How does { $name } economic composition compare to its peers?
+
+relative-presence-para-1 = This graph contrasts the { $industrial-knowledge-cluster } composition of { $city } to { $peer-group }. For each { $industry-cluster }, it shows whether the { $industry-cluster } accounts for a larger or a smaller share of overall employment in { $city } than in { $its } { $peer-group }.
+relative-presence-para-2 = If bars run to the right, the { $industries-clusters } account for a larger share of employment and are therefore (in relative terms) more important employers in { $city } than in { $its } { $peer-group }. If bars run to the left, the opposite is true. 
+relative-presence-para-3 = The length of the bar shows how many times larger or smaller the { $industry-cluster }’s employment share is in { $city } than in { $its } { $peer-group }.
+relative-presence-para-4 = For instance, 10x means that the { $city-posessive } employment share is ten times bigger than { $peer-group-possessive } share and a 1/10x means that the { $city-posessive } employment share is one tenth of { $the } { $peer-group-possessive } share.
+
+absolute-presence-para-1 = This graph contrasts the { $industrial-knowledge-cluster } composition of { $city } to { $peer-group }. For each { $industry-cluster }, it shows whether the { $industry-cluster } accounts for a larger or a smaller share of overall employment in { $city } than in { $its } { $peer-group }. 
+absolute-presence-para-2 = If bars run to the right, the { $industries-clusters } account for a larger share of employment in { $city } and are therefore (in relative terms) more important employers in { $city } than in { $its } { $peer-group }. If bars run to the left, the opposite is true. 
+absolute-presence-para-3 = The length of the bar shows how much larger or smaller the { $industry-cluster }’s employment share is in { $city } than in { $its } { $peer-group }. 
+absolute-presence-para-4 = For instance, 2% means that the { $city-posessive } employment share for the { $industry-cluster } is two percentage points bigger than { $the } { $peer-group-possessive } share and -2% means that the { $city-posessive } employment share is two percentage points smaller than { $the } { $peer-group-possessive } share.
+
+absolute-nested-bar-chart-para-1 = This graph shows the { $industrial-knowledge-cluster } compositions of { $city } and of { $peer-group } side-by-side. 
+absolute-nested-bar-chart-para-2 = The darker bars show the share of { $city-posessive } workers that are employed in the { $industry-cluster }. The lighter bars show the share of { $peer-group-possessive } workers that are employed in the { $industry-cluster }. 
+absolute-nested-bar-chart-para-3 = By clicking on a bar, you can further explore these comparisons within more detailed { $industry-cluster } categories.
 
 city-similarity-title = Which Cities are Most Similar to { $name }?
 city-similarity-para-1 = Metroverse assesses the similarity between urban economies by calculating whether they are competitive in the same industries. This can reveal ‘sister’ cities that have similar development opportunities and challenges, or may provide a sense of which industries are feasible in a city like yours. <strong>Explore city similarity by world map or focused ring chart below.</strong>

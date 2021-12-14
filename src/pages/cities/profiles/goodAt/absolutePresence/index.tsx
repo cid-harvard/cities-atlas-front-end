@@ -23,6 +23,7 @@ import {
   Switch,
   matchPath,
 } from 'react-router-dom';
+import SideText from '../SideText';
 
 interface Props {
   primaryCity: string;
@@ -86,37 +87,49 @@ const CompositionComparison = (props: Props) => {
       <Switch>
         <TrackedRoute path={CityRoutes.CityGoodAtAbsolutePresenceComparison}
           render={() => (
-            <IndustryZoomableBarChart
-              primaryCity={parseInt(primaryCity, 10)}
-              comparison={comparison}
-              year={defaultYear}
-              setHighlighted={setHighlighted}
-              highlighted={highlighted ? parseInt(highlighted, 10) : null}
-              compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-              hiddenSectors={hiddenSectors}
-              vizNavigation={vizNavigation}
-              isClusterView={isClusterView}
-              hiddenClusters={hiddenClusters}
-            />
+            <>
+              <SideText
+                isClusterView={Boolean(isClusterView)}
+                prefix={'absolute-nested-bar-chart'}
+              />
+              <IndustryZoomableBarChart
+                primaryCity={parseInt(primaryCity, 10)}
+                comparison={comparison}
+                year={defaultYear}
+                setHighlighted={setHighlighted}
+                highlighted={highlighted ? parseInt(highlighted, 10) : null}
+                compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                hiddenSectors={hiddenSectors}
+                vizNavigation={vizNavigation}
+                isClusterView={isClusterView}
+                hiddenClusters={hiddenClusters}
+              />
+            </>
           )}
         />
         <TrackedRoute path={CityRoutes.CityGoodAtAbsolutePresence}
           render={() => (
-            <TopIndustryComparisonBarChart
-              primaryCity={parseInt(primaryCity, 10)}
-              comparison={comparison}
-              year={defaultYear}
-              setHighlighted={setHighlighted}
-              highlighted={highlighted}
-              digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-              compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
-              hiddenSectors={hiddenSectors}
-              vizNavigation={vizNavigation}
-              clusterLevel={clusterLevel}
-              isClusterView={isClusterView}
-              hiddenClusters={hiddenClusters}
-              colorBy={colorBy}
-            />
+            <>
+              <SideText
+                isClusterView={Boolean(isClusterView)}
+                prefix={'absolute-presence'}
+              />
+              <TopIndustryComparisonBarChart
+                primaryCity={parseInt(primaryCity, 10)}
+                comparison={comparison}
+                year={defaultYear}
+                setHighlighted={setHighlighted}
+                highlighted={highlighted}
+                digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
+                compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                hiddenSectors={hiddenSectors}
+                vizNavigation={vizNavigation}
+                clusterLevel={clusterLevel}
+                isClusterView={isClusterView}
+                hiddenClusters={hiddenClusters}
+                colorBy={colorBy}
+              />
+            </>
           )}
         />
       </Switch>
