@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import useFluent from '../../../hooks/useFluent';
 import styled from 'styled-components';
-import { backgroundDark, benchmarkColor, lightBorderColor, primaryFont } from '../../../styling/styleUtils';
+import { backgroundDark, benchmarkColor, lightBorderColor, primaryFont, secondaryFont } from '../../../styling/styleUtils';
 import Tooltip from '../../general/Tooltip';
 import BenchmarkSVG from '../../../assets/icons/benchmark_comparator.svg';
 import { breakPoints } from '../../../styling/GlobalGrid';
@@ -114,6 +114,36 @@ const HighlightedTooltipText = styled.span`
   white-space: nowrap;
 `;
 
+const EquationContainer = styled.div`
+  margin-top: 0.5rem;
+  `;
+const Division = styled.div`
+  margin-top: 0.25rem;
+  font-size: 0.85em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  font-family: ${secondaryFont};
+`;
+const Subtraction = styled.div`
+  margin-top: 0.25rem;
+  font-size: 0.85em;
+  display: flex;
+  text-align: center;
+  font-family: ${secondaryFont};
+`;
+const Top = styled.div`
+  padding-bottom: 0.1rem;
+  margin-bottom: 0.1rem;
+  border-bottom: solid 1px #333;
+  max-width: min-content;
+  flex-grow: 0;
+  white-space: nowrap;
+`;
+const Bottom = styled.div`
+`;
+
 const BenchmarkText = () => {
   return (
     <HighlightedTooltipText>
@@ -158,30 +188,53 @@ const PresenceToggle = (props: Props) => {
     backgroundColor: lightBorderColor,
     borderColor: benchmarkColor,
   };
+  const relativePresenceTooltip = (
+    <>
+      <div>{getString('global-ui-relative-presence-tooltip')}</div>
+      <EquationContainer>
+        <div>It is calculated as:</div>
+        <Division>
+          <Top>employment share of industry in city</Top>
+          <Bottom>employment share of industry in peer group</Bottom>
+        </Division>
+      </EquationContainer>
+    </>
+  );
+  const absolutePresenceTooltip = (
+    <>
+      <div>{getString('global-ui-absolute-presence-tooltip')}</div>
+      <EquationContainer>
+        <div>It is calculated as:</div>
+        <Subtraction>
+          (employment share of industry in city) - (employment share of industry in peer group)
+        </Subtraction>
+      </EquationContainer>
+    </>
+  );
   const presenceButtons = togglePresence ? (
     <>
       <Tooltip
-        explanation={getString('global-ui-relative-presence')}
+        explanation={relativePresenceTooltip}
       >
         <ToggleButton
           style={highlight === Highlighted.relative ? highlightedStyles : undefined}
           onClick={onButtonClick ? () => onButtonClick(Highlighted.relative) : undefined}
         >
           <Tooltip
-            explanation={getString('global-ui-relative-presence')}
+            explanation={relativePresenceTooltip}
           />
           {getString('global-ui-relative-presence')}
         </ToggleButton>
       </Tooltip>
       <Tooltip
-        explanation={getString('global-ui-absolute-presence')}
+        explanation={absolutePresenceTooltip}
       >
         <ToggleButton
           style={highlight === Highlighted.absolute ? highlightedStyles : undefined}
           onClick={onButtonClick ? () => onButtonClick(Highlighted.absolute) : undefined}
         >
           <Tooltip
-            explanation={getString('global-ui-absolute-presence')}
+            explanation={absolutePresenceTooltip}
           />
           {getString('global-ui-absolute-presence')}
         </ToggleButton>
@@ -189,11 +242,11 @@ const PresenceToggle = (props: Props) => {
     </>
   ) : (
     <Tooltip
-      explanation = { getString('global-ui-relative-presence') }
+      explanation={relativePresenceTooltip}
     >
       <Button>
         <Tooltip
-          explanation = { getString('global-ui-relative-presence') }
+          explanation={relativePresenceTooltip}
         />
         { getString('global-ui-relative-presence') }
       </Button >

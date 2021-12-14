@@ -145,7 +145,9 @@ global-formatted-income-class = {
 }
 
 global-ui-relative-presence = Relative Presence
+global-ui-relative-presence-tooltip = Relative presence shows the factor by which an industry’s employment share in the city exceeds or, for values below 1, falls short of the share observed in the peer group.
 global-ui-absolute-presence = Absolute Presence
+global-ui-absolute-presence-tooltip = Absolute presence shows by how many percentage points an industry’s employment share in the city exceeds or, for negative values, falls short of the share observed in the peer group.
 
 global-ui-change-benchmark = Change Peer Group
 global-ui-change-comparator = Change Peer Group
