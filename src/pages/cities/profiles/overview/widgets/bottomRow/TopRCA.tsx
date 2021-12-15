@@ -56,7 +56,7 @@ const TopRCA = ({ cityId }: Props) => {
     topIndustriesElement = null;
     topClustersElement = null;
   } else if (data && clusters.data && industries.data) {
-    const {c1Rca, naicsRca} = data;
+    const {c3Rca, naicsRca} = data;
 
     const industriesGreaterThan1 = naicsRca.filter(d => d.rca && d.rca >= 1);
     const topIndustries = orderBy(industriesGreaterThan1 ? industriesGreaterThan1 : naicsRca, ['rca'], ['desc'])
@@ -71,8 +71,8 @@ const TopRCA = ({ cityId }: Props) => {
       });
     topIndustriesElement = <>{topIndustries}</>;
 
-    const clustersGreaterThan1 = c1Rca.filter(d => d.rca && d.rca >= 1);
-    const topClusters = orderBy(clustersGreaterThan1 ? clustersGreaterThan1 : c1Rca, ['rca'], ['desc'])
+    const clustersGreaterThan1 = c3Rca.filter(d => d.rca && d.rca >= 1);
+    const topClusters = orderBy(clustersGreaterThan1 ? clustersGreaterThan1 : c3Rca, ['rca'], ['desc'])
       .slice(0, clustersGreaterThan1 ? 3 : 1)
       .map(d => {
         const cluster = clusters.data?.clusters.find(dd => dd.clusterId === d.clusterId + '');
