@@ -148,7 +148,7 @@ const BenchmarkText = () => {
   return (
     <HighlightedTooltipText>
       <Icon src={BenchmarkSVG} />
-      Change Benchmark
+      Change Peer Group
     </HighlightedTooltipText>
   );
 };
@@ -258,7 +258,7 @@ const PresenceToggle = (props: Props) => {
 
   const oneTimeTooltip = showOverviewTooltip ? (
     <OneTimeTooltip>
-      Hover on labels to learn more. Click on <BenchmarkText /> to change current benchmark.<br />
+      Hover on labels to learn more. Click on <BenchmarkText /> to select a different benchmark.<br />
       <DismissTooltipButton onClick={dismissOverviewTooltip}>{getString('city-overview-one-time-tooltip-got-it')}</DismissTooltipButton>
     </OneTimeTooltip>
   ) : false;

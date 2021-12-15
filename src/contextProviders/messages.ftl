@@ -368,8 +368,8 @@ city-overview-ranking-pop = { $value } most populated
 city-overview-ranking-gdp = { $value } highest gdp per capita
 city-overview-data-quality = Data Quality
 
-city-overview-top-specialized-industries = Top Specialized Industries
-city-overview-top-specialized-industries-tooltip = The top 2 industries that account for the largest share of overall employment in a selected city, based on total employment share and the Metroverse recommended benchmark of top global peers by similar population
+city-overview-top-specialized-industries = Most Intensive Industries
+city-overview-top-specialized-industries-tooltip = The industries with the highest <strong>“relative presence”</strong> in a city or industries where the total employment share in the city exceeds that of the benchmark.
 city-overview-top-knowledge-clusters = Top Knowledge Clusters
 city-overview-top-knowledge-clusters-tooltip = Knowledge Clusters are a set of industries grouped by their technological relatedness and shared productive capabilities.  Knowledge Clusters help reveal the knowledge base of a city.
 city-overview-top-similar-cities = Selected Similar Cities
@@ -381,7 +381,7 @@ city-overview-ranking-disclaimer = Out of the { $city-peer-group-counts-region }
 
 city-overview-metroverse-concepts = Metroverse Concepts
 
-city-overview-relative-presence-title = Relative Presence (specialization metric)
+city-overview-relative-presence-title = Relative Presence
 city-overview-relative-presence-desc = A measure of whether an  industry accounts for a larger or a smaller share of overall employment in a selected city.  In Metroverse, the relative presence of an industry depends on the selected benchmark city or set of cities. 
 
 city-overview-knowledge-cluster-title = Knowledge Cluster

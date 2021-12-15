@@ -58,7 +58,10 @@ const TopRCA = ({ cityId }: Props) => {
   } else if (data && clusters.data && industries.data) {
     const {c3Rca, naicsRca} = data;
 
-    const industriesGreaterThan1 = naicsRca.filter(d => d.rca && d.rca >= 1);
+    const industriesGreaterThan1 = naicsRca.filter(d => {
+      const industry = industries.data?.industries.find(dd => dd.naicsId === d.naicsId + '');
+      return d.rca && d.rca >= 1 && industry && industry.name !== 'Other';
+    });
     const topIndustries = orderBy(industriesGreaterThan1 ? industriesGreaterThan1 : naicsRca, ['rca'], ['desc'])
       .slice(0, industriesGreaterThan1 ? 3 : 1)
       .map(d => {
@@ -100,7 +103,11 @@ const TopRCA = ({ cityId }: Props) => {
           <YearText>
             {defaultYear}
             <Tooltip
-              explanation={getString('city-overview-top-specialized-industries-tooltip')}
+              explanation={
+                <div
+                  dangerouslySetInnerHTML={{ __html: getString('city-overview-top-specialized-industries-tooltip')}}
+                />
+              }
             />
           </YearText>
         </TitleBase>
