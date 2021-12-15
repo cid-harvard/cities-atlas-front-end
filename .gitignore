@@ -25,3 +25,5 @@ yarn-error.log*
 
 *.pem
 temp-deploy.txt
+
+build.zip
