@@ -292,8 +292,8 @@ cities-top-10-comparison-chart-expand-clusters = Click to see all clusters
 cities-top-10-comparison-chart-collapse-clusters = Show only top clusters
 cities-top-10-comparison-chart-axis-title = Difference in Share
 
-glossary-total-shown = Source: Dun & Bradstreet, 2020
-glossary-composition = Generate the visualization based on estimated number of employees or estimated number of establishements.  Source: Dun & Bradstreet, 2020
+glossary-total-shown = Source: Dun & Bradstreet, 2021
+glossary-composition = Generate the visualization based on estimated number of employees or estimated number of establishements.  Source: Dun & Bradstreet, 2021
 glossary-composition-disabled = The composition type is disabled for this visualization
 glossary-digit-level = Visualize NAICS industries at various levels of detail
 glossary-digit-level-disabled = Digit levels are disabled for this visualization
@@ -785,7 +785,7 @@ faq-list-Q4-a =
 faq-list-Q5-q = Where do you get your data?
 faq-list-Q5-a =
   <p>
-    The data are derived from Dun and Bradstreet’s World Base for the year 2020. These data record information for over a hundred million establishments around the globe. Our team cleaned and aggregated these data into the database that powers Metroverse.
+    The data are derived from Dun and Bradstreet’s World Base for the year 2021. These data record information for over a hundred million establishments around the globe. Our team cleaned and aggregated these data into the database that powers Metroverse.
   </p>
 
 faq-list-Q6-q = How often is Metroverse updated?
