@@ -3,7 +3,7 @@ import useCurrentCityId from '../../../../hooks/useCurrentCityId';
 import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
 import { LoadingOverlay } from '../../../../components/transitionStateComponents/VizLoadingBlock';
 import React from 'react';
-import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import styled from 'styled-components';
 import Widgets from './widgets';
 import Concepts from './concepts';
@@ -84,7 +84,7 @@ const SimilarCities = () => {
           <Concepts />
         </ConceptsContainer>
       </Root>
-      <UtiltyBar hideGuide={true} />
+      <UtilityBar />
     </DefaultContentWrapper>
   );
 };

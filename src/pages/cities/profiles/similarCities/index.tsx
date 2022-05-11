@@ -6,7 +6,7 @@ import React from 'react';
 import {
   ContentGrid,
 } from '../../../../styling/styleUtils';
-import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import SimilarCitiesMap from '../../../../components/dataViz/similarCitiesMap';
 import useQueryParams from '../../../../hooks/useQueryParams';
 import {CityNodeSizing, defaultCityNodeSizing} from '../../../../routing/routes';
@@ -61,7 +61,7 @@ const SimilarCities = () => {
         />
         <SimilarCitiesMap />
       </ContentGrid>
-      <UtiltyBar />
+      <UtilityBar />
     </DefaultContentWrapper>
   );
 };

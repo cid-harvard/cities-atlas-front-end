@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import UtiltyBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import ClusteredIndustrySpace from '../../../../../components/dataViz/industrySpace';
 import {ZoomLevel, NodeAction} from '../../../../../components/dataViz/industrySpace/chart/createChart';
 import {defaultYear, formatNumberLong} from '../../../../../Utils';
@@ -194,7 +194,7 @@ const IndustrySpacePosition = (props: Props) => {
         />
         {legend}
       </ContentGrid>
-      <UtiltyBar
+      <UtilityBar
       />
     </>
   );

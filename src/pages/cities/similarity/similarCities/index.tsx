@@ -6,7 +6,7 @@ import React from 'react';
 import {
   ContentScrollGrid,
 } from '../../../../styling/styleUtils';
-import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import FilterBar from './FilterBar';
 import Visualizations from './Visualizations';
 
@@ -29,7 +29,7 @@ const SimilarCities = () => {
         <FilterBar />
         <Visualizations />
       </ContentScrollGrid>
-      <UtiltyBar />
+      <UtilityBar />
     </DefaultContentWrapper>
   );
 };

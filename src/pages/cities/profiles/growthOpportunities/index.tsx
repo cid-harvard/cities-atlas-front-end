@@ -19,7 +19,7 @@ import useQueryParams from '../../../../hooks/useQueryParams';
 import useFluent from '../../../../hooks/useFluent';
 import CategoryLabels from '../../../../components/dataViz/legend/CategoryLabels';
 import useSectorMap from '../../../../hooks/useSectorMap';
-import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import {createRoute} from '../../../../routing/Utils';
 import {
   CityRoutes,
@@ -281,7 +281,7 @@ const GrowthOppurtunities = () => {
         </Switch>
         {legend}
       </ContentGrid>
-      <UtiltyBar />
+      <UtilityBar />
     </DefaultContentWrapper>
   );
 };

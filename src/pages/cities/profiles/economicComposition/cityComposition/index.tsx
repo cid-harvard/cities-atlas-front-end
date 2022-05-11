@@ -1,5 +1,5 @@
 import React, {useState, useRef, useCallback, useEffect} from 'react';
-import UtiltyBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar, {DownloadType} from '../../../../../components/navigation/secondaryHeader/UtilityBar';
 import CompositionTreeMap from '../../../../../components/dataViz/treeMap/CompositionTreeMap';
 import ClusterCompositionTreeMap from '../../../../../components/dataViz/treeMap/ClusterCompositionTreeMap';
 import {defaultYear} from '../../../../../Utils';
@@ -219,7 +219,8 @@ const EconomicComposition = (props: Props) => {
         {legend}
         {download}
       </ContentGrid>
-      <UtiltyBar
+
+      <UtilityBar
         onDownloadImageButtonClick={() => setActiveDownload(DownloadType.Image)}
       />
     </>

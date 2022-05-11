@@ -17,7 +17,7 @@ import EducationLegend from '../../../../components/dataViz/legend/EducationLege
 import WageLegend from '../../../../components/dataViz/legend/WageLegend';
 import useSectorMap from '../../../../hooks/useSectorMap';
 import useClusterMap from '../../../../hooks/useClusterMap';
-import UtiltyBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
+import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
 import {
   ColorBy,
   defaultClusterLevel,
@@ -165,7 +165,7 @@ const CityGoodAt = () => {
         </Switch>
         {legend}
       </ContentGrid>
-      <UtiltyBar />
+      <UtilityBar />
     </DefaultContentWrapper>
   );
 };
