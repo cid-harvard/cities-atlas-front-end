@@ -122,7 +122,7 @@ const SideText = ({year, cityId, compositionType}: Props) => {
       'region-size-rank': ordinalNumber([city.regionPopRank ? city.regionPopRank : 0]),
       'region-wealth-rank': ordinalNumber([city.regionGdppcRank ? city.regionGdppcRank : 0]),
       'region-name': region ? region.regionName : '',
-      'region-city-count': additional.data.cityPeerGroupCounts.region,
+      'region-city-count': additional.data.cityPeerGroupCounts.region + 1,
       'num-employ': formatNumberLong(totalEmploy),
     });
 

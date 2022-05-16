@@ -108,6 +108,7 @@ const CompositionTreeMap = (props: Props) => {
   const {loading, error, data} = useEconomicCompositionQuery({cityId, year});
   const aggregateIndustryDataMap = useAggregateIndustryMap({level: digitLevel, year: defaultYear});
 
+
   useEffect(() => {
     const node = rootRef.current;
     if (node) {
@@ -127,6 +128,7 @@ const CompositionTreeMap = (props: Props) => {
   } else {
     dataToUse = undefined;
   }
+
 
   const indicator: Indicator = {
     text: undefined,

@@ -27,7 +27,7 @@ const DisclaimerText = ({cityId, regionId}: Props) => {
   if (data && globalLocations.data) {
     const region = globalLocations.data.regions.find(d => d.regionId === regionId + '');
     regionName = region && region.regionName ? region.regionName : '';
-    cityPeerGroupCountsRegion = data.cityPeerGroupCounts.region;
+    cityPeerGroupCountsRegion = data.cityPeerGroupCounts.region + 1;
   }
 
   return (
