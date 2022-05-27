@@ -538,9 +538,9 @@ about-team-html =
   <p>
     Brendan manages the API and database systems of Metroverse. He works alongside the research team to oversee the technical architecture for processing data into reliable structures and performing efficient calculations. Brendan also conducts research for experimental platform features and administers the cloud-based server infrastructure of Metroverse.
   </p>
-  <h4><a target="_blank" href="https://soeltz.com/">Kyle Soeltz</a>, Front-End Software Engineer</h4>
+  <h4><a target="_blank" href="https://www.fluidencodings.com/">Steven Geofrey</a>, Front-End Developer</h4>
   <p>
-    Kyle is responsible for the front-end development of Metroverse. He architects and implements data-driven interfaces and visualizations with an emphasis on responsiveness, accessibility, code reusability and modern best-practices. Kyle also handles the integration of SEO and analytics tools, collaborates with research, design, and data counterparts, and builds rapid prototypes for testing new ideas.  
+    Steven is responsible for the front-end development of Metroverse. Steven strategizes and implements new features at the intersection of Metroverse’s data architecture, visualization design, and user interface.
   </p>
   <h4><a target="_blank" href="http://www.niltuzcu.net/">Nil Tuzcu</a>, Information Designer </h4>
   <p>
