@@ -10,6 +10,18 @@ import {
 } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+  dsn: "https://0ba27fcabcb44babaaaaad9268fd121d@o136965.ingest.sentry.io/6489802",
+  integrations: [new BrowserTracing()],
+
+  // Set tracesSampleRate to 1.0 to capture 100%
+  // of transactions for performance monitoring.
+  // We recommend adjusting this value in production
+  tracesSampleRate: 1.0,
+});
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
