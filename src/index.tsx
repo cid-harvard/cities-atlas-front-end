@@ -13,15 +13,23 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
-Sentry.init({
-  dsn: "https://0ba27fcabcb44babaaaaad9268fd121d@o136965.ingest.sentry.io/6489802",
-  integrations: [new BrowserTracing()],
+if(process.env.SENTRY_DSN && process.env.SENTRY_ENV) {
+  Sentry.init({
+    dsn: process.env.SENTRY_DSN,
+    integrations: [new BrowserTracing()],
+    environment: process.env.SENTRY_ENV,
+  
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+  });
+  
+} else {
+  console.log("Build is running without Sentry.");
+}
 
-  // Set tracesSampleRate to 1.0 to capture 100%
-  // of transactions for performance monitoring.
-  // We recommend adjusting this value in production
-  tracesSampleRate: 1.0,
-});
+
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
