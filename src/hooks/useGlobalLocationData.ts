@@ -24,7 +24,7 @@ const GLOBAL_LOCATION_QUERY = gql`
       nameList
       centroidLat
       centroidLon
-      population: population15
+      population: populationLatest
       gdppc
       incomeClass
       region: regionId
@@ -58,7 +58,7 @@ interface SuccessResponse {
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
     geometry: ClassificationCity['geometry'],
-    population: ClassificationCity['population15'],
+    population: ClassificationCity['populationLatest'],
     gdppc: ClassificationCity['gdppc'],
     incomeClass: ClassificationCity['incomeClass'],
     id: ClassificationCity['id'],

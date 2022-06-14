@@ -49,7 +49,7 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
       centroidLon
       countryId
       geometry
-      population15
+      populationLatest
       gdppc
       id
     }
@@ -70,7 +70,7 @@ export interface SuccessResponse {
     centroidLon: ClassificationCity['centroidLon'],
     countryId: ClassificationCity['countryId'],
     geometry: ClassificationCity['geometry'],
-    population15: ClassificationCity['population15'],
+    populationLatest: ClassificationCity['populationLatest'],
     gdppc: ClassificationCity['gdppc'],
     id: ClassificationCity['id'],
   }[];
@@ -342,7 +342,7 @@ const Landing = () => {
       cities.forEach(city => {
         const {
           cityId, name, centroidLon, countryId, geometry,
-          population15, gdppc, nameList,
+          populationLatest, gdppc, nameList,
         } = city;
         const coordinates: Coordinate[][][] = geometry ? JSON.parse(geometry).coordinates : [];
         const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
@@ -350,7 +350,7 @@ const Landing = () => {
         const parent = countries.find(c => parseInt(c.countryId, 10) === countryId);
         const countryName = parent && parent.nameShortEn ? parent.nameShortEn : '';
         const parentIndex = searchData.findIndex(d => d.id === countryId);
-        const population = population15 ? population15 : 0;
+        const population = populationLatest ? populationLatest : 0;
         const gdp = gdppc && !isNaN(gdppc) ? parseFloat(gdppc.toFixed(2)) : 0;
         if (parentIndex === -1 && parent !== undefined && countryId !== null && parent.nameShortEn) {
           searchData.push({

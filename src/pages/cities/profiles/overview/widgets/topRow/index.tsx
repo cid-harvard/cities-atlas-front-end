@@ -116,7 +116,10 @@ const TopRow = () => {
           <Icon src={PopulationSVG} />
           {getString('global-text-population')}
           <YearText>
-            2015
+            2020
+            <Tooltip
+              explanation={getString('global-text-population-about')}
+            />
           </YearText>
         </TitleBase>
         <ValueBase>
@@ -128,7 +131,7 @@ const TopRow = () => {
           <Icon src={GdpPerCapitaSVG} />
           {getString('global-text-gdp-per-capita')}
           <YearText>
-            2015
+            2020
             <Tooltip
               explanation={getString('global-text-gdp-per-capita-about')}
             />

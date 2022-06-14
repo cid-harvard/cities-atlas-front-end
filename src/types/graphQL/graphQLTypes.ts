@@ -78,6 +78,7 @@ export interface ClassificationCity {
   avgTemp14: number | null;
   builtArea15: number | null;
   population15: number | null;
+  populationLatest: number | null;
   builtAreaPc15: number | null;
   gdpPpp15: number | null;
   gdppc: number | null;

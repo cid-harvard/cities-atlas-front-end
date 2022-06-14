@@ -116,7 +116,7 @@ const SideText = ({year, cityId, compositionType}: Props) => {
       'name-plural': cityNamePlural,
       'income-level': getString('global-formatted-income-class', {type: city.incomeClass}),
       'country': country ? country.nameShortEn : '',
-      'pop-year': '2015',
+      'pop-year': '2020',
       'population': formatNumberLong(city.population ? city.population : 0),
       'gdppc': formatNumberLong(city.gdppc ? city.gdppc : 0),
       'region-size-rank': ordinalNumber([city.regionPopRank ? city.regionPopRank : 0]),

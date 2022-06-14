@@ -74,14 +74,14 @@ const CityMap = (props: Props) => {
     cities.forEach(city => {
       const {
         cityId, name, centroidLon, countryId, geometry,
-        population15, gdppc, nameList,
+        populationLatest, gdppc, nameList,
       } = city;
       const coordinates: Coordinate[][][] = geometry ? JSON.parse(geometry).coordinates : [];
       const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
       const center: Coordinate = [centroidLon ? centroidLon : 0, northernTerminus];
       const parent = countries.find(c => parseInt(c.countryId, 10) === countryId);
       const countryName = parent && parent.nameShortEn ? parent.nameShortEn : '';
-      const population = population15 ? population15 : 0;
+      const population = populationLatest ? populationLatest : 0;
       const gdp = gdppc && !isNaN(gdppc) ? parseFloat(gdppc.toFixed(2)) : 0;
       const id = cityId;
       const searchDatum: ExtendedSearchDatum = {
