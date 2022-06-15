@@ -77,6 +77,13 @@ const Subtitle = styled.h4`
   color: #333;
 `;
 
+const CityverseVersion = styled.p`
+  margin: 0.5rem 0 0;
+  font-style: italic;
+  text-align: center;
+  width: 100%;
+`;
+
 const CenteredColumn = styled(ColumnOrRow)`
   justify-content: flex-start;
   margin-bottom: 0;
@@ -284,6 +291,9 @@ const StandardFooter = () => {
             <Subtitle>
               The Growth Lab's Urban Economy Navigator
             </Subtitle>
+            <CityverseVersion>
+              Metroverse {process.env.REACT_APP_METROVERSE_VERSION}
+            </CityverseVersion>
           </CityverseLogoColumn>
           <InternalLinksColumn>
             <StyledInternalLink to={Routes.Landing}>
