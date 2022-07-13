@@ -105,6 +105,7 @@ export const useComparisonQuery = (input: InputVariables) => {
       primaryCityIndustries: response.primaryCityIndustries,
       secondaryCityIndustries: [],
     };
+
     if (data !== undefined && response !== undefined) {
       const {
         groupIndustries_1, groupIndustries_2, groupIndustries_3,

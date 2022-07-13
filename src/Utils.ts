@@ -92,3 +92,26 @@ export function filterOutliers(arr: number[]) {
     // Then return
     return filteredValues;
 }
+
+export const defaultCityPool = [
+  196, // Albuquerque
+  323, // Dallas
+  1346, // Belo Horizonte
+  14, // Los Angeles
+  1656, // Dublin
+  1214, // Novo Hamburgo
+  362, // Calgary
+  11498, // Singapore
+  6893, // Jaipur
+  12964, // Tokyo
+  2463, // Zurich
+  12578, // Wenzhou
+  2046, // Paris
+  11136, // Hanoi
+  6845, // Mumbai
+  6955, // Delhi
+  2559, // Milan
+  880, // Baltimore
+  875, // Toronto
+  2167 // Amsterdam
+]; 
