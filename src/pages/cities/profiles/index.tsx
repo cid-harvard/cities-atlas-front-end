@@ -74,8 +74,6 @@ const City = () => {
       history.replace(createRoute.city(CityRoutes.CityOverview, match.params[cityIdParam]));
     }
 
-    console.log("match2", match)
-    console.log("history2", history)
   }, [history, match]);
 
   const baseLinkData = cityId !== null ? [
