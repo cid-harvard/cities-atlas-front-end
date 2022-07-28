@@ -572,6 +572,13 @@ about-team-html =
   <p>
     Jos&eacute; co-authored the user-facing narrative of Metroverse, providing perspectives from his previous work on subnational economic complexity visualization tools. He also helped to develop Metroverse&#39;s policy framework and to advance Metroverse&#39;s feature testing and validation.
   </p>
+  <h3>Alumni</h3>
+  <h4>
+    <a target="_blank" href="https://soeltz.com/">Kyle Soeltz</a>, Front-End Developer
+  </h4>
+  <p>
+  Kyle led the front-end development for the inaugural version of Metroverse.  Among other initiatives, he built all the original data visualizations in Metroverse including more than 20 <a target="_blank" href="https://cid-harvard.github.io/industry-space-prototype/#/">custom prototypes</a> of the Industry Space alone.  
+  </p>
 
 
 about-pilot-user-group-title = The Pilot User Group
