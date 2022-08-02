@@ -13,9 +13,9 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 
-if(process.env.REACT_APP_SENTRY_DSN && process.env.REACT_APP_SENTRY_ENV) {
+if(process.env.SENTRY_DSN && process.env.SENTRY_ENV) {
   Sentry.init({
-    dsn: process.env.REACT_APP_SENTRY_DSN,
+    dsn: process.env.SENTRY_DSN,
     integrations: [new BrowserTracing()],
     environment: process.env.REACT_APP_SENTRY_ENV,
 
