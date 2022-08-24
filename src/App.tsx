@@ -14,11 +14,19 @@ import './styling/fonts/fonts.css';
 import AppContext, {useWindowWidth} from './contextProviders/appContext';
 import {OverlayPortal} from './components/standardModal';
 import useFluent from './hooks/useFluent';
-import ReactGA from 'react-ga';
+import ReactGA from 'react-ga4';
 import TrackedRoute from './routing/TrackedRoute';
 import SurveyWidget from './components/analytics/SurveyWidget';
 
-ReactGA.initialize('UA-41291966-12', {debug: false});
+if (process.env.REACT_APP_GOOGLE_ANALYTICS_GA4_ID) {
+
+  ReactGA.initialize([
+    {
+      trackingId: process.env.REACT_APP_GOOGLE_ANALYTICS_GA4_ID,
+    }
+  ]);
+
+}
 
 function App() {
   const windowDimensions = useWindowWidth();
