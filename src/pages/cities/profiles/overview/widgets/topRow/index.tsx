@@ -6,7 +6,7 @@ import PopulationSVG from '../../../../../../assets/icons/population.svg';
 import RankingSVG from '../../../../../../assets/icons/ranking.svg';
 import GdpPerCapitaSVG from '../../../../../../assets/icons/gdppercapita.svg';
 import DataReliabilitySVG from '../../../../../../assets/icons/datareliability.svg';
-import { defaultYear, formatNumberLong, numberWithCommas } from '../../../../../../Utils';
+import { populationDisplayYear, gdpPerCapitaDisplayYear, rankingDisplayYear, defaultYear, formatNumberLong, numberWithCommas } from '../../../../../../Utils';
 import useFluent, { ordinalNumber } from '../../../../../../hooks/useFluent';
 import { DataFlagType } from '../../../../../../types/graphQL/graphQLTypes';
 import styled from 'styled-components';
@@ -116,7 +116,7 @@ const TopRow = () => {
           <Icon src={PopulationSVG} />
           {getString('global-text-population')}
           <YearText>
-            2020
+            {populationDisplayYear}
             <Tooltip
               explanation={getString('global-text-population-about')}
             />
@@ -131,7 +131,7 @@ const TopRow = () => {
           <Icon src={GdpPerCapitaSVG} />
           {getString('global-text-gdp-per-capita')}
           <YearText>
-            2020
+            {gdpPerCapitaDisplayYear}
             <Tooltip
               explanation={getString('global-text-gdp-per-capita-about')}
             />
@@ -146,7 +146,7 @@ const TopRow = () => {
           <Icon src={RankingSVG} />
           {getString('city-overview-ranking-title')}*
           <YearText>
-            {defaultYear}
+            {rankingDisplayYear}
           </YearText>
         </TitleBase>
         <ValueBase>
