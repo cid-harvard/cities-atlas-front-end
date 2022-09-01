@@ -134,6 +134,17 @@ const MobileH2 = styled(H2)`
   border-bottom: solid 1px ${primaryColor};
 `;
 
+export const BetaLabel = styled.span`
+  text-transform: uppercase;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 12px;
+  color: #f89571;
+  padding-left: 4px;
+  padding-bottom: 2px;
+  display: inline-block;
+  vertical-align: middle;
+`;
+
 const NavIcon = styled.div`
   width: 0.95rem;
   width: clamp(0.95rem, 1.9vw, 1.45rem);
@@ -355,6 +366,7 @@ const Header = () => {
           <StyledLink to={similarCitiesRoute}>
             <H2 $active={Boolean(matchSimilarCities)}>
               {getString('navigation-city-similarity')}
+              <BetaLabel>Beta</BetaLabel>
             </H2>
           </StyledLink>
           <StyledLink to={Routes.AboutWhatIs}>

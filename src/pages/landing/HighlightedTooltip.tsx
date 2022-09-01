@@ -12,6 +12,7 @@ import {
   secondaryColor,
   secondaryFont,
 } from '../../styling/styleUtils';
+import { BetaLabel } from '../../components/navigation/header';
 import useFluent from '../../hooks/useFluent';
 import googleAnalyticsEvent from '../../components/analytics/googleAnalyticsEvent';
 
@@ -26,7 +27,7 @@ const ReviewCityButton = styled(Link)`
   text-transform: uppercase;
   font-size: 0.95rem;
   display: block;
-  width: 14rem;
+  width: 16rem;
   margin: 1rem auto 0;
   padding: 0.5rem;
   display: block;
@@ -99,6 +100,7 @@ const HighlightedTooltip = (props: Props) => {
         onClick={triggerGoogleAnalyticsEvent(Action.Similarity)}
       >
         {getString('landing-page-text-review-similar-cities')}
+        <BetaLabel>Beta</BetaLabel>
       </ReviewCityButton>
       <CloseTooltipButton onClick={closePopup}>×</CloseTooltipButton>
     </StyledPopup>
