@@ -292,7 +292,7 @@ const StandardFooter = () => {
               The Growth Lab's Urban Economy Navigator
             </Subtitle>
             <CityverseVersion>
-              Metroverse {process.env.REACT_APP_METROVERSE_VERSION}
+              Version {process.env.REACT_APP_METROVERSE_VERSION}
             </CityverseVersion>
           </CityverseLogoColumn>
           <InternalLinksColumn>

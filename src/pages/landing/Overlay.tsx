@@ -20,6 +20,7 @@ const Root = styled.div`
   top: 0;
   left: 0;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   pointer-events: none;
@@ -220,6 +221,19 @@ const CityIcon = styled.div`
   margin-right: 0.45rem;
 `;
 
+const CityverseVersion = styled.div`
+  margin: 0.5rem 1rem 0rem -1rem;
+  width: 100%;
+  font-size: 0.75rem;
+  color: #FFFFFF;
+  max-width: 700px;
+
+  @media (max-height: 800px) {
+    max-width: 600px;
+    grid-template-columns: 0 auto 0;
+  }
+`;
+
 interface Props {
   onCitySelect: () => void;
 }
@@ -266,6 +280,9 @@ const Overlay = ({onCitySelect}: Props) => {
         </StartButtons>
         <IntroFooter dangerouslySetInnerHTML={{__html: getString('landing-overlay-footnote')}} />
       </Content>
+      <CityverseVersion>
+          VERSION {process.env.REACT_APP_METROVERSE_VERSION}
+      </CityverseVersion>
     </Root>
   );
 };
