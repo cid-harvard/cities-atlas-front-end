@@ -6,7 +6,9 @@ import { Route } from 'react-router-dom';
 const TrackedRoute = (props: any) => {
   useEffect(() => {
     const page = props.location.pathname + window.location.search;
-    ReactGA.send({hitType: "pageview", page: page});
+    if(process.env.REACT_APP_GOOGLE_ANALYTICS_GA4_ID) {
+      ReactGA.send({hitType: "pageview", page: page});
+    }
   }, [props.location.pathname]);
 
   return (
