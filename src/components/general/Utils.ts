@@ -4,6 +4,8 @@ import {
 } from '../../styling/styleUtils';
 import styled from 'styled-components/macro';
 import {breakPointValues} from '../../styling/GlobalGrid';
+import {DataFlagType} from '../../types/graphQL/graphQLTypes';
+
 
 export const collapsedSizeMediaQueryValues = {
   min: breakPointValues.width.small + 1,
@@ -83,3 +85,43 @@ export const ExpandingButton = styled(ButtonBase)`
     }
   }
 `;
+
+/* Utilities for new data quality indicators:
+
+In the database, data quality levels are defined as
+GREEN, YELLOW, ORANGE, and RED.
+
+In the new data quality indicators, the following
+changes are implemented:
+
+  GREEN and YELLOW -> "high quality"
+  ORANGE -> "medium quality"
+  RED -> "low quality"
+
+*/
+export enum NewDataQualityLevel {
+  HIGH = "high-quality",
+  MEDIUM = "medium-quality",
+  LOW = "low-quality"
+}
+
+
+export const dataQualityColors: any = new Map([
+  [NewDataQualityLevel.LOW, "#b12417"],
+  [NewDataQualityLevel.MEDIUM, "#f3b23d"],
+  [NewDataQualityLevel.HIGH, "#4eaba7"]
+]);
+
+export const getNewDataQualityLevel = (dataFlag: DataFlagType): NewDataQualityLevel => {
+  let assignedNewDataQualityLevel: any;
+  if(dataFlag === DataFlagType.GREEN || dataFlag === DataFlagType.YELLOW) {
+    assignedNewDataQualityLevel = NewDataQualityLevel.HIGH;
+  } else if(dataFlag === DataFlagType.ORANGE) {
+    assignedNewDataQualityLevel = NewDataQualityLevel.MEDIUM;
+  } else if(dataFlag === DataFlagType.RED) {
+    assignedNewDataQualityLevel = NewDataQualityLevel.LOW;
+  }
+
+  return assignedNewDataQualityLevel;
+
+}

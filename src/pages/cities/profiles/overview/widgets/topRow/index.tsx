@@ -12,11 +12,12 @@ import { DataFlagType } from '../../../../../../types/graphQL/graphQLTypes';
 import styled from 'styled-components';
 import Tooltip from '../../../../../../components/general/Tooltip';
 import SimpleTextLoading from '../../../../../../components/transitionStateComponents/SimpleTextLoading';
+import { getNewDataQualityLevel, NewDataQualityLevel, dataQualityColors } from '../../../../../../components/general/Utils';
 
 const DataLegend = styled.div`
   margin-right: 0.2rem;
   display: inline-flex;
-  flex-direction: row-reverse;
+  flex-direction: row;
   align-items: center;
 `;
 
@@ -34,6 +35,23 @@ const LargeDot = styled.div`
   margin-right: 0.075rem;
 `;
 
+const LegendContainer = styled.div`
+  margin-top: 0.5rem;
+
+  & h1 {
+    font-size: inherit;
+  }
+  `;
+
+const LegendRow = styled.div`
+  margin-top: 0.25rem;
+  font-size: 0.85em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
+
+
 const TopRow = () => {
   const {loading: cityLoading, city} = useCurrentCity();
   const { loading, error, data } = usePeerGroupCityCount(city && city.cityId ? city.cityId : null);
@@ -44,6 +62,7 @@ const TopRow = () => {
   let flagColor: React.ReactElement<any> | null = null;
   let alertTitle: string = '---';
   let description: string = '---';
+  let dataQualityTooltip: React.ReactElement<any> | null = null;
   let regionPopRank: string = '---';
   let regionGdppcRank: string = '---';
   if (loading || cityLoading) {
@@ -55,51 +74,52 @@ const TopRow = () => {
     gdppc = <>---</>;
   } else if (data && city) {
     const dataFlag = city.dataFlag;
-    if (dataFlag === DataFlagType.GREEN) {
-      flagColor = (
-        <DataLegend>
-          <SmallDot style={{ backgroundColor: '#B70808' }} />
-          <SmallDot style={{ backgroundColor: '#9A561A' }} />
-          <SmallDot style={{ backgroundColor: '#71670F' }} />
-          <LargeDot style={{ backgroundColor: '#137737' }} />
-        </DataLegend>
-      );
-      alertTitle = getString('data-disclaimer-green-title');
-      description = getString('data-disclaimer-green-desc');
-    } else if (dataFlag === DataFlagType.YELLOW) {
-      flagColor = (
-        <DataLegend>
-          <SmallDot style={{ backgroundColor: '#B70808' }} />
-          <SmallDot style={{ backgroundColor: '#9A561A' }} />
-          <LargeDot style={{ backgroundColor: '#71670F' }} />
-          <SmallDot style={{ backgroundColor: '#137737' }} />
-        </DataLegend>
-      );
-      alertTitle = getString('data-disclaimer-yellow-title');
-      description = getString('data-disclaimer-yellow-desc');
-    } else if (dataFlag === DataFlagType.ORANGE) {
-      flagColor = (
-        <DataLegend>
-          <SmallDot style={{ backgroundColor: '#B70808' }} />
-          <LargeDot style={{ backgroundColor: '#9A561A' }} />
-          <SmallDot style={{ backgroundColor: '#71670F' }} />
-          <SmallDot style={{ backgroundColor: '#137737' }} />
-        </DataLegend>
-      );
-      alertTitle = getString('data-disclaimer-orange-title');
-      description = getString('data-disclaimer-orange-desc');
-    } else if (dataFlag === DataFlagType.RED) {
-      flagColor = (
-        <DataLegend>
-          <LargeDot style={{ backgroundColor: '#B70808' }} />
-          <SmallDot style={{ backgroundColor: '#9A561A' }} />
-          <SmallDot style={{ backgroundColor: '#71670F' }} />
-          <SmallDot style={{ backgroundColor: '#137737' }} />
-        </DataLegend>
-      );
-      alertTitle = getString('data-disclaimer-red-title');
-      description = getString('data-disclaimer-red-desc');
+    const dataQualityLevel = getNewDataQualityLevel(dataFlag);
+
+    if (dataQualityLevel === NewDataQualityLevel.HIGH) {
+
+      alertTitle = getString('data-disclaimer-high-quality-title');
+      description = getString('data-disclaimer-high-quality-desc');
+      
+    } else if(dataQualityLevel === NewDataQualityLevel.MEDIUM) {
+      alertTitle = getString('data-disclaimer-medium-quality-title');
+      description = getString('data-disclaimer-medium-quality-desc');
+
+      
+    } else if(dataQualityLevel === NewDataQualityLevel.LOW) {
+
+      alertTitle = getString('data-disclaimer-low-quality-title');
+      description = getString('data-disclaimer-low-quality-desc');
+      
     }
+
+    flagColor = (
+      <DataLegend>
+        <LargeDot style={{ backgroundColor: dataQualityColors.get(dataQualityLevel) }} />
+      </DataLegend>
+    );
+
+    dataQualityTooltip = (
+      <>
+        <div dangerouslySetInnerHTML={{__html: description }}></div>
+        <LegendContainer>
+          <h1>Data Quality Scale</h1>
+          <LegendRow>
+            <SmallDot style={{ backgroundColor: dataQualityColors.get(NewDataQualityLevel.HIGH) }} />
+            High Quality
+          </LegendRow>
+          <LegendRow>
+            <SmallDot style={{ backgroundColor: dataQualityColors.get(NewDataQualityLevel.MEDIUM) }} />
+            Medium Quality
+          </LegendRow>
+          <LegendRow>
+            <SmallDot style={{ backgroundColor: dataQualityColors.get(NewDataQualityLevel.LOW) }} />
+            Low Quality
+          </LegendRow>
+        </LegendContainer>
+      </>
+    );
+
     population = <>{formatNumberLong(city.population ? city.population : 0)}</>;
     gdppc = <>${numberWithCommas(city.gdppc ? Math.round(city.gdppc) : 0)}</>;
     regionPopRank = ordinalNumber([city.regionPopRank ? city.regionPopRank : 0]).toUpperCase();
@@ -165,7 +185,7 @@ const TopRow = () => {
           <YearText>
             {defaultYear}
             <Tooltip
-              explanation={<div dangerouslySetInnerHTML={{ __html: description }} />}
+              explanation={dataQualityTooltip}
             />
           </YearText>
         </TitleBase>

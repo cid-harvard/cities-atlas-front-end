@@ -17,12 +17,12 @@ import {
 } from '../../../styling/styleUtils';
 import useFluent from '../../../hooks/useFluent';
 import useCurrentCity from '../../../hooks/useCurrentCity';
-import {DataFlagType} from '../../../types/graphQL/graphQLTypes';
 import Modal from '../../standardModal';
 import {Link} from 'react-router-dom';
 import {Routes} from '../../../routing/routes';
 import Tooltip, {TooltipPosition} from '../../general/Tooltip';
 import {useWindowWidth} from '../../../contextProviders/appContext';
+import { dataQualityColors, getNewDataQualityLevel, NewDataQualityLevel } from '../Utils';
 
 const dataIconSvg = raw('../../../assets/icons/disclaimer.svg');
 
@@ -125,33 +125,48 @@ const CloseButton = styled.button`
   top: 0;
 `;
 
+const EnlargedTextLabel = styled(Text)`
+  width: max-content;
+`;
+
+const DataLegend = styled.div`
+  margin-right: 0.2rem;
+  display: inline-flex;
+  flex-direction: row-reverse;
+  align-items: center;
+`;
+
+const LargeDot = styled.div`
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 1000px;
+  margin-right: 0.275rem;
+`;
+
 const DataDisclaimer = () => {
   const getString = useFluent();
   const currentCity = useCurrentCity();
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const windowDimensions = useWindowWidth();
 
+
   let flagColor: string = baseColor;
   let alertTitle: string = '';
   let description: string = '';
   if (currentCity && currentCity.city) {
     const {dataFlag} = currentCity.city;
-    if (dataFlag === DataFlagType.GREEN) {
-      flagColor = '#137737';
-      alertTitle = getString('data-disclaimer-green-title');
-      description = getString('data-disclaimer-green-desc');
-    } else if (dataFlag === DataFlagType.YELLOW) {
-      flagColor = '#71670F';
-      alertTitle = getString('data-disclaimer-yellow-title');
-      description = getString('data-disclaimer-yellow-desc');
-    } else if (dataFlag === DataFlagType.ORANGE) {
-      flagColor = '#9A561A';
-      alertTitle = getString('data-disclaimer-orange-title');
-      description = getString('data-disclaimer-orange-desc');
-    } else if (dataFlag === DataFlagType.RED) {
-      flagColor = '#B70808';
-      alertTitle = getString('data-disclaimer-red-title');
-      description = getString('data-disclaimer-red-desc');
+    const dataQualityLevel = getNewDataQualityLevel(dataFlag);
+    flagColor = dataQualityColors.get(dataQualityLevel);
+
+    if (dataQualityLevel === NewDataQualityLevel.HIGH) {
+      alertTitle = getString('data-disclaimer-high-quality-topbar-title');
+      description = getString('data-disclaimer-high-quality-desc');
+    } else if(dataQualityLevel === NewDataQualityLevel.MEDIUM) {
+      alertTitle = getString('data-disclaimer-medium-quality-topbar-title');
+      description = getString('data-disclaimer-medium-quality-desc');
+    } else if(dataQualityLevel === NewDataQualityLevel.LOW) {
+      alertTitle = getString('data-disclaimer-low-quality-topbar-title');
+      description = getString('data-disclaimer-low-quality-desc');
     }
   }
 
@@ -196,13 +211,10 @@ const DataDisclaimer = () => {
         <UtilityBarButtonBase
           onClick={() => setModalOpen(true)}
         >
-          <DisclaimerSvg
-            dangerouslySetInnerHTML={{__html: dataIconSvg}}
-            $flagColor={flagColor}
-          />
-          <Text style={{color: flagColor}}>
-            {getString('global-ui-data-disclaimer')}
-          </Text>
+        <LargeDot style={{ backgroundColor: flagColor }} />
+          <EnlargedTextLabel>
+            {alertTitle}
+          </EnlargedTextLabel>
         </UtilityBarButtonBase>
       </Tooltip>
       {modal}

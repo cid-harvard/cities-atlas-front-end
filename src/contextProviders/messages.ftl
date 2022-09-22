@@ -236,17 +236,20 @@ global-wages-high = High Hourly Wage
 error-message-viz-failure = There was a problem creating this visualization. Please try refreshing the page.
 error-message-no-industries = No industries available
 
-data-disclaimer-green-title = high quality
-data-disclaimer-green-desc = Data for this city are considered of <strong>high quality</strong> and have been compared with official sources. Yet, some discrepancies with these sources may exist due to limited, delayed, or inaccurate reporting, as well as differences in the delineation of the metropolitan area. Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this city reflect best estimates based on large samples of economic establishments.
+data-disclaimer-high-quality-title = high quality
+data-disclaimer-high-quality-topbar-title = high data quality
+data-disclaimer-high-quality-desc = Data for this city are considered of <strong>high quality</strong> and have been compared with official sources. Yet, some discrepancies with these sources may exist due to limited, delayed, or inaccurate reporting, as well as differences in the delineation of the metropolitan area. Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this city reflect best estimates based on large samples of economic establishments.
 
 data-disclaimer-yellow-title = some degree of uncertainty
 data-disclaimer-yellow-desc = Due to limited, delayed, or inaccurate reporting, <strong>data from this city contain a degree of uncertainty</strong>. Our cleaning method accounts for some errors and inconsistencies found in the raw data. However, please be advised that the data shown for this city reflect best estimates based on large samples of economic establishments.
 
-data-disclaimer-orange-title = contains some inaccuracies
-data-disclaimer-orange-desc = Due to limited, delayed, or inaccurate reporting, as well as a limited and potentially biased sample, <strong>data for this city may contain inaccuracies</strong>.  Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this country reflect best estimates, based on large samples of economic establishments, and calls for careful consideration before using.
+data-disclaimer-medium-quality-title = medium quality
+data-disclaimer-medium-quality-topbar-title = medium data quality
+data-disclaimer-medium-quality-desc = Due to limited, delayed, or inaccurate reporting, as well as a limited and potentially biased sample, <strong>data for this city may contain inaccuracies</strong>.  Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this city reflect best estimates, based on large samples of economic establishments, and calls for careful consideration before using.
 
-data-disclaimer-red-title = severely biased
-data-disclaimer-red-desc = Due to limited, delayed, or inaccurate reporting, as well as a limited and potentially severely biased sample, <strong>data for this city may contain a significant degree of error</strong>.  Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this country reflect best estimates based on large samples of economic establishments and calls for careful consideration before using.
+data-disclaimer-low-quality-title = low quality
+data-disclaimer-low-quality-topbar-title = low data quality
+data-disclaimer-low-quality-desc = Due to limited, delayed, or inaccurate reporting, as well as a limited and potentially severely biased sample, <strong>data for this city may contain a significant degree of error</strong>.  Our cleaning method accounts for some errors and inconsistencies found in the raw data.  However, please be advised that the data shown for this city reflect best estimates based on large samples of economic establishments and calls for careful consideration before using.
 
 data-disclaimer-data-page-lead-up = More information on Metroverse data can be found on the
 data-disclaimer-data-page-link-text = FAQ page
