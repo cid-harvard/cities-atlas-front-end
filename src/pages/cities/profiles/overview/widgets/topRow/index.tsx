@@ -103,7 +103,7 @@ const TopRow = () => {
       <>
         <div dangerouslySetInnerHTML={{__html: description }}></div>
         <LegendContainer>
-          <h1>Data Quality Scale</h1>
+          <h1>Metroverse Data Quality Scale</h1>
           <LegendRow>
             <SmallDot style={{ backgroundColor: dataQualityColors.get(NewDataQualityLevel.HIGH) }} />
             High Quality
