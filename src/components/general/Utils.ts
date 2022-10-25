@@ -114,9 +114,9 @@ export const dataQualityColors: any = new Map([
 
 export const getNewDataQualityLevel = (dataFlag: DataFlagType): NewDataQualityLevel => {
   let assignedNewDataQualityLevel: any;
-  if(dataFlag === DataFlagType.GREEN || dataFlag === DataFlagType.YELLOW) {
+  if(dataFlag === DataFlagType.GREEN) {
     assignedNewDataQualityLevel = NewDataQualityLevel.HIGH;
-  } else if(dataFlag === DataFlagType.ORANGE) {
+  } else if(dataFlag === DataFlagType.YELLOW || dataFlag === DataFlagType.ORANGE) {
     assignedNewDataQualityLevel = NewDataQualityLevel.MEDIUM;
   } else if(dataFlag === DataFlagType.RED) {
     assignedNewDataQualityLevel = NewDataQualityLevel.LOW;
