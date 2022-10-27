@@ -530,7 +530,7 @@ about-team-html =
   </p>
   <h3>Digital  Development &amp; Design</h3>
   <h4>
-    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/annie-white">Annie White</a>, Senior Product Manager
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/annie-white">Annie White</a>, Director, Digital Tools
   </h4>
   <p>
     Annie oversees the software development and design aspects of Metroverse.  She established and led the 1-year prototype development plan beginning with a collaborative discovery phase through to launch.  Annie also facilitates internal and external stakeholder engagement related to Metroverse.
@@ -551,7 +551,7 @@ about-team-html =
   </p>
   <h3>Academic Research</h3>
   <h4>
-    <span class="team-member-name">Frank Neffke</span>, Group Leader at the <a href="https://www.csh.ac.at/researcher/frank-neffke/" target="_blank">Complexity Science Hub Vienna</a> and Research Director at the <a target="_blank" href="https://growthlab.cid.harvard.edu/people/frank-neffke">Growth Lab</a> at Harvard Kennedy School
+    <span class="team-member-name">Frank Neffke</span>, Growth Lab Associate and Group Leader at the <a href="https://www.csh.ac.at/researcher/frank-neffke/" target="_blank">Complexity Science Hub Vienna</a>
   </h4>
   <p>
     Frank is responsible for the original conception of Metroverse.  Since its conception he has supervised the research agenda and the design of the tool&rsquo;s analytical and policy framework.  
@@ -564,13 +564,13 @@ about-team-html =
   </p>
   <h3>Applied Research</h3>
   <h4>
-    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/douglas-barrios">Douglas Barrios</a>, Senior Manager &ndash; Applied Research Projects
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/douglas-barrios">Douglas Barrios</a>, Director, Policy Research
   </h4>
   <p>
     Douglas has led applied research initiatives focused on enabling long-term growth and economic diversification for half-a-dozen subnational entities. This work has informed the user-facing narrative and the applicability of the policy framework found in Metroverse. Douglas also participates in stakeholder outreach initiatives related to Metroverse.
   </p>
   <h4>
-    <a target="_blank" href="https://scholar.harvard.edu/josemorales-arilla/home">Jos&eacute; Ram&oacute;n Morales-Arilla</a>, Doctoral Fellow
+    <a target="_blank" href="https://scholar.harvard.edu/josemorales-arilla/home">Jos&eacute; Ram&oacute;n Morales-Arilla</a>, Research Fellow
   </h4>
   <p>
     Jos&eacute; co-authored the user-facing narrative of Metroverse, providing perspectives from his previous work on subnational economic complexity visualization tools. He also helped to develop Metroverse&#39;s policy framework and to advance Metroverse&#39;s feature testing and validation.
