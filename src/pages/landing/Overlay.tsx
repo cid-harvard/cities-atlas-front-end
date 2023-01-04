@@ -262,17 +262,17 @@ const IIBAwardContainer = styled.div`
 
 const IIBAwardLogoContainer = styled.div`
   padding: 0.3rem 0rem 0.3rem 0.3rem;
-  flex: 1 0 70%;
-  width: 70%;
+  flex: 1 0 50%;
+  width: 50%;
   & img {
     height: 100%;
   }
 `
 
 const SilverAwardBanner = styled.div`
-  flex: 1 0 30%;
+  flex: 1 0 50%;
   position: relative;
-  width: 30%;
+  width: 50%;
   justify-content: flex-end;
   align-content: flex-end;
   display: flex;
