@@ -12,6 +12,9 @@ import {
 } from '../../components/navigation/header';
 import useFluent from '../../hooks/useFluent';
 import GrowthLabLogoPNG from '../../assets/branding/growth-lab-logo.png';
+import IIBAwardLogoPNG from '../../assets/other/iiba-metroverse.png';
+import SilverAwardBannerPNG from '../../assets/other/silver-award-banner.png';
+
 
 const Root = styled.div`
   position: fixed;
@@ -22,9 +25,16 @@ const Root = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   pointer-events: none;
   z-index: 100;
+
+  & * {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  
+  }
 `;
 
 const Content = styled.div`
@@ -222,7 +232,7 @@ const CityIcon = styled.div`
 `;
 
 const CityverseVersion = styled.div`
-  margin: 0.5rem 1rem 0rem -1rem;
+  padding: 0.5rem 1rem 0rem -1rem;
   width: 100%;
   font-size: 0.75rem;
   color: #FFFFFF;
@@ -231,6 +241,39 @@ const CityverseVersion = styled.div`
   @media (max-height: 800px) {
     max-width: 600px;
     grid-template-columns: 0 auto 0;
+  }
+`;
+
+const IIBAwardContainer = styled.div`
+  width: 100%;
+  padding: 0;
+  max-width: 700px;
+  background-color: #681585;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  pointer-events: all;
+
+  @media (max-height: 800px) {
+    max-width: 600px;
+  }
+`;
+
+const IIBAwardLogoContainer = styled.div`
+  padding: 0.3rem 0rem 0.3rem 0.3rem;
+  flex: 1 0;
+  & img {
+    height: 100%;
+  }
+`
+
+const SilverAwardBanner = styled.div`
+  flex: 0 1 auto;
+  position: relative;
+
+  & img {
+    height: 100%;
   }
 `;
 
@@ -243,6 +286,24 @@ const Overlay = ({onCitySelect}: Props) => {
 
   return (
     <Root>
+      <IIBAwardContainer>
+        <IIBAwardLogoContainer>
+          <img 
+            src={IIBAwardLogoPNG} 
+            aria-label={'Logo for Data Visualization Society presents: Information is Beautiful Awards 2022'}
+            title={'Data Visualization Society presents: Information is Beautiful Awards 2022'}
+            alt={'Logo for Data Visualization Society presents: Information is Beautiful Awards 2022'}
+          />
+        </IIBAwardLogoContainer>
+        <SilverAwardBanner>
+          <img 
+            src={SilverAwardBannerPNG} 
+            aria-label={'Logo for Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022'}
+            title={'Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022'}
+            alt={'Logo for Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022'}
+            />
+        </SilverAwardBanner>
+      </IIBAwardContainer>
       <Content>
         <GrowthLabLogo>
           <a
