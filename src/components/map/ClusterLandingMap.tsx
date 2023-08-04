@@ -53,7 +53,7 @@ const DefaultMap = (props: Props) => {
   return (
     <Mapbox
       // eslint-disable-next-line
-      style={'mapbox://styles/harvardgrowthlab/ckp2oylqb0m5t17mpjailhu2f'}
+      style={'//styles/harvardgrowthlab/ckp2oylqb0m5t17mpjailhu2f'}
       containerStyle={{
         height: '100%',
         width: '100%',
