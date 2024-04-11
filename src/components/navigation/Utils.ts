@@ -1,9 +1,6 @@
-import {
-  secondaryFont,
-  baseColor,
-} from '../../styling/styleUtils';
-import styled from 'styled-components/macro';
-import {breakPointValues} from '../../styling/GlobalGrid';
+import { secondaryFont, baseColor } from "../../styling/styleUtils";
+import styled from "styled-components/macro";
+import { breakPointValues } from "../../styling/GlobalGrid";
 
 const smallBreakpoint = 550; // in px
 export const mediumSmallBreakpoint = 1050; // in px
@@ -25,7 +22,8 @@ export const UtilityBarButtonBase = styled.button`
   transition: outline 0.1s ease;
   flex-shrink: 1;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     background-color: #fff;
     outline: 0.25rem solid #fff;
     color: ${baseColor};
@@ -82,11 +80,12 @@ export const Text = styled.span`
     max-width: 55px;
   }
 
-  @media (max-width: ${mediumSmallBreakpoint}px) and (min-width: ${columnsToRowsBreakpoint + 1}px) {
+  @media (max-width: ${mediumSmallBreakpoint}px) and (min-width: ${columnsToRowsBreakpoint +
+    1}px) {
     display: none;
   }
 
-  @media (max-width: ${columnsToRowsBreakpoint }px) {
+  @media (max-width: ${columnsToRowsBreakpoint}px) {
     text-align: center;
   }
 `;

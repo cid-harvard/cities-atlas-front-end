@@ -1,19 +1,16 @@
-import React, {useState} from 'react';
-import {textClassName, ExpandingButton} from '../Utils';
-import raw from 'raw.macro';
-import useFluent from '../../../hooks/useFluent';
-import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
-import {useRouteMatch} from 'react-router-dom';
-import {Routes} from '../../../routing/routes';
-import styled, {keyframes} from 'styled-components/macro';
-import {
-  baseColor,
-  secondaryFont,
-} from '../../../styling/styleUtils';
-import Modal from '../../standardModal';
-import TreemapPNG from './static/treemap.png';
-import IndustrySpacePNG from './static/industry_space.png';
-import SwotPNG from './static/swot.png';
+import React, { useState } from "react";
+import { textClassName, ExpandingButton } from "../Utils";
+import raw from "raw.macro";
+import useFluent from "../../../hooks/useFluent";
+import { joyrideClassNames } from "../../navigation/secondaryHeader/guide/CitiesGuide";
+import { useRouteMatch } from "react-router-dom";
+import { Routes } from "../../../routing/routes";
+import styled, { keyframes } from "styled-components/macro";
+import { baseColor, secondaryFont } from "../../../styling/styleUtils";
+import Modal from "../../standardModal";
+import TreemapPNG from "./static/treemap.png";
+import IndustrySpacePNG from "./static/industry_space.png";
+import SwotPNG from "./static/swot.png";
 
 const growIn = keyframes`
   0% {
@@ -72,7 +69,7 @@ const CloseButton = styled.button`
   top: 0;
 `;
 
-const readThisChartIconSVG = raw('../../../assets/icons/read-this-chart.svg');
+const readThisChartIconSVG = raw("../../../assets/icons/read-this-chart.svg");
 
 const HowToRead = () => {
   const getString = useFluent();
@@ -94,15 +91,9 @@ const HowToRead = () => {
 
   if (source) {
     const modal = modalOpen ? (
-      <Modal
-        onClose={() => setModalOpen(false)}
-        width={'auto'}
-        height={'auto'}
-      >
+      <Modal onClose={() => setModalOpen(false)} width={"auto"} height={"auto"}>
         <Root>
-          <Image
-            src={source}
-          />
+          <Image src={source} />
           <CloseButton onClick={() => setModalOpen(false)}>✕</CloseButton>
         </Root>
       </Modal>
@@ -114,8 +105,10 @@ const HowToRead = () => {
           className={joyrideClassNames.howToRead}
           onClick={() => setModalOpen(true)}
         >
-          <span dangerouslySetInnerHTML={{__html: readThisChartIconSVG}} />
-          <div className={textClassName}>{getString('global-ui-read-chart')}</div>
+          <span dangerouslySetInnerHTML={{ __html: readThisChartIconSVG }} />
+          <div className={textClassName}>
+            {getString("global-ui-read-chart")}
+          </div>
         </ExpandingButton>
         {modal}
       </>

@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
-import useFluent from '../../../hooks/useFluent';
-import { benchmarkColor } from '../../../styling/styleUtils';
-import BenchmarkSVG from '../../../assets/icons/benchmark_comparator.svg';
-import AddComparisonModal, { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
-import { useGlobalLocationHierarchicalTreeData } from '../../../hooks/useGlobalLocationData';
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components";
+import useCurrentBenchmark from "../../../hooks/useCurrentBenchmark";
+import useFluent from "../../../hooks/useFluent";
+import { benchmarkColor } from "../../../styling/styleUtils";
+import BenchmarkSVG from "../../../assets/icons/benchmark_comparator.svg";
+import AddComparisonModal, {
+  ComparisonType,
+} from "../../navigation/secondaryHeader/comparisons/AddComparisonModal";
+import { useGlobalLocationHierarchicalTreeData } from "../../../hooks/useGlobalLocationData";
 
 const rotate = keyframes`
   0% {
@@ -72,7 +74,9 @@ interface Props {
 }
 
 const BenchmarkLegend = (props: Props) => {
-  const comparisonType = props.comparisonType ? props.comparisonType : ComparisonType.Relative;
+  const comparisonType = props.comparisonType
+    ? props.comparisonType
+    : ComparisonType.Relative;
   const getString = useFluent();
   const { benchmark, benchmarkName } = useCurrentBenchmark();
   const [modalOpen, setModalOpen] = useState<boolean>(benchmark === undefined);
@@ -92,9 +96,10 @@ const BenchmarkLegend = (props: Props) => {
     />
   ) : null;
 
-  const text = comparisonType === ComparisonType.Relative
-    ? getString('global-ui-change-benchmark')
-    : getString('global-ui-change-comparator');
+  const text =
+    comparisonType === ComparisonType.Relative
+      ? getString("global-ui-change-benchmark")
+      : getString("global-ui-change-comparator");
 
   return (
     <>

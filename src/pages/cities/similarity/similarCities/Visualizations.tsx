@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
-import useFluent from '../../../../hooks/useFluent';
-import { breakPoints } from '../../../../styling/GlobalGrid';
-import SimilarCitiesMap from '../../../../components/dataViz/similarCitiesMap';
-import Header from './Header';
+import React from "react";
+import styled from "styled-components";
+import useFluent from "../../../../hooks/useFluent";
+import { breakPoints } from "../../../../styling/GlobalGrid";
+import SimilarCitiesMap from "../../../../components/dataViz/similarCitiesMap";
+import Header from "./Header";
 
 const Root = styled.div`
   grid-column: 2;
@@ -18,7 +18,11 @@ const Visualizations = () => {
   return (
     <Root>
       <Header />
-      <p dangerouslySetInnerHTML={{ __html: getString('city-similarity-para-1')}} />
+      <p
+        dangerouslySetInnerHTML={{
+          __html: getString("city-similarity-para-1"),
+        }}
+      />
       <SimilarCitiesMap />
     </Root>
   );

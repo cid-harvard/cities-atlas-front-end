@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, useState} from 'react';
-import { createPortal } from 'react-dom';
-import styled from 'styled-components/macro';
+import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
+import styled from "styled-components/macro";
 
-export const overlayPortalContainerId = 'overlayPortalContainerId';
+export const overlayPortalContainerId = "overlayPortalContainerId";
 
 const overlayPortalZIndex = 3000;
 
@@ -10,7 +10,7 @@ export const OverlayPortal = () => (
   <div
     id={overlayPortalContainerId}
     style={{
-      position: 'relative',
+      position: "relative",
       zIndex: overlayPortalZIndex,
     }}
     tabIndex={-1}
@@ -48,13 +48,14 @@ interface Dimensions {
   height: string;
 }
 
-const Container = styled.div<{dimensions: Dimensions}>`
+const Container = styled.div<{ dimensions: Dimensions }>`
   position: relative;
   max-height: 90%;
-  max-width: ${({dimensions: {width}}) => width};
-  height: ${({dimensions: {height}}) => height};
+  max-width: ${({ dimensions: { width } }) => width};
+  height: ${({ dimensions: { height } }) => height};
 
-  @media screen and (max-width: ${mobileWidth}px), screen and (max-height: 800px) {
+  @media screen and (max-width: ${mobileWidth}px),
+    screen and (max-height: 800px) {
     max-height: calc(100vh - 4rem);
     max-width: calc(100vw - 4rem);
     margin: auto;
@@ -71,13 +72,14 @@ const Content = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
   }
   ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
-  @media screen and (max-width: ${mobileWidth}px), screen and (max-height: 800px) {
+  @media screen and (max-width: ${mobileWidth}px),
+    screen and (max-height: 800px) {
     overflow: visible;
   }
 `;
@@ -90,16 +92,16 @@ export interface Props {
 }
 
 const Modal = (props: Props) => {
-  const {
-    children, onClose, width, height,
-  } = props;
+  const { children, onClose, width, height } = props;
 
   const overlayPortalContainerNodeRef = useRef<HTMLElement | null>(null);
 
   const [isModalRendered, setIsModalRendered] = useState<boolean>(false);
 
   useEffect(() => {
-    const node = document.querySelector<HTMLElement>(`#${overlayPortalContainerId}`);
+    const node = document.querySelector<HTMLElement>(
+      `#${overlayPortalContainerId}`,
+    );
     if (node !== null) {
       overlayPortalContainerNodeRef.current = node;
       overlayPortalContainerNodeRef.current.focus();
@@ -108,23 +110,26 @@ const Modal = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    const closeOnEsc = (e: KeyboardEvent) => e.key === 'Escape' && onClose ? onClose() : null;
-    document.addEventListener('keydown', closeOnEsc);
-    return () => document.removeEventListener('keydown', closeOnEsc);
+    const closeOnEsc = (e: KeyboardEvent) =>
+      e.key === "Escape" && onClose ? onClose() : null;
+    document.addEventListener("keydown", closeOnEsc);
+    return () => document.removeEventListener("keydown", closeOnEsc);
   }, [onClose]);
 
   let modal: React.ReactElement<any> | null;
-  if (isModalRendered === true && overlayPortalContainerNodeRef.current !== null) {
-    modal = createPortal((
+  if (
+    isModalRendered === true &&
+    overlayPortalContainerNodeRef.current !== null
+  ) {
+    modal = createPortal(
       <Root>
         <Overlay onClick={onClose} />
-        <Container dimensions={{width, height}}>
-          <Content>
-            {children}
-          </Content>
+        <Container dimensions={{ width, height }}>
+          <Content>{children}</Content>
         </Container>
-      </Root>
-    ), overlayPortalContainerNodeRef.current);
+      </Root>,
+      overlayPortalContainerNodeRef.current,
+    );
   } else {
     modal = null;
   }

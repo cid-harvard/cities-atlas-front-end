@@ -1,9 +1,9 @@
-import React from 'react';
-import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
-import CityComposition from './cityComposition';
-import useCurrentCityId from '../../../../hooks/useCurrentCityId';
-import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
-import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
+import React from "react";
+import { DefaultContentWrapper } from "../../../../styling/GlobalGrid";
+import CityComposition from "./cityComposition";
+import useCurrentCityId from "../../../../hooks/useCurrentCityId";
+import SimpleError from "../../../../components/transitionStateComponents/SimpleError";
+import { LoadingOverlay } from "../../../../components/transitionStateComponents/VizLoadingBlock";
 
 const EconomicComposition = () => {
   const cityId = useCurrentCityId();
@@ -12,7 +12,7 @@ const EconomicComposition = () => {
     return (
       <DefaultContentWrapper>
         <LoadingOverlay>
-          <SimpleError fluentMessageId={'global-ui-error-invalid-city'} />
+          <SimpleError fluentMessageId={"global-ui-error-invalid-city"} />
         </LoadingOverlay>
       </DefaultContentWrapper>
     );
@@ -20,9 +20,7 @@ const EconomicComposition = () => {
 
   return (
     <DefaultContentWrapper>
-      <CityComposition
-        cityId={cityId}
-      />
+      <CityComposition cityId={cityId} />
     </DefaultContentWrapper>
   );
 };

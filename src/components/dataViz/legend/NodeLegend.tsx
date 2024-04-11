@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {baseColor, lightBaseColor} from '../../../styling/styleUtils';
-import {lowIntensityNodeColor} from '../../dataViz/industrySpace/chart/useLayoutData';
+import React from "react";
+import styled from "styled-components/macro";
+import { baseColor, lightBaseColor } from "../../../styling/styleUtils";
+import { lowIntensityNodeColor } from "../../dataViz/industrySpace/chart/useLayoutData";
 
 const Root = styled.div`
   width: 100%;
@@ -88,15 +88,13 @@ interface Props {
 const NodeLegend = (props: Props) => {
   const sizeBy = props.sizeBy ? (
     <>
-      <LeftColumn style={{gridRow: 1}}>
-        <Title>
-          {props.sizeBy.title}
-        </Title>
+      <LeftColumn style={{ gridRow: 1 }}>
+        <Title>{props.sizeBy.title}</Title>
       </LeftColumn>
-      <LeftColumn style={{gridRow: 2}}>
+      <LeftColumn style={{ gridRow: 2 }}>
         <NodeLarge /> <div>{props.sizeBy.maxLabel}</div>
       </LeftColumn>
-      <LeftColumn style={{gridRow: 3}}>
+      <LeftColumn style={{ gridRow: 3 }}>
         <NodeSmall /> <div>{props.sizeBy.minLabel}</div>
       </LeftColumn>
     </>
@@ -104,19 +102,17 @@ const NodeLegend = (props: Props) => {
 
   const colorBy = props.colorBy ? (
     <>
-      <RightColumn style={{gridRow: 1}}>
-        <Title>
-          Node Colors
-        </Title>
+      <RightColumn style={{ gridRow: 1 }}>
+        <Title>Node Colors</Title>
       </RightColumn>
-      <RightColumn style={{gridRow: 2}}>
+      <RightColumn style={{ gridRow: 2 }}>
         <NodeMedium />
         <div>
           <div>Colored Nodes:</div>
           <div>{props.colorBy.coloredLabel}</div>
         </div>
       </RightColumn>
-      <RightColumn style={{gridRow: 3}}>
+      <RightColumn style={{ gridRow: 3 }}>
         <NodeBlank />
         <div>
           <div>Grey Nodes:</div>

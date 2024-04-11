@@ -1,8 +1,8 @@
-import {DefaultContentWrapper} from '../../../../styling/GlobalGrid';
-import useCurrentCityId from '../../../../hooks/useCurrentCityId';
-import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
-import {LoadingOverlay} from '../../../../components/transitionStateComponents/VizLoadingBlock';
-import React, {useState} from 'react';
+import { DefaultContentWrapper } from "../../../../styling/GlobalGrid";
+import useCurrentCityId from "../../../../hooks/useCurrentCityId";
+import SimpleError from "../../../../components/transitionStateComponents/SimpleError";
+import { LoadingOverlay } from "../../../../components/transitionStateComponents/VizLoadingBlock";
+import React, { useState } from "react";
 import {
   DigitLevel,
   defaultDigitLevel,
@@ -11,16 +11,14 @@ import {
   ClusterLevel,
   CompositionType,
   defaultCompositionType,
-} from '../../../../types/graphQL/graphQLTypes';
-import {
-  ContentGrid,
-} from '../../../../styling/styleUtils';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import useFluent from '../../../../hooks/useFluent';
-import CategoryLabels from '../../../../components/dataViz/legend/CategoryLabels';
-import useSectorMap from '../../../../hooks/useSectorMap';
-import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
-import {createRoute} from '../../../../routing/Utils';
+} from "../../../../types/graphQL/graphQLTypes";
+import { ContentGrid } from "../../../../styling/styleUtils";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import useFluent from "../../../../hooks/useFluent";
+import CategoryLabels from "../../../../components/dataViz/legend/CategoryLabels";
+import useSectorMap from "../../../../hooks/useSectorMap";
+import UtilityBar from "../../../../components/navigation/secondaryHeader/UtilityBar";
+import { createRoute } from "../../../../routing/Utils";
 import {
   CityRoutes,
   cityIdParam,
@@ -29,89 +27,116 @@ import {
   defaultAggregationMode,
   defaultNodeSizing,
   NodeSizing,
-} from '../../../../routing/routes';
-import TrackedRoute from '../../../../routing/TrackedRoute';
-import {
-  useHistory,
-  Switch,
-  Route,
-  matchPath,
-} from 'react-router-dom';
-import NAICSChart from '../../../../components/dataViz/pswotChart/NAICSChart';
-import ClusterChart from '../../../../components/dataViz/pswotChart/ClusterChart';
-import EducationLegend from '../../../../components/dataViz/legend/EducationLegend';
-import WageLegend from '../../../../components/dataViz/legend/WageLegend';
-import useClusterMap from '../../../../hooks/useClusterMap';
-import PreChartRow from '../../../../components/general/PreChartRow';
-import {Mode} from '../../../../components/general/searchIndustryInGraphDropdown';
-import PSWOTTable from '../../../../components/dataViz/pswotTable';
-import NodeLegendIndustries from './NodeLegendIndustries';
-import NodeLegendClusters from './NodeLegendClusters';
-import SideText from './SideText';
+} from "../../../../routing/routes";
+import TrackedRoute from "../../../../routing/TrackedRoute";
+import { useHistory, Switch, Route, matchPath } from "react-router-dom";
+import NAICSChart from "../../../../components/dataViz/pswotChart/NAICSChart";
+import ClusterChart from "../../../../components/dataViz/pswotChart/ClusterChart";
+import EducationLegend from "../../../../components/dataViz/legend/EducationLegend";
+import WageLegend from "../../../../components/dataViz/legend/WageLegend";
+import useClusterMap from "../../../../hooks/useClusterMap";
+import PreChartRow from "../../../../components/general/PreChartRow";
+import { Mode } from "../../../../components/general/searchIndustryInGraphDropdown";
+import PSWOTTable from "../../../../components/dataViz/pswotTable";
+import NodeLegendIndustries from "./NodeLegendIndustries";
+import NodeLegendClusters from "./NodeLegendClusters";
+import SideText from "./SideText";
 
 const GrowthOppurtunities = () => {
   const cityId = useCurrentCityId();
 
-  const {node_sizing, color_by, digit_level, aggregation, cluster_level, composition_type} = useQueryParams();
-  const digitLevel = digit_level ? parseInt(digit_level, 10) as DigitLevel : defaultDigitLevel;
-  const clusterLevel = cluster_level ? parseInt(cluster_level, 10) as ClusterLevel : ClusterLevel.C3;
-  const compositionType = composition_type ? composition_type as CompositionType : defaultCompositionType;
-  const nodeSizing = node_sizing && node_sizing !== NodeSizing.rca ? node_sizing : defaultNodeSizing;
+  const {
+    node_sizing,
+    color_by,
+    digit_level,
+    aggregation,
+    cluster_level,
+    composition_type,
+  } = useQueryParams();
+  const digitLevel = digit_level
+    ? (parseInt(digit_level, 10) as DigitLevel)
+    : defaultDigitLevel;
+  const clusterLevel = cluster_level
+    ? (parseInt(cluster_level, 10) as ClusterLevel)
+    : ClusterLevel.C3;
+  const compositionType = composition_type
+    ? (composition_type as CompositionType)
+    : defaultCompositionType;
+  const nodeSizing =
+    node_sizing && node_sizing !== NodeSizing.rca
+      ? node_sizing
+      : defaultNodeSizing;
   const sectorMap = useSectorMap();
   const clusterMap = useClusterMap();
-  const [hiddenSectors, setHiddenSectors] = useState<ClassificationNaicsIndustry['id'][]>([]);
-  const [hiddenClusters, setHiddenClusters] = useState<ClassificationNaicsCluster['id'][]>([]);
-  const toggleSector = (sectorId: ClassificationNaicsIndustry['id']) =>
+  const [hiddenSectors, setHiddenSectors] = useState<
+    ClassificationNaicsIndustry["id"][]
+  >([]);
+  const [hiddenClusters, setHiddenClusters] = useState<
+    ClassificationNaicsCluster["id"][]
+  >([]);
+  const toggleSector = (sectorId: ClassificationNaicsIndustry["id"]) =>
     hiddenSectors.includes(sectorId)
-      ? setHiddenSectors(hiddenSectors.filter(sId => sId !== sectorId))
+      ? setHiddenSectors(hiddenSectors.filter((sId) => sId !== sectorId))
       : setHiddenSectors([...hiddenSectors, sectorId]);
-  const isolateSector = (sectorId: ClassificationNaicsIndustry['id']) =>
-    hiddenSectors.length === sectorMap.length - 1 && !hiddenSectors.find(sId => sId === sectorId)
+  const isolateSector = (sectorId: ClassificationNaicsIndustry["id"]) =>
+    hiddenSectors.length === sectorMap.length - 1 &&
+    !hiddenSectors.find((sId) => sId === sectorId)
       ? setHiddenSectors([])
-      : setHiddenSectors([...sectorMap.map(s => s.id).filter(sId => sId !== sectorId)]);
+      : setHiddenSectors([
+          ...sectorMap.map((s) => s.id).filter((sId) => sId !== sectorId),
+        ]);
   const resetSectors = () => setHiddenSectors([]);
 
-  const toggleCluster = (clusterId: ClassificationNaicsCluster['id']) =>
+  const toggleCluster = (clusterId: ClassificationNaicsCluster["id"]) =>
     hiddenClusters.includes(clusterId)
-      ? setHiddenClusters(hiddenClusters.filter(sId => sId !== clusterId))
+      ? setHiddenClusters(hiddenClusters.filter((sId) => sId !== clusterId))
       : setHiddenClusters([...hiddenClusters, clusterId]);
-  const isolateCluster = (clusterId: ClassificationNaicsCluster['id']) =>
-    hiddenClusters.length === clusterMap.length - 1 && !hiddenClusters.find(sId => sId === clusterId)
+  const isolateCluster = (clusterId: ClassificationNaicsCluster["id"]) =>
+    hiddenClusters.length === clusterMap.length - 1 &&
+    !hiddenClusters.find((sId) => sId === clusterId)
       ? setHiddenClusters([])
-      : setHiddenClusters([...clusterMap.map(s => s.id).filter(sId => sId !== clusterId)]);
+      : setHiddenClusters([
+          ...clusterMap.map((s) => s.id).filter((sId) => sId !== clusterId),
+        ]);
   const resetClusters = () => setHiddenClusters([]);
 
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const clearHighlighted = () => setHighlighted(undefined);
   const getString = useFluent();
   const history = useHistory();
-  const isTableView = matchPath<{[cityIdParam]: string}>(
-    history.location.pathname, CityRoutes.CityGrowthOpportunitiesTable,
+  const isTableView = matchPath<{ [cityIdParam]: string }>(
+    history.location.pathname,
+    CityRoutes.CityGrowthOpportunitiesTable,
   );
 
   const isClusterMode =
-    (!aggregation && defaultAggregationMode === AggregationMode.cluster) || (aggregation === AggregationMode.cluster);
+    (!aggregation && defaultAggregationMode === AggregationMode.cluster) ||
+    aggregation === AggregationMode.cluster;
 
-  const vizNavigation= [
+  const vizNavigation = [
     {
-      label: 'Scatter Plot',
+      label: "Scatter Plot",
       active: !!(!isTableView || !isTableView.isExact),
       onClick: () => {
         setHighlighted(undefined);
         history.push(
-          createRoute.city(CityRoutes.CityGrowthOpportunities, cityId ? cityId :'')
-          + history.location.search,
+          createRoute.city(
+            CityRoutes.CityGrowthOpportunities,
+            cityId ? cityId : "",
+          ) + history.location.search,
         );
       },
     },
     {
-      label: 'Table of Industries',
+      label: "Table of Industries",
       active: !!(isTableView && isTableView.isExact),
       onClick: () => {
         setHighlighted(undefined);
         history.push(
-          createRoute.city(CityRoutes.CityGrowthOpportunitiesTable, cityId ? cityId :'')
-          + history.location.search,
+          createRoute.city(
+            CityRoutes.CityGrowthOpportunitiesTable,
+            cityId ? cityId : "",
+          ) + history.location.search,
         );
       },
     },
@@ -121,7 +146,7 @@ const GrowthOppurtunities = () => {
     return (
       <DefaultContentWrapper>
         <LoadingOverlay>
-          <SimpleError fluentMessageId={'global-ui-error-invalid-city'} />
+          <SimpleError fluentMessageId={"global-ui-error-invalid-city"} />
         </LoadingOverlay>
       </DefaultContentWrapper>
     );
@@ -129,13 +154,9 @@ const GrowthOppurtunities = () => {
 
   let legend: React.ReactElement<any> | null;
   if (color_by === ColorBy.education) {
-    legend = (
-      <EducationLegend />
-    );
+    legend = <EducationLegend />;
   } else if (color_by === ColorBy.wage) {
-    legend = (
-      <WageLegend />
-    );
+    legend = <WageLegend />;
   } else {
     if (isClusterMode) {
       legend = (
@@ -146,7 +167,7 @@ const GrowthOppurtunities = () => {
           isolateCategory={isolateCluster}
           hiddenCategories={hiddenClusters}
           resetCategories={resetClusters}
-          resetText={getString('global-ui-reset-clusters')}
+          resetText={getString("global-ui-reset-clusters")}
           fullWidth={false}
         />
       );
@@ -159,46 +180,39 @@ const GrowthOppurtunities = () => {
           isolateCategory={isolateSector}
           hiddenCategories={hiddenSectors}
           resetCategories={resetSectors}
-          resetText={getString('global-ui-reset-sectors')}
+          resetText={getString("global-ui-reset-sectors")}
           fullWidth={true}
         />
       );
     }
   }
 
-
   const pswotChart = isClusterMode ? (
-      <ClusterChart
-        highlighted={highlighted ? highlighted : null}
-        setHighlighted={setHighlighted}
-        clusterLevel={clusterLevel}
-        hiddenClusters={hiddenClusters}
-        nodeSizing={nodeSizing}
-        colorBy={color_by ? color_by : ColorBy.sector}
-        compositionType={compositionType}
-      />
+    <ClusterChart
+      highlighted={highlighted ? highlighted : null}
+      setHighlighted={setHighlighted}
+      clusterLevel={clusterLevel}
+      hiddenClusters={hiddenClusters}
+      nodeSizing={nodeSizing}
+      colorBy={color_by ? color_by : ColorBy.sector}
+      compositionType={compositionType}
+    />
   ) : (
-      <NAICSChart
-        highlighted={highlighted ? highlighted : null}
-        setHighlighted={setHighlighted}
-        digitLevel={digitLevel}
-        hiddenSectors={hiddenSectors}
-        nodeSizing={nodeSizing}
-        colorBy={color_by ? color_by : ColorBy.sector}
-        compositionType={compositionType}
-      />
+    <NAICSChart
+      highlighted={highlighted ? highlighted : null}
+      setHighlighted={setHighlighted}
+      digitLevel={digitLevel}
+      hiddenSectors={hiddenSectors}
+      nodeSizing={nodeSizing}
+      colorBy={color_by ? color_by : ColorBy.sector}
+      compositionType={compositionType}
+    />
   );
 
   const nodeLegend = isClusterMode ? (
-      <NodeLegendClusters
-        clusterLevel={clusterLevel}
-        nodeSizing={nodeSizing}
-      />
+    <NodeLegendClusters clusterLevel={clusterLevel} nodeSizing={nodeSizing} />
   ) : (
-      <NodeLegendIndustries
-        digitLevel={digitLevel}
-        nodeSizing={nodeSizing}
-      />
+    <NodeLegendIndustries digitLevel={digitLevel} nodeSizing={nodeSizing} />
   );
 
   const pswotChartWithSettings = (
@@ -207,14 +221,14 @@ const GrowthOppurtunities = () => {
         searchInGraphOptions={{
           hiddenParents: isClusterMode ? hiddenClusters : hiddenSectors,
           digitLevel: isClusterMode ? null : digitLevel,
-          clusterLevel: isClusterMode ? clusterLevel.toString() as any : null,
+          clusterLevel: isClusterMode ? (clusterLevel.toString() as any) : null,
           setHighlighted,
           mode: isClusterMode ? Mode.cluster : Mode.naics,
         }}
         settingsOptions={{
           compositionType: true,
           nodeSizing: true,
-          colorBy: {nodes: true},
+          colorBy: { nodes: true },
           aggregationMode: true,
           digitLevel: isClusterMode ? undefined : true,
           clusterLevel: isClusterMode ? true : undefined,
@@ -231,7 +245,7 @@ const GrowthOppurtunities = () => {
         searchInGraphOptions={{
           hiddenParents: isClusterMode ? hiddenClusters : hiddenSectors,
           digitLevel: isClusterMode ? null : digitLevel,
-          clusterLevel: isClusterMode ? clusterLevel.toString() as any : null,
+          clusterLevel: isClusterMode ? (clusterLevel.toString() as any) : null,
           setHighlighted,
           mode: isClusterMode ? Mode.cluster : Mode.naics,
         }}
@@ -247,7 +261,9 @@ const GrowthOppurtunities = () => {
         clusterLevel={clusterLevel}
         digitLevel={digitLevel}
         compositionType={compositionType}
-        aggregationMode={isClusterMode ? AggregationMode.cluster : AggregationMode.industries}
+        aggregationMode={
+          isClusterMode ? AggregationMode.cluster : AggregationMode.industries
+        }
         hiddenSectors={hiddenSectors}
         hiddenClusters={hiddenClusters}
         highlighted={highlighted}
@@ -256,27 +272,29 @@ const GrowthOppurtunities = () => {
     </>
   );
 
-
   return (
     <DefaultContentWrapper>
-
       <ContentGrid>
         <SideText>
           <Switch>
-            <Route path={CityRoutes.CityGrowthOpportunitiesTable}
-              render={() => (<></>)}
+            <Route
+              path={CityRoutes.CityGrowthOpportunitiesTable}
+              render={() => <></>}
             />
-            <Route path={CityRoutes.CityGrowthOpportunities}
-              render={() => (<>{nodeLegend}</>)}
+            <Route
+              path={CityRoutes.CityGrowthOpportunities}
+              render={() => <>{nodeLegend}</>}
             />
           </Switch>
         </SideText>
         <Switch>
-          <TrackedRoute path={CityRoutes.CityGrowthOpportunitiesTable}
-            render={() => (<>{pswotTable}</>)}
+          <TrackedRoute
+            path={CityRoutes.CityGrowthOpportunitiesTable}
+            render={() => <>{pswotTable}</>}
           />
-          <TrackedRoute path={CityRoutes.CityGrowthOpportunities}
-            render={() => (<>{pswotChartWithSettings}</>)}
+          <TrackedRoute
+            path={CityRoutes.CityGrowthOpportunities}
+            render={() => <>{pswotChartWithSettings}</>}
           />
         </Switch>
         {legend}

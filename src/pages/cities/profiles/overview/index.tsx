@@ -1,13 +1,16 @@
-import { breakPoints, DefaultContentWrapper } from '../../../../styling/GlobalGrid';
-import useCurrentCityId from '../../../../hooks/useCurrentCityId';
-import SimpleError from '../../../../components/transitionStateComponents/SimpleError';
-import { LoadingOverlay } from '../../../../components/transitionStateComponents/VizLoadingBlock';
-import React from 'react';
-import UtilityBar from '../../../../components/navigation/secondaryHeader/UtilityBar';
-import styled from 'styled-components';
-import Widgets from './widgets';
-import Concepts from './concepts';
-import Map from './map';
+import {
+  breakPoints,
+  DefaultContentWrapper,
+} from "../../../../styling/GlobalGrid";
+import useCurrentCityId from "../../../../hooks/useCurrentCityId";
+import SimpleError from "../../../../components/transitionStateComponents/SimpleError";
+import { LoadingOverlay } from "../../../../components/transitionStateComponents/VizLoadingBlock";
+import React from "react";
+import UtilityBar from "../../../../components/navigation/secondaryHeader/UtilityBar";
+import styled from "styled-components";
+import Widgets from "./widgets";
+import Concepts from "./concepts";
+import Map from "./map";
 
 const Root = styled.div`
   padding: 1.5rem 0.75rem 2.5rem;
@@ -18,8 +21,8 @@ const Root = styled.div`
   grid-template-rows: auto 1fr;
   grid-template-columns: 1fr 1.25fr;
   grid-template-areas:
-            "widgets widgets"
-            "map concepts";
+    "widgets widgets"
+    "map concepts";
   gap: 1.5rem;
 
   @media (max-height: 750px) {
@@ -30,9 +33,9 @@ const Root = styled.div`
     grid-template-rows: auto auto auto;
     grid-template-columns: 1fr;
     grid-template-areas:
-              "widgets"
-              "map"
-              "concepts";
+      "widgets"
+      "map"
+      "concepts";
   }
 `;
 
@@ -65,7 +68,7 @@ const SimilarCities = () => {
     return (
       <DefaultContentWrapper>
         <LoadingOverlay>
-          <SimpleError fluentMessageId={'global-ui-error-invalid-city'} />
+          <SimpleError fluentMessageId={"global-ui-error-invalid-city"} />
         </LoadingOverlay>
       </DefaultContentWrapper>
     );

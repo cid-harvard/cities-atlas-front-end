@@ -1,19 +1,17 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom";
+import App from "./App";
 import {
   appLocalizationAndBundle as fluentValue,
   AppLocalizationAndBundleContext as FluentText,
-} from './contextProviders/getFluentLocalizationContext';
-import {
-  BrowserRouter,
-} from 'react-router-dom';
-import * as serviceWorker from './serviceWorker';
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import * as Sentry from '@sentry/react';
-import { BrowserTracing } from '@sentry/tracing';
+} from "./contextProviders/getFluentLocalizationContext";
+import { BrowserRouter } from "react-router-dom";
+import * as serviceWorker from "./serviceWorker";
+import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
 
-if(process.env.SENTRY_DSN && process.env.SENTRY_ENV) {
+if (process.env.SENTRY_DSN && process.env.SENTRY_ENV) {
   Sentry.init({
     dsn: process.env.SENTRY_DSN,
     integrations: [new BrowserTracing()],
@@ -24,27 +22,25 @@ if(process.env.SENTRY_DSN && process.env.SENTRY_ENV) {
     // We recommend adjusting this value in production
     tracesSampleRate: 0.8,
   });
-
 } else {
-  console.log('Build is running without Sentry.');
+  console.log("Build is running without Sentry.");
 }
-
-
 
 const client = new ApolloClient({
   uri: process.env.REACT_APP_API_URL,
   cache: new InMemoryCache(),
 });
 
-ReactDOM.render((
+ReactDOM.render(
   <ApolloProvider client={client}>
     <FluentText.Provider value={fluentValue}>
       <BrowserRouter>
         <App />
       </BrowserRouter>
     </FluentText.Provider>
-  </ApolloProvider>
-), document.getElementById('root'));
+  </ApolloProvider>,
+  document.getElementById("root"),
+);
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

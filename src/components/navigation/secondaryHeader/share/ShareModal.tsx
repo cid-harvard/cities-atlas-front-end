@@ -1,22 +1,28 @@
-import React, {useState} from 'react';
-import Modal from '../../../standardModal';
-import styled, {keyframes} from 'styled-components/macro';
+import React, { useState } from "react";
+import Modal from "../../../standardModal";
+import styled, { keyframes } from "styled-components/macro";
 import {
   baseColor,
   secondaryFont,
   primaryFont,
-} from '../../../../styling/styleUtils';
+} from "../../../../styling/styleUtils";
 // import useFluent from '../../../../hooks/useFluent';
-import raw from 'raw.macro';
-import getShareFunctions from './shareFn';
+import raw from "raw.macro";
+import getShareFunctions from "./shareFn";
 
-const iconGray = '#2D363F';
+const iconGray = "#2D363F";
 
-const linkSvg = raw('../../../templates/informationalPage/assets/link.svg');
-const twitterSvg = raw('../../../templates/informationalPage/assets/twitter.svg');
-const linkedinSvg = raw('../../../templates/informationalPage/assets/linkedin.svg');
-const facebookSvg = raw('../../../templates/informationalPage/assets/facebook.svg');
-const emailSvg = raw('../../../templates/informationalPage/assets/email.svg');
+const linkSvg = raw("../../../templates/informationalPage/assets/link.svg");
+const twitterSvg = raw(
+  "../../../templates/informationalPage/assets/twitter.svg",
+);
+const linkedinSvg = raw(
+  "../../../templates/informationalPage/assets/linkedin.svg",
+);
+const facebookSvg = raw(
+  "../../../templates/informationalPage/assets/facebook.svg",
+);
+const emailSvg = raw("../../../templates/informationalPage/assets/email.svg");
 
 const growIn = keyframes`
   0% {
@@ -122,9 +128,7 @@ interface Props {
 }
 
 export default (props: Props) => {
-  const {
-    onClose,
-  } = props;
+  const { onClose } = props;
   // const getString = useFluent();
   const [copied, setCopied] = useState<boolean>(false);
   const onCopy = () => {
@@ -132,65 +136,46 @@ export default (props: Props) => {
     setCopied(true);
     setTimeout(() => setCopied(false), 5000);
   };
-  const copyText = copied ? 'Copied' : 'Copy';
+  const copyText = copied ? "Copied" : "Copy";
 
-  const {shareFacebook, shareTwitter, shareLinkedIn, shareEmail} = getShareFunctions(window.location.href);
+  const { shareFacebook, shareTwitter, shareLinkedIn, shareEmail } =
+    getShareFunctions(window.location.href);
 
   return (
-    <Modal
-      onClose={onClose}
-      height='auto'
-      width='500px'
-    >
+    <Modal onClose={onClose} height="auto" width="500px">
       <Root>
-        <SectionTitle>
-          Direct Link
-        </SectionTitle>
+        <SectionTitle>Direct Link</SectionTitle>
         <CopyUrlBar onClick={onCopy}>
-          <CopyIcon
-            dangerouslySetInnerHTML={{__html: linkSvg}}
-          />
-          <UrlText>
-            {window.location.href}
-          </UrlText>
-          <CopyButton>
-            {copyText}
-          </CopyButton>
+          <CopyIcon dangerouslySetInnerHTML={{ __html: linkSvg }} />
+          <UrlText>{window.location.href}</UrlText>
+          <CopyButton>{copyText}</CopyButton>
         </CopyUrlBar>
-        <SectionTitle>
-          Social Media Sharing
-        </SectionTitle>
+        <SectionTitle>Social Media Sharing</SectionTitle>
         <SocialMediaContainer>
           <SocialMediaButton
-            onClick={() => shareTwitter('Check out the Metroverse')}
+            onClick={() => shareTwitter("Check out the Metroverse")}
           >
-            <SvgBase
-              dangerouslySetInnerHTML={{__html: twitterSvg}}
-            />
+            <SvgBase dangerouslySetInnerHTML={{ __html: twitterSvg }} />
           </SocialMediaButton>
           <SocialMediaButton
-            onClick={() => shareLinkedIn('Check out the Metroverse', '')}
+            onClick={() => shareLinkedIn("Check out the Metroverse", "")}
           >
-            <SvgBase
-              dangerouslySetInnerHTML={{__html: linkedinSvg}}
-            />
+            <SvgBase dangerouslySetInnerHTML={{ __html: linkedinSvg }} />
+          </SocialMediaButton>
+          <SocialMediaButton onClick={() => shareFacebook()}>
+            <SvgBase dangerouslySetInnerHTML={{ __html: facebookSvg }} />
           </SocialMediaButton>
           <SocialMediaButton
-            onClick={() => shareFacebook()}
+            style={{ width: "3.25rem" }}
+            onClick={() =>
+              shareEmail(
+                "Check out the Metroverse",
+                "Check out the Metroverse",
+                window.location.href,
+              )
+            }
           >
-            <SvgBase
-              dangerouslySetInnerHTML={{__html: facebookSvg}}
-            />
-          </SocialMediaButton>
-          <SocialMediaButton
-            style={{width: '3.25rem'}}
-            onClick={() => shareEmail(
-              'Check out the Metroverse', 'Check out the Metroverse', window.location.href,
-            )}
-          >
-            <SvgBase
-              dangerouslySetInnerHTML={{__html: emailSvg}}
-            />
+            <SvgBase dangerouslySetInnerHTML={{ __html: emailSvg }} />
           </SocialMediaButton>
         </SocialMediaContainer>
         <CloseButton onClick={onClose}>✕</CloseButton>

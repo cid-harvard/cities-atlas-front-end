@@ -1,20 +1,20 @@
-import React from 'react';
-import Header from '../../navigation/header';
+import React from "react";
+import Header from "../../navigation/header";
 import {
   InformationalPageRoot as RootBase,
   ContentContainer,
   breakPoints,
-} from '../../../styling/GlobalGrid';
+} from "../../../styling/GlobalGrid";
 import {
   primaryColorDark,
   primaryHoverColor,
   lightBaseColor,
   baseColor,
-} from '../../../styling/styleUtils';
-import styled from 'styled-components/macro';
-import Footer from './Footer';
+} from "../../../styling/styleUtils";
+import styled from "styled-components/macro";
+import Footer from "./Footer";
 
-export const rootId = 'infromational-page-root-scroll-id';
+export const rootId = "infromational-page-root-scroll-id";
 
 const Root = styled(RootBase)`
   overflow: auto;
@@ -41,7 +41,8 @@ const ContentStandard = styled(ContentContainer)`
     margin-bottom: 0.5rem;
   }
 
-  p a, h4 a {
+  p a,
+  h4 a {
     color: ${primaryColorDark};
 
     &:hover {
@@ -90,16 +91,12 @@ interface Props {
 }
 
 const InformationalPage = (props: Props) => {
-  const {
-    children, contentFull,
-  } = props;
+  const { children, contentFull } = props;
   const Content = contentFull ? ContentFull : ContentStandard;
   return (
     <Root id={rootId}>
       <Header />
-      <Content>
-        {children}
-      </Content>
+      <Content>{children}</Content>
       <Footer />
     </Root>
   );

@@ -1,7 +1,7 @@
-import React from 'react';
-import styled, {keyframes} from 'styled-components/macro';
-import {backgroundDark} from '../../styling/styleUtils';
-import {breakPoints} from '../../styling/GlobalGrid';
+import React from "react";
+import styled, { keyframes } from "styled-components/macro";
+import { backgroundDark } from "../../styling/styleUtils";
+import { breakPoints } from "../../styling/GlobalGrid";
 
 const Root = styled.div`
   grid-column: 2;
@@ -33,10 +33,10 @@ const ScrollContainer = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
   }
   ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   @media ${breakPoints.small} {
@@ -76,21 +76,27 @@ const ParaBar = styled.div`
   animation: ${flickerAnimation} 1s infinite;
 `;
 
-const StandardSideTextLoading = ({clearStyles}: {clearStyles?: boolean}) => {
+const StandardSideTextLoading = ({
+  clearStyles,
+}: {
+  clearStyles?: boolean;
+}) => {
   const Content = clearStyles ? React.Fragment : ContentContainer;
   return (
     <Root>
-      <ScrollContainer style={{alignItems: clearStyles ? 'flex-start' : undefined}}>
+      <ScrollContainer
+        style={{ alignItems: clearStyles ? "flex-start" : undefined }}
+      >
         <Content>
-          <TitleBar style={{width: '95%'}} />
-          <TitleBar style={{width: '60%', marginBottom: '1rem'}} />
-          <ParaBar style={{width: '93%'}} />
-          <ParaBar style={{width: '87%'}} />
-          <ParaBar style={{width: '76%'}} />
-          <ParaBar style={{width: '90%'}} />
-          <ParaBar style={{width: '84%'}} />
-          <ParaBar style={{width: '76%'}} />
-          <ParaBar style={{width: '59%'}} />
+          <TitleBar style={{ width: "95%" }} />
+          <TitleBar style={{ width: "60%", marginBottom: "1rem" }} />
+          <ParaBar style={{ width: "93%" }} />
+          <ParaBar style={{ width: "87%" }} />
+          <ParaBar style={{ width: "76%" }} />
+          <ParaBar style={{ width: "90%" }} />
+          <ParaBar style={{ width: "84%" }} />
+          <ParaBar style={{ width: "76%" }} />
+          <ParaBar style={{ width: "59%" }} />
         </Content>
       </ScrollContainer>
     </Root>

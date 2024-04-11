@@ -1,6 +1,6 @@
-import React from 'react';
-import InformationalPage from '../../../components/templates/informationalPage';
-import SimilarCities from './similarCities';
+import React from "react";
+import InformationalPage from "../../../components/templates/informationalPage";
+import SimilarCities from "./similarCities";
 
 const SimilarCity = () => {
   return (

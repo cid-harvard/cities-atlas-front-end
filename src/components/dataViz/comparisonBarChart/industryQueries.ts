@@ -1,14 +1,24 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
-  query GetCityIndustryTreeData($primaryCity: Int!, $secondaryCity: Int!, $year: Int!) {
-    primaryCityIndustries: cityIndustryYearList(cityId: $primaryCity, year: $year) {
+  query GetCityIndustryTreeData(
+    $primaryCity: Int!
+    $secondaryCity: Int!
+    $year: Int!
+  ) {
+    primaryCityIndustries: cityIndustryYearList(
+      cityId: $primaryCity
+      year: $year
+    ) {
       id
       industryId: naicsId
       numCompany
       numEmploy
     }
-    secondaryCityIndustries: cityIndustryYearList(cityId: $secondaryCity, year: $year) {
+    secondaryCityIndustries: cityIndustryYearList(
+      cityId: $secondaryCity
+      year: $year
+    ) {
       id
       industryId: naicsId
       numCompany
@@ -18,44 +28,81 @@ export const ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
 `;
 
 export const PEER_GROUP_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
-  query GetCityIndustryTreeData($primaryCity: Int!, $peerGroup: String!, $year: Int!) {
-    primaryCityIndustries: cityIndustryYearList(cityId: $primaryCity, year: $year) {
+  query GetCityIndustryTreeData(
+    $primaryCity: Int!
+    $peerGroup: String!
+    $year: Int!
+  ) {
+    primaryCityIndustries: cityIndustryYearList(
+      cityId: $primaryCity
+      year: $year
+    ) {
       id
       industryId: naicsId
       numCompany
       numEmploy
     }
-    groupIndustries_1: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 1) {
+    groupIndustries_1: naicsPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      naicsLevel: 1
+    ) {
       id: naicsId
       industryId: naicsId
       numCompany: avgEmployCount
       numEmploy: avgCompanyCount
     }
-    groupIndustries_2: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 2) {
+    groupIndustries_2: naicsPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      naicsLevel: 2
+    ) {
       id: naicsId
       industryId: naicsId
       numCompany: avgEmployCount
       numEmploy: avgCompanyCount
     }
-    groupIndustries_3: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 3) {
+    groupIndustries_3: naicsPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      naicsLevel: 3
+    ) {
       id: naicsId
       industryId: naicsId
       numCompany: avgEmployCount
       numEmploy: avgCompanyCount
     }
-    groupIndustries_4: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 4) {
+    groupIndustries_4: naicsPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      naicsLevel: 4
+    ) {
       id: naicsId
       industryId: naicsId
       numCompany: avgEmployCount
       numEmploy: avgCompanyCount
     }
-    groupIndustries_5: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 5) {
+    groupIndustries_5: naicsPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      naicsLevel: 5
+    ) {
       id: naicsId
       industryId: naicsId
       numCompany: avgEmployCount
       numEmploy: avgCompanyCount
     }
-    groupIndustries_6: naicsPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, naicsLevel: 6) {
+    groupIndustries_6: naicsPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      naicsLevel: 6
+    ) {
       id: naicsId
       industryId: naicsId
       numCompany: avgEmployCount
@@ -66,7 +113,10 @@ export const PEER_GROUP_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
 
 export const WORLD_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
   query GetWorldCityIndustryTreeData($primaryCity: Int!, $year: Int!) {
-    primaryCityIndustries: cityIndustryYearList(cityId: $primaryCity, year: $year) {
+    primaryCityIndustries: cityIndustryYearList(
+      cityId: $primaryCity
+      year: $year
+    ) {
       id
       industryId: naicsId
       numCompany

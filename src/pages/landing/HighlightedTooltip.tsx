@@ -1,20 +1,13 @@
-import React, {useRef, useEffect} from 'react';
-import {
-  ExtendedSearchDatum,
-  StyledPopup,
-  TootltipTitle,
-} from './Utils';
-import styled from 'styled-components/macro';
-import {Link} from 'react-router-dom';
-import {CityRoutes} from '../../routing/routes';
-import {createRoute} from '../../routing/Utils';
-import {
-  secondaryColor,
-  secondaryFont,
-} from '../../styling/styleUtils';
-import { BetaLabel } from '../../components/navigation/header';
-import useFluent from '../../hooks/useFluent';
-import googleAnalyticsEvent from '../../components/analytics/googleAnalyticsEvent';
+import React, { useRef, useEffect } from "react";
+import { ExtendedSearchDatum, StyledPopup, TootltipTitle } from "./Utils";
+import styled from "styled-components/macro";
+import { Link } from "react-router-dom";
+import { CityRoutes } from "../../routing/routes";
+import { createRoute } from "../../routing/Utils";
+import { secondaryColor, secondaryFont } from "../../styling/styleUtils";
+import { BetaLabel } from "../../components/navigation/header";
+import useFluent from "../../hooks/useFluent";
+import googleAnalyticsEvent from "../../components/analytics/googleAnalyticsEvent";
 
 const Title = styled(TootltipTitle)`
   padding-bottom: 0.75rem;
@@ -66,12 +59,12 @@ interface Props {
 }
 
 enum Action {
-  Profiles = 'Clicked City Profiles',
-  Similarity = 'Clicked City Similarity',
+  Profiles = "Clicked City Profiles",
+  Similarity = "Clicked City Similarity",
 }
 
 const HighlightedTooltip = (props: Props) => {
-  const {highlighted, closePopup} = props;
+  const { highlighted, closePopup } = props;
   const getString = useFluent();
   const anchorRef = useRef<HTMLAnchorElement | null>(null);
   useEffect(() => {
@@ -80,26 +73,30 @@ const HighlightedTooltip = (props: Props) => {
       node.focus();
     }
   }, [anchorRef]);
-  const triggerGoogleAnalyticsEvent = (action: Action) => () => googleAnalyticsEvent('Landing Page Map', action, `for ${highlighted.title}`);
+  const triggerGoogleAnalyticsEvent = (action: Action) => () =>
+    googleAnalyticsEvent(
+      "Landing Page Map",
+      action,
+      `for ${highlighted.title}`,
+    );
   return (
-    <StyledPopup
-      coordinates={highlighted.center}
-    >
-      <Title>
-        {highlighted.title}
-      </Title>
+    <StyledPopup coordinates={highlighted.center}>
+      <Title>{highlighted.title}</Title>
       <ReviewCityButton
         ref={anchorRef}
         to={createRoute.city(CityRoutes.CityBase, highlighted.id.toString())}
         onClick={triggerGoogleAnalyticsEvent(Action.Profiles)}
       >
-        {getString('landing-page-text-review-the-city')}
+        {getString("landing-page-text-review-the-city")}
       </ReviewCityButton>
       <ReviewCityButton
-        to={createRoute.city(CityRoutes.CitySimilarCities, highlighted.id.toString())}
+        to={createRoute.city(
+          CityRoutes.CitySimilarCities,
+          highlighted.id.toString(),
+        )}
         onClick={triggerGoogleAnalyticsEvent(Action.Similarity)}
       >
-        {getString('landing-page-text-review-similar-cities')}
+        {getString("landing-page-text-review-similar-cities")}
         <BetaLabel>Beta</BetaLabel>
       </ReviewCityButton>
       <CloseTooltipButton onClick={closePopup}>×</CloseTooltipButton>

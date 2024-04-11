@@ -1,30 +1,27 @@
-import React from 'react';
-import SimpleLoader from '../../transitionStateComponents/SimpleLoader';
-import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
-import {
-  useGlobalIndustryHierarchicalTreeData,
-} from '../../../hooks/useGlobalIndustriesData';
-import {
-  useGlobalClusterHierarchicalTreeData,
-} from '../../../hooks/useGlobalClusterData';
-import {
-  useGlobalLocationHierarchicalTreeData,
-} from '../../../hooks/useGlobalLocationData';
-import SimpleError from '../../transitionStateComponents/SimpleError';
-import useSectorMap from '../../../hooks/useSectorMap';
-import useClusterMap from '../../../hooks/useClusterMap';
-import {DigitLevel} from '../../../types/graphQL/graphQLTypes';
+import React from "react";
+import SimpleLoader from "../../transitionStateComponents/SimpleLoader";
+import PanelSearch, { Datum as SearchDatum } from "react-panel-search";
+import { useGlobalIndustryHierarchicalTreeData } from "../../../hooks/useGlobalIndustriesData";
+import { useGlobalClusterHierarchicalTreeData } from "../../../hooks/useGlobalClusterData";
+import { useGlobalLocationHierarchicalTreeData } from "../../../hooks/useGlobalLocationData";
+import SimpleError from "../../transitionStateComponents/SimpleError";
+import useSectorMap from "../../../hooks/useSectorMap";
+import useClusterMap from "../../../hooks/useClusterMap";
+import { DigitLevel } from "../../../types/graphQL/graphQLTypes";
 import {
   SearchContainerLight,
   lightBaseColor,
-} from '../../../styling/styleUtils';
-import {collapsedSizeMediaQueryValues, collapsedSizeMediaQuery} from '../Utils';
-import useFluent from '../../../hooks/useFluent';
-import {useWindowSize} from 'react-use';
-import styled from 'styled-components/macro';
-import ToggleDropdown from './ToggleDropdown';
-import {ClusterLevel} from '../../../routing/routes';
-import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
+} from "../../../styling/styleUtils";
+import {
+  collapsedSizeMediaQueryValues,
+  collapsedSizeMediaQuery,
+} from "../Utils";
+import useFluent from "../../../hooks/useFluent";
+import { useWindowSize } from "react-use";
+import styled from "styled-components/macro";
+import ToggleDropdown from "./ToggleDropdown";
+import { ClusterLevel } from "../../../routing/routes";
+import { joyrideClassNames } from "../../navigation/secondaryHeader/guide/CitiesGuide";
 
 const LoadingContainer = styled.div`
   border: solid 1px ${lightBaseColor};
@@ -109,9 +106,9 @@ const SearchContainer = styled(SearchContainerLight)`
 `;
 
 export enum Mode {
-  naics = 'naics',
-  cluster = 'cluster',
-  geo = 'geo',
+  naics = "naics",
+  cluster = "cluster",
+  geo = "geo",
 }
 
 export interface SearchInGraphOptions {
@@ -125,7 +122,12 @@ export interface SearchInGraphOptions {
 
 const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const {
-    hiddenParents, setHighlighted, digitLevel, clusterLevel, mode, hidden,
+    hiddenParents,
+    setHighlighted,
+    digitLevel,
+    clusterLevel,
+    mode,
+    hidden,
   } = props;
 
   const getString = useFluent();
@@ -145,31 +147,36 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
     hierarchalSearchData = industrySearchData.data;
     tiers = digitLevel;
     disallowSelectionLevels = tiers
-      ? Array.from(Array(tiers).keys()) : undefined;
-    defaultPlaceholderText = getString('global-ui-search-an-industry-in-graph');
-    topLevelTitle = getString('global-text-industries');
+      ? Array.from(Array(tiers).keys())
+      : undefined;
+    defaultPlaceholderText = getString("global-ui-search-an-industry-in-graph");
+    topLevelTitle = getString("global-text-industries");
   } else if (mode === Mode.cluster) {
     hierarchalSearchData = clusterSearchData.data;
     tiers = clusterLevel;
-    disallowSelectionLevels = clusterLevel === ClusterLevel.C3 ? [1] : undefined;
-    defaultPlaceholderText = getString('global-ui-search-a-cluster-in-graph');
-    topLevelTitle = getString('global-ui-skill-clusters');
+    disallowSelectionLevels =
+      clusterLevel === ClusterLevel.C3 ? [1] : undefined;
+    defaultPlaceholderText = getString("global-ui-search-a-cluster-in-graph");
+    topLevelTitle = getString("global-ui-skill-clusters");
   } else if (mode === Mode.geo) {
     hierarchalSearchData = locationSearchData.data;
-    disallowSelectionLevels = ['0'];
+    disallowSelectionLevels = ["0"];
     tiers = null;
-    defaultPlaceholderText = 'Find a city in map';
-    topLevelTitle = 'Countries';
+    defaultPlaceholderText = "Find a city in map";
+    topLevelTitle = "Countries";
   } else {
     hierarchalSearchData = [];
     tiers = null;
-    defaultPlaceholderText = '';
-    topLevelTitle = '';
+    defaultPlaceholderText = "";
+    topLevelTitle = "";
   }
 
   let searchPanel: React.ReactElement<any> | null;
-  if ((mode === Mode.naics && industrySearchData.loading) || (mode === Mode.cluster && clusterSearchData.loading) ||
-        (mode === Mode.geo && locationSearchData.loading)) {
+  if (
+    (mode === Mode.naics && industrySearchData.loading) ||
+    (mode === Mode.cluster && clusterSearchData.loading) ||
+    (mode === Mode.geo && locationSearchData.loading)
+  ) {
     searchPanel = (
       <LoadingContainer>
         <SimpleLoader />
@@ -196,15 +203,17 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
         <SimpleError />
       </LoadingContainer>
     );
-  } else if ((mode === Mode.naics && hiddenParents.length === sectorMap.length) ||
-      (mode === Mode.cluster && hiddenParents.length === clusterMap.length)) {
+  } else if (
+    (mode === Mode.naics && hiddenParents.length === sectorMap.length) ||
+    (mode === Mode.cluster && hiddenParents.length === clusterMap.length)
+  ) {
     searchPanel = (
       <LoadingContainer>
-        <SimpleError fluentMessageId={'error-message-no-industries'} />
+        <SimpleError fluentMessageId={"error-message-no-industries"} />
       </LoadingContainer>
     );
   } else if (hierarchalSearchData !== undefined) {
-    const onSelect = (d: {id: string | number} | null) => {
+    const onSelect = (d: { id: string | number } | null) => {
       if (d) {
         setHighlighted(d.id as string);
       } else {
@@ -212,12 +221,15 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
       }
     };
     const searchData: SearchDatum[] = hierarchalSearchData.filter(
-      ({level, id}) => (tiers === null || (level !== null && level <= tiers)) &&
-                        !hiddenParents.includes(id as string),
+      ({ level, id }) =>
+        (tiers === null || (level !== null && level <= tiers)) &&
+        !hiddenParents.includes(id as string),
     );
 
-    if (windowDimensions.width > collapsedSizeMediaQueryValues.max ||
-        windowDimensions.width < collapsedSizeMediaQueryValues.min) {
+    if (
+      windowDimensions.width > collapsedSizeMediaQueryValues.max ||
+      windowDimensions.width < collapsedSizeMediaQueryValues.min
+    ) {
       searchPanel = (
         <PanelSearch
           key={`PreChartPanelSearchKeyFor${digitLevel}${clusterLevel}${mode}`}
@@ -249,11 +261,14 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
 
   return (
     <SearchContainer
-      className={!hidden
-          ? mode === Mode.geo ? joyrideClassNames.searchCountryInGraph : joyrideClassNames.searchInGraph
+      className={
+        !hidden
+          ? mode === Mode.geo
+            ? joyrideClassNames.searchCountryInGraph
+            : joyrideClassNames.searchInGraph
           : undefined
       }
-      style={hidden ? {visibility: 'hidden'} : undefined}
+      style={hidden ? { visibility: "hidden" } : undefined}
     >
       {searchPanel}
     </SearchContainer>

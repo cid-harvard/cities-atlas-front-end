@@ -1,13 +1,13 @@
-import React from 'react';
-import styled from 'styled-components/macro';
+import React from "react";
+import styled from "styled-components/macro";
 import {
   lightBorderColor,
   backgroundMedium,
   baseColor,
   primaryFont,
   lightBaseColor,
-} from '../../../styling/styleUtils';
-import MultiSelect from '@khanacademy/react-multi-select';
+} from "../../../styling/styleUtils";
+import MultiSelect from "@khanacademy/react-multi-select";
 
 const Root = styled.div`
   position: relative;
@@ -26,7 +26,8 @@ const Root = styled.div`
         border-right: none !important;
         color: ${lightBaseColor} !important;
         background-color: rgba(255, 255, 255, 0.75) !important;
-        ::placeholder, span {
+        ::placeholder,
+        span {
           color: ${lightBaseColor} !important;
           opacity: 1;
         }
@@ -81,7 +82,7 @@ const Root = styled.div`
 `;
 
 interface Props {
-  allOptions: {label: string, value: string}[];
+  allOptions: { label: string; value: string }[];
   selectedOptions: string[];
   setSelectedOptions: (s: string[]) => void;
   title: string;
@@ -89,11 +90,7 @@ interface Props {
 }
 
 const ColumnFilterBox = (props: Props) => {
-  const {
-    allOptions, selectedOptions, setSelectedOptions,
-    title,
-  } = props;
-
+  const { allOptions, selectedOptions, setSelectedOptions, title } = props;
 
   function selectBoxValueRenderer(selected: any) {
     if (selected.length === 0) {
@@ -101,9 +98,13 @@ const ColumnFilterBox = (props: Props) => {
     } else if (selected.length === allOptions.length) {
       return `All ${title} selected`;
     } else if (props.multipleAsValuesText) {
-      return selected.length === 1 ? selected.label : `${selected.length} values selected`;
+      return selected.length === 1
+        ? selected.label
+        : `${selected.length} values selected`;
     }
-    return selected.length === 1 ? selected.label : `${selected.length} ${title} selected`;
+    return selected.length === 1
+      ? selected.label
+      : `${selected.length} ${title} selected`;
   }
 
   return (

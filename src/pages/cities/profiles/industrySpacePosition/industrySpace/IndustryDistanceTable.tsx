@@ -1,19 +1,17 @@
-import React, {useState, useRef, useEffect} from 'react';
-import {LoadingOverlay} from '../../../../../components/transitionStateComponents/VizLoadingBlock';
-import SimpleError from '../../../../../components/transitionStateComponents/SimpleError';
-import useLayoutData from '../../../../../components/dataViz/industrySpace/chart/useLayoutData';
-import {
-  useGlobalIndustryMap,
-} from '../../../../../hooks/useGlobalIndustriesData';
-import useFluent from '../../../../../hooks/useFluent';
-import styled from 'styled-components/macro';
+import React, { useState, useRef, useEffect } from "react";
+import { LoadingOverlay } from "../../../../../components/transitionStateComponents/VizLoadingBlock";
+import SimpleError from "../../../../../components/transitionStateComponents/SimpleError";
+import useLayoutData from "../../../../../components/dataViz/industrySpace/chart/useLayoutData";
+import { useGlobalIndustryMap } from "../../../../../hooks/useGlobalIndustriesData";
+import useFluent from "../../../../../hooks/useFluent";
+import styled from "styled-components/macro";
 import {
   lightBorderColor,
   lightBaseColor,
   sectorColorMap,
-} from '../../../../../styling/styleUtils';
-import {rgba} from 'polished';
-import MiniMap from '../../../../../components/dataViz/industrySpace/MiniMap';
+} from "../../../../../styling/styleUtils";
+import { rgba } from "polished";
+import MiniMap from "../../../../../components/dataViz/industrySpace/MiniMap";
 
 const Root = styled.div`
   width: 100%;
@@ -88,13 +86,11 @@ interface Props {
 }
 
 const IndustryDistanceTable = (props: Props) => {
-  const {
-    id, hovered, setHovered, setHighlighted, children,
-  } = props;
+  const { id, hovered, setHovered, setHighlighted, children } = props;
 
   const getString = useFluent();
   const layout = useLayoutData();
-  const {data: industryData} = useGlobalIndustryMap();
+  const { data: industryData } = useGlobalIndustryMap();
   const titleRef = useRef<HTMLDivElement | null>(null);
   const [titleHeight, setTitleHeight] = useState<number>(0);
 
@@ -118,22 +114,27 @@ const IndustryDistanceTable = (props: Props) => {
     );
     console.error(layout.error);
   } else if (layout.data !== undefined && industryData !== undefined) {
-    const node = layout.data.nodes.find(n => n.id === id);
+    const node = layout.data.nodes.find((n) => n.id === id);
     if (node) {
-      const edges = node.edges.map(({trg}) => {
+      const edges = node.edges.map(({ trg }) => {
         const industry = industryData[trg];
         if (industry) {
           const parent = industryData[industry.naicsIdTopParent];
-          const parentIndustry = sectorColorMap.find(s => s.id === industry.naicsIdTopParent.toString());
+          const parentIndustry = sectorColorMap.find(
+            (s) => s.id === industry.naicsIdTopParent.toString(),
+          );
           const onMouseEnter = () => setHovered(industry.naicsId);
           const onMouseClick = () => setHighlighted(industry.naicsId);
-          const color = parentIndustry ? parentIndustry.color : lightBorderColor;
+          const color = parentIndustry
+            ? parentIndustry.color
+            : lightBorderColor;
           return (
             <React.Fragment key={industry.naicsId}>
               <NameCell
                 style={{
                   borderLeftColor: color,
-                  backgroundColor: hovered === industry.naicsId ? rgba(color, 0.4) : undefined,
+                  backgroundColor:
+                    hovered === industry.naicsId ? rgba(color, 0.4) : undefined,
                 }}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={clearHovered}
@@ -143,13 +144,14 @@ const IndustryDistanceTable = (props: Props) => {
               </NameCell>
               <TableCell
                 style={{
-                  backgroundColor: hovered === industry.naicsId ? rgba(color, 0.4) : undefined,
+                  backgroundColor:
+                    hovered === industry.naicsId ? rgba(color, 0.4) : undefined,
                 }}
                 onMouseEnter={onMouseEnter}
                 onMouseLeave={clearHovered}
                 onClick={onMouseClick}
               >
-                {parent ? parent.name : ''}
+                {parent ? parent.name : ""}
               </TableCell>
             </React.Fragment>
           );
@@ -162,22 +164,18 @@ const IndustryDistanceTable = (props: Props) => {
           <Root>
             <div>
               <Table>
-                <HeaderCell style={{top: titleHeight}}>
-                  {getString('global-ui-related-industry')}
+                <HeaderCell style={{ top: titleHeight }}>
+                  {getString("global-ui-related-industry")}
                 </HeaderCell>
-                <HeaderCell style={{top: titleHeight}}>
-                  {getString('global-ui-sector')}
+                <HeaderCell style={{ top: titleHeight }}>
+                  {getString("global-ui-sector")}
                 </HeaderCell>
                 {edges}
               </Table>
             </div>
             <MiniMapContainer>
-              <MiniMap
-                highlighted={id}
-              />
-              <NodeLegenedContainer>
-                {children}
-              </NodeLegenedContainer>
+              <MiniMap highlighted={id} />
+              <NodeLegenedContainer>{children}</NodeLegenedContainer>
             </MiniMapContainer>
           </Root>
         </>
@@ -193,11 +191,7 @@ const IndustryDistanceTable = (props: Props) => {
     output = null;
   }
 
-  return (
-    <>
-      {output}
-    </>
-  );
+  return <>{output}</>;
 };
 
 export default IndustryDistanceTable;

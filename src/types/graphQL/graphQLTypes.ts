@@ -15,12 +15,12 @@ export enum ClusterLevel {
 export const defaultDigitLevel: DigitLevel = DigitLevel.Three;
 
 export enum CompositionType {
-  Companies = 'establishments',
-  Employees = 'employees',
+  Companies = "establishments",
+  Employees = "employees",
 }
 
-export const defaultCompositionType: CompositionType = CompositionType.Employees;
-
+export const defaultCompositionType: CompositionType =
+  CompositionType.Employees;
 
 export interface ClassificationNaicsIndustry {
   naicsId: string;
@@ -37,26 +37,26 @@ export interface ClassificationNaicsIndustry {
 }
 
 export enum IncomeClassType {
-  HIC = 'HIC',
-  UMIC = 'UMIC',
-  LMIC = 'LMIC',
-  LIC = 'LIC',
-  OTHER = 'OTHER',
+  HIC = "HIC",
+  UMIC = "UMIC",
+  LMIC = "LMIC",
+  LIC = "LIC",
+  OTHER = "OTHER",
 }
 
 export enum DevGroupType {
-  MDR = 'MDR',
-  LDC = 'LDC',
-  LDCL = 'LDCL',
+  MDR = "MDR",
+  LDC = "LDC",
+  LDCL = "LDCL",
 }
 
 export type GeoJSONString = string;
 
 export enum DataFlagType {
-  GREEN = 'GREEN',
-  ORANGE = 'ORANGE',
-  YELLOW = 'YELLOW',
-  RED = 'RED',
+  GREEN = "GREEN",
+  ORANGE = "ORANGE",
+  YELLOW = "YELLOW",
+  RED = "RED",
 }
 
 export interface ClassificationCity {
@@ -121,13 +121,13 @@ export interface ClassificationRegion {
   subregionName: string;
   regionCity: {
     edges: {
-      node: ClassificationCity[],
-    },
+      node: ClassificationCity[];
+    };
   };
   subregionCity: {
     edges: {
-      node: ClassificationCity[],
-    },
+      node: ClassificationCity[];
+    };
   };
   id: string;
 }
@@ -237,13 +237,13 @@ export interface ClusterIndustry {
 }
 
 export enum PeerGroup {
-  GlobalPopulation = 'global_pop',
-  GlobalIncome = 'global_income',
-  GlobalEuclideanDistance = 'global_eucdist',
-  RegionalPopulation = 'regional_pop',
-  RegionalIncome = 'regional_income',
-  RegionalEuclideanDistance = 'regional_eucdist',
-  Region = 'region',
+  GlobalPopulation = "global_pop",
+  GlobalIncome = "global_income",
+  GlobalEuclideanDistance = "global_eucdist",
+  RegionalPopulation = "regional_pop",
+  RegionalIncome = "regional_income",
+  RegionalEuclideanDistance = "regional_eucdist",
+  Region = "region",
 }
 
 export const isValidPeerGroup = (value: any) =>

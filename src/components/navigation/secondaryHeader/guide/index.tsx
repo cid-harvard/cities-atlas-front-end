@@ -1,7 +1,7 @@
-import React, {useState} from 'react';
-import Tooltip, {TooltipPosition} from '../../../general/Tooltip';
-import raw from 'raw.macro';
-import {useWindowWidth} from '../../../../contextProviders/appContext';
+import React, { useState } from "react";
+import Tooltip, { TooltipPosition } from "../../../general/Tooltip";
+import raw from "raw.macro";
+import { useWindowWidth } from "../../../../contextProviders/appContext";
 import {
   UtilityBarButtonBase,
   columnsToRowsBreakpoint,
@@ -9,11 +9,11 @@ import {
   Text,
   TooltipContent,
   LargeSvg,
-} from '../../Utils';
-import useFluent from '../../../../hooks/useFluent';
-import CitiesGuide, {joyrideClassNames} from './CitiesGuide';
+} from "../../Utils";
+import useFluent from "../../../../hooks/useFluent";
+import CitiesGuide, { joyrideClassNames } from "./CitiesGuide";
 
-const guideIconSvg = raw('../../../../assets/icons/guide.svg');
+const guideIconSvg = raw("../../../../assets/icons/guide.svg");
 
 const Guide = () => {
   const windowDimensions = useWindowWidth();
@@ -22,24 +22,21 @@ const Guide = () => {
   return (
     <>
       <Tooltip
-        explanation={windowDimensions.width < mediumSmallBreakpoint &&
-          windowDimensions.width > columnsToRowsBreakpoint
-          ? <TooltipContent>{getString('global-ui-guide')}</TooltipContent>
-          : null
+        explanation={
+          windowDimensions.width < mediumSmallBreakpoint &&
+          windowDimensions.width > columnsToRowsBreakpoint ? (
+            <TooltipContent>{getString("global-ui-guide")}</TooltipContent>
+          ) : null
         }
-        cursor='pointer'
+        cursor="pointer"
         tooltipPosition={TooltipPosition.Bottom}
       >
         <UtilityBarButtonBase
           onClick={() => setRunTutorial(true)}
           className={joyrideClassNames.guideButton}
         >
-          <LargeSvg
-            dangerouslySetInnerHTML={{__html: guideIconSvg}}
-          />
-          <Text>
-            {getString('global-ui-guide')}
-          </Text>
+          <LargeSvg dangerouslySetInnerHTML={{ __html: guideIconSvg }} />
+          <Text>{getString("global-ui-guide")}</Text>
         </UtilityBarButtonBase>
       </Tooltip>
       <CitiesGuide

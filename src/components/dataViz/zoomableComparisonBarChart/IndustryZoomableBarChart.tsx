@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import {
   DigitLevel,
   ClassificationNaicsIndustry,
@@ -6,47 +6,49 @@ import {
   isValidPeerGroup,
   PeerGroup,
   ClassificationNaicsCluster,
-} from '../../../types/graphQL/graphQLTypes';
-import {
-  useGlobalIndustryMap,
-} from '../../../hooks/useGlobalIndustriesData';
-import {
-  usePrevious,
-} from 'react-use';
-import {useWindowWidth} from '../../../contextProviders/appContext';
-import {breakPoints} from '../../../styling/GlobalGrid';
-import PreChartRow, {VizNavItem} from '../../../components/general/PreChartRow';
-import ErrorBoundary from '../ErrorBoundary';
-import styled from 'styled-components/macro';
+} from "../../../types/graphQL/graphQLTypes";
+import { useGlobalIndustryMap } from "../../../hooks/useGlobalIndustriesData";
+import { usePrevious } from "react-use";
+import { useWindowWidth } from "../../../contextProviders/appContext";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import PreChartRow, {
+  VizNavItem,
+} from "../../../components/general/PreChartRow";
+import ErrorBoundary from "../ErrorBoundary";
+import styled from "styled-components/macro";
 import {
   sectorColorMap,
   secondaryFont,
   baseColor,
   clusterColorMap,
-} from '../../../styling/styleUtils';
-import SimpleError from '../../transitionStateComponents/SimpleError';
-import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
-import {
-  ClusterBarChartDatum,
-} from 'react-fast-charts';
+} from "../../../styling/styleUtils";
+import SimpleError from "../../transitionStateComponents/SimpleError";
+import LoadingBlock, {
+  LoadingOverlay,
+} from "../../transitionStateComponents/VizLoadingBlock";
+import { ClusterBarChartDatum } from "react-fast-charts";
 import {
   useComparisonQuery,
   SuccessResponse,
   RegionGroup,
-} from '../comparisonBarChart/cityIndustryComparisonQuery';
-import orderBy from 'lodash/orderBy';
-import {rgba} from 'polished';
-import useGlobalLocationData from '../../../hooks/useGlobalLocationData';
-import useFluent from '../../../hooks/useFluent';
-import Chart, {Group} from './Chart';
-import {Mode} from '../../general/searchIndustryInGraphDropdown';
-import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
-import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
-import BenchmarkLegend from '../legend/BenchmarkLegend';
-import { AggregationMode, CityRoutes, ClusterLevel } from '../../../routing/routes';
-import { createRoute } from '../../../routing/Utils';
-import { useHistory } from 'react-router-dom';
-import { useGlobalClusterMap } from '../../../hooks/useGlobalClusterData';
+} from "../comparisonBarChart/cityIndustryComparisonQuery";
+import orderBy from "lodash/orderBy";
+import { rgba } from "polished";
+import useGlobalLocationData from "../../../hooks/useGlobalLocationData";
+import useFluent from "../../../hooks/useFluent";
+import Chart, { Group } from "./Chart";
+import { Mode } from "../../general/searchIndustryInGraphDropdown";
+import PresenceToggle, { Highlighted } from "../legend/PresenceToggle";
+import { ComparisonType } from "../../navigation/secondaryHeader/comparisons/AddComparisonModal";
+import BenchmarkLegend from "../legend/BenchmarkLegend";
+import {
+  AggregationMode,
+  CityRoutes,
+  ClusterLevel,
+} from "../../../routing/routes";
+import { createRoute } from "../../../routing/Utils";
+import { useHistory } from "react-router-dom";
+import { useGlobalClusterMap } from "../../../hooks/useGlobalClusterData";
 
 const Root = styled.div`
   width: 100%;
@@ -130,7 +132,7 @@ const BreadCrumbList = styled.ul`
   }
 `;
 
-const breadCrumbFontSize = 'clamp(0.55rem, 0.9vw, 0.85rem)';
+const breadCrumbFontSize = "clamp(0.55rem, 0.9vw, 0.85rem)";
 
 const BreadCrumb = styled.li`
   font-size: 0.6rem;
@@ -160,7 +162,7 @@ const BreadCrumbLink = styled.button`
   }
 
   &:after {
-    content: '→';
+    content: "→";
     margin: 0 0.5rem;
     font-size: 1rem;
     text-decoration: none;
@@ -200,65 +202,90 @@ interface Props {
   highlighted: number | null;
   setHighlighted: (value: string | undefined) => void;
   compositionType: CompositionType;
-  hiddenSectors: ClassificationNaicsIndustry['id'][];
+  hiddenSectors: ClassificationNaicsIndustry["id"][];
   vizNavigation: VizNavItem[];
   isClusterView: boolean;
-  hiddenClusters: ClassificationNaicsCluster['id'][];
+  hiddenClusters: ClassificationNaicsCluster["id"][];
 }
 
 const IndustryZoomableBarChart = (props: Props) => {
   const {
-    primaryCity, comparison, year, compositionType, highlighted,
-    hiddenSectors, setHighlighted, vizNavigation,
-    isClusterView, hiddenClusters,
+    primaryCity,
+    comparison,
+    year,
+    compositionType,
+    highlighted,
+    hiddenSectors,
+    setHighlighted,
+    vizNavigation,
+    isClusterView,
+    hiddenClusters,
   } = props;
 
-  const {loading, error, data} = useComparisonQuery({
-    primaryCity, comparison, year,
-    aggregation: isClusterView ? AggregationMode.cluster : AggregationMode.industries,
+  const { loading, error, data } = useComparisonQuery({
+    primaryCity,
+    comparison,
+    year,
+    aggregation: isClusterView
+      ? AggregationMode.cluster
+      : AggregationMode.industries,
   });
   const history = useHistory();
   const industryMap = useGlobalIndustryMap();
-  const clusterMap = useGlobalClusterMap({skipLevel2: true});
+  const clusterMap = useGlobalClusterMap({ skipLevel2: true });
   const industryOrClusterMap = isClusterView ? clusterMap : industryMap;
-  const parentField = isClusterView ? 'clusterIdTopParent' : 'naicsIdTopParent';
-  const idField = isClusterView ? 'clusterId' : 'naicsId';
+  const parentField = isClusterView ? "clusterIdTopParent" : "naicsIdTopParent";
+  const idField = isClusterView ? "clusterId" : "naicsId";
   const colorMap = isClusterView ? clusterColorMap : sectorColorMap;
-  const hiddenIndustriesOrClusters = isClusterView ? hiddenClusters : hiddenSectors;
+  const hiddenIndustriesOrClusters = isClusterView
+    ? hiddenClusters
+    : hiddenSectors;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
+  const [dimensions, setDimensions] = useState<
+    { width: number; height: number } | undefined
+  >(undefined);
   const getString = useFluent();
-  const {data: globalData} = useGlobalLocationData();
+  const { data: globalData } = useGlobalLocationData();
 
   useEffect(() => {
     setHighlighted(undefined);
   }, [isClusterView, setHighlighted]);
 
   const primaryCityDatum = globalData
-    ? globalData.cities.find(c => parseInt(c.cityId, 10) === primaryCity) : undefined;
-  const primaryCityName = primaryCityDatum && primaryCityDatum.name? primaryCityDatum.name : '';
+    ? globalData.cities.find((c) => parseInt(c.cityId, 10) === primaryCity)
+    : undefined;
+  const primaryCityName =
+    primaryCityDatum && primaryCityDatum.name ? primaryCityDatum.name : "";
 
   let secondaryCityName: string;
   if (comparison === RegionGroup.World) {
-    secondaryCityName = getString('global-text-world');
+    secondaryCityName = getString("global-text-world");
   } else if (isValidPeerGroup(comparison)) {
-    secondaryCityName = getString('global-formatted-peer-groups', {type: comparison});
+    secondaryCityName = getString("global-formatted-peer-groups", {
+      type: comparison,
+    });
   } else {
     const secondaryCityDatum = globalData
-      ? globalData.cities.find(c => parseInt(c.cityId, 10) === comparison) : undefined;
-    secondaryCityName = secondaryCityDatum && secondaryCityDatum.name ? secondaryCityDatum.name : '';
+      ? globalData.cities.find((c) => parseInt(c.cityId, 10) === comparison)
+      : undefined;
+    secondaryCityName =
+      secondaryCityDatum && secondaryCityDatum.name
+        ? secondaryCityDatum.name
+        : "";
   }
 
   useEffect(() => {
     const node = rootRef.current;
     if (node) {
-      const {width, height} = node.getBoundingClientRect();
-      setDimensions({width, height});
+      const { width, height } = node.getBoundingClientRect();
+      setDimensions({ width, height });
     }
   }, [rootRef, windowDimensions]);
 
-  const highlightIndustry = highlighted ? industryOrClusterMap.data[highlighted] : undefined;
+  const highlightIndustry = highlighted
+    ? industryOrClusterMap.data[highlighted]
+    : undefined;
 
   const prevData = usePrevious(data);
   let dataToUse: SuccessResponse | undefined;
@@ -271,7 +298,11 @@ const IndustryZoomableBarChart = (props: Props) => {
   }
 
   let output: React.ReactElement<any> | null;
-  if (industryOrClusterMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (
+    industryOrClusterMap.loading ||
+    !dimensions ||
+    (loading && prevData === undefined)
+  ) {
     output = <LoadingBlock />;
   } else if (error !== undefined) {
     output = (
@@ -288,69 +319,105 @@ const IndustryZoomableBarChart = (props: Props) => {
     );
     console.error(error);
   } else if (dataToUse !== undefined) {
-    const {
-      primaryCityIndustries, secondaryCityIndustries,
-    } = dataToUse;
+    const { primaryCityIndustries, secondaryCityIndustries } = dataToUse;
     const highlightedParent =
       (highlightIndustry && highlightIndustry.level === DigitLevel.Six) ||
-      (isClusterView && highlightIndustry && highlightIndustry.level + '' === ClusterLevel.C3)
-        ? highlightIndustry.parentId : highlighted;
-    const primaryTotal = primaryCityIndustries.reduce((total, {industryId, numCompany, numEmploy}) => {
-      const industry = industryOrClusterMap.data[industryId];
-      if (industry && industry.parentId === null) {
-        const companies = numCompany ? numCompany : 0;
-        const employees = numEmploy ? numEmploy : 0;
-        const increment = compositionType === CompositionType.Companies ? companies : employees;
-        return total + increment;
-      } else {
-        return total;
-      }
-    }, 0);
-    const secondaryTotal = secondaryCityIndustries.reduce((total, {industryId, numCompany, numEmploy}) => {
-      const industry = industryMap.data[industryId];
-      if (industry && industry.parentId === null) {
-        const companies = numCompany ? numCompany : 0;
-        const employees = numEmploy ? numEmploy : 0;
-        const increment = compositionType === CompositionType.Companies ? companies : employees;
-        return total + increment;
-      } else {
-        return total;
-      }
-    }, 0);
-    const barChartData: ClusterBarChartDatum[] = [];
-    [...primaryCityIndustries, ...secondaryCityIndustries].forEach(({industryId, numCompany, numEmploy}, i) => {
-      const industry = industryOrClusterMap.data[industryId];
-      if (
-          industry && industry.name && industry.parentId === highlightedParent &&
-          !hiddenIndustriesOrClusters.includes((industry as any)[parentField].toString())
-        ) {
-        const groupName = i < primaryCityIndustries.length ? Group.Primary : Group.Secondary;
-        const companies = numCompany ? numCompany : 0;
-        const employees = numEmploy ? numEmploy : 0;
-        const colorDatum = colorMap.find(s => s.id === (industry as any)[parentField].toString());
-        let fill: string | undefined;
-        if (colorDatum) {
-          fill = i < primaryCityIndustries.length ? colorDatum.color : rgba(colorDatum.color, 0.4);
+      (isClusterView &&
+        highlightIndustry &&
+        highlightIndustry.level + "" === ClusterLevel.C3)
+        ? highlightIndustry.parentId
+        : highlighted;
+    const primaryTotal = primaryCityIndustries.reduce(
+      (total, { industryId, numCompany, numEmploy }) => {
+        const industry = industryOrClusterMap.data[industryId];
+        if (industry && industry.parentId === null) {
+          const companies = numCompany ? numCompany : 0;
+          const employees = numEmploy ? numEmploy : 0;
+          const increment =
+            compositionType === CompositionType.Companies
+              ? companies
+              : employees;
+          return total + increment;
         } else {
-          fill = undefined;
+          return total;
         }
-        const value = compositionType === CompositionType.Companies ? companies : employees;
-        const total = i < primaryCityIndustries.length ? primaryTotal : secondaryTotal;
-        barChartData.push({
-          groupName,
-          x: industry.name.replace(/ and /g, ' & '),
-          y: value / total * 100,
-          fill,
-          onClick: (!isClusterView && industry.level !== DigitLevel.Six) || (isClusterView && industry.level + '' !== ClusterLevel.C3 + '')
-            ? () => setHighlighted(industryId) : undefined,
-        });
-      }
-    });
-    const sortedData = orderBy(barChartData, ['groupName', 'y'], ['asc', 'desc']);
+      },
+      0,
+    );
+    const secondaryTotal = secondaryCityIndustries.reduce(
+      (total, { industryId, numCompany, numEmploy }) => {
+        const industry = industryMap.data[industryId];
+        if (industry && industry.parentId === null) {
+          const companies = numCompany ? numCompany : 0;
+          const employees = numEmploy ? numEmploy : 0;
+          const increment =
+            compositionType === CompositionType.Companies
+              ? companies
+              : employees;
+          return total + increment;
+        } else {
+          return total;
+        }
+      },
+      0,
+    );
+    const barChartData: ClusterBarChartDatum[] = [];
+    [...primaryCityIndustries, ...secondaryCityIndustries].forEach(
+      ({ industryId, numCompany, numEmploy }, i) => {
+        const industry = industryOrClusterMap.data[industryId];
+        if (
+          industry &&
+          industry.name &&
+          industry.parentId === highlightedParent &&
+          !hiddenIndustriesOrClusters.includes(
+            (industry as any)[parentField].toString(),
+          )
+        ) {
+          const groupName =
+            i < primaryCityIndustries.length ? Group.Primary : Group.Secondary;
+          const companies = numCompany ? numCompany : 0;
+          const employees = numEmploy ? numEmploy : 0;
+          const colorDatum = colorMap.find(
+            (s) => s.id === (industry as any)[parentField].toString(),
+          );
+          let fill: string | undefined;
+          if (colorDatum) {
+            fill =
+              i < primaryCityIndustries.length
+                ? colorDatum.color
+                : rgba(colorDatum.color, 0.4);
+          } else {
+            fill = undefined;
+          }
+          const value =
+            compositionType === CompositionType.Companies
+              ? companies
+              : employees;
+          const total =
+            i < primaryCityIndustries.length ? primaryTotal : secondaryTotal;
+          barChartData.push({
+            groupName,
+            x: industry.name.replace(/ and /g, " & "),
+            y: (value / total) * 100,
+            fill,
+            onClick:
+              (!isClusterView && industry.level !== DigitLevel.Six) ||
+              (isClusterView && industry.level + "" !== ClusterLevel.C3 + "")
+                ? () => setHighlighted(industryId)
+                : undefined,
+          });
+        }
+      },
+    );
+    const sortedData = orderBy(
+      barChartData,
+      ["groupName", "y"],
+      ["asc", "desc"],
+    );
     const loadingOverlay = loading ? <LoadingBlock /> : null;
 
     output = (
-      <VizContainer style={{height: dimensions.height}}>
+      <VizContainer style={{ height: dimensions.height }}>
         <ErrorBoundary>
           <Chart
             data={sortedData}
@@ -373,28 +440,32 @@ const IndustryZoomableBarChart = (props: Props) => {
   while (current !== undefined) {
     breadCrumbList.push(current);
     const currentParentId = current.parentId;
-    current = currentParentId ? industryOrClusterMap.data[currentParentId] : undefined;
+    current = currentParentId
+      ? industryOrClusterMap.data[currentParentId]
+      : undefined;
   }
   const breadCrumbs = breadCrumbList.reverse().map((industry, i) => {
-    const industryName = industry.name ? industry.name.replace(' and ', ' & ') : '';
+    const industryName = industry.name
+      ? industry.name.replace(" and ", " & ")
+      : "";
     if (i === breadCrumbList.length - 1) {
-      return (
-        <BreadCrumb key={industry.id}>
-          {industryName}
-        </BreadCrumb>
-      );
+      return <BreadCrumb key={industry.id}>{industryName}</BreadCrumb>;
     }
     return (
       <BreadCrumb key={industry.id}>
-        <BreadCrumbLink onClick={() => setHighlighted((industry as any)[idField])}>
+        <BreadCrumbLink
+          onClick={() => setHighlighted((industry as any)[idField])}
+        >
           <span>{industryName}</span>
         </BreadCrumbLink>
       </BreadCrumb>
     );
   });
-  const topLevelText = isClusterView ? getString('global-ui-cluster-aggregation-level', {
-    cluster: 'cluster_1',
-  }) : getString('global-ui-sector-level');
+  const topLevelText = isClusterView
+    ? getString("global-ui-cluster-aggregation-level", {
+        cluster: "cluster_1",
+      })
+    : getString("global-ui-sector-level");
   const topLevelBreadCrumb = breadCrumbList.length ? (
     <BreadCrumb>
       <BreadCrumbLink onClick={() => setHighlighted(undefined)}>
@@ -402,14 +473,12 @@ const IndustryZoomableBarChart = (props: Props) => {
       </BreadCrumbLink>
     </BreadCrumb>
   ) : (
-    <BreadCrumb>
-        {topLevelText}
-    </BreadCrumb>
+    <BreadCrumb>{topLevelText}</BreadCrumb>
   );
 
   const onButtonClick = (value: Highlighted) => {
     if (value === Highlighted.relative) {
-      const route = createRoute.city(CityRoutes.CityGoodAt, primaryCity + '');
+      const route = createRoute.city(CityRoutes.CityGoodAt, primaryCity + "");
       history.push(route + history.location.search);
     }
   };
@@ -439,16 +508,12 @@ const IndustryZoomableBarChart = (props: Props) => {
         </BreadCrumbList>
         <PrimarySecondaryLegend>
           <LegendItem>
-            <LegendText>
-              {primaryCityName}
-            </LegendText>
-            <LegendBlock style={{backgroundColor: '#666'}} />
+            <LegendText>{primaryCityName}</LegendText>
+            <LegendBlock style={{ backgroundColor: "#666" }} />
           </LegendItem>
           <LegendItem>
-            <LegendBlock style={{backgroundColor: rgba('#666', 0.4)}} />
-            <LegendText>
-              {secondaryCityName}
-            </LegendText>
+            <LegendBlock style={{ backgroundColor: rgba("#666", 0.4) }} />
+            <LegendText>{secondaryCityName}</LegendText>
           </LegendItem>
         </PrimarySecondaryLegend>
 
@@ -463,13 +528,9 @@ const IndustryZoomableBarChart = (props: Props) => {
           </AxisLabelBase>
         </BottomAxisRoot>
         <BenchmarkRoot>
-          <BenchmarkLegend
-            comparisonType={ComparisonType.Absolute}
-          />
+          <BenchmarkLegend comparisonType={ComparisonType.Absolute} />
         </BenchmarkRoot>
-        <SizingContainer ref={rootRef}>
-          {output}
-        </SizingContainer>
+        <SizingContainer ref={rootRef}>{output}</SizingContainer>
       </Root>
     </>
   );

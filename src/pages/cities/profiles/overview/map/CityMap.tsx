@@ -1,40 +1,41 @@
-import React, { useState } from 'react';
-import ClusterMap from '../../../../../components/map/ClusterLandingMap';
-import { Layer, Feature } from 'react-mapbox-gl';
-import {
-  togglePointer,
-  Coordinate,
-} from '../../../../../components/map/Utils';
+import React, { useState } from "react";
+import ClusterMap from "../../../../../components/map/ClusterLandingMap";
+import { Layer, Feature } from "react-mapbox-gl";
+import { togglePointer, Coordinate } from "../../../../../components/map/Utils";
 import {
   secondaryColor,
   primaryColor,
-} from '../../../../../styling/styleUtils';
-import { ExtendedSearchDatum, StyledPopup, TootltipTitle } from '../../../../landing/Utils';
-import { SuccessResponse } from '../../../../landing';
-import MapSettings from './MapSettings';
-import { MapContext } from 'react-mapbox-gl';
+} from "../../../../../styling/styleUtils";
+import {
+  ExtendedSearchDatum,
+  StyledPopup,
+  TootltipTitle,
+} from "../../../../landing/Utils";
+import { SuccessResponse } from "../../../../landing";
+import MapSettings from "./MapSettings";
+import { MapContext } from "react-mapbox-gl";
 
 interface ClusterFeatures {
-  type: 'Feature';
+  type: "Feature";
   properties: {
-    id: string,
+    id: string;
   };
   geometry: {
-    coordinates: Coordinate,
+    coordinates: Coordinate;
   };
 }
 
 interface MapData {
   features: React.ReactElement<any>[];
   geoJsonClusterData: {
-    type: string,
-    features: ClusterFeatures[],
+    type: string;
+    features: ClusterFeatures[];
   };
 }
 
 export interface BoundsConfig {
   bounds: [Coordinate, Coordinate];
-  padding: { top: number, left: number, right: number, bottom: number };
+  padding: { top: number; left: number; right: number; bottom: number };
 }
 
 interface Props {
@@ -45,13 +46,8 @@ interface Props {
   fitBounds: BoundsConfig;
 }
 
-
 const mapRenderProps = (mapEl: any) => {
-  return (
-    <MapSettings
-      map={mapEl}
-    />
-  );
+  return <MapSettings map={mapEl} />;
 };
 
 const CityMap = (props: Props) => {
@@ -60,7 +56,7 @@ const CityMap = (props: Props) => {
   let mapData: MapData = {
     features: [],
     geoJsonClusterData: {
-      type: 'FeatureCollection',
+      type: "FeatureCollection",
       features: [],
     },
   };
@@ -71,24 +67,40 @@ const CityMap = (props: Props) => {
     const features: React.ReactElement<any>[] = [];
     const clusterFeatures: ClusterFeatures[] = [];
     const { cities, countries } = data;
-    cities.forEach(city => {
+    cities.forEach((city) => {
       const {
-        cityId, name, centroidLon, countryId, geometry,
-        populationLatest, gdppc, nameList,
+        cityId,
+        name,
+        centroidLon,
+        countryId,
+        geometry,
+        populationLatest,
+        gdppc,
+        nameList,
       } = city;
-      const coordinates: Coordinate[][][] = geometry ? JSON.parse(geometry).coordinates : [];
-      const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
-      const center: Coordinate = [centroidLon ? centroidLon : 0, northernTerminus];
-      const parent = countries.find(c => parseInt(c.countryId, 10) === countryId);
-      const countryName = parent && parent.nameShortEn ? parent.nameShortEn : '';
+      const coordinates: Coordinate[][][] = geometry
+        ? JSON.parse(geometry).coordinates
+        : [];
+      const northernTerminus = Math.max(
+        ...coordinates[0][0].map((coord) => coord[1]),
+      );
+      const center: Coordinate = [
+        centroidLon ? centroidLon : 0,
+        northernTerminus,
+      ];
+      const parent = countries.find(
+        (c) => parseInt(c.countryId, 10) === countryId,
+      );
+      const countryName =
+        parent && parent.nameShortEn ? parent.nameShortEn : "";
       const population = populationLatest ? populationLatest : 0;
       const gdp = gdppc && !isNaN(gdppc) ? parseFloat(gdppc.toFixed(2)) : 0;
       const id = cityId;
       const searchDatum: ExtendedSearchDatum = {
         id,
-        title: name + ', ' + countryName,
+        title: name + ", " + countryName,
         parent_id: countryId,
-        level: '1',
+        level: "1",
         center,
         coordinates: coordinates[0][0],
         population: Math.round(population),
@@ -97,40 +109,36 @@ const CityMap = (props: Props) => {
       };
       const onMouseEnter = (event: any) => {
         setHovered(searchDatum);
-        togglePointer(event.map, 'pointer');
+        togglePointer(event.map, "pointer");
       };
       const onMouseLeave = (event: any) => {
         setHovered(null);
-        togglePointer(event.map, '');
+        togglePointer(event.map, "");
       };
       features.push(
         <Feature
           coordinates={coordinates[0]}
           onMouseEnter={onMouseEnter}
           onMouseLeave={onMouseLeave}
-          key={'geojson-' + id}
+          key={"geojson-" + id}
         />,
       );
       clusterFeatures.push({
-        type: 'Feature',
+        type: "Feature",
         properties: { id },
         geometry: { coordinates: center },
       });
     });
     const geoJsonClusterData = {
-      type: 'FeatureCollection',
+      type: "FeatureCollection",
       features: clusterFeatures,
     };
     mapData = { features, geoJsonClusterData };
   }
 
   const hoveredTooltipPopup = hovered ? (
-    <StyledPopup
-      coordinates={hovered.center}
-    >
-      <TootltipTitle>
-        {hovered.title}
-      </TootltipTitle>
+    <StyledPopup coordinates={hovered.center}>
+      <TootltipTitle>{hovered.title}</TootltipTitle>
     </StyledPopup>
   ) : null;
 
@@ -144,26 +152,29 @@ const CityMap = (props: Props) => {
     mapContent = (
       <>
         <Layer
-          type='fill'
-          id={'primary-map-geojson-layer'}
+          type="fill"
+          id={"primary-map-geojson-layer"}
           paint={{
-            'fill-color': primaryColor,
+            "fill-color": primaryColor,
           }}
-          before={'road-simple'}
+          before={"road-simple"}
         >
           {mapData.features}
         </Layer>
 
         <Layer
-          type='fill'
-          id={'highlighted-geojson-layer'}
+          type="fill"
+          id={"highlighted-geojson-layer"}
           paint={{
-            'fill-color': secondaryColor,
+            "fill-color": secondaryColor,
           }}
-          before={'road-simple'}
+          before={"road-simple"}
         >
-          {mapData.features.filter(({ key }) => (hovered && key === 'geojson-' + hovered.id) ||
-            ('geojson-' + currentCityId === key))}
+          {mapData.features.filter(
+            ({ key }) =>
+              (hovered && key === "geojson-" + hovered.id) ||
+              "geojson-" + currentCityId === key,
+          )}
         </Layer>
         {hoveredTooltipPopup}
       </>
@@ -184,7 +195,6 @@ const CityMap = (props: Props) => {
       </>
     </ClusterMap>
   );
-
 };
 
 export default CityMap;

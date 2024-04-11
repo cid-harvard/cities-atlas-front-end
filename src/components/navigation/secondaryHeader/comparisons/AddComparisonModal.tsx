@@ -1,6 +1,6 @@
-import React, {useState, useRef} from 'react';
-import BasicModal from '../../../standardModal/BasicModal';
-import styled from 'styled-components/macro';
+import React, { useState, useRef } from "react";
+import BasicModal from "../../../standardModal/BasicModal";
+import styled from "styled-components/macro";
 import {
   secondaryFont,
   primaryFont,
@@ -8,25 +8,25 @@ import {
   backgroundDark,
   radioButtonCss,
   primaryColor,
-} from '../../../../styling/styleUtils';
-import useFluent from '../../../../hooks/useFluent';
-import PanelSearch, {Datum} from 'react-panel-search';
-import useCurrentCityId from '../../../../hooks/useCurrentCityId';
-import useGlobalLocationData from '../../../../hooks/useGlobalLocationData';
+} from "../../../../styling/styleUtils";
+import useFluent from "../../../../hooks/useFluent";
+import PanelSearch, { Datum } from "react-panel-search";
+import useCurrentCityId from "../../../../hooks/useCurrentCityId";
+import useGlobalLocationData from "../../../../hooks/useGlobalLocationData";
+import { useHistory, Route, Switch } from "react-router-dom";
+import queryString from "query-string";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import { RegionGroup } from "../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery";
+import matchingKeywordFormatter from "../../../../styling/utils/panelSearchKeywordFormatter";
+import { TooltipTheme } from "../../../general/Tooltip";
 import {
-  useHistory,
-  Route,
-  Switch,
-} from 'react-router-dom';
-import queryString from 'query-string';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import {RegionGroup} from '../../../dataViz/comparisonBarChart/cityIndustryComparisonQuery';
-import matchingKeywordFormatter from '../../../../styling/utils/panelSearchKeywordFormatter';
-import {TooltipTheme} from '../../../general/Tooltip';
-import {PeerGroup, isValidPeerGroup, CityPeerGroupCounts} from '../../../../types/graphQL/graphQLTypes';
-import { useQuery, gql } from '@apollo/client';
-import {CityRoutes} from '../../../../routing/routes';
-import BenchmarkSVG from '../../../../assets/icons/benchmark_comparator.svg';
+  PeerGroup,
+  isValidPeerGroup,
+  CityPeerGroupCounts,
+} from "../../../../types/graphQL/graphQLTypes";
+import { useQuery, gql } from "@apollo/client";
+import { CityRoutes } from "../../../../routing/routes";
+import BenchmarkSVG from "../../../../assets/icons/benchmark_comparator.svg";
 
 const PEER_GROUP_CITY_COUNT = gql`
   query GetPeerGroupCityCounts($cityId: Int!) {
@@ -43,20 +43,21 @@ const PEER_GROUP_CITY_COUNT = gql`
   }
 `;
 
-export const usePeerGroupCityCount = (cityId: string | null) => useQuery<SuccessResponse, { cityId: number }>(PEER_GROUP_CITY_COUNT, {
-  variables: {
-    cityId: cityId !== null ? parseInt(cityId, 10) : 0,
-  },
-});
+export const usePeerGroupCityCount = (cityId: string | null) =>
+  useQuery<SuccessResponse, { cityId: number }>(PEER_GROUP_CITY_COUNT, {
+    variables: {
+      cityId: cityId !== null ? parseInt(cityId, 10) : 0,
+    },
+  });
 
 enum PeerGroupCountFields {
-  globalPop = 'globalPop',
-  globalIncome = 'globalIncome',
-  globalEucdist = 'globalEucdist',
-  regionalPop = 'regionalPop',
-  regionalIncome = 'regionalIncome',
-  regionalEucdist = 'regionalEucdist',
-  region = 'region',
+  globalPop = "globalPop",
+  globalIncome = "globalIncome",
+  globalEucdist = "globalEucdist",
+  regionalPop = "regionalPop",
+  regionalIncome = "regionalIncome",
+  regionalEucdist = "regionalEucdist",
+  region = "region",
 }
 
 interface SuccessResponse {
@@ -85,7 +86,7 @@ const Root = styled.div`
   }
 `;
 
-const benchmarkButtonClassName = 'benchmark-open-modal-button-class-name';
+const benchmarkButtonClassName = "benchmark-open-modal-button-class-name";
 
 const H1 = styled.h1`
   text-transform: uppercase;
@@ -102,11 +103,11 @@ const H1 = styled.h1`
 `;
 
 const Icon = styled.img`
-    width: 2.5rem;
-    height: 2.5rem;
-    position: relative;
-    top: 0.75rem;
-    margin-right: 1rem;
+  width: 2.5rem;
+  height: 2.5rem;
+  position: relative;
+  top: 0.75rem;
+  margin-right: 1rem;
 `;
 
 const Grid = styled.div`
@@ -166,7 +167,7 @@ const Or = styled.div`
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     height: auto;
     flex-grow: 1;
     width: 0;
@@ -190,7 +191,7 @@ const Or = styled.div`
 
     &:before,
     &:after {
-      content: '';
+      content: "";
       height: 0;
       width: 3rem;
       border-top: solid 2px #fff;
@@ -279,7 +280,8 @@ const GroupRadio = styled.div`
   &:hover {
     background-color: #fff;
 
-    small, em {
+    small,
+    em {
       color: inherit;
     }
   }
@@ -287,7 +289,6 @@ const GroupRadio = styled.div`
   &:before {
     margin-right: 16px;
   }
-
 `;
 const AboutText = styled.p`
   color: #fff;
@@ -308,8 +309,8 @@ const Recommended = styled.em`
 export const defaultBenchmark = PeerGroup.GlobalPopulation;
 
 export enum ComparisonType {
-  Relative = 'relative', // RCA
-  Absolute = 'absolute', // Econ composition
+  Relative = "relative", // RCA
+  Absolute = "absolute", // Econ composition
 }
 
 interface Props {
@@ -319,11 +320,11 @@ interface Props {
 }
 
 const AddComparisonModal = (props: Props) => {
-  const { closeModal, data, comparisonType} = props;
+  const { closeModal, data, comparisonType } = props;
   const getString = useFluent();
   const cityId = useCurrentCityId();
   const continueButtonRef = useRef<HTMLButtonElement | null>(null);
-  const {data: globalData} = useGlobalLocationData();
+  const { data: globalData } = useGlobalLocationData();
   const history = useHistory();
   const { benchmark, ...otherParams } = useQueryParams();
   const { data: counts } = usePeerGroupCityCount(cityId);
@@ -331,10 +332,14 @@ const AddComparisonModal = (props: Props) => {
   if (isValidPeerGroup(benchmark) || benchmark === RegionGroup.World) {
     intialSelected = benchmark as PeerGroup;
   }
-  const [selected, setSelected] = useState<Datum | null | RegionGroup | PeerGroup>(intialSelected);
+  const [selected, setSelected] = useState<
+    Datum | null | RegionGroup | PeerGroup
+  >(intialSelected);
 
-  const currentCity = globalData ? globalData.cities.find(c => c.cityId === cityId) : undefined;
-  const name = currentCity ? currentCity.name : '';
+  const currentCity = globalData
+    ? globalData.cities.find((c) => c.cityId === cityId)
+    : undefined;
+  const name = currentCity ? currentCity.name : "";
 
   const selectCity = (city: Datum | null) => {
     setSelected(city);
@@ -347,62 +352,99 @@ const AddComparisonModal = (props: Props) => {
   };
 
   const onContinue = () => {
-    if (selected && typeof selected === 'object') {
-      const query = queryString.stringify({...otherParams, benchmark: selected.id});
-      const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
+    if (selected && typeof selected === "object") {
+      const query = queryString.stringify({
+        ...otherParams,
+        benchmark: selected.id,
+      });
+      const newUrl = query
+        ? history.location.pathname + "?" + query
+        : history.location.pathname;
       history.push(newUrl);
       closeModal(selected.id.toString());
-    } else if (typeof selected === 'string') {
-      const query = queryString.stringify({...otherParams, benchmark: selected});
-      const newUrl = query ? history.location.pathname + '?' + query :history.location.pathname;
+    } else if (typeof selected === "string") {
+      const query = queryString.stringify({
+        ...otherParams,
+        benchmark: selected,
+      });
+      const newUrl = query
+        ? history.location.pathname + "?" + query
+        : history.location.pathname;
       history.push(newUrl);
       closeModal(RegionGroup.World);
     }
   };
 
   const prevValue = benchmark;
-  const closeModalWithoutConfirming = prevValue === undefined
-    ? () => closeModal(defaultBenchmark)
-    : () => closeModal(prevValue);
+  const closeModalWithoutConfirming =
+    prevValue === undefined
+      ? () => closeModal(defaultBenchmark)
+      : () => closeModal(prevValue);
 
-  const title = comparisonType === ComparisonType.Relative
-    ? getString('global-ui-benchmark-title')
-    : getString('global-ui-compare-title', {name});
+  const title =
+    comparisonType === ComparisonType.Relative
+      ? getString("global-ui-benchmark-title")
+      : getString("global-ui-compare-title", { name });
 
-  const selectCityTitle = comparisonType === ComparisonType.Relative
-    ? getString('global-ui-select-benchmark-city')
-    : getString('global-ui-select-a-city-name');
+  const selectCityTitle =
+    comparisonType === ComparisonType.Relative
+      ? getString("global-ui-select-benchmark-city")
+      : getString("global-ui-select-a-city-name");
 
-  const about = comparisonType === ComparisonType.Relative
-    ? (
+  const about =
+    comparisonType === ComparisonType.Relative ? (
       <Switch>
-        <Route path={CityRoutes.CityGrowthOpportunities} render={() => (
-          <AboutText
-            dangerouslySetInnerHTML={{__html: getString('global-ui-benchmark-about-alt-1')}}
-          />
-        )} />
-        <Route render={() => (
-          <AboutText
-            dangerouslySetInnerHTML={{__html: getString('global-ui-benchmark-about')}}
-          />
-        )} />
+        <Route
+          path={CityRoutes.CityGrowthOpportunities}
+          render={() => (
+            <AboutText
+              dangerouslySetInnerHTML={{
+                __html: getString("global-ui-benchmark-about-alt-1"),
+              }}
+            />
+          )}
+        />
+        <Route
+          render={() => (
+            <AboutText
+              dangerouslySetInnerHTML={{
+                __html: getString("global-ui-benchmark-about"),
+              }}
+            />
+          )}
+        />
       </Switch>
     ) : null;
 
   const getCount = (f: PeerGroupCountFields) => {
     if (counts && counts.cityPeerGroupCounts) {
-      return counts.cityPeerGroupCounts[f]
-        ? <small>({counts.cityPeerGroupCounts[f]} cities)</small> : <small>(0 cities)</small>;
+      return counts.cityPeerGroupCounts[f] ? (
+        <small>({counts.cityPeerGroupCounts[f]} cities)</small>
+      ) : (
+        <small>(0 cities)</small>
+      );
     }
     return null;
   };
 
   return (
-    <BasicModal onClose={closeModalWithoutConfirming} width={'auto'} height={'inherit'}>
+    <BasicModal
+      onClose={closeModalWithoutConfirming}
+      width={"auto"}
+      height={"inherit"}
+    >
       <Root>
         <H1
-          style={comparisonType === ComparisonType.Absolute ? {marginBottom: '4rem'} : undefined}
-          className={comparisonType === ComparisonType.Absolute ? undefined : benchmarkButtonClassName}
+          style={
+            comparisonType === ComparisonType.Absolute
+              ? { marginBottom: "4rem" }
+              : undefined
+          }
+          className={
+            comparisonType === ComparisonType.Absolute
+              ? undefined
+              : benchmarkButtonClassName
+          }
         >
           <Icon src={BenchmarkSVG} />
           {title}:
@@ -410,23 +452,25 @@ const AddComparisonModal = (props: Props) => {
         {about}
         <SearchContainerDark>
           <Grid>
-          <div>
-            <GlobalVRegionalGrid>
-              <div>
-                <ContainerTitle>{getString('global-text-global-peers')}</ContainerTitle>
-                <GroupContainer>
+            <div>
+              <GlobalVRegionalGrid>
+                <div>
+                  <ContainerTitle>
+                    {getString("global-text-global-peers")}
+                  </ContainerTitle>
+                  <GroupContainer>
                     <GroupItem>
                       <GroupRadio
                         onClick={() => setSelected(PeerGroup.GlobalPopulation)}
                         $checked={selected === PeerGroup.GlobalPopulation}
                       >
                         <div>
-                          {getString('global-text-similar-population')}
+                          {getString("global-text-similar-population")}
                           <br />
                           {getCount(PeerGroupCountFields.globalPop)}
                           <br />
                           <Recommended>
-                            *{getString('global-ui-recommended')}
+                            *{getString("global-ui-recommended")}
                           </Recommended>
                         </div>
                       </GroupRadio>
@@ -437,7 +481,7 @@ const AddComparisonModal = (props: Props) => {
                         $checked={selected === PeerGroup.GlobalIncome}
                       >
                         <div>
-                          {getString('global-text-similar-income')}
+                          {getString("global-text-similar-income")}
                           <br />
                           {getCount(PeerGroupCountFields.globalIncome)}
                         </div>
@@ -445,11 +489,15 @@ const AddComparisonModal = (props: Props) => {
                     </GroupItem>
                     <GroupItem>
                       <GroupRadio
-                        onClick={() => setSelected(PeerGroup.GlobalEuclideanDistance)}
-                        $checked={selected === PeerGroup.GlobalEuclideanDistance}
+                        onClick={() =>
+                          setSelected(PeerGroup.GlobalEuclideanDistance)
+                        }
+                        $checked={
+                          selected === PeerGroup.GlobalEuclideanDistance
+                        }
                       >
                         <div>
-                          {getString('global-text-similar-proximity')}
+                          {getString("global-text-similar-proximity")}
                           <br />
                           {getCount(PeerGroupCountFields.globalEucdist)}
                         </div>
@@ -461,24 +509,34 @@ const AddComparisonModal = (props: Props) => {
                         $checked={selected === RegionGroup.World}
                       >
                         <div>
-                          {getString('global-text-all-regional-peers')} (global)
+                          {getString("global-text-all-regional-peers")} (global)
                           <br />
-                          <small>({globalData?.cities.length ? globalData.cities.length : '---'} cities)</small>
+                          <small>
+                            (
+                            {globalData?.cities.length
+                              ? globalData.cities.length
+                              : "---"}{" "}
+                            cities)
+                          </small>
                         </div>
                       </GroupRadio>
                     </GroupItem>
                   </GroupContainer>
                 </div>
                 <div>
-                <ContainerTitle>{getString('global-text-regional-peers')}</ContainerTitle>
+                  <ContainerTitle>
+                    {getString("global-text-regional-peers")}
+                  </ContainerTitle>
                   <GroupContainer>
                     <GroupItem>
                       <GroupRadio
-                        onClick={() => setSelected(PeerGroup.RegionalPopulation)}
+                        onClick={() =>
+                          setSelected(PeerGroup.RegionalPopulation)
+                        }
                         $checked={selected === PeerGroup.RegionalPopulation}
                       >
                         <div>
-                          {getString('global-text-similar-population')}
+                          {getString("global-text-similar-population")}
                           <br />
                           {getCount(PeerGroupCountFields.regionalPop)}
                         </div>
@@ -490,7 +548,7 @@ const AddComparisonModal = (props: Props) => {
                         $checked={selected === PeerGroup.RegionalIncome}
                       >
                         <div>
-                          {getString('global-text-similar-income')}
+                          {getString("global-text-similar-income")}
                           <br />
                           {getCount(PeerGroupCountFields.regionalIncome)}
                         </div>
@@ -498,11 +556,15 @@ const AddComparisonModal = (props: Props) => {
                     </GroupItem>
                     <GroupItem>
                       <GroupRadio
-                        onClick={() => setSelected(PeerGroup.RegionalEuclideanDistance)}
-                        $checked={selected === PeerGroup.RegionalEuclideanDistance}
+                        onClick={() =>
+                          setSelected(PeerGroup.RegionalEuclideanDistance)
+                        }
+                        $checked={
+                          selected === PeerGroup.RegionalEuclideanDistance
+                        }
                       >
                         <div>
-                          {getString('global-text-similar-proximity')}
+                          {getString("global-text-similar-proximity")}
                           <br />
                           {getCount(PeerGroupCountFields.regionalEucdist)}
                         </div>
@@ -514,7 +576,8 @@ const AddComparisonModal = (props: Props) => {
                         $checked={selected === PeerGroup.Region}
                       >
                         <div>
-                          {getString('global-text-all-regional-peers')} (regional)
+                          {getString("global-text-all-regional-peers")}{" "}
+                          (regional)
                           <br />
                           {getCount(PeerGroupCountFields.region)}
                         </div>
@@ -524,22 +587,26 @@ const AddComparisonModal = (props: Props) => {
                 </div>
               </GlobalVRegionalGrid>
             </div>
-            <Or>{getString('global-ui-or')}</Or>
+            <Or>{getString("global-ui-or")}</Or>
             <div>
               <ContainerTitle>{selectCityTitle}</ContainerTitle>
               <PanelSearch
-                data={data.filter(({id}) => id !== cityId)}
-                topLevelTitle={getString('global-text-countries')}
-                disallowSelectionLevels={['0']}
-                defaultPlaceholderText={getString('global-ui-type-a-city-name')}
+                data={data.filter(({ id }) => id !== cityId)}
+                topLevelTitle={getString("global-text-countries")}
+                disallowSelectionLevels={["0"]}
+                defaultPlaceholderText={getString("global-ui-type-a-city-name")}
                 showCount={true}
                 resultsIdentation={1.75}
                 neverEmpty={false}
                 maxResults={500}
-                selectedValue={typeof selected === 'object' ? selected : null}
+                selectedValue={typeof selected === "object" ? selected : null}
                 onSelect={selectCity}
-                focusOnRender={window.innerHeight > 800 && window.innerWidth > 990}
-                matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Dark)}
+                focusOnRender={
+                  window.innerHeight > 800 && window.innerWidth > 990
+                }
+                matchingKeywordFormatter={matchingKeywordFormatter(
+                  TooltipTheme.Dark,
+                )}
               />
             </div>
           </Grid>
@@ -550,7 +617,7 @@ const AddComparisonModal = (props: Props) => {
             ref={continueButtonRef}
             disabled={!selected}
           >
-            {getString('global-ui-continue')}
+            {getString("global-ui-continue")}
           </ContinueButton>
         </ContinueButtonContainer>
       </Root>

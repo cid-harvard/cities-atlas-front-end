@@ -1,7 +1,7 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import React, { useLayoutEffect, useRef, useState } from "react";
+import styled from "styled-components";
 
-export const borderColor = '#999';
+export const borderColor = "#999";
 
 const LargeTerm = styled.dt`
   font-size: 1.5rem;
@@ -56,11 +56,11 @@ export interface IProps {
 }
 
 const GlossaryItem = (props: IProps) => {
-  const {term, definition, smallLabel} = props;
+  const { term, definition, smallLabel } = props;
 
   const [domElmHeight, setDomElmHeight] = useState<number>(0);
-  const [expandedHeight, setExpandedHeight] = useState<'auto' | number>('auto');
-  const [icon, setIcon] = useState<'+' | '-'>('+');
+  const [expandedHeight, setExpandedHeight] = useState<"auto" | number>("auto");
+  const [icon, setIcon] = useState<"+" | "-">("+");
   const definitionElm = useRef<HTMLElement | null>(null);
 
   useLayoutEffect(() => {
@@ -69,16 +69,15 @@ const GlossaryItem = (props: IProps) => {
       setDomElmHeight(node.clientHeight);
       setExpandedHeight(0);
     }
-
   }, [definitionElm]);
 
   const toggleDefinition = () => {
     if (expandedHeight === 0) {
       setExpandedHeight(domElmHeight);
-      setIcon('-');
+      setIcon("-");
     } else {
       setExpandedHeight(0);
-      setIcon('+');
+      setIcon("+");
     }
   };
 
@@ -88,12 +87,10 @@ const GlossaryItem = (props: IProps) => {
     <>
       <Term onClick={toggleDefinition}>
         {term}
-        <Icon>
-          {icon}
-        </Icon>
+        <Icon>{icon}</Icon>
       </Term>
-      <Definition ref={definitionElm} style={{height: expandedHeight}}>
-        <Paragraph dangerouslySetInnerHTML={{__html: definition}} />
+      <Definition ref={definitionElm} style={{ height: expandedHeight }}>
+        <Paragraph dangerouslySetInnerHTML={{ __html: definition }} />
       </Definition>
     </>
   );

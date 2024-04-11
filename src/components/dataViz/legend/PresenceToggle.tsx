@@ -1,10 +1,16 @@
-import React, { useState } from 'react';
-import useFluent from '../../../hooks/useFluent';
-import styled from 'styled-components';
-import { backgroundDark, benchmarkColor, lightBorderColor, primaryFont, secondaryFont } from '../../../styling/styleUtils';
-import Tooltip from '../../general/Tooltip';
-import BenchmarkSVG from '../../../assets/icons/benchmark_comparator.svg';
-import { breakPoints } from '../../../styling/GlobalGrid';
+import React, { useState } from "react";
+import useFluent from "../../../hooks/useFluent";
+import styled from "styled-components";
+import {
+  backgroundDark,
+  benchmarkColor,
+  lightBorderColor,
+  primaryFont,
+  secondaryFont,
+} from "../../../styling/styleUtils";
+import Tooltip from "../../general/Tooltip";
+import BenchmarkSVG from "../../../assets/icons/benchmark_comparator.svg";
+import { breakPoints } from "../../../styling/GlobalGrid";
 
 const Root = styled.div`
   display: flex;
@@ -52,7 +58,7 @@ const OneTimeTooltip = styled.div`
   transform: translateX(calc(100% - 2rem));
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     bottom: 0;
@@ -62,7 +68,7 @@ const OneTimeTooltip = styled.div`
     height: 0;
     border-top: 0.4rem solid transparent;
     border-bottom: 0.4rem solid transparent;
-    border-right:0.4rem solid ${backgroundDark};
+    border-right: 0.4rem solid ${backgroundDark};
   }
 
   @media ${breakPoints.small} {
@@ -116,7 +122,7 @@ const HighlightedTooltipText = styled.span`
 
 const EquationContainer = styled.div`
   margin-top: 0.5rem;
-  `;
+`;
 const Division = styled.div`
   margin-top: 0.25rem;
   font-size: 0.85em;
@@ -141,8 +147,7 @@ const Top = styled.div`
   flex-grow: 0;
   white-space: nowrap;
 `;
-const Bottom = styled.div`
-`;
+const Bottom = styled.div``;
 
 const BenchmarkText = () => {
   return (
@@ -153,15 +158,16 @@ const BenchmarkText = () => {
   );
 };
 
-const oneTimeTooltipLocalStorageKey = 'benchmarkPresenceToggleAxisOneTimeTooltipLocalStorageKeyv2';
+const oneTimeTooltipLocalStorageKey =
+  "benchmarkPresenceToggleAxisOneTimeTooltipLocalStorageKeyv2";
 enum StringBoolean {
-  'TRUE' = 'TRUE',
-  'FALSE' = 'FALSE',
+  "TRUE" = "TRUE",
+  "FALSE" = "FALSE",
 }
 
 export enum Highlighted {
-  relative = 'relative',
-  absolute = 'absolute',
+  relative = "relative",
+  absolute = "absolute",
 }
 
 interface Props {
@@ -172,13 +178,16 @@ interface Props {
 }
 
 const PresenceToggle = (props: Props) => {
-  const {
-    togglePresence, highlight, showArrows, onButtonClick,
-  } = props;
+  const { togglePresence, highlight, showArrows, onButtonClick } = props;
   const getString = useFluent();
 
-  const initialShowOverviewTooltip = localStorage.getItem(oneTimeTooltipLocalStorageKey) === StringBoolean.TRUE ? false : true;
-  const [showOverviewTooltip, setShowOverviewTooltip] = useState<boolean>(initialShowOverviewTooltip);
+  const initialShowOverviewTooltip =
+    localStorage.getItem(oneTimeTooltipLocalStorageKey) === StringBoolean.TRUE
+      ? false
+      : true;
+  const [showOverviewTooltip, setShowOverviewTooltip] = useState<boolean>(
+    initialShowOverviewTooltip,
+  );
   const dismissOverviewTooltip = () => {
     setShowOverviewTooltip(false);
     localStorage.setItem(oneTimeTooltipLocalStorageKey, StringBoolean.TRUE);
@@ -190,7 +199,7 @@ const PresenceToggle = (props: Props) => {
   };
   const relativePresenceTooltip = (
     <>
-      <div>{getString('global-ui-relative-presence-tooltip')}</div>
+      <div>{getString("global-ui-relative-presence-tooltip")}</div>
       <EquationContainer>
         <div>It is calculated as:</div>
         <Division>
@@ -202,73 +211,78 @@ const PresenceToggle = (props: Props) => {
   );
   const absolutePresenceTooltip = (
     <>
-      <div>{getString('global-ui-absolute-presence-tooltip')}</div>
+      <div>{getString("global-ui-absolute-presence-tooltip")}</div>
       <EquationContainer>
         <div>It is calculated as:</div>
         <Subtraction>
-          (employment share of industry in city) - (employment share of industry in peer group)
+          (employment share of industry in city) - (employment share of industry
+          in peer group)
         </Subtraction>
       </EquationContainer>
     </>
   );
   const presenceButtons = togglePresence ? (
     <>
-      <Tooltip
-        explanation={relativePresenceTooltip}
-      >
+      <Tooltip explanation={relativePresenceTooltip}>
         <ToggleButton
-          style={highlight === Highlighted.relative ? highlightedStyles : undefined}
-          onClick={onButtonClick ? () => onButtonClick(Highlighted.relative) : undefined}
+          style={
+            highlight === Highlighted.relative ? highlightedStyles : undefined
+          }
+          onClick={
+            onButtonClick
+              ? () => onButtonClick(Highlighted.relative)
+              : undefined
+          }
         >
-          <Tooltip
-            explanation={relativePresenceTooltip}
-          />
-          {getString('global-ui-relative-presence')}
+          <Tooltip explanation={relativePresenceTooltip} />
+          {getString("global-ui-relative-presence")}
         </ToggleButton>
       </Tooltip>
-      <Tooltip
-        explanation={absolutePresenceTooltip}
-      >
+      <Tooltip explanation={absolutePresenceTooltip}>
         <ToggleButton
-          style={highlight === Highlighted.absolute ? highlightedStyles : undefined}
-          onClick={onButtonClick ? () => onButtonClick(Highlighted.absolute) : undefined}
+          style={
+            highlight === Highlighted.absolute ? highlightedStyles : undefined
+          }
+          onClick={
+            onButtonClick
+              ? () => onButtonClick(Highlighted.absolute)
+              : undefined
+          }
         >
-          <Tooltip
-            explanation={absolutePresenceTooltip}
-          />
-          {getString('global-ui-absolute-presence')}
+          <Tooltip explanation={absolutePresenceTooltip} />
+          {getString("global-ui-absolute-presence")}
         </ToggleButton>
       </Tooltip>
     </>
   ) : (
-    <Tooltip
-      explanation={relativePresenceTooltip}
-    >
+    <Tooltip explanation={relativePresenceTooltip}>
       <Button>
-        <Tooltip
-          explanation={relativePresenceTooltip}
-        />
-        { getString('global-ui-relative-presence') }
-      </Button >
-    </Tooltip >
+        <Tooltip explanation={relativePresenceTooltip} />
+        {getString("global-ui-relative-presence")}
+      </Button>
+    </Tooltip>
   );
 
-  const arrowLeft = showArrows ? '←' : null;
-  const arrowRight = showArrows ? '→' : null;
+  const arrowLeft = showArrows ? "←" : null;
+  const arrowRight = showArrows ? "→" : null;
 
   const oneTimeTooltip = showOverviewTooltip ? (
     <OneTimeTooltip>
-      Hover on labels to learn more. Click on <BenchmarkText /> to select a different benchmark.<br />
-      <DismissTooltipButton onClick={dismissOverviewTooltip}>{getString('city-overview-one-time-tooltip-got-it')}</DismissTooltipButton>
+      Hover on labels to learn more. Click on <BenchmarkText /> to select a
+      different benchmark.
+      <br />
+      <DismissTooltipButton onClick={dismissOverviewTooltip}>
+        {getString("city-overview-one-time-tooltip-got-it")}
+      </DismissTooltipButton>
     </OneTimeTooltip>
-  ) : false;
+  ) : (
+    false
+  );
 
   return (
     <Root>
       {arrowLeft}
-        <ButtonsRoot>
-          {presenceButtons}
-        </ButtonsRoot>
+      <ButtonsRoot>{presenceButtons}</ButtonsRoot>
       {arrowRight}
       {oneTimeTooltip}
     </Root>

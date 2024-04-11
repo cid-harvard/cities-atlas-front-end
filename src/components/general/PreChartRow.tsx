@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
-import styled from 'styled-components/macro';
-import {breakPoints} from '../../styling/GlobalGrid';
+import React, { useState } from "react";
+import styled from "styled-components/macro";
+import { breakPoints } from "../../styling/GlobalGrid";
 import {
   backgroundDark,
   ButtonBase,
@@ -8,26 +8,28 @@ import {
   primaryColorLight,
   baseColor,
   lightBorderColor,
-} from '../../styling/styleUtils';
-import useFluent from '../../hooks/useFluent';
-import raw from 'raw.macro';
-import SearchIndustryInGraph, {SearchInGraphOptions} from './searchIndustryInGraphDropdown';
-import CurrentSettingsTooltip from '../dataViz/settings/CurrentSettingsTooltip';
-import Settings, {SettingsOptions} from '../dataViz/settings';
-import Tooltip, {TooltipTheme, TooltipPosition} from './Tooltip';
-import {collapsedSizeMediaQuery} from './Utils';
-import HowToRead from './howToRead';
-import {joyrideClassNames} from '../navigation/secondaryHeader/guide/CitiesGuide';
+} from "../../styling/styleUtils";
+import useFluent from "../../hooks/useFluent";
+import raw from "raw.macro";
+import SearchIndustryInGraph, {
+  SearchInGraphOptions,
+} from "./searchIndustryInGraphDropdown";
+import CurrentSettingsTooltip from "../dataViz/settings/CurrentSettingsTooltip";
+import Settings, { SettingsOptions } from "../dataViz/settings";
+import Tooltip, { TooltipTheme, TooltipPosition } from "./Tooltip";
+import { collapsedSizeMediaQuery } from "./Utils";
+import HowToRead from "./howToRead";
+import { joyrideClassNames } from "../navigation/secondaryHeader/guide/CitiesGuide";
 
-const gearIcon = raw('../../assets/icons/settings.svg');
+const gearIcon = raw("../../assets/icons/settings.svg");
 
-const Root = styled.div<{$hasIndicator: boolean}>`
+const Root = styled.div<{ $hasIndicator: boolean }>`
   display: contents;
 
   @media ${collapsedSizeMediaQuery} {
     grid-row: 1;
     grid-column: 1 / 3;
-    display: ${({$hasIndicator}) => $hasIndicator ? 'contents' : 'flex'};
+    display: ${({ $hasIndicator }) => ($hasIndicator ? "contents" : "flex")};
     flex-direction: row-reverse;
     justify-content: space-between;
     position: relative;
@@ -112,7 +114,7 @@ const UnderlineNavButton = styled.button`
   position: relative;
 
   &:after {
-    content: '';
+    content: "";
     display: block;
     width: 100%;
     height: 0;
@@ -168,8 +170,8 @@ export interface VizNavItem {
 }
 
 export enum VizNavStyle {
-  Block = 'block',
-  Underline = 'underline',
+  Block = "block",
+  Underline = "underline",
 }
 
 interface Props {
@@ -182,7 +184,10 @@ interface Props {
 
 const PreChartRow = (props: Props) => {
   const {
-    indicator, searchInGraphOptions, settingsOptions, vizNavigation,
+    indicator,
+    searchInGraphOptions,
+    settingsOptions,
+    vizNavigation,
     vizNavigationStyle,
   } = props;
 
@@ -190,13 +195,12 @@ const PreChartRow = (props: Props) => {
 
   const getString = useFluent();
 
-  const indicatorTooltip = indicator && indicator.tooltipContent ? (
-    <IndicatorTooltipContainer>
-      <Tooltip
-        explanation={indicator.tooltipContent}
-      />
-    </IndicatorTooltipContainer>
-  ) : null;
+  const indicatorTooltip =
+    indicator && indicator.tooltipContent ? (
+      <IndicatorTooltipContainer>
+        <Tooltip explanation={indicator.tooltipContent} />
+      </IndicatorTooltipContainer>
+    ) : null;
 
   const indicatorElm = indicator ? (
     <IndicatorRoot>
@@ -207,38 +211,47 @@ const PreChartRow = (props: Props) => {
     </IndicatorRoot>
   ) : null;
 
-  const rightColumnStyle: React.CSSProperties | undefined = indicatorElm ? {
-  display: 'flex',
-  justifyContent: 'flex-end',
-  } : undefined;
+  const rightColumnStyle: React.CSSProperties | undefined = indicatorElm
+    ? {
+        display: "flex",
+        justifyContent: "flex-end",
+      }
+    : undefined;
 
-  const vizNavigationButtonElms = vizNavigation && vizNavigation.length ? vizNavigation.map(link => {
-    const Button = vizNavigationStyle === VizNavStyle.Underline
-      ? link.active ? UnderlineHighlightedNavButton : UnderlineNavButton
-      : link.active ? HighlightedNavButton : NavButton;
-    const tooltipContent = link.tooltipContent ? (
-      <IndicatorTooltipContainer>
-        <NavButtonTooltip>
-          <Tooltip
-            explanation={link.tooltipContent}
-          />
-        </NavButtonTooltip>
-      </IndicatorTooltipContainer>
+  const vizNavigationButtonElms =
+    vizNavigation && vizNavigation.length
+      ? vizNavigation.map((link) => {
+          const Button =
+            vizNavigationStyle === VizNavStyle.Underline
+              ? link.active
+                ? UnderlineHighlightedNavButton
+                : UnderlineNavButton
+              : link.active
+                ? HighlightedNavButton
+                : NavButton;
+          const tooltipContent = link.tooltipContent ? (
+            <IndicatorTooltipContainer>
+              <NavButtonTooltip>
+                <Tooltip explanation={link.tooltipContent} />
+              </NavButtonTooltip>
+            </IndicatorTooltipContainer>
+          ) : null;
+          return (
+            <div key={link.label}>
+              <Button onClick={link.onClick}>
+                {link.label}
+                {tooltipContent}
+              </Button>
+            </div>
+          );
+        })
+      : null;
+  const vizNavigationButtons =
+    vizNavigation && vizNavigation.length ? (
+      <ButtonNavContainer className={joyrideClassNames.vizToggle}>
+        {vizNavigationButtonElms}
+      </ButtonNavContainer>
     ) : null;
-    return (
-      <div key={link.label}>
-        <Button
-          onClick={link.onClick}
-        >
-          {link.label}
-          {tooltipContent}
-        </Button>
-      </div>
-    );
-  }) : null;
-  const vizNavigationButtons = vizNavigation && vizNavigation.length ? (
-    <ButtonNavContainer className={joyrideClassNames.vizToggle}>{vizNavigationButtonElms}</ButtonNavContainer>
-  ) : null;
 
   const searchInGraph = searchInGraphOptions ? (
     <SearchIndustryInGraph {...searchInGraphOptions} />
@@ -246,19 +259,20 @@ const PreChartRow = (props: Props) => {
 
   const settingsButton = settingsOptions ? (
     <Tooltip
-      explanation={!settingsOpen
-        ? <CurrentSettingsTooltip settingsOptions={settingsOptions} />
-        : null
+      explanation={
+        !settingsOpen ? (
+          <CurrentSettingsTooltip settingsOptions={settingsOptions} />
+        ) : null
       }
       theme={TooltipTheme.Dark}
       tooltipPosition={TooltipPosition.Bottom}
     >
       <SettingsButton
-        onClick={() => setSettingsOpen(current => !current)}
+        onClick={() => setSettingsOpen((current) => !current)}
         className={joyrideClassNames.vizOptions}
       >
-        <span dangerouslySetInnerHTML={{__html: gearIcon}} />
-        {getString('global-ui-settings')}
+        <span dangerouslySetInnerHTML={{ __html: gearIcon }} />
+        {getString("global-ui-settings")}
       </SettingsButton>
     </Tooltip>
   ) : null;
@@ -278,8 +292,7 @@ const PreChartRow = (props: Props) => {
           {settingsButton}
         </RightColumn>
         <LeftColumn>
-          <HowToRead
-          />
+          <HowToRead />
           {vizNavigationButtons}
           {indicatorElm}
         </LeftColumn>

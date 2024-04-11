@@ -1,13 +1,8 @@
-import {Datum as SearchDatum} from 'react-panel-search';
-import {
-  Coordinate,
-} from '../../components/map/Utils';
-import { Popup } from 'react-mapbox-gl';
-import styled from 'styled-components/macro';
-import {
-  secondaryColor,
-  secondaryFont,
-} from '../../styling/styleUtils';
+import { Datum as SearchDatum } from "react-panel-search";
+import { Coordinate } from "../../components/map/Utils";
+import { Popup } from "react-mapbox-gl";
+import styled from "styled-components/macro";
+import { secondaryColor, secondaryFont } from "../../styling/styleUtils";
 
 export interface ExtendedSearchDatum extends SearchDatum {
   center: Coordinate;

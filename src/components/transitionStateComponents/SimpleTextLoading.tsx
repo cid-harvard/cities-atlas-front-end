@@ -1,6 +1,6 @@
-import React from 'react';
-import {lightBaseColor} from '../../styling/styleUtils';
-import styled, {keyframes} from 'styled-components/macro';
+import React from "react";
+import { lightBaseColor } from "../../styling/styleUtils";
+import styled, { keyframes } from "styled-components/macro";
 
 const Spinner = styled.div`
   height: 1rem;

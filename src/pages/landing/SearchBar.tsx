@@ -1,37 +1,42 @@
-import React from 'react';
-import {
-  ExtendedSearchDatum,
-} from './Utils';
-import PanelSearch from 'react-panel-search';
-import useFluent from '../../hooks/useFluent';
-import matchingKeywordFormatter from '../../styling/utils/panelSearchKeywordFormatter';
-import {TooltipTheme} from '../../components/general/Tooltip';
+import React from "react";
+import { ExtendedSearchDatum } from "./Utils";
+import PanelSearch from "react-panel-search";
+import useFluent from "../../hooks/useFluent";
+import matchingKeywordFormatter from "../../styling/utils/panelSearchKeywordFormatter";
+import { TooltipTheme } from "../../components/general/Tooltip";
 
 interface Props {
   data: ExtendedSearchDatum[];
   setHighlighted: (val: ExtendedSearchDatum) => void;
   onPanelHover: (val: ExtendedSearchDatum | null) => void;
-  onTraverseLevel: (val: ExtendedSearchDatum, direction: 'asc' | 'desc') => void;
+  onTraverseLevel: (
+    val: ExtendedSearchDatum,
+    direction: "asc" | "desc",
+  ) => void;
   highlighted: ExtendedSearchDatum | null;
   focusOnRender: boolean;
 }
 
 const SearchBar = (props: Props) => {
   const {
-    data, setHighlighted, onPanelHover, onTraverseLevel,
-    highlighted, focusOnRender,
+    data,
+    setHighlighted,
+    onPanelHover,
+    onTraverseLevel,
+    highlighted,
+    focusOnRender,
   } = props;
   const getString = useFluent();
   return (
     <PanelSearch
       data={data}
-      topLevelTitle={getString('global-text-countries')}
+      topLevelTitle={getString("global-text-countries")}
       onSelect={(val) => setHighlighted(val as ExtendedSearchDatum)}
       onHover={onPanelHover}
       onTraverseLevel={onTraverseLevel}
       selectedValue={highlighted}
-      disallowSelectionLevels={['0']}
-      defaultPlaceholderText={getString('global-ui-type-a-city-name')}
+      disallowSelectionLevels={["0"]}
+      defaultPlaceholderText={getString("global-ui-type-a-city-name")}
       showCount={true}
       resultsIdentation={1.75}
       focusOnRender={focusOnRender}

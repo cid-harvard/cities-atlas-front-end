@@ -1,16 +1,12 @@
-import React from 'react';
-import {
-  Route,
-  Switch,
-} from 'react-router-dom';
-import {Routes} from '../../routing/routes';
-import InformationalPage from '../../components/templates/informationalPage';
-import About from './about';
-import Contact from './contact';
-import Faq from './faq';
+import React from "react";
+import { Route, Switch } from "react-router-dom";
+import { Routes } from "../../routing/routes";
+import InformationalPage from "../../components/templates/informationalPage";
+import About from "./about";
+import Contact from "./contact";
+import Faq from "./faq";
 
 const City = () => {
-
   return (
     <InformationalPage>
       <Switch>

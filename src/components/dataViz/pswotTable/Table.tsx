@@ -1,27 +1,27 @@
-import React, {useState, useEffect, useRef} from 'react';
-import {
-  CompositionType,
-} from '../../../types/graphQL/graphQLTypes';
-import SimpleError from '../../transitionStateComponents/SimpleError';
-import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
-import ScrollContainer from 'react-indiana-drag-scroll';
-import styled from 'styled-components/macro';
-import TableRow, {RowDatum, highlightedIdName} from './TableRow';
+import React, { useState, useEffect, useRef } from "react";
+import { CompositionType } from "../../../types/graphQL/graphQLTypes";
+import SimpleError from "../../transitionStateComponents/SimpleError";
+import LoadingBlock, {
+  LoadingOverlay,
+} from "../../transitionStateComponents/VizLoadingBlock";
+import ScrollContainer from "react-indiana-drag-scroll";
+import styled from "styled-components/macro";
+import TableRow, { RowDatum, highlightedIdName } from "./TableRow";
 import {
   lightBorderColor,
   backgroundMedium,
-} from '../../../styling/styleUtils';
-import raw from 'raw.macro';
-import orderBy from 'lodash/orderBy';
-import ColumnFilterBox from './ColumnFilterBox';
-import TextFilter from './TextFilter';
-import QuickError from '../../transitionStateComponents/QuickError';
-import useFluent from '../../../hooks/useFluent';
+} from "../../../styling/styleUtils";
+import raw from "raw.macro";
+import orderBy from "lodash/orderBy";
+import ColumnFilterBox from "./ColumnFilterBox";
+import TextFilter from "./TextFilter";
+import QuickError from "../../transitionStateComponents/QuickError";
+import useFluent from "../../../hooks/useFluent";
 import useRcaAndDensityOptions, {
   formatNumber,
-} from './useRcaAndDensityOptions';
+} from "./useRcaAndDensityOptions";
 
-const sortArrows = raw('../../../assets/icons/sort-arrows.svg');
+const sortArrows = raw("../../../assets/icons/sort-arrows.svg");
 
 const Root = styled.div`
   position: relative;
@@ -60,7 +60,7 @@ const NameTh = styled(Th)`
   z-index: 30;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     top: 0;
@@ -91,11 +91,11 @@ const FilterContent = styled.div`
   margin-top: 0.25rem;
 `;
 
-const activeClassBase = 'active-sort-column-';
+const activeClassBase = "active-sort-column-";
 
 enum SortDirection {
-  ascending = 'asc',
-  descending = 'desc',
+  ascending = "asc",
+  descending = "desc",
 }
 
 const SortArrowsBase = styled.div`
@@ -130,32 +130,33 @@ const SortArrowsBase = styled.div`
 `;
 
 enum Quadrant {
-  Potential = 'Possible Entrants',
-  Strength = 'Strength',
-  Weakness = 'Weakness',
-  Opportunity = 'Opportunity',
-  Threat = 'Threat',
+  Potential = "Possible Entrants",
+  Strength = "Strength",
+  Weakness = "Weakness",
+  Opportunity = "Opportunity",
+  Threat = "Threat",
 }
 
 const quadrantOptionsArray = [
-  {value: Quadrant.Potential, label: Quadrant.Potential},
-  {value: Quadrant.Strength, label: Quadrant.Strength},
-  {value: Quadrant.Weakness, label: Quadrant.Weakness},
-  {value: Quadrant.Opportunity, label: Quadrant.Opportunity},
-  {value: Quadrant.Threat, label: Quadrant.Threat},
+  { value: Quadrant.Potential, label: Quadrant.Potential },
+  { value: Quadrant.Strength, label: Quadrant.Strength },
+  { value: Quadrant.Weakness, label: Quadrant.Weakness },
+  { value: Quadrant.Opportunity, label: Quadrant.Opportunity },
+  { value: Quadrant.Threat, label: Quadrant.Threat },
 ];
 
 enum SortField {
-  name = 'name',
-  rca = 'rca',
-  density = 'density',
-  quadrant = 'quadrant',
+  name = "name",
+  rca = "rca",
+  density = "density",
+  quadrant = "quadrant",
 }
 
 export const getQuadrant = (rca: number, density: number): Quadrant => {
   if (rca === 0) {
     return Quadrant.Potential;
-  } if (rca > 1) {
+  }
+  if (rca > 1) {
     if (density > 0) {
       return Quadrant.Strength;
     } else {
@@ -180,23 +181,27 @@ interface Props {
 }
 
 const PSWOTTable = (props: Props) => {
-  const {
-    loading, error, data, highlighted, clearHighlighted,
-  } = props;
+  const { loading, error, data, highlighted, clearHighlighted } = props;
 
   const [sortField, setSortField] = useState<SortField>(SortField.name);
-  const [sortDirection, setSortDirection] = useState<SortDirection>(SortDirection.ascending);
-  const [filterText, setFilterText] = useState<string>('');
+  const [sortDirection, setSortDirection] = useState<SortDirection>(
+    SortDirection.ascending,
+  );
+  const [filterText, setFilterText] = useState<string>("");
   const [filterdQuadrants, setFilteredQuadrants] = useState<Quadrant[]>([]);
   const [filterdRCA, setFilteredRCA] = useState<string[]>([]);
   const [filterdDensity, setFilteredDensity] = useState<string[]>([]);
   const [highlightError, setHighlightError] = useState<boolean>(false);
   const getString = useFluent();
-  const {match, rcaOptions, densityOptions} = useRcaAndDensityOptions();
+  const { match, rcaOptions, densityOptions } = useRcaAndDensityOptions();
 
   const toggleSort = (field: SortField) => {
     if (sortField === field) {
-      setSortDirection(c => c === SortDirection.ascending ? SortDirection.descending : SortDirection.ascending);
+      setSortDirection((c) =>
+        c === SortDirection.ascending
+          ? SortDirection.descending
+          : SortDirection.ascending,
+      );
     } else {
       setSortField(field);
     }
@@ -207,9 +212,11 @@ const PSWOTTable = (props: Props) => {
   useEffect(() => {
     if (rootRef && rootRef.current && highlighted !== undefined) {
       const rootNode = rootRef.current;
-      const highlightedElm: HTMLElement | null = rootNode.querySelector(`#${highlightedIdName}`);
+      const highlightedElm: HTMLElement | null = rootNode.querySelector(
+        `#${highlightedIdName}`,
+      );
       if (highlightedElm) {
-        highlightedElm.scrollIntoView({behavior: 'smooth', block: 'center'});
+        highlightedElm.scrollIntoView({ behavior: "smooth", block: "center" });
       } else {
         setHighlightError(true);
       }
@@ -229,37 +236,42 @@ const PSWOTTable = (props: Props) => {
     );
     console.error(error);
   } else if (data !== undefined) {
-    const rows =
-      orderBy(data, [sortField], [sortDirection])
-        .filter(d => {
-          if (filterdQuadrants.length && !filterdQuadrants.includes(d.quadrant as Quadrant)) {
-            return false;
-          }
-          if (filterText.length && !d.name.toLowerCase().includes(filterText.toLowerCase())) {
-            return false;
-          }
-          if (!match(d.rca, 'rca', filterdRCA)) {
-            return false;
-          }
-          if (!match(d.density, 'density', filterdDensity)) {
-            return false;
-          }
-          return true;
-        })
-        .map(d => {
-          return (
-            <TableRow
-              key={'table-row-' + d.id}
-              id={d.id}
-              name={d.name}
-              density={formatNumber(d.density)}
-              rca={formatNumber(d.rca)}
-              quadrant={d.quadrant}
-              color={d.color}
-              highlighted={highlighted}
-            />
-          );
-        });
+    const rows = orderBy(data, [sortField], [sortDirection])
+      .filter((d) => {
+        if (
+          filterdQuadrants.length &&
+          !filterdQuadrants.includes(d.quadrant as Quadrant)
+        ) {
+          return false;
+        }
+        if (
+          filterText.length &&
+          !d.name.toLowerCase().includes(filterText.toLowerCase())
+        ) {
+          return false;
+        }
+        if (!match(d.rca, "rca", filterdRCA)) {
+          return false;
+        }
+        if (!match(d.density, "density", filterdDensity)) {
+          return false;
+        }
+        return true;
+      })
+      .map((d) => {
+        return (
+          <TableRow
+            key={"table-row-" + d.id}
+            id={d.id}
+            name={d.name}
+            density={formatNumber(d.density)}
+            rca={formatNumber(d.rca)}
+            quadrant={d.quadrant}
+            color={d.color}
+            highlighted={highlighted}
+          />
+        );
+      });
 
     const activeClass = activeClassBase + sortDirection;
 
@@ -269,33 +281,33 @@ const PSWOTTable = (props: Props) => {
           <tr>
             <NameTh>
               <CellContent>
-                <SortContent
-                  onClick={() => toggleSort(SortField.name)}
-                >
-                  <div>{getString('global-name')}</div>
+                <SortContent onClick={() => toggleSort(SortField.name)}>
+                  <div>{getString("global-name")}</div>
                   <SortArrowsBase
-                    className={sortField === SortField.name ? activeClass : undefined}
-                    dangerouslySetInnerHTML={{__html: sortArrows}}
+                    className={
+                      sortField === SortField.name ? activeClass : undefined
+                    }
+                    dangerouslySetInnerHTML={{ __html: sortArrows }}
                   />
                 </SortContent>
                 <FilterContent>
                   <TextFilter
                     initialQuery={filterText}
                     setSearchQuery={setFilterText}
-                    placeholder={getString('global-filter-name')}
+                    placeholder={getString("global-filter-name")}
                   />
                 </FilterContent>
               </CellContent>
             </NameTh>
             <Th>
               <CellContent>
-                <SortContent
-                  onClick={() => toggleSort(SortField.rca)}
-                >
-                  <div>{getString('pswot-axis-labels-bottom')}</div>
+                <SortContent onClick={() => toggleSort(SortField.rca)}>
+                  <div>{getString("pswot-axis-labels-bottom")}</div>
                   <SortArrowsBase
-                    className={sortField === SortField.rca ? activeClass : undefined}
-                    dangerouslySetInnerHTML={{__html: sortArrows}}
+                    className={
+                      sortField === SortField.rca ? activeClass : undefined
+                    }
+                    dangerouslySetInnerHTML={{ __html: sortArrows }}
                   />
                 </SortContent>
                 <FilterContent>
@@ -303,7 +315,7 @@ const PSWOTTable = (props: Props) => {
                     allOptions={rcaOptions}
                     selectedOptions={filterdRCA}
                     setSelectedOptions={setFilteredRCA as any}
-                    title={getString('pswot-axis-labels-bottom')}
+                    title={getString("pswot-axis-labels-bottom")}
                     multipleAsValuesText={true}
                   />
                 </FilterContent>
@@ -311,13 +323,13 @@ const PSWOTTable = (props: Props) => {
             </Th>
             <Th>
               <CellContent>
-                <SortContent
-                  onClick={() => toggleSort(SortField.density)}
-                >
-                  <div>{getString('pswot-axis-labels-left')}</div>
+                <SortContent onClick={() => toggleSort(SortField.density)}>
+                  <div>{getString("pswot-axis-labels-left")}</div>
                   <SortArrowsBase
-                    className={sortField === SortField.density ? activeClass : undefined}
-                    dangerouslySetInnerHTML={{__html: sortArrows}}
+                    className={
+                      sortField === SortField.density ? activeClass : undefined
+                    }
+                    dangerouslySetInnerHTML={{ __html: sortArrows }}
                   />
                 </SortContent>
                 <FilterContent>
@@ -325,7 +337,7 @@ const PSWOTTable = (props: Props) => {
                     allOptions={densityOptions}
                     selectedOptions={filterdDensity}
                     setSelectedOptions={setFilteredDensity as any}
-                    title={getString('pswot-axis-labels-left')}
+                    title={getString("pswot-axis-labels-left")}
                     multipleAsValuesText={true}
                   />
                 </FilterContent>
@@ -333,13 +345,13 @@ const PSWOTTable = (props: Props) => {
             </Th>
             <Th>
               <CellContent>
-                <SortContent
-                  onClick={() => toggleSort(SortField.quadrant)}
-                >
-                  <div>{getString('pswot-table-assigned-category')}</div>
+                <SortContent onClick={() => toggleSort(SortField.quadrant)}>
+                  <div>{getString("pswot-table-assigned-category")}</div>
                   <SortArrowsBase
-                    className={sortField === SortField.quadrant ? activeClass : undefined}
-                    dangerouslySetInnerHTML={{__html: sortArrows}}
+                    className={
+                      sortField === SortField.quadrant ? activeClass : undefined
+                    }
+                    dangerouslySetInnerHTML={{ __html: sortArrows }}
                   />
                 </SortContent>
                 <FilterContent>
@@ -347,39 +359,30 @@ const PSWOTTable = (props: Props) => {
                     allOptions={quadrantOptionsArray}
                     selectedOptions={filterdQuadrants}
                     setSelectedOptions={setFilteredQuadrants as any}
-                    title={getString('pswot-table-categories')}
+                    title={getString("pswot-table-categories")}
                   />
                 </FilterContent>
               </CellContent>
             </Th>
           </tr>
         </thead>
-        <tbody>
-          {rows}
-        </tbody>
+        <tbody>{rows}</tbody>
       </Table>
     );
   } else {
     output = null;
   }
 
-
-  const highlightErrorPopup = highlightError && highlighted !== undefined ? (
-    <QuickError
-      closeError={clearHighlighted}
-    >
-      {getString('global-ui-error-industry-not-in-data-set')}
-    </QuickError>
-  ) : null;
+  const highlightErrorPopup =
+    highlightError && highlighted !== undefined ? (
+      <QuickError closeError={clearHighlighted}>
+        {getString("global-ui-error-industry-not-in-data-set")}
+      </QuickError>
+    ) : null;
 
   return (
-    <Root
-      ref={rootRef as any}
-    >
-      <ScrollRoot
-        hideScrollbars={false}
-        ignoreElements={'input'}
-      >
+    <Root ref={rootRef as any}>
+      <ScrollRoot hideScrollbars={false} ignoreElements={"input"}>
         {output}
       </ScrollRoot>
       {highlightErrorPopup}

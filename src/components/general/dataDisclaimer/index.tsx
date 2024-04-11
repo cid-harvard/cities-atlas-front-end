@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import styled, {keyframes} from 'styled-components/macro';
+import React, { useState } from "react";
+import styled, { keyframes } from "styled-components/macro";
 import {
   UtilityBarButtonBase,
   mediumSmallBreakpoint,
@@ -7,39 +7,43 @@ import {
   SvgBase,
   Text,
   TooltipContent,
-} from '../../navigation/Utils';
-import raw from 'raw.macro';
+} from "../../navigation/Utils";
+import raw from "raw.macro";
 import {
   baseColor,
   secondaryFont,
   primaryColor,
   primaryHoverColor,
-} from '../../../styling/styleUtils';
-import useFluent from '../../../hooks/useFluent';
-import useCurrentCity from '../../../hooks/useCurrentCity';
-import Modal from '../../standardModal';
-import {Link} from 'react-router-dom';
-import {Routes} from '../../../routing/routes';
-import Tooltip, {TooltipPosition} from '../../general/Tooltip';
-import {useWindowWidth} from '../../../contextProviders/appContext';
-import { dataQualityColors, getNewDataQualityLevel, NewDataQualityLevel } from '../Utils';
+} from "../../../styling/styleUtils";
+import useFluent from "../../../hooks/useFluent";
+import useCurrentCity from "../../../hooks/useCurrentCity";
+import Modal from "../../standardModal";
+import { Link } from "react-router-dom";
+import { Routes } from "../../../routing/routes";
+import Tooltip, { TooltipPosition } from "../../general/Tooltip";
+import { useWindowWidth } from "../../../contextProviders/appContext";
+import {
+  dataQualityColors,
+  getNewDataQualityLevel,
+  NewDataQualityLevel,
+} from "../Utils";
 
-const dataIconSvg = raw('../../../assets/icons/disclaimer.svg');
+const dataIconSvg = raw("../../../assets/icons/disclaimer.svg");
 
-const DisclaimerSvg = styled(SvgBase)<{$flagColor: string}>`
+const DisclaimerSvg = styled(SvgBase)<{ $flagColor: string }>`
   width: 1.2rem;
   height: 1.2rem;
 
   svg {
     .cls-1 {
       fill: none;
-      stroke: ${({$flagColor}) => $flagColor};
+      stroke: ${({ $flagColor }) => $flagColor};
     }
     .cls-2 {
-      fill: ${({$flagColor}) => $flagColor};
+      fill: ${({ $flagColor }) => $flagColor};
     }
     circle {
-      fill: ${({$flagColor}) => $flagColor};
+      fill: ${({ $flagColor }) => $flagColor};
     }
   }
 
@@ -149,48 +153,49 @@ const DataDisclaimer = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const windowDimensions = useWindowWidth();
 
-
   let flagColor: string = baseColor;
-  let alertTitle: string = '';
-  let description: string = '';
+  let alertTitle: string = "";
+  let description: string = "";
   if (currentCity && currentCity.city) {
-    const {dataFlag} = currentCity.city;
+    const { dataFlag } = currentCity.city;
     const dataQualityLevel = getNewDataQualityLevel(dataFlag);
     flagColor = dataQualityColors.get(dataQualityLevel);
 
     if (dataQualityLevel === NewDataQualityLevel.HIGH) {
-      alertTitle = getString('data-disclaimer-high-quality-topbar-title');
-      description = getString('data-disclaimer-high-quality-desc');
-    } else if(dataQualityLevel === NewDataQualityLevel.MEDIUM) {
-      alertTitle = getString('data-disclaimer-medium-quality-topbar-title');
-      description = getString('data-disclaimer-medium-quality-desc');
-    } else if(dataQualityLevel === NewDataQualityLevel.LOW) {
-      alertTitle = getString('data-disclaimer-low-quality-topbar-title');
-      description = getString('data-disclaimer-low-quality-desc');
+      alertTitle = getString("data-disclaimer-high-quality-topbar-title");
+      description = getString("data-disclaimer-high-quality-desc");
+    } else if (dataQualityLevel === NewDataQualityLevel.MEDIUM) {
+      alertTitle = getString("data-disclaimer-medium-quality-topbar-title");
+      description = getString("data-disclaimer-medium-quality-desc");
+    } else if (dataQualityLevel === NewDataQualityLevel.LOW) {
+      alertTitle = getString("data-disclaimer-low-quality-topbar-title");
+      description = getString("data-disclaimer-low-quality-desc");
     }
   }
 
   const modal = modalOpen ? (
-    <Modal
-      onClose={() => setModalOpen(false)}
-      width={'600px'}
-      height={'600px'}
-    >
+    <Modal onClose={() => setModalOpen(false)} width={"600px"} height={"600px"}>
       <Root>
         <Title>
           <DisclaimerSvgLarge
-            dangerouslySetInnerHTML={{__html: dataIconSvg}}
+            dangerouslySetInnerHTML={{ __html: dataIconSvg }}
             $flagColor={flagColor}
           />
-          {getString('global-ui-data-disclaimer')} - {alertTitle}
+          {getString("global-ui-data-disclaimer")} - {alertTitle}
         </Title>
-        <Para dangerouslySetInnerHTML={{__html: description}} />
+        <Para dangerouslySetInnerHTML={{ __html: description }} />
         <Para>
-          {getString('data-disclaimer-data-page-lead-up')}
+          {getString("data-disclaimer-data-page-lead-up")}
           &nbsp;
-          <Link to={Routes.FaqBase}>{getString('data-disclaimer-data-page-link-text')}</Link>
+          <Link to={Routes.FaqBase}>
+            {getString("data-disclaimer-data-page-link-text")}
+          </Link>
         </Para>
-        <Para dangerouslySetInnerHTML={{__html: getString('data-disclaimer-contact')}} />
+        <Para
+          dangerouslySetInnerHTML={{
+            __html: getString("data-disclaimer-contact"),
+          }}
+        />
         <CloseButton onClick={() => setModalOpen(false)}>✕</CloseButton>
       </Root>
     </Modal>
@@ -198,23 +203,21 @@ const DataDisclaimer = () => {
 
   return (
     <>
-
       <Tooltip
-        explanation={windowDimensions.width < mediumSmallBreakpoint &&
-          windowDimensions.width > columnsToRowsBreakpoint
-          ? <TooltipContent>{getString('global-ui-data-disclaimer')}</TooltipContent>
-          : null
+        explanation={
+          windowDimensions.width < mediumSmallBreakpoint &&
+          windowDimensions.width > columnsToRowsBreakpoint ? (
+            <TooltipContent>
+              {getString("global-ui-data-disclaimer")}
+            </TooltipContent>
+          ) : null
         }
-        cursor='pointer'
+        cursor="pointer"
         tooltipPosition={TooltipPosition.Bottom}
       >
-        <UtilityBarButtonBase
-          onClick={() => setModalOpen(true)}
-        >
-        <LargeDot style={{ backgroundColor: flagColor }} />
-          <EnlargedTextLabel>
-            {alertTitle}
-          </EnlargedTextLabel>
+        <UtilityBarButtonBase onClick={() => setModalOpen(true)}>
+          <LargeDot style={{ backgroundColor: flagColor }} />
+          <EnlargedTextLabel>{alertTitle}</EnlargedTextLabel>
         </UtilityBarButtonBase>
       </Tooltip>
       {modal}

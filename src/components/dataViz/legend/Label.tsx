@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import styled from 'styled-components/macro';
+import React, { useState } from "react";
+import styled from "styled-components/macro";
 import {
   primaryFont,
   fadeInAnimation,
@@ -7,9 +7,9 @@ import {
   secondaryFont,
   noOutlineOnFocus,
   radioButtonCss,
-} from '../../../styling/styleUtils';
-import {rgba} from 'polished';
-import useFluent from '../../../hooks/useFluent';
+} from "../../../styling/styleUtils";
+import { rgba } from "polished";
+import useFluent from "../../../hooks/useFluent";
 
 const Root = styled.div`
   position: relative;
@@ -37,7 +37,7 @@ const Button = styled.button`
   ${noOutlineOnFocus}
 `;
 
-const Block = styled.div<{$checked: boolean}>`
+const Block = styled.div<{ $checked: boolean }>`
   width: 0.75rem;
   height: 0.75rem;
   width: clamp(0.5rem, 1vw, 1.2rem);
@@ -47,7 +47,7 @@ const Block = styled.div<{$checked: boolean}>`
   flex-shrink: 0;
 
   &:after {
-    ${({$checked}) => $checked ? "content: '';" : ''}
+    ${({ $checked }) => ($checked ? "content: '';" : "")}
     width: 0.1rem;
     border-radius: 80px;
     height: 180%;
@@ -163,45 +163,44 @@ interface Props {
   isIsolated: boolean;
 }
 
-const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidden, isIsolated}: Props) => {
+const Label = ({
+  category: { color, name },
+  toggleCategory,
+  isolateCategory,
+  isHidden,
+  isIsolated,
+}: Props) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
   const getString = useFluent();
   const toggleButton = toggleCategory ? (
-    <HideIsolateButton
-      $checked={isHidden}
-      onClick={toggleCategory}
-    >
-      {getString('global-ui-hide')}
+    <HideIsolateButton $checked={isHidden} onClick={toggleCategory}>
+      {getString("global-ui-hide")}
     </HideIsolateButton>
   ) : null;
   const isolateButton = isolateCategory ? (
-    <HideIsolateButton
-      $checked={isIsolated}
-      onClick={isolateCategory}
-    >
-      {getString('global-ui-keep-only')}
+    <HideIsolateButton $checked={isIsolated} onClick={isolateCategory}>
+      {getString("global-ui-keep-only")}
     </HideIsolateButton>
   ) : null;
-  const hideIsolateButtons = isolateButton || toggleButton ? (
-    <ButtonWrapper>
-      {toggleButton}
-      {isolateButton}
-    </ButtonWrapper>
-  ) : null;
+  const hideIsolateButtons =
+    isolateButton || toggleButton ? (
+      <ButtonWrapper>
+        {toggleButton}
+        {isolateButton}
+      </ButtonWrapper>
+    ) : null;
   const hideIsolate = isHovered ? (
     <HideIsolateRoot>
       <HideIsolateContent>
         <HideIsolateText>
           <Title>{name}</Title>
-          <Hr style={{borderColor: color}}/>
+          <Hr style={{ borderColor: color }} />
           {hideIsolateButtons}
         </HideIsolateText>
         <ArrowContainer>
           <Arrow />
         </ArrowContainer>
-        <CloseButton onClick={() => setIsHovered(false)}>
-          ×
-        </CloseButton>
+        <CloseButton onClick={() => setIsHovered(false)}>×</CloseButton>
       </HideIsolateContent>
     </HideIsolateRoot>
   ) : null;
@@ -209,7 +208,7 @@ const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidd
     <Root
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      style={{zIndex: isHovered ? 150 : undefined}}
+      style={{ zIndex: isHovered ? 150 : undefined }}
     >
       <Button
         style={{
@@ -218,10 +217,7 @@ const Label = ({category: {color, name}, toggleCategory, isolateCategory, isHidd
         }}
         onClick={toggleCategory}
       >
-        <Block
-          style={{backgroundColor: color}}
-          $checked={isHidden}
-        />
+        <Block style={{ backgroundColor: color }} $checked={isHidden} />
         {name}
       </Button>
       {hideIsolate}

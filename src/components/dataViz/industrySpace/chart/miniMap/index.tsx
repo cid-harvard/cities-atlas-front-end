@@ -1,16 +1,18 @@
-import React, {useEffect, useState, useRef} from 'react';
-import createChart from './createChart';
-import useLayoutData from '../useLayoutData';
-import useRCAData, {SuccessResponse} from '../useRCAData';
-import {DigitLevel} from '../../../../../types/graphQL/graphQLTypes';
+import React, { useEffect, useState, useRef } from "react";
+import createChart from "./createChart";
+import useLayoutData from "../useLayoutData";
+import useRCAData, { SuccessResponse } from "../useRCAData";
+import { DigitLevel } from "../../../../../types/graphQL/graphQLTypes";
 
-type Chart = {
-  initialized: false;
-} | {
-  initialized: true;
-  render: (nodeId: string | undefined) => void;
-  update: (nodeId: string | undefined, data: SuccessResponse) => void;
-};
+type Chart =
+  | {
+      initialized: false;
+    }
+  | {
+      initialized: true;
+      render: (nodeId: string | undefined) => void;
+      update: (nodeId: string | undefined, data: SuccessResponse) => void;
+    };
 
 interface Props {
   width: number;
@@ -19,29 +21,34 @@ interface Props {
 }
 
 const Chart = (props: Props) => {
-  const {
-    width, height, highlighted,
-  } = props;
+  const { width, height, highlighted } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
-  const [chart, setChart] = useState<Chart>({initialized: false});
+  const [chart, setChart] = useState<Chart>({ initialized: false });
 
   const layout = useLayoutData();
-  const {data} = useRCAData(DigitLevel.Six);
+  const { data } = useRCAData(DigitLevel.Six);
 
   useEffect(() => {
     const chartNode = chartRef.current;
     if (chartNode) {
-      if (chartNode && layout.data && (
-          (chart.initialized === false && width && height)
-      )) {
-        chartNode.innerHTML = '';
-        setChart({...createChart({
-          rootEl: chartNode,
-          data: layout.data,
-          rootWidth: width,
-          rootHeight: height,
-        }), initialized: true });
+      if (
+        chartNode &&
+        layout.data &&
+        chart.initialized === false &&
+        width &&
+        height
+      ) {
+        chartNode.innerHTML = "";
+        setChart({
+          ...createChart({
+            rootEl: chartNode,
+            data: layout.data,
+            rootWidth: width,
+            rootHeight: height,
+          }),
+          initialized: true,
+        });
       }
     }
   }, [chartRef, chart, width, height, layout]);
@@ -60,10 +67,7 @@ const Chart = (props: Props) => {
 
   return (
     <>
-      <div
-        ref={chartRef}
-        style={{width, height}}
-      />
+      <div ref={chartRef} style={{ width, height }} />
     </>
   );
 };

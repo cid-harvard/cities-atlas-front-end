@@ -17,7 +17,10 @@
     "comment-format": false,
     "no-var-requires": false,
     "prefer-const": true,
-    "trailing-comma": [true, {"multiline": "always", "singleline": "never", "esSpecCompliant": true}],
+    "trailing-comma": [
+      true,
+      { "multiline": "always", "singleline": "never", "esSpecCompliant": true }
+    ],
     "triple-equals": true,
     "no-irregular-whitespace": true,
     "indent": [true, "spaces", 2],
@@ -25,12 +28,10 @@
     "no-namespace": [true, "allow-declarations"],
     "await-promise": true,
     "interface-name": false,
-    "max-line-length" : false
+    "max-line-length": false
   },
   "rulesDirectory": [],
   "linterOptions": {
-    "exclude": [
-      "src/serviceWorker.ts"
-    ]
+    "exclude": ["src/serviceWorker.ts"]
   }
 }

@@ -1,10 +1,10 @@
-import React from 'react';
-import styled from 'styled-components';
-import { breakPoints } from '../../../../../styling/GlobalGrid';
-import TopRow from './topRow';
-import BottomRow from './bottomRow';
-import useCurrentCity from '../../../../../hooks/useCurrentCity';
-import DisclaimerText from './DisclaimerText';
+import React from "react";
+import styled from "styled-components";
+import { breakPoints } from "../../../../../styling/GlobalGrid";
+import TopRow from "./topRow";
+import BottomRow from "./bottomRow";
+import useCurrentCity from "../../../../../hooks/useCurrentCity";
+import DisclaimerText from "./DisclaimerText";
 
 const Root = styled.div`
   width: 100%;
@@ -28,14 +28,10 @@ const Row = styled.div`
   }
 `;
 
-
 const Widgets = () => {
   const { city } = useCurrentCity();
   const disclaimer = city ? (
-    <DisclaimerText
-      cityId={city.cityId}
-      regionId={city.region}
-    />
+    <DisclaimerText cityId={city.cityId} regionId={city.region} />
   ) : null;
   return (
     <Root>
@@ -45,9 +41,7 @@ const Widgets = () => {
       <Row>
         <BottomRow />
       </Row>
-      <Row>
-        {disclaimer}
-      </Row>
+      <Row>{disclaimer}</Row>
     </Root>
   );
 };

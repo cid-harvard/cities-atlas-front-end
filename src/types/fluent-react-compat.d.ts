@@ -1,11 +1,11 @@
 // This is a duplicate of fluent-react and should always match it
 
-declare module 'fluent-react/compat' {
-// Type definitions for fluent-react 0.8
-// Project: http://projectfluent.org
-// Definitions by: Huy Nguyen <https://github.com/huy-nguyen>
-// Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
-// TypeScript Version: 3.3
+declare module "fluent-react/compat" {
+  // Type definitions for fluent-react 0.8
+  // Project: http://projectfluent.org
+  // Definitions by: Huy Nguyen <https://github.com/huy-nguyen>
+  // Definitions: https://github.com/DefinitelyTyped/DefinitelyTyped
+  // TypeScript Version: 3.3
   interface Node {
     TEXT_NODE: 3;
     nodeType: number;
@@ -23,8 +23,7 @@ declare module 'fluent-react/compat' {
     bundles: IterableIterator<FluentBundle>;
     parseMarkup?: MarkupParser;
   }
-  class LocalizationProvider extends React.Component<LocalizationProviderProps> {
-  }
+  class LocalizationProvider extends React.Component<LocalizationProviderProps> {}
 
   class ReactLocalization {
     constructor(bundles: IterableIterator<FluentBundle>);
@@ -37,8 +36,7 @@ declare module 'fluent-react/compat' {
     [key: string]: any;
   }
 
-  class Localized extends React.Component<LocalizedProps> {
-  }
+  class Localized extends React.Component<LocalizedProps> {}
 
   // Inspired by react-redux's type definition:
   /**
@@ -71,12 +69,14 @@ declare module 'fluent-react/compat' {
    * required by the decorated (right hand side) component.
    * But any property required by the decorated component must be satisfied by the injected property.
    */
-  type Shared<
-      InjectedProps,
-      DecorationTargetProps
-      > = {
-          [P in Extract<keyof InjectedProps, keyof DecorationTargetProps>]?: InjectedProps[P] extends DecorationTargetProps[P] ? DecorationTargetProps[P] : never;
-      };
+  type Shared<InjectedProps, DecorationTargetProps> = {
+    [P in Extract<
+      keyof InjectedProps,
+      keyof DecorationTargetProps
+    >]?: InjectedProps[P] extends DecorationTargetProps[P]
+      ? DecorationTargetProps[P]
+      : never;
+  };
 
   // Infers prop type from component C
   type GetProps<C> = C extends React.ComponentType<infer P> ? P : never;
@@ -93,7 +93,11 @@ declare module 'fluent-react/compat' {
 
   // Injects `getString` and removes it from the prop requirements. Will not pass
   // through `getString` if it's passed in during render.
-  function withLocalization<C extends React.ComponentType<Matching<InjectedProps, GetProps<C>>>>(
-    component: C
-  ): React.ComponentType<Omit< GetProps<C>, keyof Shared<InjectedProps, GetProps<C>>>>;
+  function withLocalization<
+    C extends React.ComponentType<Matching<InjectedProps, GetProps<C>>>,
+  >(
+    component: C,
+  ): React.ComponentType<
+    Omit<GetProps<C>, keyof Shared<InjectedProps, GetProps<C>>>
+  >;
 }

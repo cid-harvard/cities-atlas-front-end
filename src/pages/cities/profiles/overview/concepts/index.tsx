@@ -1,8 +1,8 @@
-import React from 'react';
-import useFluent from '../../../../../hooks/useFluent';
-import styled from 'styled-components';
-import { primaryColor, secondaryFont } from '../../../../../styling/styleUtils';
-import { breakPoints } from '../../../../../styling/GlobalGrid';
+import React from "react";
+import useFluent from "../../../../../hooks/useFluent";
+import styled from "styled-components";
+import { primaryColor, secondaryFont } from "../../../../../styling/styleUtils";
+import { breakPoints } from "../../../../../styling/GlobalGrid";
 
 const Root = styled.div`
   height: 100%;
@@ -54,15 +54,39 @@ const Concepts = () => {
   const getString = useFluent();
   return (
     <Root>
-      <Title>{getString('city-overview-metroverse-concepts')}</Title>
-      <SectionHeader>{getString('city-overview-relative-presence-title')}</SectionHeader>
-      <Section dangerouslySetInnerHTML={{ __html: getString('city-overview-relative-presence-desc') }} />
-      <SectionHeader>{getString('city-overview-knowledge-cluster-title')}</SectionHeader>
-      <Section dangerouslySetInnerHTML={{ __html: getString('city-overview-knowledge-cluster-desc') }} />
-      <SectionHeader>{getString('city-overview-industry-space-title')}</SectionHeader>
-      <Section dangerouslySetInnerHTML={{ __html: getString('city-overview-industry-space-desc') }} />
-      <SectionHeader>{getString('city-overview-city-similarity-title')}</SectionHeader>
-      <Section dangerouslySetInnerHTML={{ __html: getString('city-overview-city-similarity-desc') }} />
+      <Title>{getString("city-overview-metroverse-concepts")}</Title>
+      <SectionHeader>
+        {getString("city-overview-relative-presence-title")}
+      </SectionHeader>
+      <Section
+        dangerouslySetInnerHTML={{
+          __html: getString("city-overview-relative-presence-desc"),
+        }}
+      />
+      <SectionHeader>
+        {getString("city-overview-knowledge-cluster-title")}
+      </SectionHeader>
+      <Section
+        dangerouslySetInnerHTML={{
+          __html: getString("city-overview-knowledge-cluster-desc"),
+        }}
+      />
+      <SectionHeader>
+        {getString("city-overview-industry-space-title")}
+      </SectionHeader>
+      <Section
+        dangerouslySetInnerHTML={{
+          __html: getString("city-overview-industry-space-desc"),
+        }}
+      />
+      <SectionHeader>
+        {getString("city-overview-city-similarity-title")}
+      </SectionHeader>
+      <Section
+        dangerouslySetInnerHTML={{
+          __html: getString("city-overview-city-similarity-desc"),
+        }}
+      />
     </Root>
   );
 };

@@ -1,11 +1,11 @@
-import { createGlobalStyle } from 'styled-components/macro';
+import { createGlobalStyle } from "styled-components/macro";
 import {
   baseColor,
   lightBaseColor,
   semiBoldFontBoldWeight,
   primaryFont,
   backgroundDark,
-} from './styleUtils';
+} from "./styleUtils";
 
 const GlobalStyles = createGlobalStyle`
   @media(max-width: 600px) {
