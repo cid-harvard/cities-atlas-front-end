@@ -1,7 +1,7 @@
 export const defaultYear = 2024;
-export const populationDisplayYear = 2024;
-export const gdpPerCapitaDisplayYear = 2024;
-export const rankingDisplayYear = 2024;
+export const populationDisplayYear = 2020;
+export const gdpPerCapitaDisplayYear = 2020;
+export const rankingDisplayYear = 2020;
 
 export function numberWithCommas(x: number | string) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");

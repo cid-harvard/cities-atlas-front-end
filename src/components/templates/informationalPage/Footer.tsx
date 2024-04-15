@@ -53,7 +53,6 @@ const GrowthLabLogo = styled.img`
   width: 180px;
   max-width: 100%;
   height: 100%;
-  margin-top: -0.75rem;
 
   @media (max-width: 920px) {
     width: 180px;
@@ -339,11 +338,11 @@ const StandardFooter = () => {
               />
             </a>
             <GrowthLabInfo>
-              Center for International Development at Harvard University
+              The Growth Lab at Harvard University
               <br />
               79 JFK St. | Mailbox 34 | Cambridge, MA 02138
               <br />
-              617-495-4112 | cid@harvard.edu
+              617-495-4112 | growthlab@hks.harvard.edu
             </GrowthLabInfo>
           </LogoColumn>
         </Content>
