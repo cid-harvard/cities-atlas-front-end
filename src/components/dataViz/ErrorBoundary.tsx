@@ -1,6 +1,6 @@
-import React, { Component, ErrorInfo } from 'react';
-import SimpleError from '../../components/transitionStateComponents/SimpleError';
-import {LoadingOverlay} from '../transitionStateComponents/VizLoadingBlock';
+import React, { Component, ErrorInfo } from "react";
+import SimpleError from "../../components/transitionStateComponents/SimpleError";
+import { LoadingOverlay } from "../transitionStateComponents/VizLoadingBlock";
 
 interface State {
   hasError: boolean;
@@ -27,7 +27,7 @@ class ErrorBoundary extends Component<{}, State> {
       // You can render any custom fallback UI
       return (
         <LoadingOverlay>
-          <SimpleError fluentMessageId={'error-message-viz-failure'} />
+          <SimpleError fluentMessageId={"error-message-viz-failure"} />
         </LoadingOverlay>
       );
     }

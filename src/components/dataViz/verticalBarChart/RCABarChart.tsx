@@ -1,41 +1,34 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import {
   DigitLevel,
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
-} from '../../../types/graphQL/graphQLTypes';
-import {
-  useGlobalIndustryMap,
-} from '../../../hooks/useGlobalIndustriesData';
-import {
-  usePrevious,
-} from 'react-use';
-import {useWindowWidth} from '../../../contextProviders/appContext';
-import {breakPoints} from '../../../styling/GlobalGrid';
-import {
-  baseColor,
-} from '../../../styling/styleUtils';
-import PreChartRow from '../../../components/general/PreChartRow';
-import ErrorBoundary from '../ErrorBoundary';
-import styled from 'styled-components/macro';
-import SimpleError from '../../transitionStateComponents/SimpleError';
-import LoadingBlock, {LoadingOverlay} from '../../transitionStateComponents/VizLoadingBlock';
-import useRCAData, {SuccessResponse} from '../industrySpace/chart/useRCAData';
-import Industries from './Industries';
-import Clusters from './Clusters';
-import {
-  CityRoutes,
-  ColorBy,
-} from '../../../routing/routes';
-import useFluent from '../../../hooks/useFluent';
-import {ClusterLevel} from '../../../routing/routes';
-import {Mode} from '../../general/searchIndustryInGraphDropdown';
-import PresenceToggle, { Highlighted } from '../legend/PresenceToggle';
-import BenchmarkLegend from '../legend/BenchmarkLegend';
-import { ComparisonType } from '../../navigation/secondaryHeader/comparisons/AddComparisonModal';
-import { useHistory } from 'react-router-dom';
-import { createRoute } from '../../../routing/Utils';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
+} from "../../../types/graphQL/graphQLTypes";
+import { useGlobalIndustryMap } from "../../../hooks/useGlobalIndustriesData";
+import { usePrevious } from "react-use";
+import { useWindowWidth } from "../../../contextProviders/appContext";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import { baseColor } from "../../../styling/styleUtils";
+import PreChartRow from "../../../components/general/PreChartRow";
+import ErrorBoundary from "../ErrorBoundary";
+import styled from "styled-components/macro";
+import SimpleError from "../../transitionStateComponents/SimpleError";
+import LoadingBlock, {
+  LoadingOverlay,
+} from "../../transitionStateComponents/VizLoadingBlock";
+import useRCAData, { SuccessResponse } from "../industrySpace/chart/useRCAData";
+import Industries from "./Industries";
+import Clusters from "./Clusters";
+import { CityRoutes, ColorBy } from "../../../routing/routes";
+import useFluent from "../../../hooks/useFluent";
+import { ClusterLevel } from "../../../routing/routes";
+import { Mode } from "../../general/searchIndustryInGraphDropdown";
+import PresenceToggle, { Highlighted } from "../legend/PresenceToggle";
+import BenchmarkLegend from "../legend/BenchmarkLegend";
+import { ComparisonType } from "../../navigation/secondaryHeader/comparisons/AddComparisonModal";
+import { useHistory } from "react-router-dom";
+import { createRoute } from "../../../routing/Utils";
+import useCurrentCityId from "../../../hooks/useCurrentCityId";
 
 const Root = styled.div`
   width: 100%;
@@ -169,8 +162,8 @@ interface Props {
   isClusterView: boolean;
   highlighted: string | undefined;
   setHighlighted: (value: string | undefined) => void;
-  hiddenSectors: ClassificationNaicsIndustry['id'][];
-  hiddenClusters: ClassificationNaicsCluster['id'][];
+  hiddenSectors: ClassificationNaicsIndustry["id"][];
+  hiddenClusters: ClassificationNaicsCluster["id"][];
   clusterLevel: ClusterLevel;
   digitLevel: DigitLevel;
   colorBy: ColorBy;
@@ -178,25 +171,31 @@ interface Props {
 
 const RCABarChart = (props: Props) => {
   const {
-    hiddenSectors, setHighlighted,
+    hiddenSectors,
+    setHighlighted,
     highlighted,
-    isClusterView, clusterLevel,
-    digitLevel, colorBy, hiddenClusters,
+    isClusterView,
+    clusterLevel,
+    digitLevel,
+    colorBy,
+    hiddenClusters,
   } = props;
   const getString = useFluent();
   const industryMap = useGlobalIndustryMap();
   const windowDimensions = useWindowWidth();
-  const {loading, error, data} = useRCAData(digitLevel);
+  const { loading, error, data } = useRCAData(digitLevel);
   const history = useHistory();
   const cityId = useCurrentCityId();
 
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
+  const [dimensions, setDimensions] = useState<
+    { width: number; height: number } | undefined
+  >(undefined);
   useEffect(() => {
     const node = rootRef.current;
     if (node) {
-      const {width, height} = node.getBoundingClientRect();
-      setDimensions({width, height});
+      const { width, height } = node.getBoundingClientRect();
+      setDimensions({ width, height });
     }
   }, [rootRef, windowDimensions]);
 
@@ -211,7 +210,11 @@ const RCABarChart = (props: Props) => {
   }
 
   let output: React.ReactElement<any> | null;
-  if (industryMap.loading || !dimensions || (loading && prevData === undefined)) {
+  if (
+    industryMap.loading ||
+    !dimensions ||
+    (loading && prevData === undefined)
+  ) {
     output = <LoadingBlock />;
   } else if (error !== undefined) {
     output = (
@@ -220,7 +223,7 @@ const RCABarChart = (props: Props) => {
       </LoadingOverlay>
     );
     console.error(error);
-  }  else if (industryMap.error !== undefined) {
+  } else if (industryMap.error !== undefined) {
     output = (
       <LoadingOverlay>
         <SimpleError />
@@ -228,12 +231,17 @@ const RCABarChart = (props: Props) => {
     );
     console.error(error);
   } else if (dataToUse !== undefined) {
-    const clusterData = clusterLevel === ClusterLevel.C1 ? dataToUse.c1Rca : dataToUse.c3Rca;
+    const clusterData =
+      clusterLevel === ClusterLevel.C1 ? dataToUse.c1Rca : dataToUse.c3Rca;
     const industryData = dataToUse.naicsRca;
     const loadingOverlay = loading ? <LoadingBlock /> : null;
     const viz = isClusterView ? (
       <Clusters
-        key={'ClustersRCAChart' + dimensions.height.toString() + dimensions.width.toString()}
+        key={
+          "ClustersRCAChart" +
+          dimensions.height.toString() +
+          dimensions.width.toString()
+        }
         data={clusterData}
         clusterLevel={clusterLevel}
         colorBy={colorBy}
@@ -242,7 +250,11 @@ const RCABarChart = (props: Props) => {
       />
     ) : (
       <Industries
-        key={'IndustriesRCAChart' + dimensions.height.toString() + dimensions.width.toString()}
+        key={
+          "IndustriesRCAChart" +
+          dimensions.height.toString() +
+          dimensions.width.toString()
+        }
         data={industryData}
         highlighted={highlighted}
         hiddenSectors={hiddenSectors}
@@ -251,10 +263,8 @@ const RCABarChart = (props: Props) => {
       />
     );
     output = (
-      <VizContainer style={{height: dimensions.height}}>
-          <ErrorBoundary>
-            {viz}
-          </ErrorBoundary>
+      <VizContainer style={{ height: dimensions.height }}>
+        <ErrorBoundary>{viz}</ErrorBoundary>
         {loadingOverlay}
       </VizContainer>
     );
@@ -264,7 +274,10 @@ const RCABarChart = (props: Props) => {
 
   const onButtonClick = (value: Highlighted) => {
     if (value === Highlighted.absolute && cityId !== null) {
-      const route = createRoute.city(CityRoutes.CityGoodAtAbsolutePresence, cityId);
+      const route = createRoute.city(
+        CityRoutes.CityGoodAtAbsolutePresence,
+        cityId,
+      );
       history.push(route + history.location.search);
     }
   };
@@ -289,11 +302,17 @@ const RCABarChart = (props: Props) => {
       />
       <Root>
         <LeftAxisRoot>
-          <AxisLabelBase>← {getString('global-intensity-lower')}</AxisLabelBase>
-          <AxisLabelHigh>{getString('global-intensity-higher')} →</AxisLabelHigh>
+          <AxisLabelBase>← {getString("global-intensity-lower")}</AxisLabelBase>
+          <AxisLabelHigh>
+            {getString("global-intensity-higher")} →
+          </AxisLabelHigh>
         </LeftAxisRoot>
         <BottomAxisRoot>
-          <AxisLabelLeft dangerouslySetInnerHTML={{__html: getString('relative-presence-axis-labels-bottom-left')}} />
+          <AxisLabelLeft
+            dangerouslySetInnerHTML={{
+              __html: getString("relative-presence-axis-labels-bottom-left"),
+            }}
+          />
           <AxisLabelBase>
             <PresenceToggle
               togglePresence={true}
@@ -302,16 +321,16 @@ const RCABarChart = (props: Props) => {
               onButtonClick={onButtonClick}
             />
           </AxisLabelBase>
-          <AxisLabelRight dangerouslySetInnerHTML={{__html: getString('relative-presence-axis-labels-bottom-right')}} />
+          <AxisLabelRight
+            dangerouslySetInnerHTML={{
+              __html: getString("relative-presence-axis-labels-bottom-right"),
+            }}
+          />
         </BottomAxisRoot>
         <BenchmarkRoot>
-          <BenchmarkLegend
-            comparisonType={ComparisonType.Relative}
-          />
+          <BenchmarkLegend comparisonType={ComparisonType.Relative} />
         </BenchmarkRoot>
-        <VizRoot ref={rootRef}>
-          {output}
-        </VizRoot>
+        <VizRoot ref={rootRef}>{output}</VizRoot>
       </Root>
     </>
   );

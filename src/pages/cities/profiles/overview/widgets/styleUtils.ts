@@ -1,9 +1,17 @@
-import styled from 'styled-components';
-import { breakPointValues, breakPoints as globalBreakPoints } from '../../../../../styling/GlobalGrid';
-import { backgroundMedium, baseColor, primaryColor, secondaryFont } from '../../../../../styling/styleUtils';
+import styled from "styled-components";
+import {
+  breakPointValues,
+  breakPoints as globalBreakPoints,
+} from "../../../../../styling/GlobalGrid";
+import {
+  backgroundMedium,
+  baseColor,
+  primaryColor,
+  secondaryFont,
+} from "../../../../../styling/styleUtils";
 
 const breakPoints = {
-  medium: 'screen and (max-width: 1250px)',
+  medium: "screen and (max-width: 1250px)",
   small: `screen and (max-width: 1070px) and (min-width: ${breakPointValues.width.small}px)`,
 };
 
@@ -20,12 +28,12 @@ export const TitleBase = styled.h2`
   white-space: nowrap;
 
   @media (max-height: 800px) {
-    font-size: .85rem;
+    font-size: 0.85rem;
     padding: 0.25rem 0 0.25rem 0.15rem;
   }
 
   @media ${breakPoints.medium} {
-    font-size: .85rem;
+    font-size: 0.85rem;
     padding: 0.25rem 0 0.25rem 0.15rem;
     height: auto;
     white-space: initial;
@@ -33,7 +41,7 @@ export const TitleBase = styled.h2`
   }
 
   @media ${breakPoints.small} {
-    font-size: .75rem;
+    font-size: 0.75rem;
     height: auto;
     white-space: initial;
     flex-direction: column;
@@ -58,7 +66,7 @@ export const YearText = styled.small`
   white-space: nowrap;
 
   @media ${breakPoints.medium} {
-    font-size: .65rem;
+    font-size: 0.65rem;
   }
 `;
 

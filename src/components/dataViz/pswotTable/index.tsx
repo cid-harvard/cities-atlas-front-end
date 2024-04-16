@@ -1,20 +1,18 @@
-import React from 'react';
+import React from "react";
 import {
   ClusterLevel,
   DigitLevel,
   CompositionType,
   ClassificationNaicsIndustry,
   ClassificationNaicsCluster,
-} from '../../../types/graphQL/graphQLTypes';
-import ScrollContainer from 'react-indiana-drag-scroll';
-import styled from 'styled-components/macro';
-import NAICSTable from './NAICSTable';
-import ClusterTable from './ClusterTable';
-import {
-  AggregationMode,
-} from '../../../routing/routes';
-import PresenceToggle from '../legend/PresenceToggle';
-import BenchmarkLegend from '../legend/BenchmarkLegend';
+} from "../../../types/graphQL/graphQLTypes";
+import ScrollContainer from "react-indiana-drag-scroll";
+import styled from "styled-components/macro";
+import NAICSTable from "./NAICSTable";
+import ClusterTable from "./ClusterTable";
+import { AggregationMode } from "../../../routing/routes";
+import PresenceToggle from "../legend/PresenceToggle";
+import BenchmarkLegend from "../legend/BenchmarkLegend";
 
 const Root = styled.div`
   position: relative;
@@ -58,41 +56,46 @@ interface Props {
   clusterLevel: ClusterLevel;
   compositionType: CompositionType;
   aggregationMode: AggregationMode;
-  hiddenSectors: ClassificationNaicsIndustry['id'][];
-  hiddenClusters: ClassificationNaicsCluster['id'][];
+  hiddenSectors: ClassificationNaicsIndustry["id"][];
+  hiddenClusters: ClassificationNaicsCluster["id"][];
   highlighted: string | undefined;
   clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
-    digitLevel, compositionType, aggregationMode, clusterLevel,
-    hiddenSectors, hiddenClusters, highlighted, clearHighlighted,
+    digitLevel,
+    compositionType,
+    aggregationMode,
+    clusterLevel,
+    hiddenSectors,
+    hiddenClusters,
+    highlighted,
+    clearHighlighted,
   } = props;
 
-  const table = aggregationMode === AggregationMode.cluster ? (
-    <ClusterTable
-      clusterLevel={clusterLevel}
-      compositionType={compositionType}
-      hiddenClusters={hiddenClusters}
-      highlighted={highlighted}
-      clearHighlighted={clearHighlighted}
-    />
-  ) : (
-    <NAICSTable
-      digitLevel={digitLevel}
-      compositionType={compositionType}
-      hiddenSectors={hiddenSectors}
-      highlighted={highlighted}
-      clearHighlighted={clearHighlighted}
-    />
-  );
+  const table =
+    aggregationMode === AggregationMode.cluster ? (
+      <ClusterTable
+        clusterLevel={clusterLevel}
+        compositionType={compositionType}
+        hiddenClusters={hiddenClusters}
+        highlighted={highlighted}
+        clearHighlighted={clearHighlighted}
+      />
+    ) : (
+      <NAICSTable
+        digitLevel={digitLevel}
+        compositionType={compositionType}
+        hiddenSectors={hiddenSectors}
+        highlighted={highlighted}
+        clearHighlighted={clearHighlighted}
+      />
+    );
 
   return (
     <Root>
-      <ScrollRoot hideScrollbars={false}>
-        {table}
-      </ScrollRoot>
+      <ScrollRoot hideScrollbars={false}>{table}</ScrollRoot>
       <BenchmarkLegendRoot>
         <BenchmarkLegendContent>
           <PresenceToggle />

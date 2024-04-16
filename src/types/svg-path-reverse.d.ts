@@ -1,1 +1,1 @@
-declare module 'svg-path-reverse';
+declare module "svg-path-reverse";

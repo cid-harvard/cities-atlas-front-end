@@ -1,11 +1,8 @@
-import React from 'react';
-import Modal, {Props} from './';
-import styled, {keyframes} from 'styled-components/macro';
-import {
-  backgroundDark,
-  secondaryFont,
-} from '../../styling/styleUtils';
-import useFluent from '../../hooks/useFluent';
+import React from "react";
+import Modal, { Props } from "./";
+import styled, { keyframes } from "styled-components/macro";
+import { backgroundDark, secondaryFont } from "../../styling/styleUtils";
+import useFluent from "../../hooks/useFluent";
 
 const growIn = keyframes`
   0% {
@@ -45,11 +42,13 @@ const CloseButton = styled.button`
 `;
 
 export default (props: Props) => {
-  const {children, ...rest} = props;
+  const { children, ...rest } = props;
   const getString = useFluent();
-  const closeButton = props.onClose
-    ? <CloseButton onClick={props.onClose}>✕ {getString('global-ui-close')}</CloseButton>
-    : null;
+  const closeButton = props.onClose ? (
+    <CloseButton onClick={props.onClose}>
+      ✕ {getString("global-ui-close")}
+    </CloseButton>
+  ) : null;
   return (
     <Modal {...rest}>
       <Root>

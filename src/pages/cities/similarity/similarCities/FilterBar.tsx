@@ -1,12 +1,17 @@
-import React from 'react';
-import styled from 'styled-components';
-import { baseColor, lightBorderColor, SearchContainerLight, secondaryFont } from '../../../../styling/styleUtils';
-import { filterBarId } from '../../../../components/dataViz/similarCitiesMap/FilterBar';
-import Settings from './Settings';
-import useFluent from '../../../../hooks/useFluent';
-import NodeSizeLegend from './NodeSizeLegend';
-import { breakPoints } from '../../../../styling/GlobalGrid';
-import CitySearch from '../../../../components/navigation/secondaryHeader/CitySearch';
+import React from "react";
+import styled from "styled-components";
+import {
+  baseColor,
+  lightBorderColor,
+  SearchContainerLight,
+  secondaryFont,
+} from "../../../../styling/styleUtils";
+import { filterBarId } from "../../../../components/dataViz/similarCitiesMap/FilterBar";
+import Settings from "./Settings";
+import useFluent from "../../../../hooks/useFluent";
+import NodeSizeLegend from "./NodeSizeLegend";
+import { breakPoints } from "../../../../styling/GlobalGrid";
+import CitySearch from "../../../../components/navigation/secondaryHeader/CitySearch";
 
 const Root = styled.div`
   grid-column: 1;
@@ -29,7 +34,7 @@ const Content = styled.div`
   }
 `;
 
-  const ScrollContainer = styled.div`
+const ScrollContainer = styled.div`
   height: 100%;
   overflow: auto;
   background-color: ${lightBorderColor};
@@ -58,7 +63,6 @@ const SearchContainer = styled(SearchContainerLight)`
   .react-panel-search-search-bar-search-icon {
     display: none;
   }
-
 `;
 
 const FilterBar = () => {
@@ -66,16 +70,14 @@ const FilterBar = () => {
   return (
     <Root>
       <SearchContainer>
-        <CitySearch
-          searchContainerWidth={'clamp(200px, 100vw, 100%)'}
-        />
+        <CitySearch searchContainerWidth={"clamp(200px, 100vw, 100%)"} />
       </SearchContainer>
       <Content>
         <ScrollContainer>
-          <SectionTitle>{getString('city-filter-title')}</SectionTitle>
+          <SectionTitle>{getString("city-filter-title")}</SectionTitle>
           <div id={filterBarId} />
           <Divider />
-          <SectionTitle>{getString('global-ui-node-size')}</SectionTitle>
+          <SectionTitle>{getString("global-ui-node-size")}</SectionTitle>
           <Settings />
           <NodeSizeLegend />
         </ScrollContainer>

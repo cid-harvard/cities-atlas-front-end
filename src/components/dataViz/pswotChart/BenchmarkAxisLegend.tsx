@@ -1,10 +1,10 @@
-import React, {useLayoutEffect, useRef} from 'react';
-import styled from 'styled-components';
-import { useWindowWidth } from '../../../contextProviders/appContext';
-import useFluent from '../../../hooks/useFluent';
-import { baseColor } from '../../../styling/styleUtils';
-import BenchmarkLegend from '../legend/BenchmarkLegend';
-import PresenceToggle from '../legend/PresenceToggle';
+import React, { useLayoutEffect, useRef } from "react";
+import styled from "styled-components";
+import { useWindowWidth } from "../../../contextProviders/appContext";
+import useFluent from "../../../hooks/useFluent";
+import { baseColor } from "../../../styling/styleUtils";
+import BenchmarkLegend from "../legend/BenchmarkLegend";
+import PresenceToggle from "../legend/PresenceToggle";
 
 const Root = styled.div`
   position: fixed;
@@ -87,15 +87,17 @@ const BenchmarkAxisLegend = () => {
   useLayoutEffect(() => {
     const setAxisPosition = (attempts: number) => {
       setTimeout(() => {
-        const bottomLabelNode: SVGTSpanElement | null = document.querySelector('.pswot-plot-bottom-label');
+        const bottomLabelNode: SVGTSpanElement | null = document.querySelector(
+          ".pswot-plot-bottom-label",
+        );
         const rootNode = rootRef.current;
         if (bottomLabelNode && rootNode) {
           const { top, left } = bottomLabelNode.getBoundingClientRect();
-          bottomLabelNode.style.opacity = '0';
-          rootNode.style.left = left + 'px';
-          rootNode.style.top = top + 'px';
+          bottomLabelNode.style.opacity = "0";
+          rootNode.style.left = left + "px";
+          rootNode.style.top = top + "px";
           if (window.innerWidth <= 943) {
-            rootNode.style.right = '0px';
+            rootNode.style.right = "0px";
           }
         } else {
           if (attempts < 10) {
@@ -110,13 +112,15 @@ const BenchmarkAxisLegend = () => {
   return (
     <Root ref={rootRef}>
       <BottomAxisRoot>
-        <AxisLabelLeft>{getString('pswot-axis-labels-bottom-left')}</AxisLabelLeft>
+        <AxisLabelLeft>
+          {getString("pswot-axis-labels-bottom-left")}
+        </AxisLabelLeft>
         <AxisLabelBase>
-          <PresenceToggle
-            showArrows={true}
-          />
+          <PresenceToggle showArrows={true} />
         </AxisLabelBase>
-        <AxisLabelRight>{getString('pswot-axis-labels-bottom-right')}</AxisLabelRight>
+        <AxisLabelRight>
+          {getString("pswot-axis-labels-bottom-right")}
+        </AxisLabelRight>
       </BottomAxisRoot>
       <BenchmarkRoot>
         <BenchmarkLegend />

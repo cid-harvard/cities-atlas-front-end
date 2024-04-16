@@ -1,15 +1,15 @@
-import React, {useState} from 'react';
-import PanelSearch, {Datum as SearchDatum} from 'react-panel-search';
-import useFluent from '../../../hooks/useFluent';
-import styled, {keyframes} from 'styled-components/macro';
+import React, { useState } from "react";
+import PanelSearch, { Datum as SearchDatum } from "react-panel-search";
+import useFluent from "../../../hooks/useFluent";
+import styled, { keyframes } from "styled-components/macro";
 import {
   textClassName,
   ExpandingButton,
   collapsedSizeMediaQuery,
-} from '../Utils';
-import raw from 'raw.macro';
+} from "../Utils";
+import raw from "raw.macro";
 
-const readThisChartIconSVG = raw('../../../assets/icons/magnifying-glass.svg');
+const readThisChartIconSVG = raw("../../../assets/icons/magnifying-glass.svg");
 
 const Root = styled.div`
   position: relative;
@@ -76,14 +76,19 @@ export interface SearchInGraphOptions {
 
 const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const {
-    setHighlighted, rerenderKey, disallowSelectionLevels, searchData,
-    defaultPlaceholderText, topLevelTitle,
+    setHighlighted,
+    rerenderKey,
+    disallowSelectionLevels,
+    searchData,
+    defaultPlaceholderText,
+    topLevelTitle,
   } = props;
 
   const getString = useFluent();
 
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>();
-  const [internalSelectedValue, setInternalSelectedValue] = useState<SearchDatum | null>();
+  const [internalSelectedValue, setInternalSelectedValue] =
+    useState<SearchDatum | null>();
 
   const onSelect = (d: SearchDatum | null) => {
     if (d) {
@@ -100,7 +105,7 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   const dropdown = isDropdownVisible ? (
     <DropdownContainer>
       <PanelSearch
-        key={'ButtonTogglePreChartPanelSearchKeyFor' + rerenderKey}
+        key={"ButtonTogglePreChartPanelSearchKeyFor" + rerenderKey}
         data={searchData}
         topLevelTitle={topLevelTitle}
         disallowSelectionLevels={disallowSelectionLevels}
@@ -109,7 +114,9 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
         resultsIdentation={1}
         onSelect={onSelect}
         maxResults={500}
-        onClose={() => !internalSelectedValue ? setIsDropdownVisible(false) : null}
+        onClose={() =>
+          !internalSelectedValue ? setIsDropdownVisible(false) : null
+        }
         focusOnRender={true}
       />
     </DropdownContainer>
@@ -118,8 +125,10 @@ const SearchIndustryInGraph = (props: SearchInGraphOptions) => {
   return (
     <Root>
       <ToggleButton onClick={() => setIsDropdownVisible(true)}>
-        <span dangerouslySetInnerHTML={{__html: readThisChartIconSVG}} />
-        <div className={textClassName}>{getString('global-ui-search-an-industry-in-graph')}</div>
+        <span dangerouslySetInnerHTML={{ __html: readThisChartIconSVG }} />
+        <div className={textClassName}>
+          {getString("global-ui-search-an-industry-in-graph")}
+        </div>
       </ToggleButton>
       {dropdown}
     </Root>

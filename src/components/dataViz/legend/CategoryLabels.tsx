@@ -1,15 +1,12 @@
-import React from 'react';
-import styled, {keyframes} from 'styled-components/macro';
-import Label, {CategoryDatum} from './Label';
-import {breakPoints} from '../../../styling/GlobalGrid';
-import {
-  backgroundMedium,
-  baseColor,
-} from '../../../styling/styleUtils';
-import raw from 'raw.macro';
-import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
+import React from "react";
+import styled, { keyframes } from "styled-components/macro";
+import Label, { CategoryDatum } from "./Label";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import { backgroundMedium, baseColor } from "../../../styling/styleUtils";
+import raw from "raw.macro";
+import { joyrideClassNames } from "../../navigation/secondaryHeader/guide/CitiesGuide";
 
-const ReloadImgSrc = raw('../../../assets/icons/reload.svg');
+const ReloadImgSrc = raw("../../../assets/icons/reload.svg");
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -113,7 +110,8 @@ const ResetLabelsButton = styled.button`
   align-items: center;
   width: 5rem;
 
-  &:hover, &:focus {
+  &:hover,
+  &:focus {
     outline: solid 2px ${backgroundMedium};
   }
 
@@ -150,34 +148,40 @@ interface BaseProps {
   fullWidth?: boolean;
 }
 
-type Props = BaseProps & (
-  {
-    allowToggle: true;
-    toggleCategory: (id: string) => void;
-    isolateCategory: (id: string) => void;
-    hiddenCategories: string[];
-    resetCategories: () => void;
-    resetText: string;
-  } | {
-    allowToggle: false;
-  }
-);
+type Props = BaseProps &
+  (
+    | {
+        allowToggle: true;
+        toggleCategory: (id: string) => void;
+        isolateCategory: (id: string) => void;
+        hiddenCategories: string[];
+        resetCategories: () => void;
+        resetText: string;
+      }
+    | {
+        allowToggle: false;
+      }
+  );
 
 const CategoryLabels = (props: Props) => {
-  const {categories, fullWidth} = props;
+  const { categories, fullWidth } = props;
   let output: React.ReactElement<any>;
   if (props.allowToggle) {
     const {
-      toggleCategory, isolateCategory, hiddenCategories,
-      resetCategories, resetText,
+      toggleCategory,
+      isolateCategory,
+      hiddenCategories,
+      resetCategories,
+      resetText,
     } = props;
 
-    const labels = categories.map(category => {
-      const isHidden = !!hiddenCategories.find(id => id === category.id);
-      const isIsolated = hiddenCategories.length === categories.length - 1 && !isHidden;
+    const labels = categories.map((category) => {
+      const isHidden = !!hiddenCategories.find((id) => id === category.id);
+      const isIsolated =
+        hiddenCategories.length === categories.length - 1 && !isHidden;
       return (
         <Label
-          key={'sector-label-' + category.id}
+          key={"sector-label-" + category.id}
           category={category}
           toggleCategory={() => toggleCategory(category.id)}
           isolateCategory={() => isolateCategory(category.id)}
@@ -190,7 +194,8 @@ const CategoryLabels = (props: Props) => {
     const resetButton = hiddenCategories.length ? (
       <ResetLabelsButtonContainer>
         <ResetLabelsButton onClick={resetCategories}>
-          <ReloadIcon dangerouslySetInnerHTML={{__html: ReloadImgSrc}} /> {resetText}
+          <ReloadIcon dangerouslySetInnerHTML={{ __html: ReloadImgSrc }} />{" "}
+          {resetText}
         </ResetLabelsButton>
       </ResetLabelsButtonContainer>
     ) : null;
@@ -202,20 +207,16 @@ const CategoryLabels = (props: Props) => {
       </>
     );
   } else {
-    const labels = categories.map(category => (
+    const labels = categories.map((category) => (
       <Label
-        key={'sector-label-' + category.id}
+        key={"sector-label-" + category.id}
         category={category}
         isHidden={false}
         isIsolated={false}
       />
     ));
 
-    output = (
-      <>
-        {labels}
-      </>
-    );
+    output = <>{labels}</>;
   }
 
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
@@ -223,7 +224,13 @@ const CategoryLabels = (props: Props) => {
 
   return (
     <Root>
-      <Content className={!props.allowToggle ? joyrideClassNames.colorLegendNoFilter : joyrideClassNames.colorLegend}>
+      <Content
+        className={
+          !props.allowToggle
+            ? joyrideClassNames.colorLegendNoFilter
+            : joyrideClassNames.colorLegend
+        }
+      >
         {output}
       </Content>
     </Root>

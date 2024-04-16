@@ -1,4 +1,4 @@
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 
 interface Output<T> {
   loading: boolean;
@@ -7,13 +7,15 @@ interface Output<T> {
 }
 
 function useFakeData<T>(data: T): Output<T> {
-
-
-  const [output, setOutput] = useState<Output<T>>({loading: true, error: undefined, data: undefined});
+  const [output, setOutput] = useState<Output<T>>({
+    loading: true,
+    error: undefined,
+    data: undefined,
+  });
 
   useEffect(() => {
     setTimeout(() => {
-      setOutput({loading: false, error: undefined, data});
+      setOutput({ loading: false, error: undefined, data });
     }, 200);
   }, [data]);
 

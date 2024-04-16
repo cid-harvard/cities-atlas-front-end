@@ -1,77 +1,66 @@
-import styled, {keyframes, css} from 'styled-components/macro';
-import {breakPoints, breakPointValues} from './GlobalGrid';
-import {rgba} from 'polished';
+import styled, { keyframes, css } from "styled-components/macro";
+import { breakPoints, breakPointValues } from "./GlobalGrid";
+import { rgba } from "polished";
 
-export const baseColor = '#333333'; // dark gray/black color for text
-export const lightBaseColor = '#7c7c7c'; // light gray color for subtitles and contextual information
-export const lightBorderColor = '#dcdcdc'; // really light gray color for subtle borders between elements
-export const mapLabelColor = '#04151b'; // dark blue/black
+export const baseColor = "#333333"; // dark gray/black color for text
+export const lightBaseColor = "#7c7c7c"; // light gray color for subtitles and contextual information
+export const lightBorderColor = "#dcdcdc"; // really light gray color for subtle borders between elements
+export const mapLabelColor = "#04151b"; // dark blue/black
 
-export const hoverBackgroundColor = '#f3f3f3'; // really light gray color for use as a hover background color on cards
+export const hoverBackgroundColor = "#f3f3f3"; // really light gray color for use as a hover background color on cards
 
-export const primaryColor = '#f89570'; // orange
-export const primaryHoverColor = '#ef8963'; // slightly dark orange
-export const primaryColorDark = '#f56b39'; // dark orange
-export const primaryColorLight = '#fdd4c7'; // light orange
-export const secondaryColor = '#3b848d'; // blue/teal
-export const tertiaryColor = '#cfbc3c'; // yellow
+export const primaryColor = "#f89570"; // orange
+export const primaryHoverColor = "#ef8963"; // slightly dark orange
+export const primaryColorDark = "#f56b39"; // dark orange
+export const primaryColorLight = "#fdd4c7"; // light orange
+export const secondaryColor = "#3b848d"; // blue/teal
+export const tertiaryColor = "#cfbc3c"; // yellow
 
-export const backgroundMedium = '#e6e7e8'; // dark blue gray
-export const backgroundDark = '#2e353f'; // dark blue gray
-export const medGray = '#4d565e';
+export const backgroundMedium = "#e6e7e8"; // dark blue gray
+export const backgroundDark = "#2e353f"; // dark blue gray
+export const medGray = "#4d565e";
 
-export const benchmarkColor = ' #32a58f'; // greenish blue
+export const benchmarkColor = " #32a58f"; // greenish blue
 
-export const linkColor = '#6accc2';
+export const linkColor = "#6accc2";
 
-export const errorColor = '#f43a16'; // reddish color
+export const errorColor = "#f43a16"; // reddish color
 
 export const primaryColorRange = [
   primaryColor,
-  '#f9a180',
-  '#faad90',
-  '#fbc5b1',
-  '#fcd1c1',
+  "#f9a180",
+  "#faad90",
+  "#fbc5b1",
+  "#fcd1c1",
 ];
 
 export const sectorColorMap = [
-  { id: '0', color: '#A973BE' },
-  { id: '1', color: '#F1866C' },
-  { id: '2', color: '#FFC135' },
-  { id: '3', color: '#93CFD0' },
-  { id: '4', color: '#488098' },
-  { id: '5', color: '#77C898' },
-  { id: '6', color: '#6A6AAD' },
-  { id: '7', color: '#D35162' },
-  { id: '8', color: '#F28188' },
+  { id: "0", color: "#A973BE" },
+  { id: "1", color: "#F1866C" },
+  { id: "2", color: "#FFC135" },
+  { id: "3", color: "#93CFD0" },
+  { id: "4", color: "#488098" },
+  { id: "5", color: "#77C898" },
+  { id: "6", color: "#6A6AAD" },
+  { id: "7", color: "#D35162" },
+  { id: "8", color: "#F28188" },
 ];
 
 export const clusterColorMap = [
-  {id: '1', color: '#999932'}, // Basic Materials
-  {id: '2', color: '#485999'}, // Manufacturing
-  {id: '3', color: '#37AF98'}, // Food
-  {id: '4', color: '#65CEE0'}, // Durables
-  {id: '5', color: '#873261'}, // Logistics
-  {id: '6', color: '#B76274'}, // Services
-  {id: '7', color: '#DDCC77'}, // Finance
+  { id: "1", color: "#999932" }, // Basic Materials
+  { id: "2", color: "#485999" }, // Manufacturing
+  { id: "3", color: "#37AF98" }, // Food
+  { id: "4", color: "#65CEE0" }, // Durables
+  { id: "5", color: "#873261" }, // Logistics
+  { id: "6", color: "#B76274" }, // Services
+  { id: "7", color: "#DDCC77" }, // Finance
 ];
 
-export const intensityColorRange =[
-  '#c2e5fc',
-  '#003e59',
-];
+export const intensityColorRange = ["#c2e5fc", "#003e59"];
 
-export const educationColorRange =[
-  '#5aad60',
-  '#eaebcc',
-  '#986faa',
-];
+export const educationColorRange = ["#5aad60", "#eaebcc", "#986faa"];
 
-export const wageColorRange =[
-  '#4a7ab7',
-  '#eaebcc',
-  '#dc3d2d',
-];
+export const wageColorRange = ["#4a7ab7", "#eaebcc", "#dc3d2d"];
 
 export const primaryFont = "'Source Sans Pro', sans-serif";
 export const secondaryFont = "'OfficeCodeProWeb', monospace";
@@ -204,7 +193,6 @@ export const SearchContainerDark = styled.div`
 
   .react-panel-search-search-bar-dropdown-arrow {
     background-color: transparent;
-
   }
   .react-panel-search-current-tier-breadcrumb-outer,
   .react-panel-search-next-button,
@@ -230,10 +218,10 @@ export const SearchContainerDark = styled.div`
     border: solid 1px #fff;
 
     ::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, .3);
+      background-color: rgba(255, 255, 255, 0.3);
     }
     ::-webkit-scrollbar-track {
-      background-color: rgba(255, 255, 255, .1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 
@@ -379,13 +367,13 @@ export const FullPageOverlay = styled.div`
   z-index: 500;
 `;
 
-export const radioButtonCss = css<{$checked: boolean}>`
+export const radioButtonCss = css<{ $checked: boolean }>`
   display: flex;
   align-items: center;
   position: relative;
 
   &:before {
-    content: '';
+    content: "";
     width: 12px;
     height: 12px;
     border-radius: 200px;
@@ -395,7 +383,7 @@ export const radioButtonCss = css<{$checked: boolean}>`
   }
 
   &:after {
-    ${({$checked}) => $checked ? "content: '';" : ''}
+    ${({ $checked }) => ($checked ? "content: '';" : "")}
     width: 6px;
     height: 6px;
     border-radius: 200px;
@@ -404,7 +392,6 @@ export const radioButtonCss = css<{$checked: boolean}>`
     position: absolute;
     flex-shrink: 0;
   }
-
 
   &:hover {
     background-color: #fff;

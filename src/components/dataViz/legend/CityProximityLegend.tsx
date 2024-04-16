@@ -1,14 +1,14 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {breakPoints} from '../../../styling/GlobalGrid';
-import {proximityColors} from '../similarCitiesMap/Utils';
-import useFluent from '../../../hooks/useFluent';
-import useCurrentCity from '../../../hooks/useCurrentCity';
-import ArrowSVG from '../../../assets/icons/arrow.svg';
-import TextLoading from '../../transitionStateComponents/SimpleTextLoading';
-import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
-import UtilityBar from '../../navigation/secondaryHeader/UtilityBar';
-import { backgroundMedium } from '../../../styling/styleUtils';
+import React from "react";
+import styled from "styled-components/macro";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import { proximityColors } from "../similarCitiesMap/Utils";
+import useFluent from "../../../hooks/useFluent";
+import useCurrentCity from "../../../hooks/useCurrentCity";
+import ArrowSVG from "../../../assets/icons/arrow.svg";
+import TextLoading from "../../transitionStateComponents/SimpleTextLoading";
+import { joyrideClassNames } from "../../navigation/secondaryHeader/guide/CitiesGuide";
+import UtilityBar from "../../navigation/secondaryHeader/UtilityBar";
+import { backgroundMedium } from "../../../styling/styleUtils";
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -94,16 +94,12 @@ interface Props {
 }
 
 const IntensityLegend = (props: Props) => {
-  const {fullWidth, isRings} = props;
+  const { fullWidth, isRings } = props;
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
   const getString = useFluent();
-  const {loading, city} = useCurrentCity();
+  const { loading, city } = useCurrentCity();
 
-  const icon = isRings ? (
-    <Circle />
-  ) : (
-    <Arrow src={ArrowSVG} alt='' title='' />
-  );
+  const icon = isRings ? <Circle /> : <Arrow src={ArrowSVG} alt="" title="" />;
 
   let cityName: React.ReactElement<any>;
   if (loading) {
@@ -111,7 +107,7 @@ const IntensityLegend = (props: Props) => {
   } else if (city && city.name) {
     cityName = <div>{city.name}</div>;
   } else {
-    cityName = <div>{getString('global-your-city')}</div>;
+    cityName = <div>{getString("global-your-city")}</div>;
   }
 
   return (
@@ -124,15 +120,15 @@ const IntensityLegend = (props: Props) => {
       </Content>
       <Content>
         <Labels>
-          <div>{getString('global-similarity-low')}</div>
-          <div>{getString('global-similarity-high')}</div>
+          <div>{getString("global-similarity-low")}</div>
+          <div>{getString("global-similarity-high")}</div>
         </Labels>
         <Bar>
-          <Segment style={{backgroundColor: proximityColors[4]}} />
-          <Segment style={{backgroundColor: proximityColors[3]}} />
-          <Segment style={{backgroundColor: proximityColors[2]}} />
-          <Segment style={{backgroundColor: proximityColors[1]}} />
-          <Segment style={{backgroundColor: proximityColors[0]}} />
+          <Segment style={{ backgroundColor: proximityColors[4] }} />
+          <Segment style={{ backgroundColor: proximityColors[3] }} />
+          <Segment style={{ backgroundColor: proximityColors[2] }} />
+          <Segment style={{ backgroundColor: proximityColors[1] }} />
+          <Segment style={{ backgroundColor: proximityColors[0] }} />
         </Bar>
       </Content>
       <Content>

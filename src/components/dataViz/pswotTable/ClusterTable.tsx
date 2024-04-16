@@ -1,29 +1,31 @@
-import React from 'react';
-import useGlobalClusterData from '../../../hooks/useGlobalClusterData';
-import useClusterRCAData from '../../../hooks/useClusterRCAData';
+import React from "react";
+import useGlobalClusterData from "../../../hooks/useGlobalClusterData";
+import useClusterRCAData from "../../../hooks/useClusterRCAData";
 import {
   ClusterLevel,
   CompositionType,
   defaultCompositionType,
   ClassificationNaicsCluster,
-} from '../../../types/graphQL/graphQLTypes';
-import Table, {getQuadrant} from './Table';
-import {RowDatum} from './TableRow';
-import {
-  clusterColorMap,
-} from '../../../styling/styleUtils';
+} from "../../../types/graphQL/graphQLTypes";
+import Table, { getQuadrant } from "./Table";
+import { RowDatum } from "./TableRow";
+import { clusterColorMap } from "../../../styling/styleUtils";
 
 interface Props {
   clusterLevel: ClusterLevel;
   compositionType: CompositionType;
-  hiddenClusters: ClassificationNaicsCluster['id'][];
+  hiddenClusters: ClassificationNaicsCluster["id"][];
   highlighted: string | undefined;
   clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
-    clusterLevel, compositionType, hiddenClusters, highlighted, clearHighlighted,
+    clusterLevel,
+    compositionType,
+    hiddenClusters,
+    highlighted,
+    clearHighlighted,
   } = props;
   const rcaData = useClusterRCAData(clusterLevel);
   const clusters = useGlobalClusterData();
@@ -38,37 +40,62 @@ const PSWOTTable = (props: Props) => {
 
   let data: RowDatum[] | undefined;
   if (rcaData.data !== undefined && clusters && clusters.data) {
-    const {clusterRca, clusterDensity} = rcaData.data;
+    const { clusterRca, clusterDensity } = rcaData.data;
     data = clusters.data.clusters
-      .filter(d => {
-        const rcaDatum = clusterRca.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
-        return (d.level === clusterLevel &&
-          !hiddenClusters.includes(d.clusterIdTopParent !== null ? d.clusterIdTopParent.toString() : '')
-          && d.tradable && rcaDatum && rcaDatum.comparableIndustry
+      .filter((d) => {
+        const rcaDatum = clusterRca.find(
+          (dd) =>
+            dd.clusterId !== null && dd.clusterId.toString() === d.clusterId,
+        );
+        return (
+          d.level === clusterLevel &&
+          !hiddenClusters.includes(
+            d.clusterIdTopParent !== null
+              ? d.clusterIdTopParent.toString()
+              : "",
+          ) &&
+          d.tradable &&
+          rcaDatum &&
+          rcaDatum.comparableIndustry
         );
       })
-      .map(d => {
-        const rcaDatum = clusterRca.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
-        const densityDatum = clusterDensity.find(dd => dd.clusterId !== null && dd.clusterId.toString() === d.clusterId);
-        let densityKey: 'densityCompany' | 'densityEmploy';
-        if (compositionType === CompositionType.Companies ||
-            (!compositionType && defaultCompositionType === CompositionType.Companies)) {
-          densityKey = 'densityCompany';
+      .map((d) => {
+        const rcaDatum = clusterRca.find(
+          (dd) =>
+            dd.clusterId !== null && dd.clusterId.toString() === d.clusterId,
+        );
+        const densityDatum = clusterDensity.find(
+          (dd) =>
+            dd.clusterId !== null && dd.clusterId.toString() === d.clusterId,
+        );
+        let densityKey: "densityCompany" | "densityEmploy";
+        if (
+          compositionType === CompositionType.Companies ||
+          (!compositionType &&
+            defaultCompositionType === CompositionType.Companies)
+        ) {
+          densityKey = "densityCompany";
         } else {
-          densityKey = 'densityEmploy';
+          densityKey = "densityEmploy";
         }
-        const density = densityDatum && densityDatum[densityKey] !== null ? densityDatum[densityKey] as number : 0;
+        const density =
+          densityDatum && densityDatum[densityKey] !== null
+            ? (densityDatum[densityKey] as number)
+            : 0;
         const rca = rcaDatum && rcaDatum.rca ? rcaDatum.rca : 0;
         const quadrant = getQuadrant(rca, density);
-        const parent = clusterColorMap.find(dd => d.clusterIdTopParent !== null &&
-          d.clusterIdTopParent.toString() === dd.id);
+        const parent = clusterColorMap.find(
+          (dd) =>
+            d.clusterIdTopParent !== null &&
+            d.clusterIdTopParent.toString() === dd.id,
+        );
         const datum: RowDatum = {
           id: d.clusterId,
-          name: d.name ? d.name : '',
+          name: d.name ? d.name : "",
           density: parseFloat(density.toFixed(4)),
           rca: parseFloat(rca.toFixed(4)),
           quadrant,
-          color: parent ? parent.color : 'gray',
+          color: parent ? parent.color : "gray",
         };
         return datum;
       });

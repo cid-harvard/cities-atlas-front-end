@@ -1,10 +1,7 @@
-import debounce from 'lodash/debounce';
-import React, { useEffect, useRef } from 'react';
-import styled from 'styled-components/macro';
-import {
-  lightBaseColor,
-  primaryFont,
-} from '../../../styling/styleUtils';
+import debounce from "lodash/debounce";
+import React, { useEffect, useRef } from "react";
+import styled from "styled-components/macro";
+import { lightBaseColor, primaryFont } from "../../../styling/styleUtils";
 
 const SearchContainer = styled.label`
   position: relative;
@@ -44,9 +41,7 @@ interface Props {
 }
 
 const StandardSearch = (props: Props) => {
-  const {
-    placeholder, setSearchQuery, initialQuery,
-  } = props;
+  const { placeholder, setSearchQuery, initialQuery } = props;
 
   const searchEl = useRef<HTMLInputElement | null>(null);
   const clearEl = useRef<HTMLButtonElement | null>(null);
@@ -55,18 +50,20 @@ const StandardSearch = (props: Props) => {
     if (searchEl !== null && searchEl.current !== null) {
       setSearchQuery(searchEl.current.value);
       if (clearEl && clearEl.current) {
-        clearEl.current.style.display = searchEl.current.value.length ? 'block' : 'none';
+        clearEl.current.style.display = searchEl.current.value.length
+          ? "block"
+          : "none";
       }
     }
   }, 400);
 
   const clearSearch = () => {
     if (searchEl !== null && searchEl.current !== null) {
-      searchEl.current.value = '';
+      searchEl.current.value = "";
       setSearchQuery(searchEl.current.value);
     }
     if (clearEl && clearEl.current) {
-      clearEl.current.style.display = 'none';
+      clearEl.current.style.display = "none";
     }
   };
 
@@ -77,7 +74,7 @@ const StandardSearch = (props: Props) => {
         node.value = initialQuery;
       }
       if (clearEl && clearEl.current) {
-        clearEl.current.style.display = node.value.length ? 'block' : 'none';
+        clearEl.current.style.display = node.value.length ? "block" : "none";
       }
     }
   }, [searchEl, initialQuery]);
@@ -86,14 +83,14 @@ const StandardSearch = (props: Props) => {
     <SearchContainer>
       <SearchBar
         ref={searchEl}
-        type={'text'}
+        type={"text"}
         placeholder={placeholder}
         onChange={onChange}
-        autoComplete={'off'}
+        autoComplete={"off"}
       />
       <ClearButton
         ref={clearEl}
-        style={{display: 'none'}}
+        style={{ display: "none" }}
         onClick={clearSearch}
       >
         ×

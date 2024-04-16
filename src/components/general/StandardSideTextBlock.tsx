@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {backgroundDark} from '../../styling/styleUtils';
-import {breakPoints} from '../../styling/GlobalGrid';
+import React from "react";
+import styled from "styled-components/macro";
+import { backgroundDark } from "../../styling/styleUtils";
+import { breakPoints } from "../../styling/GlobalGrid";
 
 const Root = styled.div`
   grid-column: 2;
@@ -33,10 +33,10 @@ const ScrollContainer = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgba(0, 0, 0, .3);
+    background-color: rgba(0, 0, 0, 0.3);
   }
   ::-webkit-scrollbar-track {
-    background-color: rgba(0, 0, 0, .1);
+    background-color: rgba(0, 0, 0, 0.1);
   }
 
   @media ${breakPoints.small} {
@@ -57,14 +57,20 @@ const ContentContainer = styled.div`
   }
 `;
 
-const StandardSideTextBlock = ({children, clearStyles}: {children: React.ReactNode, clearStyles?: boolean}) => {
+const StandardSideTextBlock = ({
+  children,
+  clearStyles,
+}: {
+  children: React.ReactNode;
+  clearStyles?: boolean;
+}) => {
   const Content = clearStyles ? React.Fragment : ContentContainer;
   return (
     <Root>
-      <ScrollContainer style={{alignItems: clearStyles ? 'flex-start' : undefined}}>
-        <Content>
-          {children}
-        </Content>
+      <ScrollContainer
+        style={{ alignItems: clearStyles ? "flex-start" : undefined }}
+      >
+        <Content>{children}</Content>
       </ScrollContainer>
     </Root>
   );

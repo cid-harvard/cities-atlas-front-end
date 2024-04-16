@@ -1,11 +1,11 @@
-import ReactMapboxGl, {
-  MapContext,
-} from 'react-mapbox-gl';
-import React from 'react';
-import SettingsComponent, {Settings} from './SubsidiaryMapSettingsComponent';
-import {Coordinate} from './Utils';
+import ReactMapboxGl, { MapContext } from "react-mapbox-gl";
+import React from "react";
+import SettingsComponent, { Settings } from "./SubsidiaryMapSettingsComponent";
+import { Coordinate } from "./Utils";
 
-const accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN ? process.env.REACT_APP_MAPBOX_ACCESS_TOKEN : '';
+const accessToken = process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+  ? process.env.REACT_APP_MAPBOX_ACCESS_TOKEN
+  : "";
 
 const Mapbox = ReactMapboxGl({
   accessToken,
@@ -36,34 +36,25 @@ interface Props extends Settings {
 }
 
 const DefaultMap = (props: Props) => {
-  const {
-    children, center,
-    maxBounds, fitBounds,
-    ...settings
-  } = props;
+  const { children, center, maxBounds, fitBounds, ...settings } = props;
 
   const mapRenderProps = (mapEl: any) => {
-    return (
-      <SettingsComponent
-        map={mapEl}
-        {...settings}
-      />
-    );
+    return <SettingsComponent map={mapEl} {...settings} />;
   };
 
   return (
     <Mapbox
       // eslint-disable-next-line
-      style={'mapbox://styles/harvardgrowthlab/ckelvcgh70cg019qgiu39035a'}
+      style={"mapbox://styles/harvardgrowthlab/ckelvcgh70cg019qgiu39035a"}
       containerStyle={{
-        height: '100%',
-        width: '100%',
+        height: "100%",
+        width: "100%",
       }}
       center={center}
       zoom={zoom}
       maxBounds={maxBounds}
       fitBounds={fitBounds}
-      fitBoundsOptions={{padding, linear: true}}
+      fitBoundsOptions={{ padding, linear: true }}
     >
       {children}
       <MapContext.Consumer children={mapRenderProps} />

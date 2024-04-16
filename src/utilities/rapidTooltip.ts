@@ -1,5 +1,5 @@
-import styled from 'styled-components/macro';
-import {arrowContainerClassName} from '../components/general/Tooltip';
+import styled from "styled-components/macro";
+import { arrowContainerClassName } from "../components/general/Tooltip";
 
 interface Input {
   title: string;
@@ -32,36 +32,47 @@ export const RapidTooltipRoot = styled.div`
 `;
 
 export const getStandardTooltip = (input: Input) => {
-  const columnCount = input.rows.length && input.rows[0].length ? input.rows[0].length : 1;
+  const columnCount =
+    input.rows.length && input.rows[0].length ? input.rows[0].length : 1;
 
-  let rows: string = '';
+  let rows: string = "";
   input.rows.forEach((r, i) => {
-    let row = '';
-    const underline = input.underlineRows && input.underlineRows.includes(i)
-      ? 'border-bottom: solid 1px #333;margin-top:auto;'
-      : '';
+    let row = "";
+    const underline =
+      input.underlineRows && input.underlineRows.includes(i)
+        ? "border-bottom: solid 1px #333;margin-top:auto;"
+        : "";
     r.forEach((c, ii) => {
-      const alignment = ii === 0
-        ? 'justify-content: flex-start; text-align: left;'
-        : 'justify-content: flex-end; text-align: right;';
-      const style = input.boldColumns && input.boldColumns.includes(ii)
-        ? `style="font-weight: 600;${alignment}${underline}"` : '';
+      const alignment =
+        ii === 0
+          ? "justify-content: flex-start; text-align: left;"
+          : "justify-content: flex-end; text-align: right;";
+      const style =
+        input.boldColumns && input.boldColumns.includes(ii)
+          ? `style="font-weight: 600;${alignment}${underline}"`
+          : "";
       row = row + `<div class="rapid-tooltip-cell" ${style}>${c}</div>`;
     });
     rows = rows + row;
   });
 
-  const grid = rows.length ? `
+  const grid = rows.length
+    ? `
     <div
       class="rapid-tooltip-subsection-grid"
       style="display: grid; grid-template-columns: repeat(${columnCount}, auto);"
     >
       ${rows}
     </div>
-  ` : '';
+  `
+    : "";
 
-  const additionalContent = input.additionalHTML ? `<div>${input.additionalHTML}</div>` : '';
-  const arrow = input.hideArrow ? '' : `
+  const additionalContent = input.additionalHTML
+    ? `<div>${input.additionalHTML}</div>`
+    : "";
+  const arrow = input.hideArrow
+    ? ""
+    : `
     <div class="rapid-tooltip-arrow-container ${arrowContainerClassName}">
       <div class="rapid-tooltip-arrow"></div>
     </div>

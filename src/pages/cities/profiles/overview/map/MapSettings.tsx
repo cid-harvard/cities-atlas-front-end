@@ -1,20 +1,18 @@
-import React, {useEffect} from 'react';
-import mapboxgl from 'mapbox-gl';
+import React, { useEffect } from "react";
+import mapboxgl from "mapbox-gl";
 
 interface Props {
   map: any;
 }
 
-const MapSettings = ({map}: Props) => {
+const MapSettings = ({ map }: Props) => {
   useEffect(() => {
     if (map) {
       map.addControl(new mapboxgl.NavigationControl());
       map.scrollZoom.disable();
     }
   }, [map]);
-  return (
-    <></>
-  );
+  return <></>;
 };
 
 export default MapSettings;

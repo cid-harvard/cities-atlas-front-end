@@ -1,21 +1,12 @@
-import React from 'react';
-import {Props} from '../sideNav';
-import {
-  Link,
-  useHistory,
-  matchPath,
-} from 'react-router-dom';
-import {
-  PageArrowsContainer,
-  breakPoints,
-} from '../../../styling/GlobalGrid';
-import styled from 'styled-components/macro';
-import {
-  baseColor,
-} from '../../../styling/styleUtils';
-import raw from 'raw.macro';
+import React from "react";
+import { Props } from "../sideNav";
+import { Link, useHistory, matchPath } from "react-router-dom";
+import { PageArrowsContainer, breakPoints } from "../../../styling/GlobalGrid";
+import styled from "styled-components/macro";
+import { baseColor } from "../../../styling/styleUtils";
+import raw from "raw.macro";
 
-const ChevronSVG = raw('../../../assets/icons/chevron.svg');
+const ChevronSVG = raw("../../../assets/icons/chevron.svg");
 
 const Root = styled(PageArrowsContainer)`
   display: flex;
@@ -74,41 +65,51 @@ const PrevSvg = styled(SvgBase)`
   }
 `;
 
-const PageChangeArrows = ({baseLinkData}: Props) => {
+const PageChangeArrows = ({ baseLinkData }: Props) => {
   const history = useHistory();
 
   if (baseLinkData.length === 0) {
-    console.warn('PageChangeArrows component are recieving baseLinkData of length 0');
+    console.warn(
+      "PageChangeArrows component are recieving baseLinkData of length 0",
+    );
     return null;
   }
 
-  const linkIndex = baseLinkData.findIndex(d => {
+  const linkIndex = baseLinkData.findIndex((d) => {
     const match = matchPath(history.location.pathname, d.url);
     return match ? true : false;
   });
 
   if (linkIndex === -1) {
-    console.warn('URL did not match any links provided to PageChangeArrows component');
+    console.warn(
+      "URL did not match any links provided to PageChangeArrows component",
+    );
     return null;
   } else {
-    const prevLink = linkIndex > 0 ? (
-      <ArrowBase to={baseLinkData[linkIndex - 1].url + history.location.search}>
-        <PrevSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </ArrowBase>
-    ) : (
-      <DisabledArrow>
-        <PrevSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </DisabledArrow>
-    );
-    const nextLink = linkIndex < baseLinkData.length - 1 ? (
-      <ArrowBase to={baseLinkData[linkIndex + 1].url + history.location.search}>
-        <SvgBase dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </ArrowBase>
-    ) : (
-      <DisabledArrow>
-        <SvgBase dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </DisabledArrow>
-    );
+    const prevLink =
+      linkIndex > 0 ? (
+        <ArrowBase
+          to={baseLinkData[linkIndex - 1].url + history.location.search}
+        >
+          <PrevSvg dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </ArrowBase>
+      ) : (
+        <DisabledArrow>
+          <PrevSvg dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </DisabledArrow>
+      );
+    const nextLink =
+      linkIndex < baseLinkData.length - 1 ? (
+        <ArrowBase
+          to={baseLinkData[linkIndex + 1].url + history.location.search}
+        >
+          <SvgBase dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </ArrowBase>
+      ) : (
+        <DisabledArrow>
+          <SvgBase dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </DisabledArrow>
+      );
     return (
       <Root>
         {prevLink}

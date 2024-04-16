@@ -1,22 +1,22 @@
-import React, {useState} from 'react';
-import {PrimaryHeaderContainer} from '../../../styling/GlobalGrid';
-import styled from 'styled-components/macro';
+import React, { useState } from "react";
+import { PrimaryHeaderContainer } from "../../../styling/GlobalGrid";
+import styled from "styled-components/macro";
 import {
   secondaryFont,
   primaryColor,
   backgroundDark,
   defaultPadding,
-} from '../../../styling/styleUtils';
-import raw from 'raw.macro';
-import {Link, useRouteMatch} from 'react-router-dom';
-import {Routes} from '../../../routing/routes';
-import { createRoute } from '../../../routing/Utils';
-import useFluent from '../../../hooks/useFluent';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import {useWindowWidth} from '../../../contextProviders/appContext';
+} from "../../../styling/styleUtils";
+import raw from "raw.macro";
+import { Link, useRouteMatch } from "react-router-dom";
+import { Routes } from "../../../routing/routes";
+import { createRoute } from "../../../routing/Utils";
+import useFluent from "../../../hooks/useFluent";
+import useCurrentCityId from "../../../hooks/useCurrentCityId";
+import { useWindowWidth } from "../../../contextProviders/appContext";
 
-export const citiesLogoSVG = raw('../../../assets/icons/cities-logo.svg');
-export const cityIconSVG = raw('../../../assets/icons/city-icon.svg');
+export const citiesLogoSVG = raw("../../../assets/icons/cities-logo.svg");
+export const cityIconSVG = raw("../../../assets/icons/city-icon.svg");
 
 const Root = styled(PrimaryHeaderContainer)`
   font-family: ${secondaryFont};
@@ -88,7 +88,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
 `;
 
-const H2 = styled.h2<{$active: boolean}>`
+const H2 = styled.h2<{ $active: boolean }>`
   font-weight: 300;
   padding: 0 ${defaultPadding / 2}rem 1.05rem;
   display: flex;
@@ -101,17 +101,16 @@ const H2 = styled.h2<{$active: boolean}>`
   position: relative;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     right: 0;
     bottom: 0;
     width: 100%;
-    height: ${({$active}) => $active ? '0.4rem' : 0};
+    height: ${({ $active }) => ($active ? "0.4rem" : 0)};
     background-color: ${primaryColor};
     transition: height 0.075s ease-in-out;
   }
-
 
   &:hover {
     &:after {
@@ -126,7 +125,6 @@ const H2 = styled.h2<{$active: boolean}>`
   @media (max-width: 800px) {
     padding: 0 0.5rem 1.05rem;
   }
-
 `;
 
 const MobileH2 = styled(H2)`
@@ -221,7 +219,7 @@ const CenterBar = styled(Bar)`
   position: relative;
 
   &:before {
-    content: '';
+    content: "";
     display: inline-block;
     width: 100%;
     height: 0;
@@ -256,89 +254,89 @@ const MobileMenu = styled.div`
 const Header = () => {
   const getString = useFluent();
   const [mobileMenuOpen, setMobileMenuOpen] = useState<boolean>(false);
-  const {width} = useWindowWidth();
+  const { width } = useWindowWidth();
   const matchCity = useRouteMatch(Routes.CityBase);
   const matchSimilarCities = useRouteMatch(Routes.CitySimilarCities);
   const matchAbout = useRouteMatch(Routes.AboutBase);
   const matchContact = useRouteMatch(Routes.ContactBase);
   const matchFaq = useRouteMatch(Routes.FaqBase);
   const currentCityId = useCurrentCityId();
-  const similarCitiesRoute = currentCityId ? createRoute.city(Routes.CitySimilarCities, currentCityId) : Routes.CitySimilarCities;
-  const profileCitiesOverviewRoute = currentCityId ? createRoute.city(Routes.CityBase, currentCityId) : Routes.CityBase;
+  const similarCitiesRoute = currentCityId
+    ? createRoute.city(Routes.CitySimilarCities, currentCityId)
+    : Routes.CitySimilarCities;
+  const profileCitiesOverviewRoute = currentCityId
+    ? createRoute.city(Routes.CityBase, currentCityId)
+    : Routes.CityBase;
   if (width <= 800) {
-    const menuButtonText = mobileMenuOpen === false ? getString('global-ui-more') : getString('global-ui-close');
+    const menuButtonText =
+      mobileMenuOpen === false
+        ? getString("global-ui-more")
+        : getString("global-ui-close");
     const closeMenu = () => setMobileMenuOpen(false);
     return (
       <Root>
         <StyledLink to={Routes.Landing}>
           <Logo
-            aria-label={getString('global-app-name')}
-            dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
+            aria-label={getString("global-app-name")}
+            dangerouslySetInnerHTML={{ __html: citiesLogoSVG }}
           />
         </StyledLink>
         <NavSection>
           <MobileMenu
-            style={{transform: mobileMenuOpen ? 'translate(0, 0)' : 'translate(100%, 0)'}}
+            style={{
+              transform: mobileMenuOpen
+                ? "translate(0, 0)"
+                : "translate(100%, 0)",
+            }}
           >
             <StyledLink to={Routes.Landing}>
               <MobileLogo
-                aria-label={getString('global-app-name')}
-                dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
+                aria-label={getString("global-app-name")}
+                dangerouslySetInnerHTML={{ __html: citiesLogoSVG }}
               />
             </StyledLink>
             <StyledLink to={profileCitiesOverviewRoute}>
               <MobileH2 $active={Boolean(matchCity && !matchSimilarCities)}>
                 <MobileNavIcon
-                  dangerouslySetInnerHTML={{__html: cityIconSVG}}
+                  dangerouslySetInnerHTML={{ __html: cityIconSVG }}
                 />
-                {getString('navigation-city-profiles')}
+                {getString("navigation-city-profiles")}
               </MobileH2>
             </StyledLink>
-            <StyledLink
-              onClick={closeMenu}
-              to={similarCitiesRoute}
-            >
+            <StyledLink onClick={closeMenu} to={similarCitiesRoute}>
               <MobileH2 $active={Boolean(matchSimilarCities)}>
-                {getString('navigation-city-similarity')}
+                {getString("navigation-city-similarity")}
               </MobileH2>
             </StyledLink>
-            <StyledLink
-              onClick={closeMenu}
-              to={Routes.AboutWhatIs}
-            >
+            <StyledLink onClick={closeMenu} to={Routes.AboutWhatIs}>
               <MobileH2 $active={Boolean(matchAbout)}>
-                {getString('navigation-about')}
+                {getString("navigation-about")}
               </MobileH2>
             </StyledLink>
-            <StyledLink
-              onClick={closeMenu}
-              to={Routes.FaqBase}
-            >
+            <StyledLink onClick={closeMenu} to={Routes.FaqBase}>
               <MobileH2 $active={Boolean(matchFaq)}>
-                {getString('navigation-faq')}
+                {getString("navigation-faq")}
               </MobileH2>
             </StyledLink>
-            <StyledLink
-              onClick={closeMenu}
-              to={Routes.ContactBase}
-            >
+            <StyledLink onClick={closeMenu} to={Routes.ContactBase}>
               <MobileH2 $active={Boolean(matchContact)}>
-                {getString('navigation-contact')}
+                {getString("navigation-contact")}
               </MobileH2>
             </StyledLink>
-
           </MobileMenu>
           <MobileMenuButton
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             style={{
               zIndex: mobileMenuOpen ? 2000 : undefined,
-              position: mobileMenuOpen ? 'fixed' : undefined,
+              position: mobileMenuOpen ? "fixed" : undefined,
             }}
           >
             <Icon>
-              <Bar style={{opacity: mobileMenuOpen ? 0 : undefined}} />
-              <CenterBar className={mobileMenuOpen ? 'close__menu' : undefined} />
-              <Bar style={{opacity: mobileMenuOpen ? 0 : undefined}} />
+              <Bar style={{ opacity: mobileMenuOpen ? 0 : undefined }} />
+              <CenterBar
+                className={mobileMenuOpen ? "close__menu" : undefined}
+              />
+              <Bar style={{ opacity: mobileMenuOpen ? 0 : undefined }} />
             </Icon>
             {menuButtonText}
           </MobileMenuButton>
@@ -350,38 +348,34 @@ const Header = () => {
       <Root>
         <StyledLink to={Routes.Landing}>
           <Logo
-            aria-label={getString('global-app-name')}
-            dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
+            aria-label={getString("global-app-name")}
+            dangerouslySetInnerHTML={{ __html: citiesLogoSVG }}
           />
         </StyledLink>
         <NavSection>
           <StyledLink to={profileCitiesOverviewRoute}>
             <H2 $active={Boolean(matchCity && !matchSimilarCities)}>
-              <NavIcon
-                dangerouslySetInnerHTML={{__html: cityIconSVG}}
-              />
-              {getString('navigation-city-profiles')}
+              <NavIcon dangerouslySetInnerHTML={{ __html: cityIconSVG }} />
+              {getString("navigation-city-profiles")}
             </H2>
           </StyledLink>
           <StyledLink to={similarCitiesRoute}>
             <H2 $active={Boolean(matchSimilarCities)}>
-              {getString('navigation-city-similarity')}
+              {getString("navigation-city-similarity")}
               <BetaLabel>Beta</BetaLabel>
             </H2>
           </StyledLink>
           <StyledLink to={Routes.AboutWhatIs}>
             <H2 $active={Boolean(matchAbout)}>
-              {getString('navigation-about')}
+              {getString("navigation-about")}
             </H2>
           </StyledLink>
           <StyledLink to={Routes.FaqBase}>
-            <H2 $active={Boolean(matchFaq)}>
-              {getString('navigation-faq')}
-            </H2>
+            <H2 $active={Boolean(matchFaq)}>{getString("navigation-faq")}</H2>
           </StyledLink>
           <StyledLink to={Routes.ContactBase}>
             <H2 $active={Boolean(matchContact)}>
-              {getString('navigation-contact')}
+              {getString("navigation-contact")}
             </H2>
           </StyledLink>
         </NavSection>

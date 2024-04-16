@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from 'react';
-import styled from 'styled-components/macro';
-import {Link, useHistory} from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components/macro";
+import { Link, useHistory } from "react-router-dom";
 import {
   primaryColor,
   backgroundMedium,
   backgroundDark,
-} from '../../../styling/styleUtils';
-import debounce from 'lodash/debounce';
-import {rootId} from './';
+} from "../../../styling/styleUtils";
+import debounce from "lodash/debounce";
+import { rootId } from "./";
 
 const StickyContainer = styled.div`
   position: sticky;
@@ -55,15 +55,15 @@ interface Props {
 }
 
 const Content = (props: Props) => {
-  const {sections} = props;
-  const {replace} = useHistory();
+  const { sections } = props;
+  const { replace } = useHistory();
   const [firstRender, setFirstRender] = useState<boolean>(true);
 
   useEffect(() => {
-    const node = document.querySelector('#' + rootId);
+    const node = document.querySelector("#" + rootId);
     const onScroll = debounce(() => {
       if (node) {
-        const currentSection = [...sections].reverse().find(({ref}) => {
+        const currentSection = [...sections].reverse().find(({ ref }) => {
           const section = ref.current;
           if (section && section.offsetTop < node.scrollTop + 200) {
             return true;
@@ -77,25 +77,25 @@ const Content = (props: Props) => {
       }
     }, 50);
     if (node) {
-      node.addEventListener('scroll', onScroll);
+      node.addEventListener("scroll", onScroll);
     }
     return () => {
       if (node) {
-        node.removeEventListener('scroll', onScroll);
+        node.removeEventListener("scroll", onScroll);
       }
     };
   }, [sections, replace]);
 
   useEffect(() => {
     if (firstRender) {
-      const currentSection = sections.findIndex(({active}) => active);
+      const currentSection = sections.findIndex(({ active }) => active);
       if (currentSection !== -1 && sections[currentSection]) {
         const node = sections[currentSection].ref.current;
-        const root = document.querySelector('#' + rootId);
+        const root = document.querySelector("#" + rootId);
         if (currentSection === 0 && root) {
-          root.scrollTo({top: 0, behavior: 'smooth'});
+          root.scrollTo({ top: 0, behavior: "smooth" });
         } else if (node) {
-          node.scrollIntoView({behavior: 'smooth'});
+          node.scrollIntoView({ behavior: "smooth" });
         }
       }
       setFirstRender(false);
@@ -104,28 +104,28 @@ const Content = (props: Props) => {
 
   const navLinks: React.ReactElement<any>[] = [];
   const contentSections: React.ReactElement<any>[] = [];
-  sections.forEach(({route, label, active, ref, Component}) => {
+  sections.forEach(({ route, label, active, ref, Component }) => {
     navLinks.push(
       <LinkBase
         to={route}
-        key={'side-nav-to-' + route}
-        className={active ? 'active' : undefined}
+        key={"side-nav-to-" + route}
+        className={active ? "active" : undefined}
         onClick={() => setFirstRender(true)}
       >
         {label}
       </LinkBase>,
     );
-    contentSections.push(<div key={'component-for-' + route} ref={ref}><Component /></div>);
+    contentSections.push(
+      <div key={"component-for-" + route} ref={ref}>
+        <Component />
+      </div>,
+    );
   });
   return (
     <>
+      <div>{contentSections}</div>
       <div>
-        {contentSections}
-      </div>
-      <div>
-        <StickyContainer>
-          {navLinks}
-        </StickyContainer>
+        <StickyContainer>{navLinks}</StickyContainer>
       </div>
     </>
   );

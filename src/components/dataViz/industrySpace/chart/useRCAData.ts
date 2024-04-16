@@ -1,4 +1,4 @@
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, gql } from "@apollo/client";
 import {
   CityIndustryYear,
   CityClusterYear,
@@ -9,25 +9,25 @@ import {
   NaicsRcaCalculation,
   ClusterRcaCalculation,
   isValidPeerGroup,
-} from '../../../../types/graphQL/graphQLTypes';
-import useCurrentCityId from '../../../../hooks/useCurrentCityId';
-import {defaultYear} from '../../../../Utils';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import useCurrentBenchmark from '../../../../hooks/useCurrentBenchmark';
+} from "../../../../types/graphQL/graphQLTypes";
+import useCurrentCityId from "../../../../hooks/useCurrentCityId";
+import { defaultYear } from "../../../../Utils";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import useCurrentBenchmark from "../../../../hooks/useCurrentBenchmark";
 
 export enum RegionGroup {
-  World = 'world',
-  SimilarCities = 'similarcities',
+  World = "world",
+  SimilarCities = "similarcities",
 }
 
 const CLUSTER_INTENSITY_QUERY = gql`
   query GetClusterIntesityData(
-    $cityId: Int!,
-    $year: Int!,
-    $level: Int!,
-    $peerGroup: String,
-    $partnerCityIds: [Int],
-    $variable: String,
+    $cityId: Int!
+    $year: Int!
+    $level: Int!
+    $peerGroup: String
+    $partnerCityIds: [Int]
+    $variable: String
   ) {
     clusterData: cityClusterYearList(cityId: $cityId, year: $year) {
       clusterId
@@ -35,41 +35,45 @@ const CLUSTER_INTENSITY_QUERY = gql`
       numEmploy
       id
     }
-    naicsData: cityIndustryYearList(cityId: $cityId, year: $year, level: $level) {
+    naicsData: cityIndustryYearList(
+      cityId: $cityId
+      year: $year
+      level: $level
+    ) {
       naicsId
       numCompany
       numEmploy
       id
     }
     naicsRca(
-      cityId: $cityId,
-      peerGroup: $peerGroup,
-      partnerCityIds: $partnerCityIds,
-      year: $year,
-      naicsLevel: $level,
-      variable: $variable,
+      cityId: $cityId
+      peerGroup: $peerGroup
+      partnerCityIds: $partnerCityIds
+      year: $year
+      naicsLevel: $level
+      variable: $variable
     ) {
       naicsId
       rca
     }
     c1Rca: clusterRca(
-      cityId: $cityId,
-      peerGroup: $peerGroup,
-      partnerCityIds: $partnerCityIds,
-      year: $year,
-      clusterLevel: 1,
-      variable: $variable,
+      cityId: $cityId
+      peerGroup: $peerGroup
+      partnerCityIds: $partnerCityIds
+      year: $year
+      clusterLevel: 1
+      variable: $variable
     ) {
       clusterId
       rca
     }
     c3Rca: clusterRca(
-      cityId: $cityId,
-      peerGroup: $peerGroup,
-      partnerCityIds: $partnerCityIds,
-      year: $year,
-      clusterLevel: 3,
-      variable: $variable,
+      cityId: $cityId
+      peerGroup: $peerGroup
+      partnerCityIds: $partnerCityIds
+      year: $year
+      clusterLevel: 3
+      variable: $variable
     ) {
       clusterId
       rca
@@ -78,25 +82,25 @@ const CLUSTER_INTENSITY_QUERY = gql`
 `;
 
 interface ClusterData {
-  clusterId: CityClusterYear['clusterId'];
-  level: CityClusterYear['level'];
-  numEmploy: CityClusterYear['numEmploy'];
+  clusterId: CityClusterYear["clusterId"];
+  level: CityClusterYear["level"];
+  numEmploy: CityClusterYear["numEmploy"];
 }
 
 interface NaicsData {
-  naicsId: CityIndustryYear['naicsId'];
-  numCompany: CityIndustryYear['numCompany'];
-  numEmploy: CityIndustryYear['numEmploy'];
+  naicsId: CityIndustryYear["naicsId"];
+  numCompany: CityIndustryYear["numCompany"];
+  numEmploy: CityIndustryYear["numEmploy"];
 }
 
 interface NaicsRca {
-  naicsId: NaicsRcaCalculation['naicsId'];
-  rca: NaicsRcaCalculation['rca'];
+  naicsId: NaicsRcaCalculation["naicsId"];
+  rca: NaicsRcaCalculation["rca"];
 }
 
 interface ClusterRca {
-  clusterId: ClusterRcaCalculation['clusterId'];
-  rca: ClusterRcaCalculation['rca'];
+  clusterId: ClusterRcaCalculation["clusterId"];
+  rca: ClusterRcaCalculation["rca"];
 }
 
 export interface SuccessResponse {
@@ -111,9 +115,9 @@ interface Variables {
   cityId: number | null;
   year: number;
   level: DigitLevel;
-  peerGroup: PeerGroup | '';
+  peerGroup: PeerGroup | "";
   partnerCityIds: [number] | [];
-  variable: 'employ' | 'company';
+  variable: "employ" | "company";
 }
 
 export const useClusterIntensityQuery = (variables: Variables) =>
@@ -122,23 +126,25 @@ export const useClusterIntensityQuery = (variables: Variables) =>
 const useRCAData = (level: DigitLevel) => {
   const cityId = useCurrentCityId();
   const { composition_type } = useQueryParams();
-  const {benchmark} = useCurrentBenchmark();
+  const { benchmark } = useCurrentBenchmark();
 
-
-  const defaultCompositionVariable = defaultCompositionType === CompositionType.Companies ? 'company' : 'employ';
-  let variable: 'employ' | 'company' = defaultCompositionVariable;
+  const defaultCompositionVariable =
+    defaultCompositionType === CompositionType.Companies ? "company" : "employ";
+  let variable: "employ" | "company" = defaultCompositionVariable;
   if (composition_type === CompositionType.Companies) {
-    variable = 'company';
+    variable = "company";
   } else if (composition_type === CompositionType.Employees) {
-    variable = 'employ';
+    variable = "employ";
   }
 
-  const peerGroup = isValidPeerGroup(benchmark) ? benchmark as PeerGroup : '';
+  const peerGroup = isValidPeerGroup(benchmark) ? (benchmark as PeerGroup) : "";
 
-  const partnerCityIds: [number] | [] = benchmark !== undefined && !isNaN(parseInt(benchmark, 10))
-    ? [parseInt(benchmark, 10)] : [];
+  const partnerCityIds: [number] | [] =
+    benchmark !== undefined && !isNaN(parseInt(benchmark, 10))
+      ? [parseInt(benchmark, 10)]
+      : [];
 
-  const {loading, error, data} = useClusterIntensityQuery({
+  const { loading, error, data } = useClusterIntensityQuery({
     cityId: cityId !== null ? parseInt(cityId, 10) : null,
     year: defaultYear,
     level,
@@ -147,7 +153,9 @@ const useRCAData = (level: DigitLevel) => {
     variable,
   });
 
-  return cityId !== null ? {loading, error, data} : {loading: true, error: undefined, data: undefined};
+  return cityId !== null
+    ? { loading, error, data }
+    : { loading: true, error: undefined, data: undefined };
 };
 
 export default useRCAData;

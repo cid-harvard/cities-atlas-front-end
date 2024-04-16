@@ -1,20 +1,16 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {rgba} from 'polished';
+import React from "react";
+import styled from "styled-components/macro";
+import { rgba } from "polished";
 import {
   secondaryFont,
   primaryColor,
   primaryHoverColor,
-} from '../../styling/styleUtils';
-import {
-  citiesLogoSVG,
-  cityIconSVG,
-} from '../../components/navigation/header';
-import useFluent from '../../hooks/useFluent';
-import GrowthLabLogoPNG from '../../assets/branding/growth-lab-logo.png';
-import IIBAwardLogoPNG from '../../assets/other/iiba-metroverse.png';
-import SilverAwardBannerPNG from '../../assets/other/silver-award-banner.png';
-
+} from "../../styling/styleUtils";
+import { citiesLogoSVG, cityIconSVG } from "../../components/navigation/header";
+import useFluent from "../../hooks/useFluent";
+import GrowthLabLogoPNG from "../../assets/branding/growth-lab-logo.png";
+import IIBAwardLogoPNG from "../../assets/other/iiba-metroverse.png";
+import SilverAwardBannerPNG from "../../assets/other/silver-award-banner.png";
 
 const Root = styled.div`
   position: fixed;
@@ -33,13 +29,12 @@ const Root = styled.div`
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
-  
   }
 `;
 
 const Content = styled.div`
   padding: 1rem;
-  background-color: ${rgba('#08111e', 0.9)};
+  background-color: ${rgba("#08111e", 0.9)};
   pointer-events: all;
   color: #fff;
   display: grid;
@@ -60,10 +55,10 @@ const Content = styled.div`
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 4px;
-    background-color: rgba(255, 255, 255, .3);
+    background-color: rgba(255, 255, 255, 0.3);
   }
   ::-webkit-scrollbar-track {
-    background-color: rgba(255, 255, 255, .1);
+    background-color: rgba(255, 255, 255, 0.1);
   }
 
   a {
@@ -235,7 +230,7 @@ const CityverseVersion = styled.div`
   padding: 0.5rem 1rem 0rem -1rem;
   width: 100%;
   font-size: 0.75rem;
-  color: #FFFFFF;
+  color: #ffffff;
   max-width: 700px;
 
   @media (max-height: 800px) {
@@ -267,7 +262,7 @@ const IIBAwardLogoContainer = styled.div`
   & img {
     height: 100%;
   }
-`
+`;
 
 const SilverAwardBanner = styled.div`
   flex: 1 0 50%;
@@ -286,68 +281,90 @@ interface Props {
   onCitySelect: () => void;
 }
 
-const Overlay = ({onCitySelect}: Props) => {
+const Overlay = ({ onCitySelect }: Props) => {
   const getString = useFluent();
 
   return (
     <Root>
       <IIBAwardContainer>
         <IIBAwardLogoContainer>
-          <img 
-            src={IIBAwardLogoPNG} 
-            aria-label={'Logo for Data Visualization Society presents: Information is Beautiful Awards 2022'}
-            title={'Data Visualization Society presents: Information is Beautiful Awards 2022'}
-            alt={'Logo for Data Visualization Society presents: Information is Beautiful Awards 2022'}
+          <img
+            src={IIBAwardLogoPNG}
+            aria-label={
+              "Logo for Data Visualization Society presents: Information is Beautiful Awards 2022"
+            }
+            title={
+              "Data Visualization Society presents: Information is Beautiful Awards 2022"
+            }
+            alt={
+              "Logo for Data Visualization Society presents: Information is Beautiful Awards 2022"
+            }
           />
         </IIBAwardLogoContainer>
         <SilverAwardBanner>
-          <img 
-            src={SilverAwardBannerPNG} 
-            aria-label={'Logo for Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022'}
-            title={'Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022'}
-            alt={'Logo for Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022'}
-            />
+          <img
+            src={SilverAwardBannerPNG}
+            aria-label={
+              "Logo for Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022"
+            }
+            title={
+              "Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022"
+            }
+            alt={
+              "Logo for Silver Award Winner in Business Analytics, Information is Beautiful Awards 2022"
+            }
+          />
         </SilverAwardBanner>
       </IIBAwardContainer>
       <Content>
         <GrowthLabLogo>
           <a
-            href='https://growthlab.cid.harvard.edu/'
-            target='_blank'
-            rel='noopener noreferrer'
+            href="https://growthlab.cid.harvard.edu/"
+            target="_blank"
+            rel="noopener noreferrer"
           >
             <img
               src={GrowthLabLogoPNG}
-              aria-label={'The Growth at Lab at the Center for International Development at the Harvard Kennedy School'}
-              title={'The Growth at Lab at the Center for International Development at the Harvard Kennedy School'}
-              alt={'The Growth at Lab at the Center for International Development at the Harvard Kennedy School'}
+              aria-label={
+                "The Growth at Lab at the Center for International Development at the Harvard Kennedy School"
+              }
+              title={
+                "The Growth at Lab at the Center for International Development at the Harvard Kennedy School"
+              }
+              alt={
+                "The Growth at Lab at the Center for International Development at the Harvard Kennedy School"
+              }
             />
           </a>
         </GrowthLabLogo>
         <CityverseLogo>
           <Logo
-            dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
-            aria-label={getString('global-app-name')}
+            dangerouslySetInnerHTML={{ __html: citiesLogoSVG }}
+            aria-label={getString("global-app-name")}
           />
-          <TitleSubtext>
-            {getString('landing-overlay-subtitle')}
-          </TitleSubtext>
+          <TitleSubtext>{getString("landing-overlay-subtitle")}</TitleSubtext>
         </CityverseLogo>
-        <IntroQuestions dangerouslySetInnerHTML={{__html: getString('landing-overlay-questions')}} />
-        <IntroP>{getString('landing-overlay-p1')}</IntroP>
+        <IntroQuestions
+          dangerouslySetInnerHTML={{
+            __html: getString("landing-overlay-questions"),
+          }}
+        />
+        <IntroP>{getString("landing-overlay-p1")}</IntroP>
         <StartButtons>
           To Start
           <PickCityButton onClick={onCitySelect}>
-            <CityIcon
-              dangerouslySetInnerHTML={{__html: cityIconSVG}}
-            />
+            <CityIcon dangerouslySetInnerHTML={{ __html: cityIconSVG }} />
             Pick a city
           </PickCityButton>
         </StartButtons>
-        <IntroFooter dangerouslySetInnerHTML={{__html: getString('landing-overlay-footnote')}} />
+        <IntroFooter
+          dangerouslySetInnerHTML={{
+            __html: getString("landing-overlay-footnote"),
+          }}
+        />
       </Content>
       <CityverseVersion>
-          VERSION {process.env.REACT_APP_METROVERSE_VERSION}
+        VERSION {process.env.REACT_APP_METROVERSE_VERSION}
       </CityverseVersion>
     </Root>
   );

@@ -1,7 +1,7 @@
-import React from 'react';
-import TopRCA from './TopRCA';
-import useCurrentCityId from '../../../../../../hooks/useCurrentCityId';
-import TopCities from './TopCities';
+import React from "react";
+import TopRCA from "./TopRCA";
+import useCurrentCityId from "../../../../../../hooks/useCurrentCityId";
+import TopCities from "./TopCities";
 
 const BottomRow = () => {
   const cityId = useCurrentCityId();

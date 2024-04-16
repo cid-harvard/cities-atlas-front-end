@@ -1,13 +1,13 @@
-import React, {useState} from 'react';
-import styled from 'styled-components/macro';
+import React, { useState } from "react";
+import styled from "styled-components/macro";
 import {
   lightBorderColor,
   primaryColorLight,
-} from '../../../styling/styleUtils';
+} from "../../../styling/styleUtils";
 
-export const highlightedIdName = 'react-comparison-bar-chart-highlighted-item';
+export const highlightedIdName = "react-comparison-bar-chart-highlighted-item";
 
-const hoverBackgroundColor = '#efefef';
+const hoverBackgroundColor = "#efefef";
 
 const Tr = styled.tr`
   height: initial;
@@ -23,7 +23,7 @@ const Td = styled.td`
   font-size: 0.8rem;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     left: 0;
@@ -41,7 +41,7 @@ const NameTd = styled(Td)`
   background-color: #fff;
 
   &:after {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     top: 0;
@@ -81,9 +81,7 @@ interface Props extends RowDatum {
 }
 
 const TableRow = (props: Props) => {
-  const {
-    id, name, rca, density, quadrant, color, highlighted,
-  } = props;
+  const { id, name, rca, density, quadrant, color, highlighted } = props;
 
   const [hovered, setHovered] = useState<boolean>(false);
 
@@ -92,13 +90,21 @@ const TableRow = (props: Props) => {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       id={highlighted === id ? highlightedIdName : undefined}
-      style={highlighted === id ? {backgroundColor: primaryColorLight} : undefined}
+      style={
+        highlighted === id ? { backgroundColor: primaryColorLight } : undefined
+      }
     >
-      <NameTd style={hovered && highlighted !== id
-          ? {backgroundColor: hoverBackgroundColor}
-          : highlighted === id ? {backgroundColor: primaryColorLight} : undefined}>
+      <NameTd
+        style={
+          hovered && highlighted !== id
+            ? { backgroundColor: hoverBackgroundColor }
+            : highlighted === id
+              ? { backgroundColor: primaryColorLight }
+              : undefined
+        }
+      >
         <NameContent>
-          <ColorBar style={{backgroundColor: color}} />
+          <ColorBar style={{ backgroundColor: color }} />
           {name}
         </NameContent>
       </NameTd>

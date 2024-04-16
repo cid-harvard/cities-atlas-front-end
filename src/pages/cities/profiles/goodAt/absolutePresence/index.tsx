@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
-import TopIndustryComparisonBarChart from
-  '../../../../../components/dataViz/comparisonBarChart/TopIndustryComparisonBarChart';
-import IndustryZoomableBarChart from
-  '../../../../../components/dataViz/zoomableComparisonBarChart/IndustryZoomableBarChart';
-import { defaultYear } from '../../../../../Utils';
+import React, { useState } from "react";
+import TopIndustryComparisonBarChart from "../../../../../components/dataViz/comparisonBarChart/TopIndustryComparisonBarChart";
+import IndustryZoomableBarChart from "../../../../../components/dataViz/zoomableComparisonBarChart/IndustryZoomableBarChart";
+import { defaultYear } from "../../../../../Utils";
 import {
   defaultCompositionType,
   CompositionType,
@@ -12,18 +10,18 @@ import {
   PeerGroup,
   ClassificationNaicsCluster,
   ClusterLevel,
-} from '../../../../../types/graphQL/graphQLTypes';
-import useQueryParams from '../../../../../hooks/useQueryParams';
-import { RegionGroup } from '../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery';
-import { createRoute } from '../../../../../routing/Utils';
-import TrackedRoute from '../../../../../routing/TrackedRoute';
-import { CityRoutes, cityIdParam, ColorBy } from '../../../../../routing/routes';
+} from "../../../../../types/graphQL/graphQLTypes";
+import useQueryParams from "../../../../../hooks/useQueryParams";
+import { RegionGroup } from "../../../../../components/dataViz/comparisonBarChart/cityIndustryComparisonQuery";
+import { createRoute } from "../../../../../routing/Utils";
+import TrackedRoute from "../../../../../routing/TrackedRoute";
 import {
-  useHistory,
-  Switch,
-  matchPath,
-} from 'react-router-dom';
-import SideText from '../SideText';
+  CityRoutes,
+  cityIdParam,
+  ColorBy,
+} from "../../../../../routing/routes";
+import { useHistory, Switch, matchPath } from "react-router-dom";
+import SideText from "../SideText";
 
 interface Props {
   primaryCity: string;
@@ -31,14 +29,18 @@ interface Props {
   hiddenSectors: string[];
   clusterLevel: ClusterLevel;
   isClusterView: boolean;
-  hiddenClusters: ClassificationNaicsCluster['id'][];
+  hiddenClusters: ClassificationNaicsCluster["id"][];
   colorBy: ColorBy;
 }
 
 const CompositionComparison = (props: Props) => {
   const {
-    primaryCity, secondaryCity, hiddenSectors,
-    clusterLevel, isClusterView, hiddenClusters,
+    primaryCity,
+    secondaryCity,
+    hiddenSectors,
+    clusterLevel,
+    isClusterView,
+    hiddenClusters,
     colorBy,
   } = props;
 
@@ -46,28 +48,31 @@ const CompositionComparison = (props: Props) => {
   const [highlighted, setHighlighted] = useState<string | undefined>(undefined);
   const history = useHistory();
   const isIndustryComparison = matchPath<{ [cityIdParam]: string }>(
-    history.location.pathname, CityRoutes.CityGoodAtAbsolutePresenceComparison,
+    history.location.pathname,
+    CityRoutes.CityGoodAtAbsolutePresenceComparison,
   );
   const vizNavigation = [
     {
-      label: 'Bar Graph',
+      label: "Bar Graph",
       active: !!(!isIndustryComparison || !isIndustryComparison.isExact),
       onClick: () => {
         setHighlighted(undefined);
         history.push(
-          createRoute.city(CityRoutes.CityGoodAtAbsolutePresence, primaryCity)
-          + history.location.search,
+          createRoute.city(CityRoutes.CityGoodAtAbsolutePresence, primaryCity) +
+            history.location.search,
         );
       },
     },
     {
-      label: 'Nested Bar Graph',
+      label: "Nested Bar Graph",
       active: !!(isIndustryComparison && isIndustryComparison.isExact),
       onClick: () => {
         setHighlighted(undefined);
         history.push(
-          createRoute.city(CityRoutes.CityGoodAtAbsolutePresenceComparison, primaryCity)
-          + history.location.search,
+          createRoute.city(
+            CityRoutes.CityGoodAtAbsolutePresenceComparison,
+            primaryCity,
+          ) + history.location.search,
         );
       },
     },
@@ -85,12 +90,13 @@ const CompositionComparison = (props: Props) => {
   return (
     <>
       <Switch>
-        <TrackedRoute path={CityRoutes.CityGoodAtAbsolutePresenceComparison}
+        <TrackedRoute
+          path={CityRoutes.CityGoodAtAbsolutePresenceComparison}
           render={() => (
             <>
               <SideText
                 isClusterView={Boolean(isClusterView)}
-                prefix={'absolute-nested-bar-chart'}
+                prefix={"absolute-nested-bar-chart"}
               />
               <IndustryZoomableBarChart
                 primaryCity={parseInt(primaryCity, 10)}
@@ -98,7 +104,11 @@ const CompositionComparison = (props: Props) => {
                 year={defaultYear}
                 setHighlighted={setHighlighted}
                 highlighted={highlighted ? parseInt(highlighted, 10) : null}
-                compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                compositionType={
+                  composition_type
+                    ? (composition_type as CompositionType)
+                    : defaultCompositionType
+                }
                 hiddenSectors={hiddenSectors}
                 vizNavigation={vizNavigation}
                 isClusterView={isClusterView}
@@ -107,12 +117,13 @@ const CompositionComparison = (props: Props) => {
             </>
           )}
         />
-        <TrackedRoute path={CityRoutes.CityGoodAtAbsolutePresence}
+        <TrackedRoute
+          path={CityRoutes.CityGoodAtAbsolutePresence}
           render={() => (
             <>
               <SideText
                 isClusterView={Boolean(isClusterView)}
-                prefix={'absolute-presence'}
+                prefix={"absolute-presence"}
               />
               <TopIndustryComparisonBarChart
                 primaryCity={parseInt(primaryCity, 10)}
@@ -120,8 +131,14 @@ const CompositionComparison = (props: Props) => {
                 year={defaultYear}
                 setHighlighted={setHighlighted}
                 highlighted={highlighted}
-                digitLevel={digit_level ? parseInt(digit_level, 10) : defaultDigitLevel}
-                compositionType={composition_type ? composition_type as CompositionType : defaultCompositionType}
+                digitLevel={
+                  digit_level ? parseInt(digit_level, 10) : defaultDigitLevel
+                }
+                compositionType={
+                  composition_type
+                    ? (composition_type as CompositionType)
+                    : defaultCompositionType
+                }
                 hiddenSectors={hiddenSectors}
                 vizNavigation={vizNavigation}
                 clusterLevel={clusterLevel}

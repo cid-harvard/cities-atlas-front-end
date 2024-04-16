@@ -1,14 +1,14 @@
-import React, {useEffect, useState, useRef, useCallback} from 'react';
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import createChart, {
   ZoomLevel,
   outerRingRadius,
   innerRingRadius,
   svgRingModeClassName,
   NodeAction,
-} from './createChart';
-import useLayoutData from './useLayoutData';
-import useRCAData, {SuccessResponse} from './useRCAData';
-import styled from 'styled-components/macro';
+} from "./createChart";
+import useLayoutData from "./useLayoutData";
+import useRCAData, { SuccessResponse } from "./useRCAData";
+import styled from "styled-components/macro";
 import {
   primaryFont,
   ButtonBase,
@@ -16,20 +16,18 @@ import {
   primaryColorLight,
   primaryColor,
   secondaryFont,
-} from '../../../../styling/styleUtils';
-import LoadingBlock from '../../../transitionStateComponents/VizLoadingBlock';
-import {RapidTooltipRoot} from '../../../../utilities/rapidTooltip';
-import {NodeSizing, ColorBy, ClusterMode} from '../../../../routing/routes';
-import {DigitLevel} from '../../../../types/graphQL/graphQLTypes';
-import {
-  useAggregateIndustryMap,
-} from '../../../../hooks/useAggregateIndustriesData';
-import {defaultYear} from '../../../../Utils';
+} from "../../../../styling/styleUtils";
+import LoadingBlock from "../../../transitionStateComponents/VizLoadingBlock";
+import { RapidTooltipRoot } from "../../../../utilities/rapidTooltip";
+import { NodeSizing, ColorBy, ClusterMode } from "../../../../routing/routes";
+import { DigitLevel } from "../../../../types/graphQL/graphQLTypes";
+import { useAggregateIndustryMap } from "../../../../hooks/useAggregateIndustriesData";
+import { defaultYear } from "../../../../Utils";
 
 const clusterOverlayClassNames = {
-  [ClusterMode.outline]: 'industry-space-clusters-outlines-class',
+  [ClusterMode.outline]: "industry-space-clusters-outlines-class",
   [ClusterMode.overlay]: undefined,
-  [ClusterMode.none]: 'hide-industry-space-clusters-overlay-class',
+  [ClusterMode.none]: "hide-industry-space-clusters-overlay-class",
 };
 
 const Root = styled.div`
@@ -154,7 +152,6 @@ const Root = styled.div`
   }
 
   .industry-countries {
-
     &:hover {
       stroke-width: 3px;
     }
@@ -232,7 +229,6 @@ const BreadCrumbContainer = styled.div`
   @media (max-width: 950px) {
     justify-content: flex-end;
   }
-
 `;
 
 const BreadCrumb = styled.button`
@@ -267,20 +263,25 @@ const Arrow = styled.span`
   }
 `;
 
-type Chart = {
-  initialized: false;
-} | {
-  initialized: true;
-  render: () => void;
-  reset: () => void;
-  zoomIn: () => void;
-  zoomOut: () => void;
-  setHighlightedPoint: (naicsId: string | undefined, action: NodeAction) => void;
-  setExternalHoveredId: (naicsId: string | undefined) => void;
-  update: (data: SuccessResponse, rcaThreshold: number) => void;
-  updateNodeSize: (nodeSizing: NodeSizing, data?: SuccessResponse) => void;
-  updateNodeColor: (colorBy: ColorBy) => void;
-};
+type Chart =
+  | {
+      initialized: false;
+    }
+  | {
+      initialized: true;
+      render: () => void;
+      reset: () => void;
+      zoomIn: () => void;
+      zoomOut: () => void;
+      setHighlightedPoint: (
+        naicsId: string | undefined,
+        action: NodeAction,
+      ) => void;
+      setExternalHoveredId: (naicsId: string | undefined) => void;
+      update: (data: SuccessResponse, rcaThreshold: number) => void;
+      updateNodeSize: (nodeSizing: NodeSizing, data?: SuccessResponse) => void;
+      updateNodeColor: (colorBy: ColorBy) => void;
+    };
 
 interface Props {
   width: number;
@@ -299,8 +300,18 @@ interface Props {
 
 const Chart = (props: Props) => {
   const {
-    width, height, onNodeSelect, highlighted, onZoomLevelChange, clusterOverlayMode,
-    onNodeHover, hovered, nodeSizing, colorBy, zoomLevel, rcaThreshold,
+    width,
+    height,
+    onNodeSelect,
+    highlighted,
+    onZoomLevelChange,
+    clusterOverlayMode,
+    onNodeHover,
+    hovered,
+    nodeSizing,
+    colorBy,
+    zoomLevel,
+    rcaThreshold,
   } = props;
 
   const chartRef = useRef<HTMLDivElement | null>(null);
@@ -308,12 +319,15 @@ const Chart = (props: Props) => {
   const breadCrumbCluster2Ref = useRef<HTMLButtonElement | null>(null);
   const breadCrumbNodeRef = useRef<HTMLButtonElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const [chart, setChart] = useState<Chart>({initialized: false});
+  const [chart, setChart] = useState<Chart>({ initialized: false });
 
   const layout = useLayoutData();
-  const {loading, data} = useRCAData(DigitLevel.Six);
+  const { loading, data } = useRCAData(DigitLevel.Six);
 
-  const aggregateIndustryDataMap = useAggregateIndustryMap({level: DigitLevel.Six, year: defaultYear});
+  const aggregateIndustryDataMap = useAggregateIndustryMap({
+    level: DigitLevel.Six,
+    year: defaultYear,
+  });
 
   useEffect(() => {
     const chartNode = chartRef.current;
@@ -322,30 +336,53 @@ const Chart = (props: Props) => {
     const breadCrumbCluster2Button = breadCrumbCluster2Ref.current;
     const breadCrumbNodeButton = breadCrumbNodeRef.current;
     if (chartNode) {
-      if (chartNode && layout.data && tooltipNode &&
-          breadCrumbCluster1Button && breadCrumbCluster2Button && breadCrumbNodeButton && (
-          (chart.initialized === false && width && height)
-      )) {
-        chartNode.innerHTML = '';
-        setChart({...createChart({
-          rootEl: chartNode,
-          data: layout.data,
-          rootWidth: width,
-          rootHeight: height,
-          tooltipEl: tooltipNode,
-          onNodeSelect, onZoomLevelChange,
-          onNodeHover,
-          breadCrumbCluster1Button,
-          breadCrumbCluster2Button,
-          breadCrumbNodeButton,
-        }), initialized: true });
+      if (
+        chartNode &&
+        layout.data &&
+        tooltipNode &&
+        breadCrumbCluster1Button &&
+        breadCrumbCluster2Button &&
+        breadCrumbNodeButton &&
+        chart.initialized === false &&
+        width &&
+        height
+      ) {
+        chartNode.innerHTML = "";
+        setChart({
+          ...createChart({
+            rootEl: chartNode,
+            data: layout.data,
+            rootWidth: width,
+            rootHeight: height,
+            tooltipEl: tooltipNode,
+            onNodeSelect,
+            onZoomLevelChange,
+            onNodeHover,
+            breadCrumbCluster1Button,
+            breadCrumbCluster2Button,
+            breadCrumbNodeButton,
+          }),
+          initialized: true,
+        });
       }
     }
-  }, [chartRef, chart, width, height, layout, onNodeSelect, onZoomLevelChange, onNodeHover]);
+  }, [
+    chartRef,
+    chart,
+    width,
+    height,
+    layout,
+    onNodeSelect,
+    onZoomLevelChange,
+    onNodeHover,
+  ]);
 
   useEffect(() => {
     if (chart.initialized) {
-      const action = highlighted === undefined ? NodeAction.SoftReset : NodeAction.SelectNode;
+      const action =
+        highlighted === undefined
+          ? NodeAction.SoftReset
+          : NodeAction.SelectNode;
       chart.setHighlightedPoint(highlighted, action);
     }
   }, [chart, highlighted]);
@@ -364,10 +401,13 @@ const Chart = (props: Props) => {
 
   useEffect(() => {
     if (chart.initialized) {
-      const newData = !nodeSizing || nodeSizing === NodeSizing.cityCompanies ||
-        nodeSizing === NodeSizing.cityEmployees || nodeSizing === NodeSizing.rca
-        ? data
-        : undefined;
+      const newData =
+        !nodeSizing ||
+        nodeSizing === NodeSizing.cityCompanies ||
+        nodeSizing === NodeSizing.cityEmployees ||
+        nodeSizing === NodeSizing.rca
+          ? data
+          : undefined;
       chart.updateNodeSize(nodeSizing ? nodeSizing : NodeSizing.rca, newData);
     }
   }, [chart, data, nodeSizing]);
@@ -396,50 +436,50 @@ const Chart = (props: Props) => {
     }
   }, [chart]);
 
-  const loadingOverlay = loading || (!chart.initialized && width && height)
-    ? <LoadingBlock /> : null;
+  const loadingOverlay =
+    loading || (!chart.initialized && width && height) ? (
+      <LoadingBlock />
+    ) : null;
 
   return (
     <>
       <Root
         ref={chartRef}
-        style={{width, height}}
+        style={{ width, height }}
         className={clusterOverlayClassNames[clusterOverlayMode]}
       />
       <BreadCrumbContainer>
-        <BreadCrumb
-          ref={breadCrumbCluster1Ref}
-        >
+        <BreadCrumb ref={breadCrumbCluster1Ref}>
           <span
-            style={zoomLevel === ZoomLevel.Cluster1 ?
-              {color: primaryColor, fontWeight: 600}
-              : undefined}
+            style={
+              zoomLevel === ZoomLevel.Cluster1
+                ? { color: primaryColor, fontWeight: 600 }
+                : undefined
+            }
           >
-            High&nbsp;Aggregation
-            Knowledge&nbsp;Clusters
+            High&nbsp;Aggregation Knowledge&nbsp;Clusters
           </span>
-          <Arrow>{'→'}</Arrow>
+          <Arrow>{"→"}</Arrow>
         </BreadCrumb>
-        <BreadCrumb
-          ref={breadCrumbCluster2Ref}
-        >
+        <BreadCrumb ref={breadCrumbCluster2Ref}>
           <span
-            style={zoomLevel === ZoomLevel.Cluster2 ?
-              {color: primaryColor, fontWeight: 600}
-              : undefined}
+            style={
+              zoomLevel === ZoomLevel.Cluster2
+                ? { color: primaryColor, fontWeight: 600 }
+                : undefined
+            }
           >
-            Low&nbsp;Aggregation
-            Knowledge&nbsp;Clusters
+            Low&nbsp;Aggregation Knowledge&nbsp;Clusters
           </span>
-          <Arrow>{'→'}</Arrow>
+          <Arrow>{"→"}</Arrow>
         </BreadCrumb>
-        <BreadCrumb
-          ref={breadCrumbNodeRef}
-        >
+        <BreadCrumb ref={breadCrumbNodeRef}>
           <span
-            style={zoomLevel === ZoomLevel.Node ?
-              {color: primaryColor, fontWeight: 600}
-              : undefined}
+            style={
+              zoomLevel === ZoomLevel.Node
+                ? { color: primaryColor, fontWeight: 600 }
+                : undefined
+            }
           >
             Single&nbsp;Industries
           </span>
@@ -447,15 +487,9 @@ const Chart = (props: Props) => {
       </BreadCrumbContainer>
       <RapidTooltipRoot ref={tooltipRef} />
       <ZoomButtonsContainer>
-        <ZoomButton onClick={zoomIn}>
-          + Zoom In
-        </ZoomButton>
-        <ZoomButton onClick={zoomOut}>
-          - Zoom Out
-        </ZoomButton>
-        <ZoomButton onClick={resetZoom}>
-          Reset Zoom
-        </ZoomButton>
+        <ZoomButton onClick={zoomIn}>+ Zoom In</ZoomButton>
+        <ZoomButton onClick={zoomOut}>- Zoom Out</ZoomButton>
+        <ZoomButton onClick={resetZoom}>Reset Zoom</ZoomButton>
       </ZoomButtonsContainer>
       {loadingOverlay}
     </>

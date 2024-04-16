@@ -1,7 +1,7 @@
-import React from 'react';
-import {backgroundMedium} from '../../styling/styleUtils';
-import styled, {keyframes} from 'styled-components/macro';
-import {rgba} from 'polished';
+import React from "react";
+import { backgroundMedium } from "../../styling/styleUtils";
+import styled, { keyframes } from "styled-components/macro";
+import { rgba } from "polished";
 
 const fadeIn = keyframes`
   0% {
@@ -56,7 +56,7 @@ interface Props {
 }
 
 const QuickError = (props: Props) => {
-  const {closeError, duration, children} =props;
+  const { closeError, duration, children } = props;
 
   setTimeout(closeError, duration ? duration : 3000);
 

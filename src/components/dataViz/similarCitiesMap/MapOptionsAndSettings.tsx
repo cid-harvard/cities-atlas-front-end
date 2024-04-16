@@ -1,28 +1,25 @@
-import {useEffect} from 'react';
-import {useMapContext} from 'react-city-space-mapbox';
-import useLayoutData, {defaultRadius} from './useLayoutData';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import {createProximityScale} from './Utils';
-import useProximityData from './useProximityData';
-import useQueryParams from '../../../hooks/useQueryParams';
-import {
-  CityNodeSizing,
-  defaultCityNodeSizing,
-} from '../../../routing/routes';
-import {scaleLinear} from 'd3-scale';
-import {extent} from 'd3-array';
-import mapboxgl from 'mapbox-gl';
+import { useEffect } from "react";
+import { useMapContext } from "react-city-space-mapbox";
+import useLayoutData, { defaultRadius } from "./useLayoutData";
+import useCurrentCityId from "../../../hooks/useCurrentCityId";
+import { createProximityScale } from "./Utils";
+import useProximityData from "./useProximityData";
+import useQueryParams from "../../../hooks/useQueryParams";
+import { CityNodeSizing, defaultCityNodeSizing } from "../../../routing/routes";
+import { scaleLinear } from "d3-scale";
+import { extent } from "d3-array";
+import mapboxgl from "mapbox-gl";
 
 let previousCityId: string | undefined;
 
 const MapOptionsAndSettings = () => {
   const mapContext = useMapContext();
 
-  const {data} = useLayoutData();
+  const { data } = useLayoutData();
   const cityId = useCurrentCityId();
-  const {city_node_sizing} = useQueryParams();
+  const { city_node_sizing } = useQueryParams();
 
-  const {data: proximityData} = useProximityData();
+  const { data: proximityData } = useProximityData();
 
   useEffect(() => {
     if (mapContext.intialized) {
@@ -33,7 +30,10 @@ const MapOptionsAndSettings = () => {
 
   useEffect(() => {
     if (mapContext.intialized && data && cityId) {
-      const currentCityFeature = data.cityGeoJson.features.find(({properties}: {properties: {id: number}}) => properties.id.toString() === cityId);
+      const currentCityFeature = data.cityGeoJson.features.find(
+        ({ properties }: { properties: { id: number } }) =>
+          properties.id.toString() === cityId,
+      );
       if (currentCityFeature) {
         if (cityId !== previousCityId) {
           previousCityId = cityId;
@@ -54,35 +54,47 @@ const MapOptionsAndSettings = () => {
         proximityData.cityPartnerEucdistScale.p60GlobalEucdist,
         proximityData.cityPartnerEucdistScale.p80GlobalEucdist,
       ]);
-      const proximityColorMap = proximityData.cities.map(({partnerId, eucdist}) => ({
-        id: partnerId,
-        color: colorScale(eucdist ? eucdist : 100),
-      }));
-      proximityColorMap.push({id: cityId, color: 'gray'});
+      const proximityColorMap = proximityData.cities.map(
+        ({ partnerId, eucdist }) => ({
+          id: partnerId,
+          color: colorScale(eucdist ? eucdist : 100),
+        }),
+      );
+      proximityColorMap.push({ id: cityId, color: "gray" });
       mapContext.setColors(proximityColorMap);
     }
   }, [mapContext, data, proximityData, cityId]);
 
   useEffect(() => {
     if (mapContext.intialized && data && cityId) {
-      const nodeSize = city_node_sizing ? city_node_sizing : defaultCityNodeSizing;
+      const nodeSize = city_node_sizing
+        ? city_node_sizing
+        : defaultCityNodeSizing;
       if (nodeSize === CityNodeSizing.population) {
-        const allPopulationValues = data.cityGeoJson.features.map((f: any) => f.properties.population);
-        const minMaxPopulation = extent(allPopulationValues) as unknown as [number, number];
+        const allPopulationValues = data.cityGeoJson.features.map(
+          (f: any) => f.properties.population,
+        );
+        const minMaxPopulation = extent(allPopulationValues) as unknown as [
+          number,
+          number,
+        ];
         const populationScale = scaleLinear()
-            .domain(minMaxPopulation)
-            .range([24, 100]);
+          .domain(minMaxPopulation)
+          .range([24, 100]);
         const populationSizeByMap = data.cityGeoJson.features.map((f: any) => ({
           id: f.properties.id,
           radius: populationScale(f.properties.population),
         }));
         mapContext.setNodeSizing(populationSizeByMap);
       } else if (nodeSize === CityNodeSizing.gdpPpp) {
-        const allGdpPppValues = data.cityGeoJson.features.map((f: any) => f.properties.gdppc);
-        const minMaxGdpPpp = extent(allGdpPppValues) as unknown as [number, number];
-        const gdpPppScale = scaleLinear()
-            .domain(minMaxGdpPpp)
-            .range([16, 50]);
+        const allGdpPppValues = data.cityGeoJson.features.map(
+          (f: any) => f.properties.gdppc,
+        );
+        const minMaxGdpPpp = extent(allGdpPppValues) as unknown as [
+          number,
+          number,
+        ];
+        const gdpPppScale = scaleLinear().domain(minMaxGdpPpp).range([16, 50]);
         const gdpPppSizeByMap = data.cityGeoJson.features.map((f: any) => ({
           id: f.properties.id,
           radius: gdpPppScale(f.properties.gdppc),

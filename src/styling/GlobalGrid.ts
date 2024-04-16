@@ -1,4 +1,4 @@
-import styled from 'styled-components/macro';
+import styled from "styled-components/macro";
 
 export const breakPointValues = {
   width: {
@@ -25,32 +25,32 @@ export const breakPoints = {
 const lines = {
   rows: {
     // Horizontal Grid Lines
-    pageTop: 'citiesAtlasGlobalGridPageTop',
-    preHeaderTop: 'citiesAtlasGlobalGridPreHeaderTop',
-    preHeaderBottom: 'citiesAtlasGlobalGridPreHeaderBottom',
-    headerTop: 'citiesAtlasGlobalGridHeaderTop',
-    headerBottom: 'citiesAtlasGlobalGridHeaderBottom',
-    secondaryHeaderTop: 'citiesAtlasGlobalGridSecondaryHeaderTop',
-    secondaryHeaderBottom: 'citiesAtlasGlobalGridSecondaryHeaderBottom',
-    preContentTop: 'citiesAtlasGlobalGridPreContentTop',
-    preContentBottom: 'citiesAtlasGlobalGridPreContentBottom',
-    contentTop: 'citiesAtlasGlobalGridContentTop',
-    contentBottom: 'citiesAtlasGlobalGridContentBottom',
-    postContentTop: 'citiesAtlasGlobalGridPostContentTop',
-    postContentBottom: 'citiesAtlasGlobalGridPostContentBottom',
-    footerTop: 'citiesAtlasGlobalGridFooterTop',
-    footerBottom: 'citiesAtlasGlobalGridFooterBottom',
-    postFooterTop: 'citiesAtlasGlobalGridPostFooterTop',
-    postFooterBottom: 'citiesAtlasGlobalGridPostFooterBottom',
-    pageBottom: 'citiesAtlasGlobalGridPageBottom',
+    pageTop: "citiesAtlasGlobalGridPageTop",
+    preHeaderTop: "citiesAtlasGlobalGridPreHeaderTop",
+    preHeaderBottom: "citiesAtlasGlobalGridPreHeaderBottom",
+    headerTop: "citiesAtlasGlobalGridHeaderTop",
+    headerBottom: "citiesAtlasGlobalGridHeaderBottom",
+    secondaryHeaderTop: "citiesAtlasGlobalGridSecondaryHeaderTop",
+    secondaryHeaderBottom: "citiesAtlasGlobalGridSecondaryHeaderBottom",
+    preContentTop: "citiesAtlasGlobalGridPreContentTop",
+    preContentBottom: "citiesAtlasGlobalGridPreContentBottom",
+    contentTop: "citiesAtlasGlobalGridContentTop",
+    contentBottom: "citiesAtlasGlobalGridContentBottom",
+    postContentTop: "citiesAtlasGlobalGridPostContentTop",
+    postContentBottom: "citiesAtlasGlobalGridPostContentBottom",
+    footerTop: "citiesAtlasGlobalGridFooterTop",
+    footerBottom: "citiesAtlasGlobalGridFooterBottom",
+    postFooterTop: "citiesAtlasGlobalGridPostFooterTop",
+    postFooterBottom: "citiesAtlasGlobalGridPostFooterBottom",
+    pageBottom: "citiesAtlasGlobalGridPageBottom",
   },
   columns: {
-    pageLeft: 'citiesAtlasGlobalGridPageLeft',
-    navLeft: 'citiesAtlasGlobalGridNavLeft',
-    navRight: 'citiesAtlasGlobalGridNavRight',
-    contentLeft: 'citiesAtlasGlobalGridContentLeft',
-    contentRight: 'citiesAtlasGlobalGridContentRight',
-    pageRight: 'citiesAtlasGlobalGridPageRight',
+    pageLeft: "citiesAtlasGlobalGridPageLeft",
+    navLeft: "citiesAtlasGlobalGridNavLeft",
+    navRight: "citiesAtlasGlobalGridNavRight",
+    contentLeft: "citiesAtlasGlobalGridContentLeft",
+    contentRight: "citiesAtlasGlobalGridContentRight",
+    pageRight: "citiesAtlasGlobalGridPageRight",
   },
 };
 
@@ -64,20 +64,20 @@ export const Root = styled.div`
   z-index: 10;
   display: grid;
   grid-template-rows:
-    [${lines.rows.pageTop} ${lines.rows.preHeaderTop}] auto
-    [${lines.rows.preHeaderBottom} ${lines.rows.headerTop}] auto
-    [${lines.rows.headerBottom} ${lines.rows.secondaryHeaderTop}] auto
-    [${lines.rows.secondaryHeaderBottom} ${lines.rows.preContentTop}] auto
-    [${lines.rows.preContentBottom} ${lines.rows.contentTop}] 1fr
-    [${lines.rows.contentBottom} ${lines.rows.postContentTop}] auto
-    [${lines.rows.postContentBottom} ${lines.rows.footerTop}] auto
-    [${lines.rows.footerBottom} ${lines.rows.postFooterTop}] auto
-    [${lines.rows.postFooterBottom} ${lines.rows.pageBottom}];
+    [ ${lines.rows.pageTop} ${lines.rows.preHeaderTop}] auto
+    [ ${lines.rows.preHeaderBottom} ${lines.rows.headerTop}] auto
+    [ ${lines.rows.headerBottom} ${lines.rows.secondaryHeaderTop}] auto
+    [ ${lines.rows.secondaryHeaderBottom} ${lines.rows.preContentTop}] auto
+    [ ${lines.rows.preContentBottom} ${lines.rows.contentTop}] 1fr
+    [ ${lines.rows.contentBottom} ${lines.rows.postContentTop}] auto
+    [ ${lines.rows.postContentBottom} ${lines.rows.footerTop}] auto
+    [ ${lines.rows.footerBottom} ${lines.rows.postFooterTop}] auto
+    [ ${lines.rows.postFooterBottom} ${lines.rows.pageBottom}];
 
   grid-template-columns:
-    [${lines.columns.pageLeft} ${lines.columns.navLeft}] auto
-    [${lines.columns.navRight} ${lines.columns.contentLeft}] 1fr
-    [${lines.columns.contentRight} ${lines.columns.pageRight}];
+    [ ${lines.columns.pageLeft} ${lines.columns.navLeft}] auto
+    [ ${lines.columns.navRight} ${lines.columns.contentLeft}] 1fr
+    [ ${lines.columns.contentRight} ${lines.columns.pageRight}];
 
   @media ${breakPoints.small} {
     height: auto;
@@ -97,28 +97,29 @@ export const InformationalPageRoot = styled.div`
   z-index: 10;
   display: grid;
   grid-template-rows:
-    [${lines.rows.pageTop} ${lines.rows.preHeaderTop}] auto
-    [${lines.rows.preHeaderBottom} ${lines.rows.headerTop}] auto
-    [${lines.rows.headerBottom} ${lines.rows.secondaryHeaderTop}] auto
-    [${lines.rows.secondaryHeaderBottom} ${lines.rows.preContentTop}] auto
-    [${lines.rows.preContentBottom} ${lines.rows.contentTop}] 1fr
-    [${lines.rows.contentBottom} ${lines.rows.postContentTop}] auto
-    [${lines.rows.postContentBottom} ${lines.rows.footerTop}] auto
-    [${lines.rows.footerBottom} ${lines.rows.postFooterTop}] auto
-    [${lines.rows.postFooterBottom} ${lines.rows.pageBottom}];
+    [ ${lines.rows.pageTop} ${lines.rows.preHeaderTop}] auto
+    [ ${lines.rows.preHeaderBottom} ${lines.rows.headerTop}] auto
+    [ ${lines.rows.headerBottom} ${lines.rows.secondaryHeaderTop}] auto
+    [ ${lines.rows.secondaryHeaderBottom} ${lines.rows.preContentTop}] auto
+    [ ${lines.rows.preContentBottom} ${lines.rows.contentTop}] 1fr
+    [ ${lines.rows.contentBottom} ${lines.rows.postContentTop}] auto
+    [ ${lines.rows.postContentBottom} ${lines.rows.footerTop}] auto
+    [ ${lines.rows.footerBottom} ${lines.rows.postFooterTop}] auto
+    [ ${lines.rows.postFooterBottom} ${lines.rows.pageBottom}];
 
   grid-template-columns:
-    [${lines.columns.pageLeft} ${lines.columns.navLeft}] auto
-    [${lines.columns.navRight} ${lines.columns.contentLeft}] 1fr
-    [${lines.columns.contentRight} ${lines.columns.pageRight}];
-  `;
+    [ ${lines.columns.pageLeft} ${lines.columns.navLeft}] auto
+    [ ${lines.columns.navRight} ${lines.columns.contentLeft}] 1fr
+    [ ${lines.columns.contentRight} ${lines.columns.pageRight}];
+`;
 
 export const PrimaryHeaderContainer = styled.div`
   grid-row: ${lines.rows.headerTop} / ${lines.rows.headerBottom};
   grid-column: ${lines.columns.pageLeft} / ${lines.columns.pageRight};
 `;
 export const SecondaryHeaderContainer = styled.div`
-  grid-row: ${lines.rows.secondaryHeaderTop} / ${lines.rows.secondaryHeaderBottom};
+  grid-row: ${lines.rows.secondaryHeaderTop} /
+    ${lines.rows.secondaryHeaderBottom};
   grid-column: ${lines.columns.pageLeft} / ${lines.columns.pageRight};
 `;
 export const NavigationContainer = styled.div`

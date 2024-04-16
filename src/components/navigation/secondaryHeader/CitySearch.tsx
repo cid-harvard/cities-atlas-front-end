@@ -1,26 +1,18 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {
-  lightBaseColor,
-} from '../../../styling/styleUtils';
-import matchingKeywordFormatter from '../../../styling/utils/panelSearchKeywordFormatter';
-import PanelSearch, {Datum} from 'react-panel-search';
-import useFluent from '../../../hooks/useFluent';
-import {useGlobalLocationHierarchicalTreeData} from '../../../hooks/useGlobalLocationData';
-import SimpleLoader from '../../transitionStateComponents/SimpleLoader';
-import SimpleError from '../../transitionStateComponents/SimpleError';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import {
-  useHistory,
-  matchPath,
-} from 'react-router-dom';
-import {
-  CityRoutes,
-  cityIdParam,
-} from '../../../routing/routes';
-import {ValueOfCityRoutes, createRoute} from '../../../routing/Utils';
-import {TooltipTheme} from '../../general/Tooltip';
-import useCurrentBenchmark from '../../../hooks/useCurrentBenchmark';
+import React from "react";
+import styled from "styled-components/macro";
+import { lightBaseColor } from "../../../styling/styleUtils";
+import matchingKeywordFormatter from "../../../styling/utils/panelSearchKeywordFormatter";
+import PanelSearch, { Datum } from "react-panel-search";
+import useFluent from "../../../hooks/useFluent";
+import { useGlobalLocationHierarchicalTreeData } from "../../../hooks/useGlobalLocationData";
+import SimpleLoader from "../../transitionStateComponents/SimpleLoader";
+import SimpleError from "../../transitionStateComponents/SimpleError";
+import useCurrentCityId from "../../../hooks/useCurrentCityId";
+import { useHistory, matchPath } from "react-router-dom";
+import { CityRoutes, cityIdParam } from "../../../routing/routes";
+import { ValueOfCityRoutes, createRoute } from "../../../routing/Utils";
+import { TooltipTheme } from "../../general/Tooltip";
+import useCurrentBenchmark from "../../../hooks/useCurrentBenchmark";
 
 const Root = styled.div`
   display: grid;
@@ -67,12 +59,14 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
   const history = useHistory();
   const { benchmark } = useCurrentBenchmark();
 
-  const {loading, error, data} = useGlobalLocationHierarchicalTreeData();
+  const { loading, error, data } = useGlobalLocationHierarchicalTreeData();
   let output: React.ReactElement<any> | null;
   if (loading) {
     output = (
       <LoadingContainer
-        style={searchContainerWidth ? { width: searchContainerWidth } : undefined}
+        style={
+          searchContainerWidth ? { width: searchContainerWidth } : undefined
+        }
       >
         <SimpleLoader />
       </LoadingContainer>
@@ -81,44 +75,60 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
     console.error(error);
     output = (
       <LoadingContainer
-        style={searchContainerWidth ? { width: searchContainerWidth } : undefined}
+        style={
+          searchContainerWidth ? { width: searchContainerWidth } : undefined
+        }
       >
         <SimpleError />
       </LoadingContainer>
     );
   } else if (data !== undefined) {
-    const initialSelected = data.find(({id}) => id === cityId);
+    const initialSelected = data.find(({ id }) => id === cityId);
     const onSelect = (d: Datum | null) => {
       if (d) {
         Object.entries(CityRoutes).forEach(([_key, value]) => {
-          const match = matchPath<{[cityIdParam]: string}>(history.location.pathname, value);
+          const match = matchPath<{ [cityIdParam]: string }>(
+            history.location.pathname,
+            value,
+          );
           if (match && match.isExact && match.path) {
-            history.push(createRoute.city(match.path as ValueOfCityRoutes, d.id.toString()) + history.location.search);
+            history.push(
+              createRoute.city(
+                match.path as ValueOfCityRoutes,
+                d.id.toString(),
+              ) + history.location.search,
+            );
           }
         });
       }
     };
 
-    const dataWithoutCurrentComparisonOrBenchmark = benchmark !== undefined
-      ? data.filter(({id}) => id !== benchmark) : data;
+    const dataWithoutCurrentComparisonOrBenchmark =
+      benchmark !== undefined
+        ? data.filter(({ id }) => id !== benchmark)
+        : data;
 
     output = (
       <>
         <SearchContainer
-          style={searchContainerWidth ? { width: searchContainerWidth } : undefined}
+          style={
+            searchContainerWidth ? { width: searchContainerWidth } : undefined
+          }
         >
           <PanelSearch
             data={dataWithoutCurrentComparisonOrBenchmark}
-            topLevelTitle={getString('global-text-countries')}
-            disallowSelectionLevels={['0']}
-            defaultPlaceholderText={getString('global-ui-type-a-city-name')}
+            topLevelTitle={getString("global-text-countries")}
+            disallowSelectionLevels={["0"]}
+            defaultPlaceholderText={getString("global-ui-type-a-city-name")}
             showCount={true}
             resultsIdentation={1.75}
             neverEmpty={true}
             selectedValue={initialSelected ? initialSelected : undefined}
             onSelect={onSelect}
             maxResults={500}
-            matchingKeywordFormatter={matchingKeywordFormatter(TooltipTheme.Light)}
+            matchingKeywordFormatter={matchingKeywordFormatter(
+              TooltipTheme.Light,
+            )}
           />
         </SearchContainer>
       </>
@@ -126,9 +136,7 @@ const CitySearch = ({ searchContainerWidth }: Props) => {
   } else {
     output = null;
   }
-  return (
-    <Root>{output}</Root>
-  );
+  return <Root>{output}</Root>;
 };
 
 export default CitySearch;

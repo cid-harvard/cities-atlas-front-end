@@ -1,9 +1,9 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {breakPoints} from '../../../styling/GlobalGrid';
-import {intensityColorRange} from '../../../styling/styleUtils';
-import useFluent from '../../../hooks/useFluent';
-import {joyrideClassNames} from '../../navigation/secondaryHeader/guide/CitiesGuide';
+import React from "react";
+import styled from "styled-components/macro";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import { intensityColorRange } from "../../../styling/styleUtils";
+import useFluent from "../../../hooks/useFluent";
+import { joyrideClassNames } from "../../navigation/secondaryHeader/guide/CitiesGuide";
 
 const RootBase = styled.div`
   grid-row: 3;
@@ -32,7 +32,11 @@ const Content = styled.div`
 const Bar = styled.div`
   width: 100%;
   height: 0.6rem;
-  background: linear-gradient(90deg, ${intensityColorRange[0]} 0%, ${intensityColorRange[1]} 100%);
+  background: linear-gradient(
+    90deg,
+    ${intensityColorRange[0]} 0%,
+    ${intensityColorRange[1]} 100%
+  );
 `;
 
 const Labels = styled.div`
@@ -52,7 +56,7 @@ interface Props {
 }
 
 const IntensityLegend = (props: Props) => {
-  const {fullWidth} = props;
+  const { fullWidth } = props;
   const Root = fullWidth ? FullWidthRoot : StandardRoot;
   const getString = useFluent();
 
@@ -60,8 +64,8 @@ const IntensityLegend = (props: Props) => {
     <Root className={joyrideClassNames.colorLegendNoFilter}>
       <Content>
         <Labels>
-          <Label>{getString('global-intensity-low')}</Label>
-          <Label>{getString('global-intensity-high')}</Label>
+          <Label>{getString("global-intensity-low")}</Label>
+          <Label>{getString("global-intensity-high")}</Label>
         </Labels>
         <Bar />
       </Content>

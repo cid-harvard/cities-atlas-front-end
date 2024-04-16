@@ -1,19 +1,16 @@
-import React, {useState} from 'react';
-import styled from 'styled-components/macro';
+import React, { useState } from "react";
+import styled from "styled-components/macro";
 import {
   primaryFont,
   secondaryFont,
   primaryColor,
-} from '../../styling/styleUtils';
-import raw from 'raw.macro';
-import {
-  citiesLogoSVG,
-  cityIconSVG,
-} from '../../components/navigation/header';
-import useFluent from '../../hooks/useFluent';
-import BasicModal from '../../components/standardModal/BasicModal';
+} from "../../styling/styleUtils";
+import raw from "raw.macro";
+import { citiesLogoSVG, cityIconSVG } from "../../components/navigation/header";
+import useFluent from "../../hooks/useFluent";
+import BasicModal from "../../components/standardModal/BasicModal";
 
-const mapPanSVG = raw('../../assets/icons/map-pan.svg');
+const mapPanSVG = raw("../../assets/icons/map-pan.svg");
 
 const Root = styled.div`
   font-family: ${secondaryFont};
@@ -101,7 +98,7 @@ const Or = styled.span`
 
   &:before,
   &:after {
-    content: '';
+    content: "";
     display: block;
     flex-grow: 1;
     border-left: solid 2px #fff;
@@ -153,7 +150,7 @@ const WhatIsACityLink = styled.button`
   font-size: 0.85rem;
   padding: 0.5rem;
   border: solid 1px #fff;
-  background-color: rgba(0,0,0,0.85);
+  background-color: rgba(0, 0, 0, 0.85);
   text-transform: uppercase;
 
   &:hover {
@@ -182,17 +179,17 @@ const Heading = () => {
   const openModal = () => setCityModalOpen(true);
   const closeModal = () => setCityModalOpen(false);
   const modal = cityModalOpen ? (
-    <BasicModal
-      width={'400px'}
-      height={'auto'}
-      onClose={closeModal}
-    >
+    <BasicModal width={"400px"} height={"auto"} onClose={closeModal}>
       <ModalContent>
         <p
-          dangerouslySetInnerHTML={{__html: getString('landing-page-text-what-is-city-para-1')}}
+          dangerouslySetInnerHTML={{
+            __html: getString("landing-page-text-what-is-city-para-1"),
+          }}
         />
         <p
-          dangerouslySetInnerHTML={{__html: getString('landing-page-text-what-is-city-para-2')}}
+          dangerouslySetInnerHTML={{
+            __html: getString("landing-page-text-what-is-city-para-2"),
+          }}
         />
       </ModalContent>
     </BasicModal>
@@ -200,28 +197,24 @@ const Heading = () => {
   return (
     <Root>
       <Logo
-        dangerouslySetInnerHTML={{__html: citiesLogoSVG}}
-        aria-label={getString('global-app-name')}
+        dangerouslySetInnerHTML={{ __html: citiesLogoSVG }}
+        aria-label={getString("global-app-name")}
       />
       <H2>
-        <CityIcon
-          dangerouslySetInnerHTML={{__html: cityIconSVG}}
-        />
-        {getString('navigation-pick-a-city')}
+        <CityIcon dangerouslySetInnerHTML={{ __html: cityIconSVG }} />
+        {getString("navigation-pick-a-city")}
       </H2>
       <Description>
-        <span>{getString('global-ui-type-a-city-name')}</span>
-        <Or>{getString('landing-page-text-or')}</Or>
+        <span>{getString("global-ui-type-a-city-name")}</span>
+        <Or>{getString("landing-page-text-or")}</Or>
         <UseMapText>
-          <MapPanIcon
-            dangerouslySetInnerHTML={{__html: mapPanSVG}}
-          />
-          {getString('landing-page-text-use-the-map')}
+          <MapPanIcon dangerouslySetInnerHTML={{ __html: mapPanSVG }} />
+          {getString("landing-page-text-use-the-map")}
         </UseMapText>
       </Description>
       <WhatIsACityLinkContainer>
         <WhatIsACityLink onClick={openModal}>
-          {getString('landing-page-text-what-is-city-link')}
+          {getString("landing-page-text-what-is-city-link")}
         </WhatIsACityLink>
       </WhatIsACityLinkContainer>
       {modal}

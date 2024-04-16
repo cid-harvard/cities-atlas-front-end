@@ -1,18 +1,24 @@
-import React, { useState } from 'react';
-import styled from 'styled-components/macro';
-import { useGlobalLocationGeometry } from '../../../../landing';
-import useCurrentCityId from '../../../../../hooks/useCurrentCityId';
-import CityMap, { BoundsConfig } from './CityMap';
-import { Coordinate, getBounds } from '../../../../../components/map/Utils';
-import { ExtendedSearchDatum } from '../../../../landing/Utils';
-import { backgroundDark, backgroundMedium, baseColor, lightBorderColor, secondaryFont } from '../../../../../styling/styleUtils';
-import { breakPoints } from '../../../../../styling/GlobalGrid';
-import useFluent from '../../../../../hooks/useFluent';
-import BasicModal from '../../../../../components/standardModal/BasicModal';
-import { ModalContent } from '../../../../landing/Heading';
+import React, { useState } from "react";
+import styled from "styled-components/macro";
+import { useGlobalLocationGeometry } from "../../../../landing";
+import useCurrentCityId from "../../../../../hooks/useCurrentCityId";
+import CityMap, { BoundsConfig } from "./CityMap";
+import { Coordinate, getBounds } from "../../../../../components/map/Utils";
+import { ExtendedSearchDatum } from "../../../../landing/Utils";
+import {
+  backgroundDark,
+  backgroundMedium,
+  baseColor,
+  lightBorderColor,
+  secondaryFont,
+} from "../../../../../styling/styleUtils";
+import { breakPoints } from "../../../../../styling/GlobalGrid";
+import useFluent from "../../../../../hooks/useFluent";
+import BasicModal from "../../../../../components/standardModal/BasicModal";
+import { ModalContent } from "../../../../landing/Heading";
 
-const footnoteHeight = '3.5rem';
-const footnoteHeightSmall = '1.75rem';
+const footnoteHeight = "3.5rem";
+const footnoteHeightSmall = "1.75rem";
 
 const Root = styled.div`
   width: 100%;
@@ -66,13 +72,13 @@ const Root = styled.div`
     .mapboxgl-ctrl-zoom-in {
       &::after {
         text-align: center;
-        content: '+ Zoom In';
+        content: "+ Zoom In";
       }
     }
     .mapboxgl-ctrl-zoom-out {
       &:after {
         text-align: center;
-        content: '- Zoom Out';
+        content: "- Zoom Out";
       }
     }
     .mapboxgl-ctrl-compass {
@@ -138,29 +144,48 @@ const MapRoot = () => {
   const getString = useFluent();
   const [cityModalOpen, setCityModalOpen] = useState<boolean>(false);
 
-  let fitBounds: BoundsConfig = { bounds: getBounds([]), padding: { top: 0, bottom: 0, left: 0, right: 0 } };
+  let fitBounds: BoundsConfig = {
+    bounds: getBounds([]),
+    padding: { top: 0, bottom: 0, left: 0, right: 0 },
+  };
 
   if (data !== undefined) {
     const { cities, countries } = data;
     let highlighted: ExtendedSearchDatum | undefined;
-    cities.forEach(city => {
+    cities.forEach((city) => {
       const {
-        cityId, name, centroidLon, countryId, geometry,
-        populationLatest, gdppc, nameList,
+        cityId,
+        name,
+        centroidLon,
+        countryId,
+        geometry,
+        populationLatest,
+        gdppc,
+        nameList,
       } = city;
-      const coordinates: Coordinate[][][] = geometry ? JSON.parse(geometry).coordinates : [];
-      const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
-      const center: Coordinate = [centroidLon ? centroidLon : 0, northernTerminus];
-      const parent = countries.find(c => parseInt(c.countryId, 10) === countryId);
-      const countryName = parent && parent.nameShortEn ? parent.nameShortEn : '';
+      const coordinates: Coordinate[][][] = geometry
+        ? JSON.parse(geometry).coordinates
+        : [];
+      const northernTerminus = Math.max(
+        ...coordinates[0][0].map((coord) => coord[1]),
+      );
+      const center: Coordinate = [
+        centroidLon ? centroidLon : 0,
+        northernTerminus,
+      ];
+      const parent = countries.find(
+        (c) => parseInt(c.countryId, 10) === countryId,
+      );
+      const countryName =
+        parent && parent.nameShortEn ? parent.nameShortEn : "";
       const population = populationLatest ? populationLatest : 0;
       const gdp = gdppc && !isNaN(gdppc) ? parseFloat(gdppc.toFixed(2)) : 0;
       const id = cityId;
       const searchDatum: ExtendedSearchDatum = {
         id,
-        title: name + ', ' + countryName,
+        title: name + ", " + countryName,
         parent_id: countryId,
-        level: '1',
+        level: "1",
         center,
         coordinates: coordinates[0][0],
         population: Math.round(population),
@@ -171,7 +196,12 @@ const MapRoot = () => {
         highlighted = searchDatum;
         fitBounds = {
           bounds: getBounds(highlighted.coordinates),
-          padding: { top: window.innerHeight * 0.05, bottom: window.innerHeight * 0.05, left: window.innerWidth * 0.05, right: window.innerWidth * 0.05 },
+          padding: {
+            top: window.innerHeight * 0.05,
+            bottom: window.innerHeight * 0.05,
+            left: window.innerWidth * 0.05,
+            right: window.innerWidth * 0.05,
+          },
         };
       }
     });
@@ -180,17 +210,17 @@ const MapRoot = () => {
   const openModal = () => setCityModalOpen(true);
   const closeModal = () => setCityModalOpen(false);
   const modal = cityModalOpen ? (
-    <BasicModal
-      width={'400px'}
-      height={'auto'}
-      onClose={closeModal}
-    >
+    <BasicModal width={"400px"} height={"auto"} onClose={closeModal}>
       <ModalContent>
         <p
-          dangerouslySetInnerHTML={{ __html: getString('landing-page-text-what-is-city-para-1') }}
+          dangerouslySetInnerHTML={{
+            __html: getString("landing-page-text-what-is-city-para-1"),
+          }}
         />
         <p
-          dangerouslySetInnerHTML={{ __html: getString('landing-page-text-what-is-city-para-2') }}
+          dangerouslySetInnerHTML={{
+            __html: getString("landing-page-text-what-is-city-para-2"),
+          }}
         />
       </ModalContent>
     </BasicModal>
@@ -206,13 +236,18 @@ const MapRoot = () => {
         fitBounds={fitBounds}
       />
       <Footnote>
-        <SourceAttr dangerouslySetInnerHTML={{ __html: getString('city-overview-map-source')}} />
-        <MoreInfoBtn onClick={openModal}>{getString('city-overview-more-info')}</MoreInfoBtn>
+        <SourceAttr
+          dangerouslySetInnerHTML={{
+            __html: getString("city-overview-map-source"),
+          }}
+        />
+        <MoreInfoBtn onClick={openModal}>
+          {getString("city-overview-more-info")}
+        </MoreInfoBtn>
       </Footnote>
       {modal}
     </Root>
   );
-
 };
 
 export default MapRoot;

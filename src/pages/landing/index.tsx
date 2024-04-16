@@ -1,38 +1,34 @@
-import React, {useState, useEffect, useCallback} from 'react';
-import ClusterMap from '../../components/map/ClusterLandingMap';
-import styled from 'styled-components/macro';
-import { Layer, Feature, GeoJSONLayer } from 'react-mapbox-gl';
+import React, { useState, useEffect, useCallback } from "react";
+import ClusterMap from "../../components/map/ClusterLandingMap";
+import styled from "styled-components/macro";
+import { Layer, Feature, GeoJSONLayer } from "react-mapbox-gl";
 import {
   clusterSourceLayerId,
   togglePointer,
   Coordinate,
   getBounds,
-} from '../../components/map/Utils';
+} from "../../components/map/Utils";
 import {
   secondaryColor,
   primaryColor,
   primaryColorRange,
   mapLabelColor,
   secondaryFont,
-} from '../../styling/styleUtils';
-import Heading from './Heading';
-import {
-  ExtendedSearchDatum,
-  StyledPopup,
-  TootltipTitle,
-} from './Utils';
-import HighlightedTooltip from './HighlightedTooltip';
-import { useQuery, gql } from '@apollo/client';
+} from "../../styling/styleUtils";
+import Heading from "./Heading";
+import { ExtendedSearchDatum, StyledPopup, TootltipTitle } from "./Utils";
+import HighlightedTooltip from "./HighlightedTooltip";
+import { useQuery, gql } from "@apollo/client";
 import {
   ClassificationCountry,
   ClassificationCity,
-} from '../../types/graphQL/graphQLTypes';
-import SimpleLoader from '../../components/transitionStateComponents/SimpleLoader';
-import SimpleError from '../../components/transitionStateComponents/SimpleError';
-import SearchBar from './SearchBar';
-import useFluent from '../../hooks/useFluent';
-import useQueryParams from '../../hooks/useQueryParams';
-import Overlay from './Overlay';
+} from "../../types/graphQL/graphQLTypes";
+import SimpleLoader from "../../components/transitionStateComponents/SimpleLoader";
+import SimpleError from "../../components/transitionStateComponents/SimpleError";
+import SearchBar from "./SearchBar";
+import useFluent from "../../hooks/useFluent";
+import useQueryParams from "../../hooks/useQueryParams";
+import Overlay from "./Overlay";
 
 const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
   query GetGlobalLocationData {
@@ -58,33 +54,34 @@ const GLOBAL_LOCATION_WITH_GEOMETRY_QUERY = gql`
 
 export interface SuccessResponse {
   countries: {
-    countryId: ClassificationCountry['countryId'],
-    nameShortEn: ClassificationCountry['nameShortEn'],
-    id: ClassificationCountry['id'],
+    countryId: ClassificationCountry["countryId"];
+    nameShortEn: ClassificationCountry["nameShortEn"];
+    id: ClassificationCountry["id"];
   }[];
   cities: {
-    cityId: ClassificationCity['cityId'],
-    name: ClassificationCity['name'],
-    nameList: ClassificationCity['nameList'],
-    centroidLat: ClassificationCity['centroidLat'],
-    centroidLon: ClassificationCity['centroidLon'],
-    countryId: ClassificationCity['countryId'],
-    geometry: ClassificationCity['geometry'],
-    populationLatest: ClassificationCity['populationLatest'],
-    gdppc: ClassificationCity['gdppc'],
-    id: ClassificationCity['id'],
+    cityId: ClassificationCity["cityId"];
+    name: ClassificationCity["name"];
+    nameList: ClassificationCity["nameList"];
+    centroidLat: ClassificationCity["centroidLat"];
+    centroidLon: ClassificationCity["centroidLon"];
+    countryId: ClassificationCity["countryId"];
+    geometry: ClassificationCity["geometry"];
+    populationLatest: ClassificationCity["populationLatest"];
+    gdppc: ClassificationCity["gdppc"];
+    id: ClassificationCity["id"];
   }[];
 }
 
-export const useGlobalLocationGeometry = () => useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
+export const useGlobalLocationGeometry = () =>
+  useQuery<SuccessResponse, never>(GLOBAL_LOCATION_WITH_GEOMETRY_QUERY);
 
 interface ClusterFeatures {
-  type: 'Feature';
+  type: "Feature";
   properties: {
-    id: string,
+    id: string;
   };
   geometry: {
-    coordinates: Coordinate,
+    coordinates: Coordinate;
   };
 }
 
@@ -92,17 +89,17 @@ interface MapData {
   searchData: ExtendedSearchDatum[];
   features: React.ReactElement<any>[];
   geoJsonClusterData: {
-    type: string,
-    features: ClusterFeatures[],
+    type: string;
+    features: ClusterFeatures[];
   };
 }
 
 interface BoundsConfig {
   bounds: [Coordinate, Coordinate];
-  padding: {top: number, left: number, right: number, bottom: number};
+  padding: { top: number; left: number; right: number; bottom: number };
 }
 
-let padding: BoundsConfig['padding'];
+let padding: BoundsConfig["padding"];
 const dimensions = {
   width: window.innerWidth,
   height: window.innerHeight,
@@ -195,7 +192,6 @@ const SearchContainer = styled.div`
 
   .react-panel-search-search-bar-dropdown-arrow {
     background-color: transparent;
-
   }
   .react-panel-search-current-tier-breadcrumb-outer,
   .react-panel-search-next-button,
@@ -221,10 +217,10 @@ const SearchContainer = styled.div`
     border: solid 1px #fff;
 
     ::-webkit-scrollbar-thumb {
-      background-color: rgba(255, 255, 255, .3);
+      background-color: rgba(255, 255, 255, 0.3);
     }
     ::-webkit-scrollbar-track {
-      background-color: rgba(255, 255, 255, .1);
+      background-color: rgba(255, 255, 255, 0.1);
     }
   }
 
@@ -282,24 +278,30 @@ const LoadingContainer = styled.div`
 `;
 
 const Landing = () => {
-  const {loading, error, data} = useGlobalLocationGeometry();
+  const { loading, error, data } = useGlobalLocationGeometry();
   const getString = useFluent();
-  const {country} = useQueryParams();
+  const { country } = useQueryParams();
 
   const [mapData, setMapData] = useState<MapData>({
     searchData: [],
     features: [],
     geoJsonClusterData: {
-      type: 'FeatureCollection',
+      type: "FeatureCollection",
       features: [],
     },
   });
   const [overlayOn, setOverlayOn] = useState<boolean>(country === undefined);
   const closeOverlay = () => setOverlayOn(false);
-  const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(null);
-  const [highlightedCountry, setHighlightedCountry] = useState<ExtendedSearchDatum | null>(null);
+  const [highlighted, setHighlighted] = useState<ExtendedSearchDatum | null>(
+    null,
+  );
+  const [highlightedCountry, setHighlightedCountry] =
+    useState<ExtendedSearchDatum | null>(null);
   const [hovered, setHovered] = useState<ExtendedSearchDatum | null>(null);
-  const [fitBounds, setFitBounds] = useState<BoundsConfig>({bounds: getBounds([]), padding: {top: 0, bottom: 0, left: 0, right: 0}});
+  const [fitBounds, setFitBounds] = useState<BoundsConfig>({
+    bounds: getBounds([]),
+    padding: { top: 0, bottom: 0, left: 0, right: 0 },
+  });
 
   useEffect(() => {
     if (highlighted) {
@@ -313,8 +315,15 @@ const Landing = () => {
 
   useEffect(() => {
     if (highlightedCountry) {
-      let countryPadding: BoundsConfig['padding'] = {top: 50, bottom: 50, left: 50, right: 50};
-      const childCities = mapData.searchData.filter(d => d.parent_id === highlightedCountry.id);
+      let countryPadding: BoundsConfig["padding"] = {
+        top: 50,
+        bottom: 50,
+        left: 50,
+        right: 50,
+      };
+      const childCities = mapData.searchData.filter(
+        (d) => d.parent_id === highlightedCountry.id,
+      );
       if (childCities.length === 1) {
         countryPadding = padding;
       }
@@ -327,7 +336,9 @@ const Landing = () => {
 
   useEffect(() => {
     if (country !== undefined && mapData.searchData) {
-      const targetCountry = mapData.searchData.find(d => (d.id + '') === (country + '') && d.level === '0');
+      const targetCountry = mapData.searchData.find(
+        (d) => d.id + "" === country + "" && d.level === "0",
+      );
       setHighlightedCountry(targetCountry ? targetCountry : null);
       setHighlighted(targetCountry ? targetCountry : null);
     }
@@ -338,33 +349,57 @@ const Landing = () => {
       const searchData: ExtendedSearchDatum[] = [];
       const features: React.ReactElement<any>[] = [];
       const clusterFeatures: ClusterFeatures[] = [];
-      const {cities, countries} = data;
-      cities.forEach(city => {
+      const { cities, countries } = data;
+      cities.forEach((city) => {
         const {
-          cityId, name, centroidLon, countryId, geometry,
-          populationLatest, gdppc, nameList,
+          cityId,
+          name,
+          centroidLon,
+          countryId,
+          geometry,
+          populationLatest,
+          gdppc,
+          nameList,
         } = city;
-        const coordinates: Coordinate[][][] = geometry ? JSON.parse(geometry).coordinates : [];
-        const northernTerminus = Math.max(...coordinates[0][0].map(coord => coord[1]));
-        const center: Coordinate = [centroidLon ? centroidLon : 0, northernTerminus];
-        const parent = countries.find(c => parseInt(c.countryId, 10) === countryId);
-        const countryName = parent && parent.nameShortEn ? parent.nameShortEn : '';
-        const parentIndex = searchData.findIndex(d => d.id === countryId);
+        const coordinates: Coordinate[][][] = geometry
+          ? JSON.parse(geometry).coordinates
+          : [];
+        const northernTerminus = Math.max(
+          ...coordinates[0][0].map((coord) => coord[1]),
+        );
+        const center: Coordinate = [
+          centroidLon ? centroidLon : 0,
+          northernTerminus,
+        ];
+        const parent = countries.find(
+          (c) => parseInt(c.countryId, 10) === countryId,
+        );
+        const countryName =
+          parent && parent.nameShortEn ? parent.nameShortEn : "";
+        const parentIndex = searchData.findIndex((d) => d.id === countryId);
         const population = populationLatest ? populationLatest : 0;
         const gdp = gdppc && !isNaN(gdppc) ? parseFloat(gdppc.toFixed(2)) : 0;
-        if (parentIndex === -1 && parent !== undefined && countryId !== null && parent.nameShortEn) {
+        if (
+          parentIndex === -1 &&
+          parent !== undefined &&
+          countryId !== null &&
+          parent.nameShortEn
+        ) {
           searchData.push({
             id: countryId,
             title: countryName,
             parent_id: null,
-            level: '0',
+            level: "0",
             center,
             population: Math.round(population),
             gdp,
             coordinates: coordinates[0][0],
           });
         } else if (parentIndex !== -1) {
-          searchData[parentIndex].coordinates = [...searchData[parentIndex].coordinates, ...coordinates[0][0]];
+          searchData[parentIndex].coordinates = [
+            ...searchData[parentIndex].coordinates,
+            ...coordinates[0][0],
+          ];
           searchData[parentIndex].gdp += gdp;
           searchData[parentIndex].population += population;
         } else {
@@ -373,9 +408,9 @@ const Landing = () => {
         const id = cityId;
         const searchDatum: ExtendedSearchDatum = {
           id,
-          title: name + ', ' + countryName,
+          title: name + ", " + countryName,
           parent_id: countryId,
-          level: '1',
+          level: "1",
           center,
           coordinates: coordinates[0][0],
           population: Math.round(population),
@@ -385,11 +420,11 @@ const Landing = () => {
         searchData.push(searchDatum);
         const onMouseEnter = (event: any) => {
           setHovered(searchDatum);
-          togglePointer(event.map, 'pointer');
+          togglePointer(event.map, "pointer");
         };
         const onMouseLeave = (event: any) => {
           setHovered(null);
-          togglePointer(event.map, '');
+          togglePointer(event.map, "");
         };
         const onClick = () => setTimeout(() => setHighlighted(searchDatum), 0);
         features.push(
@@ -398,60 +433,64 @@ const Landing = () => {
             onMouseEnter={onMouseEnter}
             onMouseLeave={onMouseLeave}
             onClick={onClick}
-            key={'geojson-' + id}
+            key={"geojson-" + id}
           />,
         );
         clusterFeatures.push({
-          type: 'Feature',
+          type: "Feature",
           properties: { id },
           geometry: { coordinates: center },
         });
       });
       const geoJsonClusterData = {
-        type: 'FeatureCollection',
+        type: "FeatureCollection",
         features: clusterFeatures,
       };
-      setMapData({searchData, features, geoJsonClusterData});
+      setMapData({ searchData, features, geoJsonClusterData });
     }
   }, [data]);
 
-  const hoveredTooltipPopup = hovered && (!highlighted || highlighted.id !== hovered.id) ? (
-    <StyledPopup
-      coordinates={hovered.center}
-    >
-      <TootltipTitle>
-        {hovered.title}
-      </TootltipTitle>
-    </StyledPopup>
-  ) : null;
+  const hoveredTooltipPopup =
+    hovered && (!highlighted || highlighted.id !== hovered.id) ? (
+      <StyledPopup coordinates={hovered.center}>
+        <TootltipTitle>{hovered.title}</TootltipTitle>
+      </StyledPopup>
+    ) : null;
 
-  const highlightedTooltipPopup = highlighted && highlighted.parent_id !== null ? (
-    <HighlightedTooltip
-      highlighted={highlighted}
-      closePopup={() => setHighlighted(null)}
-    />
-  ) : null;
+  const highlightedTooltipPopup =
+    highlighted && highlighted.parent_id !== null ? (
+      <HighlightedTooltip
+        highlighted={highlighted}
+        closePopup={() => setHighlighted(null)}
+      />
+    ) : null;
 
-  const onPanelHover = useCallback((val: ExtendedSearchDatum | null) => {
-    if (val && val.parent_id !== null) {
-      setHovered(val);
-    } else {
-      setHovered(null);
-    }
-  }, [setHovered]);
+  const onPanelHover = useCallback(
+    (val: ExtendedSearchDatum | null) => {
+      if (val && val.parent_id !== null) {
+        setHovered(val);
+      } else {
+        setHovered(null);
+      }
+    },
+    [setHovered],
+  );
 
-  const onTraverseLevel = useCallback((val: ExtendedSearchDatum, direction: 'asc' | 'desc') => {
-    if (direction === 'asc' && val.parent_id === null) {
-      setFitBounds({
-        bounds: getBounds([]),
-        padding: {top: 0, bottom: 0, left: 0, right: 0},
-      });
-    }
-    setHighlightedCountry(val as ExtendedSearchDatum);
-  }, [setHighlightedCountry, setFitBounds]);
+  const onTraverseLevel = useCallback(
+    (val: ExtendedSearchDatum, direction: "asc" | "desc") => {
+      if (direction === "asc" && val.parent_id === null) {
+        setFitBounds({
+          bounds: getBounds([]),
+          padding: { top: 0, bottom: 0, left: 0, right: 0 },
+        });
+      }
+      setHighlightedCountry(val as ExtendedSearchDatum);
+    },
+    [setHighlightedCountry, setFitBounds],
+  );
 
   const unclusteredPointCallback = (id: string) => {
-    const match = mapData.searchData.find(d => d.id === id);
+    const match = mapData.searchData.find((d) => d.id === id);
     if (match) {
       setTimeout(() => setHighlighted(match), 0);
     }
@@ -464,7 +503,7 @@ const Landing = () => {
     searchBar = (
       <LoadingContainer>
         <SimpleLoader />
-        {getString('global-ui-loading-cities')}...
+        {getString("global-ui-loading-cities")}...
       </LoadingContainer>
     );
   } else if (error !== undefined) {
@@ -472,117 +511,113 @@ const Landing = () => {
     mapContent = <></>;
     searchBar = (
       <LoadingContainer>
-        <SimpleError color={'white'} />
+        <SimpleError color={"white"} />
       </LoadingContainer>
     );
   } else if (data !== undefined) {
     mapContent = (
-        <>
-          <GeoJSONLayer
-            id={clusterSourceLayerId}
-            data={mapData.geoJsonClusterData}
-            sourceOptions={{
-              cluster: true,
-              clusterRadius: 30,
-            }}
-            filter={['has', 'point_count']}
-          />
-          <Layer
-            id='cluster_count'
-            sourceId={clusterSourceLayerId}
-            maxZoom={4}
-            layerOptions={{
-              filter: [
-                'has', 'point_count',
+      <>
+        <GeoJSONLayer
+          id={clusterSourceLayerId}
+          data={mapData.geoJsonClusterData}
+          sourceOptions={{
+            cluster: true,
+            clusterRadius: 30,
+          }}
+          filter={["has", "point_count"]}
+        />
+        <Layer
+          id="cluster_count"
+          sourceId={clusterSourceLayerId}
+          maxZoom={4}
+          layerOptions={{
+            filter: ["has", "point_count"],
+          }}
+          paint={{
+            "circle-color": {
+              property: "point_count",
+              type: "interval",
+              stops: [
+                [0, primaryColorRange[4]],
+                [30, primaryColorRange[3]],
+                [60, primaryColorRange[2]],
+                [90, primaryColorRange[1]],
+                [120, primaryColorRange[0]],
+                [1000, primaryColorRange[0]],
               ],
-            }}
-            paint={{
-              'circle-color': {
-                property: 'point_count',
-                type: 'interval',
-                stops: [
-                  [0, primaryColorRange[4]],
-                  [30, primaryColorRange[3]],
-                  [60, primaryColorRange[2]],
-                  [90, primaryColorRange[1]],
-                  [120, primaryColorRange[0]],
-                  [1000, primaryColorRange[0]],
-                ],
-              },
-              'circle-radius': {
-                property: 'point_count',
-                type: 'interval',
-                stops: [
-                  [0, 15],
-                  [30, 20],
-                  [60, 25],
-                  [90, 35],
-                  [120, 45],
-                  [1000, 45],
-                ],
-              },
-            }}
-            type='circle'
-          />
-          <Layer
-            type='circle'
-            id={'unclustered_point'}
-            maxZoom={4}
-            sourceId={clusterSourceLayerId}
-            paint={{
-              'circle-color': primaryColorRange[4],
-              'circle-radius': 5,
-            }}
-            filter={['!', ['has', 'point_count']]}
-          />
-          <Layer
-            type='symbol'
-            id={'clustered_text'}
-            maxZoom={4}
-            sourceId={clusterSourceLayerId}
-            layout={{
-              'text-field': '{point_count}',
-              'text-font': [
-                'DIN Offc Pro Medium',
-                'Arial Unicode MS Bold',
+            },
+            "circle-radius": {
+              property: "point_count",
+              type: "interval",
+              stops: [
+                [0, 15],
+                [30, 20],
+                [60, 25],
+                [90, 35],
+                [120, 45],
+                [1000, 45],
               ],
-              'text-size': 12,
-            }}
-            paint={{
-              'text-color': mapLabelColor,
-            }}
-            filter={['has', 'point_count']}
-          />
+            },
+          }}
+          type="circle"
+        />
+        <Layer
+          type="circle"
+          id={"unclustered_point"}
+          maxZoom={4}
+          sourceId={clusterSourceLayerId}
+          paint={{
+            "circle-color": primaryColorRange[4],
+            "circle-radius": 5,
+          }}
+          filter={["!", ["has", "point_count"]]}
+        />
+        <Layer
+          type="symbol"
+          id={"clustered_text"}
+          maxZoom={4}
+          sourceId={clusterSourceLayerId}
+          layout={{
+            "text-field": "{point_count}",
+            "text-font": ["DIN Offc Pro Medium", "Arial Unicode MS Bold"],
+            "text-size": 12,
+          }}
+          paint={{
+            "text-color": mapLabelColor,
+          }}
+          filter={["has", "point_count"]}
+        />
 
-          <Layer
-            type='fill'
-            id={'primary-map-geojson-layer'}
-            paint={{
-              'fill-color': primaryColor,
-            }}
-            minZoom={4}
-            before={'road-simple'}
-          >
-            {mapData.features}
-          </Layer>
+        <Layer
+          type="fill"
+          id={"primary-map-geojson-layer"}
+          paint={{
+            "fill-color": primaryColor,
+          }}
+          minZoom={4}
+          before={"road-simple"}
+        >
+          {mapData.features}
+        </Layer>
 
-          <Layer
-            type='fill'
-            id={'highlighted-geojson-layer'}
-            paint={{
-              'fill-color': secondaryColor,
-            }}
-            minZoom={4}
-            before={'road-simple'}
-          >
-            {mapData.features.filter(({key}) =>
-              (highlighted && key === 'geojson-' + highlighted.id) ||
-              (hovered && key === 'geojson-' + hovered.id),
-            )}
-          </Layer>
-          {highlightedTooltipPopup}
-          {hoveredTooltipPopup}
-        </>
+        <Layer
+          type="fill"
+          id={"highlighted-geojson-layer"}
+          paint={{
+            "fill-color": secondaryColor,
+          }}
+          minZoom={4}
+          before={"road-simple"}
+        >
+          {mapData.features.filter(
+            ({ key }) =>
+              (highlighted && key === "geojson-" + highlighted.id) ||
+              (hovered && key === "geojson-" + hovered.id),
+          )}
+        </Layer>
+        {highlightedTooltipPopup}
+        {hoveredTooltipPopup}
+      </>
     );
     searchBar = (
       <SearchBar
@@ -599,12 +634,12 @@ const Landing = () => {
     searchBar = <></>;
   }
 
-  const overlay = overlayOn ? <Overlay onCitySelect={closeOverlay} /> : (
+  const overlay = overlayOn ? (
+    <Overlay onCitySelect={closeOverlay} />
+  ) : (
     <SidePanel>
       <Heading />
-      <SearchContainer
-        onMouseDown={() => setHovered(null)}
-      >
+      <SearchContainer onMouseDown={() => setHovered(null)}>
         {searchBar}
       </SearchContainer>
     </SidePanel>
@@ -612,7 +647,6 @@ const Landing = () => {
 
   return (
     <Root>
-
       <ClusterMap
         unclusteredPointCallback={unclusteredPointCallback}
         clearPopup={() => setHighlighted(null)}
@@ -624,7 +658,6 @@ const Landing = () => {
       {overlay}
     </Root>
   );
-
 };
 
 export default Landing;

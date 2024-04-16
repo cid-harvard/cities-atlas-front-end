@@ -1,27 +1,27 @@
-import React, {useRef, useEffect, useState} from 'react';
-import CitySpaceMap from 'react-city-space-mapbox';
-import useLayoutData from './useLayoutData';
-import styled from 'styled-components/macro';
-import {breakPoints} from '../../../styling/GlobalGrid';
-import MapOptionsAndSettings from './MapOptionsAndSettings';
-import {getStandardTooltip} from '../../../utilities/rapidTooltip';
-import {rgba} from 'polished';
-import useProximityData, {SuccessResponse} from './useProximityData';
-import SimilarCitiesRings from '../simpleRings/SimilarCitiesRings';
-import CityProximityLegend from '../legend/CityProximityLegend';
-import FilterBar from './FilterBar';
-import {extent} from 'd3-array';
-import {RapidTooltipRoot} from '../../../utilities/rapidTooltip';
-import {defaultYear} from '../../../Utils';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import {ordinalNumber} from '../../../hooks/useFluent';
-import orderBy from 'lodash/orderBy';
-import upperFirst from 'lodash/upperFirst';
+import React, { useRef, useEffect, useState } from "react";
+import CitySpaceMap from "react-city-space-mapbox";
+import useLayoutData from "./useLayoutData";
+import styled from "styled-components/macro";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import MapOptionsAndSettings from "./MapOptionsAndSettings";
+import { getStandardTooltip } from "../../../utilities/rapidTooltip";
+import { rgba } from "polished";
+import useProximityData, { SuccessResponse } from "./useProximityData";
+import SimilarCitiesRings from "../simpleRings/SimilarCitiesRings";
+import CityProximityLegend from "../legend/CityProximityLegend";
+import FilterBar from "./FilterBar";
+import { extent } from "d3-array";
+import { RapidTooltipRoot } from "../../../utilities/rapidTooltip";
+import { defaultYear } from "../../../Utils";
+import useCurrentCityId from "../../../hooks/useCurrentCityId";
+import { ordinalNumber } from "../../../hooks/useFluent";
+import orderBy from "lodash/orderBy";
+import upperFirst from "lodash/upperFirst";
 import {
   backgroundDark,
   secondaryFont,
   lightBorderColor,
-} from '../../../styling/styleUtils';
+} from "../../../styling/styleUtils";
 
 const Root = styled.div`
   width: 100%;
@@ -78,13 +78,13 @@ const MapContainer = styled.div`
     .mapboxgl-ctrl-zoom-in {
       &::after {
         text-align: center;
-        content: '+ Zoom In';
+        content: "+ Zoom In";
       }
     }
     .mapboxgl-ctrl-zoom-out {
       &:after {
         text-align: center;
-        content: '- Zoom Out';
+        content: "- Zoom Out";
       }
     }
     .mapboxgl-ctrl-compass {
@@ -112,8 +112,8 @@ let staticFilterValues: FilterValues | undefined;
 let staticCityId: string | null;
 
 interface FilterValues {
-  selectedRegionIds:  string[];
-  selectedCountryIds:  string[];
+  selectedRegionIds: string[];
+  selectedCountryIds: string[];
   minMaxPopulation: [number, number];
   minMaxGdppc: [number, number];
 }
@@ -121,9 +121,11 @@ interface FilterValues {
 const SimilarCitiesMap = () => {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const tooltipRef = useRef<HTMLDivElement | null>(null);
-  const {data} = useLayoutData();
-  const {data: proximityData} = useProximityData();
-  const [filterValues, setFilterValues] = useState<FilterValues | undefined>(undefined);
+  const { data } = useLayoutData();
+  const { data: proximityData } = useProximityData();
+  const [filterValues, setFilterValues] = useState<FilterValues | undefined>(
+    undefined,
+  );
   const cityId = useCurrentCityId();
 
   useEffect(() => {
@@ -138,12 +140,17 @@ const SimilarCitiesMap = () => {
     staticCityId = cityId;
   }, [cityId]);
 
-  const renderTooltipContent =
-    (node: {id: string, country: string, city: string, fill: string}) => {
+  const renderTooltipContent = (node: {
+    id: string;
+    country: string;
+    city: string;
+    fill: string;
+  }) => {
     if (data && staticProximityData) {
       const sorted = orderBy(data.cityGeoJson.features, (d: any) => {
-        const proximityDatum = (staticProximityData as SuccessResponse).cities.find(
-          dd => dd.partnerId === d.properties.id);
+        const proximityDatum = (
+          staticProximityData as SuccessResponse
+        ).cities.find((dd) => dd.partnerId === d.properties.id);
         if (proximityDatum) {
           return proximityDatum.eucdist;
         } else {
@@ -151,21 +158,27 @@ const SimilarCitiesMap = () => {
         }
       });
 
-      const filtered = sorted.filter(({properties: d}: any) => {
+      const filtered = sorted.filter(({ properties: d }: any) => {
         const shown =
           d.id !== staticCityId &&
-          (staticFilterValues === undefined || (
-          d.population >= staticFilterValues.minMaxPopulation[0] &&
-          d.population <= staticFilterValues.minMaxPopulation[1] &&
-          d.gdppc >= staticFilterValues.minMaxGdppc[0] &&
-          d.gdppc <= staticFilterValues.minMaxGdppc[1] &&
-          (!staticFilterValues.selectedRegionIds.length ||
-            (d.region !== null && staticFilterValues.selectedRegionIds.includes(d.region.toString()))) &&
-          (!staticFilterValues.selectedCountryIds.length ||
-            (d.countryId !== null && d.countryId !== undefined &&
-              staticFilterValues.selectedCountryIds.includes(d.countryId)))
-            ))
-              ? true : false;
+          (staticFilterValues === undefined ||
+            (d.population >= staticFilterValues.minMaxPopulation[0] &&
+              d.population <= staticFilterValues.minMaxPopulation[1] &&
+              d.gdppc >= staticFilterValues.minMaxGdppc[0] &&
+              d.gdppc <= staticFilterValues.minMaxGdppc[1] &&
+              (!staticFilterValues.selectedRegionIds.length ||
+                (d.region !== null &&
+                  staticFilterValues.selectedRegionIds.includes(
+                    d.region.toString(),
+                  ))) &&
+              (!staticFilterValues.selectedCountryIds.length ||
+                (d.countryId !== null &&
+                  d.countryId !== undefined &&
+                  staticFilterValues.selectedCountryIds.includes(
+                    d.countryId,
+                  )))))
+            ? true
+            : false;
         return shown;
       });
       // add one to the rank to account for 0 start arrays
@@ -173,29 +186,31 @@ const SimilarCitiesMap = () => {
         filtered.findIndex((dd: any) => dd.properties.id === node.id) + 1;
       const rankInAll =
         sorted.findIndex((dd: any) => dd.properties.id === node.id) + 1;
-      const rows = [['Year:', defaultYear.toString()]];
+      const rows = [["Year:", defaultYear.toString()]];
       if (rankInFiltered > 0) {
         rows.push(
           [
-            'Similarity rank,<br />filtered cities only:',
+            "Similarity rank,<br />filtered cities only:",
             // the current city has already been deducted from the count
-            ordinalNumber([rankInFiltered]) + ' of ' + filtered.length],
+            ordinalNumber([rankInFiltered]) + " of " + filtered.length,
+          ],
           [
-            'Similarity rank,<br />all Metroverse cities:',
+            "Similarity rank,<br />all Metroverse cities:",
             // subtract one to not include the current city
-            ordinalNumber([rankInAll]) + ' of ' + (sorted.length - 1)],
+            ordinalNumber([rankInAll]) + " of " + (sorted.length - 1),
+          ],
         );
       }
       if (rankInFiltered > 0 || node.id === staticCityId) {
         return getStandardTooltip({
-          title: node.city + ', ' + node.country,
+          title: node.city + ", " + node.country,
           color: rgba(node.fill, 0.35),
           rows,
           boldColumns: [1],
           hideArrow: true,
           simple: true,
         });
-      } else  return null;
+      } else return null;
     }
     return null;
   };
@@ -216,7 +231,9 @@ const SimilarCitiesMap = () => {
     );
   }
   if (data) {
-    let currentCity: {city: string, population: number, gdppc: number} | undefined;
+    let currentCity:
+      | { city: string; population: number; gdppc: number }
+      | undefined;
     const allPopulations: number[] = [];
     const allGdppc: number[] = [];
     data.cityGeoJson.features.forEach((d: any) => {
@@ -233,7 +250,10 @@ const SimilarCitiesMap = () => {
 
     const populationRange = extent(allPopulations) as [number, number];
     const gdppcRange = extent(allGdppc) as [number, number];
-    const regions = data.regions.map(d => ({...d, label: upperFirst(d.label)}));
+    const regions = data.regions.map((d) => ({
+      ...d,
+      label: upperFirst(d.label),
+    }));
     const countries = data.countries;
     filterBar = (
       <FilterBar
@@ -276,8 +296,8 @@ const SimilarCitiesMap = () => {
         </MapContainer>
       </Root>
       <CitySpaceMap
-        accessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as  string}
-        mapStyle={'mapbox://styles/harvardgrowthlab/ckelvcgh70cg019qgiu39035a'}
+        accessToken={process.env.REACT_APP_MAPBOX_ACCESS_TOKEN as string}
+        mapStyle={"mapbox://styles/harvardgrowthlab/ckelvcgh70cg019qgiu39035a"}
         rootRef={rootRef}
         cityGeoJson={data ? data.cityGeoJson : undefined}
         cityUMapJson={data ? data.cityUMapJson : undefined}

@@ -1,16 +1,25 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const CLUSTER_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
-  query GetCityIndustryTreeData($primaryCity: Int!, $secondaryCity: Int!, $year: Int!) {
-
-    primaryCityIndustries: cityClusterYearList(cityId: $primaryCity, year: $year) {
+  query GetCityIndustryTreeData(
+    $primaryCity: Int!
+    $secondaryCity: Int!
+    $year: Int!
+  ) {
+    primaryCityIndustries: cityClusterYearList(
+      cityId: $primaryCity
+      year: $year
+    ) {
       id
       industryId: clusterId
       numCompany
       numEmploy
     }
 
-    secondaryCityIndustries: cityClusterYearList(cityId: $secondaryCity, year: $year) {
+    secondaryCityIndustries: cityClusterYearList(
+      cityId: $secondaryCity
+      year: $year
+    ) {
       id
       industryId: clusterId
       numCompany
@@ -20,20 +29,37 @@ export const CLUSTER_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
 `;
 
 export const CLUSTER_PEER_GROUP_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
-  query GetCityIndustryTreeData($primaryCity: Int!, $peerGroup: String!, $year: Int!) {
-    primaryCityIndustries: cityClusterYearList(cityId: $primaryCity, year: $year) {
+  query GetCityIndustryTreeData(
+    $primaryCity: Int!
+    $peerGroup: String!
+    $year: Int!
+  ) {
+    primaryCityIndustries: cityClusterYearList(
+      cityId: $primaryCity
+      year: $year
+    ) {
       id
       industryId: clusterId
       numCompany
       numEmploy
     }
-    groupIndustries_1: clusterPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, clusterLevel: 1) {
+    groupIndustries_1: clusterPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      clusterLevel: 1
+    ) {
       id: clusterId
       industryId: clusterId
       numCompany: avgEmployCount
       numEmploy: avgCompanyCount
     }
-    groupIndustries_2: clusterPeerEconStruct(cityId: $primaryCity, year: $year, peerGroup: $peerGroup, clusterLevel: 3) {
+    groupIndustries_2: clusterPeerEconStruct(
+      cityId: $primaryCity
+      year: $year
+      peerGroup: $peerGroup
+      clusterLevel: 3
+    ) {
       id: clusterId
       industryId: clusterId
       numCompany: avgEmployCount
@@ -44,8 +70,10 @@ export const CLUSTER_PEER_GROUP_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
 
 export const CLUSTER_WORLD_ECONOMIC_COMPOSITION_COMPARISON_QUERY = gql`
   query GetWorldCityIndustryTreeData($primaryCity: Int!, $year: Int!) {
-
-    primaryCityIndustries: cityClusterYearList(cityId: $primaryCity, year: $year) {
+    primaryCityIndustries: cityClusterYearList(
+      cityId: $primaryCity
+      year: $year
+    ) {
       id
       industryId: clusterId
       numCompany

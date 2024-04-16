@@ -1,40 +1,41 @@
-import {CompositionType} from '../types/graphQL/graphQLTypes';
+import { CompositionType } from "../types/graphQL/graphQLTypes";
 
 // param must be specified in each route in order to enforce typechecking
-export const cityIdParam = 'cityId';
+export const cityIdParam = "cityId";
 
 export const CityRoutes = {
-  CityBase: '/city/:cityId',
-  CityOverview: '/city/:cityId/overview',
-  CityEconomicComposition: '/city/:cityId/economic-composition',
-  CityGoodAt: '/city/:cityId/good-at',
-  CityGoodAtAbsolutePresence: '/city/:cityId/good-at/absolute',
-  CityGoodAtAbsolutePresenceComparison: '/city/:cityId/good-at/absolute/comparison',
-  CityIndustrySpacePosition: '/city/:cityId/industry-position',
-  CityGrowthOpportunities: '/city/:cityId/growth-opportunities',
-  CityGrowthOpportunitiesTable: '/city/:cityId/growth-opportunities/table',
-  CitySimilarCities: '/city/:cityId/similar-cities',
+  CityBase: "/city/:cityId",
+  CityOverview: "/city/:cityId/overview",
+  CityEconomicComposition: "/city/:cityId/economic-composition",
+  CityGoodAt: "/city/:cityId/good-at",
+  CityGoodAtAbsolutePresence: "/city/:cityId/good-at/absolute",
+  CityGoodAtAbsolutePresenceComparison:
+    "/city/:cityId/good-at/absolute/comparison",
+  CityIndustrySpacePosition: "/city/:cityId/industry-position",
+  CityGrowthOpportunities: "/city/:cityId/growth-opportunities",
+  CityGrowthOpportunitiesTable: "/city/:cityId/growth-opportunities/table",
+  CitySimilarCities: "/city/:cityId/similar-cities",
 } as const;
 
 export const AboutRoutes = {
-  AboutBase: '/about',
-  AboutWhatIs: '/about/what-is-metroverse',
-  AboutTeam: '/about/team',
-  AboutPilotUserGroup: '/about/pilot-user-group',
-  AboutResearch: '/about/research',
-  AboutGrowthLab: '/about/growth-lab',
+  AboutBase: "/about",
+  AboutWhatIs: "/about/what-is-metroverse",
+  AboutTeam: "/about/team",
+  AboutPilotUserGroup: "/about/pilot-user-group",
+  AboutResearch: "/about/research",
+  AboutGrowthLab: "/about/growth-lab",
 };
 
 export const ContactRoutes = {
-  ContactBase: '/contact',
+  ContactBase: "/contact",
 };
 
 export const FaqRoutes = {
-  FaqBase: '/faq',
+  FaqBase: "/faq",
 };
 
 export const Routes = {
-  Landing: '/',
+  Landing: "/",
   ...CityRoutes,
   ...AboutRoutes,
   ...ContactRoutes,
@@ -42,54 +43,55 @@ export const Routes = {
 } as const;
 
 export enum ClusterMode {
-  outline = 'outline',
-  overlay = 'overlay',
-  none = 'none',
+  outline = "outline",
+  overlay = "overlay",
+  none = "none",
 }
 
 export const defaultClusterMode: ClusterMode = ClusterMode.outline;
 
 export enum NodeSizing {
-  uniform = 'uniform',
-  rca = 'rca',
-  globalCompanies = 'global_companies',
-  globalEmployees = 'global_employees',
-  cityCompanies = 'city_companies',
-  cityEmployees = 'city_employees',
+  uniform = "uniform",
+  rca = "rca",
+  globalCompanies = "global_companies",
+  globalEmployees = "global_employees",
+  cityCompanies = "city_companies",
+  cityEmployees = "city_employees",
 }
 
 export const defaultNodeSizing: NodeSizing = NodeSizing.cityEmployees;
 
 export enum ColorBy {
-  sector = 'sector',
-  education = 'education',
-  wage = 'wage',
+  sector = "sector",
+  education = "education",
+  wage = "wage",
 }
 
 export enum CityNodeSizing {
-  uniform = 'uniform',
-  population = 'population',
-  gdpPpp = 'gdpPpp',
+  uniform = "uniform",
+  population = "population",
+  gdpPpp = "gdpPpp",
 }
 
 export const defaultCityNodeSizing: CityNodeSizing = CityNodeSizing.population;
 
 export enum CityColorBy {
-  proximity = 'proximity',
+  proximity = "proximity",
 }
 
 export enum ClusterLevel {
-  C1 = '1',
-  C2 = '2',
-  C3 = '3',
+  C1 = "1",
+  C2 = "2",
+  C3 = "3",
 }
 
 export enum AggregationMode {
-  cluster = 'clusters',
-  industries = 'industries',
+  cluster = "clusters",
+  industries = "industries",
 }
 
-export const defaultAggregationMode: AggregationMode = AggregationMode.industries;
+export const defaultAggregationMode: AggregationMode =
+  AggregationMode.industries;
 
 export const defaultClusterLevel: ClusterLevel = ClusterLevel.C3;
 export const defaultColorBy: ColorBy = ColorBy.sector;

@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import SimpleLoader from './SimpleLoader';
+import React from "react";
+import styled from "styled-components/macro";
+import SimpleLoader from "./SimpleLoader";
 
 export const LoadingOverlay = styled.div`
   position: absolute;

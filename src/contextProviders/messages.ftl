@@ -295,10 +295,10 @@ cities-top-10-comparison-chart-expand-clusters = Click to see all clusters
 cities-top-10-comparison-chart-collapse-clusters = Show only top clusters
 cities-top-10-comparison-chart-axis-title = Difference in Share
 
-glossary-total-shown = Source: Dun & Bradstreet, 2021
-glossary-composition = Generate the visualization based on estimated number of employees or estimated number of establishements.  Source: Dun & Bradstreet, 2021
+glossary-total-shown = Source: Dun & Bradstreet, 2024
+glossary-composition = Generate the visualization based on estimated number of employees or estimated number of establishements.  Source: Dun & Bradstreet, 2024
 glossary-composition-disabled = The composition type is disabled for this visualization
-glossary-digit-level = Visualize NAICS industries at various levels of detail
+glossary-digit-level = Visualize NAICS 2017 industries at various levels of detail
 glossary-digit-level-disabled = Digit levels are disabled for this visualization
 glossary-digit-level-disabled-industry-space = Industry Space is only available at the 6-digit level
 glossary-digit-level-disabled-swot = SWOT Analysis is only available at the 6-digit level
@@ -526,7 +526,7 @@ about-team-html =
     Metroverse is the result of an interdisciplinary collaboration between the Growth Lab&rsquo;s Digital Development &amp; Design Team, researchers and staff.  
   </p>
   <p>
-    The Metroverse founding team includes:
+    The Metroverse team includes:
   </p>
   <h3>Digital  Development &amp; Design</h3>
   <h4>
@@ -536,25 +536,33 @@ about-team-html =
     Annie oversees the software development and design aspects of Metroverse.  She established and led the 1-year prototype development plan beginning with a collaborative discovery phase through to launch.  Annie also facilitates internal and external stakeholder engagement related to Metroverse.
   </p>
   <h4>
-    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/brendan-leonard">Brendan Leonard</a>, Back-End &amp; Data Developer
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/brendan-leonard">Brendan Leonard</a>, Senior Back-End &amp; Data Developer
   </h4>
   <p>
     Brendan manages the API and database systems of Metroverse. He works alongside the research team to oversee the technical architecture for processing data into reliable structures and performing efficient calculations. Brendan also conducts research for experimental platform features and administers the cloud-based server infrastructure of Metroverse.
   </p>
-  <h4><a target="_blank" href="https://www.fluidencodings.com/">Steven Geofrey</a>, Front-End Developer</h4>
+  <h4>
+    <a target="_blank" href="https://growthlab.cid.harvard.edu/people/ellie-jackson">Ellie Jackson</a>, Junior Back-End &amp; Data Developer
+  </h4>
   <p>
-    Steven is responsible for the front-end development of Metroverse. Steven strategizes and implements new features at the intersection of Metroverse’s data architecture, visualization design, and user interface.
+    Ellie builds, maintains and optimizes the back-end architecture and infrastructure of Metroverse. She also collaborates with researchers on the acquisition, ingestion and analysis of Metroverse data.
   </p>
-  <h4><a target="_blank" href="http://www.niltuzcu.net/">Nil Tuzcu</a>, Information Designer </h4>
+  <h4><a target="_blank" href="http://www.niltuzcu.net/">Nil Tuzcu</a>, Senior Designer </h4>
   <p>
-    Nil is responsible for the overall design and user experience of the Metroverse. She leads the information design strategies, visual narrative flows, user experience studies and user tests.
+    Nil is responsible for the overall design and user experience of the Metroverse. She leads the information design strategies, visual narrative flows, user experience studies, prototyping and user tests.
+  </p>
+  <h4>
+    <span class="team-member-name">Robert Christie</span>, Front-End Developer
+  </h4>
+  <p>
+    Robert is responsible for the front-end development of Metroverse. He architects and implements interactive interfaces and visualizations with an emphasis on cartography.
   </p>
   <h3>Academic Research</h3>
   <h4>
-    <span class="team-member-name">Frank Neffke</span>, Growth Lab Associate and Group Leader at the <a href="https://www.csh.ac.at/researcher/frank-neffke/" target="_blank">Complexity Science Hub Vienna</a>
+    <a target="_blank" href="https://growthlab.hks.harvard.edu/people/frank-neffke">Frank Neffke</a>, Research Director
   </h4>
   <p>
-    Frank is responsible for the original conception of Metroverse.  Since its conception he has supervised the research agenda and the design of the tool&rsquo;s analytical and policy framework.  
+    Frank is responsible for the original conception of Metroverse.  Since its conception he has supervised the research agenda and the design of the tool&rsquo;s analytical and policy framework.
   </p>
   <h4>
     <a target="_blank" href="https://growthlab.cid.harvard.edu/people/yang-li">Yang Li</a>, Postdoctoral Fellow
@@ -570,18 +578,19 @@ about-team-html =
     Douglas has led applied research initiatives focused on enabling long-term growth and economic diversification for half-a-dozen subnational entities. This work has informed the user-facing narrative and the applicability of the policy framework found in Metroverse. Douglas also participates in stakeholder outreach initiatives related to Metroverse.
   </p>
   <h4>
-    <a target="_blank" href="https://scholar.harvard.edu/josemorales-arilla/home">Jos&eacute; Ram&oacute;n Morales-Arilla</a>, Research Fellow
+    <a target="_blank" href="https://scholar.harvard.edu/josemorales-arilla/home">Jos&eacute; Ram&oacute;n Morales-Arilla</a>, Doctoral Fellow
   </h4>
   <p>
     Jos&eacute; co-authored the user-facing narrative of Metroverse, providing perspectives from his previous work on subnational economic complexity visualization tools. He also helped to develop Metroverse&#39;s policy framework and to advance Metroverse&#39;s feature testing and validation.
   </p>
   <h3>Alumni</h3>
   <h4>
-    <a target="_blank" href="https://soeltz.com/">Kyle Soeltz</a>, Front-End Developer
+    <a target="_blank" href="https://fluidencodings.com/">Steven Geofrey</a>, Front-End Developer
   </h4>
-  <p>
-  Kyle led the front-end development for the inaugural version of Metroverse.  Among other initiatives, he built all the original data visualizations in Metroverse including more than 20 <a target="_blank" href="https://cid-harvard.github.io/industry-space-prototype/#/">custom prototypes</a> of the Industry Space alone.  
-  </p>
+  <h4>
+    <a target="_blank" href="https://growthlab.hks.harvard.edu/people/kyle-soeltz">Kyle Soeltz</a>, Front-End Developer
+  </h4>
+
 
 
 about-pilot-user-group-title = The Pilot User Group
@@ -795,7 +804,10 @@ faq-list-Q4-a =
 faq-list-Q5-q = Where do you get your data?
 faq-list-Q5-a =
   <p>
-    The data are derived from Dun and Bradstreet’s World Base for the year 2021. These data record information for over a hundred million establishments around the globe. Our team cleaned and aggregated these data into the database that powers Metroverse.
+    Metroverse data are derived from Dun and Bradstreet’s World Base. These data record information for over a hundred million establishments around the globe. Our team cleaned and aggregated these data into the database that powers Metroverse.
+  </p>
+  <p>
+    Industry data found in Metroverse are classified according to the North American Industry Classification System (NAICS), 2017.
   </p>
 
 faq-list-Q6-q = How often is Metroverse updated?

@@ -1,11 +1,7 @@
-import {
-  backgroundDark,
-  ButtonBase,
-} from '../../styling/styleUtils';
-import styled from 'styled-components/macro';
-import {breakPointValues} from '../../styling/GlobalGrid';
-import {DataFlagType} from '../../types/graphQL/graphQLTypes';
-
+import { backgroundDark, ButtonBase } from "../../styling/styleUtils";
+import styled from "styled-components/macro";
+import { breakPointValues } from "../../styling/GlobalGrid";
+import { DataFlagType } from "../../types/graphQL/graphQLTypes";
 
 export const collapsedSizeMediaQueryValues = {
   min: breakPointValues.width.small + 1,
@@ -18,7 +14,7 @@ export const collapsedSizeMediaQuery = `
   (max-width: ${collapsedSizeMediaQueryValues.max}px)
 `;
 
-export const textClassName = 'expanding-button-responsive-text';
+export const textClassName = "expanding-button-responsive-text";
 
 export const ExpandingButton = styled(ButtonBase)`
   margin-right: 0.25rem;
@@ -102,26 +98,29 @@ changes are implemented:
 export enum NewDataQualityLevel {
   HIGH = "high-quality",
   MEDIUM = "medium-quality",
-  LOW = "low-quality"
+  LOW = "low-quality",
 }
-
 
 export const dataQualityColors: any = new Map([
   [NewDataQualityLevel.LOW, "#b12417"],
   [NewDataQualityLevel.MEDIUM, "#f3b23d"],
-  [NewDataQualityLevel.HIGH, "#4eaba7"]
+  [NewDataQualityLevel.HIGH, "#4eaba7"],
 ]);
 
-export const getNewDataQualityLevel = (dataFlag: DataFlagType): NewDataQualityLevel => {
+export const getNewDataQualityLevel = (
+  dataFlag: DataFlagType,
+): NewDataQualityLevel => {
   let assignedNewDataQualityLevel: any;
-  if(dataFlag === DataFlagType.GREEN) {
+  if (dataFlag === DataFlagType.GREEN) {
     assignedNewDataQualityLevel = NewDataQualityLevel.HIGH;
-  } else if(dataFlag === DataFlagType.YELLOW || dataFlag === DataFlagType.ORANGE) {
+  } else if (
+    dataFlag === DataFlagType.YELLOW ||
+    dataFlag === DataFlagType.ORANGE
+  ) {
     assignedNewDataQualityLevel = NewDataQualityLevel.MEDIUM;
-  } else if(dataFlag === DataFlagType.RED) {
+  } else if (dataFlag === DataFlagType.RED) {
     assignedNewDataQualityLevel = NewDataQualityLevel.LOW;
   }
 
   return assignedNewDataQualityLevel;
-
-}
+};

@@ -1,10 +1,10 @@
-import React, {useRef, useEffect, useState} from 'react';
-import {useWindowWidth} from '../../../contextProviders/appContext';
-import styled, {keyframes} from 'styled-components/macro';
-import Chart from './Chart';
-import useProximityData from '../similarCitiesMap/useProximityData';
-import useCurrentCityId from '../../../hooks/useCurrentCityId';
-import useQueryParams from '../../../hooks/useQueryParams';
+import React, { useRef, useEffect, useState } from "react";
+import { useWindowWidth } from "../../../contextProviders/appContext";
+import styled, { keyframes } from "styled-components/macro";
+import Chart from "./Chart";
+import useProximityData from "../similarCitiesMap/useProximityData";
+import useCurrentCityId from "../../../hooks/useCurrentCityId";
+import useQueryParams from "../../../hooks/useQueryParams";
 
 const fadeIn = keyframes`
   0% {
@@ -43,20 +43,43 @@ interface Props {
 }
 
 const SimpleRings = (props: Props) => {
-  const {selectedRegionIds, selectedCountryIds, minMaxPopulation, minMaxGdppc, tooltipNode} = props;
+  const {
+    selectedRegionIds,
+    selectedCountryIds,
+    minMaxPopulation,
+    minMaxGdppc,
+    tooltipNode,
+  } = props;
   const windowDimensions = useWindowWidth();
   const rootRef = useRef<HTMLDivElement | null>(null);
-  const [dimensions, setDimensions] = useState<{width: number, height: number} | undefined>(undefined);
+  const [dimensions, setDimensions] = useState<
+    { width: number; height: number } | undefined
+  >(undefined);
   const cityId = useCurrentCityId();
-  const {city_node_sizing} = useQueryParams();
+  const { city_node_sizing } = useQueryParams();
   const chartKey = dimensions
-    ? cityId + 'industry-space-sized-to-container-key' +
-        dimensions.width.toString() + dimensions.height.toString() + city_node_sizing
-          + JSON.stringify({selectedRegionIds, selectedCountryIds, minMaxPopulation, minMaxGdppc})
-    : cityId + 'industry-space-sized-to-container-key-0-0' + city_node_sizing
-      + JSON.stringify({selectedRegionIds, selectedCountryIds, minMaxPopulation, minMaxGdppc});
+    ? cityId +
+      "industry-space-sized-to-container-key" +
+      dimensions.width.toString() +
+      dimensions.height.toString() +
+      city_node_sizing +
+      JSON.stringify({
+        selectedRegionIds,
+        selectedCountryIds,
+        minMaxPopulation,
+        minMaxGdppc,
+      })
+    : cityId +
+      "industry-space-sized-to-container-key-0-0" +
+      city_node_sizing +
+      JSON.stringify({
+        selectedRegionIds,
+        selectedCountryIds,
+        minMaxPopulation,
+        minMaxGdppc,
+      });
 
-  const {data} = useProximityData();
+  const { data } = useProximityData();
 
   useEffect(() => {
     const node = rootRef.current;
@@ -64,8 +87,8 @@ const SimpleRings = (props: Props) => {
       setTimeout(() => {
         const nodeAtTimeout = rootRef.current;
         if (nodeAtTimeout) {
-          const {width, height} = nodeAtTimeout.getBoundingClientRect();
-          setDimensions({width, height});
+          const { width, height } = nodeAtTimeout.getBoundingClientRect();
+          setDimensions({ width, height });
         }
       }, 0);
     }

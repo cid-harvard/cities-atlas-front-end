@@ -1,30 +1,31 @@
-import React from 'react';
-import useGlobalIndustriesData from '../../../hooks/useGlobalIndustriesData';
-import useRCAData from '../../../hooks/useRCAData';
+import React from "react";
+import useGlobalIndustriesData from "../../../hooks/useGlobalIndustriesData";
+import useRCAData from "../../../hooks/useRCAData";
 import {
   DigitLevel,
   CompositionType,
   defaultCompositionType,
   ClassificationNaicsIndustry,
-} from '../../../types/graphQL/graphQLTypes';
-import Table, {getQuadrant} from './Table';
-import {RowDatum} from './TableRow';
-import {
-  sectorColorMap,
-} from '../../../styling/styleUtils';
+} from "../../../types/graphQL/graphQLTypes";
+import Table, { getQuadrant } from "./Table";
+import { RowDatum } from "./TableRow";
+import { sectorColorMap } from "../../../styling/styleUtils";
 
 interface Props {
   digitLevel: DigitLevel;
   compositionType: CompositionType;
-  hiddenSectors: ClassificationNaicsIndustry['id'][];
+  hiddenSectors: ClassificationNaicsIndustry["id"][];
   highlighted: string | undefined;
   clearHighlighted: () => void;
 }
 
 const PSWOTTable = (props: Props) => {
   const {
-    digitLevel, compositionType, hiddenSectors,
-    highlighted, clearHighlighted,
+    digitLevel,
+    compositionType,
+    hiddenSectors,
+    highlighted,
+    clearHighlighted,
   } = props;
   const rcaData = useRCAData(digitLevel);
   const industries = useGlobalIndustriesData();
@@ -39,36 +40,53 @@ const PSWOTTable = (props: Props) => {
 
   let data: RowDatum[] | undefined;
   if (rcaData.data !== undefined && industries && industries.data) {
-    const {naicsRca, naicsDensity} = rcaData.data;
+    const { naicsRca, naicsDensity } = rcaData.data;
     data = industries.data.industries
-      .filter(d => {
-        const rcaDatum = naicsRca.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
+      .filter((d) => {
+        const rcaDatum = naicsRca.find(
+          (dd) => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId,
+        );
         return (
-          d.level === digitLevel && !hiddenSectors.includes(d.naicsIdTopParent.toString()) &&
-          d.tradable && rcaDatum && rcaDatum.comparableIndustry
+          d.level === digitLevel &&
+          !hiddenSectors.includes(d.naicsIdTopParent.toString()) &&
+          d.tradable &&
+          rcaDatum &&
+          rcaDatum.comparableIndustry
         );
       })
-      .map(d => {
-        const rcaDatum = naicsRca.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
-        const densityDatum = naicsDensity.find(dd => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId);
-        let densityKey: 'densityCompany' | 'densityEmploy';
-        if (compositionType === CompositionType.Companies ||
-            (!compositionType && defaultCompositionType === CompositionType.Companies)) {
-          densityKey = 'densityCompany';
+      .map((d) => {
+        const rcaDatum = naicsRca.find(
+          (dd) => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId,
+        );
+        const densityDatum = naicsDensity.find(
+          (dd) => dd.naicsId !== null && dd.naicsId.toString() === d.naicsId,
+        );
+        let densityKey: "densityCompany" | "densityEmploy";
+        if (
+          compositionType === CompositionType.Companies ||
+          (!compositionType &&
+            defaultCompositionType === CompositionType.Companies)
+        ) {
+          densityKey = "densityCompany";
         } else {
-          densityKey = 'densityEmploy';
+          densityKey = "densityEmploy";
         }
-        const density = densityDatum && densityDatum[densityKey] !== null ? densityDatum[densityKey] as number : 0;
+        const density =
+          densityDatum && densityDatum[densityKey] !== null
+            ? (densityDatum[densityKey] as number)
+            : 0;
         const rca = rcaDatum && rcaDatum.rca ? rcaDatum.rca : 0;
         const quadrant = getQuadrant(rca, density);
-        const parent = sectorColorMap.find(dd => d.naicsIdTopParent.toString() === dd.id);
+        const parent = sectorColorMap.find(
+          (dd) => d.naicsIdTopParent.toString() === dd.id,
+        );
         const datum: RowDatum = {
           id: d.naicsId,
-          name: d.name ? d.name : '',
+          name: d.name ? d.name : "",
           density: parseFloat(density.toFixed(4)),
           rca: parseFloat(rca.toFixed(4)),
           quadrant,
-          color: parent ? parent.color : 'gray',
+          color: parent ? parent.color : "gray",
         };
         return datum;
       });

@@ -1,16 +1,16 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import ReactSlider from 'react-slider';
+import React from "react";
+import styled from "styled-components/macro";
+import ReactSlider from "react-slider";
 import {
   primaryColor,
   backgroundDark,
   backgroundMedium,
-} from '../../../styling/styleUtils';
-import {scaleLog} from 'd3-scale';
+} from "../../../styling/styleUtils";
+import { scaleLog } from "d3-scale";
 
-const slideRootClassName = 'react-slider-root-class';
-const slideThumbClassName = 'react-slider-thumb-class';
-const slideTrackClassName = 'react-slider-track-class';
+const slideRootClassName = "react-slider-root-class";
+const slideThumbClassName = "react-slider-thumb-class";
+const slideTrackClassName = "react-slider-track-class";
 
 const Root = styled.div`
   width: 100%;
@@ -70,7 +70,6 @@ const SliderContainer = styled.div`
 // 100
 // 1000
 
-
 interface Props {
   updateValue: (val: number) => void;
   initialValue: number;
@@ -82,10 +81,10 @@ interface ThumbState {
   valueNow: number;
 }
 
-const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
+const RCAThresholdSlider = ({ updateValue, initialValue }: Props) => {
   const logScale = scaleLog().domain([0.001, 100]).range([1, 120]);
 
-  const logScaleWithZero = (value: number) => value ? logScale(value) : 0;
+  const logScaleWithZero = (value: number) => (value ? logScale(value) : 0);
   const convertValue = (value: number) => {
     const logValue = value ? logScale.invert(value) : 0;
     let decimalPlaces = 0;
@@ -99,7 +98,7 @@ const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
       decimalPlaces = 3;
     } else if (logValue < 0.9) {
       decimalPlaces = 2;
-    }  else if (logValue < 10 && logValue > 1.15) {
+    } else if (logValue < 10 && logValue > 1.15) {
       decimalPlaces = 1;
     } else {
       decimalPlaces = 0;
@@ -107,8 +106,15 @@ const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
     return value ? parseFloat(logValue.toFixed(decimalPlaces)) : 0;
   };
 
-  const thumbRender = (p: React.HTMLProps<HTMLDivElement>, state: ThumbState) => (
-    <small {...p}><span>Presence Value {'≥'} {convertValue(state.valueNow)}</span></small>
+  const thumbRender = (
+    p: React.HTMLProps<HTMLDivElement>,
+    state: ThumbState,
+  ) => (
+    <small {...p}>
+      <span>
+        Presence Value {"≥"} {convertValue(state.valueNow)}
+      </span>
+    </small>
   );
 
   return (
@@ -118,7 +124,11 @@ const RCAThresholdSlider = ({updateValue, initialValue}: Props) => {
           className={slideRootClassName}
           thumbClassName={slideThumbClassName}
           trackClassName={slideTrackClassName}
-          defaultValue={isNaN(initialValue) ? logScaleWithZero(1) : logScaleWithZero(initialValue)}
+          defaultValue={
+            isNaN(initialValue)
+              ? logScaleWithZero(1)
+              : logScaleWithZero(initialValue)
+          }
           renderThumb={thumbRender}
           max={120}
           min={0}

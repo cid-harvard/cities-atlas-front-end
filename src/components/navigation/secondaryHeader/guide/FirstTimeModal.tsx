@@ -1,12 +1,12 @@
-import React, {useState} from 'react';
-import Modal from '../../../standardModal';
-import styled, {keyframes} from 'styled-components/macro';
+import React, { useState } from "react";
+import Modal from "../../../standardModal";
+import styled, { keyframes } from "styled-components/macro";
 import {
   backgroundDark,
   primaryColor,
   primaryHoverColor,
-} from '../../../../styling/styleUtils';
-import CityverseLogoURL from '../../../../assets/icons/cities-logo.svg';
+} from "../../../../styling/styleUtils";
+import CityverseLogoURL from "../../../../assets/icons/cities-logo.svg";
 
 const growIn = keyframes`
   0% {
@@ -88,26 +88,32 @@ const Checkbox = styled.input`
   margin-right: 5px;
 `;
 
-
-const modalVersion = '0_1';
-const localStorageKey = 'localStorageFirstTimeGuideModalKey' + modalVersion;
+const modalVersion = "0_1";
+const localStorageKey = "localStorageFirstTimeGuideModalKey" + modalVersion;
 let dismissedSinceSession = false;
 
 interface Props {
   startGuide: () => void;
 }
 
-const FirstTimeModal = ({startGuide}: Props) => {
-  const initialCheckedValue = parseInt(localStorage.getItem(localStorageKey) as any, 10);
-  const [modalOpen, setModalOpen] = useState<boolean>(isNaN(initialCheckedValue) || initialCheckedValue < 5);
+const FirstTimeModal = ({ startGuide }: Props) => {
+  const initialCheckedValue = parseInt(
+    localStorage.getItem(localStorageKey) as any,
+    10,
+  );
+  const [modalOpen, setModalOpen] = useState<boolean>(
+    isNaN(initialCheckedValue) || initialCheckedValue < 5,
+  );
   const [checked, setChecked] = useState<boolean>(false);
   const closeModal = () => {
     setModalOpen(false);
     dismissedSinceSession = true;
     if (checked) {
-      localStorage.setItem(localStorageKey, '5');
+      localStorage.setItem(localStorageKey, "5");
     } else {
-      const newCheckedCount = isNaN(initialCheckedValue) ? 0 : initialCheckedValue + 1;
+      const newCheckedCount = isNaN(initialCheckedValue)
+        ? 0
+        : initialCheckedValue + 1;
       localStorage.setItem(localStorageKey, newCheckedCount.toString());
     }
   };
@@ -115,34 +121,26 @@ const FirstTimeModal = ({startGuide}: Props) => {
   const onStart = () => {
     setModalOpen(false);
     dismissedSinceSession = true;
-    localStorage.setItem(localStorageKey, '5');
+    localStorage.setItem(localStorageKey, "5");
     startGuide();
   };
 
   if (modalOpen && !dismissedSinceSession) {
     return (
-      <Modal
-        onClose={closeModal}
-        width={'800px'}
-        height={'400px'}
-      >
+      <Modal onClose={closeModal} width={"800px"} height={"400px"}>
         <Root>
           <Logo src={CityverseLogoURL} />
-          <Text>
-            Learn the Metroverse basics
-          </Text>
+          <Text>Learn the Metroverse basics</Text>
           <StartGuideButton onClick={onStart}>
             Follow our step-by-step guide
           </StartGuideButton>
-          <DismissButton onClick={closeModal}>
-            Not Now
-          </DismissButton>
-          <CheckboxLabel htmlFor='dont-show-tutorial-on-start-again'>
+          <DismissButton onClick={closeModal}>Not Now</DismissButton>
+          <CheckboxLabel htmlFor="dont-show-tutorial-on-start-again">
             <Checkbox
-              type='checkbox'
-              id='dont-show-tutorial-on-start-again'
+              type="checkbox"
+              id="dont-show-tutorial-on-start-again"
               checked={checked}
-              onChange={e => setChecked(e.target.checked)}
+              onChange={(e) => setChecked(e.target.checked)}
             />
             Don't show it again
           </CheckboxLabel>

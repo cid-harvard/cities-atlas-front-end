@@ -1,20 +1,14 @@
-import React from 'react';
-import styled from 'styled-components/macro';
-import {
-  breakPoints,
-} from '../../../styling/GlobalGrid';
-import {
-  Link,
-  useHistory,
-  matchPath,
-} from 'react-router-dom';
-import {Props as BaseProps} from './';
+import React from "react";
+import styled from "styled-components/macro";
+import { breakPoints } from "../../../styling/GlobalGrid";
+import { Link, useHistory, matchPath } from "react-router-dom";
+import { Props as BaseProps } from "./";
 import {
   baseColor,
   primaryColorLight,
   secondaryFont,
-} from '../../../styling/styleUtils';
-import raw from 'raw.macro';
+} from "../../../styling/styleUtils";
+import raw from "raw.macro";
 
 const Root = styled.div`
   padding-top: 0.75rem;
@@ -48,7 +42,7 @@ const MobileButton = styled.button`
   pointer-events: all;
 `;
 
-const ChevronSVG = raw('../../../assets/icons/chevron.svg');
+const ChevronSVG = raw("../../../assets/icons/chevron.svg");
 
 const arrowStyles = `
   margin: 1rem 0.5rem;
@@ -123,52 +117,63 @@ interface Props extends BaseProps {
   closeMenu: () => void;
 }
 
-const MobileMenu = ({baseLinkData, toggleMenu, mobileMenuOpen, closeMenu}: Props) => {
+const MobileMenu = ({
+  baseLinkData,
+  toggleMenu,
+  mobileMenuOpen,
+  closeMenu,
+}: Props) => {
   const history = useHistory();
 
   if (baseLinkData.length === 0) {
-    console.warn('MobileMenu component are recieving baseLinkData of length 0');
+    console.warn("MobileMenu component are recieving baseLinkData of length 0");
     return null;
   }
 
-  const linkIndex = baseLinkData.findIndex(d => {
+  const linkIndex = baseLinkData.findIndex((d) => {
     const match = matchPath(history.location.pathname, d.url);
     return match ? true : false;
   });
 
   if (linkIndex === -1) {
-    console.warn('URL did not match any links provided to MobileMenu component');
+    console.warn(
+      "URL did not match any links provided to MobileMenu component",
+    );
     return null;
   } else {
     const pageTitle = baseLinkData[linkIndex].label;
-    const prevLink = linkIndex > 0 ? (
-      <ArrowBase
-        to={baseLinkData[linkIndex - 1].url + history.location.search}
-        onClick={() => closeMenu()}
-      >
-        <PrevSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </ArrowBase>
-    ) : (
-      <DisabledArrow>
-        <PrevSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </DisabledArrow>
-    );
-    const nextLink = linkIndex < baseLinkData.length - 1 ? (
-      <ArrowBase
-        to={baseLinkData[linkIndex + 1].url + history.location.search}
-        onClick={() => closeMenu()}
-      >
-        <NextSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </ArrowBase>
-    ) : (
-      <DisabledArrow>
-        <NextSvg dangerouslySetInnerHTML={{__html: ChevronSVG}} />
-      </DisabledArrow>
-    );
+    const prevLink =
+      linkIndex > 0 ? (
+        <ArrowBase
+          to={baseLinkData[linkIndex - 1].url + history.location.search}
+          onClick={() => closeMenu()}
+        >
+          <PrevSvg dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </ArrowBase>
+      ) : (
+        <DisabledArrow>
+          <PrevSvg dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </DisabledArrow>
+      );
+    const nextLink =
+      linkIndex < baseLinkData.length - 1 ? (
+        <ArrowBase
+          to={baseLinkData[linkIndex + 1].url + history.location.search}
+          onClick={() => closeMenu()}
+        >
+          <NextSvg dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </ArrowBase>
+      ) : (
+        <DisabledArrow>
+          <NextSvg dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+        </DisabledArrow>
+      );
 
-    const toggleArrow = mobileMenuOpen
-      ? (<UpArrow dangerouslySetInnerHTML={{__html: ChevronSVG}} />)
-      : (<DownArrow dangerouslySetInnerHTML={{__html: ChevronSVG}} />);
+    const toggleArrow = mobileMenuOpen ? (
+      <UpArrow dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+    ) : (
+      <DownArrow dangerouslySetInnerHTML={{ __html: ChevronSVG }} />
+    );
 
     return (
       <Root>

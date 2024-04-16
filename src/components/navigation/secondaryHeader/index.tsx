@@ -1,20 +1,17 @@
-import React from 'react';
-import {SecondaryHeaderContainer} from '../../../styling/GlobalGrid';
-import styled from 'styled-components/macro';
+import React from "react";
+import { SecondaryHeaderContainer } from "../../../styling/GlobalGrid";
+import styled from "styled-components/macro";
 import {
   backgroundMedium,
   defaultPadding,
   secondaryFont,
   SearchContainerLight,
-} from '../../../styling/styleUtils';
-import {UtilityBarPortal} from './UtilityBar';
-import {columnsToRowsBreakpoint} from '../Utils';
-import CitySearch from './CitySearch';
-import {
-  Route,
-  Switch,
-} from 'react-router-dom';
-import {CityRoutes} from '../../../routing/routes';
+} from "../../../styling/styleUtils";
+import { UtilityBarPortal } from "./UtilityBar";
+import { columnsToRowsBreakpoint } from "../Utils";
+import CitySearch from "./CitySearch";
+import { Route, Switch } from "react-router-dom";
+import { CityRoutes } from "../../../routing/routes";
 
 const Root = styled(SecondaryHeaderContainer)`
   background-color: ${backgroundMedium};
@@ -61,7 +58,6 @@ const SearchContainer = styled(SearchContainerLight)`
   .react-panel-search-search-bar-clear-button {
     background-color: ${backgroundMedium};
   }
-
 `;
 
 const SecondaryHeader = () => {

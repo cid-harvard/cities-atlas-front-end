@@ -1,11 +1,14 @@
-import { extent } from 'd3-array';
-import React from 'react';
-import useLayoutData from '../../../../components/dataViz/similarCitiesMap/useLayoutData';
-import useQueryParams from '../../../../hooks/useQueryParams';
-import { CityNodeSizing, defaultCityNodeSizing } from '../../../../routing/routes';
-import { formatNumberLong } from '../../../../Utils';
-import styled from 'styled-components';
-import { lightBaseColor } from '../../../../styling/styleUtils';
+import { extent } from "d3-array";
+import React from "react";
+import useLayoutData from "../../../../components/dataViz/similarCitiesMap/useLayoutData";
+import useQueryParams from "../../../../hooks/useQueryParams";
+import {
+  CityNodeSizing,
+  defaultCityNodeSizing,
+} from "../../../../routing/routes";
+import { formatNumberLong } from "../../../../Utils";
+import styled from "styled-components";
+import { lightBaseColor } from "../../../../styling/styleUtils";
 
 const Root = styled.div`
   width: 100%;
@@ -52,21 +55,25 @@ const NodeSizeLegend = () => {
   const { city_node_sizing } = useQueryParams();
   const { data } = useLayoutData();
 
-  const nodeSizing = city_node_sizing ? city_node_sizing : defaultCityNodeSizing;
+  const nodeSizing = city_node_sizing
+    ? city_node_sizing
+    : defaultCityNodeSizing;
   if (nodeSizing !== CityNodeSizing.uniform) {
     let nodeSizingMinText: string | undefined;
     let nodeSizingMaxText: string | undefined;
     if (data && data.cityGeoJson) {
       if (nodeSizing === CityNodeSizing.population) {
         const [minPop, maxPop] = extent(
-          data.cityGeoJson.features.map((f: any) => f.properties.population)) as unknown as [number, number];
+          data.cityGeoJson.features.map((f: any) => f.properties.population),
+        ) as unknown as [number, number];
         nodeSizingMinText = formatNumberLong(minPop ? minPop : 0);
         nodeSizingMaxText = formatNumberLong(maxPop ? maxPop : 0);
       } else if (nodeSizing === CityNodeSizing.gdpPpp) {
         const [minGdpPpp, maxGdpPpp] = extent(
-          data.cityGeoJson.features.map((f: any) => f.properties.gdppc)) as unknown as [number, number];
-        nodeSizingMinText = '$' + formatNumberLong(minGdpPpp ? minGdpPpp : 0);
-        nodeSizingMaxText = '$' + formatNumberLong(maxGdpPpp ? maxGdpPpp : 0);
+          data.cityGeoJson.features.map((f: any) => f.properties.gdppc),
+        ) as unknown as [number, number];
+        nodeSizingMinText = "$" + formatNumberLong(minGdpPpp ? minGdpPpp : 0);
+        nodeSizingMaxText = "$" + formatNumberLong(maxGdpPpp ? maxGdpPpp : 0);
       }
     }
 

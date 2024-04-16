@@ -1,1 +1,1 @@
-declare module '@khanacademy/react-multi-select';
+declare module "@khanacademy/react-multi-select";
