@@ -8,7 +8,7 @@ import {
 } from "../../styling/styleUtils";
 import { citiesLogoSVG, cityIconSVG } from "../../components/navigation/header";
 import useFluent from "../../hooks/useFluent";
-import GrowthLabLogoPNG from "../../assets/branding/growth-lab-dark.png";
+import GrowthLabLogoPNG from "../../assets/branding/growth-lab-logo.png";
 import IIBAwardLogoPNG from "../../assets/other/iiba-metroverse.png";
 import SilverAwardBannerPNG from "../../assets/other/silver-award-banner.png";
 
