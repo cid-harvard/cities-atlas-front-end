@@ -608,10 +608,11 @@ const createChart = (input: Input) => {
 
   nodeLabels.style("display", "none");
 
-  function zoomToPoint(this: any, d: any, external?: boolean) {
+  function zoomToPoint(d: any, external?: boolean) {
     const action = external ? NodeAction.ExternalSelect : NodeAction.SelectNode;
     if (
       state.active !== null &&
+      // @ts-ignore
       (state.active.element.node() === this ||
         (state.active.datum && state.active.datum.id === d.id))
     ) {
@@ -624,7 +625,7 @@ const createChart = (input: Input) => {
       state.active.element.classed("active", false);
     }
     state.active = {};
-
+    // @ts-ignore
     state.active.element = d3.select(this).classed("active", true);
     state.active.datum = d;
 
