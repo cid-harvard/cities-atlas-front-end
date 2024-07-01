@@ -340,9 +340,9 @@ const StandardFooter = () => {
             <GrowthLabInfo>
               The Growth Lab at Harvard University
               <br />
-              79 JFK St. | Mailbox 34 | Cambridge, MA 02138
+              79 JFK St. | Cambridge, MA 02138
               <br />
-              617-495-4112 | growthlab@hks.harvard.edu
+              growthlab@hks.harvard.edu
             </GrowthLabInfo>
           </LogoColumn>
         </Content>
