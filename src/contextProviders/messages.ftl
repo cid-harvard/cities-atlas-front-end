@@ -570,6 +570,12 @@ about-team-html =
   <p>
     Yang leads the cleaning, aggregation, harmonization and analysis of Metroverse data. He constructs and tests Metroverse metrics and variables, particularly the structure and visual layouts of industry space and city similarity.
   </p>
+   <h4>
+    <a target="_blank" href="https://growthlab.hks.harvard.edu/people/shreyas-matha">Shreyas Gadgin Matha</a>, Senior Computational Scientist
+  </h4>
+  <p>
+    Shreyas led the refactoring of Metroverse’s data processing pipeline into a reproducible and efficient system that cleans and processes the data, runs tests on it, and conducts descriptive analyses, readying it for ingestion into the Metroverse.
+  </p>
   <h3>Applied Research</h3>
   <h4>
     <a target="_blank" href="https://growthlab.cid.harvard.edu/people/douglas-barrios">Douglas Barrios</a>, Director, Policy Research
