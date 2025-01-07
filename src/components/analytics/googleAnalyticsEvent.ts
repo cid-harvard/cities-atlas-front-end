@@ -12,7 +12,10 @@ const googleAnalyticsEvent = (
     // See: https://developers.google.com/analytics/devguides/collection/gtagjs/events
     // See: https://www.npmjs.com/package/react-ga4
     // ReactGA.send({hitType: "event", category: category, label: label, action: action});
-    ReactGA.event({ category: category, label: label, action: action });
+    ReactGA.event(action, {
+      category,
+      label,
+    });
   }
 };
 
